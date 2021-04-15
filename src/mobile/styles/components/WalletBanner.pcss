@@ -1,0 +1,65 @@
+/* stylelint-disable */
+.cr-wallet-banner-mobile {
+  height: 87px;
+  background: var(--body-background-color);
+  margin-top: 4px;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+
+.available{
+  grid-area: balance;
+  background: transparent;
+  color: wheat;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 600;
+  align-self: center;
+  text-align: left;
+}
+
+.lock{
+  grid-area: lock;
+  background: transparent;
+  color: var(--table-text-color);
+  font-size: 15px;
+  line-height: 1;
+  align-self: center;
+  text-align: left;
+}
+
+.available_amout{
+  grid-area: balance_amount;
+  background: transparent;
+  color: wheat;
+  font-size: 16px;
+  font-weight: 600;
+  align-self: center;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+.lock_amout{
+  grid-area: lock_amount;
+  background: transparent;
+  color: var(--table-text-color);
+  font-size: 15px;
+  align-self: center;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+
+.info-grid{
+  width: 90%;
+  display: grid;
+  grid-template-areas:
+    'balance balance_amount'
+    'lock lock_amount';
+  grid-gap: 10px;
+  padding: 10px;
+}

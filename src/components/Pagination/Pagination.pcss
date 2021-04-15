@@ -1,0 +1,51 @@
+.pg-history-elem__pagination {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  padding: calc(var(--gap) * 2.5) 0 0;
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: calc(var(--gap) * 4.5);
+    outline: none;
+    padding: 0;
+
+    &:disabled {
+      cursor: default;
+    }
+  }
+}
+
+.cr-desktop-table__pagination{
+  background: var(--table-background-color);
+  ul.pagination{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      li{
+          .page-link {
+              background-color: var(--table-background-color);
+              border: none;
+          }
+      }
+      li:first-child{
+          position: absolute;
+          top: 0;
+          left: 0;
+      }
+      li:last-child{
+          position: absolute;
+          top: 0;
+          right: 0;
+      }
+      li:first-child,li:last-child{
+          .page-link{
+              border-radius: 15%;
+              border: 1px solid var(--divider-color-level-1);
+          }
+      }
+  }
+}

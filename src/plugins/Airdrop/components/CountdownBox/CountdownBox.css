@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700|Montserrat:900');
+#container-countdown {
+    position: relative;
+    margin: auto;
+    overflow: hidden;
+    width: 650px;
+    height: 50%;
+}
+
+#container-countdown h1 {
+    text-align: center;
+    margin-top: 2em;
+    font-size: 1em;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    color: #f6f4f3;
+}
+
+#countdown-timer {
+    color: #f6f4f3;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.7em;
+    letter-spacing: 5px;
+    margin-top: 25%;
+}
+
+#countdown-timer .days,
+#countdown-timer .hours,
+#countdown-timer .minutes,
+#countdown-timer .seconds {
+    display: inline-block;
+    padding: 20px;
+    margin: 0 0.2rem;
+    width: 20%;
+    border-radius: 5px;
+}
+
+#countdown-timer .days {
+    background: #ef2f3c;
+}
+
+#countdown-timer .hours {
+    background: #f6f4f3;
+    color: #183059;
+}
+
+#countdown-timer .minutes {
+    background: #276fbf;
+}
+
+#countdown-timer .seconds {
+    background: #f0a202;
+}
+
+.numbers {
+    font-family: 'Montserrat', sans-serif;
+    color: #183059;
+    font-size: 4em;
+}
+
+.white {
+    position: absolute;
+    background: #f6f4f3;
+    height: 85px;
+    width: 75px;
+    left: 30%;
+    top: 2%;
+}
+
+.white .triangle {
+    border-bottom: 14px solid #f6f4f3;
+}
+
+.white .string {
+    background: #f6f4f3;
+    border: 1px solid #f6f4f3;
+}
+
+.red {
+    position: absolute;
+    background: #ef2f3c;
+    left: 18%;
+    top: 9%;
+    height: 65px;
+    width: 70px;
+}
+
+.red .triangle {
+    border-bottom: 14px solid #ef2f3c;
+}
+
+.red .string {
+    background: #ef2f3c;
+    border: 1px solid #ef2f3c;
+}
+
+.blue {
+    position: absolute;
+    background: #276fbf;
+    height: 80px;
+    width: 80px;
+    left: 60%;
+    top: 5%;
+}
+
+.blue .triangle {
+    border-bottom: 14px solid #276fbf;
+}
+
+.blue .string {
+    background: #276fbf;
+    border: 1px solid #276fbf;
+}
+
+.balloon {
+    border: 1px solid #000;
+    border-radius: 50% 50% 50% 50%/ 40% 40% 60% 60%;
+    z-index: 2;
+}
+
+.eye {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    top: 40%;
+    left: 22%;
+    background: #000;
+    border-radius: 50%;
+}
+
+.eye:after {
+    content: '';
+    left: 35px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #000;
+    position: absolute;
+}
+
+.mouth {
+    position: absolute;
+    top: 45%;
+    left: 43%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+.happy {
+    border: 2px solid;
+    border-color: transparent #000 #000 transparent;
+    transform: rotate(45deg);
+}
+
+.triangle {
+    position: absolute;
+    left: 40%;
+    bottom: -10%;
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+}
+
+.string {
+    position: absolute;
+    height: 70px;
+    width: 1px;
+    left: 48%;
+    top: 100%;
+    z-index: -1;
+}
+
+.star {
+    width: 20px;
+    height: 20px;
+    background: #f6f4f3;
+    -webkit-clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.star-red {
+    width: 30px;
+    height: 30px;
+    margin-left: 51px;
+    margin-top: -5px;
+    background: #ef2f3c;
+    -webkit-clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}

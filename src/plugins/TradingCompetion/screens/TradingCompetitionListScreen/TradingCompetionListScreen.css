@@ -1,0 +1,28 @@
+#trading-competition-list {
+    background-color: #2B3139;
+    width: 100%;
+    padding-top: 2rem;
+    margin-bottom: 10px;
+    min-height: 100vh;
+    background-size: cover;
+}
+
+.trading-competition-list__title,
+.trading-competition-list__subtitle {
+    font-size: 20px;
+    padding: 1rem 0;
+    margin: 0 10rem 2rem 10rem;
+}
+
+.trading-competition-list__title {
+    color: #ffffff;
+    line-height: 50px;
+    font-weight: 700;
+    font-size: 3rem;
+    text-align: center;
+}
+
+.trading-competition-list__subtitle {
+    color: #a4acb6;
+    line-height: 21px;
+}

@@ -1,0 +1,46 @@
+#competition-info-mobile {
+    padding: 2rem;
+}
+
+.competition-info-mobile__title {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.competition-info-mobile__content {
+    color: #a4acb6;
+    line-height: 24px;
+    text-align: justify;
+}
+
+#next-rank-timer #minutes {
+    font-size: 24px;
+    color: #f6da74;
+}
+
+#next-rank-timer #seconds {
+    font-size: 24px;
+    color: #db4844;
+}
+
+#next-rank-timer {
+    display: inline-block;
+    line-height: 1;
+    padding: 20px 0;
+    font-size: 40px;
+    margin-top: 0;
+    text-align: center;
+}
+
+#next-rank-timer div {
+    display: inline-block;
+    line-height: 1;
+    padding: 0 20px;
+    font-size: 24px;
+}
+
+#next-rank-timer div span {
+    display: block;
+    font-size: 14px;
+    color: white;
+}

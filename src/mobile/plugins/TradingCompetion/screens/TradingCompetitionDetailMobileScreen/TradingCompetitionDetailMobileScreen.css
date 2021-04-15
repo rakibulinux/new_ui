@@ -1,0 +1,38 @@
+#trading-competition-detail-mobile__info,
+#trading-competition-detail-mobile__ranks {
+    position: relative;
+    background-color: #0E121C;
+    margin-bottom: 50px;
+    /* padding: 5vh 5vw; */
+}
+
+#trading-competition-detail-mobile__info {
+    background-image: url('../../assets/team-bg-v2.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#trading-competition-detail-mobile__ranks {
+    background-image: url('../../assets/individual-bg-v4.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.trading-competition-detail-mobile__badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0.5rem 5rem;
+    border-radius: 3px;
+    line-height: 18px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: rgb(255, 255, 255);
+    z-index: 9;
+    text-align: center;
+    vertical-align: middle;
+}
