@@ -1,15 +1,7 @@
 // tslint:disable
 import * as React from 'react';
-import {
-  connect,
-  MapDispatchToPropsFunction,
-  MapStateToProps,
-} from 'react-redux';
-import {
-  IChartingLibraryWidget,
-  LanguageCode,
-  widget,
-} from '../../charting_library/charting_library.min';
+import { connect, MapDispatchToPropsFunction, MapStateToProps } from 'react-redux';
+import { IChartingLibraryWidget, LanguageCode, widget } from '../../charting_library/charting_library.min';
 import { stdTimezoneOffset } from '../../helpers';
 import {
   KlineState,
@@ -26,20 +18,10 @@ import {
   selectMarkets,
   selectMarketTickers,
 } from '../../modules';
-import {
-  rangerSubscribeKlineMarket,
-  rangerUnsubscribeKlineMarket,
-} from '../../modules/public/ranger';
+import { rangerSubscribeKlineMarket, rangerUnsubscribeKlineMarket } from '../../modules/public/ranger';
 import { periodStringToMinutes } from '../../modules/public/ranger/helpers';
-import {
-  CurrentKlineSubscription,
-  dataFeedObject,
-  print,
-} from './api';
-import {
-  widgetOptions,
-  widgetParams,
-} from './config';
+import { CurrentKlineSubscription, dataFeedObject, print } from './api';
+import { widgetOptions, widgetParams } from './config';
 import { getTradingChartTimezone } from './timezones';
 import { HeaderToolbar } from '../HeaderToolbar';
 
@@ -60,7 +42,11 @@ interface DispatchProps {
   klineUpdatePeriod: typeof klineUpdatePeriod;
 }
 
-type Props = ReduxProps & DispatchProps;
+interface TradingChartComponentProps {
+  hideHeaderContent?: boolean;
+}
+
+type Props = ReduxProps & DispatchProps & TradingChartComponentProps;
 
 export class TradingChartComponent extends React.PureComponent<Props> {
   public currentKlineSubscription: CurrentKlineSubscription = {};
@@ -74,7 +60,7 @@ export class TradingChartComponent extends React.PureComponent<Props> {
     }
 
     if (next.currentMarket && (!this.props.currentMarket || next.currentMarket.id !== this.props.currentMarket.id)) {
-      if (this.props.currentMarket && (this.props.currentMarket.id && this.tvWidget)) {
+      if (this.props.currentMarket && this.props.currentMarket.id && this.tvWidget) {
         this.updateChart(next.currentMarket);
       } else {
         this.setChart(next.markets, next.currentMarket, next.colorTheme);
@@ -91,11 +77,7 @@ export class TradingChartComponent extends React.PureComponent<Props> {
   }
 
   public componentDidMount() {
-    const {
-      colorTheme,
-      currentMarket,
-      markets,
-    } = this.props;
+    const { colorTheme, currentMarket, markets } = this.props;
 
     if (currentMarket) {
       this.setChart(markets, currentMarket, colorTheme);
@@ -115,10 +97,12 @@ export class TradingChartComponent extends React.PureComponent<Props> {
   public render() {
     return (
       <React.Fragment>
-        <div className="cr-table-header__content title-text">
-          {this.props.currentMarket ? this.props.currentMarket.name : ''}
-          <HeaderToolbar />
-        </div>
+        {!this.props.hideHeaderContent && (
+          <div className="cr-table-header__content title-text">
+            {this.props.currentMarket ? this.props.currentMarket.name : ''}
+            <HeaderToolbar />
+          </div>
+        )}
 
         <div id={widgetParams.containerId} className="pg-trading-chart" />
       </React.Fragment>
@@ -140,7 +124,7 @@ export class TradingChartComponent extends React.PureComponent<Props> {
       datafeed: this.datafeed,
       interval: widgetParams.interval,
       container_id: widgetParams.containerId,
-      locale: this.languageIncluded(lang) ? lang as LanguageCode : 'en' as LanguageCode,
+      locale: this.languageIncluded(lang) ? (lang as LanguageCode) : ('en' as LanguageCode),
       timezone: getTradingChartTimezone(currentTimeOffset, clockPeriod),
     };
 
@@ -184,11 +168,7 @@ export class TradingChartComponent extends React.PureComponent<Props> {
   };
 
   private handleRebuildChart = () => {
-    const {
-      colorTheme,
-      currentMarket,
-      markets,
-    } = this.props;
+    const { colorTheme, currentMarket, markets } = this.props;
 
     if (this.tvWidget && currentMarket) {
       try {
@@ -202,11 +182,39 @@ export class TradingChartComponent extends React.PureComponent<Props> {
   };
 
   private languageIncluded = (lang: string) => {
-    return ['ar', 'zh', 'cs', 'da_DK', 'nl_NL', 'en', 'et_EE', 'fr', 'de', 'el', 'he_IL', 'hu_HU', 'id_ID', 'it', 'ja', 'ko', 'fa', 'pl', 'pt', 'ro', 'ru', 'sk_SK', 'es', 'sv', 'th', 'tr', 'vi'].includes(lang)
+    return [
+      'ar',
+      'zh',
+      'cs',
+      'da_DK',
+      'nl_NL',
+      'en',
+      'et_EE',
+      'fr',
+      'de',
+      'el',
+      'he_IL',
+      'hu_HU',
+      'id_ID',
+      'it',
+      'ja',
+      'ko',
+      'fa',
+      'pl',
+      'pt',
+      'ro',
+      'ru',
+      'sk_SK',
+      'es',
+      'sv',
+      'th',
+      'tr',
+      'vi',
+    ].includes(lang);
   };
 }
 
-const reduxProps: MapStateToProps<ReduxProps, {}, RootState> = state => ({
+const reduxProps: MapStateToProps<ReduxProps, {}, RootState> = (state) => ({
   markets: selectMarkets(state),
   colorTheme: selectCurrentColorTheme(state),
   chartRebuild: selectChartRebuildState(state),
@@ -216,11 +224,14 @@ const reduxProps: MapStateToProps<ReduxProps, {}, RootState> = state => ({
   lang: selectCurrentLanguage(state),
 });
 
-const mapDispatchProps: MapDispatchToPropsFunction<DispatchProps, {}> = dispatch => ({
-  klineUpdateTimeRange: payload => dispatch(klineUpdateTimeRange(payload)),
+const mapDispatchProps: MapDispatchToPropsFunction<DispatchProps, {}> = (dispatch) => ({
+  klineUpdateTimeRange: (payload) => dispatch(klineUpdateTimeRange(payload)),
   subscribeKline: (marketId: string, periodString: string) => dispatch(rangerSubscribeKlineMarket(marketId, periodString)),
   unSubscribeKline: (marketId: string, periodString: string) => dispatch(rangerUnsubscribeKlineMarket(marketId, periodString)),
-  klineUpdatePeriod: payload => dispatch(klineUpdatePeriod(payload)),
+  klineUpdatePeriod: (payload) => dispatch(klineUpdatePeriod(payload)),
 });
 
-export const TradingChart = connect<ReduxProps, DispatchProps, {}, RootState>(reduxProps, mapDispatchProps)(TradingChartComponent);
+export const TradingChart = connect<ReduxProps, DispatchProps, {}, RootState>(
+  reduxProps,
+  mapDispatchProps,
+)(TradingChartComponent);
