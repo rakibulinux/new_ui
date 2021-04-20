@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { incrementalOrderBook } from '../../../../api';
 import { SortAsc, SortDefault, SortDesc } from '../../../../assets/images/SortIcons';
-import { Decimal, Table } from '../../../../components';
+import { Decimal } from '../../../../components';
 import { IntlProps } from '../../../../index';
 import {
   depthFetch,
@@ -19,6 +19,8 @@ import {
   setCurrentPrice,
   Ticker,
 } from '../../../../modules';
+
+import { Table } from '../../components/Table';
 
 import ratioSmallSvg from '../../assets/ratio-small.svg';
 import starSmallSvg from '../../assets/star-small.svg';

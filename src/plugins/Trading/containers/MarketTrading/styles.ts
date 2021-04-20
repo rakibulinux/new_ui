@@ -105,7 +105,7 @@ export const MarketsListTradingStyle = styled.div`
     &__positive {
       color: #ecb22d;
     }
-    .cr-table {
+    .td-table {
       background-color: transparent;
       thead {
         background-color: transparent;
@@ -116,6 +116,14 @@ export const MarketsListTradingStyle = styled.div`
             color: #848e9c;
             background-color: transparent;
             padding: 5px 0 !important;
+            text-align: right;
+            width: calc(100% / 4);
+            :first-child {
+              text-align: left;
+            }
+            :last-child {
+              width: calc(100% - 100% / 4 * 2);
+            }
             > span {
               padding: 0 15px;
             }
@@ -125,17 +133,20 @@ export const MarketsListTradingStyle = styled.div`
       tbody {
         background-color: transparent;
         tr {
-          &.cr-table__row--selected {
+          &.td-table__row--selected {
             background-color: #4e5463;
           }
           background-color: transparent;
           td {
             background-color: transparent;
             padding: 5px 0 !important;
+            width: calc(100% / 4);
+            text-align: right;
             > span {
               padding: 0 15px;
             }
             :first-child {
+              text-align: left;
               color: #fff;
               > span {
                 display: flex;
@@ -144,6 +155,9 @@ export const MarketsListTradingStyle = styled.div`
                   margin-right: 5px;
                 }
               }
+            }
+            :last-child {
+              width: calc(100% - 100% / 4 * 2);
             }
           }
         }
