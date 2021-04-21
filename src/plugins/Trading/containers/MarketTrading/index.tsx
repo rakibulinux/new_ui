@@ -1,25 +1,24 @@
-import * as React from 'react';
-
-import { MarketTradingStyle, SearchBlockStyle, StarBlockStyle } from './styles';
-import Tabs, { TabPane, TabsProps } from 'rc-tabs';
-import { selectCurrentMarket, selectMarketSelectorState } from '../../../../modules';
-
-import { MarketsListTrading } from './MarketsListTrading';
 import classnames from 'classnames';
+import cloneDeep from 'lodash/cloneDeep';
+import Tabs, { TabPane, TabsProps } from 'rc-tabs';
+import * as React from 'react';
+import isEqual from 'react-fast-compare';
+import { useSelector } from 'react-redux';
+import { Market, selectMarkets } from '../../../../modules';
 import searchSvg from '../../assets/search.svg';
 import starSvg from '../../assets/star.svg';
-import { useSelector } from 'react-redux';
+import { MarketsListTrading } from './MarketsListTrading';
+import { MarketTradingStyle, SearchBlockStyle, StarBlockStyle } from './styles';
 
 const TAB_LIST_KEYS = ['All'];
-const STAR_LIST_KEYS = ['CX', 'BTC', 'ETH'];
+const STAR_LIST_KEYS = ['All', 'CX', 'BTC', 'ETH'];
 
 const MarketTradingContainer: React.FC = () => {
   const [searchFieldState, setSearchFieldState] = React.useState<string>('');
-  const [marketsTabsSelectedState, setMarketsTabsSelectedState] = React.useState<string>('');
-  const [starSelectedState, setStarSelectedState] = React.useState<string>('');
+  const [marketsTabsSelectedState, setMarketsTabsSelectedState] = React.useState<string>(TAB_LIST_KEYS[0]);
+  const [starSelectedState, setStarSelectedState] = React.useState<string>(STAR_LIST_KEYS[0]);
 
-  const currentMarket = useSelector(selectCurrentMarket);
-  const isOpen = useSelector(selectMarketSelectorState);
+  const markets = useSelector(selectMarkets, isEqual);
 
   const searchFieldChangeHandler: React.InputHTMLAttributes<HTMLInputElement>['onChange'] = (e) => {
     setSearchFieldState(e.target.value);
@@ -34,29 +33,47 @@ const MarketTradingContainer: React.FC = () => {
       <SearchBlockStyle>
         <div className="search-wrapper">
           <img className="search-icon" src={searchSvg} />
-          <input className="search-input" type="text" placeholder="Search" />
+          <input
+            className="search-input"
+            type="text"
+            placeholder="Search"
+            value={searchFieldState}
+            onChange={searchFieldChangeHandler}
+          />
         </div>
       </SearchBlockStyle>
     );
   };
 
   const renderTabs = () => {
+    const renderContentTabs = (key: string) => {
+      let data: Market[] = cloneDeep(markets);
+      if (starSelectedState !== STAR_LIST_KEYS[0]) {
+        data = data.filter((market) => market.name.toLowerCase().split('/')[0].includes(starSelectedState.toLowerCase()));
+      }
+      data = data.filter((market) => market.name.toLowerCase().includes(searchFieldState.toLowerCase()));
+
+      return (
+        <TabPane tab={key} key={key}>
+          {marketsTabsSelectedState === key ? (
+            <React.Fragment>
+              {renderSearch()}
+              <MarketsListTrading data={data} />
+            </React.Fragment>
+          ) : null}
+        </TabPane>
+      );
+    };
+
     return (
-      <Tabs defaultActiveKey="0" onChange={marketsTabsSelectHandler}>
-        {TAB_LIST_KEYS.map((key, i) => (
-          <TabPane tab={key} key={i}>
-            {renderSearch()}
-            <MarketsListTrading search={searchFieldState} currencyQuote={marketsTabsSelectedState} />
-          </TabPane>
-        ))}
+      <Tabs defaultActiveKey={marketsTabsSelectedState} onChange={marketsTabsSelectHandler}>
+        {TAB_LIST_KEYS.map(renderContentTabs)}
       </Tabs>
     );
   };
 
-  const handleSelectedStar = (key: string, isElmActive: boolean) => {
-    if (isElmActive) {
-      setStarSelectedState('');
-    } else {
+  const handleSelectedStar = (key: string) => {
+    if (starSelectedState !== key) {
       setStarSelectedState(key);
     }
   };
@@ -70,7 +87,7 @@ const MarketTradingContainer: React.FC = () => {
             className={classnames({
               active: starSelectedState === key,
             })}
-            onClick={() => handleSelectedStar(key, starSelectedState === key)}
+            onClick={() => handleSelectedStar(key)}
             key={i}
           >
             {key}
@@ -81,12 +98,10 @@ const MarketTradingContainer: React.FC = () => {
   };
 
   return (
-    <React.Fragment>
-      <MarketTradingStyle>
-        {renderStarList()}
-        {renderTabs()}
-      </MarketTradingStyle>
-    </React.Fragment>
+    <MarketTradingStyle>
+      {renderStarList()}
+      {renderTabs()}
+    </MarketTradingStyle>
   );
 };
 

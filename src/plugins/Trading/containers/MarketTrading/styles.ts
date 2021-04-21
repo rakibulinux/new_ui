@@ -16,34 +16,35 @@ export const MarketTradingStyle = styled.div`
     .rc-tabs-nav-operations {
       display: none;
     }
-    .rc-tabs-nav-list {
-      background-color: transparent !important;
-      padding: 0 15px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-
-      display: flex;
-      color: #fff;
-      background-color: #4e5463;
-      .rc-tabs-ink-bar {
-        display: none;
-      }
-      .rc-tabs-tab {
-        flex: 1;
-        height: 25px;
-        border-radius: 2px;
-        cursor: pointer;
-        &-active {
-          background-color: #2fb67e;
+    .rc-tabs-nav {
+      padding: 0 23px;
+      .rc-tabs-nav-list {
+        background-color: #e5e5e5;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        color: #fff;
+        background-color: #4e5463;
+        .rc-tabs-ink-bar {
+          display: none;
         }
-        .rc-tabs-tab-btn {
-          :focus {
-            outline: none;
+        .rc-tabs-tab {
+          flex: 1;
+          height: 25px;
+          border-radius: 2px;
+          cursor: pointer;
+          &-active {
+            background-color: #2fb67e;
           }
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+          .rc-tabs-tab-btn {
+            :focus {
+              outline: none;
+            }
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
         }
       }
     }

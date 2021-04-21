@@ -1,53 +1,29 @@
+import classnames from 'classnames';
+import findIndex from 'lodash/findIndex';
 import * as React from 'react';
-import * as _ from 'lodash';
-
+import isEqual from 'react-fast-compare';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { incrementalOrderBook } from '../../../../api';
+import { SortAsc, SortDefault, SortDesc } from '../../../../assets/images/SortIcons';
+import { Decimal } from '../../../../components';
 import {
-  Market,
-  RootState,
-  Ticker,
   depthFetch,
+  Market,
   selectCurrentMarket,
   selectMarketTickers,
-  selectMarkets,
   setCurrentMarket,
   setCurrentPrice,
 } from '../../../../modules';
-import { SortAsc, SortDefault, SortDesc } from '../../../../assets/images/SortIcons';
-
-import { Decimal } from '../../../../components';
-import { IntlProps } from '../../../../index';
-import { MarketsListTradingStyle } from './styles';
-import { Table } from '../../components/Table';
-import classnames from 'classnames';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { incrementalOrderBook } from '../../../../api';
-import { injectIntl } from 'react-intl';
 import ratioSmallSvg from '../../assets/ratio-small.svg';
 import starSmallSvg from '../../assets/star-small.svg';
+import { Table } from '../../components/Table';
+import { MarketsListTradingStyle } from './styles';
 
-interface ReduxProps {
-  currentMarket: Market | undefined;
-  markets: Market[];
-  marketTickers: {
-    [key: string]: Ticker;
-  };
-}
-
-interface DispatchProps {
-  setCurrentMarket: typeof setCurrentMarket;
-  depthFetch: typeof depthFetch;
-  setCurrentPrice: typeof setCurrentPrice;
-}
-
-interface OwnProps {
-  search: string;
-  currencyQuote: string;
-}
-
-interface State {
-  sortBy: string;
-  reverseOrder: boolean;
+interface MarketsListTradingComponentProps {
+  data: Market[];
+  // search: string;
+  // currencyQuote: string;
 }
 
 const handleChangeSortIcon = (sortBy: string, id: string, reverseOrder: boolean) => {
@@ -62,90 +38,66 @@ const handleChangeSortIcon = (sortBy: string, id: string, reverseOrder: boolean)
   return <SortDefault />;
 };
 
-type Props = ReduxProps & OwnProps & DispatchProps & IntlProps;
+const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = (props) => {
+  const dispatch = useDispatch();
+  const intl = useIntl();
 
-class MarketsListTradingComponent extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
+  const [sortByState, setSortByState] = React.useState<string>('none');
+  const [reverseOrderState, setReverseOrderState] = React.useState<boolean>(false);
 
-    this.state = {
-      sortBy: 'none',
-      reverseOrder: false,
-    };
-  }
+  const currentMarket = useSelector(selectCurrentMarket, isEqual);
+  const marketTickers = useSelector(selectMarketTickers, isEqual);
 
-  public render() {
-    const { markets, currentMarket } = this.props;
-    const data = this.mapMarkets();
-    const selectedKey = _.findIndex(markets, (market) => (currentMarket && currentMarket.name === market.name ? true : false));
+  const currencyPairSelectHandler = (key: string) => {
+    // tslint:disable-next-line: no-shadowed-variable
+    const { data } = props;
 
-    return (
-      <MarketsListTradingStyle>
-        <div className="td-markets-list-container">
-          <Table
-            data={data.length > 0 ? data : [[]]}
-            header={this.getHeaders()}
-            onSelect={this.currencyPairSelectHandler}
-            selectedKey={selectedKey === -1 ? undefined : selectedKey.toString()}
-            // rowKeyIndex={0}
-          />
-        </div>
-      </MarketsListTradingStyle>
-    );
-  }
+    const marketToSet = data.find((_el, i) => i.toString() === key);
 
-  private currencyPairSelectHandler = (key: string) => {
-    console.log(key, this.props.currentMarket);
-    const { markets } = this.props;
-    const marketToSet = markets.find((_el, i) => i.toString() === key);
-
-    this.props.setCurrentPrice(0);
+    dispatch(setCurrentPrice(0));
     if (marketToSet) {
-      this.props.setCurrentMarket(marketToSet);
+      dispatch(setCurrentMarket(marketToSet));
       if (!incrementalOrderBook()) {
-        this.props.depthFetch(marketToSet);
+        dispatch(depthFetch(marketToSet));
       }
     }
   };
 
-  private getHeaders = () =>
+  const getHeaders = () =>
     [
       { id: 'id', translationKey: 'market' },
       { id: 'last', translationKey: 'last_price' },
       { id: 'price_change_percent_num', translationKey: 'change' },
     ]
       .map((obj) => {
-        const { sortBy, reverseOrder } = this.state;
-
         return {
           ...obj,
-          selected: sortBy === obj.id,
-          reversed: sortBy === obj.id && reverseOrder,
+          selected: sortByState === obj.id,
+          reversed: sortByState === obj.id && reverseOrderState,
         };
       })
       .map((obj) => {
-        const { sortBy, reverseOrder } = this.state;
         const classname = classnames({
           'td-markets-list-container__header-selected': obj.selected,
         });
 
         return (
-          <span className={classname} key={obj.id} onClick={() => this.handleHeaderClick(obj.id)}>
-            {this.props.intl.formatMessage({ id: `page.body.trade.header.markets.content.${obj.translationKey}` })}
-            <span className="sort-icon">{handleChangeSortIcon(sortBy, obj.id, reverseOrder)}</span>
+          <span className={classname} key={obj.id} onClick={() => handleHeaderClick(obj.id)}>
+            {intl.formatMessage({ id: `page.body.trade.header.markets.content.${obj.translationKey}` })}
+            <span className="sort-icon">{handleChangeSortIcon(sortByState, obj.id, reverseOrderState)}</span>
           </span>
         );
       });
 
-  private mapMarkets() {
-    const { markets, marketTickers, search, currencyQuote } = this.props;
+  const mapMarkets = () => {
+    // tslint:disable-next-line: no-shadowed-variable
+    const { data } = props;
     const defaultTicker = {
       last: 0,
       price_change_percent: '+0.00%',
     };
-    const arr: Market[] = [];
 
-    const marketsMapped = markets.map((market: Market) => {
+    const marketsMapped = data.map((market: Market) => {
       return {
         ...market,
         last: (marketTickers[market.id] || defaultTicker).last,
@@ -154,70 +106,59 @@ class MarketsListTradingComponent extends React.Component<Props, State> {
       };
     });
 
-    const { sortBy, reverseOrder } = this.state;
-
-    if (sortBy !== 'none') {
-      marketsMapped.sort((a, b) => (a[sortBy] > b[sortBy] ? 1 : b[sortBy] > a[sortBy] ? -1 : 0));
+    if (sortByState !== 'none') {
+      marketsMapped.sort((a, b) => (a[sortByState] > b[sortByState] ? 1 : b[sortByState] > a[sortByState] ? -1 : 0));
     }
 
-    reverseOrder && marketsMapped.reverse();
+    reverseOrderState && marketsMapped.reverse();
 
-    return marketsMapped
-      .reduce((pV, cV) => {
-        const [, quote] = cV.name.toLowerCase().split('/');
-        if (
-          cV.id.toLowerCase().includes(search.toLowerCase()) &&
-          (currencyQuote === '' || currencyQuote.toLowerCase() === quote || currencyQuote.toLowerCase() === 'all')
-        ) {
-          pV.push(cV);
-        }
-
-        return pV;
-      }, arr)
-      .map((market: any) => {
-        const isPositive = /\+/.test((marketTickers[market.id] || defaultTicker).price_change_percent);
-        const classname = classnames({
-          'td-markets-list-container__positive': isPositive,
-          'td-markets-list-container__negative': !isPositive,
-        });
-
-        return [
-          <span>
-            <img src={starSmallSvg} />
-            <span>{market.name}</span>
-            <img src={ratioSmallSvg} />
-          </span>,
-          <span className={classname}>{Decimal.format(Number(market.last), market.price_precision)}</span>,
-          <span className={classname}>{market.price_change_percent}</span>,
-        ];
+    return marketsMapped.map((market: any) => {
+      const isPositive = /\+/.test((marketTickers[market.id] || defaultTicker).price_change_percent);
+      const classname = classnames({
+        'td-markets-list-container__positive': isPositive,
+        'td-markets-list-container__negative': !isPositive,
       });
-  }
 
-  private handleHeaderClick = (key: string) => {
-    const { sortBy, reverseOrder } = this.state;
-    if (key !== sortBy) {
-      this.setState({ sortBy: key, reverseOrder: false });
-    } else if (key === sortBy && !reverseOrder) {
-      this.setState({ reverseOrder: true });
+      return [
+        <span>
+          <img src={starSmallSvg} />
+          <span>{market.name}</span>
+          <img src={ratioSmallSvg} />
+        </span>,
+        <span className={classname}>{Decimal.format(Number(market.last), market.price_precision)}</span>,
+        <span className={classname}>{market.price_change_percent}</span>,
+      ];
+    });
+  };
+
+  const handleHeaderClick = (key: string) => {
+    if (key !== sortByState) {
+      setSortByState(key);
+      setReverseOrderState(false);
+    } else if (key === sortByState && !reverseOrderState) {
+      setReverseOrderState(true);
     } else {
-      this.setState({ sortBy: 'none', reverseOrder: false });
+      setSortByState('none');
+      setReverseOrderState(false);
     }
   };
-}
 
-const mapStateToProps = (state: RootState): ReduxProps => ({
-  currentMarket: selectCurrentMarket(state),
-  markets: selectMarkets(state),
-  marketTickers: selectMarketTickers(state),
-});
+  const dataTable = mapMarkets();
+  const selectedKey = findIndex(props.data, (market) => (currentMarket && currentMarket.name === market.name ? true : false));
 
-const mapDispatchToProps = {
-  setCurrentMarket,
-  depthFetch,
-  setCurrentPrice,
+  return (
+    <MarketsListTradingStyle>
+      <div className="td-markets-list-container">
+        <Table
+          data={dataTable.length > 0 ? dataTable : [[]]}
+          header={getHeaders()}
+          onSelect={currencyPairSelectHandler}
+          selectedKey={selectedKey === -1 ? undefined : selectedKey.toString()}
+          // rowKeyIndex={0}
+        />
+      </div>
+    </MarketsListTradingStyle>
+  );
 };
 
-export const MarketsListTrading = compose(
-  injectIntl,
-  connect(mapStateToProps, mapDispatchToProps),
-)(MarketsListTradingComponent) as any; // tslint:disable-line
+export const MarketsListTrading = MarketsListTradingComponent;
