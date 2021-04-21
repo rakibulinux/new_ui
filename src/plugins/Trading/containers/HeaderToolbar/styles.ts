@@ -7,7 +7,7 @@ export const HeaderToolbarStyle = styled.div`
   padding: 15px 30px;
   background-color: #313445;
 
-  .pg-new-header__toolbar {
+  .td-header__toolbar {
     &--left {
       display: flex;
       height: 100%;
