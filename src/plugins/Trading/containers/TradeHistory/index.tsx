@@ -58,11 +58,7 @@ const RecentTradesComponent: React.FC = () => {
     );
   };
 
-  return (
-    <div>
-      <MarketHistory className="td-markets-history-list-container">{renderTabs1(getTabListInfo())}</MarketHistory>
-    </div>
-  );
+  return <MarketHistory className="td-markets-history-list-container">{renderTabs1(getTabListInfo())}</MarketHistory>;
 };
 
 export const RecentTrades = RecentTradesComponent;

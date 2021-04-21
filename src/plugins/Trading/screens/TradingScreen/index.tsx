@@ -84,27 +84,47 @@ export const TradingScreen: React.FC<TradingScreenProps> = ({}) => {
       <div className="row">
         <div className="col-sm-9 p-0">
           <div className="row">
-            <div className="col-md-12 border-container">
+            <div className="col-md-12 border-container" style={{ paddingLeft: 'unset' }}>
               <HeaderToolbar />
             </div>
           </div>
 
           <div className="row">
-            <div className="col-sm-4 border-container">
+            <div className="col-sm-4 border-container" style={{ paddingLeft: 'unset' }}>
               <OrderBook />
             </div>
-            <div className="col-sm-8 border-container">
-              <TradingChart hideHeaderContent />
-              <OrderComponent size={5} />
+            <div className="col-sm-8 p-0">
+              <div
+                className="row"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                }}
+              >
+                <div className="col-md-12 border-container" style={{ paddingBottom: '8px', flex: 'none' }}>
+                  <TradingChart hideHeaderContent />
+                </div>
+                <div className="col-md-12 border-container" style={{ flex: 1 }}>
+                  <OrderComponent size={5} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div className="col-sm-3 p-0">
-          <div className="row">
-            <div className="col-md-12 border-container">
+          <div
+            className="row"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%',
+            }}
+          >
+            <div className="col-md-12 border-container" style={{ paddingRight: 'unset', flex: 'none' }}>
               <MarketTrading />
             </div>
-            <div className="col-md-12 border-container">
+            <div className="col-md-12 border-container" style={{ paddingRight: 'unset', flex: 1 }}>
               <RecentTrades />
             </div>
           </div>
