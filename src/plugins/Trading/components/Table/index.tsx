@@ -1,6 +1,9 @@
-import classNames from 'classnames';
 import * as React from 'react';
+
 import { TableBlockStyle } from './styles';
+import classNames from 'classnames';
+import compactLd from 'lodash/compact';
+import flattenDeepnLd from 'lodash/flattenDeep';
 
 export type CellData = string | number | React.ReactNode | undefined;
 
@@ -144,9 +147,14 @@ class Table extends React.Component<TableProps, TableState> {
   }
 
   private renderRowCells(row: CellData[]) {
-    return row && row.length
-      ? row.map((c, index: number) => (
-          <td key={index} colSpan={row.length === 1 ? this.props.colSpan : undefined}>
+    const { data } = this.props;
+    const dataRow = row.map((c) => c);
+    const isCheckEmpty = compactLd(flattenDeepnLd(dataRow)).length === 1;
+    const cn = classNames({ 'td-table__empty': isCheckEmpty && (data || []).length <= 1 });
+
+    return dataRow && dataRow.length
+      ? dataRow.map((c, index: number) => (
+          <td key={index} className={cn} colSpan={dataRow.length === 1 ? this.props.colSpan : undefined}>
             {c}
           </td>
         ))

@@ -51,7 +51,7 @@ export const MarketTradingStyle = styled.div`
 `;
 
 export const SearchBlockStyle = styled.div`
-  padding: 0 15px 25px 15px;
+  padding: 0 23px 25px 23px;
   .search-wrapper {
     display: flex;
     justify-content: center;
@@ -75,7 +75,7 @@ export const SearchBlockStyle = styled.div`
 `;
 
 export const StarBlockStyle = styled.div`
-  padding: 0 15px;
+  padding: 0 23px;
   display: flex;
   align-items: center;
   img {
@@ -97,13 +97,25 @@ export const StarBlockStyle = styled.div`
 
 export const MarketsListTradingStyle = styled.div`
   font-size: 10px;
-  .pg-dropdown-markets-list-container {
-    padding-right: unset;
+  /* .td-markets-list-container */
+  .td-markets-list-container {
+    overflow-x: hidden;
+    overflow-y: scroll;
     &__negative {
       color: #e01e5a;
     }
     &__positive {
       color: #ecb22d;
+    }
+    .sort-icon svg {
+      height: calc(0.5em * 1.67);
+      height: calc(var(--gap) * 1.67);
+      opacity: 1;
+      padding-left: calc(0.5em * 0.5);
+      padding-left: calc(var(--gap) * 0.5);
+      vertical-align: middle;
+      width: calc(0.5em * 2);
+      width: calc(var(--gap) * 2);
     }
     .td-table {
       background-color: transparent;
@@ -112,10 +124,14 @@ export const MarketsListTradingStyle = styled.div`
         font-size: 12px;
         tr {
           background-color: transparent;
+          width: 100%;
+          display: table;
+          table-layout: fixed;
+          cursor: pointer;
           th {
             color: #848e9c;
             background-color: transparent;
-            padding: 5px 0 !important;
+            padding: 0 0 7px 0 !important;
             text-align: right;
             width: calc(100% / 4);
             :first-child {
@@ -125,7 +141,7 @@ export const MarketsListTradingStyle = styled.div`
               width: calc(100% - 100% / 4 * 2);
             }
             > span {
-              padding: 0 15px;
+              padding: 0 23px;
             }
           }
         }
@@ -137,13 +153,16 @@ export const MarketsListTradingStyle = styled.div`
             background-color: #4e5463;
           }
           background-color: transparent;
+          td.td-table__empty:nth-child(2) {
+            text-align: center;
+          }
           td {
             background-color: transparent;
             padding: 5px 0 !important;
             width: calc(100% / 4);
             text-align: right;
             > span {
-              padding: 0 15px;
+              padding: 0 23px;
             }
             :first-child {
               text-align: left;

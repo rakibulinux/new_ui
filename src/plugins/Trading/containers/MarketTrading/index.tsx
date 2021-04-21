@@ -1,17 +1,14 @@
-import Tabs, { TabPane, TabsProps } from 'rc-tabs';
 import * as React from 'react';
-import { connect, MapStateToProps, useSelector } from 'react-redux';
-import { MarketsListTrading as MarketsListTrading1 } from '../../../../containers/MarketTrading/MarketsList';
-import { Market, RootState, selectCurrentMarket, selectMarketSelectorState } from '../../../../modules';
-import { MarketsListTrading } from './MarketsListTrading';
-
-import { MarketsTab1s } from './MarketsTab1s';
 
 import { MarketTradingStyle, SearchBlockStyle, StarBlockStyle } from './styles';
+import Tabs, { TabPane, TabsProps } from 'rc-tabs';
+import { selectCurrentMarket, selectMarketSelectorState } from '../../../../modules';
 
+import { MarketsListTrading } from './MarketsListTrading';
 import classnames from 'classnames';
 import searchSvg from '../../assets/search.svg';
 import starSvg from '../../assets/star.svg';
+import { useSelector } from 'react-redux';
 
 const TAB_LIST_KEYS = ['All'];
 const STAR_LIST_KEYS = ['CX', 'BTC', 'ETH'];
@@ -89,23 +86,6 @@ const MarketTradingContainer: React.FC = () => {
         {renderStarList()}
         {renderTabs()}
       </MarketTradingStyle>
-      <div>
-        <div className="pg-markets">
-          <div className="pg-trading-header-selector-search-trading">
-            <div className="pg-trading-header-selector-search-trading-icon">
-              <img alt="" src={require('../../../../containers/MarketTrading/icon/search.svg')} />
-            </div>
-            <input
-              className="pg-trading-header-selector-search-trading-field"
-              onChange={searchFieldChangeHandler}
-              value={searchFieldState}
-            />
-          </div>
-
-          <MarketsTab1s onSelect={marketsTabsSelectHandler} />
-          <MarketsListTrading1 search={searchFieldState} currencyQuote={marketsTabsSelectedState} />
-        </div>
-      </div>
     </React.Fragment>
   );
 };

@@ -28,6 +28,8 @@ import { selectGridLayoutState } from '../../../../modules/public/gridLayout';
 import { rangerConnectFetch } from '../../../../modules/public/ranger';
 import { selectRanger } from '../../../../modules/public/ranger/selectors';
 
+import { RecentTrades } from '../../containers/TradeHistory';
+
 // const breakpoints = {
 //   lg: 1200,
 //   md: 996,
@@ -101,6 +103,9 @@ export const TradingScreen: React.FC<TradingScreenProps> = ({}) => {
           <div className="row">
             <div className="col-md-12 border-container">
               <MarketTrading />
+            </div>
+            <div className="col-md-12 border-container">
+              <RecentTrades />
             </div>
           </div>
         </div>

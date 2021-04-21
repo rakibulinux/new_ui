@@ -1,31 +1,30 @@
-import classnames from 'classnames';
-import * as _ from 'lodash';
 import * as React from 'react';
-import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { incrementalOrderBook } from '../../../../api';
-import { SortAsc, SortDefault, SortDesc } from '../../../../assets/images/SortIcons';
-import { Decimal } from '../../../../components';
-import { IntlProps } from '../../../../index';
+import * as _ from 'lodash';
+
 import {
-  depthFetch,
   Market,
   RootState,
+  Ticker,
+  depthFetch,
   selectCurrentMarket,
-  selectMarkets,
   selectMarketTickers,
+  selectMarkets,
   setCurrentMarket,
   setCurrentPrice,
-  Ticker,
 } from '../../../../modules';
+import { SortAsc, SortDefault, SortDesc } from '../../../../assets/images/SortIcons';
 
+import { Decimal } from '../../../../components';
+import { IntlProps } from '../../../../index';
+import { MarketsListTradingStyle } from './styles';
 import { Table } from '../../components/Table';
-
+import classnames from 'classnames';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { incrementalOrderBook } from '../../../../api';
+import { injectIntl } from 'react-intl';
 import ratioSmallSvg from '../../assets/ratio-small.svg';
 import starSmallSvg from '../../assets/star-small.svg';
-
-import { MarketsListTradingStyle } from './styles';
 
 interface ReduxProps {
   currentMarket: Market | undefined;
@@ -82,7 +81,7 @@ class MarketsListTradingComponent extends React.Component<Props, State> {
 
     return (
       <MarketsListTradingStyle>
-        <div className="pg-dropdown-markets-list-container">
+        <div className="td-markets-list-container">
           <Table
             data={data.length > 0 ? data : [[]]}
             header={this.getHeaders()}
@@ -127,7 +126,7 @@ class MarketsListTradingComponent extends React.Component<Props, State> {
       .map((obj) => {
         const { sortBy, reverseOrder } = this.state;
         const classname = classnames({
-          'pg-dropdown-markets-list-container__header-selected': obj.selected,
+          'td-markets-list-container__header-selected': obj.selected,
         });
 
         return (
@@ -178,8 +177,8 @@ class MarketsListTradingComponent extends React.Component<Props, State> {
       .map((market: any) => {
         const isPositive = /\+/.test((marketTickers[market.id] || defaultTicker).price_change_percent);
         const classname = classnames({
-          'pg-dropdown-markets-list-container__positive': isPositive,
-          'pg-dropdown-markets-list-container__negative': !isPositive,
+          'td-markets-list-container__positive': isPositive,
+          'td-markets-list-container__negative': !isPositive,
         });
 
         return [
