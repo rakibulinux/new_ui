@@ -1,10 +1,9 @@
-import * as React from 'react';
-
 import Tabs, { TabPane, TabsProps } from 'rc-tabs';
+import * as React from 'react';
+import isEqual from 'react-fast-compare';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetHistory, selectUserLoggedIn } from '../../../../modules';
-
-import { useIntl } from 'react-intl';
 import { RecentTradesMarket } from './Market';
 import { MarketHistory } from './styles';
 import { RecentTradesYours } from './Yours';
@@ -16,7 +15,7 @@ const RecentTradesComponent: React.FC = () => {
   const [tabKeyActiveState, setTabKeyActiveState] = React.useState<string>(
     intl.formatMessage({ id: 'page.body.trade.tab.marketTrades' }),
   );
-  const userLoggedIn = useSelector(selectUserLoggedIn);
+  const userLoggedIn = useSelector(selectUserLoggedIn, isEqual);
 
   const getTabListInfo = () => {
     const result = [

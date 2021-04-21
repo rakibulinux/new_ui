@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const MarketHistory = styled.div`
   background-color: #313445;
-  padding: 15px 23px;
+  padding: 15px 18px 15px 23px;
   height: 450px;
 
   .rc-tabs {
@@ -55,6 +55,8 @@ export const MarketHistory = styled.div`
           background: transparent;
           tr {
             background: transparent;
+            display: flex;
+            padding-right: 20px;
             th {
               width: calc(100% / 3);
               background-color: transparent;
@@ -69,9 +71,20 @@ export const MarketHistory = styled.div`
           }
         }
         .td-table__body {
+          padding-right: 15px;
           font-size: 10px;
           color: #fff;
           background: transparent;
+          ::-webkit-scrollbar {
+            -webkit-appearance: none;
+            width: 5px;
+          }
+
+          ::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: #c4c4c4;
+            box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+          }
           tr {
             background: transparent;
             td.td-table__empty:nth-child(2) {

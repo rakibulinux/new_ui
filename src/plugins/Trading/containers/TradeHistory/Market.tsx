@@ -34,7 +34,7 @@ const RecentTradesMarketContainer: React.FC = () => {
 
   const recentTrades = useSelector(selectRecentTradesOfCurrentMarket, isEqual);
   const currentMarket = useSelector(selectCurrentMarket, isEqual);
-  const currentPrice = useSelector(selectCurrentPrice);
+  const currentPrice = useSelector(selectCurrentPrice, isEqual);
 
   React.useEffect(() => {
     if (currentMarket) {
