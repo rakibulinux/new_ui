@@ -13,4 +13,10 @@ export const en = {
   'page.body.trade.tab.myTrades': 'My Trades',
   'page.body.trade.tab.marketTrades': 'Market Trades',
   /**End Trade history */
+
+  /**New Order */
+  'page.body.trade.header.newOrder.content.buyWith': 'Buy With',
+  'page.body.trade.header.newOrder.content.title.buy': 'Buy',
+  'page.body.trade.header.newOrder.content.title.sell': 'Sell',
+  /**End new Order */
 };

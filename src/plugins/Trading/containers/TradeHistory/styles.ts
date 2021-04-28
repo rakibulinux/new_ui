@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const MarketHistory = styled.div`
   background-color: #313445;
-  padding: 15px 18px 15px 23px;
+  padding: 15px 13px 15px 26px;
   height: 100%;
 
   .rc-tabs {

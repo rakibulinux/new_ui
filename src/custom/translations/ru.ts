@@ -7,6 +7,12 @@ export const ru: LangType = {
   'page.body.trade.tab.marketTrades': 'Рыночные торгиs',
   /**End Trade history */
 
+  /**New Order */
+  'page.body.trade.header.newOrder.content.buyWith': 'Купить с',
+  'page.body.trade.header.newOrder.content.title.buy': 'Купить',
+  'page.body.trade.header.newOrder.content.title.sell': 'Продавать',
+  /**End new Order */
+
   /* Lunar-game */
   'page.body.lunar.nav.back': 'Назад',
   'page.body.lunar.title': 'Рисовать удачные лоты',
