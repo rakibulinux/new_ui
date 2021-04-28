@@ -75,6 +75,7 @@ export const MarketHistory = styled.div`
           font-size: 10px;
           color: #fff;
           background: transparent;
+          max-height: 314px;
           ::-webkit-scrollbar {
             -webkit-appearance: none;
             width: 5px;

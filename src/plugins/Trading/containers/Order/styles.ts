@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const OrderStyle = styled.div`
+  height: 100%;
   background-color: #313445;
   padding: 18px 23px;
   .rc-tabs {
@@ -62,8 +63,8 @@ export const OrderStyle = styled.div`
   .rc-tabs-content {
     padding: 10px 0;
     .content-form-wrapper {
-      .content-form-bid,
-      .content-form-ask {
+      .content-form-buy,
+      .content-form-sell {
         padding: 10px 0;
         .title-block {
           .title-block-left {
@@ -131,16 +132,35 @@ export const OrderStyle = styled.div`
         }
         .submit-order {
           font-size: 14px;
-          font-weight: bold;
-          color: #2fb67e;
           background-color: #4e5463;
           border-radius: 2px;
+          span {
+            font-weight: bold;
+            color: #2fb67e;
+          }
+        }
+        .logger-order {
+          border-radius: 2px;
+          height: 32px;
+          background-color: #4e5463;
+          span {
+            margin: 0 5px;
+            line-height: 32px;
+          }
+          a {
+            font-size: 14px;
+            color: #2fb67e;
+            line-height: 32px;
+            :hover {
+              color: #2fb67e;
+            }
+          }
         }
       }
-      .content-form-bid {
+      .content-form-buy {
         padding-right: 20px;
       }
-      .content-form-ask {
+      .content-form-sell {
         padding-left: 20px;
       }
     }

@@ -19,4 +19,9 @@ export const en = {
   'page.body.trade.header.newOrder.content.title.buy': 'Buy',
   'page.body.trade.header.newOrder.content.title.sell': 'Sell',
   /**End new Order */
+
+  /**Logger */
+  'page.body.user.loggin': 'Log in',
+  'page.body.user.register': 'Register Now',
+  /**Logger */
 };

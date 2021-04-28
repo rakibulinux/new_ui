@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const OrderBookStyle = styled.div`
   font-size: 12px;
-  height: 800px;
   /* .pg-order-book {
     &-loader {
       align-items: center;
