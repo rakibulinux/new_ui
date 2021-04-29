@@ -106,7 +106,7 @@ export const HomePageScreen = () => {
 
     React.useEffect(() => {
         dispatchFetchCurrencies();
-    });
+    }, []);
 
     const fetchMarketsKlines = async (marketId: string, from: number, to: number) => {
         try {

@@ -92,6 +92,7 @@ import { SaleListScreen } from '../../plugins/Sale';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
 import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
+import {MarketsList} from '../../containers/MarketsList';
 
 interface ReduxProps {
     colorTheme: string;
@@ -302,6 +303,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     {/* <Route exact={false} path="/test-home" component={HomePageScreen} /> */}
                     <Route exact={true} path="/" component={HomePageScreen} />
                     <Route exact={false} path="/fee" component={FeeScreen} />
+                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/markets" component={MarketsList} />
+
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/orders" component={OrdersTabScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/history" component={HistoryScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/confirm" component={ConfirmScreen} />
