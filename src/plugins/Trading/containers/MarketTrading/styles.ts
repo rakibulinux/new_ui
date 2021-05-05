@@ -103,10 +103,10 @@ export const MarketsListTradingStyle = styled.div`
     overflow-x: hidden;
     overflow-y: scroll;
     &__negative {
-      color: #e01e5a;
+      color: var(--asks);
     }
     &__positive {
-      color: #ecb22d;
+      color: var(--bids);
     }
     .sort-icon svg {
       height: calc(0.5em * 1.67);
@@ -153,16 +153,20 @@ export const MarketsListTradingStyle = styled.div`
           &.td-table__row--selected {
             background-color: #4e5463;
           }
+          margin-bottom: 1px;
           background-color: transparent;
           td.td-table__empty:nth-child(2) {
             text-align: center;
           }
           td {
             background-color: transparent;
-            padding: 5px 0 !important;
+            height: 18px;
+            line-height: 18px;
             width: calc(100% / 4);
             text-align: right;
+            padding: unset !important;
             > span {
+              display: block;
               padding: 0 23px;
             }
             :first-child {
@@ -179,6 +183,9 @@ export const MarketsListTradingStyle = styled.div`
             :last-child {
               width: calc(100% - 100% / 4 * 2);
             }
+          }
+          :hover {
+            background-color: #4e5463;
           }
         }
       }

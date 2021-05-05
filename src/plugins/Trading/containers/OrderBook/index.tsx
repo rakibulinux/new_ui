@@ -1,120 +1,67 @@
-import classNames from 'classnames';
 import * as React from 'react';
-import { Spinner } from 'react-bootstrap';
+import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { CombinedOrderBook, Decimal, OrderBook as OrderBookCpn } from '../../../../components';
-import { colors } from '../../../../constants';
-import { accumulateVolume, calcMaxVolume } from '../../../../helpers';
+import { accumulateVolume } from '../../../../helpers';
 import {
   Market,
-  selectCurrentColorTheme,
   selectCurrentMarket,
   selectCurrentPrice,
   selectDepthAsks,
   selectDepthBids,
-  selectDepthLoading,
   selectMarketTickers,
   selectMobileDeviceState,
   setCurrentPrice,
   Ticker,
 } from '../../../../modules';
+import downSvg from '../../assets/down.svg';
+import upSvg from '../../assets/up.svg';
+import { OrderBookBuySvg, OrderBookSellSvg, OrderBookSvg } from '../../components/Icon/OrderBookSvg';
 import { OrderBookTableRow } from './OrderBookTableRow';
-import { OrderBookStyle } from './styles';
-// render big/small breakpoint
-const breakpoint = 448;
+import { OrderBookStyle, TrStyle } from './styles';
+
+const defaultTicker = { amount: 0, low: 0, last: 0, high: 0, volume: 0, price_change_percent: '+0.00%' };
 
 export const OrderBookContainer = (props) => {
   const { formatMessage } = useIntl();
   const dispatch = useDispatch();
+  const [tabState, setTabState] = React.useState<'all' | 'buy' | 'sell'>('all');
   const [width, setWidth] = React.useState(0);
   const orderRef = React.useRef<HTMLDivElement>(null);
 
-  const bids = useSelector(selectDepthBids);
-  const asks = useSelector(selectDepthAsks);
-  const colorTheme = useSelector(selectCurrentColorTheme);
-  const orderBookLoading = useSelector(selectDepthLoading);
-  const currentMarket = useSelector(selectCurrentMarket);
-  const currentPrice = useSelector(selectCurrentPrice);
-  const marketTickers = useSelector(selectMarketTickers);
-  const isMobileDevice = useSelector(selectMobileDeviceState);
-
-  const isLarge = React.useMemo(() => props.forceLarge || width > breakpoint, [props.forceLarge, width]);
-  const asksData = React.useMemo(() => (isLarge ? asks : asks.slice(0).reverse()), [isLarge, asks]);
+  const bids = useSelector(selectDepthBids, isEqual);
+  const asks = useSelector(selectDepthAsks, isEqual);
+  const currentMarket = useSelector(selectCurrentMarket, isEqual);
+  const currentPrice = useSelector(selectCurrentPrice, isEqual);
+  const marketTickers = useSelector(selectMarketTickers, isEqual);
+  const isMobileDevice = useSelector(selectMobileDeviceState, isEqual);
 
   const getTickerValue = React.useCallback((cMarket: Market, tickers: { [key: string]: Ticker }) => {
-    const defaultTicker = { amount: 0, low: 0, last: 0, high: 0, volume: 0, open: 0, price_change_percent: '+0.00%' };
-
     return tickers[cMarket.id] || defaultTicker;
   }, []);
 
-  const lastPrice = React.useCallback(() => {
-    const currentTicker = currentMarket && getTickerValue(currentMarket, marketTickers);
-
-    if (currentMarket && currentTicker) {
-      const classnames = classNames('', {
-        'cr-combined-order-book__market-negative': currentTicker.price_change_percent.includes('-'),
-        'cr-combined-order-book__market-positive': currentTicker.price_change_percent.includes('+'),
-      });
-
-      return (
-        <React.Fragment>
-          <span className={classnames}>
-            {Decimal.format(+currentTicker.last, currentMarket.price_precision)}&nbsp;
-            {isMobileDevice ? null : currentMarket.quote_unit.toUpperCase()}
-          </span>
-        </React.Fragment>
-      );
-    } else {
-      return (
-        <React.Fragment>
-          <span className={'cr-combined-order-book__market-negative'}>0</span>
-        </React.Fragment>
-      );
+  const renderOrderBook = React.useCallback((array: string[][], side: string, currentM?: Market) => {
+    // tslint:disable-next-line: no-shadowed-variable
+    const maxVolume = Math.max(...array.map((a) => Number(a[1])));
+    let total = accumulateVolume(array);
+    const priceFixed = currentM ? currentM.price_precision : 0;
+    const amountFixed = currentM ? currentM.amount_precision : 0;
+    if (side === 'asks') {
+      total = accumulateVolume(array.slice(0).reverse()).slice(0).reverse();
     }
-  }, [currentMarket, formatMessage, getTickerValue, isMobileDevice, marketTickers]);
 
-  const renderHeaders = React.useCallback(() => {
-    const formattedBaseUnit = currentMarket && currentMarket.base_unit ? `(${currentMarket.base_unit.toUpperCase()})` : '';
-    const formattedQuoteUnit = currentMarket && currentMarket.quote_unit ? `(${currentMarket.quote_unit.toUpperCase()})` : '';
+    return array.map((item, i) => {
+      const [price, volume] = item;
 
-    if (isMobileDevice) {
       return [
-        `${formatMessage({ id: 'page.body.trade.orderbook.header.price' })}\n${formattedQuoteUnit}`,
-        `${formatMessage({ id: 'page.body.trade.orderbook.header.amount' })}\n${formattedBaseUnit}`,
+        <OrderBookTableRow type="price" prevValue={array[i - 1] ? array[i - 1][0] : 0} price={price} fixed={priceFixed} />,
+        <OrderBookTableRow total={volume} fixed={amountFixed} />,
+        <OrderBookTableRow total={total[i]} fixed={amountFixed} />,
+        Number((Number(volume) / (maxVolume / 100)).toFixed(2)),
       ];
-    }
-
-    return [
-      `${formatMessage({ id: 'page.body.trade.orderbook.header.price' })}\n${formattedQuoteUnit}`,
-      `${formatMessage({ id: 'page.body.trade.orderbook.header.amount' })}\n${formattedBaseUnit}`,
-      `${formatMessage({ id: 'page.body.trade.orderbook.header.volume' })}\n${formattedBaseUnit}`,
-    ];
-  }, [currentMarket, formatMessage, isMobileDevice]);
-
-  const renderOrderBook = React.useCallback(
-    (array: string[][], side: string, message: string, currentM?: Market) => {
-      let total = accumulateVolume(array);
-      const priceFixed = currentM ? currentM.price_precision : 0;
-      const amountFixed = currentM ? currentM.amount_precision : 0;
-      if (side === 'asks') {
-        total = isLarge ? total : accumulateVolume(array.slice(0).reverse()).slice(0).reverse();
-      }
-
-      return array.length > 0
-        ? array.map((item, i) => {
-            const [price, volume] = item;
-
-            return [
-              <OrderBookTableRow type="price" prevValue={array[i - 1] ? array[i - 1][0] : 0} price={price} fixed={priceFixed} />,
-              <OrderBookTableRow total={volume} fixed={amountFixed} />,
-              <OrderBookTableRow total={total[i]} fixed={amountFixed} />,
-            ];
-          })
-        : [[[''], message, ['']]];
-    },
-    [isLarge, isMobileDevice],
-  );
+    });
+  }, []);
 
   const handleOnSelectBids = React.useCallback(
     (index: string) => {
@@ -128,12 +75,12 @@ export const OrderBookContainer = (props) => {
 
   const handleOnSelectAsks = React.useCallback(
     (index: string) => {
-      const priceToSet = asksData[Number(index)] && Number(asksData[Number(index)][0]);
+      const priceToSet = asks[Number(index)] && Number(asks[Number(index)][0]);
       if (currentPrice !== priceToSet) {
         dispatch(setCurrentPrice(priceToSet));
       }
     },
-    [currentPrice, dispatch, asksData],
+    [currentPrice, dispatch, asks],
   );
 
   // eslint-disable-next-line
@@ -144,68 +91,133 @@ export const OrderBookContainer = (props) => {
     }
   });
 
-  const maxVolume = calcMaxVolume(bids, asks);
+  const arrAsksElm = renderOrderBook(asks, 'asks', currentMarket);
+  const arrBidsElm = renderOrderBook(bids, 'bids', currentMarket);
+  const noDataElm = (
+    <div className="td-order-book-table__empty_data text-center">{formatMessage({ id: 'page.noDataToShow' })}</div>
+  );
+
+  const infoTabs: Array<{
+    labelTooltip: string;
+    key: typeof tabState;
+    Component: typeof OrderBookSvg;
+  }> = [
+    {
+      labelTooltip: 'Order Book',
+      key: 'all',
+      Component: OrderBookSvg,
+    },
+    {
+      labelTooltip: 'Buy',
+      key: 'buy',
+      Component: OrderBookBuySvg,
+    },
+    {
+      labelTooltip: 'Sell',
+      key: 'sell',
+      Component: OrderBookSellSvg,
+    },
+  ];
+
+  const elementTabs = infoTabs.map(({ key, labelTooltip, Component }) => (
+    <OverlayTrigger
+      key={key}
+      placement="bottom"
+      overlay={
+        <Tooltip className="td-order-book-tooltip" id="td-order-book-header-all">
+          {labelTooltip}
+        </Tooltip>
+      }
+    >
+      <Component
+        active={key === tabState}
+        className="mr-2"
+        onClick={() => {
+          setTabState(key);
+        }}
+      />
+    </OverlayTrigger>
+  ));
+
+  const isPositive =
+    currentMarket && /\+/.test(currentMarket && (marketTickers[currentMarket.id] || defaultTicker)['price_change_percent']);
+  const cls = isPositive ? 'positive' : 'negative';
 
   return (
-    <OrderBookStyle>
-      <div className="cr-new-combined-order-book" ref={orderRef}>
-        {/* <div className={'cr-table-header__content head-text'}>{formatMessage({ id: 'page.body.trade.orderbook' })}</div> */}
-        {/* <div
-          className="col-12"
-          style={{
-            padding: '0px',
-            paddingBottom: '3px',
-          }}
-        >
-          <div className="cr-new-combined-order-book-asks">
-            <OrderBookCpn
-              side={'right'}
-              headers={renderHeaders()}
-              data={renderOrderBook(asksData, 'asks', formatMessage({ id: 'page.noDataToShow' }), currentMarket) as any}
-              rowBackgroundColor={colors[colorTheme].orderBook.asks}
-              maxVolume={maxVolume}
-              orderBookEntry={accumulateVolume(asks).reverse()}
-              onSelect={handleOnSelectAsks}
-            />
+    <OrderBookStyle tabState={tabState}>
+      <Row className="h-100">
+        <Col className="h-100 td-order-book-wrapper p-0" xs={12}>
+          <div className="td-order-book">
+            <Row className="td-order-book-header">
+              <Col className="d-flex align-items-center">{elementTabs}</Col>
+              <Col className="d-flex align-items-center"></Col>
+            </Row>
+            <Row className="td-order-book-tbheader">
+              <Col className="p-0">
+                {`${formatMessage({ id: 'page.body.trade.header.recentTrades.content.price' })}${
+                  currentMarket ? `(${currentMarket.quote_unit.toUpperCase()})` : ''
+                }`}
+              </Col>
+              <Col className="p-0 text-right">
+                {`${formatMessage({ id: 'page.body.trade.header.recentTrades.content.amount' })}${
+                  currentMarket ? `(${currentMarket.base_unit.toUpperCase()})` : ''
+                }`}
+              </Col>
+              <Col className="p-0 text-right">Total</Col>
+            </Row>
+            {tabState === 'all' || tabState === 'sell' ? (
+              <table className="td-order-book-table td-reverse-table-body">
+                <tbody>
+                  {arrAsksElm.length > 0
+                    ? arrAsksElm.map((item, i) => (
+                        <TrStyle
+                          color="rgba(47,182,126,0.4)"
+                          placement="left"
+                          percentwidth={(item[3] as number) || 0}
+                          key={i}
+                          onClick={() => handleOnSelectAsks(i.toString())}
+                        >
+                          <td className="td-order-book-item__positive">{item[0]}</td>
+                          <td>{item[1]}</td>
+                          <td>{item[2]}</td>
+                        </TrStyle>
+                      ))
+                    : noDataElm}
+                </tbody>
+              </table>
+            ) : null}
+            <Row className="td-order-book-ticker">
+              <Col className={`p-0  td-order-book-ticker__last-price d-flex align-items-center td-order-book-item__${cls}`}>
+                55,041.30
+                <img src={cls === 'positive' ? upSvg : downSvg} style={{ color: 'red' }} />
+              </Col>
+              <Col className="p-0  td-order-book-ticker__volume d-flex align-items-center justify-content-end">$55,046.05</Col>
+              <Col className="p-0 text-right"></Col>
+            </Row>
+            {tabState === 'all' || tabState === 'buy' ? (
+              <table className="td-order-book-table">
+                <tbody>
+                  {arrBidsElm.length > 0
+                    ? arrBidsElm.map((item, i) => (
+                        <TrStyle
+                          color="rgba(224,30,90,0.2)"
+                          placement="right"
+                          percentwidth={(item[3] as number) || 0}
+                          key={i}
+                          onClick={() => handleOnSelectBids(i.toString())}
+                        >
+                          <td className="td-order-book-item__negative">{item[0]}</td>
+                          <td>{item[1]}</td>
+                          <td>{item[2]}</td>
+                        </TrStyle>
+                      ))
+                    : noDataElm}
+                </tbody>
+              </table>
+            ) : null}
           </div>
-        </div>
-        <div
-          className="col-12"
-          style={{
-            padding: '0px',
-            paddingTop: '3px',
-          }}
-        >
-          <div className="cr-new-combined-order-book-bids">1</div>
-        </div> */}
-        {orderBookLoading ? (
-          <div className="pg-combined-order-book-loader">
-            <Spinner animation="border" variant="primary" />
-          </div>
-        ) : (
-          <div className="cr-combined-order-book">
-            <div className="cr-combined-order-book__small">
-              <OrderBookCpn
-                side={'right'}
-                headers={renderHeaders()}
-                data={renderOrderBook(asksData, 'asks', formatMessage({ id: 'page.noDataToShow' }), currentMarket) as any}
-                rowBackgroundColor={colors[colorTheme].orderBook.asks}
-                maxVolume={maxVolume}
-                orderBookEntry={accumulateVolume(asks).reverse()}
-                onSelect={handleOnSelectAsks}
-              />
-              <OrderBookCpn
-                side={'right'}
-                data={renderOrderBook(bids, 'bids', formatMessage({ id: 'page.noDataToShow' }), currentMarket) as any}
-                rowBackgroundColor={colors[colorTheme].orderBook.bids}
-                maxVolume={maxVolume}
-                orderBookEntry={accumulateVolume(bids)}
-                onSelect={handleOnSelectBids}
-              />
-            </div>
-          </div>
-        )}
-      </div>
+        </Col>
+      </Row>
     </OrderBookStyle>
   );
 };

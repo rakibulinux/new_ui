@@ -4,7 +4,11 @@ export const OrderStyle = styled.div`
   height: 100%;
   background-color: #313445;
   padding: 18px 23px;
+  min-height: 330px;
   .rc-tabs {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     .rc-tabs-tabpane {
       outline: none;
     }
@@ -59,109 +63,116 @@ export const OrderStyle = styled.div`
     .rc-tabs-nav-operations {
       display: none;
     }
-  }
-  .rc-tabs-content {
-    padding: 10px 0;
-    .content-form-wrapper {
-      .content-form-buy,
-      .content-form-sell {
+    .rc-tabs-content-holder {
+      flex: 1;
+      .rc-tabs-content {
         padding: 10px 0;
-        .title-block {
-          .title-block-left {
-            color: white;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-          }
-          .title-block-right {
-            font-size: 16px;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-          }
+        height: 100%;
+        .rc-tabs-tabpane {
+          height: 100%;
         }
-        .input-group {
-          background-color: rgba(132, 142, 156, 0.35);
-          border-radius: 2px;
-          input,
-          span {
-            background: transparent;
-            font-size: 14px;
-            outline: none;
-            border: none;
-          }
-          ::first-child {
-            margin-bottom: 10px;
-          }
-          .input-group-prepend {
-            span {
-              color: #fff;
+        .content-form-wrapper {
+          .content-form-buy,
+          .content-form-sell {
+            padding: 10px 0;
+            .title-block {
+              .title-block-left {
+                color: white;
+                font-size: 16px;
+                display: flex;
+                align-items: center;
+              }
+              .title-block-right {
+                font-size: 16px;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+              }
+            }
+            .input-group {
+              background-color: rgba(132, 142, 156, 0.35);
+              border-radius: 2px;
+              input,
+              span {
+                background: transparent;
+                font-size: 14px;
+                outline: none;
+                border: none;
+              }
+              ::first-child {
+                margin-bottom: 10px;
+              }
+              .input-group-prepend {
+                span {
+                  color: #fff;
+                }
+              }
+              .form-control {
+                color: #fff;
+                height: unset;
+                box-shadow: none;
+              }
+              .input-group-prepend,
+              .input-group-append {
+                width: 80px;
+                .input-group-text {
+                  display: block;
+                  text-align: center;
+                  padding: 5px 14px;
+                }
+              }
+              .input-group-append {
+                width: 70px;
+                span {
+                  color: #848e9c;
+                }
+              }
+            }
+            .ant-slider {
+              width: 97%;
+              margin: 27px auto;
+              .ant-slider-rail {
+                background-color: #282b3a;
+              }
+              .ant-slider-handle {
+                background-color: #848e9c;
+                border: solid 3px #fff;
+              }
+            }
+            .submit-order {
+              font-size: 14px;
+              background-color: #4e5463;
+              border-radius: 2px;
+              span {
+                font-weight: bold;
+                color: #2fb67e;
+              }
+            }
+            .logger-order {
+              border-radius: 2px;
+              height: 32px;
+              background-color: #4e5463;
+              span {
+                margin: 0 5px;
+                line-height: 32px;
+              }
+              a {
+                font-size: 14px;
+                color: #2fb67e;
+                line-height: 32px;
+                :hover {
+                  color: #2fb67e;
+                }
+              }
             }
           }
-          .form-control {
-            color: #fff;
-            height: unset;
-            box-shadow: none;
+          .content-form-buy {
+            padding-right: 20px;
           }
-          .input-group-prepend,
-          .input-group-append {
-            width: 80px;
-            .input-group-text {
-              display: block;
-              text-align: center;
-              padding: 5px 14px;
-            }
-          }
-          .input-group-append {
-            width: 70px;
-            span {
-              color: #848e9c;
-            }
+          .content-form-sell {
+            padding-left: 20px;
           }
         }
-        .ant-slider {
-          width: 97%;
-          margin: 27px auto;
-          .ant-slider-rail {
-            background-color: #282b3a;
-          }
-          .ant-slider-handle {
-            background-color: #848e9c;
-            border: solid 3px #fff;
-          }
-        }
-        .submit-order {
-          font-size: 14px;
-          background-color: #4e5463;
-          border-radius: 2px;
-          span {
-            font-weight: bold;
-            color: #2fb67e;
-          }
-        }
-        .logger-order {
-          border-radius: 2px;
-          height: 32px;
-          background-color: #4e5463;
-          span {
-            margin: 0 5px;
-            line-height: 32px;
-          }
-          a {
-            font-size: 14px;
-            color: #2fb67e;
-            line-height: 32px;
-            :hover {
-              color: #2fb67e;
-            }
-          }
-        }
-      }
-      .content-form-buy {
-        padding-right: 20px;
-      }
-      .content-form-sell {
-        padding-left: 20px;
       }
     }
   }

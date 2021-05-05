@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { TableBlockStyle } from '../../components/Table/styles';
 
 export const MarketHistory = styled.div`
   background-color: #313445;
@@ -6,6 +7,9 @@ export const MarketHistory = styled.div`
   height: 100%;
 
   .rc-tabs {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     .rc-tabs-tabpane {
       outline: none;
     }
@@ -30,6 +34,23 @@ export const MarketHistory = styled.div`
         }
       }
     }
+    .rc-tabs-content-holder {
+      flex: 1;
+      .rc-tabs-content {
+        .rc-tabs-tabpane {
+          .td-recent-trades__markets,
+          .td-recent-trades__yours {
+            ${TableBlockStyle} {
+              .td-table {
+                tbody {
+                  max-height: 405px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
     .rc-tabs-ink-bar,
     .rc-tabs-nav-operations {
       display: none;
@@ -40,10 +61,10 @@ export const MarketHistory = styled.div`
     overflow-x: hidden;
     overflow-y: scroll;
     &__negative {
-      color: #e01e5a;
+      color: var(--asks);
     }
     &__positive {
-      color: #ecb22d;
+      color: var(--bids);
     }
     .td-table-container {
       padding: 10px 0;
@@ -75,7 +96,7 @@ export const MarketHistory = styled.div`
           font-size: 10px;
           color: #fff;
           background: transparent;
-          max-height: 314px;
+          max-height: 300px;
           ::-webkit-scrollbar {
             -webkit-appearance: none;
             width: 5px;

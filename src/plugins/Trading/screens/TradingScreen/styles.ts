@@ -10,6 +10,6 @@ export const TradingScreenStyle = styled.div`
   }
 
   #tv_chart_container {
-    height: 450px;
+    height: 550px;
   }
 `;

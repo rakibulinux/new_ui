@@ -1,77 +1,126 @@
 import styled from 'styled-components';
 
-export const OrderBookStyle = styled.div`
-  font-size: 12px;
-  /* .pg-order-book {
-    &-loader {
-      align-items: center;
-      display: flex;
-      width: 100%;
-      height: 100%;
-      justify-content: center;
-      padding-bottom: calc(var(--gap) * 4.5);
-    }
-    &-title {
-      color: #fff;
-    }
-    &-bid,
-    &-ask {
-      background-color: #313445;
-      padding: 15px 20px;
-    }
-    &-ask {
-      flex-direction: column-reverse;
-      left: 0;
-      overflow-x: hidden;
-      right: 0;
-      top: 0;
-    }
-    &--type {
-      overflow: hidden;
-    } */
+interface OrderBookProps {
+  tabState: 'all' | 'buy' | 'sell';
+}
 
-  .cr-new-combined-order-book {
-    &-asks,
-    &-bids {
-      background-color: #313445;
-      padding: 15px 20px;
-      height: 400px;
-    }
-  }
+const OrderStyleVar = {
+  headHeight: '32px',
+};
 
-  .pg-combined-order-book .cr-combined-order-book__small {
-    .cr-order-book {
-      position: relative;
-      height: 400px;
-      &:first-child {
-        border-bottom: none;
-        height: 50%;
-        flex-direction: column-reverse;
-        left: 0;
-        overflow-x: hidden;
-        right: 0;
-        top: 0;
+export const OrderBookStyle = styled.div<OrderBookProps>`
+  height: 100%;
+  color: white;
+  .td-order-book {
+    background-color: #313445;
+    height: 100%;
+    padding-top: 10px;
+    padding-bottom: 15px;
+    &-item__negative {
+      color: var(--header-negative-text-color);
+    }
+    &-item__positive {
+      color: var(--header-positive-text-color);
+    }
+    &-tooltip {
+      bottom: 200px;
+    }
+    &-header {
+      height: ${OrderStyleVar.headHeight};
+      svg {
+        cursor: pointer;
       }
-
-      &:last-child {
-        height: 50%;
-        top: calc(48% - 4px) !important;
-        border: none;
-
-        .cr-table-background {
-          top: 0;
+    }
+    &-tbheader {
+      padding: 6px 23px;
+      font-size: 10px;
+      color: #848e9c;
+    }
+    &-ticker {
+      margin: 5px 23px !important;
+      font-size: 14px;
+      &__last-price {
+        font-size: 16px;
+      }
+      &__volume {
+        color: #848e9c;
+      }
+    }
+    &-table {
+      font-size: 10px;
+      height: ${(props: OrderBookProps) => (props.tabState === 'all' ? '380px' : 'calc(380px*2)')};
+      display: block;
+      thead,
+      tbody {
+        display: block;
+        tr {
+          display: block;
+          padding: 0 23px;
+          height: 18px;
+          line-height: 18px;
+          background-color: transparent;
+          cursor: pointer;
+          :hover {
+            background-color: #4e5463;
+          }
+          td,
+          th {
+            width: calc(100% / 3);
+            display: inline-block;
+            text-align: right;
+            :first-child {
+              text-align: left;
+            }
+          }
         }
       }
-
-      .cr-table thead {
-        display: contents;
-        position: fixed;
-        top: 50px;
-        width: 100%;
-        z-index: 2222;
+      tbody {
+        height: 100%;
+        overflow-y: scroll;
+        tr {
+          margin-top: 1px;
+          margin-bottom: 1px;
+          td {
+            height: 100%;
+          }
+        }
+      }
+      &.td-reverse-table-body {
+        tbody {
+          transform: rotate(180deg);
+          .td-order-book-table__empty_data {
+            transform: rotate(180deg);
+          }
+          tr {
+            direction: rtl;
+            td {
+              transform: rotate(180deg);
+            }
+          }
+        }
       }
     }
   }
+`;
 
-  /* } */
+interface TrProps {
+  percentwidth: number;
+  placement: 'left' | 'right';
+  color: string;
+}
+
+export const TrStyle = styled.tr<TrProps>`
+  position: relative;
+  z-index: 5;
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: ${(props: TrProps) => (props.placement === 'right' ? 0 : 'unset')};
+    bottom: 0;
+    left: ${(props: TrProps) => (props.placement === 'left' ? 0 : 'unset')};
+    background-color: ${(props: TrProps) => props.color};
+    width: ${(props: TrProps) => props.percentwidth}%;
+    z-index: -5;
+  }
 `;

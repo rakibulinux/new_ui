@@ -5,6 +5,7 @@ import Tabs, { TabPane, TabsProps } from 'rc-tabs';
 import * as React from 'react';
 import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
+import { Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FormType, WalletItemProps } from '../../../../components';
@@ -221,7 +222,11 @@ export const Order: React.FC<OrderProps> = ({}) => {
 
   const renderForm = () => {
     if (!currentMarket) {
-      return null;
+      return (
+        <div className="h-100 d-flex justify-content-center align-items-center">
+          <Spinner animation="border" />
+        </div>
+      );
     }
 
     const walletBase = getWallet(currentMarket.base_unit, wallets);
