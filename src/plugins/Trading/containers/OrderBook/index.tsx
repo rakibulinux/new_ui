@@ -30,8 +30,8 @@ export const OrderBookContainer = (props) => {
   const [width, setWidth] = React.useState(0);
   const orderRef = React.useRef<HTMLDivElement>(null);
 
-  const bids = useSelector(selectDepthBids, isEqual);
-  const asks = useSelector(selectDepthAsks, isEqual);
+  const bids = useSelector(selectDepthBids);
+  const asks = useSelector(selectDepthAsks);
   const currentMarket = useSelector(selectCurrentMarket, isEqual);
   const currentPrice = useSelector(selectCurrentPrice, isEqual);
   const marketTickers = useSelector(selectMarketTickers, isEqual);
