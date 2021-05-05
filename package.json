@@ -158,7 +158,7 @@
     }
   },
   "prettier": {
-    "trailingComma": "es6",
+    "trailingComma": "all",
     "tabWidth": 4,
     "printWidth": 130,
     "semi": true,

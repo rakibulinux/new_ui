@@ -6,17 +6,8 @@ import { Decimal, MarketTable, MarketsHotOnlist } from '../../components';
 import styled from 'styled-components';
 import Tabs, { TabPane } from 'rc-tabs';
 
-import {
-    useMarketsFetch,
-    useMarketsTickersFetch,
-    useRangerConnectFetch,
-} from '../../hooks';
-import {
-    Market,
-    selectMarkets,
-    selectMarketTickers,
-    setCurrentMarket,
-} from '../../modules';
+import { useMarketsFetch, useMarketsTickersFetch, useRangerConnectFetch } from '../../hooks';
+import { Market, selectMarkets, selectMarketTickers, setCurrentMarket } from '../../modules';
 
 import * as classNames from 'classnames';
 
@@ -41,46 +32,74 @@ const TradeButtonStyles = styled.button`
     width: 62px;
     height: 32px;
     background: #313445;
-    border: 0.5px solid #848E9C;
+    border: 0.5px solid #848e9c;
     box-sizing: border-box;
     border-radius: 4px;
-    color: #2FB67E;
+    color: #2fb67e;
     outline: none;
 `;
 const MarketListFilsStyle = styled.div`
-  width: 100%;
-  background-color: rgb(49, 52, 69);
-  
-  .rc-tabs-nav-wrap {
-    padding: 20px 20px 0;
+    width: 100%;
+    background-color: rgb(49, 52, 69);
+    .rc-tabs-nav {
+        display: flex;
+        justify-content: space-between;
+        .rc-tabs-nav-wrap {
+            padding: 20px 20px 0;
 
-    .rc-tabs-nav-list{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    border-bottom: 1px solid #999;
+            .rc-tabs-nav-list {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                border-bottom: 1px solid #999;
 
-        .rc-tabs-tab {
-        font-size: 14px;
-        font-weight: 600;
-        height: 40px;
-        cursor: pointer;
-        margin-right: 40px;
+                .rc-tabs-tab {
+                    font-size: 14px;
+                    font-weight: 600;
+                    height: 40px;
+                    cursor: pointer;
+                    margin-right: 40px;
+                }
+                .rc-tabs-tab-active {
+                    font-weight: bold;
+                    color: #fff;
+                    border-bottom: 2px solid rgb(47, 182, 126);
+                }
+            }
         }
-        .rc-tabs-tab-active {
-            font-weight: bold;
-            color: #fff;
-            border-bottom: 2px solid rgb(47, 182, 126);
+        .rc-tabs-extra-content {
+            align-items: center;
+            display: flex;
+            padding-right: 20px;
+
+            input {
+                outline: none;
+                max-width: 200px;
+                width: 100%;
+                height: 30px;
+                color: white;
+                background: var(--table-background-color);
+                border: none;
+                border: 1px solid #666;
+                border-radius: 4px;
+                text-align: center;
+                :focus{
+                    box-shadow: none;
+                    border-color: #3c4055;
+                }
+                ::placeholder{
+                    color: #879fc7;
+                    font-size: 13px;
+                }
+            }
+        }
+        .rc-tabs-content {
+            padding: 0 20px;
         }
     }
-  }
-  .rc-tabs-content{
-    padding: 0 20px;
-  }
-  
 `;
-export const MarketsList = props => {
-    const favoritemMarketsLocal = JSON.parse(localStorage.getItem('favourites_markets') || '[]')
+export const MarketsList = (props) => {
+    const favoritemMarketsLocal = JSON.parse(localStorage.getItem('favourites_markets') || '[]');
     const [marketIdsLocalState, setMarketIdsLocalState] = React.useState<string[]>(favoritemMarketsLocal);
 
     useMarketsFetch();
@@ -93,7 +112,7 @@ export const MarketsList = props => {
     // const [currentBidUnit, setCurrentBidUnit] = React.useState('');
 
     const handleRedirectToTrading = (id: string) => {
-        const currentMarket: Market | undefined = markets.find(item => item.id === id);
+        const currentMarket: Market | undefined = markets.find((item) => item.id === id);
         console.log(currentMarket);
 
         if (currentMarket) {
@@ -124,146 +143,149 @@ export const MarketsList = props => {
     // }
 
     const clickFavoritesMarket = (id: string) => {
-
         let local = localStorage.getItem('favourites_markets') || '[]';
         if (local === null) local = '[]';
         let favourites_markets = JSON.parse(local);
 
-        const found_favorite_market_index = favourites_markets.findIndex(market_id => market_id.toLowerCase() === id.toLowerCase());
+        const found_favorite_market_index = favourites_markets.findIndex(
+            (market_id) => market_id.toLowerCase() === id.toLowerCase(),
+        );
 
         if (found_favorite_market_index >= 0) {
-
             favourites_markets.splice(found_favorite_market_index, 1);
             localStorage.setItem('favourites_markets', JSON.stringify(favourites_markets));
         } else {
-
             favourites_markets.push(id);
             localStorage.setItem('favourites_markets', JSON.stringify(favourites_markets));
         }
 
         let new_local = localStorage.getItem('favourites_markets') || '[]';
         setMarketIdsLocalState(JSON.parse(new_local));
-        
-    }
+    };
 
-    const formattedMarkets = currentBidUnitMarkets.length ? currentBidUnitMarkets.map(market =>
-    ({
-        ...market,
-        last: Decimal.format(Number((marketTickers[market.id] || defaultTicker).last), 6),
-        open: Decimal.format(Number((marketTickers[market.id] || defaultTicker).open), 6),
-        price_change_percent: String((marketTickers[market.id] || defaultTicker).price_change_percent),
-        high: Decimal.format(Number((marketTickers[market.id] || defaultTicker).high), 6),
-        low: Decimal.format(Number((marketTickers[market.id] || defaultTicker).low), 6),
-        volume: Decimal.format(Number((marketTickers[market.id] || defaultTicker).volume), market.amount_precision),
-    }),
-    ).map(market =>
-    ({
-        ...market,
-        change: Decimal.format((+market.last - +market.open)
-            .toFixed(market.price_precision), market.price_precision),
-    })
-    ).map(market => {
-        const marketChangeColor = +(market.change || 0) < 0 ? '#E01E5A' : '#2FB67E';
-        const market_name = market.name.split('/');
-        const svgClass = classNames(marketIdsLocalState.includes(market.id) ? "active_id" : "");
-        return {
-            ...market,
-            pair: <div className="d-flex flex-row align-items-center">
-                <svg onClick={() => clickFavoritesMarket(market.id)} width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path className={svgClass} d="M10 14.3917L15.15 17.5L13.7834 11.6417L18.3334 7.69999L12.3417 7.19166L10 1.66666L7.65835 7.19166L1.66669 7.69999L6.21669 11.6417L4.85002 17.5L10 14.3917Z" fill="#848E9C" />
-                </svg>
+    const formattedMarkets = currentBidUnitMarkets.length
+        ? currentBidUnitMarkets
+              .map((market) => ({
+                  ...market,
+                  last: Decimal.format(Number((marketTickers[market.id] || defaultTicker).last), 6),
+                  open: Decimal.format(Number((marketTickers[market.id] || defaultTicker).open), 6),
+                  price_change_percent: String((marketTickers[market.id] || defaultTicker).price_change_percent),
+                  high: Decimal.format(Number((marketTickers[market.id] || defaultTicker).high), 6),
+                  low: Decimal.format(Number((marketTickers[market.id] || defaultTicker).low), 6),
+                  volume: Decimal.format(Number((marketTickers[market.id] || defaultTicker).volume), market.amount_precision),
+              }))
+              .map((market) => ({
+                  ...market,
+                  change: Decimal.format((+market.last - +market.open).toFixed(market.price_precision), market.price_precision),
+              }))
+              .map((market) => {
+                  const marketChangeColor = +(market.change || 0) < 0 ? '#E01E5A' : '#2FB67E';
+                  const market_name = market.name.split('/');
+                  const svgClass = classNames(marketIdsLocalState.includes(market.id) ? 'active_id' : '');
+                  return {
+                      ...market,
+                      pair: (
+                          <div className="d-flex flex-row align-items-center">
+                              <svg
+                                  onClick={() => clickFavoritesMarket(market.id)}
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 20 20"
+                                  xmlns="http://www.w3.org/2000/svg"
+                              >
+                                  <path
+                                      className={svgClass}
+                                      d="M10 14.3917L15.15 17.5L13.7834 11.6417L18.3334 7.69999L12.3417 7.19166L10 1.66666L7.65835 7.19166L1.66669 7.69999L6.21669 11.6417L4.85002 17.5L10 14.3917Z"
+                                      fill="#848E9C"
+                                  />
+                              </svg>
 
-                <span style={{ color: '#fff', marginLeft: 8 }}>{market_name[0]}</span><span style={{color: '#737f92'}}>/</span><span style={{color: '#737f92'}}>{market_name[1]}</span>
-            </div>,
-            last: <span style={{ color: marketChangeColor }}>{market.last}</span>,
-            open: <span style={{ color: marketChangeColor }}>{market.open}</span>,
-            change: <span style={{ color: marketChangeColor }}>{market.change}</span>,
-            volume: <span style={{ color: marketChangeColor }}>{market.volume}</span>,
-            price_change_percent: <span style={{ color: marketChangeColor }}>{market.price_change_percent}</span>,
-            trade: <TradeButtonStyles onClick={() => handleRedirectToTrading(market.id)}>Trade</TradeButtonStyles>
-        }
-    })
+                              <span style={{ color: '#fff', marginLeft: 8 }}>{market_name[0]}</span>
+                              <span style={{ color: '#737f92' }}>/</span>
+                              <span style={{ color: '#737f92' }}>{market_name[1]}</span>
+                          </div>
+                      ),
+                      last: <span style={{ color: marketChangeColor }}>{market.last}</span>,
+                      open: <span style={{ color: marketChangeColor }}>{market.open}</span>,
+                      change: <span style={{ color: marketChangeColor }}>{market.change}</span>,
+                      volume: <span style={{ color: marketChangeColor }}>{market.volume}</span>,
+                      price_change_percent: <span style={{ color: marketChangeColor }}>{market.price_change_percent}</span>,
+                      trade: <TradeButtonStyles onClick={() => handleRedirectToTrading(market.id)}>Trade</TradeButtonStyles>,
+                  };
+              })
         : [];
     // console.log(marketIdsLocalState)
-    const FavoriteMarkets = formattedMarkets.filter( (e:any) => marketIdsLocalState.includes(e.id));
+    const FavoriteMarkets = formattedMarkets.filter((e: any) => marketIdsLocalState.includes(e.id));
     // console.log("favoritemarket", FavoriteMarkets)
 
     const MarketsTabs = () => {
         return (
             <MarketListFilsStyle>
-                <Tabs defaultActiveKey="Spot Markets">
-                    <TabPane tab="Favorites" key="Favorites" >
+                <Tabs defaultActiveKey="Spot Markets" tabBarExtraContent={<input type="text" placeholder="search coin name..."/>}>
+                    <TabPane tab="Favorites" key="Favorites" className="abc">
                         <MarketTable columns={columns} data={FavoriteMarkets} />
                     </TabPane>
-                    <TabPane tab="Zones" key="Zones" >
+                    <TabPane tab="Zones" key="Zones">
                         {/* <MarketTable column={} data={spot__markets} /> */}
                     </TabPane>
-                    <TabPane tab="Spot Markets" key="Spot Markets" >
+                    <TabPane tab="Spot Markets" key="Spot Markets">
                         <MarketTable columns={columns} data={formattedMarkets} />
                     </TabPane>
                 </Tabs>
             </MarketListFilsStyle>
         );
-    }
+    };
     const MarketsHotOnList = () => {
         return (
             <React.Fragment>
                 <MarketsHotOnlist />
             </React.Fragment>
-        )
-    }
-    const columns = React.useMemo(
-        () => {
-            return [
-                {
-                    Header: 'Pair',
-                    accessor: 'pair'
-                },
-                {
-                    Header: 'Last Price',
-                    accessor: 'last'
-                },
-                {
-                    Header: '24h Change',
-                    accessor: 'price_change_percent'
-                },
-                {
-                    Header: '24h High',
-                    accessor: 'high'
-                },
-                {
-                    Header: '24h Low',
-                    accessor: 'low'
-                },
-                {
-                    Header: '24h Volume',
-                    accessor: 'volume'
-                },
-                {
-                    Header: '',
-                    accessor: 'trade'
-                },
-            ]
-        },
-        []
-    );
+        );
+    };
+    const columns = React.useMemo(() => {
+        return [
+            {
+                Header: 'Pair',
+                accessor: 'pair',
+            },
+            {
+                Header: 'Last Price',
+                accessor: 'last',
+            },
+            {
+                Header: '24h Change',
+                accessor: 'price_change_percent',
+            },
+            {
+                Header: '24h High',
+                accessor: 'high',
+            },
+            {
+                Header: '24h Low',
+                accessor: 'low',
+            },
+            {
+                Header: '24h Volume',
+                accessor: 'volume',
+            },
+            {
+                Header: '',
+                accessor: 'trade',
+            },
+        ];
+    }, []);
 
     return (
         <MarketsContainerStyles>
             <div className="container">
                 <div className="row">
                     <div className="col-12">
-                        <div>
-                            {MarketsHotOnList()}
-                        </div>
-                        <div>
-                            {MarketsTabs()}
-                        </div>
+                        <div>{MarketsHotOnList()}</div>
+                        <div>{MarketsTabs()}</div>
                     </div>
                 </div>
             </div>
         </MarketsContainerStyles>
-
 
         // <TickerTableScreen
         //     currentBidUnit={currentBidUnit}
