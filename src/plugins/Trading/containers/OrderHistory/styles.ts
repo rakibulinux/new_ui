@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
 export const OrderHistoryStyle = styled.div`
+  background-color: #313445;
   padding: 10px;
   height: 200px;
+  margin-bottom: 3px;
 
   .td-open-orders {
     &.td-open-orders--empty {

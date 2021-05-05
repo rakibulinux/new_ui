@@ -1,8 +1,10 @@
+import get from 'lodash/get';
 import * as React from 'react';
 import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { Decimal } from '../../../../components';
 import { accumulateVolume } from '../../../../helpers';
 import {
   Market,
@@ -142,6 +144,7 @@ export const OrderBookContainer = (props) => {
   const isPositive =
     currentMarket && /\+/.test(currentMarket && (marketTickers[currentMarket.id] || defaultTicker)['price_change_percent']);
   const cls = isPositive ? 'positive' : 'negative';
+  const currentTicker = currentMarket && getTickerValue(currentMarket, marketTickers);
 
   return (
     <OrderBookStyle tabState={tabState}>
@@ -188,10 +191,12 @@ export const OrderBookContainer = (props) => {
             ) : null}
             <Row className="td-order-book-ticker">
               <Col className={`p-0  td-order-book-ticker__last-price d-flex align-items-center td-order-book-item__${cls}`}>
-                55,041.30
+                {Decimal.format(+get(currentTicker, 'last', 0), get(currentMarket, 'price_precision', 0))}
                 <img src={cls === 'positive' ? upSvg : downSvg} style={{ color: 'red' }} />
               </Col>
-              <Col className="p-0  td-order-book-ticker__volume d-flex align-items-center justify-content-end">$55,046.05</Col>
+              <Col className="p-0  td-order-book-ticker__volume d-flex align-items-center justify-content-end">
+                {Decimal.format(+get(currentTicker, 'volume', 0), 4)}
+              </Col>
               <Col className="p-0 text-right"></Col>
             </Row>
             {tabState === 'all' || tabState === 'buy' ? (

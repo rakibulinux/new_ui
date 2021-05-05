@@ -4,6 +4,9 @@ import flattenDeepnLd from 'lodash/flattenDeep';
 import * as React from 'react';
 import { TableBlockStyle } from './styles';
 
+import ratioSmallSvg from '../../assets/ratio-small.svg';
+import starSmallSvg from '../../assets/star-small.svg';
+
 export type CellData = string | number | React.ReactNode | undefined;
 
 export interface Filter {
@@ -76,6 +79,10 @@ interface TableProps {
    * Sets colspan count for empty table
    */
   colSpan?: number;
+  /**
+   * Custom table marketList
+   */
+  isMarketList?: boolean;
 }
 
 /**
@@ -126,18 +133,32 @@ const Table: React.FC<TableProps> = (props) => {
 
   const renderRowCells = (row: CellData[]) => {
     // tslint:disable-next-line: no-shadowed-variable
-    const { data } = props;
+    const { data, isMarketList } = props;
     const dataRow = row.map((c) => c);
     const isCheckEmpty = compactLd(flattenDeepnLd(dataRow)).length === 1;
     // tslint:disable-next-line: no-shadowed-variable
     const cn = classNames({ 'td-table__empty': isCheckEmpty && (data || []).length <= 1 });
 
     return dataRow && dataRow.length
-      ? dataRow.map((c, index: number) => (
-          <td key={index} className={cn} colSpan={dataRow.length === 1 ? props.colSpan : undefined}>
-            {c}
-          </td>
-        ))
+      ? dataRow.map((c, index: number) => {
+          if (isMarketList && index === 0) {
+            return (
+              <td key={index} className={cn} colSpan={dataRow.length === 1 ? props.colSpan : undefined}>
+                <span>
+                  <img src={starSmallSvg} />
+                  <span>{c}</span>
+                  <img src={ratioSmallSvg} />
+                </span>
+              </td>
+            );
+          }
+
+          return (
+            <td key={index} className={cn} colSpan={dataRow.length === 1 ? props.colSpan : undefined}>
+              {c}
+            </td>
+          );
+        })
       : [];
   };
 

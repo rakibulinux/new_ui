@@ -4,6 +4,7 @@ import * as React from 'react';
 import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { incrementalOrderBook } from '../../../../api';
 import { SortAsc, SortDefault, SortDesc } from '../../../../assets/images/SortIcons';
 import { Decimal } from '../../../../components';
@@ -15,8 +16,6 @@ import {
   setCurrentMarket,
   setCurrentPrice,
 } from '../../../../modules';
-import ratioSmallSvg from '../../assets/ratio-small.svg';
-import starSmallSvg from '../../assets/star-small.svg';
 import { Table } from '../../components/Table';
 import { MarketsListTradingStyle } from './styles';
 
@@ -39,6 +38,7 @@ const handleChangeSortIcon = (sortBy: string, id: string, reverseOrder: boolean)
 };
 
 const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = (props) => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const intl = useIntl();
 
@@ -52,7 +52,7 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
     // tslint:disable-next-line: no-shadowed-variable
     const { data } = props;
 
-    const marketToSet = data.find((_el, i) => i.toString() === key);
+    const marketToSet = data.find((market) => market.name === key);
 
     dispatch(setCurrentPrice(0));
     if (marketToSet) {
@@ -60,6 +60,7 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
       if (!incrementalOrderBook()) {
         dispatch(depthFetch(marketToSet));
       }
+      history.push(`/trading/${marketToSet.id}`);
     }
   };
 
@@ -120,11 +121,7 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
       });
 
       return [
-        <span>
-          <img src={starSmallSvg} />
-          <span>{market.name}</span>
-          <img src={ratioSmallSvg} />
-        </span>,
+        market.name,
         <span className={classname}>{Decimal.format(Number(market.last), market.price_precision)}</span>,
         <span className={classname}>{market.price_change_percent}</span>,
       ];
@@ -150,11 +147,12 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
     <MarketsListTradingStyle>
       <div className="td-markets-list-container">
         <Table
+          isMarketList
           data={dataTable.length > 0 ? dataTable : [[]]}
           header={getHeaders()}
           onSelect={currencyPairSelectHandler}
           selectedKey={selectedKey === -1 ? undefined : selectedKey.toString()}
-          // rowKeyIndex={0}
+          rowKeyIndex={0}
         />
       </div>
     </MarketsListTradingStyle>
