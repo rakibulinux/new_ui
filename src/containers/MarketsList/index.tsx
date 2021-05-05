@@ -41,18 +41,25 @@ const TradeButtonStyles = styled.button`
 const MarketListFilsStyle = styled.div`
     width: 100%;
     background-color: rgb(49, 52, 69);
+    .rc-tabs {
+        padding: 0 18px;
+    }
     .rc-tabs-nav {
         display: flex;
         justify-content: space-between;
+        margin-bottom: 30px;
+        padding: 0 20px;
+        border-bottom: 1px solid #999;
+
         .rc-tabs-nav-wrap {
-            padding: 20px 20px 0;
+            padding: 20px 0px 0 0;
+          
 
             .rc-tabs-nav-list {
                 display: flex;
                 flex-direction: row;
                 justify-content: flex-start;
-                border-bottom: 1px solid #999;
-
+               
                 .rc-tabs-tab {
                     font-size: 14px;
                     font-weight: 600;
@@ -70,32 +77,41 @@ const MarketListFilsStyle = styled.div`
         .rc-tabs-extra-content {
             align-items: center;
             display: flex;
-            padding-right: 20px;
-
-            input {
-                outline: none;
-                max-width: 200px;
-                width: 100%;
-                height: 30px;
-                color: white;
-                background: var(--table-background-color);
-                border: none;
-                border: 1px solid #666;
-                border-radius: 4px;
-                text-align: center;
-                :focus{
-                    box-shadow: none;
-                    border-color: #3c4055;
-                }
-                ::placeholder{
-                    color: #879fc7;
-                    font-size: 13px;
-                }
-            }
         }
         .rc-tabs-content {
             padding: 0 20px;
         }
+    }
+`;
+const SearchCoinWrap = styled.div`
+    border: solid 1px var(--input-border-color);
+    border-radius: 4px;
+    display: flex;
+    height: calc(var(--big-gap) * 0.6);
+    margin: 4px;
+    overflow: hidden;
+
+    input {
+        background: none;
+        border: none;
+        color: var(--input-text-color);
+        font-size: calc(var(--big-gap) * 0.25);
+        line-height: calc(var(--big-gap));
+        outline: none;
+        padding: 0 calc(var(--big-gap) * 0.1);
+        width: calc(100% - calc(var(--big-gap) * 0.6));
+    }
+`;
+const SearchCoinWrapIcon = styled.div`
+    align-items: center;
+    border-right: solid 1px var(--input-border-color);
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    width: calc(var(--big-gap) * 0.6);
+
+    img {
+        margin: 0;
     }
 `;
 export const MarketsList = (props) => {
@@ -221,7 +237,14 @@ export const MarketsList = (props) => {
     const MarketsTabs = () => {
         return (
             <MarketListFilsStyle>
-                <Tabs defaultActiveKey="Spot Markets" tabBarExtraContent={<input type="text" placeholder="search coin name..."/>}>
+                <Tabs defaultActiveKey="Spot Markets" 
+                        tabBarExtraContent={<SearchCoinWrap>
+                                                <SearchCoinWrapIcon>
+                                                    <img alt="" src={require('./icon/search.svg')} />
+                                                </SearchCoinWrapIcon>
+                                                <input type="text" placeholder="search coin name..."/>
+                                            </SearchCoinWrap> }
+                >
                     <TabPane tab="Favorites" key="Favorites" className="abc">
                         <MarketTable columns={columns} data={FavoriteMarkets} />
                     </TabPane>

@@ -58,13 +58,16 @@ const PagiantionStyle = styled.div`
         margin: 0 6px;
         border: 1px solid #666;
         border-radius: 2px;
-
         :focus{
             border: 1px solid #fff;
             outline: none;
             background: #313445;
             color: #fff;
         }
+    }
+    span {
+        display: flex;
+        align-items: center;
     }
   
 `;
