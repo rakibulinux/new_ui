@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Col, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { incrementalOrderBook } from '../../../../api';
 import { OrderComponent, TradingChart } from '../../../../containers';
@@ -9,6 +10,7 @@ import { selectRanger } from '../../../../modules/public/ranger/selectors';
 import { HeaderToolbar } from '../../containers/HeaderToolbar';
 import { MarketTrading } from '../../containers/MarketTrading';
 import { OrderBook } from '../../containers/OrderBook';
+import { OrderHistory } from '../../containers/OrderHistory';
 import { RecentTrades } from '../../containers/TradeHistory';
 import { TradingScreenStyle } from './styles';
 
@@ -46,7 +48,7 @@ export const TradingScreen: React.FC<TradingScreenProps> = ({}) => {
 
   return (
     <TradingScreenStyle>
-      <div className="row">
+      <Row>
         <div className="col-sm-9 d-flex flex-column p-0">
           <div className="row">
             <div className="col-md-12 border-container" style={{ paddingLeft: 'unset' }}>
@@ -94,7 +96,10 @@ export const TradingScreen: React.FC<TradingScreenProps> = ({}) => {
             </div>
           </div>
         </div>
-      </div>
+        <Col xs={12} className="border-container pr-0 pl-0">
+          <OrderHistory />
+        </Col>
+      </Row>
     </TradingScreenStyle>
   );
 };

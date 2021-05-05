@@ -3,9 +3,9 @@ import floor from 'lodash/floor';
 import get from 'lodash/get';
 import Tabs, { TabPane, TabsProps } from 'rc-tabs';
 import * as React from 'react';
+import { Spinner } from 'react-bootstrap';
 import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
-import { Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FormType, WalletItemProps } from '../../../../components';
@@ -15,12 +15,14 @@ import {
   orderExecuteFetch,
   OrderExecution,
   selectCurrentMarket,
+  selectCurrentPrice,
   selectMarketTickers,
   selectOrderExecuteLoading,
   selectUserLoggedIn,
   selectWallets,
   setCurrentPrice,
   Wallet,
+  walletsFetch,
 } from '../../../../modules';
 import moneySvg from '../../assets/money.svg';
 import { OrderStyle } from './styles';
@@ -45,6 +47,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 
   const executeLoading = useSelector(selectOrderExecuteLoading, isEqual);
   const wallets = useSelector(selectWallets, isEqual);
+  const currentPrice = useSelector(selectCurrentPrice, isEqual);
   const currentMarket = useSelector(selectCurrentMarket, isEqual);
   const marketTickers = useSelector(selectMarketTickers, isEqual);
   const isLoggedIn = useSelector(selectUserLoggedIn, isEqual);
@@ -56,6 +59,24 @@ export const Order: React.FC<OrderProps> = ({}) => {
 
   const [tabTypeSelectedState, setTabTypeSelectedState] = React.useState<string>(TABS_LIST_KEY[0]);
   const [formState, setFormState] = React.useState(defaultFormState);
+
+  React.useEffect(() => {
+    if (!wallets.length) {
+      dispatch(walletsFetch());
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (isLoggedIn && !wallets.length) {
+      dispatch(walletsFetch());
+    }
+  }, [isLoggedIn, wallets]);
+
+  React.useEffect(() => {
+    if (currentPrice) {
+      setFormState((prev) => ({ ...prev, priceBuy: currentPrice.toString(), priceSell: currentPrice.toString() }));
+    }
+  }, [currentPrice]);
 
   React.useEffect(() => {
     setFormState(defaultFormState);
@@ -237,6 +258,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
     const arrType: FormType[] = ['buy', 'sell'];
     const FormActionsElm = () =>
       arrType.map((type, i) => {
+        const available = (type === 'sell' ? getAvailableValue(walletBase) : getAvailableValue(walletQuote)) | 0;
         const isDisabled =
           executeLoading ||
           (type === 'buy'
@@ -306,6 +328,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
                 </div>
               </div>
               <Slider
+                disabled={!isLoggedIn || !get(walletBase, 'balance', null)}
                 tipFormatter={(e) => `${e}%`}
                 marks={marks}
                 step={null}
@@ -318,7 +341,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
                   }));
                   changeAmount(
                     floor(
-                      (Number((type === 'buy' ? walletQuote : walletBase).balance) / 100) * value,
+                      walletBase.balance ? (Number(walletBase.balance) / 100) * value : 0,
                       currentMarket.amount_precision,
                     ).toString(),
                     type,
