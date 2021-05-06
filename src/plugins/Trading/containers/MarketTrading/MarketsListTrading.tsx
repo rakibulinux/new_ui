@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import findIndex from 'lodash/findIndex';
+import find from 'lodash/find';
 import * as React from 'react';
 import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
@@ -141,7 +141,7 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
   };
 
   const dataTable = mapMarkets();
-  const selectedKey = findIndex(props.data, (market) => (currentMarket && currentMarket.name === market.name ? true : false));
+  const selectedObject = find(props.data, (market) => (currentMarket && currentMarket.name === market.name ? true : false));
 
   return (
     <MarketsListTradingStyle>
@@ -151,7 +151,7 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
           data={dataTable.length > 0 ? dataTable : [[]]}
           header={getHeaders()}
           onSelect={currencyPairSelectHandler}
-          selectedKey={selectedKey === -1 ? undefined : selectedKey.toString()}
+          selectedKey={selectedObject === undefined ? undefined : selectedObject.name}
           rowKeyIndex={0}
         />
       </div>

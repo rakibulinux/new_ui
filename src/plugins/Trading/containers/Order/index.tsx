@@ -153,7 +153,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
     const walletBase = getWallet(currentMarket.base_unit, wallets);
     const walletQuote = getWallet(currentMarket.quote_unit, wallets);
     const currentTicker = marketTickers[currentMarket.id];
-    const price = Number(Number((currentTicker || defaultCurrentTicker).last).toFixed(currentMarket.price_precision));
+    const price = type === 'buy' ? formState.priceBuy : formState.priceSell;
     const available = (type === 'sell' ? getAvailableValue(walletBase) : getAvailableValue(walletQuote)) | 0;
 
     const resultData: OrderExecution = {
@@ -163,13 +163,10 @@ export const Order: React.FC<OrderProps> = ({}) => {
       ord_type: tabTypeSelectedState.toLowerCase(),
     };
 
-    const order =
-      tabTypeSelectedState === TABS_LIST_KEY[0]
-        ? { ...resultData, price: type === 'buy' ? formState.priceBuy : formState.priceSell }
-        : resultData;
+    const order = tabTypeSelectedState === TABS_LIST_KEY[0] ? { ...resultData, price: price } : resultData;
     let orderAllowed = true;
 
-    if (Number(resultData.volume) < Number(currentMarket.min_amount)) {
+    if (+resultData.volume < +currentMarket.min_amount) {
       dispatch(
         alertPush({
           message: [
@@ -185,7 +182,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
       orderAllowed = false;
     }
 
-    if (price < Number(currentMarket.min_price)) {
+    if (+price < +currentMarket.min_price) {
       dispatch(
         alertPush({
           message: [
@@ -201,7 +198,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
       orderAllowed = false;
     }
 
-    if (Number(currentMarket.max_price) && price > Number(currentMarket.max_price)) {
+    if (+currentMarket.max_price && +price > +currentMarket.max_price) {
       dispatch(
         alertPush({
           message: [
