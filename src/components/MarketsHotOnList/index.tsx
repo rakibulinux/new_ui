@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {useHistory } from "react-router-dom";
 import styled from 'styled-components';
 import { AreaChart, Area, ResponsiveContainer } from "recharts";
-import { currenciesFetch, selectCurrencies, selectMarkets, selectMarketTickers } from '../../modules';
+import { currenciesFetch, selectCurrencies, selectMarkets, selectMarketTickers,  Market, selectCurrentMarket, Ticker} from '../../modules';
 
 export const MarketsHotOnlist: React.FC<any> = () => {
 
@@ -47,6 +47,8 @@ export const MarketsHotOnlist: React.FC<any> = () => {
   const markets = useSelector(selectMarkets);
   const marketTickers = useSelector(selectMarketTickers);
   const currencies = useSelector(selectCurrencies);
+  const currentMarket = useSelector(selectCurrentMarket);
+
 
   //state
   const [KlineState1, setKline1State] = React.useState<{ pv: string }>();
@@ -103,7 +105,15 @@ export const MarketsHotOnlist: React.FC<any> = () => {
   const MarketChart = (data: any, marketID: string) => {
         
     const market = markets.find(market => market.base_unit.toLowerCase() === marketID.split('/')[0].toLowerCase());
-  
+    const getTickerValue = React.useCallback((cMarket: Market, tickers: { [key: string]: Ticker }) => {
+        const defaultTicker = { amount: 0, low: 0, last: 0, high: 0, volume: 0, open: 0, price_change_percent: '+0.00%' };
+
+        return tickers[cMarket.id] || defaultTicker;
+    }, []);
+
+    const currentTicker = currentMarket && getTickerValue(currentMarket, marketTickers) || {volume: 0};
+    console.log(currentTicker);
+    
     if (market) {
         const marketID = market.name.toUpperCase();
         const baseCurrency = marketID.split('/')[0];
@@ -111,6 +121,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
         const last = Number((marketTickers[market.id] || defaultTicker).last);
         const open = Number((marketTickers[market.id] || defaultTicker).open);
         const price_change_percent = (marketTickers[market.id] || defaultTicker).price_change_percent;
+        const volume = Number((currentTicker[market.id] || defaultTicker).volume);
         const change = (+last - +open);
         // color
         const marketChangeColor = +(change || 0) < 0 ? "var(--system-red)" : "var(--system-green)";
@@ -150,9 +161,13 @@ export const MarketsHotOnlist: React.FC<any> = () => {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-12">
+                        <div className="col-12 d-flex justify-content: center">
                             <span style={{ marginRight: '5px', color: marketChangeColor, fontWeight: 'bold' }}>{price_change_percent}</span>
+                            <div className="ml-2" >
+                                <span>Volume: </span><span style={{ marginRight: '5px', color: marketChangeColor, fontWeight: 'bold' }}>{volume}</span><span>{quoteCurrency.toUpperCase()}</span>
+                            </div>
                         </div>
+                        
                     </div>
                 </div>
             </MarketChartItem>

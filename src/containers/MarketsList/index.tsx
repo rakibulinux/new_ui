@@ -117,6 +117,8 @@ const SearchCoinWrapIcon = styled.div`
 export const MarketsList = (props) => {
     const favoritemMarketsLocal = JSON.parse(localStorage.getItem('favourites_markets') || '[]');
     const [marketIdsLocalState, setMarketIdsLocalState] = React.useState<string[]>(favoritemMarketsLocal);
+    const [searchMarketInputState, setSearchMarketInputState] = React.useState('');
+
 
     useMarketsFetch();
     useMarketsTickersFetch();
@@ -194,6 +196,7 @@ export const MarketsList = (props) => {
                   ...market,
                   change: Decimal.format((+market.last - +market.open).toFixed(market.price_precision), market.price_precision),
               }))
+              .filter(market => market.base_unit.includes(searchMarketInputState) || market.quote_unit.includes(searchMarketInputState))
               .map((market) => {
                   const marketChangeColor = +(market.change || 0) < 0 ? '#E01E5A' : '#2FB67E';
                   const market_name = market.name.split('/');
@@ -230,10 +233,15 @@ export const MarketsList = (props) => {
                   };
               })
         : [];
-    // console.log(marketIdsLocalState)
+    console.log(formattedMarkets)
     const FavoriteMarkets = formattedMarkets.filter((e: any) => marketIdsLocalState.includes(e.id));
     // console.log("favoritemarket", FavoriteMarkets)
 
+    const handldeSearchInputChange = (e:any) => {
+        setSearchMarketInputState(e.target.value);
+        console.log(e.target.value)
+    }  
+    console.log(searchMarketInputState) 
     const MarketsTabs = () => {
         return (
             <MarketListFilsStyle>
@@ -242,7 +250,7 @@ export const MarketsList = (props) => {
                                                 <SearchCoinWrapIcon>
                                                     <img alt="" src={require('./icon/search.svg')} />
                                                 </SearchCoinWrapIcon>
-                                                <input type="text" placeholder="search coin name..."/>
+                                                <input type="text" placeholder="search coin name..." onChange={handldeSearchInputChange} />
                                             </SearchCoinWrap> }
                 >
                     <TabPane tab="Favorites" key="Favorites" className="abc">
