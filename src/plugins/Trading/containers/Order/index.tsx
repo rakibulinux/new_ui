@@ -299,7 +299,6 @@ export const Order: React.FC<OrderProps> = ({}) => {
                   <input
                     type="text"
                     value={type === 'buy' ? formState.priceBuy : formState.priceSell}
-                    defaultValue={''}
                     onChange={(e) => changePrice(e.target.value, type)}
                     className="form-control text-right"
                   />

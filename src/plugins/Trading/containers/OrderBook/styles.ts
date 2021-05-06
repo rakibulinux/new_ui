@@ -104,7 +104,7 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 `;
 
 interface TrProps {
-  percentwidth: number;
+  percentWidth: number;
   placement: 'left' | 'right';
   color: string;
 }
@@ -120,7 +120,7 @@ export const TrStyle = styled.tr<TrProps>`
     bottom: 0;
     left: ${(props: TrProps) => (props.placement === 'left' ? 0 : 'unset')};
     background-color: ${(props: TrProps) => props.color};
-    width: ${(props: TrProps) => props.percentwidth}%;
+    width: ${(props: TrProps) => props.percentWidth}%;
     z-index: -5;
   }
 `;

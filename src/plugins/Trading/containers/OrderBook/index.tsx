@@ -96,32 +96,60 @@ export const OrderBookContainer = (props) => {
   const arrAsksElm = renderOrderBook(asks, 'asks', currentMarket);
   const arrBidsElm = renderOrderBook(bids, 'bids', currentMarket);
   const noDataElm = (
-    <div className="td-order-book-table__empty_data text-center">{formatMessage({ id: 'page.noDataToShow' })}</div>
+    <tr>
+      <td className="td-order-book-table__empty_data text-center" style={{ width: '100%' }}>
+        {formatMessage({ id: 'page.noDataToShow' })}
+      </td>
+    </tr>
   );
 
   const infoTabs: Array<{
     labelTooltip: string;
     key: typeof tabState;
-    Component: typeof OrderBookSvg;
+    render: () => JSX.Element;
   }> = [
     {
       labelTooltip: 'Order Book',
       key: 'all',
-      Component: OrderBookSvg,
+      render: () => (
+        <OrderBookSvg
+          active={tabState === 'all'}
+          className="mr-2"
+          onClick={() => {
+            setTabState('all');
+          }}
+        />
+      ),
     },
     {
       labelTooltip: 'Buy',
       key: 'buy',
-      Component: OrderBookBuySvg,
+      render: () => (
+        <OrderBookBuySvg
+          active={tabState === 'buy'}
+          className="mr-2"
+          onClick={() => {
+            setTabState('buy');
+          }}
+        />
+      ),
     },
     {
       labelTooltip: 'Sell',
       key: 'sell',
-      Component: OrderBookSellSvg,
+      render: () => (
+        <OrderBookSellSvg
+          active={tabState === 'sell'}
+          className="mr-2"
+          onClick={() => {
+            setTabState('sell');
+          }}
+        />
+      ),
     },
   ];
 
-  const elementTabs = infoTabs.map(({ key, labelTooltip, Component }) => (
+  const elementTabs = infoTabs.map(({ key, labelTooltip, render }) => (
     <OverlayTrigger
       key={key}
       placement="bottom"
@@ -131,13 +159,7 @@ export const OrderBookContainer = (props) => {
         </Tooltip>
       }
     >
-      <Component
-        active={key === tabState}
-        className="mr-2"
-        onClick={() => {
-          setTabState(key);
-        }}
-      />
+      {render()}
     </OverlayTrigger>
   ));
 
@@ -176,7 +198,7 @@ export const OrderBookContainer = (props) => {
                         <TrStyle
                           color="rgba(47,182,126,0.4)"
                           placement="left"
-                          percentwidth={(item[3] as number) || 0}
+                          percentWidth={(item[3] as number) || 0}
                           key={i}
                           onClick={() => handleOnSelectAsks(i.toString())}
                         >
@@ -207,7 +229,7 @@ export const OrderBookContainer = (props) => {
                         <TrStyle
                           color="rgba(224,30,90,0.2)"
                           placement="right"
-                          percentwidth={(item[3] as number) || 0}
+                          percentWidth={(item[3] as number) || 0}
                           key={i}
                           onClick={() => handleOnSelectBids(i.toString())}
                         >

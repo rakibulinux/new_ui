@@ -1,5 +1,6 @@
 import classnames from 'classnames';
 import cloneDeep from 'lodash/cloneDeep';
+// import uniq from 'lodash/uniq';
 import Tabs, { TabPane, TabsProps } from 'rc-tabs';
 import * as React from 'react';
 import isEqual from 'react-fast-compare';
@@ -29,14 +30,15 @@ import { MarketsListTrading } from './MarketsListTrading';
 import { MarketTradingStyle, SearchBlockStyle, StarBlockStyle } from './styles';
 
 const TAB_LIST_KEYS = ['All'];
-const STAR_LIST_KEYS = ['All', 'CX', 'BTC', 'ETH'];
+const STAR_LIST_KEYS = ['All', 'BTC', 'ETH'];
+
+// const initStartKeyMarket = (markets: Market[]) => {
+//   return uniq(markets.map((market) => market.name.split('/')[1]));
+// };
 
 const MarketTradingContainer: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [searchFieldState, setSearchFieldState] = React.useState<string>('');
-  const [marketsTabsSelectedState, setMarketsTabsSelectedState] = React.useState<string>(TAB_LIST_KEYS[0]);
-  const [starSelectedState, setStarSelectedState] = React.useState<string>(STAR_LIST_KEYS[0]);
 
   const markets = useSelector(selectMarkets, isEqual);
   const currentMarket = useSelector(selectCurrentMarket);
@@ -45,6 +47,11 @@ const MarketTradingContainer: React.FC = () => {
   const userLoggedIn = useSelector(selectUserLoggedIn);
   const rgl = useSelector(selectGridLayoutState);
   const tickers = useSelector(selectMarketTickers);
+
+  const [searchFieldState, setSearchFieldState] = React.useState<string>('');
+  const [marketsTabsSelectedState, setMarketsTabsSelectedState] = React.useState<string>(TAB_LIST_KEYS[0]);
+  // const [starListState, setStarListState] = React.useState<string[]>(initStartKeyMarket(markets));
+  const [starSelectedState, setStarSelectedState] = React.useState<string>(STAR_LIST_KEYS[0]);
 
   React.useEffect(() => {
     setDocumentTitle('Trading');
@@ -79,6 +86,7 @@ const MarketTradingContainer: React.FC = () => {
 
   React.useEffect(() => {
     setMarketFromUrlIfExists();
+    // setStarListState(initStartKeyMarket(markets));
   }, [markets.length]);
 
   React.useEffect(() => {
@@ -145,7 +153,7 @@ const MarketTradingContainer: React.FC = () => {
     const renderContentTabs = (key: string) => {
       let data: Market[] = cloneDeep(markets);
       if (starSelectedState !== STAR_LIST_KEYS[0]) {
-        data = data.filter((market) => market.name.toLowerCase().split('/')[0].includes(starSelectedState.toLowerCase()));
+        data = data.filter((market) => market.name.toLowerCase().split('/')[1].includes(starSelectedState.toLowerCase()));
       }
       data = data.filter((market) => market.name.toLowerCase().includes(searchFieldState.toLowerCase()));
 
@@ -172,9 +180,13 @@ const MarketTradingContainer: React.FC = () => {
     if (starSelectedState !== key) {
       setStarSelectedState(key);
     }
+    // else {
+    //   setStarSelectedState(null);
+    // }
   };
 
   const renderStarList = () => {
+    // console.log(markets);
     return (
       <StarBlockStyle>
         <img src={starSvg} />
