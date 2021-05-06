@@ -112,7 +112,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
     }, []);
 
     const currentTicker = currentMarket && getTickerValue(currentMarket, marketTickers) || {volume: 0};
-    console.log(currentTicker);
+    // console.log(currentTicker);
     
     if (market) {
         const marketID = market.name.toUpperCase();
