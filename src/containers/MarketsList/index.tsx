@@ -300,7 +300,7 @@ export const MarketsList = (props) => {
                 accessor: 'volume',
             },
             {
-                Header: '',
+                Header: 'Edit',
                 accessor: 'trade',
             },
         ];

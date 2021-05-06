@@ -137,7 +137,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
                             
                         </div>
                     </div>
-                    <div className="row mt-2">
+                    <div className="row mt-1">
                         <div className="col-6 d-flex justify-content-start align-items-center">
                             <span style={{ marginLeft: '5px', fontSize: '1.4rem', color: '#fff' }}>{last.toFixed(6)}</span>
                         </div>
@@ -164,7 +164,9 @@ export const MarketsHotOnlist: React.FC<any> = () => {
                         <div className="col-12 d-flex justify-content: center">
                             <span style={{ marginRight: '5px', color: marketChangeColor, fontWeight: 'bold' }}>{price_change_percent}</span>
                             <div className="ml-2" >
-                                <span>Volume: </span><span style={{ marginRight: '5px', color: marketChangeColor, fontWeight: 'bold' }}>{volume}</span><span>{quoteCurrency.toUpperCase()}</span>
+                                <span style={{color: '#ced4da'}}>Volume:</span>
+                                <span className="ml-2" style={{ marginRight: '5px',color: '#ced4da', fontWeight: 'bold' }}>{volume}</span>
+                                <span style={{color: '#ced4da'}}>{quoteCurrency.toUpperCase()}</span>
                             </div>
                         </div>
                         

@@ -94,7 +94,7 @@ export const MarketTable: React.FC<MarketTableProps> = (props: MarketTableProps)
         {
             columns,
             data,
-            initialState: { pageIndex: 0,  pageSize: 2}, 
+            initialState: { pageIndex: 0,  pageSize: 10}, 
         },
         usePagination
     )
@@ -140,8 +140,8 @@ export const MarketTable: React.FC<MarketTableProps> = (props: MarketTableProps)
                 </button>{' '}
                 <span>
                     Page{' '}
-                    <strong>
-                        {pageIndex + 1} of {pageOptions.length}
+                    <strong className="d-flex justify-center: center" >
+                        <div className="mr-1 ml-1" style={{color: '#ced4da'}}>{pageIndex + 1}</div> of {pageOptions.length}
                     </strong>{' '}
                 </span>
                 <button onClick={() => nextPage()} disabled={!canNextPage}>
