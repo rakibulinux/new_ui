@@ -68,7 +68,7 @@ class Head extends React.Component<Props, State> {
           <a href="/">
             <img src={Logo} alt="" className="pg-logo__img" />
           </a>
-          <Link className="market" to="/trading1">
+          <Link className="market" to="/trading">
             Market
           </Link>
           <Link className="market" to="/ieo">
