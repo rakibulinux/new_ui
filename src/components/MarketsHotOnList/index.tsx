@@ -18,6 +18,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
       padding: 10px 0;
       border-radius: 4px;
       background-color: var(--tab-panel-background-color);
+      transition: all 0.3s;
       :hover{
         cursor: pointer;
         box-shadow: #7d82b8 0px 0px 10px 0px;

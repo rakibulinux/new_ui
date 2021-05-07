@@ -48,18 +48,16 @@ const MarketListFilsStyle = styled.div`
         display: flex;
         justify-content: space-between;
         margin-bottom: 30px;
-        padding: 0 20px;
         border-bottom: 1px solid #999;
 
         .rc-tabs-nav-wrap {
             padding: 20px 0px 0 0;
-          
 
             .rc-tabs-nav-list {
                 display: flex;
                 flex-direction: row;
                 justify-content: flex-start;
-               
+
                 .rc-tabs-tab {
                     font-size: 14px;
                     font-weight: 600;
@@ -119,7 +117,6 @@ export const MarketsList = (props) => {
     const [marketIdsLocalState, setMarketIdsLocalState] = React.useState<string[]>(favoritemMarketsLocal);
     const [searchMarketInputState, setSearchMarketInputState] = React.useState('');
 
-
     useMarketsFetch();
     useMarketsTickersFetch();
     useRangerConnectFetch();
@@ -127,12 +124,9 @@ export const MarketsList = (props) => {
     const dispatch = useDispatch();
     const markets = useSelector(selectMarkets);
     const marketTickers = useSelector(selectMarketTickers);
-    // const [currentBidUnit, setCurrentBidUnit] = React.useState('');
 
     const handleRedirectToTrading = (id: string) => {
         const currentMarket: Market | undefined = markets.find((item) => item.id === id);
-        console.log(currentMarket);
-
         if (currentMarket) {
             props.handleChangeCurrentMarket && props.handleChangeCurrentMarket(currentMarket);
             dispatch(setCurrentMarket(currentMarket));
@@ -155,10 +149,6 @@ export const MarketsList = (props) => {
     }
 
     let currentBidUnitMarkets = props.markets || markets;
-
-    // if (currentBidUnit) {
-    //     currentBidUnitMarkets = currentBidUnitMarkets.length ? currentBidUnitMarkets.filter(market => market.quote_unit === currentBidUnit) : [];
-    // }
 
     const clickFavoritesMarket = (id: string) => {
         let local = localStorage.getItem('favourites_markets') || '[]';
@@ -196,7 +186,10 @@ export const MarketsList = (props) => {
                   ...market,
                   change: Decimal.format((+market.last - +market.open).toFixed(market.price_precision), market.price_precision),
               }))
-              .filter(market => market.base_unit.includes(searchMarketInputState) || market.quote_unit.includes(searchMarketInputState))
+              .filter(
+                  (market) =>
+                      market.base_unit.includes(searchMarketInputState) || market.quote_unit.includes(searchMarketInputState),
+              )
               .map((market) => {
                   const marketChangeColor = +(market.change || 0) < 0 ? '#E01E5A' : '#2FB67E';
                   const market_name = market.name.split('/');
@@ -233,31 +226,27 @@ export const MarketsList = (props) => {
                   };
               })
         : [];
-    console.log(formattedMarkets)
     const FavoriteMarkets = formattedMarkets.filter((e: any) => marketIdsLocalState.includes(e.id));
-    // console.log("favoritemarket", FavoriteMarkets)
 
-    const handldeSearchInputChange = (e:any) => {
+    const handldeSearchInputChange = (e: any) => {
         setSearchMarketInputState(e.target.value);
-        console.log(e.target.value)
-    }  
-    console.log(searchMarketInputState) 
+    };
     const MarketsTabs = () => {
         return (
             <MarketListFilsStyle>
-                <Tabs defaultActiveKey="Spot Markets" 
-                        tabBarExtraContent={<SearchCoinWrap>
-                                                <SearchCoinWrapIcon>
-                                                    <img alt="" src={require('./icon/search.svg')} />
-                                                </SearchCoinWrapIcon>
-                                                <input type="text" placeholder="search coin name..." onChange={handldeSearchInputChange} />
-                                            </SearchCoinWrap> }
+                <Tabs
+                    defaultActiveKey="Spot Markets"
+                    tabBarExtraContent={
+                        <SearchCoinWrap>
+                            <SearchCoinWrapIcon>
+                                <img alt="" src={require('./icon/search.svg')} />
+                            </SearchCoinWrapIcon>
+                            <input type="text" placeholder="search coin name..." onChange={handldeSearchInputChange} />
+                        </SearchCoinWrap>
+                    }
                 >
-                    <TabPane tab="Favorites" key="Favorites" className="abc">
+                    <TabPane tab="Favorites" key="Favorites">
                         <MarketTable columns={columns} data={FavoriteMarkets} />
-                    </TabPane>
-                    <TabPane tab="Zones" key="Zones">
-                        {/* <MarketTable column={} data={spot__markets} /> */}
                     </TabPane>
                     <TabPane tab="Spot Markets" key="Spot Markets">
                         <MarketTable columns={columns} data={formattedMarkets} />
@@ -317,14 +306,6 @@ export const MarketsList = (props) => {
                 </div>
             </div>
         </MarketsContainerStyles>
-
-        // <TickerTableScreen
-        //     currentBidUnit={currentBidUnit}
-        //     currentBidUnitsList={currentBidUnitsList}
-        //     markets={formattedMarkets}
-        //     redirectToTrading={handleRedirectToTrading}
-        //     setCurrentBidUnit={setCurrentBidUnit}
-        // />
     );
 };
 
