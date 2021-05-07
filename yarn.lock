@@ -2531,7 +2531,7 @@
   version "4.7.3"
   resolved "https://registry.yarnpkg.com/@types/history/-/history-4.7.3.tgz#856c99cdc1551d22c22b18b5402719affec9839a"
 
-"@types/hoist-non-react-statics@^3.3.0", "@types/hoist-non-react-statics@^3.3.1":
+"@types/hoist-non-react-statics@*", "@types/hoist-non-react-statics@^3.3.0", "@types/hoist-non-react-statics@^3.3.1":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
   integrity sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==
@@ -2690,6 +2690,15 @@
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
+
+"@types/styled-components@^5.1.9":
+  version "5.1.9"
+  resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-5.1.9.tgz#00d3d84b501420521c4db727e3c195459f87a6cf"
+  integrity sha512-kbEG6YlwK8rucITpKEr6pA4Ho9KSQHUUOzZ9lY3va1mtcjvS3D0wDciFyHEiNHKLL/npZCKDQJqm0x44sPO9oA==
+  dependencies:
+    "@types/hoist-non-react-statics" "*"
+    "@types/react" "*"
+    csstype "^3.0.2"
 
 "@types/tapable@*":
   version "1.0.4"
@@ -4980,6 +4989,11 @@ cssstyle@^1.0.0, cssstyle@^1.1.1:
 csstype@^2.2.0, csstype@^2.6.7:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.7.tgz#20b0024c20b6718f4eda3853a1f5a1cce7f5e4a5"
+
+csstype@^3.0.2:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.8.tgz#d2266a792729fb227cd216fb572f43728e1ad340"
+  integrity sha512-jXKhWqXPmlUeoQnF/EhTtTl4C9SnrxSH/jZUih3jmO6lBKr99rP3/+FmrMj4EFpOXzMtXHAZkd3x0E6h6Fgflw==
 
 cyclist@^1.0.1:
   version "1.0.1"
@@ -12131,6 +12145,11 @@ react-swipeable-views@^0.13.9:
     react-swipeable-views-core "^0.13.7"
     react-swipeable-views-utils "^0.13.9"
     warning "^4.0.1"
+
+react-table@^7.6.3:
+  version "7.6.3"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.6.3.tgz#76434392b3f62344bdb704f5b227c2f29c1ffb14"
+  integrity sha512-hfPF13zDLxPMpLKzIKCE8RZud9T/XrRTsaCIf8zXpWZIZ2juCl7qrGpo3AQw9eAetXV5DP7s2GDm+hht7qq5Dw==
 
 react-test-renderer@^16.0.0-0, react-test-renderer@^16.4.2:
   version "16.12.0"

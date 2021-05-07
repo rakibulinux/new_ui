@@ -92,6 +92,7 @@ import { SaleListScreen } from '../../plugins/Sale';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
 import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
+import {MarketsList} from '../../containers/MarketsList';
 
 interface ReduxProps {
     colorTheme: string;
@@ -290,18 +291,18 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
                     <Route exact={true} path="/magic-link" component={MagicLink} />
                     <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/login" component={LogInScreen} />
                     <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/register" component={RegisterScreen} />
-                    {/* <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/signin" component={SignInScreen} /> */}
                     <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/accounts/confirmation" component={VerificationScreen} />
-                    {/* <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/signup" component={SignUpScreen} /> */}
                     <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/forgot_password" component={ForgotPasswordScreen} />
                     <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/accounts/password_reset" component={ChangeForgottenPasswordScreen} />
                     <PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/email-verification" component={EmailVerificationScreen} />
+
                     <Route path="/404" component={RestrictedScreen} />
                     <Route path="/500" component={MaintenanceScreen} />
                     <Route exact={false} path="/trading/:market?" component={TradingScreen} />
-                    {/* <Route exact={false} path="/test-home" component={HomePageScreen} /> */}
                     <Route exact={true} path="/" component={HomePageScreen} />
                     <Route exact={false} path="/fee" component={FeeScreen} />
+                    <Route exact path="/markets" component={MarketsList} />
+
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/orders" component={OrdersTabScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/history" component={HistoryScreen} />
                     <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/confirm" component={ConfirmScreen} />
