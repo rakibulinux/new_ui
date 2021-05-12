@@ -1,16 +1,16 @@
 .trading-rank__icon {
-    width: 3rem;
-    height: 3rem;
+	width: 3rem;
+	height: 3rem;
 }
 
 #trading-competition-ranking div div div div table thead tr th {
-    background-color: #2B3139;
-    text-align: center;
-    font-weight: bold;
-    color: #ffffff;
+	background-color: #2b3139;
+	text-align: center;
+	font-weight: bold;
+	color: #ffffff;
 }
 
 #trading-competition-ranking div div div div table tbody tr {
-    background-color: #1F283D;
-    text-align: center;
+	background-color: #1f283d;
+	text-align: center;
 }

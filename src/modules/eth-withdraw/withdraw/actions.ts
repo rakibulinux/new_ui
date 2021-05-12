@@ -1,34 +1,25 @@
 import { CommonError } from '../../types';
-import {
-    ETH_FEE_WITHDRAW_ERROR,
-    ETH_FEE_WITHDRAW
-} from './constants';
-import {
-    ETHFeeWithdraws
-} from './types';
+import { ETH_FEE_WITHDRAW, ETH_FEE_WITHDRAW_ERROR } from './constants';
+import { ETHFeeWithdraws } from './types';
 
 export interface ETHFeeWithdraw {
-    type: typeof ETH_FEE_WITHDRAW;
-    payload: ETHFeeWithdraws;
+	type: typeof ETH_FEE_WITHDRAW;
+	payload: ETHFeeWithdraws;
 }
-
 
 export interface ETHFeeWithdrawError {
-    type: typeof ETH_FEE_WITHDRAW_ERROR;
-    error: CommonError;
+	type: typeof ETH_FEE_WITHDRAW_ERROR;
+	error: CommonError;
 }
 
-export type ETHFeeWithdrawActions =
-    ETHFeeWithdraw
-    | ETHFeeWithdrawError;
-
+export type ETHFeeWithdrawActions = ETHFeeWithdraw | ETHFeeWithdrawError;
 
 export const ethFeeWithdraw = (payload: ETHFeeWithdraw['payload']): ETHFeeWithdraw => ({
-    type: ETH_FEE_WITHDRAW,
-    payload,
+	type: ETH_FEE_WITHDRAW,
+	payload,
 });
 
 export const ethFeeWithdrawError = (error: ETHFeeWithdrawError['error']): ETHFeeWithdrawError => ({
-    type: ETH_FEE_WITHDRAW_ERROR,
-    error,
+	type: ETH_FEE_WITHDRAW_ERROR,
+	error,
 });

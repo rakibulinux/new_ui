@@ -45,5 +45,3 @@ export * from './TickerTableScreen';
 export * from './Pagination';
 export * from './MarketTable';
 export * from './MarketsHotOnList';
-
-

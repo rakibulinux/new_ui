@@ -1,11 +1,9 @@
-
-
 .ant-table-tbody {
-    background-color: #2B3139;
-    color: #ffffff;
+	background-color: #2b3139;
+	color: #ffffff;
 }
 
 .ant-table-tbody > tr.ant-table-row:hover > td {
-    background-color: #28334e;
-    color: #ffffff;
+	background-color: #28334e;
+	color: #ffffff;
 }

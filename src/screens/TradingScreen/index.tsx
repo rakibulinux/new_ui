@@ -8,26 +8,26 @@ import { GridItem } from '../../components/GridItem';
 import { IntlProps } from '../../index';
 
 import {
-    MarketTrading,
-    OpenOrdersComponent,
-    OrderBook,
-    OrderComponent,
-    RecentTrades,
-    ToolBar,
-    TradingChart,
+	MarketTrading,
+	OpenOrdersComponent,
+	OrderBook,
+	OrderComponent,
+	RecentTrades,
+	ToolBar,
+	TradingChart,
 } from '../../containers';
 
 import { getUrlPart, setDocumentTitle } from '../../helpers';
 import {
-    RootState,
-    selectCurrentMarket,
-    selectMarketTickers,
-    selectUserInfo,
-    selectUserLoggedIn,
-    setCurrentMarket,
-    setCurrentPrice,
-    Ticker,
-    User,
+	RootState,
+	selectCurrentMarket,
+	selectMarketTickers,
+	selectUserInfo,
+	selectUserLoggedIn,
+	setCurrentMarket,
+	setCurrentPrice,
+	Ticker,
+	User,
 } from '../../modules';
 import { GridLayoutState, saveLayouts, selectGridLayoutState } from '../../modules/public/gridLayout';
 import { Market, marketsFetch, selectMarkets } from '../../modules/public/markets';
@@ -39,257 +39,249 @@ import { selectRanger } from '../../modules/public/ranger/selectors';
 const { WidthProvider, Responsive } = require('react-grid-layout');
 
 const breakpoints = {
-    lg: 1200,
-    md: 996,
-    sm: 768,
-    xs: 480,
-    xxs: 0,
+	lg: 1200,
+	md: 996,
+	sm: 768,
+	xs: 480,
+	xxs: 0,
 };
 
 const cols = {
-    lg: 24,
-    md: 24,
-    sm: 12,
-    xs: 12,
-    xxs: 12,
+	lg: 24,
+	md: 24,
+	sm: 12,
+	xs: 12,
+	xxs: 12,
 };
 
 interface ReduxProps {
-    currentMarket: Market | undefined;
-    markets: Market[];
-    user: User;
-    rangerState: RangerState;
-    userLoggedIn: boolean;
-    rgl: GridLayoutState;
-    tickers: {
-        [pair: string]: Ticker,
-    };
+	currentMarket: Market | undefined;
+	markets: Market[];
+	user: User;
+	rangerState: RangerState;
+	userLoggedIn: boolean;
+	rgl: GridLayoutState;
+	tickers: {
+		[pair: string]: Ticker;
+	};
 }
 
 interface DispatchProps {
-    depthFetch: typeof depthFetch;
-    marketsFetch: typeof marketsFetch;
-    rangerConnect: typeof rangerConnectFetch;
-    setCurrentPrice: typeof setCurrentPrice;
-    setCurrentMarket: typeof setCurrentMarket;
-    saveLayouts: typeof saveLayouts;
+	depthFetch: typeof depthFetch;
+	marketsFetch: typeof marketsFetch;
+	rangerConnect: typeof rangerConnectFetch;
+	setCurrentPrice: typeof setCurrentPrice;
+	setCurrentMarket: typeof setCurrentMarket;
+	saveLayouts: typeof saveLayouts;
 }
 
 interface StateProps {
-    orderComponentResized: number;
-    orderBookComponentResized: number;
+	orderComponentResized: number;
+	orderBookComponentResized: number;
 }
 
 const ReactGridLayout = WidthProvider(Responsive);
 type Props = DispatchProps & ReduxProps & RouteComponentProps & IntlProps;
 
 const TradingWrapper = props => {
-    const { orderComponentResized, orderBookComponentResized, layouts, handleResize } = props;
-    const children = React.useMemo(() => {
-        const data = [
-            {
-                i: 1,
-                render: () => <OrderComponent size={orderComponentResized} />,
-            },
-            {
-                i: 2,
-                render: () => <TradingChart />,
-            },
-            {
-                i: 3,
-                render: () => <OrderBook size={orderBookComponentResized} />,
-            },
-            {
-                i: 4,
-                render: () => <OpenOrdersComponent />,
-            },
-            {
-                i: 5,
-                render: () => <RecentTrades />,
-            },
-            {
-                i: 6,
-                render: () => <MarketTrading />,
-            },
-        ];
+	const { orderComponentResized, orderBookComponentResized, layouts, handleResize } = props;
+	const children = React.useMemo(() => {
+		const data = [
+			{
+				i: 1,
+				render: () => <OrderComponent size={orderComponentResized} />,
+			},
+			{
+				i: 2,
+				render: () => <TradingChart />,
+			},
+			{
+				i: 3,
+				render: () => <OrderBook size={orderBookComponentResized} />,
+			},
+			{
+				i: 4,
+				render: () => <OpenOrdersComponent />,
+			},
+			{
+				i: 5,
+				render: () => <RecentTrades />,
+			},
+			{
+				i: 6,
+				render: () => <MarketTrading />,
+			},
+		];
 
-        // @ts-ignore
-        return data.map((child: GridChildInterface) => (
-            <div key={child.i}>
-                <GridItem>{child.render ? child.render() : `Child Body ${child.i}`}</GridItem>
-            </div>
-        ));
-    }, [orderComponentResized, orderBookComponentResized]);
+		// @ts-ignore
+		return data.map((child: GridChildInterface) => (
+			<div key={child.i}>
+				<GridItem>{child.render ? child.render() : `Child Body ${child.i}`}</GridItem>
+			</div>
+		));
+	}, [orderComponentResized, orderBookComponentResized]);
 
-    return (
-        <ReactGridLayout
-            breakpoints={breakpoints}
-            cols={cols}
-            draggableHandle=".cr-table-header__content, .pg-trading-screen__tab-panel, .draggable-container"
-            rowHeight={14}
-            layouts={layouts}
-            onLayoutChange={() => { return; }}
-            margin={[5, 5]}
-            onResize={handleResize}
-        >
-            {children}
-        </ReactGridLayout>
-    );
+	return (
+		<ReactGridLayout
+			breakpoints={breakpoints}
+			cols={cols}
+			draggableHandle=".cr-table-header__content, .pg-trading-screen__tab-panel, .draggable-container"
+			rowHeight={14}
+			layouts={layouts}
+			onLayoutChange={() => {
+				return;
+			}}
+			margin={[5, 5]}
+			onResize={handleResize}
+		>
+			{children}
+		</ReactGridLayout>
+	);
 };
 
-
-
 class Trading extends React.Component<Props, StateProps> {
-    public readonly state = {
-        orderComponentResized: 5,
-        orderBookComponentResized: 5,
-    };
+	public readonly state = {
+		orderComponentResized: 5,
+		orderBookComponentResized: 5,
+	};
 
-    public componentDidMount() {
-        setDocumentTitle('Trading');
-        const { markets, currentMarket, userLoggedIn, rangerState: { connected, withAuth } } = this.props;
+	public componentDidMount() {
+		setDocumentTitle('Trading');
+		const {
+			markets,
+			currentMarket,
+			userLoggedIn,
+			rangerState: { connected, withAuth },
+		} = this.props;
 
-        if (markets.length < 1) {
-            this.props.marketsFetch();
-        }
+		if (markets.length < 1) {
+			this.props.marketsFetch();
+		}
 
-        if (currentMarket && !incrementalOrderBook()) {
-            this.props.depthFetch(currentMarket);
-        }
+		if (currentMarket && !incrementalOrderBook()) {
+			this.props.depthFetch(currentMarket);
+		}
 
-        if (!connected) {
-            this.props.rangerConnect({ withAuth: userLoggedIn });
-        }
+		if (!connected) {
+			this.props.rangerConnect({ withAuth: userLoggedIn });
+		}
 
-        if (userLoggedIn && !withAuth) {
-            this.props.rangerConnect({ withAuth: userLoggedIn });
-        }
-    }
+		if (userLoggedIn && !withAuth) {
+			this.props.rangerConnect({ withAuth: userLoggedIn });
+		}
+	}
 
-    public componentWillUnmount() {
-        this.props.setCurrentPrice(undefined);
-    }
+	public componentWillUnmount() {
+		this.props.setCurrentPrice(undefined);
+	}
 
-    public componentWillReceiveProps(nextProps) {
-        const {
-            history,
-            markets,
-            userLoggedIn,
-        } = this.props;
+	public componentWillReceiveProps(nextProps) {
+		const { history, markets, userLoggedIn } = this.props;
 
-        if (userLoggedIn !== nextProps.userLoggedIn) {
-            this.props.rangerConnect({ withAuth: nextProps.userLoggedIn });
-        }
+		if (userLoggedIn !== nextProps.userLoggedIn) {
+			this.props.rangerConnect({ withAuth: nextProps.userLoggedIn });
+		}
 
-        if (markets.length !== nextProps.markets.length) {
-            this.setMarketFromUrlIfExists(nextProps.markets);
-        }
+		if (markets.length !== nextProps.markets.length) {
+			this.setMarketFromUrlIfExists(nextProps.markets);
+		}
 
-        if (nextProps.currentMarket) {
-            const marketFromUrl = history.location.pathname.split('/');
-            const marketNotMatched = nextProps.currentMarket.id !== marketFromUrl[marketFromUrl.length - 1];
-            if (marketNotMatched) {
-                history.replace(`/trading/${nextProps.currentMarket.id}`);
+		if (nextProps.currentMarket) {
+			const marketFromUrl = history.location.pathname.split('/');
+			const marketNotMatched = nextProps.currentMarket.id !== marketFromUrl[marketFromUrl.length - 1];
+			if (marketNotMatched) {
+				history.replace(`/trading/${nextProps.currentMarket.id}`);
 
-                if (!incrementalOrderBook()) {
-                    this.props.depthFetch(nextProps.currentMarket);
-                }
-            }
-        }
+				if (!incrementalOrderBook()) {
+					this.props.depthFetch(nextProps.currentMarket);
+				}
+			}
+		}
 
-        if (nextProps.currentMarket && nextProps.tickers) {
-            this.setTradingTitle(nextProps.currentMarket, nextProps.tickers);
-        }
-    }
+		if (nextProps.currentMarket && nextProps.tickers) {
+			this.setTradingTitle(nextProps.currentMarket, nextProps.tickers);
+		}
+	}
 
-    public render() {
+	public render() {
+		return <div>{this.renderTradingDesktop()}</div>;
+	}
 
-        return (
-            <div>
-                {this.renderTradingDesktop()}
-            </div>
+	public renderTradingDesktop() {
+		const { orderComponentResized, orderBookComponentResized } = this.state;
+		const { rgl } = this.props;
 
-        );
-    }
+		return (
+			<div className={'pg-trading-screen'}>
+				<div className={'pg-trading-wrap'}>
+					<ToolBar />
+					<div data-react-toolbox="grid" className={'cr-grid'}>
+						<div className="cr-grid__grid-wrapper">
+							<TradingWrapper
+								layouts={rgl.layouts}
+								orderComponentResized={orderComponentResized}
+								orderBookComponentResized={orderBookComponentResized}
+								handleResize={this.handleResize}
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 
-    public renderTradingDesktop() {
-        const { orderComponentResized, orderBookComponentResized } = this.state;
-        const { rgl } = this.props;
+	private setMarketFromUrlIfExists = (markets: Market[]): void => {
+		const urlMarket: string = getUrlPart(2, window.location.pathname);
+		const market: Market | undefined = markets.find(item => item.id === urlMarket);
 
-        return (
-            <div className={'pg-trading-screen'}>
-                <div className={'pg-trading-wrap'}>
-                    <ToolBar />
-                    <div data-react-toolbox="grid" className={'cr-grid'}>
-                        <div className="cr-grid__grid-wrapper">
-                            <TradingWrapper
-                                layouts={rgl.layouts}
-                                orderComponentResized={orderComponentResized}
-                                orderBookComponentResized={orderBookComponentResized}
-                                handleResize={this.handleResize}
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+		if (market) {
+			this.props.setCurrentMarket(market);
+		}
+	};
 
+	private setTradingTitle = (market: Market, tickers: ReduxProps['tickers']) => {
+		const tickerPrice = tickers[market.id] ? tickers[market.id].last : '0.0';
+		document.title = `${Decimal.format(tickerPrice, market.price_precision)} ${market.name}`;
+	};
 
-    private setMarketFromUrlIfExists = (markets: Market[]): void => {
-        const urlMarket: string = getUrlPart(2, window.location.pathname);
-        const market: Market | undefined = markets.find(item => item.id === urlMarket);
-
-        if (market) {
-            this.props.setCurrentMarket(market);
-        }
-    };
-
-    private setTradingTitle = (market: Market, tickers: ReduxProps['tickers']) => {
-        const tickerPrice = tickers[market.id] ? tickers[market.id].last : '0.0';
-        document.title = `${Decimal.format(tickerPrice, market.price_precision)} ${market.name}`;
-    };
-
-    private handleResize = (layout, oldItem, newItem) => {
-        switch (oldItem.i) {
-            case '1':
-                this.setState({
-                    orderComponentResized: newItem.w,
-                });
-                break;
-            case '3':
-                this.setState({
-                    orderBookComponentResized: newItem.w,
-                });
-                break;
-            default:
-                break;
-        }
-    };
+	private handleResize = (layout, oldItem, newItem) => {
+		switch (oldItem.i) {
+			case '1':
+				this.setState({
+					orderComponentResized: newItem.w,
+				});
+				break;
+			case '3':
+				this.setState({
+					orderBookComponentResized: newItem.w,
+				});
+				break;
+			default:
+				break;
+		}
+	};
 }
 
 const mapStateToProps: MapStateToProps<ReduxProps, {}, RootState> = state => ({
-    currentMarket: selectCurrentMarket(state),
-    markets: selectMarkets(state),
-    user: selectUserInfo(state),
-    rangerState: selectRanger(state),
-    userLoggedIn: selectUserLoggedIn(state),
-    rgl: selectGridLayoutState(state),
-    tickers: selectMarketTickers(state),
+	currentMarket: selectCurrentMarket(state),
+	markets: selectMarkets(state),
+	user: selectUserInfo(state),
+	rangerState: selectRanger(state),
+	userLoggedIn: selectUserLoggedIn(state),
+	rgl: selectGridLayoutState(state),
+	tickers: selectMarketTickers(state),
 });
 
 const mapDispatchToProps: MapDispatchToPropsFunction<DispatchProps, {}> = dispatch => ({
-    marketsFetch: () => dispatch(marketsFetch()),
-    depthFetch: payload => dispatch(depthFetch(payload)),
-    rangerConnect: (payload: RangerConnectFetch['payload']) => dispatch(rangerConnectFetch(payload)),
-    setCurrentPrice: payload => dispatch(setCurrentPrice(payload)),
-    setCurrentMarket: payload => dispatch(setCurrentMarket(payload)),
-    saveLayouts: payload => dispatch(saveLayouts(payload)),
+	marketsFetch: () => dispatch(marketsFetch()),
+	depthFetch: payload => dispatch(depthFetch(payload)),
+	rangerConnect: (payload: RangerConnectFetch['payload']) => dispatch(rangerConnectFetch(payload)),
+	setCurrentPrice: payload => dispatch(setCurrentPrice(payload)),
+	setCurrentMarket: payload => dispatch(setCurrentMarket(payload)),
+	saveLayouts: payload => dispatch(saveLayouts(payload)),
 });
 
 // tslint:disable-next-line no-any
-const TradingScreen = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(Trading) as any));
+const TradingScreen = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(Trading)));
 
-export {
-    TradingScreen,
-};
+export { TradingScreen };

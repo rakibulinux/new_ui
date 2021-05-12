@@ -1,46 +1,46 @@
 #competition-info {
-    padding: 2rem 5rem 4rem 5rem;
+	padding: 2rem 5rem 4rem 5rem;
 }
 
 .competition-info__title {
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 50px;
+	font-size: 22px;
+	font-weight: 700;
+	line-height: 50px;
 }
 
 .competition-info__content {
-    color: #a4acb6;
-    line-height: 24px;
+	color: #a4acb6;
+	line-height: 24px;
 }
 
 #next-rank-timer #minutes {
-    font-size: 24px;
-    color: #f6da74;
+	font-size: 24px;
+	color: #f6da74;
 }
 
 #next-rank-timer #seconds {
-    font-size: 24px;
-    color: #db4844;
+	font-size: 24px;
+	color: #db4844;
 }
 
 #next-rank-timer {
-    display: inline-block;
-    line-height: 1;
-    padding: 20px 0;
-    font-size: 40px;
-    margin-top: 0;
-    text-align: center;
+	display: inline-block;
+	line-height: 1;
+	padding: 20px 0;
+	font-size: 40px;
+	margin-top: 0;
+	text-align: center;
 }
 
 #next-rank-timer div {
-    display: inline-block;
-    line-height: 1;
-    padding: 0 20px;
-    font-size: 24px;
+	display: inline-block;
+	line-height: 1;
+	padding: 0 20px;
+	font-size: 24px;
 }
 
 #next-rank-timer div span {
-    display: block;
-    font-size: 14px;
-    color: white;
+	display: block;
+	font-size: 14px;
+	color: white;
 }

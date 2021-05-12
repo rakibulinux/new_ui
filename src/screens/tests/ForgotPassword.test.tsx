@@ -10,16 +10,16 @@ const store = createStore(rootReducer);
 const ForgotPassword = connect()(ForgotPasswordScreen);
 
 const setup = (props: Partial<IntlProps> = {}) =>
-    shallow(
-        <Provider store={store}>
-            <ForgotPassword />
-        </Provider>,
-    );
+	shallow(
+		<Provider store={store}>
+			<ForgotPassword />
+		</Provider>,
+	);
 
 describe('ForgotPasswordScreen', () => {
-    const wrapper = setup();
+	const wrapper = setup();
 
-    it('should render', () => {
-        expect(wrapper).toMatchSnapshot();
-    });
+	it('should render', () => {
+		expect(wrapper).toMatchSnapshot();
+	});
 });

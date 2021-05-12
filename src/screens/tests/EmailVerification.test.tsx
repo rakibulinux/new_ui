@@ -10,16 +10,16 @@ const store = createStore(rootReducer);
 const EmailVerification = connect()(EmailVerificationScreen);
 
 const setup = (props: Partial<IntlProps> = {}) =>
-    shallow(
-        <Provider store={store}>
-            <EmailVerification />
-        </Provider>,
-    );
+	shallow(
+		<Provider store={store}>
+			<EmailVerification />
+		</Provider>,
+	);
 
 describe('EmailVerificationScreen', () => {
-    const wrapper = setup();
+	const wrapper = setup();
 
-    it('should render', () => {
-        expect(wrapper).toMatchSnapshot();
-    });
+	it('should render', () => {
+		expect(wrapper).toMatchSnapshot();
+	});
 });

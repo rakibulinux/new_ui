@@ -15,11 +15,11 @@ const gaKey = gaTrackerKey();
 const browserHistory = createBrowserHistory();
 
 if (gaKey) {
-    ReactGA.initialize(gaKey);
-    browserHistory.listen(location => {
-        ReactGA.set({ page: location.pathname });
-        ReactGA.pageview(location.pathname);
-    });
+	ReactGA.initialize(gaKey);
+	browserHistory.listen(location => {
+		ReactGA.set({ page: location.pathname });
+		ReactGA.pageview(location.pathname);
+	});
 }
 
 /* Mobile components */
@@ -28,63 +28,65 @@ const MobileHeader = React.lazy(() => import('./mobile/components/Header').then(
 
 /* Desktop components */
 const AlertsContainer = React.lazy(() => import('./containers/Alerts').then(({ Alerts }) => ({ default: Alerts })));
-const CustomizationContainer = React.lazy(() => import('./containers/Customization').then(({ Customization }) => ({ default: Customization })));
+const CustomizationContainer = React.lazy(() =>
+	import('./containers/Customization').then(({ Customization }) => ({ default: Customization })),
+);
 const FooterContainer = React.lazy(() => import('./containers/Footer').then(({ Footer }) => ({ default: Footer })));
 const HeaderContainer = React.lazy(() => import('./containers/Header').then(({ Header }) => ({ default: Header })));
 const SidebarContainer = React.lazy(() => import('./containers/Sidebar').then(({ Sidebar }) => ({ default: Sidebar })));
 const LayoutContainer = React.lazy(() => import('./routes').then(({ Layout }) => ({ default: Layout })));
 
 const getTranslations = (lang: string, isMobileDevice: boolean) => {
-    if (isMobileDevice) {
-        return  {
-            ...languageMap[lang],
-            ...mobileTranslations[lang],
-        };
-    }
+	if (isMobileDevice) {
+		return {
+			...languageMap[lang],
+			...mobileTranslations[lang],
+		};
+	}
 
-    return languageMap[lang];
+	return languageMap[lang];
 };
 
 const RenderDeviceContainers = () => {
-    const isMobileDevice = useSelector(selectMobileDeviceState);
+	const isMobileDevice = useSelector(selectMobileDeviceState);
 
-    if (isMobileDevice) {
-        return (
-            <div className="pg-mobile-app">
-                <MobileHeader />
-                <AlertsContainer/>
-                <LayoutContainer/>
-                <MobileFooter />
-            </div>
-        );
-    }
+	if (isMobileDevice) {
+		return (
+			<div className="pg-mobile-app">
+				<MobileHeader />
+				<AlertsContainer />
+				<LayoutContainer />
+				<MobileFooter />
+			</div>
+		);
+	}
 
-    return (
-        <React.Fragment>
-            <HeaderContainer/>
-            <SidebarContainer/>
-            <CustomizationContainer/>
-            <AlertsContainer/>
-            <LayoutContainer/>
-            <FooterContainer/>
-        </React.Fragment>
-    );
+	return (
+		<React.Fragment>
+			<HeaderContainer />
+			<SidebarContainer />
+			<CustomizationContainer />
+			<AlertsContainer />
+			<LayoutContainer />
+			<FooterContainer />
+		</React.Fragment>
+	);
 };
 
 export const App = () => {
-    useSetMobileDevice();
-    const lang = useSelector(selectCurrentLanguage);
-    const isMobileDevice = useSelector(selectMobileDeviceState);
+	useSetMobileDevice();
+	const lang = useSelector(selectCurrentLanguage);
+	const isMobileDevice = useSelector(selectMobileDeviceState);
 
-    return (
-        <IntlProvider locale={lang} messages={getTranslations(lang, isMobileDevice)} key={lang}>
-            <Router history={browserHistory}>
-                <ErrorWrapper>
-                    <React.Suspense fallback={null}>
-                        <RenderDeviceContainers />
-                    </React.Suspense>
-                </ErrorWrapper>
-            </Router>
-        </IntlProvider>
-    );
+	return (
+		<IntlProvider locale={lang} messages={getTranslations(lang, isMobileDevice)} key={lang}>
+			<Router history={browserHistory}>
+				<ErrorWrapper>
+					<React.Suspense fallback={null}>
+						<RenderDeviceContainers />
+					</React.Suspense>
+				</ErrorWrapper>
+			</Router>
+		</IntlProvider>
+	);
 };

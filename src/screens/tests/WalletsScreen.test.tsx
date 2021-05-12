@@ -10,16 +10,16 @@ const store = createStore(rootReducer);
 const Wallets = connect()(WalletsScreen);
 
 const setup = (props: Partial<IntlProps> = {}) =>
-    shallow(
-        <Provider store={store}>
-            <Wallets />
-        </Provider>,
-    );
+	shallow(
+		<Provider store={store}>
+			<Wallets />
+		</Provider>,
+	);
 
 describe('WalletsScreen', () => {
-    const wrapper = setup();
+	const wrapper = setup();
 
-    it('should render', () => {
-        expect(wrapper).toMatchSnapshot();
-    });
+	it('should render', () => {
+		expect(wrapper).toMatchSnapshot();
+	});
 });

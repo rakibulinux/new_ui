@@ -10,16 +10,16 @@ const store = createStore(rootReducer);
 const ChangeForgottenPasswordTab = connect()(ChangeForgottenPasswordScreen);
 
 const setup = (props: Partial<IntlProps> = {}) =>
-    shallow(
-        <Provider store={store}>
-            <ChangeForgottenPasswordTab/>
-        </Provider>,
-    );
+	shallow(
+		<Provider store={store}>
+			<ChangeForgottenPasswordTab />
+		</Provider>,
+	);
 
 describe('ChangeForgottenPasswordScreen test', () => {
-    it('should render', () => {
-        const wrapper = setup();
-        expect(wrapper).toMatchSnapshot();
-        expect(wrapper).toBeDefined();
-    });
+	it('should render', () => {
+		const wrapper = setup();
+		expect(wrapper).toMatchSnapshot();
+		expect(wrapper).toBeDefined();
+	});
 });

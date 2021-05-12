@@ -1,7 +1,7 @@
 export interface CustomizationDataInterface {
-    settings?: string;
+	settings?: string;
 }
 
 export interface CustomizationCurrentDataInterface {
-    theme_id: number;
+	theme_id: number;
 }

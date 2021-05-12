@@ -6,4 +6,3 @@ export const AIRDROP_DELIVERED_FETCH = 'airdrop/DELIVERED_FETCH';
 export const AIRDROP_FETCH_ID = 'airdrop/AIRDROP_FETCH_ID';
 export const AIRDROP_DATA = 'airdrop/DATA';
 export const AIRDROP_ERROR = 'airdrop/ERROR';
-
