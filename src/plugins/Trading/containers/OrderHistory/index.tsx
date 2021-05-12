@@ -1,12 +1,11 @@
-import classnames from 'classnames';
 import Tabs, { TabPane, TabsProps } from 'rc-tabs';
 import * as React from 'react';
-import { Spinner } from 'react-bootstrap';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { CloseIcon } from '../../../../assets/images/CloseIcon';
-import { ordersCancelAllFetch, selectCurrentMarket, selectOpenOrdersFetching, selectOpenOrdersList } from '../../../../modules';
+import { ordersCancelAllFetch, selectCurrentMarket } from '../../../../modules';
 import { OpenOrders } from './OpenOrders';
+import { OrderHistoryList } from './OrderHistoryList';
 import { OrderHistoryStyle } from './styles';
 
 // tslint:disable-next-line: no-empty-interface
@@ -14,11 +13,9 @@ interface OrderHistoryProps {}
 
 export const OrderHistory: React.FC<OrderHistoryProps> = ({}) => {
   const dispatch = useDispatch();
-  const fetching = useSelector(selectOpenOrdersFetching);
-  const currentMarket = useSelector(selectCurrentMarket);
-  const list = useSelector(selectOpenOrdersList);
-
   const intl = useIntl();
+
+  const currentMarket = useSelector(selectCurrentMarket);
 
   const [tabKeyActiveState, setTabKeyActiveState] = React.useState<string>(
     intl.formatMessage({ id: 'page.body.trade.header.openOrders' }),
@@ -28,21 +25,14 @@ export const OrderHistory: React.FC<OrderHistoryProps> = ({}) => {
     {
       label: intl.formatMessage({ id: 'page.body.trade.header.openOrders' }),
       render: () => {
-        const classNames = classnames('td-open-orders', {
-          'td-open-orders--empty': !list.length,
-          'td-open-orders--loading': fetching,
-        });
-
-        return tabKeyActiveState === intl.formatMessage({ id: 'page.body.trade.header.openOrders' }) ? (
-          fetching ? (
-            <div className="open-order-loading">
-              <Spinner animation="border" variant="primary" />
-            </div>
-          ) : (
-            <div className={classNames}>
-              <OpenOrders />
-            </div>
-          )
+        return tabKeyActiveState === intl.formatMessage({ id: 'page.body.trade.header.openOrders' }) ? <OpenOrders /> : null;
+      },
+    },
+    {
+      label: intl.formatMessage({ id: 'page.body.trade.header.orderHistory' }),
+      render: () => {
+        return tabKeyActiveState === intl.formatMessage({ id: 'page.body.trade.header.orderHistory' }) ? (
+          <OrderHistoryList />
         ) : null;
       },
     },

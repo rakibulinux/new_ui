@@ -16,12 +16,10 @@ import {
   selectCurrentMarket,
   selectMarkets,
   selectMarketTickers,
-  selectUserInfo,
   selectUserLoggedIn,
   setCurrentMarket,
   setCurrentPrice,
 } from '../../../../modules';
-import { selectGridLayoutState } from '../../../../modules/public/gridLayout';
 import { rangerConnectFetch } from '../../../../modules/public/ranger';
 import { selectRanger } from '../../../../modules/public/ranger/selectors';
 import searchSvg from '../../assets/search.svg';
@@ -32,26 +30,20 @@ import { MarketTradingStyle, SearchBlockStyle, StarBlockStyle } from './styles';
 const TAB_LIST_KEYS = ['All'];
 const STAR_LIST_KEYS = ['All', 'BTC', 'ETH'];
 
-// const initStartKeyMarket = (markets: Market[]) => {
-//   return uniq(markets.map((market) => market.name.split('/')[1]));
-// };
-
 const MarketTradingContainer: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const markets = useSelector(selectMarkets, isEqual);
   const currentMarket = useSelector(selectCurrentMarket);
-  const user = useSelector(selectUserInfo);
   const rangerState = useSelector(selectRanger);
   const userLoggedIn = useSelector(selectUserLoggedIn);
-  const rgl = useSelector(selectGridLayoutState);
   const tickers = useSelector(selectMarketTickers);
 
   const [searchFieldState, setSearchFieldState] = React.useState<string>('');
   const [marketsTabsSelectedState, setMarketsTabsSelectedState] = React.useState<string>(TAB_LIST_KEYS[0]);
-  // const [starListState, setStarListState] = React.useState<string[]>(initStartKeyMarket(markets));
   const [starSelectedState, setStarSelectedState] = React.useState<string>(STAR_LIST_KEYS[0]);
+  const [radioSelectedState, setRadioSelectedState] = React.useState<'change' | 'volume'>('change');
 
   React.useEffect(() => {
     setDocumentTitle('Trading');
@@ -86,7 +78,6 @@ const MarketTradingContainer: React.FC = () => {
 
   React.useEffect(() => {
     setMarketFromUrlIfExists();
-    // setStarListState(initStartKeyMarket(markets));
   }, [markets.length]);
 
   React.useEffect(() => {
@@ -132,10 +123,17 @@ const MarketTradingContainer: React.FC = () => {
     setMarketsTabsSelectedState(activeKey);
   };
 
+  const handleChangeRadio = (key: typeof radioSelectedState) => {
+    if (key === radioSelectedState) {
+      return;
+    }
+    setRadioSelectedState(key);
+  };
+
   const renderSearch = () => {
     return (
-      <SearchBlockStyle>
-        <div className="search-wrapper">
+      <SearchBlockStyle className="d-flex">
+        <div className="search-wrapper w-50">
           <img className="search-icon" src={searchSvg} />
           <input
             className="search-input"
@@ -144,6 +142,22 @@ const MarketTradingContainer: React.FC = () => {
             value={searchFieldState}
             onChange={searchFieldChangeHandler}
           />
+        </div>
+        <div className="select-wrapper flex-fill d-flex align-items-center justify-content-center">
+          <div
+            className="select-item d-flex align-items-center justify-content-center h-100"
+            onClick={() => handleChangeRadio('change')}
+          >
+            <i className={classnames({ active: radioSelectedState === 'change' })} />
+            <label className="d-flex align-items-center mb-0 mr-2">Change</label>
+          </div>
+          <div
+            className="select-item d-flex align-items-center justify-content-center h-100"
+            onClick={() => handleChangeRadio('volume')}
+          >
+            <i className={classnames({ active: radioSelectedState === 'volume' })} />
+            <label className="d-flex align-items-center mb-0">Volume</label>
+          </div>
         </div>
       </SearchBlockStyle>
     );
@@ -162,7 +176,7 @@ const MarketTradingContainer: React.FC = () => {
           {marketsTabsSelectedState === key ? (
             <React.Fragment>
               {renderSearch()}
-              <MarketsListTrading data={data} />
+              <MarketsListTrading type={radioSelectedState} data={data} />
             </React.Fragment>
           ) : null}
         </TabPane>
@@ -180,13 +194,9 @@ const MarketTradingContainer: React.FC = () => {
     if (starSelectedState !== key) {
       setStarSelectedState(key);
     }
-    // else {
-    //   setStarSelectedState(null);
-    // }
   };
 
   const renderStarList = () => {
-    // console.log(markets);
     return (
       <StarBlockStyle>
         <img src={starSvg} />

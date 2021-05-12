@@ -6,7 +6,7 @@ export const OrderHistoryStyle = styled.div`
   height: 350px;
   margin-bottom: 3px;
 
-  .td-open-orders {
+  /* .td-open-orders {
     &.td-open-orders--empty {
       thead tr th {
         font-size: 12px;
@@ -37,7 +37,7 @@ export const OrderHistoryStyle = styled.div`
         background-color: transparent;
       }
     }
-  }
+  } */
 
   .rc-tabs {
     height: 100%;
@@ -87,15 +87,107 @@ export const OrderHistoryStyle = styled.div`
         }
       }
     }
-    .rc-tabs-tabpane {
-      outline: none;
-    }
     .rc-tabs-content-holder {
       flex: 1;
+      .rc-tabs-content {
+        height: 100%;
+        .rc-tabs-tabpane {
+          height: 100%;
+          outline: none;
+          padding: 8px 0;
+        }
+      }
     }
     .rc-tabs-ink-bar,
     .rc-tabs-nav-operations {
       display: none;
+    }
+  }
+`;
+
+export const TableStyle = styled.table`
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  color: white;
+  font-size: 12px;
+  th {
+    text-align: left;
+  }
+  thead {
+    color: #848e9c;
+    tr {
+      position: relative;
+      th {
+        border: none;
+      }
+    }
+  }
+  tbody {
+    display: block;
+    overflow: auto;
+    width: 100%;
+    height: 260px;
+    td {
+      border: none;
+      font-size: 10px;
+    }
+  }
+  tr {
+    display: flex;
+    th,
+    td {
+      flex: 1;
+      padding: 3px 13px;
+      :not(:first-child):not(:last-child) {
+        text-align: right;
+      }
+      :last-child {
+        text-align: center;
+        svg {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+`;
+
+export const OpenOrdersStyle = styled.div`
+  height: 100%;
+  ${TableStyle} {
+    tr {
+      th,
+      td {
+        :not(:first-child):not(:last-child) {
+          text-align: right;
+        }
+        :last-child {
+          text-align: center;
+          svg {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const OrderHistoryListStyle = styled.div`
+  ${TableStyle} {
+    tr {
+      td {
+        .td-order-history-list-executed {
+          color: var(--system-yellow);
+        }
+
+        .td-order-history-list-canceled {
+          color: var(--system-red);
+        }
+
+        .td-order-history-list-opened {
+          color: var(--system-green);
+        }
+      }
     }
   }
 `;

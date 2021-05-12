@@ -83,7 +83,7 @@ export const OrderStyle = styled.div`
                 align-items: center;
               }
               .title-block-right {
-                font-size: 16px;
+                font-size: 14px;
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
@@ -130,7 +130,7 @@ export const OrderStyle = styled.div`
             }
             .ant-slider {
               width: 97%;
-              margin: 27px auto;
+              margin: 20px auto;
               .ant-slider-rail {
                 background-color: #282b3a;
               }
@@ -141,11 +141,10 @@ export const OrderStyle = styled.div`
             }
             .submit-order {
               font-size: 14px;
-              background-color: #4e5463;
               border-radius: 2px;
               span {
                 font-weight: bold;
-                color: #2fb67e;
+                color: #fff;
               }
             }
             .logger-order {
@@ -168,9 +167,15 @@ export const OrderStyle = styled.div`
           }
           .content-form-buy {
             padding-right: 20px;
+            .submit-order {
+              background: var(--button-bids-background-color);
+            }
           }
           .content-form-sell {
             padding-left: 20px;
+            .submit-order {
+              background: var(--button-asks-background-color);
+            }
           }
         }
       }

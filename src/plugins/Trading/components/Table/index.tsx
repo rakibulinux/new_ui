@@ -4,7 +4,6 @@ import flattenDeepnLd from 'lodash/flattenDeep';
 import * as React from 'react';
 import { TableBlockStyle } from './styles';
 
-import ratioSmallSvg from '../../assets/ratio-small.svg';
 import starSmallSvg from '../../assets/star-small.svg';
 
 export type CellData = string | number | React.ReactNode | undefined;
@@ -147,7 +146,6 @@ const Table: React.FC<TableProps> = (props) => {
                 <span>
                   <img src={starSmallSvg} />
                   <span>{c}</span>
-                  <img src={ratioSmallSvg} />
                 </span>
               </td>
             );

@@ -1,23 +1,39 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { OpenOrders as OpenOrdersCpn } from '../../../../components';
+import { CloseIcon } from '../../../../assets/images/CloseIcon';
 import { localeDate, preciseData, setTradeColor } from '../../../../helpers';
-import { openOrdersCancelFetch, selectCurrentMarket, selectOpenOrdersList } from '../../../../modules';
-import { OrderCommon } from '../../../../modules/types';
+import {
+  openOrdersCancelFetch,
+  selectCurrentMarket,
+  selectOpenOrdersList,
+  selectUserLoggedIn,
+  userOpenOrdersFetch,
+} from '../../../../modules';
+import { OpenOrdersStyle } from './styles';
+import { TableOrder } from './TableOrder';
 
 // tslint:disable-next-line: no-empty-interface
 interface OpenOrderProps {}
 
 export const OpenOrders: React.FC<OpenOrderProps> = ({}) => {
   const dispatch = useDispatch();
+
+  const userLoggedIn = useSelector(selectUserLoggedIn);
   const currentMarket = useSelector(selectCurrentMarket);
   const list = useSelector(selectOpenOrdersList);
 
   const intl = useIntl();
 
-  const renderHeadersKeys = () => {
-    return ['Date', 'Price', 'Amount', 'Total', 'Filled', ''];
+  React.useEffect(() => {
+    if (userLoggedIn && currentMarket) {
+      dispatch(userOpenOrdersFetch({ market: currentMarket }));
+    }
+  }, [currentMarket]);
+
+  const handleCancel = (index: number) => {
+    const orderToDelete = list[index];
+    dispatch(openOrdersCancelFetch({ order: orderToDelete, list }));
   };
 
   const renderHeaders = () => {
@@ -35,11 +51,7 @@ export const OpenOrders: React.FC<OpenOrderProps> = ({}) => {
   };
 
   const renderData = () => {
-    if (list.length === 0) {
-      return [[[''], [''], intl.formatMessage({ id: 'page.noDataToShow' })]];
-    }
-
-    return list.map((item: OrderCommon) => {
+    return list.map((item, i) => {
       const { id, price, created_at, remaining_volume, origin_volume, side } = item;
       const executedVolume = Number(origin_volume) - Number(remaining_volume);
       const remainingAmount = Number(remaining_volume);
@@ -62,17 +74,15 @@ export const OpenOrders: React.FC<OpenOrderProps> = ({}) => {
         <span style={{ color: setTradeColor(side).color }} key={id}>
           {filled}%
         </span>,
-        side,
+        <CloseIcon onClick={() => handleCancel(i)} />,
       ];
     });
   };
 
-  const handleCancel = (index: number) => {
-    const orderToDelete = list[index];
-    dispatch(openOrdersCancelFetch({ order: orderToDelete, list }));
-  };
-
   return (
-    <OpenOrdersCpn headersKeys={renderHeadersKeys()} headers={renderHeaders()} data={renderData()} onCancel={handleCancel} />
+    <OpenOrdersStyle>
+      {/* <OpenOrdersCpn headersKeys={renderHeadersKeys()} headers={renderHeaders()} data={renderData()} onCancel={handleCancel} /> */}
+      <TableOrder headersKeys={renderHeaders()} data={renderData()} />
+    </OpenOrdersStyle>
   );
 };

@@ -24,4 +24,7 @@ export const en = {
   'page.body.user.loggin': 'Log in',
   'page.body.user.register': 'Register Now',
   /**Logger */
+
+  /**Order History in Tradding page */
+  'page.body.trade.header.orderHistory': 'Order History',
 };

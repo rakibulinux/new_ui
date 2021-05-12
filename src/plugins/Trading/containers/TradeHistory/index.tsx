@@ -11,11 +11,17 @@ import { RecentTradesYours } from './Yours';
 const RecentTradesComponent: React.FC = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const userLoggedIn = useSelector(selectUserLoggedIn, isEqual);
 
   const [tabKeyActiveState, setTabKeyActiveState] = React.useState<string>(
     intl.formatMessage({ id: 'page.body.trade.tab.marketTrades' }),
   );
-  const userLoggedIn = useSelector(selectUserLoggedIn, isEqual);
+
+  React.useEffect(() => {
+    return () => {
+      dispatch(resetHistory());
+    };
+  }, []);
 
   const getTabListInfo = () => {
     const result = [

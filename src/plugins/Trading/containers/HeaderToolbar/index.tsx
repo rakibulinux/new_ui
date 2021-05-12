@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom';
 import { Decimal } from '../../../../components/Decimal';
 import { selectCurrentMarket, selectMarketTickers } from '../../../../modules';
 import playSvg from '../../assets/play.svg';
-import ratioSvg from '../../assets/ratio.svg';
 import { HeaderToolbarStyle } from './styles';
 
 const HeaderToolbarContainer: React.FC = () => {
@@ -34,9 +33,7 @@ const HeaderToolbarContainer: React.FC = () => {
     <HeaderToolbarStyle>
       <div className="td-header__toolbar--left">
         <div className="td-header__toolbar-item">
-          <p className="td-header__toolbar-item-title">
-            {(currentMarket && currentMarket.name) || 'NONE'} {'  '} <img src={ratioSvg} />
-          </p>
+          <p className="td-header__toolbar-item-title">{(currentMarket && currentMarket.name) || 'NONE'}</p>
           <p className={`td-header__toolbar-item-value td-header__toolbar-item-site`}>Circleex</p>
         </div>
         <div className="td-header__toolbar-item">

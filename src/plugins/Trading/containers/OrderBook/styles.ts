@@ -40,10 +40,7 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
       margin: 5px 23px !important;
       font-size: 14px;
       &__last-price {
-        font-size: 16px;
-      }
-      &__volume {
-        color: #848e9c;
+        font-size: 20px;
       }
     }
     &-table {

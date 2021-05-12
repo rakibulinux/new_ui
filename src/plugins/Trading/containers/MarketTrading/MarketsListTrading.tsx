@@ -21,8 +21,7 @@ import { MarketsListTradingStyle } from './styles';
 
 interface MarketsListTradingComponentProps {
   data: Market[];
-  // search: string;
-  // currencyQuote: string;
+  type: 'change' | 'volume';
 }
 
 const handleChangeSortIcon = (sortBy: string, id: string, reverseOrder: boolean) => {
@@ -49,10 +48,7 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
   const marketTickers = useSelector(selectMarketTickers, isEqual);
 
   const currencyPairSelectHandler = (key: string) => {
-    // tslint:disable-next-line: no-shadowed-variable
-    const { data } = props;
-
-    const marketToSet = data.find((market) => market.name === key);
+    const marketToSet = props.data.find((market) => market.name === key);
 
     dispatch(setCurrentPrice(0));
     if (marketToSet) {
@@ -68,7 +64,9 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
     [
       { id: 'id', translationKey: 'market' },
       { id: 'last', translationKey: 'last_price' },
-      { id: 'price_change_percent_num', translationKey: 'change' },
+      props.type === 'change'
+        ? { id: 'price_change_percent_num', translationKey: 'change' }
+        : { id: 'volume', translationKey: 'volume' },
     ]
       .map((obj) => {
         return {
@@ -91,17 +89,17 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
       });
 
   const mapMarkets = () => {
-    // tslint:disable-next-line: no-shadowed-variable
-    const { data } = props;
     const defaultTicker = {
       last: 0,
+      volume: 0,
       price_change_percent: '+0.00%',
     };
 
-    const marketsMapped = data.map((market: Market) => {
+    const marketsMapped = props.data.map((market: Market) => {
       return {
         ...market,
         last: (marketTickers[market.id] || defaultTicker).last,
+        volume: (marketTickers[market.id] || defaultTicker).volume,
         price_change_percent: (marketTickers[market.id] || defaultTicker).price_change_percent,
         price_change_percent_num: Number.parseFloat((marketTickers[market.id] || defaultTicker).price_change_percent),
       };
@@ -113,7 +111,7 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
 
     reverseOrderState && marketsMapped.reverse();
 
-    return marketsMapped.map((market: any) => {
+    return marketsMapped.map((market) => {
       const isPositive = /\+/.test((marketTickers[market.id] || defaultTicker).price_change_percent);
       const classname = classnames({
         'td-markets-list-container__positive': isPositive,
@@ -123,7 +121,11 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
       return [
         market.name,
         <span className={classname}>{Decimal.format(Number(market.last), market.price_precision)}</span>,
-        <span className={classname}>{market.price_change_percent}</span>,
+        props.type === 'change' ? (
+          <span className={classname}>{market.price_change_percent}</span>
+        ) : (
+          <span className={classname}>{Decimal.format(Number(market.volume), market.amount_precision)}</span>
+        ),
       ];
     });
   };

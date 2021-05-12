@@ -52,17 +52,19 @@ export const MarketTradingStyle = styled.div`
 `;
 
 export const SearchBlockStyle = styled.div`
-  padding: 0 23px 25px 23px;
+  padding: 0 23px 15px 23px;
   .search-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid #848e9c;
-    padding: 7px 0;
+    padding: 5px 0;
+
     .search-icon {
       margin-right: 20px;
     }
     .search-input {
+      width: inherit;
       flex: 1;
       outline: none;
       background-color: transparent;
@@ -70,6 +72,39 @@ export const SearchBlockStyle = styled.div`
       color: #fff;
       ::placeholder {
         color: #848e9c;
+      }
+    }
+  }
+  .select-wrapper {
+    .select-item {
+      cursor: pointer;
+    }
+    * {
+      cursor: pointer;
+    }
+    i {
+      box-sizing: border-box;
+      margin: 0px 4px 0px 0px;
+      min-width: 0px;
+      display: flex;
+      border: 1px solid #848e9c;
+      border-radius: 99999px;
+      ::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        margin: 2px;
+      }
+      &.active {
+        border: 1px solid #2fb67e;
+        ::before {
+          content: '';
+          width: 6px;
+          height: 6px;
+          margin: 2px;
+          border-radius: 99999px;
+          background-color: #2fb67e;
+        }
       }
     }
   }
@@ -132,17 +167,20 @@ export const MarketsListTradingStyle = styled.div`
           th {
             color: #848e9c;
             background-color: transparent;
-            padding: 0 0 7px 0 !important;
+            padding-top: 0 0 7px 0 !important;
+            padding-bottom: 0 0 7px 0 !important;
             text-align: right;
-            width: calc(100% / 4);
+            width: calc(100% / 3);
             :first-child {
               text-align: left;
+              > span {
+                padding-left: 23px;
+              }
             }
             :last-child {
-              width: calc(100% - 100% / 4 * 2);
-            }
-            > span {
-              padding: 0 23px;
+              > span {
+                padding-right: 23px;
+              }
             }
           }
         }
@@ -162,18 +200,18 @@ export const MarketsListTradingStyle = styled.div`
             background-color: transparent;
             height: 18px;
             line-height: 18px;
-            width: calc(100% / 4);
+            width: calc(100% / 3);
             text-align: right;
             padding: unset !important;
             > span {
               display: block;
-              padding: 0 23px;
             }
             :first-child {
               text-align: left;
               color: #fff;
               > span {
                 display: flex;
+                padding-left: 23px;
                 align-items: center;
                 > span {
                   margin-right: 5px;
@@ -181,7 +219,9 @@ export const MarketsListTradingStyle = styled.div`
               }
             }
             :last-child {
-              width: calc(100% - 100% / 4 * 2);
+              > span {
+                padding-right: 23px;
+              }
             }
           }
           :hover {

@@ -43,6 +43,18 @@ export const OrderBookContainer = (props) => {
     return tickers[cMarket.id] || defaultTicker;
   }, []);
 
+  // eslint-disable-next-line
+  React.useEffect(() => {
+    const { current } = orderRef;
+    if (current && current.clientWidth !== width) {
+      setWidth(current.clientWidth);
+    }
+  });
+
+  const currentTicker = currentMarket && getTickerValue(currentMarket, marketTickers);
+  const quoteUnit = get(currentMarket, 'quote_unit', '').toUpperCase();
+  const baseUnit = get(currentMarket, 'base_unit', '').toUpperCase();
+
   const renderOrderBook = React.useCallback((array: string[][], side: string, currentM?: Market) => {
     // tslint:disable-next-line: no-shadowed-variable
     const maxVolume = Math.max(...array.map((a) => Number(a[1])));
@@ -84,14 +96,6 @@ export const OrderBookContainer = (props) => {
     },
     [currentPrice, dispatch, asks],
   );
-
-  // eslint-disable-next-line
-  React.useEffect(() => {
-    const { current } = orderRef;
-    if (current && current.clientWidth !== width) {
-      setWidth(current.clientWidth);
-    }
-  });
 
   const arrAsksElm = renderOrderBook(asks, 'asks', currentMarket);
   const arrBidsElm = renderOrderBook(bids, 'bids', currentMarket);
@@ -164,9 +168,8 @@ export const OrderBookContainer = (props) => {
   ));
 
   const isPositive =
-    currentMarket && /\+/.test(currentMarket && (marketTickers[currentMarket.id] || defaultTicker)['price_change_percent']);
+    currentMarket && /\+/.test(currentMarket && (marketTickers[currentMarket.id] || defaultTicker).price_change_percent);
   const cls = isPositive ? 'positive' : 'negative';
-  const currentTicker = currentMarket && getTickerValue(currentMarket, marketTickers);
 
   return (
     <OrderBookStyle tabState={tabState}>
@@ -180,12 +183,12 @@ export const OrderBookContainer = (props) => {
             <Row className="td-order-book-tbheader">
               <Col className="p-0">
                 {`${formatMessage({ id: 'page.body.trade.header.recentTrades.content.price' })}${
-                  currentMarket ? `(${currentMarket.quote_unit.toUpperCase()})` : ''
+                  currentMarket ? `(${quoteUnit})` : ''
                 }`}
               </Col>
               <Col className="p-0 text-right">
                 {`${formatMessage({ id: 'page.body.trade.header.recentTrades.content.amount' })}${
-                  currentMarket ? `(${currentMarket.base_unit.toUpperCase()})` : ''
+                  currentMarket ? `(${baseUnit})` : ''
                 }`}
               </Col>
               <Col className="p-0 text-right">Total</Col>
@@ -196,13 +199,13 @@ export const OrderBookContainer = (props) => {
                   {arrAsksElm.length > 0
                     ? arrAsksElm.map((item, i) => (
                         <TrStyle
-                          color="rgba(47,182,126,0.4)"
+                          color="rgba(224,30,90,0.2)"
                           placement="left"
                           percentWidth={(item[3] as number) || 0}
                           key={i}
                           onClick={() => handleOnSelectAsks(i.toString())}
                         >
-                          <td className="td-order-book-item__positive">{item[0]}</td>
+                          <td className="td-order-book-item__negative">{item[0]}</td>
                           <td>{item[1]}</td>
                           <td>{item[2]}</td>
                         </TrStyle>
@@ -212,14 +215,13 @@ export const OrderBookContainer = (props) => {
               </table>
             ) : null}
             <Row className="td-order-book-ticker">
-              <Col className={`p-0  td-order-book-ticker__last-price d-flex align-items-center td-order-book-item__${cls}`}>
+              <Col
+                className={`p-0  td-order-book-ticker__last-price d-flex align-items-center justify-content-center td-order-book-item__${cls}`}
+              >
+                {cls === 'positive' ? <img src={upSvg} /> : <img src={downSvg} />}
                 {Decimal.format(+get(currentTicker, 'last', 0), get(currentMarket, 'price_precision', 0))}
-                <img src={cls === 'positive' ? upSvg : downSvg} style={{ color: 'red' }} />
+                {` ${quoteUnit}`}
               </Col>
-              <Col className="p-0  td-order-book-ticker__volume d-flex align-items-center justify-content-end">
-                {Decimal.format(+get(currentTicker, 'volume', 0), 4)}
-              </Col>
-              <Col className="p-0 text-right"></Col>
             </Row>
             {tabState === 'all' || tabState === 'buy' ? (
               <table className="td-order-book-table">
@@ -227,13 +229,13 @@ export const OrderBookContainer = (props) => {
                   {arrBidsElm.length > 0
                     ? arrBidsElm.map((item, i) => (
                         <TrStyle
-                          color="rgba(224,30,90,0.2)"
+                          color="rgba(47,182,126,0.4)"
                           placement="right"
                           percentWidth={(item[3] as number) || 0}
                           key={i}
                           onClick={() => handleOnSelectBids(i.toString())}
                         >
-                          <td className="td-order-book-item__negative">{item[0]}</td>
+                          <td className="td-order-book-item__positive">{item[0]}</td>
                           <td>{item[1]}</td>
                           <td>{item[2]}</td>
                         </TrStyle>

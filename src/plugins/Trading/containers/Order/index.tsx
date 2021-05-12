@@ -35,6 +35,8 @@ const defaultFormState = {
   amountSell: '',
   priceBuy: '',
   priceSell: '',
+  totalBuy: '',
+  totalSell: '',
   percentBuyMyBalance: 0,
   percentSellMyBalance: 0,
 };
@@ -82,22 +84,186 @@ export const Order: React.FC<OrderProps> = ({}) => {
     setFormState(defaultFormState);
   }, [currentMarket && currentMarket.id, tabTypeSelectedState]);
 
-  const changeAmount = (value: string, type: FormType, typeInput?: 'slider' | 'input') => {
+  const changeAmountTotalSlider = (type: FormType, field: 'amount' | 'slider' | 'total' | 'price') => {
+    if (currentMarket) {
+      const walletQuote = getWallet(currentMarket.quote_unit, wallets);
+      const { balance } = walletQuote;
+      if (balance) {
+        if (type === 'sell') {
+          switch (field) {
+            case 'amount':
+              setFormState((prev) => {
+                const percentSellMyBalance = prev.amountSell ? floor(+prev.amountSell / (+balance / 100)) : 0;
+                const totalSell =
+                  prev.amountSell && prev.priceSell ? floor(+prev.amountSell * +prev.priceSell, 8).toString() : '';
+
+                return {
+                  ...prev,
+                  percentSellMyBalance,
+                  totalSell,
+                };
+              });
+              break;
+            case 'slider':
+              setFormState((prev) => {
+                let amountSell = prev.percentSellMyBalance
+                  ? floor(prev.percentSellMyBalance * (+balance / 100), currentMarket.amount_precision).toString()
+                  : '';
+                amountSell =
+                  prev.percentSellMyBalance && prev.priceSell
+                    ? floor(
+                        (+balance / +prev.priceSell / 100) * prev.percentSellMyBalance,
+                        currentMarket.amount_precision,
+                      ).toString()
+                    : amountSell;
+                const totalSell = amountSell && prev.priceSell ? floor(+amountSell * +prev.priceSell, 8).toString() : '';
+
+                return {
+                  ...prev,
+                  amountSell,
+                  totalSell,
+                };
+              });
+              break;
+            case 'total':
+              setFormState((prev) => {
+                const amountSell =
+                  prev.totalSell && prev.priceSell
+                    ? floor(+prev.totalSell / +prev.priceSell, currentMarket.amount_precision).toString()
+                    : '';
+                const percentSellMyBalance = amountSell ? floor(+amountSell / (+balance / 100)) : 0;
+
+                return {
+                  ...prev,
+                  amountSell,
+                  percentSellMyBalance: percentSellMyBalance > 100 ? 100 : percentSellMyBalance,
+                };
+              });
+              break;
+            case 'price':
+              setFormState((prev) => {
+                const totalSell =
+                  prev.amountSell && prev.priceSell
+                    ? floor(+prev.amountSell * +prev.priceSell, 8).toString()
+                    : defaultFormState.totalSell;
+                const percentSellMyBalance = totalSell ? floor(+totalSell / (+balance / 100)) : 0;
+
+                return {
+                  ...prev,
+                  totalSell,
+                  percentSellMyBalance: percentSellMyBalance > 100 ? 100 : percentSellMyBalance,
+                };
+              });
+              break;
+            default:
+              break;
+          }
+        } else {
+          switch (field) {
+            case 'amount':
+              setFormState((prev) => {
+                const percentBuyMyBalance = prev.amountBuy ? floor(+prev.amountBuy / (+balance / 100)) : 0;
+                const totalBuy = prev.amountBuy && prev.priceBuy ? floor(+prev.amountBuy * +prev.priceBuy, 8).toString() : '';
+
+                return {
+                  ...prev,
+                  percentBuyMyBalance,
+                  totalBuy,
+                };
+              });
+              break;
+            case 'slider':
+              setFormState((prev) => {
+                let amountBuy = prev.percentBuyMyBalance
+                  ? floor(prev.percentBuyMyBalance * (+balance / 100), currentMarket.amount_precision).toString()
+                  : '';
+                amountBuy =
+                  prev.percentBuyMyBalance && prev.priceBuy
+                    ? floor(
+                        (+balance / +prev.priceBuy / 100) * prev.percentBuyMyBalance,
+                        currentMarket.amount_precision,
+                      ).toString()
+                    : amountBuy;
+                const totalBuy = amountBuy && prev.priceBuy ? floor(+amountBuy * +prev.priceBuy, 8).toString() : '';
+
+                return {
+                  ...prev,
+                  amountBuy,
+                  totalBuy,
+                };
+              });
+              break;
+            case 'total':
+              setFormState((prev) => {
+                const amountBuy =
+                  prev.totalBuy && prev.priceBuy
+                    ? floor(+prev.totalBuy / +prev.priceBuy, currentMarket.amount_precision).toString()
+                    : '';
+                const percentBuyMyBalance = amountBuy ? floor(+amountBuy / (+balance / 100)) : 0;
+
+                return {
+                  ...prev,
+                  amountBuy,
+                  percentBuyMyBalance: percentBuyMyBalance > 100 ? 100 : percentBuyMyBalance,
+                };
+              });
+              break;
+            case 'price':
+              setFormState((prev) => {
+                const totalBuy =
+                  prev.amountBuy && prev.priceBuy
+                    ? floor(+prev.amountBuy * +prev.priceBuy, 8).toString()
+                    : defaultFormState.totalBuy;
+                const percentBuyMyBalance = totalBuy ? floor(+totalBuy / (+balance / 100)) : 0;
+
+                return {
+                  ...prev,
+                  totalBuy,
+                  percentBuyMyBalance: percentBuyMyBalance > 100 ? 100 : percentBuyMyBalance,
+                };
+              });
+              break;
+            default:
+              break;
+          }
+        }
+      }
+    }
+  };
+
+  const changeAmount = (value: string, type: FormType) => {
     const convertedValue = cleanPositiveFloatInput(String(value));
     if (convertedValue.match(precisionRegExp(get(currentMarket, 'amount_precision', 6)))) {
       if (type === 'sell') {
         setFormState((prev) => ({
           ...prev,
           amountSell: convertedValue,
-          percentSellMyBalance: typeInput === 'input' ? defaultFormState.percentSellMyBalance : prev.percentSellMyBalance,
         }));
       } else {
         setFormState((prev) => ({
           ...prev,
           amountBuy: convertedValue,
-          percentBuyMyBalance: typeInput === 'input' ? defaultFormState.percentBuyMyBalance : prev.percentBuyMyBalance,
         }));
       }
+      changeAmountTotalSlider(type, 'amount');
+    }
+  };
+
+  const changeTotal = (value: string, type: FormType) => {
+    const convertedValue = cleanPositiveFloatInput(String(value));
+    if (convertedValue.match(precisionRegExp(get(currentMarket, 'amount_precision', 8)))) {
+      if (type === 'sell') {
+        setFormState((prev) => ({
+          ...prev,
+          totalSell: convertedValue,
+        }));
+      } else {
+        setFormState((prev) => ({
+          ...prev,
+          totalBuy: convertedValue,
+        }));
+      }
+      changeAmountTotalSlider(type, 'total');
     }
   };
 
@@ -115,6 +281,20 @@ export const Order: React.FC<OrderProps> = ({}) => {
           priceBuy: convertedValue,
         }));
       }
+      changeAmountTotalSlider(type, 'price');
+    }
+  };
+
+  const onChangeSlider = (value: number, type: FormType) => {
+    if (currentMarket) {
+      const walletBase = getWallet(currentMarket.base_unit, wallets);
+      setFormState((prev) => ({
+        ...prev,
+        percentBuyMyBalance: type === 'buy' ? value : prev.percentBuyMyBalance,
+        percentSellMyBalance: type === 'sell' ? value : prev.percentSellMyBalance,
+      }));
+
+      changeAmountTotalSlider(type, 'slider');
     }
   };
 
@@ -149,12 +329,14 @@ export const Order: React.FC<OrderProps> = ({}) => {
 
     dispatch(setCurrentPrice(0));
 
-    const amount = Number(type === 'sell' ? formState.amountSell : formState.amountBuy);
     const walletBase = getWallet(currentMarket.base_unit, wallets);
     const walletQuote = getWallet(currentMarket.quote_unit, wallets);
     const currentTicker = marketTickers[currentMarket.id];
-    const price = type === 'buy' ? formState.priceBuy : formState.priceSell;
-    const available = (type === 'sell' ? getAvailableValue(walletBase) : getAvailableValue(walletQuote)) | 0;
+
+    const amount = Number(type === 'sell' ? formState.amountSell : formState.amountBuy);
+    const priceType = type === 'buy' ? formState.priceBuy : formState.priceSell;
+    const price = tabTypeSelectedState === TABS_LIST_KEY[0] ? priceType : currentTicker.last;
+    const available = getAvailableValue(walletQuote);
 
     const resultData: OrderExecution = {
       market: currentMarket.id,
@@ -214,23 +396,47 @@ export const Order: React.FC<OrderProps> = ({}) => {
       orderAllowed = false;
     }
 
-    if ((available < amount * +price && order.side === 'buy') || (available < amount && order.side === 'sell')) {
-      dispatch(
-        alertPush({
-          message: [
-            intl.formatMessage(
-              { id: 'error.order.create.available' },
-              {
-                available: available,
-                currency: order.side === 'buy' ? currentMarket.quote_unit.toUpperCase() : currentMarket.base_unit.toUpperCase(),
-              },
-            ),
-          ],
-          type: 'error',
-        }),
-      );
+    if (tabTypeSelectedState === TABS_LIST_KEY[0]) {
+      if (
+        (available < +formState.totalBuy && order.side === 'buy') ||
+        (available < +formState.totalSell && order.side === 'sell')
+      ) {
+        dispatch(
+          alertPush({
+            message: [
+              intl.formatMessage(
+                { id: 'error.order.create.available' },
+                {
+                  available: available,
+                  currency: order.side === 'buy' ? currentMarket.quote_unit.toUpperCase() : currentMarket.base_unit.toUpperCase(),
+                },
+              ),
+            ],
+            type: 'error',
+          }),
+        );
 
-      orderAllowed = false;
+        orderAllowed = false;
+      }
+    } else {
+      if ((available < amount && order.side === 'buy') || (available < amount && order.side === 'sell')) {
+        dispatch(
+          alertPush({
+            message: [
+              intl.formatMessage(
+                { id: 'error.order.create.available' },
+                {
+                  available: available,
+                  currency: order.side === 'buy' ? currentMarket.quote_unit.toUpperCase() : currentMarket.base_unit.toUpperCase(),
+                },
+              ),
+            ],
+            type: 'error',
+          }),
+        );
+
+        orderAllowed = false;
+      }
     }
 
     if (orderAllowed) {
@@ -250,6 +456,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
     const walletBase = getWallet(currentMarket.base_unit, wallets);
     const walletQuote = getWallet(currentMarket.quote_unit, wallets);
     const currentTicker = marketTickers[currentMarket.id];
+
     const priceMarket = Number(Number((currentTicker || defaultCurrentTicker).last).toFixed(currentMarket.price_precision));
 
     const arrType: FormType[] = ['buy', 'sell'];
@@ -265,6 +472,10 @@ export const Order: React.FC<OrderProps> = ({}) => {
             : !(formState.priceSell || tabTypeSelectedState !== TABS_LIST_KEY[0]) ||
               !formState.amountSell ||
               Number(formState.amountSell) === 0);
+        const balance =
+          type === 'buy'
+            ? floor(+get(walletBase, 'balance', '0'), get(walletBase, 'fixed', 6))
+            : floor(+get(walletQuote, 'balance', '0'), get(walletQuote, 'fixed', 6));
 
         return (
           <div className="col p-0" key={i}>
@@ -278,11 +489,11 @@ export const Order: React.FC<OrderProps> = ({}) => {
               <div className="d-flex title-block mb-3">
                 <div className="flex-fill title-block-left">
                   {intl.formatMessage({ id: `page.body.trade.header.newOrder.content.title.${type}` })}{' '}
-                  {type === 'buy' ? currentMarket.quote_unit.toUpperCase() : currentMarket.base_unit.toUpperCase()}
+                  {currentMarket.quote_unit.toUpperCase()}
                 </div>
                 <div className="flex-fill text-right title-block-right">
                   <img src={moneySvg} />
-                  {' - '}
+                  {` ${balance || '-'} `}
                   {type === 'buy' ? currentMarket.base_unit.toUpperCase() : currentMarket.quote_unit.toUpperCase()}
                 </div>
               </div>
@@ -317,7 +528,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
                   type="text"
                   className="form-control text-right"
                   value={(type === 'buy' ? formState.amountBuy : formState.amountSell).toString()}
-                  onChange={(e) => changeAmount(e.target.value, type, 'input')}
+                  onChange={(e) => changeAmount(e.target.value, type)}
                 />
                 <div className="input-group-append d-flex justify-content-end align-items-center">
                   <span className="input-group-text"> {currentMarket.base_unit.toUpperCase() || 'NONE'}</span>
@@ -327,25 +538,38 @@ export const Order: React.FC<OrderProps> = ({}) => {
                 disabled={!isLoggedIn || !get(walletBase, 'balance', null)}
                 tipFormatter={(e) => `${e}%`}
                 marks={marks}
-                step={null}
+                step={1}
                 value={type === 'buy' ? formState.percentBuyMyBalance : formState.percentSellMyBalance}
                 onChange={(value: number) => {
-                  setFormState((prev) => ({
-                    ...prev,
-                    percentBuyMyBalance: type === 'buy' ? value : prev.percentBuyMyBalance,
-                    percentSellMyBalance: type === 'sell' ? value : prev.percentSellMyBalance,
-                  }));
-                  changeAmount(
-                    floor(
-                      walletBase.balance ? (Number(walletBase.balance) / 100) * value : 0,
-                      currentMarket.amount_precision,
-                    ).toString(),
-                    type,
-                  );
+                  onChangeSlider(value, type);
                 }}
               />
+              {isLoggedIn && tabTypeSelectedState === TABS_LIST_KEY[0] ? (
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text d-flex align-items-center text-right">
+                      {intl.formatMessage({ id: 'page.body.trade.header.newOrder.content.total' })}
+                    </span>
+                  </div>
+                  <input
+                    type="text"
+                    className="form-control text-right"
+                    value={(type === 'buy' ? formState.totalBuy : formState.totalSell).toString()}
+                    onChange={(e) => changeTotal(e.target.value, type)}
+                  />
+                  <div className="input-group-append d-flex justify-content-end align-items-center">
+                    <span className="input-group-text"> {currentMarket.quote_unit.toUpperCase() || 'NONE'}</span>
+                  </div>
+                </div>
+              ) : null}
               {isLoggedIn ? (
-                <button type="submit" className="btn submit-order w-100" disabled={isDisabled}>
+                <button
+                  type="submit"
+                  className={`btn submit-order btn-block mr-1 mt-1 btn-lg btn-${
+                    type === 'buy' ? 'success' : 'danger'
+                  } btn-block btn-lg w-100 mt-2`}
+                  disabled={isDisabled}
+                >
                   <span> {intl.formatMessage({ id: `page.body.trade.header.newOrder.content.title.${type}` })}</span>
                 </button>
               ) : (
@@ -377,7 +601,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
     const elmExtra = (
       <React.Fragment>
         <span>{intl.formatMessage({ id: 'page.body.trade.header.newOrder.content.buyWith' })}</span>
-        <button>{currentMarket && currentMarket.base_unit.toUpperCase()}</button>
+        <button>{currentMarket && currentMarket.quote_unit.toUpperCase()}</button>
       </React.Fragment>
     );
 
