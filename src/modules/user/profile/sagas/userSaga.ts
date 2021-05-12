@@ -3,14 +3,14 @@ import { API, RequestOptions } from '../../../../api';
 import { userData, userError } from '../actions';
 
 const userOptions: RequestOptions = {
-    apiVersion: 'barong',
+	apiVersion: 'barong',
 };
 
 export function* userSaga() {
-    try {
-        const user = yield call(API.get(userOptions), '/resource/users/me');
-        yield put(userData({ user }));
-    } catch (error) {
-        yield put(userError(error));
-    }
+	try {
+		const user = yield call(API.get(userOptions), '/resource/users/me');
+		yield put(userData({ user }));
+	} catch (error) {
+		yield put(userError(error));
+	}
 }

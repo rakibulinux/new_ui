@@ -1,75 +1,73 @@
 #sale-buy-mobile {
-    position: relative;
-    background-color: #1c3049;
-    width: 100%;
-    height: 100%;
-    padding: 2vw 1.5vw;
-    transition: all .3s;
+	position: relative;
+	background-color: #1c3049;
+	width: 100%;
+	height: 100%;
+	padding: 2vw 1.5vw;
+	transition: all 0.3s;
 }
 
 .sale-buy-mobile__title {
-    font-size: 1rem;
-    text-align: center;
-    font-weight: bold;
+	font-size: 1rem;
+	text-align: center;
+	font-weight: bold;
 }
 
 .sale-buy-mobile__subtitle {
-    font-size: 0.8rem;
-    text-align: center;
+	font-size: 0.8rem;
+	text-align: center;
 }
 
 .select-currency-box-mobile select {
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    padding: 10px 28px 10px 10px;
-    font-size: 1rem;
-    border: 1px solid rgb(70, 80, 105);
-    border-radius: 4px;
-    opacity: 0.9;
-    background: rgb(20, 38, 59);
-    z-index: 2;
-    color: rgb(255, 255, 255);
-    outline: none;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	padding: 10px 28px 10px 10px;
+	font-size: 1rem;
+	border: 1px solid rgb(70, 80, 105);
+	border-radius: 4px;
+	opacity: 0.9;
+	background: rgb(20, 38, 59);
+	z-index: 2;
+	color: rgb(255, 255, 255);
+	outline: none;
 }
 
 .buy-box div {
-    position: relative;
-    margin: 1.5rem 0 0 0;
+	position: relative;
+	margin: 1.5rem 0 0 0;
 }
-
 
 /* Chrome, Safari, Edge, Opera */
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
-
 
 /* Firefox */
 
-input[type=number] {
-    -moz-appearance: textfield;
+input[type='number'] {
+	-moz-appearance: textfield;
 }
 
 #sale-buy-mobile__closed {
-    position: absolute;
-    content: '';
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    font-size: 1rem;
-    background-color: #14263bc9;
-    text-align: center;
-    padding-top: 50%;
-    z-index: 997;
-    color: rgb(255, 255, 255);
+	position: absolute;
+	content: '';
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	font-size: 1rem;
+	background-color: #14263bc9;
+	text-align: center;
+	padding-top: 50%;
+	z-index: 997;
+	color: rgb(255, 255, 255);
 }
 
 .currency-icon {
-    width: 1.3rem;
-    height: 1.3rem;
+	width: 1.3rem;
+	height: 1.3rem;
 }

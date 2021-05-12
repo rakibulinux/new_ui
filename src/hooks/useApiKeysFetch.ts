@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 import { apiKeysFetch } from '../modules';
 
 export const useApiKeysFetch = () => {
-    const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-    React.useEffect(() => {
-        dispatch(apiKeysFetch());
-    }, [dispatch]);
+	React.useEffect(() => {
+		dispatch(apiKeysFetch());
+	}, [dispatch]);
 };

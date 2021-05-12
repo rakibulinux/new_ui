@@ -1,27 +1,27 @@
 #sale-list {
-    background-color: #2B3139;
-    width: 90%;
-    padding-top: 2rem;
-    margin-bottom: 10px;
-    padding-bottom: 30vh;
+	background-color: #2b3139;
+	width: 90%;
+	padding-top: 2rem;
+	margin-bottom: 10px;
+	padding-bottom: 30vh;
 }
 
 .sale-list__title,
 .sale-list__subtitle {
-    font-size: 20px;
-    padding: 1rem 0;
-    margin: 0 10rem 2rem 10rem;
+	font-size: 20px;
+	padding: 1rem 0;
+	margin: 0 10rem 2rem 10rem;
 }
 
 .sale-list__title {
-    color: #ffffff;
-    line-height: 31px;
-    font-weight: 700;
-    font-size: 3rem;
-    text-align: center;
+	color: #ffffff;
+	line-height: 31px;
+	font-weight: 700;
+	font-size: 3rem;
+	text-align: center;
 }
 
 .sale-list__subtitle {
-    color: #a4acb6;
-    line-height: 21px;
+	color: #a4acb6;
+	line-height: 21px;
 }

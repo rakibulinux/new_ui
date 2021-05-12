@@ -1,89 +1,89 @@
 .sale-item {
-    position: relative;
-    height: 100%;
-    border: 4px solid #4B5D6C;
-    padding: 2rem 2rem;
-    background: #1A2B41;
-    border-radius: 10px;
-    cursor: pointer;
-    margin: 20px 10% 0 10%;
-    transition: all 0.3s;
+	position: relative;
+	height: 100%;
+	border: 4px solid #4b5d6c;
+	padding: 2rem 2rem;
+	background: #1a2b41;
+	border-radius: 10px;
+	cursor: pointer;
+	margin: 20px 10% 0 10%;
+	transition: all 0.3s;
 }
 
 .sale-item__badge {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, -50%);
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, -50%);
 
-    padding: 0.5rem 2rem;
-    border-radius: 3px;
-    line-height: 18px;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: rgb(255, 255, 255);
-    z-index: 9;
-    text-align: center;
-    vertical-align: middle;
+	padding: 0.5rem 2rem;
+	border-radius: 3px;
+	line-height: 18px;
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: rgb(255, 255, 255);
+	z-index: 9;
+	text-align: center;
+	vertical-align: middle;
 }
 
 .sale-item:hover {
-    background: #233957;
+	background: #233957;
 }
 
 .sale-item__title {
-    color: #ffff;
-    font-size: 2rem;
-    font-weight: 700;
-    line-height: 24px;
-    text-transform: uppercase;
+	color: #ffff;
+	font-size: 2rem;
+	font-weight: 700;
+	line-height: 24px;
+	text-transform: uppercase;
 }
 
 .sale-item__subtitle {
-    color: #a4acb6;
-    font-size: 15px;
-    line-height: 20px;
+	color: #a4acb6;
+	font-size: 15px;
+	line-height: 20px;
 }
 
 #sale_item__timer #days {
-    font-size: 3rem;
-    color: #db4844;
+	font-size: 3rem;
+	color: #db4844;
 }
 
 #sale_item__timer #hours {
-    font-size: 3rem;
-    color: #f07c22;
+	font-size: 3rem;
+	color: #f07c22;
 }
 
 #sale_item__timer #minutes {
-    font-size: 3rem;
-    color: #f6da74;
+	font-size: 3rem;
+	color: #f6da74;
 }
 
 #sale_item__timer #seconds {
-    font-size: 3rem;
-    color: #abcd58;
+	font-size: 3rem;
+	color: #abcd58;
 }
 
 #sale_item__timer {
-    display: inline-block;
-    line-height: 1;
-    padding: 20px 0;
-    font-size: 40px;
-    margin-top: 0;
-    text-align: center;
+	display: inline-block;
+	line-height: 1;
+	padding: 20px 0;
+	font-size: 40px;
+	margin-top: 0;
+	text-align: center;
 }
 
 #sale_item__timer div {
-    display: inline-block;
-    line-height: 1;
-    padding: 0 20px;
-    font-size: 40px;
+	display: inline-block;
+	line-height: 1;
+	padding: 0 20px;
+	font-size: 40px;
 }
 
 #sale_item__timer div span {
-    display: block;
-    font-size: 1rem;
-    color: white;
+	display: block;
+	font-size: 1rem;
+	color: white;
 }

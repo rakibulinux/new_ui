@@ -9,19 +9,19 @@ import { userReset } from '../../profile';
 import { logoutError, LogoutFetch } from '../actions';
 
 const requestOptions: RequestOptions = {
-    apiVersion: 'barong',
+	apiVersion: 'barong',
 };
 
 export function* logoutSaga(action: LogoutFetch) {
-    try {
-        yield call(API.delete(requestOptions), '/identity/sessions');
-        yield put(userReset());
-        localStorage.removeItem('csrfToken');
-        yield put(userOpenOrdersReset());
-        yield put(signInRequire2FA({ require2fa: false }));
-        yield put(resetHistory());
-    } catch (error) {
-        yield put(logoutError(error));
-        yield put(alertPush({message: error.message, code: error.code, type: 'error'}));
-    }
+	try {
+		yield call(API.delete(requestOptions), '/identity/sessions');
+		yield put(userReset());
+		localStorage.removeItem('csrfToken');
+		yield put(userOpenOrdersReset());
+		yield put(signInRequire2FA({ require2fa: false }));
+		yield put(resetHistory());
+	} catch (error) {
+		yield put(logoutError(error));
+		yield put(alertPush({ message: error.message, code: error.code, type: 'error' }));
+	}
 }

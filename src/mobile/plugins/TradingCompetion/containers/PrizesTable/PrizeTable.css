@@ -1,30 +1,30 @@
 .rank-icon-mobile {
-    width: 1rem;
-    height: 1rem;
+	width: 1rem;
+	height: 1rem;
 }
 
 #prize-table-mobile {
-    height: 100%;
-    background-color: #0E121C;
-    padding: 1rem;
+	height: 100%;
+	background-color: #0e121c;
+	padding: 1rem;
 }
 
 #prize-table-mobile div div div div div div table thead tr th {
-    background-color: #2B3139;
-    text-align: center;
-    font-weight: bold;
-    color: #ffffff;
+	background-color: #2b3139;
+	text-align: center;
+	font-weight: bold;
+	color: #ffffff;
 }
 
 #prize-table-mobile div div div div div div table tbody tr {
-    background-color: #1F283D;
-    text-align: center;
+	background-color: #1f283d;
+	text-align: center;
 }
 
 #prize-table-mobile div div div div div div table thead tr th {
-    font-size: 1rem;
+	font-size: 1rem;
 }
 
 #prize-table-mobile div div div div div div table tbody tr td {
-    font-size: 1rem;
+	font-size: 1rem;
 }

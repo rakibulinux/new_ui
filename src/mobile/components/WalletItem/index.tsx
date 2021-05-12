@@ -5,37 +5,38 @@ import { Decimal } from '../../../components/Decimal';
 import { areEqualSelectedProps } from '../../../helpers/areEqualSelectedProps';
 
 interface Props {
-    wallet;
-    onClick: (v: string) => void;
+	wallet;
+	onClick: (v: string) => void;
 }
 
 const WalletItemComponent = (props: Props) => {
-    const {
-        wallet: {
-            currency = '',
-            name,
-            balance = 0,
-            fixed = 6,
-            iconUrl,
-        },
-    } = props;
+	const {
+		wallet: { currency = '', name, balance = 0, fixed = 6, iconUrl },
+	} = props;
 
-    return (
-        <div className="cr-mobile-wallet-item" onClick={() => props.onClick(currency)}>
-            <div>
-                {iconUrl ? (<img alt="" src={iconUrl} />) : (<CryptoIcon className="cr-wallet-item__icon" code={currency.toUpperCase()} />)}
-                <span className="cr-mobile-wallet-item__currency">{currency}</span>
-                <span className="cr-mobile-wallet-item__name">{name}</span>
-            </div>
-            <div className="cr-mobile-wallet-item__balance">
-                <span><Decimal fixed={fixed} children={balance || 0} /></span>
-            </div>
-        </div>
-    );
+	return (
+		<div className="cr-mobile-wallet-item" onClick={() => props.onClick(currency)}>
+			<div>
+				{iconUrl ? (
+					<img alt="" src={iconUrl} />
+				) : (
+					<CryptoIcon className="cr-wallet-item__icon" code={currency.toUpperCase()} />
+				)}
+				<span className="cr-mobile-wallet-item__currency">{currency}</span>
+				<span className="cr-mobile-wallet-item__name">{name}</span>
+			</div>
+			<div className="cr-mobile-wallet-item__balance">
+				<span>
+					<Decimal fixed={fixed} children={balance || 0} />
+				</span>
+			</div>
+		</div>
+	);
 };
 
-const WalletItem = React.memo(WalletItemComponent, areEqualSelectedProps('wallet', ['currency', 'name', 'balance', 'fixed', 'iconUrl']));
+const WalletItem = React.memo(
+	WalletItemComponent,
+	areEqualSelectedProps('wallet', ['currency', 'name', 'balance', 'fixed', 'iconUrl']),
+);
 
-export {
-    WalletItem,
-};
+export { WalletItem };

@@ -1,27 +1,27 @@
 #trading-competition-list-mobile {
-    background-color: #2B3139;
-    width: 100%;
-    margin-bottom: 50px;
-    min-height: 100vh;
-    background-image: url('../../assets/26146.jpg');
-    background-size: cover;
+	background-color: #2b3139;
+	width: 100%;
+	margin-bottom: 50px;
+	min-height: 100vh;
+	background-image: url('../../assets/26146.jpg');
+	background-size: cover;
 }
 
 .trading-competition-list-mobile__title,
 .trading-competition-list-mobile__subtitle {
-    font-size: 16px;
-    padding: 1rem 0;
+	font-size: 16px;
+	padding: 1rem 0;
 }
 
 .trading-competition-list-mobile__title {
-    color: #ffffff;
-    line-height: 50px;
-    font-weight: 700;
-    font-size: 2rem;
-    text-align: center;
+	color: #ffffff;
+	line-height: 50px;
+	font-weight: 700;
+	font-size: 2rem;
+	text-align: center;
 }
 
 .trading-competition-list-mobile__subtitle {
-    color: #a4acb6;
-    line-height: 21px;
+	color: #a4acb6;
+	line-height: 21px;
 }
