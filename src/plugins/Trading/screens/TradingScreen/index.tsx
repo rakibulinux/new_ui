@@ -55,8 +55,8 @@ export const TradingScreen: React.FC<TradingScreenProps> = ({}) => {
 						</div>
 					</div>
 
-					<div className="row  flex-fill">
-						<div className="col-sm-4 border-container" style={{ paddingLeft: 'unset' }}>
+					<div className="row flex-fill">
+						<div className="col-sm-4 border-container position-relative" style={{ paddingLeft: 'unset' }}>
 							<OrderBook />
 						</div>
 						<div className="col-sm-8 p-0">
@@ -90,7 +90,7 @@ export const TradingScreen: React.FC<TradingScreenProps> = ({}) => {
 						<div className="col-md-12 border-container" style={{ paddingRight: 'unset', flex: 'none' }}>
 							<MarketTrading />
 						</div>
-						<div className="col-md-12 border-container" style={{ paddingRight: 'unset', flex: 1 }}>
+						<div className="col-md-12 border-container position-relative" style={{ paddingRight: 'unset', flex: 1 }}>
 							<RecentTrades />
 						</div>
 					</div>
