@@ -87,6 +87,16 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 			tbody {
 				height: 100%;
 				overflow-y: scroll;
+				::-webkit-scrollbar {
+					-webkit-appearance: none;
+					width: 5px;
+				}
+
+				::-webkit-scrollbar-thumb {
+					border-radius: 4px;
+					background-color: #c4c4c4;
+					box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+				}
 				tr {
 					margin-top: 1px;
 					margin-bottom: 1px;
