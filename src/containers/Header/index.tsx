@@ -7,20 +7,20 @@ import { LogoutIcon } from '../../assets/images/sidebar/LogoutIcon';
 import { IntlProps } from '../../index';
 /* import { compose } from 'redux'; */
 import {
-	changeUserDataFetch,
-	logoutFetch,
-	Market,
-	RootState,
-	selectCurrentMarket,
-	selectMarketSelectorState,
-	selectMobileWalletUi,
-	selectSidebarState,
-	selectUserInfo,
-	selectUserLoggedIn,
-	setMobileWalletUi,
-	toggleMarketSelector,
-	toggleSidebar,
-	User,
+  changeUserDataFetch,
+  logoutFetch,
+  Market,
+  RootState,
+  selectCurrentMarket,
+  selectUserInfo,
+  selectUserLoggedIn,
+  User,
+  selectMarketSelectorState,
+  selectMobileWalletUi,
+  selectSidebarState,
+  setMobileWalletUi,
+  toggleMarketSelector,
+  toggleSidebar,
 } from '../../modules';
 
 interface State {
@@ -56,170 +56,164 @@ interface HistoryProps {
 type Props = OwnProps & ReduxProps & HistoryProps & IntlProps & DispatchProps;
 
 class Head extends React.Component<Props, State> {
-	public state = {
-		isOpenDrop: false,
-	};
+  public render() {
+    return <header className={`pg-header`}>{this.renderHeaderDesktop()}</header>;
+  }
 
-	public render() {
-		return <header className={`pg-header`}>{this.renderHeaderDesktop()}</header>;
-	}
+  private renderHeaderDesktop = () => {
+    const Logo = require('../../assets/images/logo.svg');
+    return (
+      <nav className="navbar navbar-inverse header-color">
+        <div className="navbar__item-left">
+          <a href="/">
+            <img src={Logo} alt="" className="pg-logo__img" />
+          </a>
+          <Link className="market" to="/trading">
+            Market
+          </Link>
+          <Link className="market" to="/ieo">
+            Launchpad
+          </Link>
+          <Link className="market" to="/airdrop">
+            Airdrop Hub
+          </Link>
+          <Link className="market" to="/trading-competition">
+            Trade Competition
+          </Link>
+        </div>
+        <div className="navbar__item-right">
+          {this.renderWalletLink()}
+          {this.renderOrderTab()}
+          {this.renderProfileTab()}
+          {this.renderUnlogin()}
+        </div>
+      </nav>
+    );
+  };
 
-	public renderWalletLink = () => {
-		const { isLoggedIn } = this.props;
+  public renderWalletLink = () => {
+    const { isLoggedIn } = this.props;
 
-		return (
-			isLoggedIn && (
-				<div className="dropdown">
-					<Link className="wallet" to="/wallets">
-						Wallet
-					</Link>
-				</div>
-			)
-		);
-	};
+    return (
+      isLoggedIn && (
+        <div className="dropdown">
+          <Link className="wallet" to="/wallets">
+            Wallet
+          </Link>
+        </div>
+      )
+    );
+  };
 
-	public renderOrderTab = () => {
-		const { isLoggedIn } = this.props;
-		const arrowButton = require('./arrows/arrowBottom.svg');
-		const order = require('../../assets/images/order.svg');
-		const history = require('../../assets/images/history.svg');
+  public state = {
+    isOpenDrop: false,
+  };
 
-		return (
-			isLoggedIn && (
-				<div className="dropdown">
-					<div className="dropbtn">
-						<div className="dropbtn-order">
-							<span>{this.translate('page.body.landing.header.orders')}</span>
-							<img src={arrowButton} alt="" />
-						</div>
-					</div>
-					<div className="dropdown-content">
-						<Link to="/orders" className="dropdown-content-show">
-							<img src={order} alt="" className="iconHeader" />
-							{this.translate('page.body.landing.header.order')}
-						</Link>
-						<Link className="dropdown-content-show" to="/history">
-							<img src={history} alt="" className="iconHeader" />
-							{this.translate('page.body.landing.header.history')}
-						</Link>
-					</div>
-				</div>
-			)
-		);
-	};
+  public renderOrderTab = () => {
+    const { isLoggedIn } = this.props;
+    const arrowButton = require('./arrows/arrowBottom.svg');
+    const order = require('../../assets/images/order.svg');
+    const history = require('../../assets/images/history.svg');
 
-	public renderProfileTab = () => {
-		const { isLoggedIn } = this.props;
-		const arrowButton = require('./arrows/arrowBottom.svg');
+    return (
+      isLoggedIn && (
+        <div className="dropdown">
+          <div className="dropbtn">
+            <div className="dropbtn-order">
+              <span>{this.translate('page.body.landing.header.orders')}</span>
+              <img src={arrowButton} alt="" />
+            </div>
+          </div>
+          <div className="dropdown-content">
+            <Link to="/orders" className="dropdown-content-show">
+              <img src={order} alt="" className="iconHeader" />
+              {this.translate('page.body.landing.header.order')}
+            </Link>
+            <Link className="dropdown-content-show" to="/history">
+              <img src={history} alt="" className="iconHeader" />
+              {this.translate('page.body.landing.header.history')}
+            </Link>
+          </div>
+        </div>
+      )
+    );
+  };
 
-		return (
-			isLoggedIn && (
-				<div className="dropdown">
-					<div className="dropbtn">
-						<div className="dropbtn-order">
-							<span>{this.translate('page.body.landing.header.account')}</span>
-							<img src={arrowButton} alt="" />
-						</div>
-					</div>
-					<div className="dropdown-content">
-						{this.renderProfileLink()}
-						{this.renderLogout()}
-					</div>
-				</div>
-			)
-		);
-	};
+  public renderProfileTab = () => {
+    const { isLoggedIn } = this.props;
+    const arrowButton = require('./arrows/arrowBottom.svg');
 
-	public renderUnlogin = () => {
-		const { isLoggedIn } = this.props;
+    return (
+      isLoggedIn && (
+        <div className="dropdown">
+          <div className="dropbtn">
+            <div className="dropbtn-order">
+              <span>{this.translate('page.body.landing.header.account')}</span>
+              <img src={arrowButton} alt="" />
+            </div>
+          </div>
+          <div className="dropdown-content">
+            {this.renderProfileLink()}
+            {this.renderLogout()}
+          </div>
+        </div>
+      )
+    );
+  };
 
-		return (
-			!isLoggedIn && (
-				<div>
-					<button className="ant-btn ant-btn-primary" onClick={e => this.redirectSingIn()}>
-						{this.translate('page.body.landing.header.button2')}
-					</button>
-					<button className="ant-btn ant-btn-primary" onClick={e => this.redirectSingUp()}>
-						{this.translate('page.body.landing.header.button3')}
-					</button>
-				</div>
-			)
-		);
-	};
+  public renderUnlogin = () => {
+    const { isLoggedIn } = this.props;
 
-	public redirectSingIn = () => {
-		this.props.history.push('/login');
-	};
+    return (
+      !isLoggedIn && (
+        <div>
+          <button className="ant-btn ant-btn-primary" onClick={(e) => this.redirectSingIn()}>
+            {this.translate('page.body.landing.header.button2')}
+          </button>
+          <button className="ant-btn ant-btn-primary" onClick={(e) => this.redirectSingUp()}>
+            {this.translate('page.body.landing.header.button3')}
+          </button>
+        </div>
+      )
+    );
+  };
 
-	public redirectSingUp = () => {
-		this.props.history.push('/register');
-	};
+  public redirectSingIn = () => {
+    this.props.history.push('/login');
+  };
 
-	public renderLogout = () => {
-		const { isLoggedIn } = this.props;
+  public redirectSingUp = () => {
+    this.props.history.push('/register');
+  };
 
-		if (!isLoggedIn) {
-			return null;
-		}
+  private translate = (key: string) => this.props.intl.formatMessage({ id: key });
 
-		return (
-			<Link to="" className="dropdown-content-show" onClick={this.props.logoutFetch}>
-				<LogoutIcon className="iconHeader" />
-				<FormattedMessage id={'page.body.profile.content.action.logout'} />
-			</Link>
-		);
-	};
+  public renderLogout = () => {
+    const { isLoggedIn } = this.props;
 
-	public renderProfileLink = () => {
-		const { isLoggedIn } = this.props;
-		const profile = require('../../assets/images/user.svg');
+    if (!isLoggedIn) {
+      return null;
+    }
+    return (
+      <Link to="" className="dropdown-content-show" onClick={this.props.logoutFetch}>
+        <LogoutIcon className="iconHeader" />
+        <FormattedMessage id={'page.body.profile.content.action.logout'} />
+      </Link>
+    );
+  };
 
-		return (
-			isLoggedIn && (
-				<Link to="/profile" className="dropdown-content-show">
-					<img src={profile} alt="" className="iconHeader" />
-					<FormattedMessage id={'page.header.navbar.profile'} />
-				</Link>
-			)
-		);
-	};
-
-	private renderHeaderDesktop = () => {
-		const Logo = require('../../assets/images/logo.svg');
-
-		return (
-			<nav className="navbar navbar-inverse header-color">
-				<div className="navbar__item-left">
-					<a href="/">
-						<img src={Logo} alt="" className="pg-logo__img" />
-					</a>
-					<Link className="market" to="/trading">
-						Market
-					</Link>
-					<Link className="market" to="/ieo">
-						Launchpad
-					</Link>
-					<Link className="market" to="/airdrop">
-						Airdrop Hub
-					</Link>
-					<Link className="market" to="/markets">
-						Market List
-					</Link>
-					<Link className="market" to="/trading-competition">
-						Trade Competition
-					</Link>
-				</div>
-				<div className="navbar__item-right">
-					{this.renderWalletLink()}
-					{this.renderOrderTab()}
-					{this.renderProfileTab()}
-					{this.renderUnlogin()}
-				</div>
-			</nav>
-		);
-	};
-
-	private translate = (key: string) => this.props.intl.formatMessage({ id: key });
+  public renderProfileLink = () => {
+    const { isLoggedIn } = this.props;
+    const profile = require('../../assets/images/user.svg');
+    return (
+      isLoggedIn && (
+        <Link to="/profile" className="dropdown-content-show">
+          <img src={profile} alt="" className="iconHeader" />
+          <FormattedMessage id={'page.header.navbar.profile'} />
+        </Link>
+      )
+    );
+  };
 }
 
 const mapStateToProps = (state: RootState): ReduxProps => ({
@@ -231,12 +225,12 @@ const mapStateToProps = (state: RootState): ReduxProps => ({
 	marketSelectorOpened: selectMarketSelectorState(state),
 });
 
-const mapDispatchToProps: MapDispatchToPropsFunction<DispatchProps, {}> = dispatch => ({
-	logoutFetch: () => dispatch(logoutFetch()),
-	changeUserDataFetch: payload => dispatch(changeUserDataFetch(payload)),
-	toggleSidebar: payload => dispatch(toggleSidebar(payload)),
-	toggleMarketSelector: () => dispatch(toggleMarketSelector()),
-	setMobileWalletUi: payload => dispatch(setMobileWalletUi(payload)),
+const mapDispatchToProps: MapDispatchToPropsFunction<DispatchProps, {}> = (dispatch) => ({
+  logoutFetch: () => dispatch(logoutFetch()),
+  changeUserDataFetch: (payload) => dispatch(changeUserDataFetch(payload)),
+  toggleSidebar: (payload) => dispatch(toggleSidebar(payload)),
+  toggleMarketSelector: () => dispatch(toggleMarketSelector()),
+  setMobileWalletUi: (payload) => dispatch(setMobileWalletUi(payload)),
 });
 
 const Header = injectIntl(withRouter(connect(mapStateToProps, mapDispatchToProps)(Head) as any) as any);
