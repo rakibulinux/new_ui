@@ -39,7 +39,9 @@ export const OrderStyle = styled.div`
 				.rc-tabs-nav-list {
 					display: flex;
 					.rc-tabs-tab {
+						font-weight: 500;
 						&.rc-tabs-tab-active {
+							font-weight: 600;
 							.rc-tabs-tab-btn {
 								color: #fff;
 								border-bottom: 2px solid #2fb67e;
