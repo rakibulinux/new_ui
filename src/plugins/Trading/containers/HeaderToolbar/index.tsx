@@ -28,13 +28,14 @@ const HeaderToolbarContainer: React.FC = () => {
 	const cls = isPositive ? 'positive' : 'negative';
 
 	const bidUnit = currentMarket && currentMarket.quote_unit.toUpperCase();
+	const askUnit = currentMarket && currentMarket.base_unit.toUpperCase();
 
 	return (
 		<HeaderToolbarStyle>
 			<div className="td-header__toolbar--left">
 				<div className="td-header__toolbar-item">
 					<p className="td-header__toolbar-item-title">{(currentMarket && currentMarket.name) || 'NONE'}</p>
-					<p className={`td-header__toolbar-item-value td-header__toolbar-item-site`}>Circleex</p>
+					<p className={`td-header__toolbar-item-value td-header__toolbar-item-site`}>{askUnit}</p>
 				</div>
 				<div className="td-header__toolbar-item">
 					<p className="td-header__toolbar-item-text">{translate('page.body.trade.toolBar.lastPrice')}</p>

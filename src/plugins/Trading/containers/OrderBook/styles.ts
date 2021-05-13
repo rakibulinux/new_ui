@@ -33,7 +33,6 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 		}
 		&-tbheader {
 			padding: 6px 23px;
-			font-size: 10px;
 			color: #848e9c;
 		}
 		&-ticker {
@@ -44,7 +43,6 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 			}
 		}
 		&-table {
-			font-size: 10px;
 			height: ${(props: OrderBookProps) => (props.tabState === 'all' ? '380px' : 'calc(380px*2)')};
 			display: block;
 			thead,
@@ -53,8 +51,6 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 				tr {
 					display: block;
 					padding: 0 23px;
-					height: 18px;
-					line-height: 18px;
 					background-color: transparent;
 					cursor: pointer;
 					:hover {

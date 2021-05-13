@@ -36,12 +36,21 @@ export const OpenOrders: React.FC<OpenOrderProps> = ({}) => {
 		dispatch(openOrdersCancelFetch({ order: orderToDelete, list }));
 	};
 
+	const getType = (side: string, orderType: string) => {
+		if (!side || !orderType) {
+			return '';
+		}
+
+		return intl.formatMessage({ id: `page.body.openOrders.header.orderType.${side}.${orderType}` });
+	};
+
 	const renderHeaders = () => {
 		const currentAskUnit = currentMarket ? ` (${currentMarket.base_unit.toUpperCase()})` : '';
 		const currentBidUnit = currentMarket ? ` (${currentMarket.quote_unit.toUpperCase()})` : '';
 
 		return [
 			intl.formatMessage({ id: 'page.body.trade.header.openOrders.content.date' }),
+			intl.formatMessage({ id: 'page.body.openOrders.header.pair' }),
 			intl.formatMessage({ id: 'page.body.trade.header.openOrders.content.price' }).concat(currentBidUnit),
 			intl.formatMessage({ id: 'page.body.trade.header.openOrders.content.amount' }).concat(currentAskUnit),
 			intl.formatMessage({ id: 'page.body.trade.header.openOrders.content.total' }).concat(currentBidUnit),
@@ -52,16 +61,20 @@ export const OpenOrders: React.FC<OpenOrderProps> = ({}) => {
 
 	const renderData = () => {
 		return list.map((item, i) => {
-			const { id, price, created_at, remaining_volume, origin_volume, side } = item;
+			const { id, price, created_at, remaining_volume, origin_volume, side, ord_type } = item;
 			const executedVolume = Number(origin_volume) - Number(remaining_volume);
 			const remainingAmount = Number(remaining_volume);
 			const total = Number(origin_volume) * Number(price);
 			const filled = ((executedVolume / Number(origin_volume)) * 100).toFixed(2);
 			const priceFixed = currentMarket ? currentMarket.price_precision : 0;
 			const amountFixed = currentMarket ? currentMarket.amount_precision : 0;
+			const orderType = getType(side, ord_type ? ord_type : '');
 
 			return [
 				localeDate(created_at, 'fullDate'),
+				<span style={{ color: setTradeColor(side).color }} key={id}>
+					{orderType}
+				</span>,
 				<span style={{ color: setTradeColor(side).color }} key={id}>
 					{preciseData(price, priceFixed)}
 				</span>,

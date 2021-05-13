@@ -48,7 +48,7 @@ export const HeaderToolbarStyle = styled.div`
 			&-text {
 				color: #848e9c;
 				font-weight: 400;
-				font-size: 9px;
+				font-size: 11px;
 			}
 
 			&-value {

@@ -5,7 +5,6 @@ import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Decimal } from '../../../../components';
-import { accumulateVolume } from '../../../../helpers';
 import {
 	Market,
 	selectCurrentMarket,
@@ -56,12 +55,8 @@ export const OrderBookContainer = props => {
 	const renderOrderBook = React.useCallback((array: string[][], side: string, currentM?: Market) => {
 		// tslint:disable-next-line: no-shadowed-variable
 		const maxVolume = Math.max(...array.map(a => Number(a[1])));
-		let total = accumulateVolume(array);
 		const priceFixed = currentM ? currentM.price_precision : 0;
 		const amountFixed = currentM ? currentM.amount_precision : 0;
-		if (side === 'asks') {
-			total = accumulateVolume(array.slice(0).reverse()).slice(0).reverse();
-		}
 
 		return array.map((item, i) => {
 			const [price, volume] = item;
@@ -74,7 +69,7 @@ export const OrderBookContainer = props => {
 					fixed={priceFixed}
 				/>,
 				<OrderBookTableRow total={volume} fixed={amountFixed} />,
-				<OrderBookTableRow total={total[i]} fixed={amountFixed} />,
+				<OrderBookTableRow total={+price * +volume} fixed={amountFixed} />,
 				Number((Number(volume) / (maxVolume / 100)).toFixed(2)),
 			];
 		});
@@ -185,16 +180,20 @@ export const OrderBookContainer = props => {
 						</Row>
 						<Row className="td-order-book-tbheader">
 							<Col className="p-0">
-								{`${formatMessage({ id: 'page.body.trade.header.recentTrades.content.price' })}${
+								{`${formatMessage({ id: 'page.body.trading.header.orderBook.header.title.price' })}${
 									currentMarket ? `(${quoteUnit})` : ''
 								}`}
 							</Col>
 							<Col className="p-0 text-right">
-								{`${formatMessage({ id: 'page.body.trade.header.recentTrades.content.amount' })}${
+								{`${formatMessage({ id: 'page.body.trading.header.orderBook.header.title.amount' })}${
 									currentMarket ? `(${baseUnit})` : ''
 								}`}
 							</Col>
-							<Col className="p-0 text-right">Total</Col>
+							<Col className="p-0 text-right">
+								{`${formatMessage({ id: 'page.body.trading.header.orderBook.header.title.sum' })}${
+									currentMarket ? `(${quoteUnit})` : ''
+								}`}
+							</Col>
 						</Row>
 						{tabState === 'all' || tabState === 'sell' ? (
 							<table className="td-order-book-table td-reverse-table-body">

@@ -16,7 +16,9 @@ export const MarketHistory = styled.div`
 		.rc-tabs-nav-list {
 			display: flex;
 			.rc-tabs-tab {
+				font-weight: 500;
 				&.rc-tabs-tab-active {
+					font-weight: 600;
 					.rc-tabs-tab-btn {
 						color: #fff;
 						border-bottom: 2px solid #2fb67e;
@@ -72,7 +74,6 @@ export const MarketHistory = styled.div`
 				background: transparent;
 				width: 100%;
 				.td-table__head {
-					font-size: 12px;
 					background: transparent;
 					tr {
 						background: transparent;
@@ -93,7 +94,6 @@ export const MarketHistory = styled.div`
 				}
 				.td-table__body {
 					padding-right: 15px;
-					font-size: 10px;
 					color: #fff;
 					background: transparent;
 					max-height: 300px;
@@ -114,7 +114,7 @@ export const MarketHistory = styled.div`
 						}
 						td {
 							color: #fff;
-							padding: 5px 0 !important;
+							padding: 3px 0 !important;
 							text-align: right;
 							background-color: transparent;
 							:first-child {

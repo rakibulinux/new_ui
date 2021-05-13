@@ -33,8 +33,10 @@ export const MarketTradingStyle = styled.div`
 					height: 25px;
 					border-radius: 2px;
 					cursor: pointer;
+					font-weight: 500;
 					&-active {
 						background-color: #2fb67e;
+						font-weight: 600;
 					}
 					.rc-tabs-tab-btn {
 						:focus {
@@ -123,6 +125,7 @@ export const StarBlockStyle = styled.div`
 		outline: none;
 		background: transparent;
 		padding: 5px 6px;
+		font-weight: 600;
 
 		color: #fff;
 		&.active {
@@ -132,7 +135,6 @@ export const StarBlockStyle = styled.div`
 `;
 
 export const MarketsListTradingStyle = styled.div`
-	font-size: 10px;
 	/* .td-markets-list-container */
 	.td-markets-list-container {
 		overflow-x: hidden;
@@ -157,7 +159,6 @@ export const MarketsListTradingStyle = styled.div`
 			background-color: transparent;
 			thead {
 				background-color: transparent;
-				font-size: 12px;
 				tr {
 					background-color: transparent;
 					width: 100%;
@@ -198,8 +199,6 @@ export const MarketsListTradingStyle = styled.div`
 					}
 					td {
 						background-color: transparent;
-						height: 18px;
-						line-height: 18px;
 						width: calc(100% / 3);
 						text-align: right;
 						padding: unset !important;
