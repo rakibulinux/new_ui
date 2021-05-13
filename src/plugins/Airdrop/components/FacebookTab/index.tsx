@@ -182,7 +182,7 @@ export const FacebookTab: React.FC<FacebookTabProps> = (props: FacebookTabProps)
 	);
 
 	return (
-		<div>
+		<div className="airdrop-facebook-tab">
 			{loginState.status && facebookTaskState.sharePage && facebookTaskState.likePost && facebookTaskState.sharePost
 				? resultView
 				: tableView}

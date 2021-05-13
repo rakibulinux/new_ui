@@ -62,6 +62,7 @@ import { CustomizationDataInterface, customizationFetch, selectCustomizationData
 import { AirdropDetail, AirdropList } from '../../plugins/Airdrop';
 import { SaleListScreen } from '../../plugins/Sale';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
+import { TradingScreen } from '../../plugins/Trading/screens/TradingScreen';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
 import {
 	ChangeForgottenPasswordScreen,
@@ -81,7 +82,6 @@ import {
 	RegisterScreen,
 	RestrictedScreen,
 	// signUpScreen,
-	TradingScreen,
 	VerificationScreen,
 	WalletsScreen,
 	/* HomeScreen, */

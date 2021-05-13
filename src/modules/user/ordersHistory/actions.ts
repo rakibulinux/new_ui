@@ -18,12 +18,14 @@ interface UserOrdersHistoryFetchPayload {
 	pageIndex: number;
 	limit: number;
 	type: string;
+	market?: string;
 }
 
 export interface UserOrdersHistoryDataPayload {
 	list: OrderCommon[];
 	pageIndex: number;
 	nextPageExists: boolean;
+	market?: string;
 }
 
 export interface UserOrdersHistoryFetch {

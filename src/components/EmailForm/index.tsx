@@ -45,7 +45,7 @@ const EmailForm = React.memo((props: EmailFormProps) => {
 		return email && isEmailValid;
 	};
 
-	const handleClick = (label?: string, e?: React.FormEvent<HTMLInputElement>) => {
+	const handleClick = (label?: string, e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
 		if (e) {
 			e.preventDefault();
 		}

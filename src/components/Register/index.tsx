@@ -183,7 +183,7 @@ export const Register = (props: RegisterFormProps) => {
 		return email && isEmailValid && props.password && isPasswordValid && confirmPassword && isConfirmPasswordValid;
 	};
 
-	const handleClick = (label?: string, e?: React.FormEvent<HTMLInputElement>) => {
+	const handleClick = (label?: string, e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
 		if (e) {
 			e.preventDefault();
 		}

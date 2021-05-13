@@ -212,7 +212,7 @@ export const AirdropTable: React.FunctionComponent = () => {
 				</div>
 			</div>
 			<div className="row">
-				<div className="col-12">
+				<div className="col-12 airdrop-table-wrapper">
 					<Table
 						size="small"
 						pagination={tableState.pagination}

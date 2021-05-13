@@ -148,5 +148,5 @@ export const TwitterTab: React.FC<TwitterTabProps> = (props: TwitterTabProps) =>
 		/>
 	);
 
-	return <div>{followState && tweetState ? resultView : tableView}</div>;
+	return <div className="airdrop-twitter-tab">{followState && tweetState ? resultView : tableView}</div>;
 };

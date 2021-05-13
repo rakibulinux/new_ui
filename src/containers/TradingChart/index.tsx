@@ -25,6 +25,10 @@ import { widgetOptions, widgetParams } from './config';
 import { getTradingChartTimezone } from './timezones';
 import { HeaderToolbar } from '../HeaderToolbar';
 
+interface TradingChartComponentProps {
+	hideHeaderContent?: boolean;
+}
+
 interface ReduxProps {
 	markets: Market[];
 	colorTheme: string;
@@ -42,7 +46,7 @@ interface DispatchProps {
 	klineUpdatePeriod: typeof klineUpdatePeriod;
 }
 
-type Props = ReduxProps & DispatchProps;
+type Props = ReduxProps & DispatchProps & TradingChartComponentProps;
 
 export class TradingChartComponent extends React.PureComponent<Props> {
 	public currentKlineSubscription: CurrentKlineSubscription = {};
@@ -93,10 +97,12 @@ export class TradingChartComponent extends React.PureComponent<Props> {
 	public render() {
 		return (
 			<React.Fragment>
-				<div className="cr-table-header__content title-text">
-					{this.props.currentMarket ? this.props.currentMarket.name : ''}
-					<HeaderToolbar />
-				</div>
+				{!this.props.hideHeaderContent && (
+					<div className="cr-table-header__content title-text">
+						{this.props.currentMarket ? this.props.currentMarket.name : ''}
+						<HeaderToolbar />
+					</div>
+				)}
 
 				<div id={widgetParams.containerId} className="pg-trading-chart" />
 			</React.Fragment>

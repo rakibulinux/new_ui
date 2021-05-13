@@ -27,6 +27,7 @@ export interface OrdersHistoryState {
 	cancelError: boolean;
 	cancelFetching: boolean;
 	nextPageExists: boolean;
+	market?: string;
 }
 
 export const initialOrdersHistoryState: OrdersHistoryState = {
@@ -38,6 +39,7 @@ export const initialOrdersHistoryState: OrdersHistoryState = {
 	cancelError: false,
 	cancelFetching: false,
 	nextPageExists: false,
+	market: undefined,
 };
 
 export const ordersHistoryReducer = (state = initialOrdersHistoryState, action: OrdersHistoryAction): OrdersHistoryState => {
@@ -51,15 +53,21 @@ export const ordersHistoryReducer = (state = initialOrdersHistoryState, action: 
 				fetching: false,
 				pageIndex: action.payload.pageIndex,
 				nextPageExists: action.payload.nextPageExists,
+				market: action.payload.market,
 			};
 		case ORDERS_HISTORY_RANGER_DATA:
+			let data = insertOrUpdate(state.list, convertOrderEvent(action.payload));
+			if (state.market) {
+				data = data.filter(order => order.market === state.market);
+			}
+
 			return {
 				...state,
 				cancelFetching: false,
-				list: sliceArray(insertOrUpdate(state.list, convertOrderEvent(action.payload)), defaultStorageLimit()),
+				list: sliceArray(data, defaultStorageLimit()),
 			};
 		case ORDERS_HISTORY_ERROR:
-			return { ...state, list: [], pageIndex: 0, fetching: false };
+			return { ...state, list: [], pageIndex: 0, fetching: false, market: undefined };
 		case ORDERS_CANCEL_ALL_FETCH:
 			return { ...state, cancelAllFetching: true, cancelAllError: false };
 		case ORDERS_CANCEL_ALL_DATA:
@@ -73,7 +81,7 @@ export const ordersHistoryReducer = (state = initialOrdersHistoryState, action: 
 		case ORDERS_HISTORY_CANCEL_ERROR:
 			return { ...state, cancelFetching: false, cancelError: true };
 		case ORDERS_HISTORY_RESET: {
-			return { ...state, list: [], pageIndex: 0, fetching: false };
+			return { ...state, list: [], pageIndex: 0, fetching: false, market: undefined };
 		}
 		default:
 			return state;
