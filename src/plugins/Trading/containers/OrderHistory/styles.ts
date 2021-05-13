@@ -34,7 +34,9 @@ export const OrderHistoryStyle = styled.div`
 					padding: 0 13px;
 					display: flex;
 					.rc-tabs-tab {
+						font-weight: 500;
 						&.rc-tabs-tab-active {
+							font-weight: 600;
 							.rc-tabs-tab-btn {
 								color: #fff;
 								border-bottom: 2px solid #2fb67e;
@@ -77,16 +79,14 @@ export const TableStyle = styled.table`
 	table-layout: fixed;
 	border-collapse: collapse;
 	color: white;
-	font-size: 12px;
-	th {
-		text-align: left;
-	}
 	thead {
 		color: #848e9c;
 		tr {
 			position: relative;
 			th {
 				border: none;
+				text-align: left;
+				font-weight: 500;
 			}
 		}
 	}
@@ -97,7 +97,6 @@ export const TableStyle = styled.table`
 		height: 260px;
 		td {
 			border: none;
-			font-size: 10px;
 		}
 	}
 	tr {
@@ -141,7 +140,16 @@ export const OpenOrdersStyle = styled.div`
 
 export const OrderHistoryListStyle = styled.div`
 	${TableStyle} {
+		tbody {
+			height: 240px;
+		}
 		tr {
+			th,
+			td {
+				:first-child {
+					flex: 2;
+				}
+			}
 			td {
 				.td-order-history-list-executed {
 					color: var(--system-yellow);

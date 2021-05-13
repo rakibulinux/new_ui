@@ -2,8 +2,7 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { CloseIcon } from '../../../../assets/images/CloseIcon';
-import { Decimal } from '../../../../components';
-import { localeDate, setTradeColor } from '../../../../helpers';
+import { localeDate, preciseData, setTradeColor } from '../../../../helpers';
 import {
 	ordersHistoryCancelFetch,
 	resetOrdersHistory,
@@ -49,7 +48,6 @@ export const OrderHistoryList: React.FC<OrderHistoryListProps> = ({}) => {
 		const {
 			id,
 			executed_volume,
-			market,
 			ord_type,
 			price,
 			avg_price,
@@ -62,33 +60,33 @@ export const OrderHistoryList: React.FC<OrderHistoryListProps> = ({}) => {
 		} = item;
 
 		const orderType = getType(side, ord_type ? ord_type : '');
-		const marketName = currentMarket ? currentMarket.name : market;
 		const costRemaining = +remaining_volume * +price; // price or avg_price ???
 		const date = localeDate(updated_at ? updated_at : created_at, 'fullDate');
 		const status = setOrderStatus(state);
 		const actualPrice = ord_type === 'market' || status === 'done' ? avg_price : price;
+
+		const { price_precision, amount_precision } = currentMarket;
 
 		return [
 			date,
 			<span style={{ color: setTradeColor(side).color }} key={id}>
 				{orderType}
 			</span>,
-			marketName,
-			<Decimal key={id} fixed={currentMarket.price_precision}>
-				{actualPrice}
-			</Decimal>,
-			<Decimal key={id} fixed={currentMarket.amount_precision}>
-				{origin_volume}
-			</Decimal>,
-			<Decimal key={id} fixed={currentMarket.amount_precision}>
-				{executed_volume}
-			</Decimal>,
-			<Decimal key={id} fixed={currentMarket.amount_precision}>
-				{remaining_volume}
-			</Decimal>,
-			<Decimal key={id} fixed={currentMarket.amount_precision}>
-				{costRemaining.toString()}
-			</Decimal>,
+			<span style={{ color: setTradeColor(side).color }} key={id}>
+				{preciseData(actualPrice, price_precision)}
+			</span>,
+			<span style={{ color: setTradeColor(side).color }} key={id}>
+				{preciseData(origin_volume, amount_precision)}
+			</span>,
+			<span style={{ color: setTradeColor(side).color }} key={id}>
+				{preciseData(executed_volume, amount_precision)}
+			</span>,
+			<span style={{ color: setTradeColor(side).color }} key={id}>
+				{preciseData(remaining_volume, amount_precision)}
+			</span>,
+			<span style={{ color: setTradeColor(side).color }} key={id}>
+				{preciseData(costRemaining, amount_precision)}
+			</span>,
 			status,
 			state === 'wait' && <CloseIcon key={id} onClick={() => id && handleCancel(id)} />,
 		];
@@ -141,7 +139,6 @@ export const OrderHistoryList: React.FC<OrderHistoryListProps> = ({}) => {
 	const renderHeaders = () => {
 		return [
 			intl.formatMessage({ id: 'page.body.history.deposit.header.date' }),
-			intl.formatMessage({ id: 'page.body.openOrders.header.orderType' }),
 			intl.formatMessage({ id: 'page.body.openOrders.header.pair' }),
 			intl.formatMessage({ id: 'page.body.openOrders.header.price' }),
 			intl.formatMessage({ id: 'page.body.openOrders.header.amount' }),

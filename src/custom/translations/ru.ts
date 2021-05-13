@@ -2,6 +2,11 @@ import { LangType } from '../../translations';
 import { nationalitiesNames } from '../../translations/nationalities';
 
 export const ru: LangType = {
+	/**OrderBook */
+	'page.body.trading.header.orderBook.header.title.price': 'цена',
+	'page.body.trading.header.orderBook.header.title.amount': 'количество',
+	'page.body.trading.header.orderBook.header.title.sum': 'Сумма',
+
 	/**Order History in Tradding page */
 	'page.body.trade.header.orderHistory': 'История заказов',
 

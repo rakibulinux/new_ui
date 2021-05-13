@@ -27,4 +27,9 @@ export const en = {
 
 	/**Order History in Tradding page */
 	'page.body.trade.header.orderHistory': 'Order History',
+
+	/**OrderBook */
+	'page.body.trading.header.orderBook.header.title.price': 'Price',
+	'page.body.trading.header.orderBook.header.title.amount': 'Amount',
+	'page.body.trading.header.orderBook.header.title.sum': 'Sum',
 };
