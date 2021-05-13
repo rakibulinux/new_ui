@@ -5,81 +5,80 @@ import { rootSaga } from '../../..';
 import { mockNetworkError, setupMockAxios, setupMockStore } from '../../../../helpers/jest';
 import { changeUserDataError, changeUserDataFetch } from '../actions';
 
-
 describe('Module: Change user info', () => {
-    let store: MockStoreEnhanced;
-    let sagaMiddleware: SagaMiddleware;
-    let mockAxios: MockAdapter;
+	let store: MockStoreEnhanced;
+	let sagaMiddleware: SagaMiddleware;
+	let mockAxios: MockAdapter;
 
-    beforeEach(() => {
-        mockAxios = setupMockAxios();
-        sagaMiddleware = createSagaMiddleware();
-        store = setupMockStore(sagaMiddleware, false)();
-        sagaMiddleware.run(rootSaga);
-    });
+	beforeEach(() => {
+		mockAxios = setupMockAxios();
+		sagaMiddleware = createSagaMiddleware();
+		store = setupMockStore(sagaMiddleware, false)();
+		sagaMiddleware.run(rootSaga);
+	});
 
-    afterEach(() => {
-        mockAxios.reset();
-    });
+	afterEach(() => {
+		mockAxios.reset();
+	});
 
-    const fakeError = {
-        code: 500,
-        message: ['Server error'],
-    };
+	const fakeError = {
+		code: 500,
+		message: ['Server error'],
+	};
 
-    const fakeUser = {
-        email: 'admin@barong.io',
-        uid: 'ID26C901376F',
-        role: 'admin',
-        level: 3,
-        otp: false,
-        state: 'active',
-        profiles: [],
-        data: '',
-        referal_uid: '',
-        labels: [],
-        phone: [],
-        created_at: '',
-        updated_at: '',
-    };
+	const fakeUser = {
+		email: 'admin@barong.io',
+		uid: 'ID26C901376F',
+		role: 'admin',
+		level: 3,
+		otp: false,
+		state: 'active',
+		profiles: [],
+		data: '',
+		referal_uid: '',
+		labels: [],
+		phone: [],
+		created_at: '',
+		updated_at: '',
+	};
 
-    const mockchangeUserData = () => {
-        mockAxios.onPut('/resource/users/me').reply(200);
-    };
+	const mockchangeUserData = () => {
+		mockAxios.onPut('/resource/users/me').reply(200);
+	};
 
-    const expectedActionsFetch = [changeUserDataFetch({ user: fakeUser })];
-    const expectedActionsError = [changeUserDataFetch({ user: fakeUser }), changeUserDataError(fakeError)];
+	const expectedActionsFetch = [changeUserDataFetch({ user: fakeUser })];
+	const expectedActionsError = [changeUserDataFetch({ user: fakeUser }), changeUserDataError(fakeError)];
 
-    it('should change user data info in success flow', async () => {
-        mockchangeUserData();
-        const promise = new Promise(resolve => {
-            store.subscribe(() => {
-                const actions = store.getActions();
-                if (actions.length === expectedActionsFetch.length) {
-                    expect(actions).toEqual(expectedActionsFetch);
-                    resolve();
-                }
-            });
-        });
+	it('should change user data info in success flow', async () => {
+		mockchangeUserData();
+		const promise = new Promise(resolve => {
+			store.subscribe(() => {
+				const actions = store.getActions();
+				if (actions.length === expectedActionsFetch.length) {
+					expect(actions).toEqual(expectedActionsFetch);
+					resolve();
+				}
+			});
+		});
 
-        store.dispatch(changeUserDataFetch({ user: fakeUser }));
+		store.dispatch(changeUserDataFetch({ user: fakeUser }));
 
-        return promise;
-    });
+		return promise;
+	});
 
-    it('should trigger an error', async () => {
-        mockNetworkError(mockAxios);
-        const promise = new Promise(resolve => {
-            store.subscribe(() => {
-                const actions = store.getActions();
-                if (actions.length === expectedActionsError.length) {
-                    expect(actions).toEqual(expectedActionsError);
-                    resolve();
-                }
-            });
-        });
-        store.dispatch(changeUserDataFetch({ user: fakeUser }));
+	it('should trigger an error', async () => {
+		mockNetworkError(mockAxios);
+		const promise = new Promise(resolve => {
+			store.subscribe(() => {
+				const actions = store.getActions();
+				if (actions.length === expectedActionsError.length) {
+					expect(actions).toEqual(expectedActionsError);
+					resolve();
+				}
+			});
+		});
+		store.dispatch(changeUserDataFetch({ user: fakeUser }));
 
-        return promise;
-    });
+		return promise;
+	});
 });

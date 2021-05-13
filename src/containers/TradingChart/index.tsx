@@ -4,19 +4,19 @@ import { connect, MapDispatchToPropsFunction, MapStateToProps } from 'react-redu
 import { IChartingLibraryWidget, LanguageCode, widget } from '../../charting_library/charting_library.min';
 import { stdTimezoneOffset } from '../../helpers';
 import {
-  KlineState,
-  klineUpdatePeriod,
-  klineUpdateTimeRange,
-  Market,
-  MarketsState,
-  RootState,
-  selectChartRebuildState,
-  selectCurrentColorTheme,
-  selectCurrentLanguage,
-  selectCurrentMarket,
-  selectKline,
-  selectMarkets,
-  selectMarketTickers,
+	KlineState,
+	klineUpdatePeriod,
+	klineUpdateTimeRange,
+	Market,
+	MarketsState,
+	RootState,
+	selectChartRebuildState,
+	selectCurrentColorTheme,
+	selectCurrentLanguage,
+	selectCurrentMarket,
+	selectKline,
+	selectMarkets,
+	selectMarketTickers,
 } from '../../modules';
 import { rangerSubscribeKlineMarket, rangerUnsubscribeKlineMarket } from '../../modules/public/ranger';
 import { periodStringToMinutes } from '../../modules/public/ranger/helpers';
@@ -26,20 +26,20 @@ import { getTradingChartTimezone } from './timezones';
 import { HeaderToolbar } from '../HeaderToolbar';
 
 interface ReduxProps {
-  markets: Market[];
-  colorTheme: string;
-  chartRebuild: boolean;
-  currentMarket?: Market;
-  tickers: MarketsState['tickers'];
-  kline: KlineState;
-  lang: string;
+	markets: Market[];
+	colorTheme: string;
+	chartRebuild: boolean;
+	currentMarket?: Market;
+	tickers: MarketsState['tickers'];
+	kline: KlineState;
+	lang: string;
 }
 
 interface DispatchProps {
-  subscribeKline: typeof rangerSubscribeKlineMarket;
-  unSubscribeKline: typeof rangerUnsubscribeKlineMarket;
-  klineUpdateTimeRange: typeof klineUpdateTimeRange;
-  klineUpdatePeriod: typeof klineUpdatePeriod;
+	subscribeKline: typeof rangerSubscribeKlineMarket;
+	unSubscribeKline: typeof rangerUnsubscribeKlineMarket;
+	klineUpdateTimeRange: typeof klineUpdateTimeRange;
+	klineUpdatePeriod: typeof klineUpdatePeriod;
 }
 
 interface TradingChartComponentProps {

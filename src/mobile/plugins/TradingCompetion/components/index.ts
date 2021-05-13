@@ -1,1 +1,1 @@
-export * from './CompetitionItem'
+export * from './CompetitionItem';

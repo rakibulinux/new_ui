@@ -9,16 +9,16 @@ import { RestrictedScreen } from '../RestrictedScreen';
 const store = createStore(rootReducer);
 
 const setup = (props: Partial<IntlProps> = {}) =>
-    shallow(
-        <Provider store={store}>
-            <RestrictedScreen />
-        </Provider>,
-    );
+	shallow(
+		<Provider store={store}>
+			<RestrictedScreen />
+		</Provider>,
+	);
 
 describe('RestrictedScreen', () => {
-    const wrapper = setup();
+	const wrapper = setup();
 
-    it('should render', () => {
-        expect(wrapper).toMatchSnapshot();
-    });
+	it('should render', () => {
+		expect(wrapper).toMatchSnapshot();
+	});
 });

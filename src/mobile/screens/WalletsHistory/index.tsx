@@ -7,33 +7,26 @@ import { DepositHistoryTable } from '../../components/DepositHistoryTable';
 import { WithdrawHistoryTable } from '../../components/WithdrawHistoryTable';
 
 const WalletsHistory: React.FC = () => {
-    const intl = useIntl();
-    const { currency } = useParams();
-    const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
+	const intl = useIntl();
+	const { currency } = useParams();
+	const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
 
-    const renderTabs = () => [
-        {
-            content: currentTabIndex === 0 ? <DepositHistoryTable currency={currency} type="deposits" /> : null,
-            label: intl.formatMessage({ id: 'page.mobile.wallets.deposit.history' }),
-        },
-        {
-            content: currentTabIndex === 1 ? <WithdrawHistoryTable currency={currency} type="withdraws" /> : null,
-            label: intl.formatMessage( { id: 'page.mobile.wallets.withdraw.history' }),
-        },
-    ];
+	const renderTabs = () => [
+		{
+			content: currentTabIndex === 0 ? <DepositHistoryTable currency={currency} type="deposits" /> : null,
+			label: intl.formatMessage({ id: 'page.mobile.wallets.deposit.history' }),
+		},
+		{
+			content: currentTabIndex === 1 ? <WithdrawHistoryTable currency={currency} type="withdraws" /> : null,
+			label: intl.formatMessage({ id: 'page.mobile.wallets.withdraw.history' }),
+		},
+	];
 
-    return (
-        <div className="pg-mobile-trading-tabs">
-            <TabPanel
-                panels={renderTabs()}
-                currentTabIndex={currentTabIndex}
-                onCurrentTabChange={setCurrentTabIndex}
-            />
-        </div>
-    );
+	return (
+		<div className="pg-mobile-trading-tabs">
+			<TabPanel panels={renderTabs()} currentTabIndex={currentTabIndex} onCurrentTabChange={setCurrentTabIndex} />
+		</div>
+	);
 };
 
-export {
-    WalletsHistory,
-};
-
+export { WalletsHistory };

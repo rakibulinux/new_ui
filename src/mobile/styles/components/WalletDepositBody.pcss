@@ -1,70 +1,70 @@
 /* stylelint-disable */
 .cr-mobile-wallet-deposit-body {
-  .cr-wallet-item__single {
-    display: none;
-  }
-  .cr-deposit-crypto {
-    background: var(--body-background-color);
-    display: flex;
-    padding: 0 14px 30px 14px;
-    .cr-deposit-info {
-      font-size: 14px;
-      text-align: left;
-    }
-    
-    .qr-code {
-      margin: 0 0 0 20px;
-    }
-    .input-group {
-      display: flex;
-      .input-group-append {
-        display: flex;
-        align-items: center;
-        margin-right: 2%;
+	.cr-wallet-item__single {
+		display: none;
+	}
+	.cr-deposit-crypto {
+		background: var(--body-background-color);
+		display: flex;
+		padding: 0 14px 30px 14px;
+		.cr-deposit-info {
+			font-size: 14px;
+			text-align: left;
+		}
 
-        button {
-          width: 131px;
-          padding: 0;
-          font-size: 14px;
-          height: 27px;
-          border-radius: 2px;
-        }
-      }
-      .custom-input {
-        width: auto;
-        flex: 1;
-        label {
-          left: 20;
-          padding-left: 0;
-        }
-        input {
-          padding-left: 0;
-          margin-left: 2%;
-          font-size: 1em;
-        }
-      }
-    }
-    & > div {
-      &:first-child {
-        order: 1;
-        margin-top: 20px;
-      }
-    }
-    .d-none {
-      display: block !important;
-    }
-  }
+		.qr-code {
+			margin: 0 0 0 20px;
+		}
+		.input-group {
+			display: flex;
+			.input-group-append {
+				display: flex;
+				align-items: center;
+				margin-right: 2%;
 
-  .cr-deposit-fiat {
-    background: var(--body-background-color);
-    font-size: 14px;
+				button {
+					width: 131px;
+					padding: 0;
+					font-size: 14px;
+					height: 27px;
+					border-radius: 2px;
+				}
+			}
+			.custom-input {
+				width: auto;
+				flex: 1;
+				label {
+					left: 20;
+					padding-left: 0;
+				}
+				input {
+					padding-left: 0;
+					margin-left: 2%;
+					font-size: 1em;
+				}
+			}
+		}
+		& > div {
+			&:first-child {
+				order: 1;
+				margin-top: 20px;
+			}
+		}
+		.d-none {
+			display: block !important;
+		}
+	}
 
-    &-credentials {
-      width: 100%;
-    }
+	.cr-deposit-fiat {
+		background: var(--body-background-color);
+		font-size: 14px;
 
-    &__title {
-      color: var(--primary-text-color);
-    }
-  }
+		&-credentials {
+			width: 100%;
+		}
+
+		&__title {
+			color: var(--primary-text-color);
+		}
+	}
 }

@@ -1,3 +1,1 @@
-module.exports = [
-    'ETH/BTC',
-]
+module.exports = ['ETH/BTC'];

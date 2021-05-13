@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 import { beneficiariesFetch } from '../modules';
 
 export const useBeneficiariesFetch = () => {
-    const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-    React.useEffect(() => {
-        dispatch(beneficiariesFetch());
-    }, [dispatch]);
+	React.useEffect(() => {
+		dispatch(beneficiariesFetch());
+	}, [dispatch]);
 };

@@ -1,4 +1,5 @@
 # OpenDAX BaseApp UI
+
 ## User Interface for Trading and Wallets Management
 
 Base React application to build a trading platform interface for use with OpenDAX: https://github.com/openware/opendax
@@ -9,7 +10,6 @@ You can see an example of a live application running at: https://demo.openware.c
 ## License
 
 Please note, that BaseApp license only allows Non-Commercial use of this component. To purchase the Commercial license, please contact us at hello@openware.com.
-
 
 ## Install dependencies
 
@@ -22,6 +22,7 @@ $ yarn install
 ```bash
 $ yarn start-mock
 ```
+
 This command will also start a fake api backend for helping development.
 Once you happy with the result, save, build an image and run it with OpenDAX docker compose system.
 
@@ -34,6 +35,7 @@ $ yarn test
 ```
 
 Check test coverage:
+
 ```bash
 $ yarn test -- --coverage --watchAll
 ```
@@ -42,24 +44,22 @@ For more options for `jest` run `yarn test --help`.
 
 ## Configuration documentation
 
-Configuration file is located in  `public/config/env.js`
+Configuration file is located in `public/config/env.js`
 
-
-| Argument                 | Description                                                  |
-| --------------------- | ------------------------------------------------------------ |
-| `api`    | URLs of `barong`, `peatio`, `applogic` and `ranger` API endpoints. You can use mockserver (<https://github.com/openware/mockserver>) with default `env.js` values |
-| `minutesUntilAutoLogout`                |  Autologout time in minutes  |
-| `withCredentials`               |  `false` or `true` if you want to include cookies as part of the request(https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)   |
-| `gaTrackerKey` |  Google Analytics tracker key  |
-| `rangerReconnectPeriod` |  Reconnection time for the Ranger WS service in minutes    |
-| `msAlertDisplayTime` |  Alert message display duration in milliseconds    |
-| `kycSteps` |  List of label names for KYC process    |
+| Argument                               | Description                                                                                                                                                         |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `api`                                  | URLs of `barong`, `peatio`, `applogic` and `ranger` API endpoints. You can use mockserver (<https://github.com/openware/mockserver>) with default `env.js` values   |
+| `minutesUntilAutoLogout`               | Autologout time in minutes                                                                                                                                          |
+| `withCredentials`                      | `false` or `true` if you want to include cookies as part of the request(https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials) |
+| `gaTrackerKey`                         | Google Analytics tracker key                                                                                                                                        |
+| `rangerReconnectPeriod`                | Reconnection time for the Ranger WS service in minutes                                                                                                              |
+| `msAlertDisplayTime`                   |  Alert message display duration in milliseconds                                                                                                                     |
+| `kycSteps`                             |  List of label names for KYC process                                                                                                                                |
 
 ## Available Docker build args
 
-While building a Docker image you can pass build-dependant arguments using `--build-arg`: 
-`docker build -t baseapp:latest
-  --build-arg BUILD_DOMAIN="example.com" .`
+While building a Docker image you can pass build-dependant arguments using `--build-arg`:
+`docker build -t baseapp:latest --build-arg BUILD_DOMAIN="example.com" .`
 
 | Argument       | Description                                            |
 | -------------- | ------------------------------------------------------ |

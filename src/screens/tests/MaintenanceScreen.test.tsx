@@ -9,16 +9,16 @@ import { MaintenanceScreen } from '../MaintenanceScreen';
 const store = createStore(rootReducer);
 
 const setup = (props: Partial<IntlProps> = {}) =>
-    shallow(
-        <Provider store={store}>
-            <MaintenanceScreen />
-        </Provider>,
-    );
+	shallow(
+		<Provider store={store}>
+			<MaintenanceScreen />
+		</Provider>,
+	);
 
 describe('MaintenanceScreen', () => {
-    const wrapper = setup();
+	const wrapper = setup();
 
-    it('should render', () => {
-        expect(wrapper).toMatchSnapshot();
-    });
+	it('should render', () => {
+		expect(wrapper).toMatchSnapshot();
+	});
 });

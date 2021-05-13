@@ -1,8 +1,8 @@
 import { History } from 'history';
 import * as React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect, MapDispatchToPropsFunction } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { LogoutIcon } from '../../assets/images/sidebar/LogoutIcon';
 import { IntlProps } from '../../index';
 /* import { compose } from 'redux'; */
@@ -24,33 +24,33 @@ import {
 } from '../../modules';
 
 interface State {
-  isOpenDrop: boolean;
+	isOpenDrop: boolean;
 }
 
 interface OwnProps {
-  onLinkChange?: () => void;
-  history: History;
-  changeUserDataFetch: typeof changeUserDataFetch;
+	onLinkChange?: () => void;
+	history: History;
+	changeUserDataFetch: typeof changeUserDataFetch;
 }
 
 interface ReduxProps {
-  isLoggedIn: boolean;
-  currentMarket: Market | undefined;
-  user: User;
-  mobileWallet: string;
-  sidebarOpened: boolean;
-  marketSelectorOpened: boolean;
+	isLoggedIn: boolean;
+	currentMarket: Market | undefined;
+	user: User;
+	mobileWallet: string;
+	sidebarOpened: boolean;
+	marketSelectorOpened: boolean;
 }
 
 interface DispatchProps {
-  logoutFetch: typeof logoutFetch;
-  setMobileWalletUi: typeof setMobileWalletUi;
-  toggleSidebar: typeof toggleSidebar;
-  toggleMarketSelector: typeof toggleMarketSelector;
+	logoutFetch: typeof logoutFetch;
+	setMobileWalletUi: typeof setMobileWalletUi;
+	toggleSidebar: typeof toggleSidebar;
+	toggleMarketSelector: typeof toggleMarketSelector;
 }
 
 interface HistoryProps {
-  history: History;
+	history: History;
 }
 
 type Props = OwnProps & ReduxProps & HistoryProps & IntlProps & DispatchProps;
@@ -217,12 +217,12 @@ class Head extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): ReduxProps => ({
-  isLoggedIn: selectUserLoggedIn(state),
-  currentMarket: selectCurrentMarket(state),
-  user: selectUserInfo(state),
-  mobileWallet: selectMobileWalletUi(state),
-  sidebarOpened: selectSidebarState(state),
-  marketSelectorOpened: selectMarketSelectorState(state),
+	isLoggedIn: selectUserLoggedIn(state),
+	currentMarket: selectCurrentMarket(state),
+	user: selectUserInfo(state),
+	mobileWallet: selectMobileWalletUi(state),
+	sidebarOpened: selectSidebarState(state),
+	marketSelectorOpened: selectMarketSelectorState(state),
 });
 
 const mapDispatchToProps: MapDispatchToPropsFunction<DispatchProps, {}> = (dispatch) => ({

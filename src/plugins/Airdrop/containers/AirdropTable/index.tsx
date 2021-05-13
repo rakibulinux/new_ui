@@ -1,12 +1,12 @@
 import * as React from 'react';
 
 import { Button, Menu, message, Progress, Table } from 'antd';
-import { useHistory } from 'react-router';
 import Countdown from 'react-countdown';
+import { useHistory } from 'react-router';
 import axios from '../../../api/index';
 
-import './AirdropTable.css';
 import { Airdrop } from '../../../../modules';
+import './AirdropTable.css';
 
 const renderer = ({ days, hours, minutes, seconds, completed }) => {
   if (completed) {

@@ -10,16 +10,16 @@ const store = createStore(rootReducer);
 const SignUp = connect()(SignUpScreen);
 
 const setup = (props: Partial<IntlProps> = {}) =>
-    shallow(
-        <Provider store={store}>
-            <SignUp />
-        </Provider>,
-    );
+	shallow(
+		<Provider store={store}>
+			<SignUp />
+		</Provider>,
+	);
 
 describe('SignUpScreen', () => {
-    const wrapper = setup();
+	const wrapper = setup();
 
-    it('should render', () => {
-        expect(wrapper).toMatchSnapshot();
-    });
+	it('should render', () => {
+		expect(wrapper).toMatchSnapshot();
+	});
 });

@@ -10,16 +10,16 @@ const store = createStore(rootReducer);
 const OrdersTab = connect()(OrdersTabScreen);
 
 const setup = (props: Partial<IntlProps> = {}) =>
-    shallow(
-        <Provider store={store}>
-            <OrdersTab />
-        </Provider>,
-    );
+	shallow(
+		<Provider store={store}>
+			<OrdersTab />
+		</Provider>,
+	);
 
 describe('OrdersTabScreen test', () => {
-    it('should render', () => {
-        const wrapper = setup();
-        expect(wrapper).toMatchSnapshot();
-        expect(wrapper).toBeDefined();
-    });
+	it('should render', () => {
+		const wrapper = setup();
+		expect(wrapper).toMatchSnapshot();
+		expect(wrapper).toBeDefined();
+	});
 });

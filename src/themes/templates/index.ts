@@ -4,6 +4,6 @@ export * from './Green';
 export * from './Purple';
 
 export interface ThemeColorInterface {
-    key: string;
-    value: string;
+	key: string;
+	value: string;
 }

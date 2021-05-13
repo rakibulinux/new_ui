@@ -10,16 +10,16 @@ const store = createStore(rootReducer);
 const ProfileTwoFactorAuthTab = connect()(ProfileTwoFactorAuthScreen);
 
 const setup = (props: Partial<IntlProps> = {}) =>
-    shallow(
-        <Provider store={store}>
-            <ProfileTwoFactorAuthTab/>
-        </Provider>,
-    );
+	shallow(
+		<Provider store={store}>
+			<ProfileTwoFactorAuthTab />
+		</Provider>,
+	);
 
 describe('ProfileTwoFactorAuthScreen test', () => {
-    it('should render', () => {
-        const wrapper = setup();
-        expect(wrapper).toMatchSnapshot();
-        expect(wrapper).toBeDefined();
-    });
+	it('should render', () => {
+		const wrapper = setup();
+		expect(wrapper).toMatchSnapshot();
+		expect(wrapper).toBeDefined();
+	});
 });

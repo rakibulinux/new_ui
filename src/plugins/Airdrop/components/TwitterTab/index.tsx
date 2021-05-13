@@ -1,8 +1,10 @@
+import { Button, Input, message, Result, Table } from 'antd/lib';
 import * as React from 'react';
 import './TwitterTab.css';
 import { Table, Input, Button, Result, message } from 'antd/lib';
 import api from '../../../api';
 import { TwitterTabConfig } from '../../screens';
+import './TwitterTab.css';
 
 const { Search } = Input;
 

@@ -10,11 +10,7 @@ import { changeLanguageReducer } from './public/i18n';
 import { klineReducer } from './public/kline';
 import { marketsReducer } from './public/markets';
 import { memberLevelsReducer } from './public/memberLevels';
-import {
-    depthReducer,
-    incrementDepthReducer,
-    orderBookReducer,
-} from './public/orderBook';
+import { depthReducer, incrementDepthReducer, orderBookReducer } from './public/orderBook';
 import { rangerReducer } from './public/ranger/reducer';
 import { recentTradesReducer } from './public/recentTrades';
 import { apiKeysReducer } from './user/apiKeys';
@@ -24,13 +20,7 @@ import { getGeetestCaptchaReducer } from './user/captcha';
 import { customizationUpdateReducer } from './user/customization';
 import { sendEmailVerificationReducer } from './user/emailVerification';
 import { historyReducer } from './user/history';
-import {
-    addressesReducer,
-    documentsReducer,
-    identityReducer,
-    labelReducer,
-    phoneReducer,
-} from './user/kyc';
+import { addressesReducer, documentsReducer, identityReducer, labelReducer, phoneReducer } from './user/kyc';
 import { newHistoryReducer } from './user/newHistory';
 import { openOrdersReducer } from './user/openOrders';
 import { ordersReducer } from './user/orders';
@@ -45,86 +35,86 @@ import { airdropReducer } from './airdrops/airdrop';
 import { claimReducer } from './airdrops/claim';
 import { ethFeeReducer } from './eth-withdraw/fee';
 import { ethFeeWithdrawReducer } from './eth-withdraw/withdraw';
-import { saleListReducer } from './sale/sale-list';
-import { saleItemReducer } from './sale/sale-item';
+import { lunarReducer } from './events/lunar';
+import { eventReducer } from './info/events';
 import { buyReducer, totalBuyersReducer } from './sale/buy';
 import { priceReducer } from './sale/price';
-import { rankingsReducer } from './trading_competitions/rankings';
-import { competitionsListReducer } from './trading_competitions/competitions';
+import { saleItemReducer } from './sale/sale-item';
+import { saleListReducer } from './sale/sale-list';
 import { competitionItemReducer } from './trading_competitions/competition_item';
-import { eventReducer } from './info/events';
-import { lunarReducer } from './events/lunar';
+import { competitionsListReducer } from './trading_competitions/competitions';
+import { rankingsReducer } from './trading_competitions/rankings';
 
 export const eventsReducer = combineReducers({
-    lunar : lunarReducer
+	lunar: lunarReducer,
 });
 
 export const airdropsReducer = combineReducers({
-    airdrops: airdropReducer,
-    claims: claimReducer,
+	airdrops: airdropReducer,
+	claims: claimReducer,
 });
 
 export const ethFeesReducer = combineReducers({
-    ethFee: ethFeeReducer,
-    withdraw: ethFeeWithdrawReducer
+	ethFee: ethFeeReducer,
+	withdraw: ethFeeWithdrawReducer,
 });
 
 export const saleReducer = combineReducers({
-    saleList: saleListReducer,
-    saleItem: saleItemReducer,
-    buy: buyReducer,
-    price: priceReducer,
-    totalBuyers: totalBuyersReducer,
+	saleList: saleListReducer,
+	saleItem: saleItemReducer,
+	buy: buyReducer,
+	price: priceReducer,
+	totalBuyers: totalBuyersReducer,
 });
 
 export const tradingCompetitionsReducer = combineReducers({
-    competitions: competitionsListReducer,
-    competition_item: competitionItemReducer,
-    rankings: rankingsReducer
-})
+	competitions: competitionsListReducer,
+	competition_item: competitionItemReducer,
+	rankings: rankingsReducer,
+});
 export const infoReducer = combineReducers({
-    events: eventReducer
-})
+	events: eventReducer,
+});
 
 export const publicReducer = combineReducers({
-    blocklistAccess: blocklistAccessReducer,
-    colorTheme: changeColorThemeReducer,
-    configs: configsReducer,
-    currencies: currenciesReducer,
-    customization: customizationReducer,
-    recentTrades: recentTradesReducer,
-    markets: marketsReducer,
-    orderBook: orderBookReducer,
-    depth: depthReducer,
-    incrementDepth: incrementDepthReducer,
-    ranger: rangerReducer,
-    i18n: changeLanguageReducer,
-    kline: klineReducer,
-    alerts: alertReducer,
-    rgl: gridLayoutReducer,
-    memberLevels: memberLevelsReducer,
+	blocklistAccess: blocklistAccessReducer,
+	colorTheme: changeColorThemeReducer,
+	configs: configsReducer,
+	currencies: currenciesReducer,
+	customization: customizationReducer,
+	recentTrades: recentTradesReducer,
+	markets: marketsReducer,
+	orderBook: orderBookReducer,
+	depth: depthReducer,
+	incrementDepth: incrementDepthReducer,
+	ranger: rangerReducer,
+	i18n: changeLanguageReducer,
+	kline: klineReducer,
+	alerts: alertReducer,
+	rgl: gridLayoutReducer,
+	memberLevels: memberLevelsReducer,
 });
 
 export const userReducer = combineReducers({
-    auth: authReducer,
-    beneficiaries: beneficiariesReducer,
-    customizationUpdate: customizationUpdateReducer,
-    label: labelReducer,
-    orders: ordersReducer,
-    password: passwordReducer,
-    profile: profileReducer,
-    wallets: walletsReducer,
-    addresses: addressesReducer,
-    documents: documentsReducer,
-    identity: identityReducer,
-    phone: phoneReducer,
-    history: historyReducer,
-    newHistory: newHistoryReducer,
-    apiKeys: apiKeysReducer,
-    userActivity: userActivityReducer,
-    ordersHistory: ordersHistoryReducer,
-    openOrders: openOrdersReducer,
-    sendEmailVerification: sendEmailVerificationReducer,
-    captchaKeys: getGeetestCaptchaReducer,
-    withdrawLimit: withdrawLimitReducer,
+	auth: authReducer,
+	beneficiaries: beneficiariesReducer,
+	customizationUpdate: customizationUpdateReducer,
+	label: labelReducer,
+	orders: ordersReducer,
+	password: passwordReducer,
+	profile: profileReducer,
+	wallets: walletsReducer,
+	addresses: addressesReducer,
+	documents: documentsReducer,
+	identity: identityReducer,
+	phone: phoneReducer,
+	history: historyReducer,
+	newHistory: newHistoryReducer,
+	apiKeys: apiKeysReducer,
+	userActivity: userActivityReducer,
+	ordersHistory: ordersHistoryReducer,
+	openOrders: openOrdersReducer,
+	sendEmailVerification: sendEmailVerificationReducer,
+	captchaKeys: getGeetestCaptchaReducer,
+	withdrawLimit: withdrawLimitReducer,
 });

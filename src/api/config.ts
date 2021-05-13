@@ -1,51 +1,42 @@
-import {
-    DEFAULT_KYC_STEPS,
-    ORDER_BOOK_DEFAULT_SIDE_LIMIT,
-    STORAGE_DEFAULT_LIMIT,
-} from '../constants';
+import { DEFAULT_KYC_STEPS, ORDER_BOOK_DEFAULT_SIDE_LIMIT, STORAGE_DEFAULT_LIMIT } from '../constants';
 import { Config } from './types';
 
 export const defaultConfig: Config = {
-    api: {
-        authUrl: '',
-        tradeUrl: '',
-        applogicUrl: '',
-        rangerUrl: '',
-        arkeUrl: '',
-        finexUrl: '',
-    },
-    minutesUntilAutoLogout: '30',
-    rangerReconnectPeriod: '1',
-    withCredentials: true,
-    storage: {},
-    gaTrackerKey: '',
-    msAlertDisplayTime: '5000',
-    incrementalOrderBook: false,
-    finex: false,
-    isResizable: false,
-    isDraggable: false,
-    languages: ['en'],
-    sessionCheckInterval: '15000',
-    balancesFetchInterval: '3000',
-    passwordEntropyStep: 0,
-    showLanding: true,
-    sentryEnabled: false,
-    kycSteps: [
-        'email',
-        'profile',
-        'document',
-        'address',
-    ],
+	api: {
+		authUrl: '',
+		tradeUrl: '',
+		applogicUrl: '',
+		rangerUrl: '',
+		arkeUrl: '',
+		finexUrl: '',
+	},
+	minutesUntilAutoLogout: '30',
+	rangerReconnectPeriod: '1',
+	withCredentials: true,
+	storage: {},
+	gaTrackerKey: '',
+	msAlertDisplayTime: '5000',
+	incrementalOrderBook: false,
+	finex: false,
+	isResizable: false,
+	isDraggable: false,
+	languages: ['en'],
+	sessionCheckInterval: '15000',
+	balancesFetchInterval: '3000',
+	passwordEntropyStep: 0,
+	showLanding: true,
+	sentryEnabled: false,
+	kycSteps: ['email', 'profile', 'document', 'address'],
 };
 
 export const Cryptobase = {
-    config: defaultConfig,
+	config: defaultConfig,
 };
 
 declare global {
-    interface Window {
-        env: Config;
-    }
+	interface Window {
+		env: Config;
+	}
 }
 
 window.env = window.env || defaultConfig;
@@ -64,15 +55,17 @@ export const defaultStorageLimit = () => Cryptobase.config.storage.defaultStorag
 export const orderBookSideLimit = () => Cryptobase.config.storage.orderBookSideLimit || ORDER_BOOK_DEFAULT_SIDE_LIMIT;
 export const gaTrackerKey = (): string => Cryptobase.config.gaTrackerKey || '';
 export const msAlertDisplayTime = (): string => Cryptobase.config.msAlertDisplayTime || '5000';
-export const rangerReconnectPeriod = (): number => Cryptobase.config.rangerReconnectPeriod ? Number(Cryptobase.config.rangerReconnectPeriod) : 1;
+export const rangerReconnectPeriod = (): number =>
+	Cryptobase.config.rangerReconnectPeriod ? Number(Cryptobase.config.rangerReconnectPeriod) : 1;
 export const incrementalOrderBook = (): boolean => Cryptobase.config.incrementalOrderBook || false;
-export const isResizableGrid = ():boolean => Cryptobase.config.isResizable || false;
-export const isDraggableGrid = ():boolean => Cryptobase.config.isDraggable || false;
-export const languages = Cryptobase.config.languages && Cryptobase.config.languages.length > 0 ? Cryptobase.config.languages : ['en'];
+export const isResizableGrid = (): boolean => Cryptobase.config.isResizable || false;
+export const isDraggableGrid = (): boolean => Cryptobase.config.isDraggable || false;
+export const languages =
+	Cryptobase.config.languages && Cryptobase.config.languages.length > 0 ? Cryptobase.config.languages : ['en'];
 export const sessionCheckInterval = (): string => Cryptobase.config.sessionCheckInterval || '15000';
 export const balancesFetchInterval = (): string => Cryptobase.config.balancesFetchInterval || '3000';
 export const isFinexEnabled = (): boolean => Cryptobase.config.finex || false;
-export const passwordEntropyStep = ():number => Cryptobase.config.passwordEntropyStep;
+export const passwordEntropyStep = (): number => Cryptobase.config.passwordEntropyStep;
 export const showLanding = (): boolean => Cryptobase.config.showLanding;
 export const sentryEnabled = () => Cryptobase.config.sentryEnabled || defaultConfig.sentryEnabled;
 export const kycSteps = (): string[] => Cryptobase.config.kycSteps || DEFAULT_KYC_STEPS;

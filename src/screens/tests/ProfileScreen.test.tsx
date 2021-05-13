@@ -10,16 +10,16 @@ const store = createStore(rootReducer);
 const ProfileTab = connect()(ProfileScreen);
 
 const setup = (props: Partial<IntlProps> = {}) =>
-    shallow(
-        <Provider store={store}>
-            <ProfileTab/>
-        </Provider>,
-    );
+	shallow(
+		<Provider store={store}>
+			<ProfileTab />
+		</Provider>,
+	);
 
 describe('ProfileScreen test', () => {
-    it('should render', () => {
-        const wrapper = setup();
-        expect(wrapper).toMatchSnapshot();
-        expect(wrapper).toBeDefined();
-    });
+	it('should render', () => {
+		const wrapper = setup();
+		expect(wrapper).toMatchSnapshot();
+		expect(wrapper).toBeDefined();
+	});
 });

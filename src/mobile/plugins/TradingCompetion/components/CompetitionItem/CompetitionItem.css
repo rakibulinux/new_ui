@@ -1,72 +1,72 @@
 .competition-item-mobile {
-    border: 2px solid #4B5D6C;
-    padding: 1rem 2rem;
-    background: #1C2437;
-    border-radius: 10px;
-    cursor: pointer;
-    margin: 10px 5% 0 5%;
-    transition: all 0.3s;
+	border: 2px solid #4b5d6c;
+	padding: 1rem 2rem;
+	background: #1c2437;
+	border-radius: 10px;
+	cursor: pointer;
+	margin: 10px 5% 0 5%;
+	transition: all 0.3s;
 }
 
 .competition-item-mobile__badge {
-    padding: 0.5rem 1rem;
-    border-radius: 3px;
-    font-size: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: rgb(255, 255, 255);
+	padding: 0.5rem 1rem;
+	border-radius: 3px;
+	font-size: 10px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: rgb(255, 255, 255);
 }
 
 .competition-item-mobile:hover {
-    background: #313F60;
+	background: #313f60;
 }
 
 .competition-item-mobile__title {
-    color: #ffff;
-    font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
+	color: #ffff;
+	font-size: 1rem;
+	font-weight: 700;
+	text-transform: uppercase;
 }
 
 .competition-item-mobile__subtitle {
-    color: #a4acb6;
-    font-size: 15px;
-    line-height: 20px;
+	color: #a4acb6;
+	font-size: 15px;
+	line-height: 20px;
 }
 
 .competition-item-mobile__bottom-button {
-    border: none;
-    outline: none;
-    width: 100%;
-    padding: 0.7rem 0;
-    color: #fff;
-    background-color: #F5A623;
-    border-radius: 3px;
-    font-weight: 800;
-    font-size: 1.2rem;
-    transition: all .3s;
+	border: none;
+	outline: none;
+	width: 100%;
+	padding: 0.7rem 0;
+	color: #fff;
+	background-color: #f5a623;
+	border-radius: 3px;
+	font-weight: 800;
+	font-size: 1.2rem;
+	transition: all 0.3s;
 }
 
 .competition-item-mobile__bottom-button:hover {
-    background-color: #f8cf8d;
+	background-color: #f8cf8d;
 }
 
 .ant-cascader-picker input {
-    border: none;
-    outline: none;
-    width: 100%;
-    color: #737f92;
-    border: 1px solid #737f92;
-    font-size: 1.2rem;
-    border-radius: 3px;
-    font-weight: 800;
+	border: none;
+	outline: none;
+	width: 100%;
+	color: #737f92;
+	border: 1px solid #737f92;
+	font-size: 1.2rem;
+	border-radius: 3px;
+	font-weight: 800;
 }
 
 .ant-cascader-menus {
-    background-color: #233957;
-    color: #fff;
+	background-color: #233957;
+	color: #fff;
 }
 
 .ant-cascader-menu-item-active:not(.ant-cascader-menu-item-disabled) {
-    background-color: rgb(70, 117, 184);
+	background-color: rgb(70, 117, 184);
 }

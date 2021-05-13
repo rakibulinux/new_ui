@@ -11,26 +11,25 @@ const store = createStore(rootReducer);
 const Verification = connect()(VerificationScreen);
 
 const setup = (props: Partial<IntlProps> = {}) =>
-    shallow(
-        <Provider store={store}>
-            <Verification />
-        </Provider>,
-    );
-
+	shallow(
+		<Provider store={store}>
+			<Verification />
+		</Provider>,
+	);
 
 describe('VerificationScreen test', () => {
-    it('should render', () => {
-        const wrapper = setup();
-        expect(wrapper).toMatchSnapshot();
-    });
+	it('should render', () => {
+		const wrapper = setup();
+		expect(wrapper).toMatchSnapshot();
+	});
 
-    const tokenProps = {
-        location: {
-            search: 'confirmation_token=123123',
-        },
-    };
+	const tokenProps = {
+		location: {
+			search: 'confirmation_token=123123',
+		},
+	};
 
-    it('extract the token from search url', () => {
-        expect(extractToken(tokenProps)).toEqual('123123');
-    });
+	it('extract the token from search url', () => {
+		expect(extractToken(tokenProps)).toEqual('123123');
+	});
 });

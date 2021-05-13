@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/browser';
-import 'bootstrap/dist/css/bootstrap-grid.min.css';
+import 'antd/dist/antd.dark.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -10,6 +10,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Provider } from 'react-redux';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 import { sentryEnabled } from './api/config';
 import { App } from './App';
 import './index.css';

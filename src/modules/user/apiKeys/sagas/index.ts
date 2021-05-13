@@ -6,8 +6,8 @@ import { apiKeysSaga } from './apiKeysSaga';
 import { apiKeyUpdateSaga } from './apiKeyUpdateSaga';
 
 export function* rootApiKeysSaga() {
-    yield takeEvery(API_KEYS_FETCH, apiKeysSaga);
-    yield takeEvery(API_KEY_CREATE_FETCH, apiKeyCreateSaga);
-    yield takeEvery(API_KEY_UPDATE_FETCH, apiKeyUpdateSaga);
-    yield takeEvery(API_KEY_DELETE_FETCH, apiKeyDeleteSaga);
+	yield takeEvery(API_KEYS_FETCH, apiKeysSaga);
+	yield takeEvery(API_KEY_CREATE_FETCH, apiKeyCreateSaga);
+	yield takeEvery(API_KEY_UPDATE_FETCH, apiKeyUpdateSaga);
+	yield takeEvery(API_KEY_DELETE_FETCH, apiKeyDeleteSaga);
 }

@@ -10,5 +10,5 @@ import { ru } from './ru';
 export type LangType = typeof en;
 
 export const customLanguageMap = {
-    ru,
+	ru,
 };

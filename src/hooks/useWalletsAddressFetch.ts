@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 import { walletsAddressFetch } from '../modules';
 
 export const useWalletsAddressFetch = (currency: string) => {
-    const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-    React.useEffect(() => {
-        dispatch(walletsAddressFetch({ currency }));
-    }, [dispatch, currency]);
+	React.useEffect(() => {
+		dispatch(walletsAddressFetch({ currency }));
+	}, [dispatch, currency]);
 };

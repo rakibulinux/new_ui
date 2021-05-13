@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+// import CoinBubblesSvg from './assets/Coin_Bubbles.svg';
+import { Area, AreaChart, ResponsiveContainer } from 'recharts';
 import styled from 'styled-components';
 import { useMarketsFetch, useMarketsTickersFetch, useRangerConnectFetch } from '../../hooks';
 import { currenciesFetch, Currency, selectCurrencies, selectMarkets, selectMarketTickers } from '../../modules';
-// import CoinBubblesSvg from './assets/Coin_Bubbles.svg';
-import { Area, AreaChart, ResponsiveContainer } from 'recharts';
 
-import RevenuePNG from './assets/revenue.png';
 import LayersPNG from './assets/layers.png';
 import CommunityPNG from './assets/people.png';
+import RevenuePNG from './assets/revenue.png';
 
+import AndroidAPK from './assets/android_apk_download.png';
 import AppStore from './assets/app_store_download.png';
 import GooglePlay from './assets/google_play_download.png';
-import AndroidAPK from './assets/android_apk_download.png';
 import Scan from './assets/scan_download.png';
 
 import Exchange from './assets/mobile.png';
@@ -260,14 +260,14 @@ export const HomePageScreen = () => {
           </div>
           {/* <div className="row mt-5">
                         <div className="col-3">
-                            {MarketChart(KlineState5, market_ids[4])}
+                            {MarketChart(KlineState5, marketIds[4])}
                         </div>
 
                         <div className="col-3">
-                            {MarketChart(KlineState6, market_ids[5])}
+                            {MarketChart(KlineState6, marketIds[5])}
                         </div>
                         <div className="col-3">
-                            {MarketChart(KlineState7, market_ids[6])}
+                            {MarketChart(KlineState7, marketIds[6])}
                         </div>
                         <div className="col-3 d-flex justify-content-center align-items-center">
                             <button className="btn" style={{ color: '#3D8189ff', backgroundColor: '#2E4152ff', padding: '0.5rem 1rem' }}><Link to="/signup">View all</Link></button>

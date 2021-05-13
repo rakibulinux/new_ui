@@ -10,16 +10,16 @@ const store = createStore(rootReducer);
 const History = connect()(HistoryScreen);
 
 const setup = (props: Partial<IntlProps> = {}) =>
-    shallow(
-        <Provider store={store}>
-            <History />
-        </Provider>,
-    );
+	shallow(
+		<Provider store={store}>
+			<History />
+		</Provider>,
+	);
 
 describe('HistoryScreen', () => {
-    const wrapper = setup();
+	const wrapper = setup();
 
-    it('should render', () => {
-        expect(wrapper).toMatchSnapshot();
-    });
+	it('should render', () => {
+		expect(wrapper).toMatchSnapshot();
+	});
 });

@@ -1,60 +1,60 @@
 import {
-    CHANGE_COLOR_THEME,
-    TOGGLE_CHART_REBUILD,
-    TOGGLE_MARKET_SELECTOR,
-    TOGGLE_MOBILE_DEVICE,
-    TOGGLE_SIDEBAR,
+	CHANGE_COLOR_THEME,
+	TOGGLE_CHART_REBUILD,
+	TOGGLE_MARKET_SELECTOR,
+	TOGGLE_MOBILE_DEVICE,
+	TOGGLE_SIDEBAR,
 } from './constants';
 
 export interface ChangeColorThemeAction {
-    type: string;
-    payload: string;
+	type: string;
+	payload: string;
 }
 
 export interface ToggleChartRebuildAction {
-    type: string;
+	type: string;
 }
 
 export interface ToggleMarketSelectorAction {
-    type: string;
+	type: string;
 }
 
 export interface ToggleMobileDeviceAction {
-    type: string;
-    payload: boolean;
+	type: string;
+	payload: boolean;
 }
 
 export interface ToggleSidebarAction {
-    type: string;
-    payload: boolean;
+	type: string;
+	payload: boolean;
 }
 
 export type UIActions =
-    | ChangeColorThemeAction
-    | ToggleChartRebuildAction
-    | ToggleMarketSelectorAction
-    | ToggleMobileDeviceAction
-    | ToggleSidebarAction;
+	| ChangeColorThemeAction
+	| ToggleChartRebuildAction
+	| ToggleMarketSelectorAction
+	| ToggleMobileDeviceAction
+	| ToggleSidebarAction;
 
 export const toggleChartRebuild = (): ToggleChartRebuildAction => ({
-    type: TOGGLE_CHART_REBUILD,
+	type: TOGGLE_CHART_REBUILD,
 });
 
 export const changeColorTheme = (payload: string): ChangeColorThemeAction => ({
-    type: CHANGE_COLOR_THEME,
-    payload,
+	type: CHANGE_COLOR_THEME,
+	payload,
 });
 
 export const toggleMarketSelector = (): ToggleMarketSelectorAction => ({
-    type: TOGGLE_MARKET_SELECTOR,
+	type: TOGGLE_MARKET_SELECTOR,
 });
 
 export const setMobileDevice = (payload: boolean): ToggleMobileDeviceAction => ({
-    type: TOGGLE_MOBILE_DEVICE,
-    payload,
+	type: TOGGLE_MOBILE_DEVICE,
+	payload,
 });
 
 export const toggleSidebar = (payload: boolean): ToggleSidebarAction => ({
-    type: TOGGLE_SIDEBAR,
-    payload,
+	type: TOGGLE_SIDEBAR,
+	payload,
 });
