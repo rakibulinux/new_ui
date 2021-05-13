@@ -4,12 +4,19 @@ interface OrderBookProps {
 	tabState: 'all' | 'buy' | 'sell';
 }
 
-const OrderStyleVar = {
+const OrderBookStyleVar = {
 	headHeight: '32px',
+	tbHeadHeight: '30px',
+	tickerHeight: '30px',
 };
 
 export const OrderBookStyle = styled.div<OrderBookProps>`
-	height: 100%;
+	position: absolute;
+	top: 3px;
+	left: 0;
+	bottom: 3px;
+	right: 3px;
+	height: calc(100% - 6px);
 	color: white;
 	.td-order-book {
 		background-color: #313445;
@@ -26,16 +33,18 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 			bottom: 200px;
 		}
 		&-header {
-			height: ${OrderStyleVar.headHeight};
+			height: ${OrderBookStyleVar.headHeight};
 			svg {
 				cursor: pointer;
 			}
 		}
 		&-tbheader {
+			height: ${OrderBookStyleVar.tbHeadHeight};
 			padding: 6px 23px;
 			color: #848e9c;
 		}
 		&-ticker {
+			height: ${OrderBookStyleVar.tickerHeight};
 			margin: 5px 23px !important;
 			font-size: 14px;
 			&__last-price {
@@ -43,7 +52,15 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 			}
 		}
 		&-table {
-			height: ${(props: OrderBookProps) => (props.tabState === 'all' ? '380px' : 'calc(380px*2)')};
+			height: ${(props: OrderBookProps) =>
+				props.tabState === 'all'
+					? `calc(
+				(
+						100% - ${OrderBookStyleVar.headHeight} - ${OrderBookStyleVar.tickerHeight} -
+							${OrderBookStyleVar.tbHeadHeight} - 15px
+					) / 2
+			)`
+					: `calc(100% - ${OrderBookStyleVar.headHeight} - ${OrderBookStyleVar.tickerHeight} - ${OrderBookStyleVar.tbHeadHeight})`};
 			display: block;
 			thead,
 			tbody {

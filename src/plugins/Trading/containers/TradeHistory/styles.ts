@@ -3,8 +3,14 @@ import { TableBlockStyle } from '../../components/Table/styles';
 
 export const MarketHistory = styled.div`
 	background-color: #313445;
-	padding: 15px 13px 15px 26px;
+	padding: 15px 13px 23px 26px;
 	height: 100%;
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	bottom: 3px;
+	right: 0;
+	height: calc(100% - 6px);
 
 	.rc-tabs {
 		height: 100%;
@@ -39,13 +45,19 @@ export const MarketHistory = styled.div`
 		.rc-tabs-content-holder {
 			flex: 1;
 			.rc-tabs-content {
+				height: 100%;
 				.rc-tabs-tabpane {
+					height: 100%;
 					.td-recent-trades__markets,
 					.td-recent-trades__yours {
+						height: 100%;
 						${TableBlockStyle} {
+							height: 100%;
 							.td-table {
+								height: 100%;
 								tbody {
-									max-height: 405px;
+									max-height: unset;
+									height: 100%;
 								}
 							}
 						}
@@ -69,7 +81,7 @@ export const MarketHistory = styled.div`
 			color: var(--bids);
 		}
 		.td-table-container {
-			padding: 10px 0;
+			padding-top: 10px;
 			.td-table {
 				background: transparent;
 				width: 100%;
@@ -96,7 +108,6 @@ export const MarketHistory = styled.div`
 					padding-right: 15px;
 					color: #fff;
 					background: transparent;
-					max-height: 300px;
 					::-webkit-scrollbar {
 						-webkit-appearance: none;
 						width: 5px;

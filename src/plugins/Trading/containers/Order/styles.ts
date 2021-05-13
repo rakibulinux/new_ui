@@ -4,7 +4,6 @@ export const OrderStyle = styled.div`
 	height: 100%;
 	background-color: #313445;
 	padding: 18px 23px;
-	min-height: 330px;
 	.rc-tabs {
 		display: flex;
 		flex-direction: column;
@@ -68,7 +67,6 @@ export const OrderStyle = styled.div`
 		.rc-tabs-content-holder {
 			flex: 1;
 			.rc-tabs-content {
-				padding: 10px 0;
 				height: 100%;
 				.rc-tabs-tabpane {
 					height: 100%;
