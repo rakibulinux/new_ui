@@ -488,8 +488,8 @@ export const Order: React.FC<OrderProps> = ({}) => {
 						  Number(formState.amountSell) === 0);
 				const balance =
 					type === 'buy'
-						? floor(+get(walletBase, 'balance', '0'), get(walletBase, 'fixed', 6))
-						: floor(+get(walletQuote, 'balance', '0'), get(walletQuote, 'fixed', 6));
+						? floor(+get(walletQuote, 'balance', '0'), get(walletQuote, 'fixed', 6))
+						: floor(+get(walletBase, 'balance', '0'), get(walletBase, 'fixed', 6));
 
 				return (
 					<div className="col p-0" key={i}>
@@ -509,8 +509,8 @@ export const Order: React.FC<OrderProps> = ({}) => {
 									<img src={moneySvg} />
 									{` ${balance || '-'} `}
 									{type === 'buy'
-										? currentMarket.base_unit.toUpperCase()
-										: currentMarket.quote_unit.toUpperCase()}
+										? currentMarket.quote_unit.toUpperCase()
+										: currentMarket.base_unit.toUpperCase()}
 								</div>
 							</div>
 							<div className="input-group mb-3">
