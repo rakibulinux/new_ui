@@ -164,7 +164,7 @@ export const Header: React.FC = () => {
 			isLoggedIn && (
 				<>
 					<div className="header__right-menu__dropdown__wrap">
-						<span className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center">
+						<span className="header__right-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center">
 							{translate('page.body.landing.header.account')}
 							<div className="header__right-menu__dropdown__wrap__dropbtn__icon-drop-down"> </div>
 						</span>
@@ -308,7 +308,7 @@ export const Header: React.FC = () => {
 								</Link>
 							</div>
 						</div> */}
-						<div className="header__left-menu__dropdown flex-shrink-0 d-none d-lg-block d-xl-block">
+						<div className="header__left-menu__dropdown flex-shrink-0 ">
 							<div className="header__left-menu__dropdown__wrap">
 								<Link
 									to="/ieo"
@@ -318,7 +318,7 @@ export const Header: React.FC = () => {
 								</Link>
 							</div>
 						</div>
-						<div className="header__left-menu__dropdown flex-shrink-0 d-none d-xl-block">
+						<div className="header__left-menu__dropdown flex-shrink-0  ">
 							<div className="header__left-menu__dropdown__wrap">
 								<Link
 									to="/trading-competition"
@@ -328,7 +328,7 @@ export const Header: React.FC = () => {
 								</Link>
 							</div>
 						</div>
-						<div className="header__left-menu__dropdown flex-shrink-0 d-none d-xl-block">
+						<div className="header__left-menu__dropdown flex-shrink-0 d-none d-lg-block d-xl-block ">
 							<div className="header__left-menu__dropdown__wrap">
 								<Link
 									to="/stake"
