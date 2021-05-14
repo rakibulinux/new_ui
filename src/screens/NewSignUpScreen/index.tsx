@@ -171,15 +171,17 @@ class SignUp extends React.Component<Props> {
 					classNameTitle="sign-up-title"
 					classNameContent="sign-up-content"
 					content="Wellcome to Circle Exchange"
-					information="123"
+					information={false}
 				/>
 				<div className={className}>
 					<NewSignUpForm
 						labelSignIn={'Email' || this.props.intl.formatMessage({ id: 'page.header.signIn' })}
 						labelSignUp={this.props.intl.formatMessage({ id: 'page.header.signUp' })}
-						emailLabel={this.props.intl.formatMessage({ id: 'page.header.signUp.email' })}
-						passwordLabel={this.props.intl.formatMessage({ id: 'page.header.signUp.password' })}
-						confirmPasswordLabel={this.props.intl.formatMessage({ id: 'page.header.signUp.confirmPassword' })}
+						emailLabel={'Email' || this.props.intl.formatMessage({ id: 'page.header.signUp.email' })}
+						passwordLabel={'Password' || this.props.intl.formatMessage({ id: 'page.header.signUp.password' })}
+						confirmPasswordLabel={
+							'Confirm Password' || this.props.intl.formatMessage({ id: 'page.header.signUp.confirmPassword' })
+						}
 						referalCodeLabel={this.props.intl.formatMessage({ id: 'page.header.signUp.referalCode' })}
 						termsMessage={this.props.intl.formatMessage({ id: 'page.header.signUp.terms' })}
 						refId={refId}
@@ -476,7 +478,7 @@ class SignUp extends React.Component<Props> {
 	private renderModalFooter = () => {
 		return (
 			<div className="pg-exchange-modal-submit-footer">
-				<Button block={true} onClick={this.closeModal} size="lg" variant="primary">
+				<Button block={true} onClick={this.closeModal} size="lg" variant="success">
 					{this.props.intl.formatMessage({ id: 'page.header.signUp.modal.footer' })}
 				</Button>
 			</div>

@@ -33,7 +33,7 @@ const TemplateTitleRegisterAndLogin = props => {
 			<div className={props.className}>
 				<h3 className={props.classNameTitle || ''}>{props.title}</h3>
 				<p className={props.classNameContent || ''}>{props.content}</p>
-				{props.Information || link}
+				{props.informationDefault ? link : ''}
 			</div>
 		</>
 	);

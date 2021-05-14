@@ -120,6 +120,9 @@ const StyleLayoutRegisterAndLogin = styled.div`
 		cursor: pointer;
 		color: #2fb67e;
 	}
+	h3 {
+		margin-bottom: 13px;
+	}
 	@media (max-width: 735px) {
 		.introduction {
 			height: 0 !important;

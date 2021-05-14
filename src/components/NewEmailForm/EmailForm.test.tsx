@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
-import { EmailForm, EmailFormProps } from './';
+import { NewEmailForm, NewEmailFormProps } from './';
 
 import { shallow } from 'enzyme';
 
-const defaults: EmailFormProps = {
+const defaults: NewEmailFormProps = {
 	OnSubmit: jest.fn(),
 	email: '',
 	emailError: '',
@@ -16,7 +16,7 @@ const defaults: EmailFormProps = {
 	handleReturnBack: jest.fn(),
 };
 
-const setup = (props: Partial<EmailFormProps> = {}) => shallow(<EmailForm {...{ ...defaults, ...props }} />);
+const setup = (props: Partial<NewEmailFormProps> = {}) => shallow(<NewEmailForm {...{ ...defaults, ...props }} />);
 
 describe.skip('EmailForm component', () => {
 	it('should render', () => {

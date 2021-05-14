@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
-import { SignUpForm, SignUpFormProps } from '.';
+import { NewSignUpForm, NewSignUpFormProps } from '.';
 
 import { shallow } from 'enzyme';
 
-const defaults: SignUpFormProps = {
+const defaults: NewSignUpFormProps = {
 	onSignUp: jest.fn(),
 	captchaType: 'none',
 	refId: '',
@@ -44,7 +44,7 @@ const defaults: SignUpFormProps = {
 	translate: jest.fn(),
 };
 
-const setup = (props: Partial<SignUpFormProps> = {}) => shallow(<SignUpForm {...{ ...defaults, ...props }} />);
+const setup = (props: Partial<NewSignUpFormProps> = {}) => shallow(<NewSignUpForm {...{ ...defaults, ...props }} />);
 
 describe.skip('SignUp component', () => {
 	it('should render', () => {

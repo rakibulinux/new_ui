@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { CustomInput, CustomInputProps } from './';
+import { NewCustomInput, NewCustomInputProps } from './';
 
 import { shallow } from 'enzyme';
 
-const defaults: CustomInputProps = {
+const defaults: NewCustomInputProps = {
 	type: '',
 	label: '',
 	defaultLabel: '',
@@ -16,7 +16,7 @@ const defaults: CustomInputProps = {
 	autoFocus: false,
 };
 
-const setup = (props: Partial<CustomInputProps> = {}) => shallow(<CustomInput {...{ ...defaults, ...props }} />);
+const setup = (props: Partial<NewCustomInputProps> = {}) => shallow(<NewCustomInput {...{ ...defaults, ...props }} />);
 
 describe('CustomInput component', () => {
 	it('should render', () => {

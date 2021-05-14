@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
 export const SignUpStyle = styled.form`
+	margin-top: 39px;
 	.cr-sign-up-form__group {
-		margin-top: 35px;
+		margin-top: 20px;
 	}
 	.cr-sign-up-form__input {
 		height: 40px;

@@ -234,7 +234,7 @@ export const NewSignUpForm = (props: NewSignUpFormProps) => {
 						{confirmationError && <div className={'cr-sign-up-form__error'}>{confirmationError}</div>}
 					</div>
 
-					<Form className="cr-sign-up-form__group col-12" onClick={e => props.clickCheckBox(e)}>
+					<Form className="cr-sign-up-form__group mb-5 col-12" onClick={e => props.clickCheckBox(e)}>
 						<Form.Check
 							type="checkbox"
 							custom
