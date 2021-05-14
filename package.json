@@ -78,7 +78,7 @@
 		"watch:css": "postcss src/index.pcss -o src/index.css -w",
 		"lint": "yarn style:lint && tsc --noEmit && tslint --project .",
 		"lint:fix": "tslint --project . --fix",
-		"style:lint": "npx stylelint '**/*.pcss'",
+		"style:lint": "npx stylelint \"**/*.pcss\"",
 		"mockAPI": "node mocks/mockAPI.js",
 		"mockWS": "node mocks/mockWS.js",
 		"start": "npm-run-all -p watch:css start-js",
@@ -159,7 +159,7 @@
 	"husky": {
 		"hooks": {
 			"pre-commit": "pretty-quick --staged",
-			"commit-msg": "./scripts/validate_commit.js $HUSKY_GIT_PARAMS && (cd \"./$GIT_PREFIX\"; yarn lint)",
+			"commit-msg": "yarn lint",
 			"pre-push": "yarn lint"
 		}
 	},
