@@ -45,3 +45,8 @@ export * from './TickerTableScreen';
 export * from './Pagination';
 export * from './MarketTable';
 export * from './MarketsHotOnList';
+export * from './NewLogin';
+export * from './NewSignUp';
+export * from './NewCustomInput';
+export * from './TemplateRegisterAndLogin';
+export * from './NewEmailForm';

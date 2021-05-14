@@ -21,3 +21,6 @@ export * from './MaintenanceScreen';
 export * from './Feepage';
 export * from './HomePageScreen';
 export * from './HomeScreen';
+export * from './NewSignInScreen';
+export * from './NewSignUpScreen';
+export * from './NewForgotPasswordScreen';
