@@ -16,12 +16,15 @@ import {
 	setCurrentMarket,
 	setCurrentPrice,
 } from '../../../../modules';
+import { MarketTradingSvg } from '../../components/Icon/MarketTradingSvg';
 import { Table } from '../../components/Table';
 import { MarketsListTradingStyle } from './styles';
 
 interface MarketsListTradingComponentProps {
 	data: Market[];
 	type: 'change' | 'volume';
+	onSelectFavorite: (id: string) => void;
+	listFavoriteKey: string[];
 }
 
 const handleChangeSortIcon = (sortBy: string, id: string, reverseOrder: boolean) => {
@@ -42,6 +45,7 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
 	const intl = useIntl();
 
 	const [sortByState, setSortByState] = React.useState<string>('none');
+	const [isHoverFavorite, setIsHoverFavorite] = React.useState<boolean>(false);
 	const [reverseOrderState, setReverseOrderState] = React.useState<boolean>(false);
 
 	const currentMarket = useSelector(selectCurrentMarket, isEqual);
@@ -60,8 +64,8 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
 		}
 	};
 
-	const getHeaders = () =>
-		[
+	const getHeaders = () => {
+		const header = [
 			{ id: 'id', translationKey: 'market' },
 			{ id: 'last', translationKey: 'last_price' },
 			props.type === 'change'
@@ -87,6 +91,16 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
 					</span>
 				);
 			});
+
+		// custom rowKeyTable
+		header.push(<></>);
+
+		return header;
+	};
+
+	const handleHoverFavorite = (isHover: boolean) => {
+		setIsHoverFavorite(isHover);
+	};
 
 	const mapMarkets = () => {
 		const defaultTicker = {
@@ -119,13 +133,22 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
 			});
 
 			return [
-				market.name,
+				<span>
+					<MarketTradingSvg
+						active={props.listFavoriteKey.includes(market.id)}
+						className="favorite"
+						onHandleHover={handleHoverFavorite}
+						onClick={() => props.onSelectFavorite(market.id)}
+					/>
+					<span className="ml-2">{market.name}</span>
+				</span>,
 				<span className={classname}>{Decimal.format(Number(market.last), market.price_precision)}</span>,
 				props.type === 'change' ? (
 					<span className={classname}>{market.price_change_percent}</span>
 				) : (
 					<span className={classname}>{Decimal.format(Number(market.volume), market.amount_precision)}</span>
 				),
+				market.name,
 			];
 		});
 	};
@@ -149,12 +172,11 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
 		<MarketsListTradingStyle>
 			<div className="td-markets-list-container">
 				<Table
-					isMarketList
 					data={dataTable.length > 0 ? dataTable : [[]]}
 					header={getHeaders()}
-					onSelect={currencyPairSelectHandler}
+					onSelect={isHoverFavorite ? undefined : currencyPairSelectHandler}
 					selectedKey={selectedObject === undefined ? undefined : selectedObject.name}
-					rowKeyIndex={0}
+					rowKeyIndex={3}
 				/>
 			</div>
 		</MarketsListTradingStyle>
