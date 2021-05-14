@@ -132,7 +132,7 @@
 		"enzyme-to-json": "^3.3.4",
 		"file-loader": "^1.1.11",
 		"header-case-normalizer": "1.0.3",
-		"husky": "^6.0.0",
+		"husky": "^1.0.0-rc.13",
 		"isomorphic-ws": "^4.0.1",
 		"jest": "24.9.0",
 		"js-combinatorics": "0.5.0",
