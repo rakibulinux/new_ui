@@ -22,7 +22,7 @@ import {
 // import { IntlProps } from '../../index';
 
 // import styled from 'styled-components';
-import { FaCog, FaStar, FaHistory, FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
+import { /* FaCog, */ FaStar, FaHistory, FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
 // interface State {
 //     isOpenDrop: boolean;
 //   }
@@ -174,11 +174,11 @@ export const Header: React.FC = () => {
 						</div>
 					</div>
 
-					<div className="header__right-menu__item flex-shrink-0 d-none d-xl-block">
+					{/* <div className="header__right-menu__item flex-shrink-0 d-none d-xl-block">
 						<div className="header__right-menu__item__title">
 							<Link to="/download">Download</Link>
 						</div>
-					</div>
+					</div> */}
 				</>
 			)
 		);
@@ -210,7 +210,7 @@ export const Header: React.FC = () => {
 							{translate('page.body.landing.header.button3')}
 						</span>
 					</div>
-					<div className="header__right-menu__item flex-shrink-0 d-none d-xl-block custom-poiter">
+					{/* <div className="header__right-menu__item flex-shrink-0 d-none d-xl-block custom-poiter">
 						<div className="header__right-menu__item__title">
 							<Link to="/download">Download</Link>
 						</div>
@@ -226,7 +226,7 @@ export const Header: React.FC = () => {
 								<FaCog className="header__right-menu__item__title__icon" />
 							</span>
 						</div>
-					</div>
+					</div> */}
 				</>
 			)
 		);
@@ -243,7 +243,7 @@ export const Header: React.FC = () => {
 							</Link>
 						</div>
 
-						<div className="header__left-menu__dropdown  header__left-menu__dropdown--mg-large flex-shrink-0 custom-poiter">
+						{/* <div className="header__left-menu__dropdown  header__left-menu__dropdown--mg-large flex-shrink-0 custom-poiter">
 							<div className="header__left-menu__dropdown__wrap">
 								<span className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center">
 									<div className="header__left-menu__dropdown__wrap__dropbtn__svg">
@@ -265,9 +265,9 @@ export const Header: React.FC = () => {
 									</Link>
 								</div>
 							</div>
-						</div>
+						</div> */}
 
-						<div className="header__left-menu__dropdown  flex-shrink-0">
+						{/* <div className="header__left-menu__dropdown  flex-shrink-0">
 							<div className="header__left-menu__dropdown__wrap">
 								<span className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center">
 									Buy Crypto
@@ -286,7 +286,7 @@ export const Header: React.FC = () => {
 									</Link>
 								</div>
 							</div>
-						</div>
+						</div> */}
 
 						<div className="header__left-menu__dropdown flex-shrink-0">
 							<div className="header__left-menu__dropdown__wrap">
@@ -298,7 +298,7 @@ export const Header: React.FC = () => {
 								</Link>
 							</div>
 						</div>
-						<div className="header__left-menu__dropdown flex-shrink-0">
+						{/* <div className="header__left-menu__dropdown flex-shrink-0">
 							<div className="header__left-menu__dropdown__wrap">
 								<Link
 									to="/airdrop"
@@ -307,7 +307,7 @@ export const Header: React.FC = () => {
 									Airdrop Hub
 								</Link>
 							</div>
-						</div>
+						</div> */}
 						<div className="header__left-menu__dropdown flex-shrink-0 d-none d-lg-block d-xl-block">
 							<div className="header__left-menu__dropdown__wrap">
 								<Link

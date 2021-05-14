@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 
 //  import styled from "styled-components";
-import { FaPhoneAlt, FaTelegram, FaTwitter, FaFacebook, FaEnvelope, FaGlobe } from 'react-icons/fa';
+import { /* FaPhoneAlt, */ FaTelegram, FaTwitter, FaFacebook, FaEnvelope, FaGlobe } from 'react-icons/fa';
 
 const Logo = require('../../assets/images/logo.svg');
 
@@ -41,18 +41,13 @@ const renderFooterDesktop = (inputEmail, sendEmail, emailAddress) => {
 						<a className="footer__logo__img" href="/">
 							<img src={Logo} alt="" />
 						</a>
-
-						<p className="footer__logo__desc">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, quibusdam nesciunt voluptatem fugit
-							saepe soluta obcaecati et assumenda
-						</p>
 					</div>
 
 					<div className="footer__info">
 						<p className="footer__info__title">CONTACT</p>
-						<p className="footer__info__item">
+						{/* <p className="footer__info__item">
 							<FaPhoneAlt className="footer__info__item__icon" /> 0905333999
-						</p>
+						</p> */}
 						<p className="footer__info__item">
 							<FaEnvelope className="footer__info__item__icon" /> liting@cx.finance
 						</p>
