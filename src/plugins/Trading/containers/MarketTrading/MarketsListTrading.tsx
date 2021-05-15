@@ -81,7 +81,7 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
 			})
 			.map(obj => {
 				const classname = classnames({
-					'td-markets-list-container__header-selected': obj.selected,
+					'td-markets-trading-list-container__header-selected': obj.selected,
 				});
 
 				return (
@@ -128,8 +128,8 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
 		return marketsMapped.map(market => {
 			const isPositive = /\+/.test((marketTickers[market.id] || defaultTicker).price_change_percent);
 			const classname = classnames({
-				'td-markets-list-container__positive': isPositive,
-				'td-markets-list-container__negative': !isPositive,
+				'td-markets-trading-list-container__positive': isPositive,
+				'td-markets-trading-list-container__negative': !isPositive,
 			});
 
 			return [
@@ -137,7 +137,8 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
 					<MarketTradingSvg
 						active={props.listFavoriteKey.includes(market.id)}
 						className="favorite"
-						onHandleHover={handleHoverFavorite}
+						onMouseEnter={() => handleHoverFavorite(true)}
+						onMouseLeave={() => handleHoverFavorite(false)}
 						onClick={() => props.onSelectFavorite(market.id)}
 					/>
 					<span className="ml-2">{market.name}</span>
@@ -170,7 +171,7 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
 
 	return (
 		<MarketsListTradingStyle>
-			<div className="td-markets-list-container">
+			<div className="td-markets-trading-list-container">
 				<Table
 					data={dataTable.length > 0 ? dataTable : [[]]}
 					header={getHeaders()}
