@@ -125,6 +125,7 @@ const NewLogin = React.memo((props: NewSignInProps) => {
 								handleFocusInput={() => handleFieldFocus('email')}
 								classNameLabel="col-12"
 								autoFocus={true}
+								openInput={true}
 							/>
 							{emailError && <div className={'cr-sign-in-form__error'}>{emailError}</div>}
 						</div>
@@ -139,6 +140,7 @@ const NewLogin = React.memo((props: NewSignInProps) => {
 								handleFocusInput={() => handleFieldFocus('password')}
 								classNameLabel="col-12 mt-4"
 								autoFocus={false}
+								openInput={true}
 							/>
 							{passwordError && <div className={'cr-sign-in-form__error'}>{passwordError}</div>}
 						</div>

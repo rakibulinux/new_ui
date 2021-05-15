@@ -69,7 +69,7 @@ export const NewSignUpForm = (props: NewSignUpFormProps) => {
 	const {
 		email,
 		confirmPassword,
-		// refId,
+		refId,
 		// onSignIn,
 		// image,
 		isLoading,
@@ -78,7 +78,7 @@ export const NewSignUpForm = (props: NewSignUpFormProps) => {
 		emailLabel,
 		confirmPasswordLabel,
 		passwordFocused,
-		// referalCodeLabel,
+		referalCodeLabel,
 		termsMessage,
 		captchaType,
 		geetestCaptchaSuccess,
@@ -93,7 +93,7 @@ export const NewSignUpForm = (props: NewSignUpFormProps) => {
 		confirmationError,
 		emailFocused,
 		confirmPasswordFocused,
-		// refIdFocused,
+		refIdFocused,
 	} = props;
 
 	const disableButton = (): boolean => {
@@ -128,6 +128,7 @@ export const NewSignUpForm = (props: NewSignUpFormProps) => {
 					classNameLabel="cr-sign-up-form__label col-12"
 					classNameInput="cr-sign-up-form__input"
 					autoFocus={false}
+					openInput={true}
 				/>
 				{password ? (
 					<PasswordStrengthMeter
@@ -197,7 +198,9 @@ export const NewSignUpForm = (props: NewSignUpFormProps) => {
 	const confirmPasswordGroupClass = cr('cr-sign-up-form__group', {
 		'cr-sign-up-form__group--focused': confirmPasswordFocused,
 	});
-
+	const refIdGroupClass = cr('cr-sign-up-form__group', {
+		'cr-sign-up-form__group--focused': refIdFocused,
+	});
 	return (
 		<SignUpStyle>
 			<div className="cr-sign-up-form" onKeyPress={handleEnterPress}>
@@ -214,6 +217,7 @@ export const NewSignUpForm = (props: NewSignUpFormProps) => {
 							classNameLabel="cr-sign-up-form__label col-12"
 							classNameInput="cr-sign-up-form__input"
 							autoFocus={true}
+							openInput={true}
 						/>
 						{emailError && <div className="cr-sign-up-form__error">{emailError}</div>}
 					</div>
@@ -230,10 +234,25 @@ export const NewSignUpForm = (props: NewSignUpFormProps) => {
 							classNameLabel="cr-sign-up-form__label col-12"
 							classNameInput="cr-sign-up-form__input"
 							autoFocus={false}
+							openInput={true}
 						/>
 						{confirmationError && <div className={'cr-sign-up-form__error'}>{confirmationError}</div>}
 					</div>
-
+					<div className={refIdGroupClass}>
+						<NewCustomInput
+							type="text"
+							label={referalCodeLabel || 'Referral code'}
+							placeholder={referalCodeLabel || 'Referral code'}
+							defaultLabel={'Referral code'}
+							handleChangeInput={props.handleChangeRefId}
+							inputValue={refId}
+							handleFocusInput={props.handleFocusRefId}
+							classNameLabel="cr-sign-up-form__label referral-code col-12"
+							classNameInput="cr-sign-up-form__input col-12"
+							autoFocus={false}
+							openInput={false}
+						/>
+					</div>
 					<Form className="cr-sign-up-form__group mb-5 col-12" onClick={e => props.clickCheckBox(e)}>
 						<Form.Check
 							type="checkbox"
@@ -256,6 +275,12 @@ export const NewSignUpForm = (props: NewSignUpFormProps) => {
 							{isLoading ? 'Loading...' : labelSignUp ? labelSignUp : 'Sign up'}
 						</Button>
 					</div>
+					<p className="sign-up-form-back-login mt-4 col-12">
+						Already registered?{' '}
+						<span className="sign-up-form-open-form-login" onClick={() => history.push('/login')}>
+							Log In
+						</span>
+					</p>
 					{isMobileDevice && renderLogIn()}
 				</div>
 			</div>

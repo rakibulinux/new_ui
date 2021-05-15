@@ -12,4 +12,18 @@ export const SignUpStyle = styled.form`
 		box-sizing: border-box;
 		border-radius: 5px;
 	}
+	.referral-code {
+		cursor: pointer;
+	}
+	.sign-up-form-back-login {
+		text-align: center;
+		font-size: 14px;
+		span {
+			cursor: pointer;
+			color: #28a745;
+		}
+	}
+	.sign-up-form-open-form-login:hover {
+		text-decoration: underline;
+	}
 `;

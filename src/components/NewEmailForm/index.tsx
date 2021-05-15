@@ -76,6 +76,7 @@ const NewEmailForm = React.memo((props: NewEmailFormProps) => {
 							classNameLabel="cr-email-form__label col-12 success"
 							classNameInput="cr-email-form__input  success"
 							autoFocus={true}
+							openInput={true}
 						/>
 						{emailError && <div className="cr-email-form__error">{emailError}</div>}
 					</div>
