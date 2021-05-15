@@ -273,12 +273,13 @@ const MarketTradingContainer: React.FC = () => {
 											</svg>
 											{key}
 										</div>
-										{item.listKeyDropDown.map(keyDropdown => (
+										{item.listKeyDropDown.map((keyDropdown, i) => (
 											<div
 												className="td-markets-trading-list-dropdown__item"
 												onClick={() => {
 													handleCheckDropdown(key, keyDropdown);
 												}}
+												key={i}
 											>
 												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
 													<path fill="currentColor" d="M4 11h16v2H4z"></path>
