@@ -102,11 +102,11 @@ const NewLogin = React.memo((props: NewSignInProps) => {
 		emailFocused,
 		passwordFocused,
 	} = props;
-	const emailGroupClass = cr('cr-sign-in-form__group', {
+	const emailGroupClass = cr('cr-sign-in-form_group', {
 		'cr-sign-in-form__group--focused': emailFocused,
 	});
-	const passwordGroupClass = cr('cr-sign-in-form__group', {
-		'cr-sign-in-form__group--focused': passwordFocused,
+	const passwordGroupClass = cr('cr-sign-in-form_group', {
+		'cr-sign-in-form_group--focused': passwordFocused,
 	});
 
 	return (
@@ -145,8 +145,8 @@ const NewLogin = React.memo((props: NewSignInProps) => {
 							{passwordError && <div className={'cr-sign-in-form__error'}>{passwordError}</div>}
 						</div>
 
-						<div className="col-12">
-							<button type="submit" className="mt-4  btn btn-success">
+						<div className="col-12 mt-5">
+							<button type="submit" className=" btn btn-success">
 								{isLoading ? 'Loading...' : 'Sign in'}
 							</button>
 						</div>

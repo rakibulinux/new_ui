@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import background from './assets/logincx.png';
 const StyleLayoutRegisterAndLogin = styled.div`
-	margin-top: 20px !important;
 	height: 655px;
 	width: 1162px;
 	.layout {
