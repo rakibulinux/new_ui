@@ -75,7 +75,7 @@ const BASE_MARKET_URL = 'https://www.cx.finance/api/v2/peatio/public/markets';
 export const HomePageScreen = () => {
 	const history = useHistory();
 
-	const marketIds = ['cx/usdt', 'cx/eth', 'eth/usdt'];
+	const marketIds = ['btc/usdt', 'eth/usdt', 'uni/usdt'];
 
 	const [KlineState1, setKline1State] = React.useState<{ pv: string }>();
 	const [KlineState2, setKline2State] = React.useState<{ pv: string }>();
