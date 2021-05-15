@@ -25,7 +25,7 @@ import { MarketTradingSvg } from '../../components/Icon/MarketTradingSvg';
 import { MarketsListTrading } from './MarketsListTrading';
 import { MarketTradingStyle, SearchBlockStyle, StarBlockStyle } from './styles';
 
-const STAR_LIST_KEYS = ['Favorite', 'All', 'BTC', 'ETH'];
+const STAR_LIST_KEYS = ['Favorite', 'All', 'BTC', 'ETH', 'USDT'];
 
 const MarketTradingContainer: React.FC = () => {
 	const history = useHistory();
