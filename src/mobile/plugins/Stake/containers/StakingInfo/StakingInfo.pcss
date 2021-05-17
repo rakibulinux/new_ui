@@ -7,11 +7,10 @@
 
     #event {
         .event-image {
-            flex: 0 0 100px;
-            margin-right: 5px;
             display: flex;
+            flex: 0 0 100px;
             justify-content: center;
-           
+            margin-right: 5px;
 
             img {
                 align-self: center;
@@ -21,9 +20,9 @@
         }
 
         .event-info {
+            align-self: center;
             display: flex;
             flex-direction: column;
-            align-self: center;
 
             &__name {
                 color: #fff;
@@ -38,10 +37,10 @@
     }
 
     .buttons {
-        margin-top: 10px;
         display: flex;
         flex-direction: row;
         justify-content: center;
+        margin-top: 10px;
 
         .trade-btn,
  .view-detail-btn {
@@ -49,12 +48,12 @@
             color: #fff;
             cursor: pointer;
             font-size: 12px;
-            width: 50%;
             font-weight: 700;
             margin-bottom: 8px;
             outline: none;
             padding: 5px 20px;
             transition: background-color 0.2s;
+            width: 50%;
         }
 
         .trade-btn {
@@ -63,8 +62,8 @@
         }
 
         .view-detail-btn {
-            color: #fff;
             background-color: rgba(132, 142, 156, 0.35);
+            color: #fff;
         }
     }
 
