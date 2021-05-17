@@ -269,7 +269,7 @@ export const HomePageScreen = () => {
 								className="btn"
 								style={{ color: '#3D8189ff', backgroundColor: '#2E4152ff', padding: '0.5rem 1rem' }}
 							>
-								<Link to="/signup">View all</Link>
+								<Link to="/markets">View all</Link>
 							</button>
 						</div>
 					</div>

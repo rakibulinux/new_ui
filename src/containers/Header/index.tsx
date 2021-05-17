@@ -291,7 +291,7 @@ export const Header: React.FC = () => {
 						<div className="header__left-menu__dropdown flex-shrink-0">
 							<div className="header__left-menu__dropdown__wrap">
 								<Link
-									to="/trading"
+									to="/markets"
 									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
 								>
 									Market
