@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { getTimeZone } from '../../../../helpers';
-import { selectStakeHistories, selectStakeHistoriesLoading } from '../../../../modules';
+import { getTimeZone } from '../../../../../helpers';
+import { selectStakeHistories, selectStakeHistoriesLoading } from '../../../../../modules';
 import { ReactTable } from '../../components';
 import { format } from 'date-fns';
 interface StakeHistoryProps {
@@ -12,9 +12,9 @@ export const StakeHistory = (props: StakeHistoryProps) => {
 	const stake_histories = useSelector(selectStakeHistories);
 
 	const formatStatus = (tx: string) => {
-		const process = require('../../../../assets/status/wait.svg');
-		const fail = require('../../../../assets/status/fail.svg');
-		const success = require('../../../../assets/status/success.svg');
+		const process = require('../../../../../assets/status/wait.svg');
+		const fail = require('../../../../../assets/status/fail.svg');
+		const success = require('../../../../../assets/status/success.svg');
 		const statusMapping = {
 			succeed: <img src={success} alt="" />,
 			distributed: <img src={success} alt="" />,

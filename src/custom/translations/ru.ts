@@ -942,5 +942,7 @@ export const ru: LangType = {
 	'stake.detail.myAssets.availableUnstake': 'Available For Unstaking',
 	'stake.detail.myAssets.available': 'Available',
 	'stake.detail.myAssets.totalBalance': 'Total Balance',
+
+	'create.stake.success': 'Create Stake successfully',
 	...nationalitiesNames,
 };

@@ -87,6 +87,7 @@ import {
 	/* HomeScreen, */
 } from '../../screens';
 import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
+import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
 
 interface ReduxProps {
 	colorTheme: string;
@@ -354,6 +355,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							exact
 							component={TradingCompetitionDetailMobileScreen}
 						/>
+						<Route path="/stake" exact component={StakingListMobileScreen} />
+						<Route path="/stake/detail/:staking_id" exact component={StakingDetailMobileScreen} />
 						<Route path="**">
 							<Redirect to="/trading/" />
 						</Route>

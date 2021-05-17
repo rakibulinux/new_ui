@@ -14,7 +14,6 @@ export function* fetchStakingListSaga(action: StakingListFetch) {
 			}),
 		);
 		const stakingList = yield axios.get<Stake[]>('staking/list/fetch/all');
-		console.log(stakingList.data);
 
 		yield put(
 			stakingListData({
