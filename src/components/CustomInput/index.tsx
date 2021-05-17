@@ -18,6 +18,7 @@ export interface CustomInputProps {
 	handleClick?: (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
 	isDisabled?: boolean;
 	labelVisible?: boolean;
+	isInvalid?: boolean;
 }
 
 interface OnChangeEvent {
@@ -43,6 +44,7 @@ class CustomInput extends React.Component<Props> {
 			handleClick,
 			isDisabled,
 			onKeyPress,
+			isInvalid,
 		} = this.props;
 
 		return (
@@ -64,6 +66,7 @@ class CustomInput extends React.Component<Props> {
 							onClick={handleClick}
 							disabled={isDisabled}
 							onKeyPress={onKeyPress}
+							isInvalid={isInvalid}
 						/>
 					</InputGroup>
 				</div>
