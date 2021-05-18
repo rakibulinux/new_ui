@@ -155,7 +155,6 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
 						<div className="ml-2 mt-2">
 							<p>{intl.formatMessage({ id: 'page.body.plugins.wallet.withdraw.info.tip1' })}</p>
 							<p>{intl.formatMessage({ id: 'page.body.plugins.wallet.withdraw.info.tip2' })}</p>
-							<p>{intl.formatMessage({ id: 'page.body.plugins.wallet.withdraw.info.tip3' })}</p>
 						</div>
 					</div>
 				</div>
