@@ -73,7 +73,7 @@ const MarketTradingContainer: React.FC = () => {
 			key: 'USDT',
 		},
 		{
-			key: 'OTHER FIAT',
+			key: 'OTHER',
 			listKeyDropDown: LIST_KEY_FIAT_DROPDOWN,
 		},
 	];
