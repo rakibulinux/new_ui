@@ -73,7 +73,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
                     return (b.price_change_percent) - (a.price_change_percent);
                 });
     
-                const marketNames = marketListToState.slice(0, 3).map(market => {
+                const marketNames = marketListToState.slice(0, 4).map(market => {
                     return market.name
                 });
                 setMarketNames(marketNames);
