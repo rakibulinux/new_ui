@@ -101,7 +101,7 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
 		.map((history: any) => {
 			const currency = currencies.find(cur => cur.id === history.currency);
 			const blockchain_address = currency ? currency.explorer_transaction : '';
-			const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{address}', history.txid) : '';
+			const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{txid}', history.txid) : '';
 			return {
 				...history,
 				date: localeDate(history.created_at, 'fullDate'),
