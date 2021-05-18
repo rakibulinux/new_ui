@@ -26,6 +26,8 @@ const MarketsContainerStyles = styled.div`
 		fill: #f9c74f;
 		color: #f9c74f;
 	}
+
+	margin-bottom: 35px;
 `;
 
 const TradeButtonStyles = styled.button`
