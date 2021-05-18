@@ -70,7 +70,7 @@ const MarketTradingContainer: React.FC = () => {
 			key: 'ETH',
 		},
 		{
-			key: 'ETH',
+			key: 'USDT',
 		},
 		{
 			key: 'OTHER FIAT',
