@@ -40,6 +40,7 @@ interface StarItem {
 
 const LIST_KEY_FIAT_DROPDOWN = ['USDT'];
 
+
 const MarketTradingContainer: React.FC = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();

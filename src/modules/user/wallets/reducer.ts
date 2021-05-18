@@ -1,11 +1,17 @@
 import { CommonError } from '../../types';
 import { WalletsAction } from './actions';
 import {
+	ALL_CHILD_CURRENCIES_DATA,
+	ALL_CHILD_CURRENCIES_ERROR,
+	ALL_CHILD_CURRENCIES_FETCH,
 	SET_MOBILE_WALLET_UI,
 	WALLETS_ADDRESS_DATA,
 	WALLETS_ADDRESS_DATA_WS,
 	WALLETS_ADDRESS_ERROR,
 	WALLETS_ADDRESS_FETCH,
+	WALLETS_CHILD_CURRENCIES_DATA,
+	WALLETS_CHILD_CURRENCIES_ERROR,
+	WALLETS_CHILD_CURRENCIES_FETCH,
 	WALLETS_DATA,
 	WALLETS_DATA_WS,
 	WALLETS_ERROR,
@@ -15,7 +21,7 @@ import {
 	WALLETS_WITHDRAW_CCY_ERROR,
 	WALLETS_WITHDRAW_CCY_FETCH,
 } from './constants';
-import { Wallet } from './types';
+import { ChildCurrenciesState, Wallet } from './types';
 
 export interface WalletsState {
 	wallets: {
@@ -191,6 +197,67 @@ export const walletsReducer = (state = initialWalletsState, action: WalletsActio
 					selectedWalletCurrency: '',
 					selectedWalletAddress: '',
 				},
+			};
+		default:
+			return state;
+	}
+};
+
+export const initialChildCurrencies: ChildCurrenciesState = {
+	payload: [],
+	loading: false,
+};
+
+export const childCurrenciesReducer = (state = initialChildCurrencies, action: WalletsAction): ChildCurrenciesState => {
+	switch (action.type) {
+		case WALLETS_CHILD_CURRENCIES_FETCH:
+			return {
+				...state,
+				loading: true,
+				error: undefined,
+			};
+		case WALLETS_CHILD_CURRENCIES_DATA:
+			const { payload } = action.payload;
+
+			return {
+				...state,
+				payload: payload,
+				loading: false,
+				error: undefined,
+			};
+		case WALLETS_CHILD_CURRENCIES_ERROR:
+			return {
+				...state,
+				loading: false,
+				error: action.error,
+			};
+		default:
+			return state;
+	}
+};
+
+export const allChildCurrenciesReducer = (state = initialChildCurrencies, action: WalletsAction): ChildCurrenciesState => {
+	switch (action.type) {
+		case ALL_CHILD_CURRENCIES_FETCH:
+			return {
+				...state,
+				loading: true,
+				error: undefined,
+			};
+		case ALL_CHILD_CURRENCIES_DATA:
+			const { payload } = action.payload;
+
+			return {
+				...state,
+				payload: payload,
+				loading: false,
+				error: undefined,
+			};
+		case ALL_CHILD_CURRENCIES_ERROR:
+			return {
+				...state,
+				loading: false,
+				error: action.error,
 			};
 		default:
 			return state;

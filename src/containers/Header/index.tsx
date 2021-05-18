@@ -291,7 +291,7 @@ export const Header: React.FC = () => {
 						<div className="header__left-menu__dropdown flex-shrink-0">
 							<div className="header__left-menu__dropdown__wrap">
 								<Link
-									to="/trading"
+									to="/markets"
 									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
 								>
 									Market
@@ -335,6 +335,16 @@ export const Header: React.FC = () => {
 									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
 								>
 									Stake
+								</Link>
+							</div>
+						</div>
+						<div className="header__left-menu__dropdown flex-shrink-0 d-none d-lg-block d-xl-block ">
+							<div className="header__left-menu__dropdown__wrap">
+								<Link
+									to="/markets"
+									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
+								>
+									Market List
 								</Link>
 							</div>
 						</div>

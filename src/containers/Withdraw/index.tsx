@@ -8,7 +8,6 @@ import { cleanPositiveFloatInput, precisionRegExp } from '../../helpers';
 import { Beneficiary } from '../../modules';
 
 import { FrownOutlined } from '@ant-design/icons';
-
 export interface WithdrawProps {
 	currency: string;
 	fee: number;
@@ -104,7 +103,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 						<Beneficiaries currency={currency} type={type} onChangeValue={this.handleChangeBeneficiary} />
 					</div>
 					<div className="cr-withdraw__divider cr-withdraw__divider-one" />
-					<div className={withdrawAmountClass}>
+					<div className={withdrawAmountClass} style={{ position: 'relative', marginTop: '2rem' }}>
 						<CustomInput
 							type="number"
 							label={withdrawAmountLabel || 'Withdrawal Amount'}
@@ -114,7 +113,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 							placeholder={
 								this.props.minWithdrawAmount === undefined
 									? withdrawAmountLabel || 'Amount'
-									: `Min Amount: ${this.props.minWithdrawAmount} ${currency.toUpperCase()}`
+									: 'Min Amount: ' + this.props.minWithdrawAmount + ' ' + currency.toUpperCase()
 							}
 							classNameInput="cr-withdraw__input"
 							handleChangeInput={this.handleChangeInputAmount}
@@ -137,7 +136,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 						/>
 					</div>
 					{isMobileDevice && twoFactorAuthRequired && this.renderOtpCodeInput()}
-					<div className="cr-withdraw__deep">
+					<div className="cr-withdraw__deep d-flex justify-content-end">
 						<Button
 							variant="primary"
 							size="lg"
@@ -153,11 +152,11 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 					<div className="withdrawNote__right">
 						<p>
 							<span>1. Min Withdraw: </span>
-							<span>{`${this.props.minWithdrawAmount || ''} ${currency.toUpperCase()}`}</span>
+							<span>{this.props.minWithdrawAmount + ' ' + currency.toUpperCase()}</span>
 						</p>
 						<p>
 							<span>2. Withdraw Limit Daily: </span>
-							<span>{`${this.props.limitWitdraw24h || ''} ${currency.toUpperCase()}`}</span>
+							<span>{this.props.limitWitdraw24h + ' ' + currency.toUpperCase()}</span>
 						</p>
 						<p>
 							<span>
@@ -176,7 +175,6 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 		const { minWithdrawAmount, ethFee, limitWitdraw24h } = this.props;
 
 		const isPending = beneficiary.state && beneficiary.state.toLowerCase() === 'pending';
-
 		return (
 			Number(total) <= 0 ||
 			!Boolean(beneficiary.id) ||
@@ -195,8 +193,8 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 		return (
 			<span>
-				<Decimal fixed={fixed}>{Number(fee) !== 0 ? fee.toString() : ethFee}</Decimal>{' '}
-				{Number(fee) !== 0 ? currency.toUpperCase() : 'ETH'}
+				<Decimal fixed={fixed}>{Number(fee) != 0 ? fee.toString() : ethFee}</Decimal>{' '}
+				{Number(fee) != 0 ? currency.toUpperCase() : 'ETH'}
 			</span>
 		);
 	};
@@ -204,7 +202,6 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 	private renderTotal = () => {
 		const total = this.state.total;
 		const { fixed, currency } = this.props;
-
 		return total ? (
 			<span>
 				<Decimal fixed={fixed}>{total.toString()}</Decimal> {currency.toUpperCase()}
@@ -223,7 +220,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 		return (
 			<React.Fragment>
-				<div className={withdrawCodeClass}>
+				<div className={withdrawCodeClass} style={{ position: 'relative', marginTop: '2rem' }}>
 					<CustomInput
 						type="number"
 						label={withdraw2faLabel || '2FA code'}
@@ -244,26 +241,25 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 	private handleClick = () => {
 		const { ethBallance, ethFee, fee } = this.props;
-
-		if (ethBallance === undefined && fee === 0) {
+		if (ethBallance === undefined && fee == 0) {
 			Modal.error({
 				centered: true,
 				icon: <FrownOutlined />,
-				title: `Can't withdraw`,
+				title: "Can't withdraw",
 				content: `You need to generate ETH Wallets Address before withdraw!`,
 			});
 		} else if (ethFee === undefined && Number(fee) === 0) {
 			Modal.warning({
 				centered: true,
 				icon: <FrownOutlined />,
-				title: `Can't withdraw`,
+				title: "Can't withdraw",
 				content: `ETH Fee is unavailable now!`,
 			});
 		} else if (Number(fee) === 0 && Number(ethBallance) < Number(ethFee)) {
 			Modal.warning({
 				centered: true,
 				icon: <FrownOutlined />,
-				title: `Can't withdraw`,
+				title: "Can't withdraw",
 				content: `You don\'t have enough ETH tokens to pay fee. Need more ${(
 					Number(ethFee) - Number(ethBallance)
 				).toFixed(5)} ETH Tokens`,
