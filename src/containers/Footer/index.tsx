@@ -89,18 +89,18 @@ const renderFooterDesktop = (inputEmail, sendEmail, emailAddress) => {
 
 						<div className="footer__news__list-icon ">
 							<div className="footer__news__list-icon__item  ">
-								<a href="https://twitter.com/exchange_circle">
+								<a href="https://twitter.com/ex_circle" target="blank">
 									<FaTwitter />
 								</a>
 							</div>
 
 							<div className="footer__news__list-icon__item  ">
-								<a href="https://circleex.medium.com/">
+								<a href="https://circleex.medium.com/" target="blank">
 									<FaFacebook />
 								</a>
 							</div>
 							<div className="footer__news__list-icon__item  ">
-								<a href="https://t.me/circleex">
+								<a href="https://t.me/circleex" target="blank">
 									<FaTelegram />
 								</a>
 							</div>
