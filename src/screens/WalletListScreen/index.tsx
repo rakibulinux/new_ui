@@ -194,7 +194,7 @@ export const WalletListScreen = () => {
 				style={{
 					backgroundColor: '#2D2E3D',
 					borderRadius: '5px',
-					height: '100vh',
+					minHeight: '100vh',
 					marginTop: '-10px',
 					padding: '20px 10% 0 10%',
 				}}
