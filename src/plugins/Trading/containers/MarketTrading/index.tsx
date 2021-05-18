@@ -38,7 +38,7 @@ interface StarItem {
 	listKeyDropDown?: string[];
 }
 
-const LIST_KEY_FIAT_DROPDOWN = ['USDT', 'BUSD'];
+const LIST_KEY_FIAT_DROPDOWN = ['BUSD'];
 
 const MarketTradingContainer: React.FC = () => {
 	const history = useHistory();
@@ -70,7 +70,10 @@ const MarketTradingContainer: React.FC = () => {
 			key: 'ETH',
 		},
 		{
-			key: 'FIAT',
+			key: 'ETH',
+		},
+		{
+			key: 'OTHER FIAT',
 			listKeyDropDown: LIST_KEY_FIAT_DROPDOWN,
 		},
 	];
