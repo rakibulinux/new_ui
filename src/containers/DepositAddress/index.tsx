@@ -12,13 +12,13 @@ interface DepositAddressProps {
 	currency_id: string;
 	currency_icon: string;
 	child_currencies: ChildCurrency[];
+	changeCurrency: (currency_id: string) => void;
 }
 
 export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddressProps) => {
-	const { currency_id, child_currencies } = props;
+	const { currency_id, child_currencies, changeCurrency } = props;
 	const intl = useIntl();
 	const [generateAddressTriggered, setGenerateAddressTriggered] = React.useState(false);
-	const [selectedCurrencyID, setSelectedCurrencyID] = React.useState(currency_id);
 	const dispatch = useDispatch();
 	const wallets = useSelector(selectWallets) || [];
 	const currencies = useSelector(selectCurrencies) || [];
@@ -53,8 +53,8 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 	};
 
 	React.useEffect(() => {
-		dispatch(walletsAddressFetch({ currency: selectedCurrencyID }));
-	}, [selectedCurrencyID]);
+		dispatch(walletsAddressFetch({ currency: currency_id }));
+	}, [currency_id]);
 
 	React.useEffect(() => {
 		dispatch(walletsAddressFetch({ currency: currency_id }));
@@ -76,7 +76,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 					<div className="row">
 						<div className="col-12">
 							<div className="react-tabs">
-								<Tabs defaultActiveKey={currency_id} onChange={key => setSelectedCurrencyID(key)}>
+								<Tabs defaultActiveKey={currency_id} onChange={key => {changeCurrency(key)}}>
 									{main_wallet ? (
 										<TabPane tab={getTabName(currency.blockchain_key || '')} key={currency_id}>
 											<DepositBody
@@ -137,10 +137,10 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 				<div className="row mt-5">
 					<div className="col-12 d-flex justify-content-between">
 						<p className="pr-5">
-							<strong>Send only {selectedCurrencyID.toUpperCase()} to this deposit address.</strong>
+							<strong>Send only {currency_id.toUpperCase()} to this deposit address.</strong>
 							<br />
-							Sending coin or token other than {selectedCurrencyID.toUpperCase()} to this address may result in the
-							loss of your deposit.
+							Sending coin or token other than {currency_id.toUpperCase()} to this address may result in the loss of
+							your deposit.
 						</p>
 					</div>
 				</div>
