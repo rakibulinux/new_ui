@@ -79,8 +79,8 @@ const MarketTradingContainer: React.FC = () => {
 	];
 
 	React.useEffect(() => {
-		//load favoriteMarketTrading
-		const listFavoriteKey = JSON.parse(localStorage.getItem('favoriteMarketTrading') || '[]') as string[];
+		//load favourites_markets
+		const listFavoriteKey = JSON.parse(localStorage.getItem('favourites_markets') || '[]') as string[];
 		if (listFavoriteKey.length) {
 			setFavoriteKeyState(listFavoriteKey);
 		}
@@ -110,7 +110,7 @@ const MarketTradingContainer: React.FC = () => {
 	}, []);
 
 	React.useEffect(() => {
-		localStorage.setItem('favoriteMarketTrading', JSON.stringify(favoriteKeyState));
+		localStorage.setItem('favourites_markets', JSON.stringify(favoriteKeyState));
 	}, [favoriteKeyState.length]);
 
 	React.useEffect(() => {
