@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import get from 'lodash/get';
 import * as React from 'react';
-import { Spinner } from 'react-bootstrap';
 import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +11,6 @@ import {
 	selectCurrentMarket,
 	selectCurrentPrice,
 	selectHistory,
-	selectHistoryLoading,
 	setCurrentPrice,
 	WalletHistoryElement,
 } from '../../../../modules';
@@ -26,7 +24,6 @@ const RecentTradesYoursContainer: React.FC = () => {
 	const intl = useIntl();
 
 	const list = useSelector(selectHistory, isEqual);
-	const fetching = useSelector(selectHistoryLoading, isEqual);
 	const currentMarket = useSelector(selectCurrentMarket, isEqual);
 	const currentPrice = useSelector(selectCurrentPrice, isEqual);
 
@@ -92,27 +89,9 @@ const RecentTradesYoursContainer: React.FC = () => {
 		}
 	};
 
-	const renderContent = () => {
-		return (
-			<div className="td-recent-trades__yours">
-				<Table header={getHeaders()} data={retrieveData()} onSelect={handleOnSelect} />
-			</div>
-		);
-	};
-
-	const className = classNames({
-		'td-tab-content__noData': retrieveData()[0][1] === intl.formatMessage({ id: 'page.noDataToShow' }),
-	});
-
 	return (
-		<div className={className}>
-			{fetching ? (
-				<div className="td-tab-content-loading">
-					<Spinner animation="border" variant="primary" />
-				</div>
-			) : (
-				renderContent()
-			)}
+		<div className="td-recent-trades__yours">
+			<Table header={getHeaders()} data={retrieveData()} onSelect={handleOnSelect} />
 		</div>
 	);
 };

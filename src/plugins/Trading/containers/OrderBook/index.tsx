@@ -175,8 +175,8 @@ export const OrderBookContainer = props => {
 				<Col className="h-100 td-order-book-wrapper p-0" xs={12}>
 					<div className="td-order-book">
 						<Row className="td-order-book-header">
-							<Col className="d-flex align-items-center">{elementTabs}</Col>
-							<Col className="d-flex align-items-center"></Col>
+							<Col className="p-0 d-flex align-items-center">{elementTabs}</Col>
+							<Col className="p-0 d-flex align-items-center"></Col>
 						</Row>
 						<Row className="td-order-book-tbheader">
 							<Col className="p-0">

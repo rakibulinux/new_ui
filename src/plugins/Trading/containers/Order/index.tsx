@@ -86,17 +86,22 @@ export const Order: React.FC<OrderProps> = ({}) => {
 
 	const changeAmountTotalSlider = (type: FormType, field: 'amount' | 'slider' | 'total' | 'price') => {
 		if (currentMarket) {
-			const walletQuote = getWallet(currentMarket.quote_unit, wallets);
-			const { balance } = walletQuote;
+			const { price_precision, amount_precision, base_unit, quote_unit } = currentMarket;
+			const walletQuote = getWallet(quote_unit, wallets);
+			const walletBase = getWallet(base_unit, wallets);
+			const balance = type === 'sell' ? walletQuote.balance : walletBase.balance;
 			if (balance) {
 				if (type === 'sell') {
 					switch (field) {
 						case 'amount':
 							setFormState(prev => {
-								const percentSellMyBalance = prev.amountSell ? floor(+prev.amountSell / (+balance / 100)) : 0;
+								const percentSellMyBalance =
+									prev.priceSell && prev.amountSell
+										? floor((+prev.priceSell * +prev.amountSell) / (+balance / 100))
+										: 0;
 								const totalSell =
 									prev.amountSell && prev.priceSell
-										? floor(+prev.amountSell * +prev.priceSell, 8).toString()
+										? floor(+prev.amountSell * +prev.priceSell, amount_precision).toString()
 										: '';
 
 								return {
@@ -107,41 +112,56 @@ export const Order: React.FC<OrderProps> = ({}) => {
 							});
 							break;
 						case 'slider':
-							setFormState(prev => {
-								let amountSell = prev.percentSellMyBalance
-									? floor(
-											prev.percentSellMyBalance * (+balance / 100),
-											currentMarket.amount_precision,
-									  ).toString()
-									: '';
-								amountSell =
-									prev.percentSellMyBalance && prev.priceSell
-										? floor(
-												(+balance / +prev.priceSell / 100) * prev.percentSellMyBalance,
-												currentMarket.amount_precision,
-										  ).toString()
-										: amountSell;
-								const totalSell =
-									amountSell && prev.priceSell ? floor(+amountSell * +prev.priceSell, 8).toString() : '';
+							if (tabTypeSelectedState === TABS_LIST_KEY[0]) {
+								setFormState(prev => {
+									let priceSell = prev.percentSellMyBalance
+										? floor(prev.percentSellMyBalance * (+balance / 100), price_precision).toString()
+										: '';
+									priceSell =
+										prev.percentSellMyBalance && prev.amountSell
+											? floor(
+													(+balance / +prev.amountSell / 100) * prev.percentSellMyBalance,
+													price_precision,
+											  ).toString()
+											: priceSell;
+									const totalSell =
+										priceSell && prev.amountSell
+											? floor(+priceSell * +prev.amountSell, amount_precision).toString()
+											: '';
 
-								return {
-									...prev,
-									amountSell,
-									totalSell,
-								};
-							});
+									return {
+										...prev,
+										priceSell,
+										totalSell: +totalSell ? totalSell : '',
+									};
+								});
+							} else {
+								setFormState(prev => {
+									const amountSell =
+										floor(
+											prev.percentSellMyBalance * (+(walletBase.balance || '0') / 100),
+											currentMarket.amount_precision,
+										).toString() || '';
+
+									return {
+										...prev,
+										amountSell,
+									};
+								});
+							}
+
 							break;
 						case 'total':
 							setFormState(prev => {
-								const amountSell =
-									prev.totalSell && prev.priceSell
-										? floor(+prev.totalSell / +prev.priceSell, currentMarket.amount_precision).toString()
+								const priceSell =
+									prev.totalSell && prev.amountSell
+										? floor(+prev.totalSell / +prev.amountSell, amount_precision).toString()
 										: '';
-								const percentSellMyBalance = amountSell ? floor(+amountSell / (+balance / 100)) : 0;
+								const percentSellMyBalance = priceSell ? floor(+priceSell / (+balance / 100)) : 0;
 
 								return {
 									...prev,
-									amountSell,
+									priceSell,
 									percentSellMyBalance: percentSellMyBalance > 100 ? 100 : percentSellMyBalance,
 								};
 							});
@@ -150,7 +170,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 							setFormState(prev => {
 								const totalSell =
 									prev.amountSell && prev.priceSell
-										? floor(+prev.amountSell * +prev.priceSell, 8).toString()
+										? floor(+prev.amountSell * +prev.priceSell, amount_precision).toString()
 										: defaultFormState.totalSell;
 								const percentSellMyBalance = totalSell ? floor(+totalSell / (+balance / 100)) : 0;
 
@@ -168,9 +188,13 @@ export const Order: React.FC<OrderProps> = ({}) => {
 					switch (field) {
 						case 'amount':
 							setFormState(prev => {
-								const percentBuyMyBalance = prev.amountBuy ? floor(+prev.amountBuy / (+balance / 100)) : 0;
+								const percentBuyMyBalance = prev.priceBuy
+									? floor((+prev.amountBuy * +prev.priceBuy) / (+balance / 100))
+									: 0;
 								const totalBuy =
-									prev.amountBuy && prev.priceBuy ? floor(+prev.amountBuy * +prev.priceBuy, 8).toString() : '';
+									prev.amountBuy && prev.priceBuy
+										? floor(+prev.amountBuy * +prev.priceBuy, amount_precision).toString()
+										: '';
 
 								return {
 									...prev,
@@ -182,20 +206,19 @@ export const Order: React.FC<OrderProps> = ({}) => {
 						case 'slider':
 							setFormState(prev => {
 								let amountBuy = prev.percentBuyMyBalance
-									? floor(
-											prev.percentBuyMyBalance * (+balance / 100),
-											currentMarket.amount_precision,
-									  ).toString()
+									? floor(prev.percentBuyMyBalance * (+balance / 100), amount_precision).toString()
 									: '';
 								amountBuy =
 									prev.percentBuyMyBalance && prev.priceBuy
 										? floor(
 												(+balance / +prev.priceBuy / 100) * prev.percentBuyMyBalance,
-												currentMarket.amount_precision,
+												amount_precision,
 										  ).toString()
 										: amountBuy;
 								const totalBuy =
-									amountBuy && prev.priceBuy ? floor(+amountBuy * +prev.priceBuy, 8).toString() : '';
+									amountBuy && prev.priceBuy
+										? floor(+amountBuy * +prev.priceBuy, amount_precision).toString()
+										: '';
 
 								return {
 									...prev,
@@ -208,7 +231,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 							setFormState(prev => {
 								const amountBuy =
 									prev.totalBuy && prev.priceBuy
-										? floor(+prev.totalBuy / +prev.priceBuy, currentMarket.amount_precision).toString()
+										? floor(+prev.totalBuy / +prev.priceBuy, amount_precision).toString()
 										: '';
 								const percentBuyMyBalance = amountBuy ? floor(+amountBuy / (+balance / 100)) : 0;
 
@@ -221,10 +244,9 @@ export const Order: React.FC<OrderProps> = ({}) => {
 							break;
 						case 'price':
 							setFormState(prev => {
-								const totalBuy =
-									prev.amountBuy && prev.priceBuy
-										? floor(+prev.amountBuy * +prev.priceBuy, 8).toString()
-										: defaultFormState.totalBuy;
+								const totalBuy = prev.amountBuy
+									? floor(+prev.amountBuy * +prev.priceBuy, amount_precision).toString()
+									: '';
 								const percentBuyMyBalance = totalBuy ? floor(+totalBuy / (+balance / 100)) : 0;
 
 								return {
@@ -338,17 +360,18 @@ export const Order: React.FC<OrderProps> = ({}) => {
 		}
 
 		dispatch(setCurrentPrice(0));
-
-		const walletQuote = getWallet(currentMarket.quote_unit, wallets);
-		const currentTicker = marketTickers[currentMarket.id];
+		const { base_unit, quote_unit, id } = currentMarket;
+		const walletQuote = getWallet(quote_unit, wallets);
+		const walletBase = getWallet(base_unit, wallets);
+		const currentTicker = marketTickers[id];
 
 		const amount = Number(type === 'sell' ? formState.amountSell : formState.amountBuy);
 		const priceType = type === 'buy' ? formState.priceBuy : formState.priceSell;
 		const price = tabTypeSelectedState === TABS_LIST_KEY[0] ? priceType : currentTicker.last;
-		const available = getAvailableValue(walletQuote);
+		const available = type === 'sell' ? getAvailableValue(walletQuote) : getAvailableValue(walletBase);
 
 		const resultData: OrderExecution = {
-			market: currentMarket.id,
+			market: id,
 			side: type,
 			volume: amount.toString(),
 			ord_type: tabTypeSelectedState.toLowerCase(),
@@ -389,7 +412,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 			orderAllowed = false;
 		}
 
-		if (+currentMarket.max_price && +price > +currentMarket.max_price) {
+		if (+price > +currentMarket.max_price) {
 			dispatch(
 				alertPush({
 					message: [
@@ -431,7 +454,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 				orderAllowed = false;
 			}
 		} else {
-			if ((available < amount && order.side === 'buy') || (available < amount && order.side === 'sell')) {
+			if (available < amount) {
 				dispatch(
 					alertPush({
 						message: [
@@ -477,6 +500,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 		const arrType: FormType[] = ['buy', 'sell'];
 		const FormActionsElm = () =>
 			arrType.map((type, i) => {
+				const { base_unit, quote_unit } = currentMarket;
 				const isDisabled =
 					executeLoading ||
 					(type === 'buy'
@@ -490,6 +514,14 @@ export const Order: React.FC<OrderProps> = ({}) => {
 					type === 'buy'
 						? floor(+get(walletQuote, 'balance', '0'), get(walletQuote, 'fixed', 6))
 						: floor(+get(walletBase, 'balance', '0'), get(walletBase, 'fixed', 6));
+				const price = type === 'buy' ? formState.priceBuy : formState.priceSell;
+				const amount = type === 'buy' ? formState.amountBuy : formState.amountSell;
+				const total = type === 'buy' ? formState.totalBuy : formState.totalSell;
+				const percent = type === 'buy' ? formState.percentBuyMyBalance : formState.percentSellMyBalance;
+				const isEmptyBalance = type === 'buy' ? !get(walletQuote, 'balance', null) : !get(walletBase, 'balance', null);
+				const isDisabledSlider =
+					!isLoggedIn ||
+					(tabTypeSelectedState === TABS_LIST_KEY[0] ? isEmptyBalance : !get(walletBase, 'balance', null));
 
 				return (
 					<div className="col p-0" key={i}>
@@ -503,14 +535,12 @@ export const Order: React.FC<OrderProps> = ({}) => {
 							<div className="d-flex title-block mb-3">
 								<div className="flex-fill title-block-left">
 									{intl.formatMessage({ id: `page.body.trade.header.newOrder.content.title.${type}` })}{' '}
-									{currentMarket.quote_unit.toUpperCase()}
+									{quote_unit.toUpperCase()}
 								</div>
 								<div className="flex-fill text-right title-block-right">
-									<img src={moneySvg} />
+									<img className="mr-2" src={moneySvg} />
 									{` ${balance || '-'} `}
-									{type === 'buy'
-										? currentMarket.quote_unit.toUpperCase()
-										: currentMarket.base_unit.toUpperCase()}
+									{type === 'buy' ? quote_unit.toUpperCase() : base_unit.toUpperCase()}
 								</div>
 							</div>
 							<div className="input-group mb-3">
@@ -522,7 +552,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 								{tabTypeSelectedState === TABS_LIST_KEY[0] ? (
 									<input
 										type="text"
-										value={type === 'buy' ? formState.priceBuy : formState.priceSell}
+										value={price}
 										onChange={e => changePrice(e.target.value, type)}
 										className="form-control text-right"
 									/>
@@ -531,7 +561,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 								)}
 
 								<div className="input-group-append d-flex justify-content-end align-items-center">
-									<span className="input-group-text"> {currentMarket.quote_unit.toUpperCase() || 'NONE'}</span>
+									<span className="input-group-text"> {quote_unit.toUpperCase() || 'NONE'}</span>
 								</div>
 							</div>
 							<div className="input-group">
@@ -543,19 +573,19 @@ export const Order: React.FC<OrderProps> = ({}) => {
 								<input
 									type="text"
 									className="form-control text-right"
-									value={(type === 'buy' ? formState.amountBuy : formState.amountSell).toString()}
+									value={amount}
 									onChange={e => changeAmount(e.target.value, type)}
 								/>
 								<div className="input-group-append d-flex justify-content-end align-items-center">
-									<span className="input-group-text"> {currentMarket.base_unit.toUpperCase() || 'NONE'}</span>
+									<span className="input-group-text"> {base_unit.toUpperCase()}</span>
 								</div>
 							</div>
 							<Slider
-								disabled={!isLoggedIn || !get(walletBase, 'balance', null)}
+								disabled={isDisabledSlider}
 								tipFormatter={e => `${e}%`}
 								marks={marks}
 								step={1}
-								value={type === 'buy' ? formState.percentBuyMyBalance : formState.percentSellMyBalance}
+								value={percent}
 								onChange={(value: number) => {
 									onChangeSlider(value, type);
 								}}
@@ -570,14 +600,11 @@ export const Order: React.FC<OrderProps> = ({}) => {
 									<input
 										type="text"
 										className="form-control text-right"
-										value={(type === 'buy' ? formState.totalBuy : formState.totalSell).toString()}
+										value={total}
 										onChange={e => changeTotal(e.target.value, type)}
 									/>
 									<div className="input-group-append d-flex justify-content-end align-items-center">
-										<span className="input-group-text">
-											{' '}
-											{currentMarket.quote_unit.toUpperCase() || 'NONE'}
-										</span>
+										<span className="input-group-text"> {quote_unit.toUpperCase()}</span>
 									</div>
 								</div>
 							) : null}

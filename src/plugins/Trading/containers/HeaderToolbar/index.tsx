@@ -37,8 +37,7 @@ const HeaderToolbarContainer: React.FC = () => {
 					<p className="td-header__toolbar-item-title">{(currentMarket && currentMarket.name) || 'NONE'}</p>
 					<p className={`td-header__toolbar-item-value td-header__toolbar-item-site`}>{askUnit}</p>
 				</div>
-				<div className="td-header__toolbar-item">
-					<p className="td-header__toolbar-item-text">{translate('page.body.trade.toolBar.lastPrice')}</p>
+				<div className="td-header__toolbar-item td-header__toolbar-item--hightlight">
 					<p className={`td-header__toolbar-item-value td-header__toolbar-item-value-${cls}`}>
 						{currentMarket && Decimal.format(Number(getTickerValue('last')), 6)}
 					</p>
