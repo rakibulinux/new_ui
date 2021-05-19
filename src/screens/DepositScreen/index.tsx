@@ -19,6 +19,9 @@ import {
 export const DepositScreen = () => {
 	setDocumentTitle('Deposit');
 	const { currency_id } = useParams<{ currency_id: string }>();
+
+	const [selectedCurrencyID, setSelectedCurrencyID] = React.useState(currency_id);
+
 	// selectors
 	const currencies = useSelector(selectCurrencies);
 	const wallets = useSelector(selectWallets) || [];
@@ -71,14 +74,16 @@ export const DepositScreen = () => {
 			<div className="row" style={{ padding: '0 1rem', backgroundColor: '#313445' }}>
 				<div className="col-6" style={{ padding: '20px 2%' }}>
 					<DepositInfo
-						currency_id={currency_id.toLowerCase()}
+						currency_id={selectedCurrencyID}
 						currency_icon={findIcon(currency_id.toLowerCase())}
+						changeCurrency={(currency_id) => {setSelectedCurrencyID(currency_id);}}
 						wallets={wallets}
 					/>
 				</div>
 				<div className="col-6" style={{ margin: '40px 0' }}>
 					<DepositAddress
-						currency_id={currency_id.toLowerCase()}
+						currency_id={selectedCurrencyID}
+						changeCurrency={(currency_id) => {setSelectedCurrencyID(currency_id); alert(currency_id)}}
 						currency_icon={findIcon(currency_id.toLowerCase())}
 						child_currencies={child_currencies}
 					/>

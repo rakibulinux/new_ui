@@ -44,10 +44,11 @@ interface DepositInfoProps {
 	currency_id: string;
 	currency_icon: string;
 	wallets: Wallet[];
+	changeCurrency: (currency_id: string) => void;
 }
 
 export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps) => {
-	const { currency_id, wallets } = props;
+	const { currency_id, wallets, changeCurrency } = props;
 
 	const intl = useIntl();
 	const history = useHistory();
@@ -116,6 +117,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 		const location = {
 			pathname: `/wallets/deposit/${currency_id.toUpperCase()}`,
 		};
+		changeCurrency(currency_id);
 		history.push(location);
 	};
 
@@ -178,7 +180,9 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 							<p>{textMinDeposit}</p>
 							<p>{textDepositFee}</p>
 							<p className="textnote">
-								<span className="textnote__text" style={{fontWeight: 700}}>Note:</span>
+								<span className="textnote__text" style={{ fontWeight: 700 }}>
+									Note:
+								</span>
 								<span> {textNote}</span>
 							</p>
 						</div>
