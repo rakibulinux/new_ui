@@ -75,7 +75,7 @@ const BASE_MARKET_URL = 'https://www.cx.finance/api/v2/peatio/public/markets';
 export const HomePageScreen = () => {
 	const history = useHistory();
 
-	const marketIds = ['btc/usdt', 'eth/usdt', 'uni/usdt'];
+	const marketIds = ['cx/usdt', 'btc/usdt', 'eth/usdt'];
 
 	const [KlineState1, setKline1State] = React.useState<{ pv: string }>();
 	const [KlineState2, setKline2State] = React.useState<{ pv: string }>();
@@ -269,7 +269,7 @@ export const HomePageScreen = () => {
 								className="btn"
 								style={{ color: '#3D8189ff', backgroundColor: '#2E4152ff', padding: '0.5rem 1rem' }}
 							>
-								<Link to="/signup">View all</Link>
+								<Link to="/markets">View all</Link>
 							</button>
 						</div>
 					</div>

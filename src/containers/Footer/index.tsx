@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 
 //  import styled from "styled-components";
-import { /* FaPhoneAlt, */ FaTelegram, FaTwitter, FaFacebook, FaEnvelope, FaGlobe } from 'react-icons/fa';
+import { /* FaPhoneAlt, */ FaTelegram, FaTwitter, FaFacebook, FaEnvelope/* , FaGlobe */ } from 'react-icons/fa';
 
 const Logo = require('../../assets/images/logo.svg');
 
@@ -49,10 +49,7 @@ const renderFooterDesktop = (inputEmail, sendEmail, emailAddress) => {
 							<FaPhoneAlt className="footer__info__item__icon" /> 0905333999
 						</p> */}
 						<p className="footer__info__item">
-							<FaEnvelope className="footer__info__item__icon" /> liting@cx.finance
-						</p>
-						<p className="footer__info__item footer__info__item--default">
-							<FaGlobe className="footer__info__item__icon" /> www.litingcx.finance
+							<FaEnvelope className="footer__info__item__icon" /> listing@cx.finance
 						</p>
 					</div>
 
@@ -62,9 +59,9 @@ const renderFooterDesktop = (inputEmail, sendEmail, emailAddress) => {
 							<Link to="/fee">Asset Fee </Link>
 						</p>
 						<p className="footer__info__item">
-							<Link to="/" target="blank">
-								Listing Token
-							</Link>
+							<a href="https://forms.gle/2eH6ia3XSTyzn2TR6" target="blank">
+								Submit New Coin/Token
+							</a>
 						</p>
 						<p className="footer__info__item">
 							<a href="https://api.cx.finance" target="blank">
@@ -92,18 +89,18 @@ const renderFooterDesktop = (inputEmail, sendEmail, emailAddress) => {
 
 						<div className="footer__news__list-icon ">
 							<div className="footer__news__list-icon__item  ">
-								<a href="https://twitter.com/exchange_circle">
+								<a href="https://twitter.com/ex_circle" target="blank">
 									<FaTwitter />
 								</a>
 							</div>
 
 							<div className="footer__news__list-icon__item  ">
-								<a href="https://circleex.medium.com/">
+								<a href="https://circleex.medium.com/" target="blank">
 									<FaFacebook />
 								</a>
 							</div>
 							<div className="footer__news__list-icon__item  ">
-								<a href="https://t.me/circleex">
+								<a href="https://t.me/circleex" target="blank">
 									<FaTelegram />
 								</a>
 							</div>

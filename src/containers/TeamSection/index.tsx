@@ -243,7 +243,7 @@ export const TeamSection = () => {
 						<ReactSlickStyle>
 							<Slider ref={slider} {...settings}>
 								{teams.map((img, index) => (
-									<img onClick={() => setTeamImageIndexState(index)} src={img.medium} alt="" />
+									<img key={index} onClick={() => setTeamImageIndexState(index)} src={img.medium} alt="" />
 								))}
 							</Slider>
 						</ReactSlickStyle>
