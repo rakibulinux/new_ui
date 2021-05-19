@@ -79,11 +79,14 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 					}
 					td,
 					th {
-						width: calc(100% / 3);
+						width: calc(100% / 3 - 11.5px);
 						display: inline-block;
 						text-align: right;
 						:first-child {
 							text-align: left;
+						}
+						:last-child {
+							width: calc(100% / 3 + 23px);
 						}
 					}
 				}

@@ -69,7 +69,7 @@ export const OrderBookContainer = props => {
 					fixed={priceFixed}
 				/>,
 				<OrderBookTableRow total={volume} fixed={amountFixed} />,
-				<OrderBookTableRow total={+price * +volume} fixed={amountFixed} />,
+				<OrderBookTableRow total={+price * +volume} fixed={priceFixed} />,
 				Number((Number(volume) / (maxVolume / 100)).toFixed(2)),
 			];
 		});

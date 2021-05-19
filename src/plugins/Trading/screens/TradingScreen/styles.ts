@@ -7,7 +7,7 @@ export const TradingScreenStyle = styled.div`
 	display: grid;
 	gap: 6px;
 	grid-template-columns: 4fr 8fr 4fr;
-	grid-template-rows: 70px 550px minmax(min-content, 300px) 350px;
+	grid-template-rows: 70px 520px minmax(min-content, 300px) 350px;
 	.td-pg-trading__item {
 		position: relative;
 	}
@@ -28,6 +28,9 @@ export const TradingScreenStyle = styled.div`
 	.td-pg-trading__trading-chart {
 		grid-column: 2/3;
 		grid-row: 2/3;
+		.pg-trading-chart {
+			height: 100%;
+		}
 	}
 	.td-pg-trading__order {
 		grid-column: 2/3;
