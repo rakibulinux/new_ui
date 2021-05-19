@@ -23,7 +23,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 	const wallets = useSelector(selectWallets) || [];
 	const currencies = useSelector(selectCurrencies) || [];
 	const currency = currencies.find(cur => cur.id.toLowerCase() === currency_id.toLowerCase()) || { blockchain_key: '' };
-	const main_wallet = wallets.find(item => item.currency === currency_id) || {
+	const main_wallet = wallets.find(item => item.currency === currency_id.toLowerCase()) || {
 		name: '',
 		currency: '',
 		balance: '',
