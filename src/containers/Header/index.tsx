@@ -294,7 +294,7 @@ export const Header: React.FC = () => {
 									to="/markets"
 									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
 								>
-									Market
+									Markets
 								</Link>
 							</div>
 						</div>
