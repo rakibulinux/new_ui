@@ -409,7 +409,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 		const order = tabTypeSelectedState === TABS_LIST_KEY[0] ? { ...resultData, price: price } : resultData;
 		let orderAllowed = true;
 
-		if (+resultData.volume < +currentMarket.min_amount) {
+		if (+currentMarket.min_amount && +resultData.volume < +currentMarket.min_amount) {
 			dispatch(
 				alertPush({
 					message: [
@@ -425,7 +425,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 			orderAllowed = false;
 		}
 
-		if (+price < +currentMarket.min_price) {
+		if (+currentMarket.min_price && +price < +currentMarket.min_price) {
 			dispatch(
 				alertPush({
 					message: [
@@ -441,7 +441,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 			orderAllowed = false;
 		}
 
-		if (+price > +currentMarket.max_price) {
+		if (+currentMarket.max_price && +price > +currentMarket.max_price) {
 			dispatch(
 				alertPush({
 					message: [
