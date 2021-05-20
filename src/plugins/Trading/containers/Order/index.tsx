@@ -75,10 +75,10 @@ export const Order: React.FC<OrderProps> = ({}) => {
 	}, [currentMarket]);
 
 	React.useEffect(() => {
-		let last = getTickerValue('last');
-		if (currentMarket && !formState.priceBuy && !formState.priceSell && !formState.fisrtFetchedPrice) {
-			last = floor(last, currentMarket.price_precision).toString();
-			setFormState(prev => ({ ...prev, priceBuy: last, priceSell: last, fisrtFetchedPrice: true }));
+		const last = getTickerValue('last') as number;
+		if (currentMarket && last && !formState.priceBuy && !formState.priceSell && !formState.fisrtFetchedPrice) {
+			const price = Decimal.formatRemoveZero(last, currentMarket.price_precision);
+			setFormState(prev => ({ ...prev, priceBuy: price, priceSell: price, fisrtFetchedPrice: true }));
 		}
 	}, [currentMarket, marketTickers]);
 
