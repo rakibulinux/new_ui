@@ -98,10 +98,12 @@ export const Order: React.FC<OrderProps> = ({}) => {
 
 	const changeAmountTotalSlider = (type: FormType, field: 'amount' | 'slider' | 'total' | 'price') => {
 		if (currentMarket) {
-			const { amount_precision, quote_unit, base_unit } = currentMarket;
+			const { amount_precision, price_precision, quote_unit, base_unit } = currentMarket;
 			const walletQuote = getWallet(quote_unit, wallets);
 			const walletBase = getWallet(base_unit, wallets);
 			const balance = type === 'buy' ? walletQuote.balance : walletBase.balance;
+			const lastPrice = floor(getTickerValue('last'), price_precision);
+
 			if (balance) {
 				if (type === 'sell') {
 					switch (field) {
@@ -124,23 +126,41 @@ export const Order: React.FC<OrderProps> = ({}) => {
 							});
 							break;
 						case 'slider':
-							setFormState(prev => {
-								const amountSell =
-									+prev.priceSell && prev.percentSellMyBalance
-										? floor((+balance / 100) * prev.percentSellMyBalance, amount_precision).toString()
-										: prev.amountSell;
-								const totalSell =
-									+amountSell && +prev.priceSell
-										? floor(+prev.priceSell * +amountSell, amount_precision).toString()
-										: prev.totalSell;
+							if (tabTypeSelectedState === TABS_LIST_KEY[0]) {
+								setFormState(prev => {
+									const amountSell =
+										+prev.priceSell && prev.percentSellMyBalance
+											? floor((+balance / 100) * prev.percentSellMyBalance, amount_precision).toString()
+											: prev.amountSell;
+									const totalSell =
+										+amountSell && +prev.priceSell
+											? floor(+prev.priceSell * +amountSell, amount_precision).toString()
+											: prev.totalSell;
 
-								return {
-									...prev,
-									amountSell,
-									totalSell,
-								};
-							});
+									return {
+										...prev,
+										amountSell,
+										totalSell,
+									};
+								});
+							} else {
+								setFormState(prev => {
+									const amountSell =
+										lastPrice && prev.percentSellMyBalance
+											? floor((+balance / 100) * prev.percentSellMyBalance, amount_precision).toString()
+											: prev.amountSell;
+									const totalSell =
+										+amountSell && lastPrice
+											? floor(lastPrice * +amountSell, amount_precision).toString()
+											: prev.totalSell;
 
+									return {
+										...prev,
+										amountSell,
+										totalSell,
+									};
+								});
+							}
 							break;
 						case 'total':
 							setFormState(prev => {
@@ -198,22 +218,45 @@ export const Order: React.FC<OrderProps> = ({}) => {
 							});
 							break;
 						case 'slider':
-							setFormState(prev => {
-								const totalBuy =
-									+prev.priceBuy && prev.percentBuyMyBalance
-										? (floor(prev.percentBuyMyBalance * (+balance / 100), amount_precision) || 0).toString()
-										: prev.totalBuy;
-								const amountBuy =
-									+totalBuy && +prev.priceBuy
-										? floor(+totalBuy / +prev.priceBuy, amount_precision).toString()
-										: prev.amountBuy;
+							if (tabTypeSelectedState === TABS_LIST_KEY[0]) {
+								setFormState(prev => {
+									const totalBuy =
+										+prev.priceBuy && prev.percentBuyMyBalance
+											? (
+													floor(prev.percentBuyMyBalance * (+balance / 100), amount_precision) || 0
+											  ).toString()
+											: prev.totalBuy;
+									const amountBuy =
+										+totalBuy && +prev.priceBuy
+											? floor(+totalBuy / +prev.priceBuy, amount_precision).toString()
+											: prev.amountBuy;
 
-								return {
-									...prev,
-									amountBuy,
-									totalBuy,
-								};
-							});
+									return {
+										...prev,
+										amountBuy,
+										totalBuy,
+									};
+								});
+							} else {
+								setFormState(prev => {
+									const totalBuy =
+										lastPrice && prev.percentBuyMyBalance
+											? (
+													floor(prev.percentBuyMyBalance * (+balance / 100), amount_precision) || 0
+											  ).toString()
+											: prev.totalBuy;
+									const amountBuy =
+										+totalBuy && lastPrice
+											? floor(+totalBuy / lastPrice, amount_precision).toString()
+											: prev.amountBuy;
+
+									return {
+										...prev,
+										amountBuy,
+										totalBuy,
+									};
+								});
+							}
 							break;
 						case 'total':
 							setFormState(prev => {
@@ -354,12 +397,13 @@ export const Order: React.FC<OrderProps> = ({}) => {
 		dispatch(setCurrentPrice(0));
 		const { id, quote_unit, price_precision, base_unit } = currentMarket;
 		const walletQuote = getWallet(quote_unit, wallets);
+		const walletBase = getWallet(base_unit, wallets);
 
 		const amount = Number(type === 'sell' ? formState.amountSell : formState.amountBuy);
 		const priceType = type === 'buy' ? formState.priceBuy : formState.priceSell;
 		const price =
 			tabTypeSelectedState === TABS_LIST_KEY[0] ? priceType : floor(getTickerValue('last'), price_precision).toString();
-		const available = getAvailableValue(walletQuote);
+		const available = type === 'buy' ? getAvailableValue(walletQuote) : getAvailableValue(walletBase);
 
 		const resultData: OrderExecution = {
 			market: id,
@@ -419,47 +463,26 @@ export const Order: React.FC<OrderProps> = ({}) => {
 			orderAllowed = false;
 		}
 
-		if (tabTypeSelectedState === TABS_LIST_KEY[0]) {
-			if (
-				(available < +formState.totalBuy && order.side === 'buy') ||
-				(available < +formState.totalSell && order.side === 'sell')
-			) {
-				dispatch(
-					alertPush({
-						message: [
-							intl.formatMessage(
-								{ id: 'error.order.create.available' },
-								{
-									available: available,
-									currency: order.side === 'buy' ? quote_unit.toUpperCase() : base_unit.toUpperCase(),
-								},
-							),
-						],
-						type: 'error',
-					}),
-				);
+		if (
+			(available < +formState.totalBuy && order.side === 'buy') ||
+			(available < +formState.amountSell && order.side === 'sell')
+		) {
+			dispatch(
+				alertPush({
+					message: [
+						intl.formatMessage(
+							{ id: 'error.order.create.available' },
+							{
+								available: available,
+								currency: order.side === 'buy' ? quote_unit.toUpperCase() : base_unit.toUpperCase(),
+							},
+						),
+					],
+					type: 'error',
+				}),
+			);
 
-				orderAllowed = false;
-			}
-		} else {
-			if (available < amount) {
-				dispatch(
-					alertPush({
-						message: [
-							intl.formatMessage(
-								{ id: 'error.order.create.available' },
-								{
-									available: available,
-									currency: order.side === 'buy' ? quote_unit.toUpperCase() : base_unit.toUpperCase(),
-								},
-							),
-						],
-						type: 'error',
-					}),
-				);
-
-				orderAllowed = false;
-			}
+			orderAllowed = false;
 		}
 
 		if (orderAllowed) {
