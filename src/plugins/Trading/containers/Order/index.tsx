@@ -98,9 +98,10 @@ export const Order: React.FC<OrderProps> = ({}) => {
 
 	const changeAmountTotalSlider = (type: FormType, field: 'amount' | 'slider' | 'total' | 'price') => {
 		if (currentMarket) {
-			const { amount_precision, quote_unit } = currentMarket;
+			const { amount_precision, quote_unit, base_unit } = currentMarket;
 			const walletQuote = getWallet(quote_unit, wallets);
-			const balance = walletQuote.balance;
+			const walletBase = getWallet(base_unit, wallets);
+			const balance = type === 'buy' ? walletQuote.balance : walletBase.balance;
 			if (balance) {
 				if (type === 'sell') {
 					switch (field) {
@@ -126,10 +127,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 							setFormState(prev => {
 								const amountSell =
 									+prev.priceSell && prev.percentSellMyBalance
-										? floor(
-												((+balance / 100) * prev.percentSellMyBalance) / +prev.priceSell,
-												amount_precision,
-										  ).toString()
+										? floor((+balance / 100) * prev.percentSellMyBalance, amount_precision).toString()
 										: prev.amountSell;
 								const totalSell =
 									+amountSell && +prev.priceSell
@@ -139,7 +137,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 								return {
 									...prev,
 									amountSell,
-									totalSell: totalSell,
+									totalSell,
 								};
 							});
 
