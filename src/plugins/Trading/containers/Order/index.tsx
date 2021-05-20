@@ -8,7 +8,7 @@ import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { FormType, WalletItemProps } from '../../../../components';
+import { Decimal, FormType, WalletItemProps } from '../../../../components';
 import { cleanPositiveFloatInput, precisionRegExp } from '../../../../helpers';
 import {
 	alertPush,
@@ -64,10 +64,11 @@ export const Order: React.FC<OrderProps> = ({}) => {
 	const [formState, setFormState] = React.useState(defaultFormState);
 
 	React.useEffect(() => {
-		if (currentPrice) {
-			setFormState(prev => ({ ...prev, priceBuy: currentPrice.toString(), priceSell: currentPrice.toString() }));
+		if (currentPrice && currentMarket) {
+			const price = Decimal.formatRemoveZero(currentPrice, currentMarket.price_precision);
+			setFormState(prev => ({ ...prev, priceBuy: price, priceSell: price }));
 		}
-	}, [currentPrice]);
+	}, [currentPrice, currentMarket]);
 
 	React.useEffect(() => {
 		setFormState(prev => ({ ...prev, fisrtFetchedPrice: false }));
@@ -97,10 +98,9 @@ export const Order: React.FC<OrderProps> = ({}) => {
 
 	const changeAmountTotalSlider = (type: FormType, field: 'amount' | 'slider' | 'total' | 'price') => {
 		if (currentMarket) {
-			const { amount_precision, base_unit, quote_unit } = currentMarket;
+			const { amount_precision, quote_unit } = currentMarket;
 			const walletQuote = getWallet(quote_unit, wallets);
-			const walletBase = getWallet(base_unit, wallets);
-			const balance = type === 'buy' ? walletQuote.balance : walletBase.balance;
+			const balance = walletQuote.balance;
 			if (balance) {
 				if (type === 'sell') {
 					switch (field) {
@@ -354,14 +354,14 @@ export const Order: React.FC<OrderProps> = ({}) => {
 		}
 
 		dispatch(setCurrentPrice(0));
-		const { base_unit, quote_unit, id } = currentMarket;
+		const { id, quote_unit, price_precision, base_unit } = currentMarket;
 		const walletQuote = getWallet(quote_unit, wallets);
-		const walletBase = getWallet(base_unit, wallets);
 
 		const amount = Number(type === 'sell' ? formState.amountSell : formState.amountBuy);
 		const priceType = type === 'buy' ? formState.priceBuy : formState.priceSell;
-		const price = tabTypeSelectedState === TABS_LIST_KEY[0] ? priceType : getTickerValue('last');
-		const available = type === 'sell' ? getAvailableValue(walletQuote) : getAvailableValue(walletBase);
+		const price =
+			tabTypeSelectedState === TABS_LIST_KEY[0] ? priceType : floor(getTickerValue('last'), price_precision).toString();
+		const available = getAvailableValue(walletQuote);
 
 		const resultData: OrderExecution = {
 			market: id,
@@ -379,7 +379,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 					message: [
 						intl.formatMessage(
 							{ id: 'error.order.create.minAmount' },
-							{ amount: currentMarket.min_amount, currency: currentMarket.base_unit.toUpperCase() },
+							{ amount: currentMarket.min_amount, currency: base_unit.toUpperCase() },
 						),
 					],
 					type: 'error',
@@ -395,7 +395,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 					message: [
 						intl.formatMessage(
 							{ id: 'error.order.create.minPrice' },
-							{ price: currentMarket.min_price, currency: currentMarket.quote_unit.toUpperCase() },
+							{ price: currentMarket.min_price, currency: quote_unit.toUpperCase() },
 						),
 					],
 					type: 'error',
@@ -411,7 +411,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 					message: [
 						intl.formatMessage(
 							{ id: 'error.order.create.maxPrice' },
-							{ price: currentMarket.max_price, currency: currentMarket.quote_unit.toUpperCase() },
+							{ price: currentMarket.max_price, currency: quote_unit.toUpperCase() },
 						),
 					],
 					type: 'error',
@@ -433,10 +433,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 								{ id: 'error.order.create.available' },
 								{
 									available: available,
-									currency:
-										order.side === 'buy'
-											? currentMarket.quote_unit.toUpperCase()
-											: currentMarket.base_unit.toUpperCase(),
+									currency: order.side === 'buy' ? quote_unit.toUpperCase() : base_unit.toUpperCase(),
 								},
 							),
 						],
@@ -455,10 +452,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 								{ id: 'error.order.create.available' },
 								{
 									available: available,
-									currency:
-										order.side === 'buy'
-											? currentMarket.quote_unit.toUpperCase()
-											: currentMarket.base_unit.toUpperCase(),
+									currency: order.side === 'buy' ? quote_unit.toUpperCase() : base_unit.toUpperCase(),
 								},
 							),
 						],

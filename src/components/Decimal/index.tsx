@@ -75,6 +75,26 @@ const formatWithSeparators = (value: string, thousSep?: string, floatSep?: strin
 };
 
 class Decimal extends React.Component<DecimalProps> {
+	public static formatRemoveZero(value: DecimalProps['children'], precision: number, thousSep = '.', floatSep?: string) {
+		const strArr = this.format(value, precision, thousSep, floatSep).split('');
+		for (let i = strArr.length - 1; i >= 0; i--) {
+			if (strArr[i] === '0') {
+				strArr.pop();
+			} else if (strArr[i] === thousSep) {
+				strArr.pop();
+				break;
+			} else if (strArr[i] === floatSep) {
+				strArr.pop();
+				if (strArr[i - 1] !== '0') {
+					break;
+				}
+			} else {
+				break;
+			}
+		}
+
+		return strArr.join('');
+	}
 	public static format(value: DecimalProps['children'], precision: number, thousSep?: string, floatSep?: string) {
 		if (typeof value === 'undefined') {
 			return '0';

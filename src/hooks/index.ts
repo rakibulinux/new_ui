@@ -6,6 +6,7 @@ export * from './useDocumentTitle';
 export * from './useEventsFetch';
 export * from './useHistoryFetch';
 export * from './useMarketsFetch';
+export * from './useOrderBookFetch';
 export * from './usePrevious';
 export * from './useRangerConnectFetch';
 export * from './useSetMobileDevice';

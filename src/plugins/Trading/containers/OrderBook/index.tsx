@@ -5,6 +5,7 @@ import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Decimal } from '../../../../components';
+import { useOrderBookFetch } from '../../../../hooks';
 import {
 	Market,
 	selectCurrentMarket,
@@ -24,6 +25,7 @@ import { OrderBookStyle, TrStyle } from './styles';
 const defaultTicker = { amount: 0, low: 0, last: 0, high: 0, volume: 0, price_change_percent: '+0.00%' };
 
 export const OrderBookContainer = props => {
+	useOrderBookFetch();
 	const { formatMessage } = useIntl();
 	const dispatch = useDispatch();
 	const [tabState, setTabState] = React.useState<'all' | 'buy' | 'sell'>('all');
