@@ -26,7 +26,10 @@ export const HeaderToolbarStyle = styled.div`
 			display: flex;
 			flex-flow: column;
 			justify-content: space-between;
-			margin-left: 15px;
+
+			&:not(:first-child) {
+				margin-left: 15px;
+			}
 
 			&:last-child {
 				margin-right: 5px;
@@ -70,6 +73,15 @@ export const HeaderToolbarStyle = styled.div`
 					font-weight: 400;
 					font-size: calc(var(--font-size) * 1);
 				}
+			}
+		}
+		&-item--hightlight {
+			flex-flow: row;
+			justify-content: center;
+			align-items: center;
+			p {
+				font-size: calc(var(--font-size) * 1.2);
+				font-weight: 600;
 			}
 		}
 	}

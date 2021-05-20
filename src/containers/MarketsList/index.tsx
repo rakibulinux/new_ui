@@ -159,7 +159,6 @@ export const MarketsList = props => {
 		const foundFavoriteMarketIndex = favouritesMarkets.findIndex(
 			(marketId: string) => marketId.toLowerCase() === id.toLowerCase(),
 		);
-		console.log(foundFavoriteMarketIndex)
 		if (foundFavoriteMarketIndex >= 0) {
 			favouritesMarkets.splice(foundFavoriteMarketIndex, 1);
 			localStorage.setItem('favourites_markets', JSON.stringify(favouritesMarkets));
