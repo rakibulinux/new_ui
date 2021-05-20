@@ -111,7 +111,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 							setFormState(prev => {
 								const percentSellMyBalance =
 									+prev.priceSell && +prev.amountSell
-										? floor((+prev.priceSell * +prev.amountSell) / (+balance / 100))
+										? floor((+prev.amountSell / +balance) * 100)
 										: prev.percentSellMyBalance;
 								const totalSell =
 									+prev.amountSell && +prev.priceSell
@@ -168,7 +168,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 									+prev.totalSell && +prev.priceSell
 										? floor(+prev.totalSell / +prev.priceSell, amount_precision).toString()
 										: prev.amountSell;
-								const percentSellMyBalance = +amountSell ? floor((+prev.totalSell / +balance) * 100) : 0;
+								const percentSellMyBalance = +amountSell ? floor((+amountSell / +balance) * 100) : 0;
 
 								return {
 									...prev,
@@ -183,14 +183,10 @@ export const Order: React.FC<OrderProps> = ({}) => {
 									+prev.amountSell && +prev.priceSell
 										? floor(+prev.amountSell * +prev.priceSell, amount_precision).toString()
 										: defaultFormState.totalSell;
-								const percentSellMyBalance = +totalSell
-									? floor(+totalSell / (+balance / 100))
-									: prev.percentSellMyBalance;
 
 								return {
 									...prev,
 									totalSell,
-									percentSellMyBalance: percentSellMyBalance > 100 ? 100 : percentSellMyBalance,
 								};
 							});
 							break;
@@ -241,9 +237,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 								setFormState(prev => {
 									const totalBuy =
 										lastPrice && prev.percentBuyMyBalance
-											? (
-													floor(prev.percentBuyMyBalance * (+balance / 100), amount_precision) || 0
-											  ).toString()
+											? floor(prev.percentBuyMyBalance * (+balance / 100), amount_precision).toString()
 											: prev.totalBuy;
 									const amountBuy =
 										+totalBuy && lastPrice
@@ -265,8 +259,8 @@ export const Order: React.FC<OrderProps> = ({}) => {
 										? floor(+prev.totalBuy / +prev.priceBuy, amount_precision).toString()
 										: prev.amountBuy;
 								const percentBuyMyBalance =
-									+amountBuy && +prev.priceBuy
-										? floor(((+amountBuy * +prev.priceBuy) / +balance) * 100)
+									+amountBuy && +prev.totalBuy
+										? floor((+prev.totalBuy / +balance) * 100)
 										: prev.percentBuyMyBalance;
 
 								return {
