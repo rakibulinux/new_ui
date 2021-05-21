@@ -48,8 +48,8 @@ export interface ChildCurrency {
 	name: string;
 	blockchain_key: string;
 	type: string;
-	deposit_enabled: number;
-	withdrawal_enabled: number;
+	deposit_enabled: boolean;
+	withdrawal_enabled: boolean;
 }
 
 export interface ChildCurrenciesState extends CommonState {

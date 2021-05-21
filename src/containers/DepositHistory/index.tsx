@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { getTabName, localeDate } from '../../helpers';
-import { selectHistory, selectCurrencies, selectChildCurrencies } from '../../modules';
 import { ReactTable } from '../../components/ReactTable';
+import { getTabName, localeDate } from '../../helpers';
+import { selectChildCurrencies, selectCurrencies, selectHistory } from '../../modules';
 
 interface DepositHistoryProps {
 	currency_id: string;
@@ -17,8 +17,8 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
 	// selector
 	const list = useSelector(selectHistory);
 	const currencies = useSelector(selectCurrencies);
-	const child_currencies = useSelector(selectChildCurrencies);
-	const child_currencies_ids = child_currencies.map(child => child.id);
+	const childCurrencies = useSelector(selectChildCurrencies);
+	const childCurrenciesIds = childCurrencies.map(child => child.id);
 
 	const formatTxState = (tx: string, confirmations?: number, minConfirmations?: number) => {
 		const process = require('../../assets/status/wait.svg');
@@ -71,37 +71,40 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
 		];
 	}, []);
 
-	const main_list = list
+	const parentHistoryList = list
 		.filter((history: any) => history.currency === currency_id.toLowerCase())
 		.map((history: any) => {
-			const currency_index = currencies.findIndex(currency => currency.id === history.currency);
-			const blockchain = getTabName(currencies[currency_index].blockchain_key || '');
+			const currencyIndex = currencies.findIndex(currency => currency.id === history.currency);
+			const blockchain = getTabName(currencies[currencyIndex].blockchain_key || '');
+
 			return {
 				...history,
 				type: blockchain,
 			};
 		});
 
-	const child_list = list
-		.filter((history: any) => child_currencies_ids.includes(history.currency))
+	const childHistoryList = list
+		.filter((history: any) => childCurrenciesIds.includes(history.currency))
 		.map((history: any) => {
-			const currency_index = child_currencies_ids.findIndex(child_id => child_id === history.currency);
-			const blockchain = getTabName(child_currencies[currency_index].blockchain_key);
+			const currencyIndex = childCurrenciesIds.findIndex(childCurrencyID => childCurrencyID === history.currency);
+			const blockchain = getTabName(childCurrencies[currencyIndex].blockchain_key);
+
 			return {
 				...history,
 				type: blockchain,
 			};
 		});
-	const new_list = [...main_list, ...child_list];
+	const newList = [...parentHistoryList, ...childHistoryList];
 
-	const data = new_list
+	const data = newList
 		.sort((a, b) => {
 			return new Date(a.created_at) > new Date(b.created_at) ? -1 : 1;
 		})
 		.map((history: any) => {
 			const currency = currencies.find(cur => cur.id === history.currency);
-			const blockchain_address = currency ? currency.explorer_transaction : '';
-			const blockchainTxidAddress = blockchain_address ? blockchain_address.replace('#{txid}', history.txid) : '';
+			const blockchainAddress = currency ? currency.explorer_transaction : '';
+			const blockchainTxidAddress = blockchainAddress ? blockchainAddress.replace('#{txid}', history.txid) : '';
+
 			return {
 				...history,
 				date: localeDate(history.created_at, 'fullDate'),
