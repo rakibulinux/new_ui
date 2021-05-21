@@ -278,7 +278,7 @@ const AnnouncementContainer: React.FC = () => {
 				</div>
 			</Link>
 			<div className="td-pg-profile__content__item__content d-flex flex-column">
-				{new Array(2).fill(null).map((_a, i) => (
+				{true ? null : new Array(2).fill(null).map((_a, i) => (
 					<div className="td-pg-profile__announcement__item d-flex justify-content-between" key={i}>
 						<div className="td-pg-profile__announcement__item__title flex-fill">
 							<Link to={'/profile'}>
