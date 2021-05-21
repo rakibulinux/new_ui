@@ -172,18 +172,15 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 	private handleCheckButtonDisabled = (total: string, beneficiary: Beneficiary, otpCode: string) => {
 		const { amount } = this.state;
-		const { minWithdrawAmount, ethFee, limitWitdraw24h } = this.props;
+		const { minWithdrawAmount, limitWitdraw24h } = this.props;
 
 		const isPending = beneficiary.state && beneficiary.state.toLowerCase() === 'pending';
 		return (
 			Number(total) <= 0 ||
 			!Boolean(beneficiary.id) ||
 			isPending ||
-			ethFee === 0 ||
-			ethFee === undefined ||
 			!Boolean(otpCode) ||
-			minWithdrawAmount === undefined ||
-			amount < minWithdrawAmount ||
+			Number(amount) < Number(minWithdrawAmount) ||
 			Number(amount) > Number(limitWitdraw24h)
 		);
 	};

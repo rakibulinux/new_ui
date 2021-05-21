@@ -222,7 +222,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 			return;
 		}
 
-		let { currency, fee } = wallet;
+		const { currency, fee } = wallet;
 
 		// Withdraw by eth fee
 		const { user, eth_fee, wallets } = props;
@@ -263,14 +263,14 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 				<div>
 					<div className="row">
 						<div className="col-12">
-							<h4>Withdrawal Nework</h4>
+							<h4>Withdrawal Network</h4>
 						</div>
 					</div>
 					<div className="row">
 						<div className="col-12">
 							{
 								<div className="react-tabs">
-									<Tabs defaultActiveKey={currency_id} onTabClick={key => setCurrencyState(key)}>
+									<Tabs defaultActiveKey={currency_id} onTabClick={setCurrencyState}>
 										{wallet ? (
 											<TabPane
 												tab={getTabName(
@@ -298,10 +298,10 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 										)}
 
 										{child_wallets
-											? child_wallets.map(child_wallet => (
-													<TabPane tab={getTabName(child_wallet.blockchain_key)} key={child_wallet.id}>
-														{child_wallet.wallet && child_wallet.withdrawal_enabled ? (
-															renderWithdrawContent(child_wallet.wallet)
+											? child_wallets.map(childWallet => (
+													<TabPane tab={getTabName(childWallet.blockchain_key)} key={childWallet.id}>
+														{childWallet.wallet && childWallet.withdrawal_enabled ? (
+															renderWithdrawContent(childWallet.wallet)
 														) : (
 															<div style={{ position: 'relative', width: '100%', height: '100%' }}>
 																<div className="blur-disabled">
