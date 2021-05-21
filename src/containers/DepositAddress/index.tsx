@@ -23,7 +23,8 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 	const dispatch = useDispatch();
 	const wallets = useSelector(selectWallets) || [];
 	const currencies = useSelector(selectCurrencies) || [];
-	const currency = currencies.find(cur => cur.id.toLowerCase() === selectedCurrencyID.toLowerCase()) || { blockchain_key: '', deposit_enabled: false };
+	const mainCurrency = currencies.find(cur => cur.id.toLowerCase() === currency_id.toLowerCase()) || { blockchain_key: '', deposit_enabled: false };
+	const selectedCurrency = currencies.find(cur => cur.id.toLowerCase() === selectedCurrencyID.toLowerCase()) || { blockchain_key: '', deposit_enabled: false };
 
 	const mainWallet = wallets.find(item => item.currency === currency_id.toLowerCase()) || {
 		name: '',
@@ -105,7 +106,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 		if (!mainWallet) { return ''; }
 
 		return (
-			<TabPane tab={getTabName(currency.blockchain_key || '')} key={currency_id}>
+			<TabPane tab={getTabName(mainCurrency.blockchain_key || '')} key={currency_id}>
 				<div style={{ position: 'relative', width: '100%', height: '100%' }}>
 					<DepositBody
 						wallet_index={0}
@@ -120,7 +121,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 						}
 						generateAddressTriggered={generateAddressTriggered}
 					/>
-					<div hidden={currency.deposit_enabled} className="blur-disabled">
+					<div hidden={selectedCurrency.deposit_enabled} className="blur-disabled">
 						<LockIcon className="pg-blur__content__icon" />
 						{intl.formatMessage({
 							id: 'page.body.wallets.tabs.deposit.disabled.message',
