@@ -76,14 +76,14 @@ export const DepositScreen = () => {
 					<DepositInfo
 						currency_id={selectedCurrencyID}
 						currency_icon={findIcon(currency_id.toLowerCase())}
-						changeCurrency={(currency_id) => {setSelectedCurrencyID(currency_id);}}
+						changeCurrency={(currency_id) => setSelectedCurrencyID(currency_id)}
 						wallets={wallets}
 					/>
 				</div>
 				<div className="col-6" style={{ margin: '40px 0' }}>
 					<DepositAddress
 						currency_id={selectedCurrencyID}
-						changeCurrency={(currency_id) => {setSelectedCurrencyID(currency_id); alert(currency_id)}}
+						changeCurrency={(currency_id) => setSelectedCurrencyID(currency_id)}
 						currency_icon={findIcon(currency_id.toLowerCase())}
 						child_currencies={child_currencies}
 					/>
