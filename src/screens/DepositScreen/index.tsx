@@ -4,33 +4,34 @@ import { useHistory, useParams } from 'react-router';
 import { DepositAddress, DepositHistory, DepositInfo } from '../../containers';
 import { setDocumentTitle } from '../../helpers';
 import {
+	allChildCurrenciesFetch,
+	beneficiariesFetch,
+	currenciesFetch,
+	Currency,
+	fetchHistory,
+	marketsFetch,
+	selectChildCurrencies,
 	selectCurrencies,
 	selectWallets,
-	selectChildCurrencies,
-	currenciesFetch,
-	walletsFetch,
 	walletsChildCurrenciesFetch,
-	allChildCurrenciesFetch,
-	marketsFetch,
-	fetchHistory,
-	beneficiariesFetch,
+	walletsFetch,
 } from '../../modules';
 
 export const DepositScreen = () => {
 	setDocumentTitle('Deposit');
 	const { currency_id } = useParams<{ currency_id: string }>();
 
-	const [selectedCurrencyID, setSelectedCurrencyID] = React.useState(currency_id);
+	const [selectedCurrencyID, setSelectedCurrencyID] = React.useState('');
 
 	// selectors
 	const currencies = useSelector(selectCurrencies);
 	const wallets = useSelector(selectWallets) || [];
-	const child_currencies = useSelector(selectChildCurrencies);
+	const childCurrencies = useSelector(selectChildCurrencies);
 	const dispatch = useDispatch();
 	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
 	const dispatchFetchWallets = () => dispatch(walletsFetch());
 	const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency_id }));
-	const dispatchcFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
+	const dispatchFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
 	const dispatchFetchMarkets = () => dispatch(marketsFetch());
 	const dispatchFetchHistories = () => dispatch(fetchHistory({ currency: currency_id, type: 'deposits', page: 0, limit: 6 }));
 	const dispatchFetchBeneficiaries = () => dispatch(beneficiariesFetch());
@@ -38,12 +39,14 @@ export const DepositScreen = () => {
 	const history = useHistory();
 
 	// method
-	const findIcon = (currency_id: string): string => {
-		const currency = currencies.find((currency: any) => currency.id === currency_id);
+	const findIcon = (currencyID: string): string => {
+		// tslint:disable-next-line:no-shadowed-variable
+		const currency = currencies.find((currency: Currency) => currency.id === currencyID);
 		try {
-			return require(`../../../node_modules/cryptocurrency-icons/128/color/${currency_id.toLowerCase()}.png`);
+			return require(`../../../node_modules/cryptocurrency-icons/128/color/${currencyID.toLowerCase()}.png`);
 		} catch (err) {
-			if (currency) return currency.icon_url;
+			if (currency) { return currency.icon_url; }
+
 			return require('../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
 		}
 	};
@@ -55,7 +58,7 @@ export const DepositScreen = () => {
 		dispatchFetchCurrencies();
 		dispatchFetchWallets();
 		dispatchFetchChildCurrencies();
-		dispatchcFetchAllChildCurrencies();
+		dispatchFetchAllChildCurrencies();
 		dispatchFetchHistories();
 		dispatchFetchBeneficiaries();
 	}, [currency_id]);
@@ -74,18 +77,20 @@ export const DepositScreen = () => {
 			<div className="row" style={{ padding: '0 1rem', backgroundColor: '#313445' }}>
 				<div className="col-6" style={{ padding: '20px 2%' }}>
 					<DepositInfo
-						currency_id={selectedCurrencyID}
+						currency_id={currency_id}
+						selectedCurrencyID={selectedCurrencyID ? selectedCurrencyID : currency_id}
 						currency_icon={findIcon(currency_id.toLowerCase())}
-						changeCurrency={(currency_id) => setSelectedCurrencyID(currency_id)}
+						changeCurrency={setSelectedCurrencyID}
 						wallets={wallets}
 					/>
 				</div>
 				<div className="col-6" style={{ margin: '40px 0' }}>
 					<DepositAddress
-						currency_id={selectedCurrencyID}
-						changeCurrency={(currency_id) => setSelectedCurrencyID(currency_id)}
-						currency_icon={findIcon(currency_id.toLowerCase())}
-						child_currencies={child_currencies}
+						currency_id={currency_id}
+						selectedCurrencyID={selectedCurrencyID ? selectedCurrencyID : currency_id}
+						changeCurrency={setSelectedCurrencyID}
+						currencyIcon={findIcon(currency_id.toLowerCase())}
+						childCurrencies={childCurrencies}
 					/>
 				</div>
 			</div>

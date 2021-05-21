@@ -10,19 +10,21 @@ import { ChildCurrency, selectCurrencies, selectWallets, walletsAddressFetch, wa
 
 interface DepositAddressProps {
 	currency_id: string;
-	currency_icon: string;
-	child_currencies: ChildCurrency[];
-	changeCurrency: (currencyId: string) => void;
+	selectedCurrencyID: string;
+	currencyIcon: string;
+	childCurrencies: ChildCurrency[];
+	changeCurrency: (selectedCurrencyID: string) => void;
 }
 
 export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddressProps) => {
-	const { currency_id, child_currencies, changeCurrency } = props;
+	const { currency_id, selectedCurrencyID, childCurrencies, changeCurrency } = props;
 	const intl = useIntl();
 	const [generateAddressTriggered, setGenerateAddressTriggered] = React.useState(false);
 	const dispatch = useDispatch();
 	const wallets = useSelector(selectWallets) || [];
 	const currencies = useSelector(selectCurrencies) || [];
-	const currency = currencies.find(cur => cur.id.toLowerCase() === currency_id.toLowerCase()) || { blockchain_key: '' };
+	const currency = currencies.find(cur => cur.id.toLowerCase() === selectedCurrencyID.toLowerCase()) || { blockchain_key: '', deposit_enabled: false };
+
 	const mainWallet = wallets.find(item => item.currency === currency_id.toLowerCase()) || {
 		name: '',
 		currency: '',
@@ -30,21 +32,15 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 		type: '',
 		address: '',
 	};
-	const childWallets = child_currencies.map(network => {
+	const childWallets = childCurrencies.map(childCurrency => {
 		return {
-			...network,
-			wallet: wallets.find(item => item.currency === network.id) || {
-				name: '',
-				currency: '',
-				balance: '',
-				type: '',
-				address: '',
-			},
+			...childCurrency,
+			wallet: wallets.find(item => item.currency === childCurrency.id),
 		};
 	});
 	const isAccountActivated = mainWallet.type === 'fiat' || mainWallet.balance;
 
-	const handleGenerateAddress = (wallet: { address: string; type: string; currency: string }) => {
+	const handleGenerateAddress = (wallet: { address?: string; type?: string; currency: string }) => {
 		if (!wallet.address && wallets.length && wallet.type !== 'fiat') {
 			dispatch(walletsAddressFetch({ currency: wallet.currency }));
 			dispatch(walletsFetch());
@@ -57,8 +53,83 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 	}, [currency_id]);
 
 	React.useEffect(() => {
-		dispatch(walletsAddressFetch({ currency: currency_id }));
-	}, [dispatch, currency_id]);
+		dispatch(walletsAddressFetch({ currency: selectedCurrencyID }));
+	}, [selectedCurrencyID]);
+
+	React.useEffect(() => {
+		dispatch(walletsAddressFetch({ currency: selectedCurrencyID }));
+	}, [dispatch, selectedCurrencyID]);
+
+	const renderChildWallets = () => {
+		if (childWallets.length <= 0) { return ''; }
+
+		return (
+			childWallets.map((childWallet, index) => (
+				<TabPane
+					tab={getTabName(childWallet.blockchain_key)}
+					key={childWallet.id}
+				>
+					<div style={{ position: 'relative', width: '100%', height: '100%' }}>
+						{childWallet.wallet ? (
+							<DepositBody
+								wallet_index={index + 1}
+								wallet={childWallet.wallet}
+								isAccountActivated={isAccountActivated}
+								handleGenerateAddress={() => {
+									if (childWallet.wallet) {
+										handleGenerateAddress({
+											address: childWallet.wallet.address,
+											type: childWallet.wallet.type,
+											currency: childWallet.wallet.currency,
+										});
+									}
+
+								}
+								}
+								generateAddressTriggered={generateAddressTriggered}
+							/>
+						) : ('')}
+						<div hidden={childWallet.deposit_enabled} className="blur-disabled">
+							<LockIcon className="pg-blur__content__icon" />
+							{intl.formatMessage({
+								id: 'page.body.wallets.tabs.deposit.disabled.message',
+							})}
+						</div>
+					</div>
+				</TabPane>
+			))
+		);
+	};
+
+	const renderParentWallet = () => {
+		if (!mainWallet) { return ''; }
+
+		return (
+			<TabPane tab={getTabName(currency.blockchain_key || '')} key={currency_id}>
+				<div style={{ position: 'relative', width: '100%', height: '100%' }}>
+					<DepositBody
+						wallet_index={0}
+						wallet={mainWallet}
+						isAccountActivated={isAccountActivated}
+						handleGenerateAddress={() =>
+							handleGenerateAddress({
+								address: mainWallet.address,
+								type: mainWallet.type,
+								currency: mainWallet.currency,
+							})
+						}
+						generateAddressTriggered={generateAddressTriggered}
+					/>
+					<div hidden={currency.deposit_enabled} className="blur-disabled">
+						<LockIcon className="pg-blur__content__icon" />
+						{intl.formatMessage({
+							id: 'page.body.wallets.tabs.deposit.disabled.message',
+						})}
+					</div>
+				</div>
+			</TabPane>
+		);
+	};
 
 	return (
 		<div id="deposit-address">
@@ -77,58 +148,8 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 						<div className="col-12">
 							<div className="react-tabs">
 								<Tabs defaultActiveKey={currency_id} onChange={changeCurrency}>
-									{mainWallet ? (
-										<TabPane tab={getTabName(currency.blockchain_key || '')} key={currency_id}>
-											<DepositBody
-												wallet_index={0}
-												wallet={mainWallet}
-												isAccountActivated={isAccountActivated}
-												handleGenerateAddress={() =>
-													handleGenerateAddress({
-														address: mainWallet.address || '',
-														type: mainWallet.type || '',
-														currency: mainWallet.currency || '',
-													})
-												}
-												generateAddressTriggered={generateAddressTriggered}
-											/>
-										</TabPane>
-									) : (
-										''
-									)}
-									{childWallets
-										? childWallets.map((childWallet, index) => (
-												<TabPane
-													tab={getTabName(childWallet.blockchain_key || '')}
-													key={childWallet.id || ''}
-												>
-													<div style={{ position: 'relative', width: '100%', height: '100%' }}>
-														{childWallet.wallet && childWallet.deposit_enabled ? (
-															<DepositBody
-																wallet_index={index + 1}
-																wallet={childWallet.wallet}
-																isAccountActivated={isAccountActivated}
-																handleGenerateAddress={() =>
-																	handleGenerateAddress({
-																		address: childWallet.wallet.address || '',
-																		type: childWallet.wallet.type || '',
-																		currency: childWallet.wallet.currency || '',
-																	})
-																}
-																generateAddressTriggered={generateAddressTriggered}
-															/>
-														) : (
-															<div className="blur-disabled">
-																<LockIcon className="pg-blur__content__icon" />
-																{intl.formatMessage({
-																	id: 'page.body.wallets.tabs.deposit.disabled.message',
-																})}
-															</div>
-														)}
-													</div>
-												</TabPane>
-										  ))
-										: ''}
+									{renderParentWallet()}
+									{renderChildWallets()}
 								</Tabs>
 							</div>
 						</div>
@@ -137,9 +158,9 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 				<div className="row mt-5">
 					<div className="col-12 d-flex justify-content-between">
 						<p className="pr-5">
-							<strong>Send only {currency_id.toUpperCase()} to this deposit address.</strong>
+							<strong>Send only {selectedCurrencyID.toUpperCase()} to this deposit address.</strong>
 							<br />
-							Sending coin or token other than {currency_id.toUpperCase()} to this address may result in the loss of
+							Sending coin or token other than {selectedCurrencyID.toUpperCase()} to this address may result in the loss of
 							your deposit.
 						</p>
 					</div>

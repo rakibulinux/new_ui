@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Select from 'react-select';
-import { useIntl } from 'react-intl';
-import { CurrencyInfo } from '../../components/CurrencyInfo';
-import { Wallet, selectCurrencies, selectAllChildCurrencies } from '../../modules';
 import { TradeList } from '../../components';
+import { CurrencyInfo } from '../../components/CurrencyInfo';
+import { Currency, selectAllChildCurrencies, selectCurrencies, Wallet } from '../../modules';
 
 const SelectStyles = {
 	option: (provided, state) => ({
@@ -42,22 +42,25 @@ const SelectStyles = {
 
 interface DepositInfoProps {
 	currency_id: string;
+	selectedCurrencyID: string;
 	currency_icon: string;
 	wallets: Wallet[];
-	changeCurrency: (currency_id: string) => void;
+	changeCurrency: (selectedCurrencyID: string) => void;
 }
 
 export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps) => {
-	const { currency_id, wallets, changeCurrency } = props;
+	const { currency_id, selectedCurrencyID, wallets, changeCurrency } = props;
 
 	const intl = useIntl();
 	const history = useHistory();
 
 	// selectors
 	const currencies = useSelector(selectCurrencies);
-	const all_child_currencies = useSelector(selectAllChildCurrencies);
+	// tslint:disable-next-line:variable-name
+	const allChildCurrencies = useSelector(selectAllChildCurrencies);
 
-	const wallet = wallets.find(wallet => wallet.currency.toLowerCase() === currency_id.toLowerCase()) || {
+	// tslint:disable-next-line:no-shadowed-variable
+	const wallet = wallets.find(wallet => wallet.currency.toLowerCase() === selectedCurrencyID.toLowerCase()) || {
 		currency: '',
 		name: '',
 		type: 'fiat',
@@ -65,7 +68,8 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 		fixed: 0,
 	};
 
-	const currency = currencies.find((currency: any) => String(currency.id).toLowerCase() === currency_id.toLowerCase()) || {
+	// tslint:disable-next-line:no-shadowed-variable
+	const currency = currencies.find((currency: Currency) => String(currency.id).toLowerCase() === selectedCurrencyID.toLowerCase()) || {
 		name: '',
 		min_confirmations: 6,
 		min_deposit_amount: 6,
@@ -80,26 +84,28 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 
 	const textMinDeposit = `${intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.mindeposit' })} ${
 		Number(currency.min_deposit_amount) + Number(currency.deposit_fee)
-	} ${currency_id.toUpperCase()}`;
+	} ${selectedCurrencyID.toUpperCase()}`;
 
 	const textDepositFee = `${intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.depositfee' })} ${Number(
 		currency.deposit_fee,
-	)} ${currency_id.toUpperCase()}`;
+	)} ${selectedCurrencyID.toUpperCase()}`;
 
-	const textNote = `Only Deposit ${currency_id.toUpperCase()} to this wallet.`;
+	const textNote = `Only Deposit ${selectedCurrencyID.toUpperCase()} to this wallet.`;
 
 	// method
 	const findIcon = (code: string): string => {
-		const currency = currencies.find((currency: any) => currency.id === code);
+		// tslint:disable-next-line:no-shadowed-variable
+		const currency = currencies.find((currency: Currency) => currency.id === code);
 		try {
 			return require(`../../../node_modules/cryptocurrency-icons/128/color/${code.toLowerCase()}.png`);
 		} catch (err) {
-			if (currency) return currency.icon_url;
+			if (currency) { return currency.icon_url; }
+
 			return require('../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
 		}
 	};
 
-	// Select
+	// tslint:disable-next-line:no-shadowed-variable
 	const options = currencies.map(currency => {
 		const newCurrency = {
 			value: currency.id,
@@ -109,15 +115,16 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 				</span>
 			),
 		};
+
 		return newCurrency;
 	});
 
 	const handleChange = (selectedOption: any) => {
-		const currency_id = String(selectedOption.value);
+		const selectedCurrency = String(selectedOption.value);
 		const location = {
-			pathname: `/wallets/deposit/${currency_id.toUpperCase()}`,
+			pathname: `/wallets/deposit/${selectedCurrency.toUpperCase()}`,
 		};
-		changeCurrency(currency_id);
+		changeCurrency(selectedCurrency);
 		history.push(location);
 	};
 
@@ -137,9 +144,9 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 					<div className="col-4">
 						<Select
 							styles={SelectStyles}
-							value={options.filter(option => option.value == currency_id.toLowerCase())}
+							value={options.filter(option => option.value.toLowerCase() === currency_id.toLowerCase())}
 							onChange={handleChange}
-							options={options.filter(option => !all_child_currencies.map(cur => cur.id).includes(option.value))}
+							options={options.filter(option => !allChildCurrencies.map(cur => cur.id).includes(option.value))}
 						/>
 					</div>
 				</div>
