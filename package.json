@@ -116,6 +116,7 @@
 		"@types/react-slick": "^0.23.4",
 		"@types/react-test-renderer": "^16.0.2",
 		"@types/styled-components": "^5.1.9",
+		"@types/ua-parser-js": "^0.7.19-alpha",
 		"@types/webpack-env": "^1.13.6",
 		"@types/ws": "^6.0.4",
 		"autoprefixer": "^9.1.1",
