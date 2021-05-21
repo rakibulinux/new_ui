@@ -263,7 +263,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 				<div>
 					<div className="row">
 						<div className="col-12">
-							<h4>Withdrawal Nework</h4>
+							<h4>Withdrawal Network</h4>
 						</div>
 					</div>
 					<div className="row">
