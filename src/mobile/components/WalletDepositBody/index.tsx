@@ -16,6 +16,7 @@ const WalletDepositBodyComponent = props => {
 	const currencies = useSelector(selectCurrencies);
 	const user = useSelector(selectUserInfo);
 	const selectedWalletAddress = useSelector(selectWalletAddress);
+
 	const label = React.useMemo(() => intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.address' }), [intl]);
 	const handleOnCopy = () => ({});
 	const renderDeposit = (isAccountActivated: boolean) => {
@@ -55,7 +56,6 @@ const WalletDepositBodyComponent = props => {
 			: intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.error' });
 
 		const walletAddress = formatCCYAddress(wallet.currency, selectedWalletAddress);
-
 		const buttonLabel = `
               ${translate('page.body.wallets.tabs.deposit.ccy.button.generate')} ${wallet.currency.toUpperCase()} ${translate(
 			'page.body.wallets.tabs.deposit.ccy.button.address',
