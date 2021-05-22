@@ -83,7 +83,6 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
 				type: blockchain,
 			};
 		});
-
 	const child_list = list
 		.filter((history: any) => child_currencies_ids.includes(history.currency))
 		.map((history: any) => {
