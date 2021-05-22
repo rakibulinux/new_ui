@@ -175,13 +175,14 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 		const { minWithdrawAmount, limitWitdraw24h } = this.props;
 
 		const isPending = beneficiary.state && beneficiary.state.toLowerCase() === 'pending';
+		const isLimitWithdraw24h = Number(limitWitdraw24h) === 0 ? false : Number(amount) > Number(limitWitdraw24h);
 		return (
 			Number(total) <= 0 ||
 			!Boolean(beneficiary.id) ||
 			isPending ||
 			!Boolean(otpCode) ||
 			Number(amount) < Number(minWithdrawAmount) ||
-			Number(amount) > Number(limitWitdraw24h)
+			isLimitWithdraw24h
 		);
 	};
 
@@ -189,10 +190,16 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 		const { fee, fixed, currency, ethFee } = this.props;
 
 		return (
-			<span>
-				<Decimal fixed={fixed}>{Number(fee) != 0 ? fee.toString() : ethFee}</Decimal>{' '}
-				{Number(fee) != 0 ? currency.toUpperCase() : 'ETH'}
-			</span>
+			<React.Fragment>
+				<span hidden={fee === 0}>
+					<Decimal fixed={fixed}>{fee.toString()}</Decimal>
+					{' ' + currency.toUpperCase()}
+				</span>
+				<span hidden={fee !== 0}>
+					<Decimal fixed={fixed}>{ethFee}</Decimal>
+					{' ETH'}
+				</span>
+			</React.Fragment>
 		);
 	};
 
@@ -238,32 +245,39 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 	private handleClick = () => {
 		const { ethBallance, ethFee, fee } = this.props;
-		if (ethBallance === undefined && fee == 0) {
-			Modal.error({
-				centered: true,
-				icon: <FrownOutlined />,
-				title: "Can't withdraw",
-				content: `You need to generate ETH Wallets Address before withdraw!`,
-			});
-		} else if (ethFee === undefined && Number(fee) === 0) {
-			Modal.warning({
-				centered: true,
-				icon: <FrownOutlined />,
-				title: "Can't withdraw",
-				content: `ETH Fee is unavailable now!`,
-			});
-		} else if (Number(fee) === 0 && Number(ethBallance) < Number(ethFee)) {
-			Modal.warning({
-				centered: true,
-				icon: <FrownOutlined />,
-				title: "Can't withdraw",
-				content: `You don\'t have enough ETH tokens to pay fee. Need more ${(
-					Number(ethFee) - Number(ethBallance)
-				).toFixed(5)} ETH Tokens`,
-			});
-		} else {
-			this.props.onClick(this.state.amount, this.state.total, this.state.beneficiary, this.state.otpCode);
+		if (fee === 0) {
+			// fee is zero, let use eth fee
+			if (!ethBallance) {
+				Modal.error({
+					centered: true,
+					icon: <FrownOutlined />,
+					title: "Can't withdraw",
+					content: `You need to generate ETH Wallets Address before withdraw!`,
+				});
+				return;
+			}
+			if (!ethFee || ethFee <= 0) {
+				Modal.warning({
+					centered: true,
+					icon: <FrownOutlined />,
+					title: "Can't withdraw",
+					content: `ETH Fee is unavailable now!`,
+				});
+				return;
+			}
+			if (Number(ethBallance) < Number(ethFee)) {
+				Modal.warning({
+					centered: true,
+					icon: <FrownOutlined />,
+					title: "Can't withdraw",
+					content: `You don\'t have enough ETH tokens to pay fee. Need more ${(
+						Number(ethFee) - Number(ethBallance)
+					).toFixed(5)} ETH Tokens`,
+				});
+				return;
+			}
 		}
+		this.props.onClick(this.state.amount, this.state.total, this.state.beneficiary, this.state.otpCode);
 	};
 
 	private handleFieldFocus = (field: string) => {

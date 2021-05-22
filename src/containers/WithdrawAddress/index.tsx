@@ -175,37 +175,73 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 		const {
 			user: { level, otp },
 			currencies,
+			child_currencies,
 		} = props;
 
-		const { currency, type, fee } = wallet;
-		const fixed = (wallet || { fixed: 0 }).fixed;
+		const childCurrency = child_currencies.find(childCurrency => childCurrency.id === wallet.currency);
+		if (childCurrency) {
+			const parentCurrency = currencies.find(currency => currency.id === childCurrency.parent_id);
+			const parentWallet = wallets.find(wallet => wallet.currency === childCurrency.parent_id) || {
+				currency: '',
+				type: 'fiat',
+				fee: 0,
+				fixed: 8,
+			};
+			const fixed = (parentWallet || { fixed: 0 }).fixed;
+			const limitWitdraw24h = parentCurrency ? parentCurrency.withdraw_limit_24h : undefined;
+			const minWithdrawAmount =
+				parentCurrency && parentCurrency.min_withdraw_amount ? parentCurrency.min_withdraw_amount : undefined;
+			const { currency, type, fee } = parentWallet;
 
-		const selectedCurrency = currencies.find(cur => cur.id == currency);
-		const minWithdrawAmount =
-			selectedCurrency && selectedCurrency.min_withdraw_amount ? selectedCurrency.min_withdraw_amount : undefined;
-		const limitWitdraw24h =
-			selectedCurrency && selectedCurrency.withdraw_limit_24h ? selectedCurrency.withdraw_limit_24h : undefined;
+			const withdrawProps: WithdrawProps = {
+				withdrawDone: withdrawState.withdrawDone,
+				currency: currency,
+				fee: fee,
+				onClick: toggleConfirmModal,
+				twoFactorAuthRequired: isTwoFactorAuthRequired(level, otp),
+				fixed,
+				type,
+				withdrawAmountLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.amount' }),
+				withdraw2faLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.code2fa' }),
+				withdrawFeeLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.fee' }),
+				withdrawTotalLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.total' }),
+				withdrawButtonLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.button' }),
+				ethFee,
+				ethBallance: eth_balance,
+				minWithdrawAmount,
+				limitWitdraw24h,
+			};
 
-		const withdrawProps: WithdrawProps = {
-			withdrawDone: withdrawState.withdrawDone,
-			currency: currencyState,
-			fee: fee,
-			onClick: toggleConfirmModal,
-			twoFactorAuthRequired: isTwoFactorAuthRequired(level, otp),
-			fixed,
-			type,
-			withdrawAmountLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.amount' }),
-			withdraw2faLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.code2fa' }),
-			withdrawFeeLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.fee' }),
-			withdrawTotalLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.total' }),
-			withdrawButtonLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.button' }),
-			ethFee,
-			ethBallance: eth_balance,
-			minWithdrawAmount,
-			limitWitdraw24h,
-		};
+			return otp ? <Withdraw {...withdrawProps} /> : isOtpDisabled();
+		} else {
+			const { currency, type, fee } = wallet;
+			const fixed = (wallet || { fixed: 0 }).fixed;
+			const selectedCurrency = currencies.find(cur => cur.id == currency);
+			const minWithdrawAmount =
+				selectedCurrency && selectedCurrency.min_withdraw_amount ? selectedCurrency.min_withdraw_amount : undefined;
+			const limitWitdraw24h = selectedCurrency ? selectedCurrency.withdraw_limit_24h : undefined;
 
-		return otp ? <Withdraw {...withdrawProps} /> : isOtpDisabled();
+			const withdrawProps: WithdrawProps = {
+				withdrawDone: withdrawState.withdrawDone,
+				currency: currencyState,
+				fee: fee,
+				onClick: toggleConfirmModal,
+				twoFactorAuthRequired: isTwoFactorAuthRequired(level, otp),
+				fixed,
+				type,
+				withdrawAmountLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.amount' }),
+				withdraw2faLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.code2fa' }),
+				withdrawFeeLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.fee' }),
+				withdrawTotalLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.total' }),
+				withdrawButtonLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.button' }),
+				ethFee,
+				ethBallance: eth_balance,
+				minWithdrawAmount,
+				limitWitdraw24h,
+			};
+
+			return otp ? <Withdraw {...withdrawProps} /> : isOtpDisabled();
+		}
 	};
 
 	const toggleSubmitModal = () => {
@@ -326,13 +362,13 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 			<ModalWithdrawConfirmation
 				show={withdrawState.withdrawConfirmModal}
 				amount={withdrawState.total}
-				currency={currency_id}
+				currency={currencyState}
 				rid={confirmationAddress}
 				onSubmit={handleWithdraw}
 				onDismiss={toggleConfirmModal}
+				selectedWalletFee={selectedWalletFee}
 				ethFee={ethFee}
 				ethBallance={eth_balance}
-				selectedWalletFee={selectedWalletFee}
 			/>
 		</div>
 	);
