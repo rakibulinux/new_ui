@@ -6,7 +6,7 @@ Access-Control-Max-Age: 3600
 Access-Control-Allow-Credentials: true
 
 {
-  "currency":"bch",
+  "currency":"busd1",
   "balance":"10.12",
   "locked":"0.1"
 }

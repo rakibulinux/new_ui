@@ -139,7 +139,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 	};
 	const currencyFee = ethFees.find(cur => cur.currency_id === currency_id);
 	const ethFee = currencyFee ? currencyFee.fee : undefined;
-	const selectedWalletFee = selectedWallet ? selectedWallet.fee : undefined;
+	const selectedWalletFee = selectedWallet ? selectedWallet.fee : wallet.fee;
 	const ethWallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
 	const ethBallance = ethWallet ? ethWallet.balance : undefined;
 	let confirmationAddress = '';
@@ -190,6 +190,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 		} = props;
 
 		const { currency, type, fee } = wallet;
+
 		const fixed = (wallet || { fixed: 0 }).fixed;
 
 		const selectedCurrency = currencies.find(cur => cur.id == currency);
@@ -234,8 +235,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 		if (!wallet) {
 			return;
 		}
-
-		const { currency, fee } = wallet;
+		const { currency, fee } = selectedWallet ? selectedWallet : wallet;
 
 		// Withdraw by eth fee
 		const { user, ethFee: eth_fee, wallets } = props;

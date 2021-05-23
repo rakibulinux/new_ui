@@ -26,7 +26,7 @@ describe('Saga: currenciesFetchSaga', () => {
 
 	const fakeCurrencies: Currency[] = [
 		{
-			id: 'bch',
+			id: 'busd1',
 			name: 'Bitcoin Cash',
 			symbol: '฿',
 			explorer_transaction: 'https://testnet.blockchain.info/tx/',

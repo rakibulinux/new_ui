@@ -37,7 +37,7 @@ Access-Control-Allow-Credentials: true
    "state":"accepted"
   },
   {"id":312,
-   "currency":"bch",
+   "currency":"busd1",
    "amount":"0.099",
    "fee":"0.0",
    "txid":"eeba72b3c955195b5c1d87656395a30db0690c7817f0a16a09d593b6bfd225f2",
@@ -137,7 +137,7 @@ Access-Control-Allow-Credentials: true
    "state":"accepted"
   },
   {"id":292,
-   "currency":"bch",
+   "currency":"busd1",
    "amount":"0.01",
    "fee":"0.0",
    "txid":"74dc8c8c081655076fa065a944af3bb83b9f5c857f39733eafb090120f8ce96f",
@@ -177,7 +177,7 @@ Access-Control-Allow-Credentials: true
    "state":"accepted"
   },
   {"id":288,
-   "currency":"bch",
+   "currency":"busd1",
    "amount":"0.01",
    "fee":"0.0",
    "txid":"e7251dbd4f7471dae8d1225896c182749f26e224aa546b65c3ea26debfe10fab",

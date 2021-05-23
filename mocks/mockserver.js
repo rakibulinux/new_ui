@@ -196,7 +196,7 @@ function getDirectoriesRecursive(srcpath) {
  * the mock name.
  *
  * In any case we will prepend the value with a double
- * dash so that the mock files will look like:
+ * busd so that the mock files will look like:
  *
  * POST--My-Body=123.mock
  *
