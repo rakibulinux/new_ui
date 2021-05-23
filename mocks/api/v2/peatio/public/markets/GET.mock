@@ -24,7 +24,7 @@ Access-Control-Allow-Credentials: true
   {
     "id": "bchzar",
     "name": "BCH/ZAR",
-    "base_unit": "bch",
+    "base_unit": "busd1",
     "quote_unit": "zar",
     "ask_fee": "0.0015",
     "bid_fee": "0.0015",
@@ -52,7 +52,7 @@ Access-Control-Allow-Credentials: true
   {
     "id": "dashbtc",
     "name": "DASH/BTC",
-    "base_unit": "dash",
+    "base_unit": "busd",
     "quote_unit": "btc",
     "ask_fee": "0.0015",
     "bid_fee": "0.0015",

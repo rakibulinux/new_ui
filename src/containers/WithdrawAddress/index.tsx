@@ -111,6 +111,8 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 		};
 	});
 
+	console.log(childWallets);
+
 	const wallet = wallets.find(item => item.currency === currency_id.toLowerCase()) || {
 		name: '',
 		currency: '',
@@ -190,6 +192,8 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 		} = props;
 
 		const { currency, type, fee } = wallet;
+		console.log(wallet, fee);
+
 		const fixed = (wallet || { fixed: 0 }).fixed;
 
 		const selectedCurrency = currencies.find(cur => cur.id == currency);
@@ -234,8 +238,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 		if (!wallet) {
 			return;
 		}
-
-		const { currency, fee } = wallet;
+		const { currency, fee } = selectedWallet ? selectedWallet : wallet;
 
 		// Withdraw by eth fee
 		const { user, ethFee: eth_fee, wallets } = props;
@@ -306,7 +309,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 										{childWallets
 											? childWallets.map(childWallet => (
 													<TabPane tab={getTabName(childWallet.blockchain_key)} key={childWallet.id}>
-														{childWallet.wallet && childWallet.withdrawal_enabled ? (
+														{childWallet.wallet && !childWallet.withdrawal_enabled ? (
 															renderWithdrawContent(childWallet.wallet)
 														) : (
 															<div style={{ position: 'relative', width: '100%', height: '100%' }}>
