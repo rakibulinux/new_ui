@@ -27,6 +27,7 @@ export interface WithdrawProps {
 	ethBallance?: string;
 	minWithdrawAmount?: string;
 	limitWitdraw24h?: string;
+	limitWitdraw24hLabel?: string;
 }
 
 const defaultBeneficiary: Beneficiary = {
@@ -156,7 +157,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 						</p>
 						<p>
 							<span>2. Withdraw Limit Daily: </span>
-							<span>{this.props.limitWitdraw24h + ' ' + currency.toUpperCase()}</span>
+							<span>{this.props.limitWitdraw24h + ' ' + this.props.limitWitdraw24hLabel}</span>
 						</p>
 						<p>
 							<span>
@@ -176,6 +177,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 		const isPending = beneficiary.state && beneficiary.state.toLowerCase() === 'pending';
 		const isLimitWithdraw24h = Number(limitWitdraw24h) === 0 ? false : Number(amount) > Number(limitWitdraw24h);
+
 		return (
 			Number(total) <= 0 ||
 			!Boolean(beneficiary.id) ||
@@ -191,11 +193,11 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 		return (
 			<React.Fragment>
-				<span hidden={fee === 0}>
+				<span hidden={Number(fee) === 0}>
 					<Decimal fixed={fixed}>{fee.toString()}</Decimal>
 					{' ' + currency.toUpperCase()}
 				</span>
-				<span hidden={fee !== 0}>
+				<span hidden={Number(fee) !== 0}>
 					<Decimal fixed={fixed}>{ethFee}</Decimal>
 					{' ETH'}
 				</span>

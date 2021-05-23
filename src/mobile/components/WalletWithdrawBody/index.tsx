@@ -10,7 +10,12 @@ import { ethFeeFetch, selectETHFee } from '../../../modules';
 import { selectCurrencies } from '../../../modules/public/currencies';
 import { Beneficiary } from '../../../modules/user/beneficiaries';
 import { selectUserInfo } from '../../../modules/user/profile';
-import { selectWallets, selectWithdrawSuccess, walletsWithdrawCcyFetch } from '../../../modules/user/wallets';
+import {
+	selectChildCurrencies,
+	selectWallets,
+	selectWithdrawSuccess,
+	walletsWithdrawCcyFetch,
+} from '../../../modules/user/wallets';
 
 const defaultBeneficiary: Beneficiary = {
 	id: 0,
@@ -59,7 +64,11 @@ const WalletWithdrawBodyComponent = props => {
 		() => intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.button' }),
 		[intl],
 	);
-	const currencyItem = currencies && currencies.find(item => item.id === currency);
+	const currencyItem = (currencies && currencies.find(item => item.id === currency)) || {
+		withdraw_limit_24h: undefined,
+		min_withdraw_amount: undefined,
+		withdrawal_enabled: false,
+	};
 
 	const ethFee = useSelector(selectETHFee);
 	React.useEffect(() => {
@@ -149,6 +158,11 @@ const WalletWithdrawBodyComponent = props => {
 	const selectedWalletFee = selectedWallet ? selectedWallet.fee : undefined;
 
 	const feeCurrency = ethFee.find(cur => cur.currency_id === currency);
+	const childCurrencies = useSelector(selectChildCurrencies);
+	const childCurrency = childCurrencies.find(child => child.id === currency) || { parent_id: '' };
+	const parentCurrencyId = childCurrency.parent_id;
+	const parentCurrency = currencies.find(cur => cur.id === parentCurrencyId) || { id: '', withdraw_limit_24h: undefined };
+	const limitWitdraw24h = parentCurrency ? parentCurrency.withdraw_limit_24h : undefined;
 
 	return (
 		<div className={className}>
@@ -175,6 +189,8 @@ const WalletWithdrawBodyComponent = props => {
 					withdrawDone={withdrawData.withdrawDone}
 					withdrawButtonLabel={withdrawButtonLabel}
 					twoFactorAuthRequired={isTwoFactorAuthRequired(user.level, user.otp)}
+					limitWitdraw24h={currencyItem.withdraw_limit_24h ? currencyItem.withdraw_limit_24h : limitWitdraw24h}
+					limitWitdraw24hLabel={parentCurrencyId ? parentCurrencyId.toUpperCase() : currencyItem.id.toUpperCase()}
 				/>
 			)}
 			<div className="cr-mobile-wallet-withdraw-body__submit">
