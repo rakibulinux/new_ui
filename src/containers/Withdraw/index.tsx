@@ -278,6 +278,11 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 				return;
 			}
 		}
+		this.setState({
+			...this.state,
+			amount: '',
+			otpCode: '',
+		});
 		this.props.onClick(this.state.amount, this.state.total, this.state.beneficiary, this.state.otpCode);
 	};
 

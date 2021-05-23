@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Decimal } from '../../../components/Decimal';
 /* import { DEFAULT_CCY_PRECISION } from '../../../constants'; */
 import { areEqualSelectedProps } from '../../../helpers/areEqualSelectedProps';
-import { selectWallets, selectChildCurrencies } from '../../../modules';
+import { selectWallets, selectAllChildCurrencies } from '../../../modules';
 
 interface Props {
 	wallet: any;
@@ -12,20 +12,25 @@ interface Props {
 
 const WalletBannerComponent = (props: Props) => {
 	const {
-		wallet: { balance = 0, locked = 0, fixed = 6 },
+		wallet: { currency = '', balance = 0, locked = 0, fixed = 6 },
 	} = props;
 	const intl = useIntl();
 
+	const allChildCurrencies = useSelector(selectAllChildCurrencies);
 	const wallets = useSelector(selectWallets);
-	const childCurrencies = useSelector(selectChildCurrencies);
-	const childCurrenciesIds = childCurrencies.map(child => child.id);
-	const childWallets = wallets.filter(wallet => childCurrenciesIds.includes(wallet.currency)) || {};
-	const childBalances = childWallets.map(child => Number(child.balance)) || [];
-	const childLockeds = childWallets.map(child => Number(child.locked)) || [];
-	const totalChildBalance = childBalances.reduce((x, y) => x + y, 0);
-	const totalChildLocked = childLockeds.reduce((x, y) => x + y, 0);
-	const totalBalances = Number(balance) + Number(totalChildBalance);
-	const totalLocked = Number(locked) + Number(totalChildLocked);
+
+	const childCurrencies = allChildCurrencies
+		.filter(childCurrency => childCurrency.parent_id === currency)
+		.map(childCurrency => childCurrency.id);
+
+	const totalChildBalances = wallets
+		.filter(wal => childCurrencies.includes(wal.currency))
+		.map(child => Number(child.balance))
+		.reduce((x, y) => x + y, 0);
+	const totalChildLocked = wallets
+		.filter(wal => childCurrencies.includes(wal.currency))
+		.map(child => Number(child.locked))
+		.reduce((x, y) => x + y, 0);
 
 	return (
 		<div className="cr-wallet-banner-mobile">
@@ -33,10 +38,10 @@ const WalletBannerComponent = (props: Props) => {
 				<div className="available">{intl.formatMessage({ id: 'page.mobile.wallets.banner.available' })}</div>
 				<div className="lock">{intl.formatMessage({ id: 'page.mobile.wallets.banner.lock' })}</div>
 				<div className="available_amout">
-					<Decimal fixed={fixed} children={totalBalances || 0} />
+					<Decimal fixed={fixed} children={totalChildBalances + Number(balance) || 0} />
 				</div>
 				<div className="lock_amout">
-					<Decimal fixed={fixed} children={totalLocked || 0} />
+					<Decimal fixed={fixed} children={totalChildLocked + Number(locked) || 0} />
 				</div>
 			</div>
 		</div>
