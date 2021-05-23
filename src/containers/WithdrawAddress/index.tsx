@@ -309,7 +309,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 														{childWallet.wallet && childWallet.withdrawal_enabled ? (
 															renderWithdrawContent(childWallet.wallet)
 														) : (
-															<div style={{ position: 'relative', width: '100%', height: '100%' }}>
+															<div style={{ position: 'relative', width: '100%', height: '300px' }}>
 																<div className="blur-disabled">
 																	<LockIcon className="pg-blur__content__icon" />
 																	{intl.formatMessage({
