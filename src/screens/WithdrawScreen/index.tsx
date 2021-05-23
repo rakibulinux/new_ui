@@ -28,8 +28,8 @@ export const WithdrawScreen = () => {
 	const currencies = useSelector(selectCurrencies);
 	const wallets = useSelector(selectWallets) || [];
 	const user = useSelector(selectUserInfo);
-	const eth_fee = useSelector(selectETHFee);
-	const child_currencies = useSelector(selectChildCurrencies);
+	const ethFee = useSelector(selectETHFee);
+	const childCurrencies = useSelector(selectChildCurrencies);
 
 	const dispatch = useDispatch();
 	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
@@ -91,8 +91,8 @@ export const WithdrawScreen = () => {
 						currency_id={currency_id.toLowerCase()}
 						wallets={wallets}
 						currencies={currencies}
-						eth_fee={eth_fee}
-						child_currencies={child_currencies}
+						ethFee={ethFee}
+						childCurrencies={childCurrencies}
 					/>
 				</div>
 			</div>
