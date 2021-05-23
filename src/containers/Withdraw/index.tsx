@@ -177,16 +177,14 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 		const isPending = beneficiary.state && beneficiary.state.toLowerCase() === 'pending';
 		const isLimitWithdraw24h = Number(limitWitdraw24h) === 0 ? false : Number(amount) > Number(limitWitdraw24h);
-		console.log(
+		return (
 			Number(total) <= 0 ||
-				!Boolean(beneficiary.id) ||
-				isPending ||
-				!Boolean(otpCode) ||
-				Number(amount) < Number(minWithdrawAmount) ||
-				isLimitWithdraw24h,
+			!Boolean(beneficiary.id) ||
+			isPending ||
+			!Boolean(otpCode) ||
+			Number(amount) < Number(minWithdrawAmount) ||
+			isLimitWithdraw24h
 		);
-
-		return false;
 	};
 
 	private renderFee = () => {

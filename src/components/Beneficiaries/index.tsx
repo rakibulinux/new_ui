@@ -121,7 +121,7 @@ class BeneficiariesComponent extends React.Component<Props, State> {
 				{filtredBeneficiaries.length
 					? this.renderAddressDropdown(filtredBeneficiaries, currentWithdrawalBeneficiary, type)
 					: this.renderAddAddress()}
-				{isOpenFailModal && (
+				{isOpenAddressModal && (
 					<BeneficiariesAddModal
 						currency={currency}
 						type={type}
@@ -135,7 +135,7 @@ class BeneficiariesComponent extends React.Component<Props, State> {
 						handleToggleConfirmationModal={this.handleToggleConfirmationModal}
 					/>
 				)}
-				{isOpenAddressModal && (
+				{isOpenFailModal && (
 					<BeneficiariesFailAddModal
 						isMobileDevice={isMobileDevice}
 						handleToggleFailModal={this.handleToggleFailModal}
