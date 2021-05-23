@@ -94,9 +94,25 @@ export const WalletListScreen = () => {
 	const data = wallets
 		.filter(wallet => !all_child_currencies.map(cur => cur.id).includes(wallet.currency))
 		.map(wallet => {
+			const childCurrencies = all_child_currencies
+				.filter(childCurrency => childCurrency.parent_id === wallet.currency)
+				.map(childCurrency => childCurrency.id);
+
+			const totalChildBalances = wallets
+				.filter(wal => childCurrencies.includes(wal.currency))
+				.map(child => Number(child.balance))
+				.reduce((x, y) => x + y, 0);
+
+			const totalChildLocked = wallets
+				.filter(wal => childCurrencies.includes(wal.currency))
+				.map(child => Number(child.locked))
+				.reduce((x, y) => x + y, 0);
+
 			return {
 				...wallet,
-				total: Number(wallet.balance) + Number(wallet.locked),
+				total: Number(wallet.balance) + Number(wallet.locked) + totalChildBalances + totalChildLocked,
+				balance: Number(wallet.balance) + totalChildBalances,
+				locked: Number(wallet.locked) + totalChildLocked,
 			};
 		})
 		.filter(wallet => wallet.currency.toLowerCase().includes(searchInputState.toLowerCase()))
@@ -125,34 +141,23 @@ export const WalletListScreen = () => {
 						{currency_icon} {wallet.currency.toUpperCase()} <span className="text-secondary">{wallet.name}</span>
 					</span>
 				),
-				total:
-					total > 0 ? (
-						<Decimal key={index} fixed={fixed}>
-							{total}
-						</Decimal>
-					) : (
-						'0.000000'
-					),
+				total: (
+					<Decimal key={index} fixed={fixed}>
+						{total > 0 ? total : 0}
+					</Decimal>
+				),
 				available: (
 					<span>
-						{wallet.balance && Number(wallet.balance) > 0 ? (
-							<Decimal key={index} fixed={fixed}>
-								{wallet.balance}
-							</Decimal>
-						) : (
-							'0.000000'
-						)}
+						<Decimal key={index} fixed={fixed}>
+							{wallet.balance > 0 ? wallet.balance : 0}
+						</Decimal>
 					</span>
 				),
 				in_order: (
 					<span className="text-secondary">
-						{wallet.locked && Number(wallet.balance) > 0 ? (
-							<Decimal key={index} fixed={fixed}>
-								{wallet.locked}
-							</Decimal>
-						) : (
-							'0.000000'
-						)}
+						<Decimal key={index} fixed={fixed}>
+							{wallet.locked > 0 ? wallet.locked : 0}
+						</Decimal>
 					</span>
 				),
 				action: (

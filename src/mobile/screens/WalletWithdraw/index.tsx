@@ -68,7 +68,9 @@ const WalletWithdraw: React.FC = () => {
 								<div style={{ position: 'relative', width: '100%', height: '300px' }}>
 									<div className="blur-disabled">
 										<LockIcon className="pg-blur__content__icon" />
-										{intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
+										{intl.formatMessage({
+											id: 'page.body.wallets.tabs.withdraw.disabled.message',
+										})}
 									</div>
 								</div>
 							)}
@@ -86,10 +88,12 @@ const WalletWithdraw: React.FC = () => {
 											wallet={child_wallet.wallet}
 										/>
 									) : (
-										<div style={{ position: 'relative', width: '100%', height: '100%' }}>
+										<div style={{ position: 'relative', width: '100%', height: '300px' }}>
 											<div className="blur-disabled">
 												<LockIcon className="pg-blur__content__icon" />
-												{intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
+												{intl.formatMessage({
+													id: 'page.body.wallets.tabs.withdraw.disabled.message',
+												})}
 											</div>
 										</div>
 									)}

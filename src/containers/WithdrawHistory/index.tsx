@@ -18,8 +18,8 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
 	// selector
 	const list = useSelector(selectHistory);
 	const currencies = useSelector(selectCurrencies);
-	const child_currencies = useSelector(selectChildCurrencies);
-	const child_currencies_ids = child_currencies.map(child => child.id);
+	const childCurrencies = useSelector(selectChildCurrencies);
+	const childCurrenciesIds = childCurrencies.map(child => child.id);
 
 	const formatTxState = (tx: string, confirmations?: number, minConfirmations?: number) => {
 		const process = require('../../assets/status/wait.svg');
@@ -36,7 +36,7 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
 			processing: <img src={process} alt="processing" />,
 			prepared: <img src={process} alt="prepared" />,
 			fee_processing: <img src={process} alt="fee_processing" />,
-			skipped: <img src={success} alt="skipped" />,
+			skipped: <img src={process} alt="skipped" />,
 			submitted:
 				confirmations !== undefined && minConfirmations !== undefined ? (
 					`${confirmations}/${minConfirmations}`
@@ -83,12 +83,11 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
 				type: blockchain,
 			};
 		});
-
 	const child_list = list
-		.filter((history: any) => child_currencies_ids.includes(history.currency))
+		.filter((history: any) => childCurrenciesIds.includes(history.currency))
 		.map((history: any) => {
-			const currency_index = child_currencies_ids.findIndex(child_id => child_id === history.currency);
-			const blockchain = getTabName(child_currencies[currency_index].blockchain_key);
+			const currencyIndex = childCurrenciesIds.findIndex(child_id => child_id === history.currency);
+			const blockchain = getTabName(childCurrencies[currencyIndex].blockchain_key);
 			return {
 				...history,
 				type: blockchain,

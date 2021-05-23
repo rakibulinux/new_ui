@@ -1,8 +1,10 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import { CryptoIcon } from '../../../components/CryptoIcon';
 import { Decimal } from '../../../components/Decimal';
 /* import { DEFAULT_CCY_PRECISION } from '../../../constants'; */
 import { areEqualSelectedProps } from '../../../helpers/areEqualSelectedProps';
+import { selectAllChildCurrencies, selectWallets } from '../../../modules';
 
 interface Props {
 	wallet;
@@ -13,6 +15,17 @@ const WalletItemComponent = (props: Props) => {
 	const {
 		wallet: { currency = '', name, balance = 0, fixed = 6, iconUrl },
 	} = props;
+	const allChildCurrencies = useSelector(selectAllChildCurrencies);
+	const wallets = useSelector(selectWallets);
+
+	const childCurrencies = allChildCurrencies
+		.filter(childCurrency => childCurrency.parent_id === currency)
+		.map(childCurrency => childCurrency.id);
+
+	const totalChildBalances = wallets
+		.filter(wal => childCurrencies.includes(wal.currency))
+		.map(child => Number(child.balance))
+		.reduce((x, y) => x + y, 0);
 
 	return (
 		<div className="cr-mobile-wallet-item" onClick={() => props.onClick(currency)}>
@@ -27,7 +40,7 @@ const WalletItemComponent = (props: Props) => {
 			</div>
 			<div className="cr-mobile-wallet-item__balance">
 				<span>
-					<Decimal fixed={fixed} children={balance || 0} />
+					<Decimal fixed={fixed} children={Number(balance) + totalChildBalances || 0} />
 				</span>
 			</div>
 		</div>

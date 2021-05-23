@@ -28,8 +28,8 @@ interface WithdrawAddressProps {
 	wallets: Wallet[];
 	currencies: Currency[];
 	user: User;
-	eth_fee: ETHFee[];
-	child_currencies: ChildCurrency[];
+	ethFee: ETHFee[];
+	childCurrencies: ChildCurrency[];
 }
 
 const defaultBeneficiary: Beneficiary = {
@@ -58,7 +58,7 @@ interface WalletsState {
 }
 
 export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawAddressProps) => {
-	const { currency_id, wallets, currencies, child_currencies } = props;
+	const { currency_id, wallets, currencies, childCurrencies } = props;
 
 	const [currencyState, setCurrencyState] = React.useState(currency_id);
 
@@ -73,7 +73,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 	const history = useHistory();
 
 	// selectors
-	const eth_fee = useSelector(selectETHFee);
+	const ethFees = useSelector(selectETHFee);
 
 	// state
 	const [withdrawState, setState] = React.useState<WalletsState>({
@@ -94,10 +94,10 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 		dispatch(walletsAddressFetch({ currency: currency_id }));
 	}, [dispatch, currency_id]);
 
-	const child_wallets = child_currencies.map(network => {
+	const childWallets = childCurrencies.map(childCurrency => {
 		return {
-			...network,
-			wallet: wallets.find(item => item.currency === network.id) || {
+			...childCurrency,
+			wallet: wallets.find(item => item.currency === childCurrency.id) || {
 				name: '',
 				currency: '',
 				balance: '',
@@ -111,8 +111,6 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 		};
 	});
 
-	// const walletsError = useSelector(selectWalletsAddressError);
-
 	const wallet = wallets.find(item => item.currency === currency_id.toLowerCase()) || {
 		name: '',
 		currency: '',
@@ -124,12 +122,26 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 		explorerAddress: '',
 		fixed: 0,
 	};
-	const currencyItem = currencies.find(currency => currency.id.toLowerCase() === currency_id.toLowerCase());
-	const fee_currency = eth_fee.find(cur => cur.currency_id === currency_id);
-	const ethFee = fee_currency ? fee_currency.fee : undefined;
-	const selectedWalletFee = wallet ? wallet.fee : undefined;
-	const eth_wallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
-	const eth_balance = eth_wallet ? eth_wallet.balance : undefined;
+	const selectedWallet = wallets.find(item => item.currency === currencyState.toLowerCase()) || {
+		name: '',
+		currency: '',
+		balance: '',
+		type: 'coin',
+		address: '',
+		fee: 0,
+		explorerTransaction: '',
+		explorerAddress: '',
+		fixed: 0,
+	};
+	const currencyItem = currencies.find(currency => currency.id.toLowerCase() === currency_id.toLowerCase()) || {
+		blockchain_key: '',
+		withdrawal_enabled: false,
+	};
+	const currencyFee = ethFees.find(cur => cur.currency_id === currency_id);
+	const ethFee = currencyFee ? currencyFee.fee : undefined;
+	const selectedWalletFee = selectedWallet ? selectedWallet.fee : wallet.fee;
+	const ethWallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
+	const ethBallance = ethWallet ? ethWallet.balance : undefined;
 	let confirmationAddress = '';
 	if (wallet) {
 		confirmationAddress =
@@ -178,13 +190,14 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 		} = props;
 
 		const { currency, type, fee } = wallet;
+
 		const fixed = (wallet || { fixed: 0 }).fixed;
 
 		const selectedCurrency = currencies.find(cur => cur.id == currency);
 		const minWithdrawAmount =
 			selectedCurrency && selectedCurrency.min_withdraw_amount ? selectedCurrency.min_withdraw_amount : undefined;
-		const limitWitdraw24h =
-			selectedCurrency && selectedCurrency.withdraw_limit_24h ? selectedCurrency.withdraw_limit_24h : undefined;
+		const parentCurrency = currencies.find(currency => currency.id === currency_id);
+		const limitWitdraw24h = parentCurrency ? parentCurrency.withdraw_limit_24h : undefined;
 
 		const withdrawProps: WithdrawProps = {
 			withdrawDone: withdrawState.withdrawDone,
@@ -200,9 +213,10 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 			withdrawTotalLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.total' }),
 			withdrawButtonLabel: intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.button' }),
 			ethFee,
-			ethBallance: eth_balance,
+			ethBallance: ethBallance,
 			minWithdrawAmount,
 			limitWitdraw24h,
+			limitWitdraw24hLabel: currency_id.toUpperCase(),
 		};
 
 		return otp ? <Withdraw {...withdrawProps} /> : isOtpDisabled();
@@ -221,21 +235,20 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 		if (!wallet) {
 			return;
 		}
-
-		const { currency, fee } = wallet;
+		const { currency, fee } = selectedWallet ? selectedWallet : wallet;
 
 		// Withdraw by eth fee
-		const { user, eth_fee, wallets } = props;
+		const { user, ethFee: eth_fee, wallets } = props;
 		const ethWallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
 		const ethBallance = ethWallet ? ethWallet.balance : undefined;
-		const fee_currency = eth_fee.find(cur => cur.currency_id === currency);
+		const currencyFee = eth_fee.find(cur => cur.currency_id === currency);
 
 		if (fee == 0) {
-			if (!(fee_currency && fee_currency.fee)) {
+			if (!(currencyFee && currencyFee.fee)) {
 				message.error('Something wrong with ETH fee.');
 				return;
 			}
-			if (!(ethBallance && Number(ethBallance) >= Number(fee_currency.fee))) {
+			if (!(ethBallance && Number(ethBallance) >= Number(currencyFee.fee))) {
 				message.error("ETH balance isn't enough to pay.");
 				return;
 			}
@@ -272,14 +285,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 								<div className="react-tabs">
 									<Tabs defaultActiveKey={currency_id} onTabClick={setCurrencyState}>
 										{wallet ? (
-											<TabPane
-												tab={getTabName(
-													currencyItem && currencyItem.blockchain_key
-														? currencyItem.blockchain_key
-														: '',
-												)}
-												key={currency_id}
-											>
+											<TabPane tab={getTabName(currencyItem.blockchain_key || '')} key={currency_id}>
 												{currencyItem && !currencyItem.withdrawal_enabled ? (
 													<div style={{ position: 'relative', width: '100%', height: '300px' }}>
 														<div className="blur-disabled">
@@ -297,13 +303,13 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 											''
 										)}
 
-										{child_wallets
-											? child_wallets.map(childWallet => (
+										{childWallets
+											? childWallets.map(childWallet => (
 													<TabPane tab={getTabName(childWallet.blockchain_key)} key={childWallet.id}>
 														{childWallet.wallet && childWallet.withdrawal_enabled ? (
 															renderWithdrawContent(childWallet.wallet)
 														) : (
-															<div style={{ position: 'relative', width: '100%', height: '100%' }}>
+															<div style={{ position: 'relative', width: '100%', height: '300px' }}>
 																<div className="blur-disabled">
 																	<LockIcon className="pg-blur__content__icon" />
 																	{intl.formatMessage({
@@ -326,13 +332,13 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 			<ModalWithdrawConfirmation
 				show={withdrawState.withdrawConfirmModal}
 				amount={withdrawState.total}
-				currency={currency_id}
+				currency={currencyState}
 				rid={confirmationAddress}
 				onSubmit={handleWithdraw}
 				onDismiss={toggleConfirmModal}
-				ethFee={ethFee}
-				ethBallance={eth_balance}
 				selectedWalletFee={selectedWalletFee}
+				ethFee={ethFee}
+				ethBallance={ethBallance}
 			/>
 		</div>
 	);
