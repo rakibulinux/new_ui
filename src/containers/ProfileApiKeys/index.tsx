@@ -63,7 +63,7 @@ export const ProfileApiKeys: React.FC<ProfileApiKeysProps> = () => {
 	};
 
 	const getTableData = () => {
-		return [...apiKeys, ...apiKeys, ...apiKeys].map(item => [
+		return apiKeys.map(item => [
 			item.kid,
 			item.algorithm,
 			<div>
