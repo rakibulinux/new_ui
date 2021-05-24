@@ -59,6 +59,8 @@ import { ProfileState, rootProfileSaga } from './user/profile';
 import { rootUserActivitySaga, UserActivityState } from './user/userActivity';
 import { ChildCurrenciesState, rootWalletsSaga, WalletsState } from './user/wallets';
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
+import { AnnouncementState, rootAnnouncementSaga } from './info/announcement';
+
 
 export * from './public/markets';
 export * from './public/orderBook';
@@ -101,6 +103,8 @@ export * from './trading_competitions/competition_item';
 export * from './trading_competitions/rankings';
 export * from './info/events';
 export * from './events/lunar';
+export * from './info/announcement';
+
 
 export interface RootState {
 	airdrops: {
@@ -124,8 +128,9 @@ export interface RootState {
 		withdraw: ETHFeeWithdrawState;
 	};
 	info: {
-		events: EventsState;
-	};
+        events: EventsState;
+        announcement: AnnouncementState;
+    };
 
 	public: {
 		alerts: AlertState;
@@ -232,5 +237,7 @@ export function* rootSaga() {
 		call(rootRankingsSaga),
 		call(rootEventSaga),
 		call(rootLunarSaga),
+        call(rootAnnouncementSaga),
+
 	]);
 }
