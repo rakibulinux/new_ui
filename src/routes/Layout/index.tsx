@@ -70,17 +70,19 @@ import {
 	DepositScreen,
 	EmailVerificationScreen,
 	FeeScreen,
-	ForgotPasswordScreen,
+	NewForgotPasswordScreen,
 	/* LandingScreen, */
 	HistoryScreen,
 	HomePageScreen,
-	LogInScreen,
+	// LogInScreen,
 	MagicLink,
 	MaintenanceScreen,
 	OrdersTabScreen,
 	ProfileScreen,
+	NewSignInScreen,
+	NewSignUpScreen,
 	ProfileTwoFactorAuthScreen,
-	RegisterScreen,
+	// RegisterScreen,
 	RestrictedScreen,
 	// signUpScreen,
 	VerificationScreen,
@@ -370,8 +372,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 			<div className={`container-fluid pg-layout ${tradingCls}`}>
 				<Switch>
 					<Route exact={true} path="/magic-link" component={MagicLink} />
-					<PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/login" component={LogInScreen} />
-					<PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/register" component={RegisterScreen} />
+					<PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/login" component={NewSignInScreen} />
+					<PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/register" component={NewSignUpScreen} />
 					<PublicRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}
@@ -382,7 +384,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						loading={userLoading}
 						isLogged={isLoggedIn}
 						path="/forgot_password"
-						component={ForgotPasswordScreen}
+						component={NewForgotPasswordScreen}
 					/>
 					<PublicRoute
 						loading={userLoading}

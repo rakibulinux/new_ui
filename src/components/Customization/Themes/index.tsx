@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { SettingsIcon } from '../../../assets/images/customization/SettingsIcon';
-import { DropdownComponent } from '../../../components';
+import { DropdownComponent } from '../..';
 import { CustomizationCurrentDataInterface, CustomizationDataInterface } from '../../../modules';
 import { AVAILABLE_COLOR_THEMES, AVAILABLE_COLORS_TITLES, ThemeColorTitleInterface } from '../../../themes';
 import { ColorSettings } from './ColorSettings';
