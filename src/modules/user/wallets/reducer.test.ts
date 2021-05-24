@@ -16,7 +16,7 @@ describe('walletsList reducer', () => {
 		},
 		{
 			balance: '0',
-			currency: 'bch',
+			currency: 'busd1',
 			name: 'Bitcoin Cash',
 			explorerAddress: 'https://www.blocktrail.com/tBCC/address/#{address}',
 			explorerTransaction: 'https://www.blocktrail.com/tBCC/tx/#{txid}',

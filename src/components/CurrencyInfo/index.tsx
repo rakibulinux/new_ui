@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useSelector } from 'react-redux';
+import { selectChildCurrencies, selectWallets } from '../../modules';
 import { CryptoIcon } from '../CryptoIcon';
 import { Decimal } from '../Decimal';
 import { WalletItemProps } from '../WalletItem';
@@ -33,6 +35,17 @@ const CurrencyInfo: React.FunctionComponent<CurrencyInfoProps> = (props: Currenc
 	const stringLocked = lockedAmount ? lockedAmount.toString() : undefined;
 	const iconUrl = props.wallet ? props.wallet.iconUrl : null;
 
+	const wallets = useSelector(selectWallets);
+	const childCurrencies = useSelector(selectChildCurrencies);
+	const childCurrenciesIds = childCurrencies.map(child => child.id);
+	const childWallets = wallets.filter(wallet => childCurrenciesIds.includes(wallet.currency)) || {};
+	const childBalances = childWallets.map(child => Number(child.balance)) || [];
+	const childLockeds = childWallets.map(child => Number(child.locked)) || [];
+	const totalChildBalance = childBalances.reduce((x, y) => x + y, 0);
+	const totalChildLocked = childLockeds.reduce((x, y) => x + y, 0);
+	const totalBalances = Number(balance) + Number(totalChildBalance);
+	const totalLocked = Number(stringLocked) + Number(totalChildLocked);
+
 	return (
 		<div className="cr-wallet-item__single">
 			<CurrencyIcon icon={iconUrl} currency={currency} />
@@ -44,10 +57,10 @@ const CurrencyInfo: React.FunctionComponent<CurrencyInfoProps> = (props: Currenc
 					<FormattedMessage id="page.body.wallets.locked" />
 				</div>
 				<div className="item3">
-					<Decimal fixed={selectedFixed}>{balance}</Decimal>
+					<Decimal fixed={selectedFixed}>{totalBalances}</Decimal>
 				</div>
 				<div className="item4">
-					<Decimal fixed={selectedFixed}>{stringLocked}</Decimal>
+					<Decimal fixed={selectedFixed}>{totalLocked}</Decimal>
 				</div>
 			</div>
 		</div>

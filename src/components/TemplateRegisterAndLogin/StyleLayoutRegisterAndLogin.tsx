@@ -3,6 +3,7 @@ import background from './assets/logincx.png';
 const StyleLayoutRegisterAndLogin = styled.div`
 	height: 655px;
 	width: 1162px;
+	margin-top: 15px !important;
 	.layout {
 		height: 100%;
 	}

@@ -67,6 +67,7 @@ import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../.
 import {
 	ChangeForgottenPasswordScreen,
 	ConfirmScreen,
+	DepositScreen,
 	EmailVerificationScreen,
 	FeeScreen,
 	NewForgotPasswordScreen,
@@ -85,8 +86,9 @@ import {
 	RestrictedScreen,
 	// signUpScreen,
 	VerificationScreen,
-	WalletsScreen,
-
+	WalletListScreen,
+	WithdrawScreen,
+	// WalletsScreen,
 	/* HomeScreen, */
 } from '../../screens';
 
@@ -408,7 +410,29 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/history" component={HistoryScreen} />
 					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/confirm" component={ConfirmScreen} />
 					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile" component={ProfileScreen} />
-					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/wallets" component={WalletsScreen} />
+					{/* <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/wallets" component={WalletsScreen} /> */}
+					<PrivateRoute
+						loading={userLoading}
+						isLogged={isLoggedIn}
+						path="/wallets"
+						exact
+						component={WalletListScreen}
+					/>
+					<PrivateRoute
+						loading={userLoading}
+						isLogged={isLoggedIn}
+						path="/wallets/deposit/:currency_id"
+						exact
+						component={DepositScreen}
+					/>
+					<PrivateRoute
+						loading={userLoading}
+						isLogged={isLoggedIn}
+						path="/wallets/withdraw/:currency_id"
+						exact
+						component={WithdrawScreen}
+					/>
+
 					<PrivateRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}

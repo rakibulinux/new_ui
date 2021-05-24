@@ -8,7 +8,6 @@ import { cleanPositiveFloatInput, precisionRegExp } from '../../helpers';
 import { Beneficiary } from '../../modules';
 
 import { FrownOutlined } from '@ant-design/icons';
-
 export interface WithdrawProps {
 	currency: string;
 	fee: number;
@@ -28,6 +27,7 @@ export interface WithdrawProps {
 	ethBallance?: string;
 	minWithdrawAmount?: string;
 	limitWitdraw24h?: string;
+	limitWitdraw24hLabel?: string;
 }
 
 const defaultBeneficiary: Beneficiary = {
@@ -104,7 +104,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 						<Beneficiaries currency={currency} type={type} onChangeValue={this.handleChangeBeneficiary} />
 					</div>
 					<div className="cr-withdraw__divider cr-withdraw__divider-one" />
-					<div className={withdrawAmountClass}>
+					<div className={withdrawAmountClass} style={{ position: 'relative', marginTop: '2rem' }}>
 						<CustomInput
 							type="number"
 							label={withdrawAmountLabel || 'Withdrawal Amount'}
@@ -114,7 +114,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 							placeholder={
 								this.props.minWithdrawAmount === undefined
 									? withdrawAmountLabel || 'Amount'
-									: `Min Amount: ${this.props.minWithdrawAmount} ${currency.toUpperCase()}`
+									: 'Min Amount: ' + this.props.minWithdrawAmount + ' ' + currency.toUpperCase()
 							}
 							classNameInput="cr-withdraw__input"
 							handleChangeInput={this.handleChangeInputAmount}
@@ -137,7 +137,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 						/>
 					</div>
 					{isMobileDevice && twoFactorAuthRequired && this.renderOtpCodeInput()}
-					<div className="cr-withdraw__deep">
+					<div className="cr-withdraw__deep d-flex justify-content-end">
 						<Button
 							variant="primary"
 							size="lg"
@@ -153,11 +153,11 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 					<div className="withdrawNote__right">
 						<p>
 							<span>1. Min Withdraw: </span>
-							<span>{`${this.props.minWithdrawAmount || ''} ${currency.toUpperCase()}`}</span>
+							<span>{this.props.minWithdrawAmount + ' ' + currency.toUpperCase()}</span>
 						</p>
 						<p>
 							<span>2. Withdraw Limit Daily: </span>
-							<span>{`${this.props.limitWitdraw24h || ''} ${currency.toUpperCase()}`}</span>
+							<span>{this.props.limitWitdraw24h + ' ' + this.props.limitWitdraw24hLabel}</span>
 						</p>
 						<p>
 							<span>
@@ -173,20 +173,17 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 	private handleCheckButtonDisabled = (total: string, beneficiary: Beneficiary, otpCode: string) => {
 		const { amount } = this.state;
-		const { minWithdrawAmount, ethFee, limitWitdraw24h } = this.props;
+		const { minWithdrawAmount, limitWitdraw24h } = this.props;
 
 		const isPending = beneficiary.state && beneficiary.state.toLowerCase() === 'pending';
-
+		const isLimitWithdraw24h = Number(limitWitdraw24h) === 0 ? false : Number(amount) > Number(limitWitdraw24h);
 		return (
 			Number(total) <= 0 ||
 			!Boolean(beneficiary.id) ||
 			isPending ||
-			ethFee === 0 ||
-			ethFee === undefined ||
 			!Boolean(otpCode) ||
-			minWithdrawAmount === undefined ||
-			amount < minWithdrawAmount ||
-			Number(amount) > Number(limitWitdraw24h)
+			Number(amount) < Number(minWithdrawAmount) ||
+			isLimitWithdraw24h
 		);
 	};
 
@@ -194,17 +191,22 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 		const { fee, fixed, currency, ethFee } = this.props;
 
 		return (
-			<span>
-				<Decimal fixed={fixed}>{Number(fee) !== 0 ? fee.toString() : ethFee}</Decimal>{' '}
-				{Number(fee) !== 0 ? currency.toUpperCase() : 'ETH'}
-			</span>
+			<React.Fragment>
+				<span hidden={Number(fee) === 0}>
+					<Decimal fixed={fixed}>{fee.toString()}</Decimal>
+					{' ' + currency.toUpperCase()}
+				</span>
+				<span hidden={Number(fee) !== 0}>
+					<Decimal fixed={fixed}>{ethFee}</Decimal>
+					{' ETH'}
+				</span>
+			</React.Fragment>
 		);
 	};
 
 	private renderTotal = () => {
 		const total = this.state.total;
 		const { fixed, currency } = this.props;
-
 		return total ? (
 			<span>
 				<Decimal fixed={fixed}>{total.toString()}</Decimal> {currency.toUpperCase()}
@@ -223,7 +225,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 		return (
 			<React.Fragment>
-				<div className={withdrawCodeClass}>
+				<div className={withdrawCodeClass} style={{ position: 'relative', marginTop: '2rem' }}>
 					<CustomInput
 						type="number"
 						label={withdraw2faLabel || '2FA code'}
@@ -244,33 +246,44 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 	private handleClick = () => {
 		const { ethBallance, ethFee, fee } = this.props;
-
-		if (ethBallance === undefined && fee === 0) {
-			Modal.error({
-				centered: true,
-				icon: <FrownOutlined />,
-				title: `Can't withdraw`,
-				content: `You need to generate ETH Wallets Address before withdraw!`,
-			});
-		} else if (ethFee === undefined && Number(fee) === 0) {
-			Modal.warning({
-				centered: true,
-				icon: <FrownOutlined />,
-				title: `Can't withdraw`,
-				content: `ETH Fee is unavailable now!`,
-			});
-		} else if (Number(fee) === 0 && Number(ethBallance) < Number(ethFee)) {
-			Modal.warning({
-				centered: true,
-				icon: <FrownOutlined />,
-				title: `Can't withdraw`,
-				content: `You don\'t have enough ETH tokens to pay fee. Need more ${(
-					Number(ethFee) - Number(ethBallance)
-				).toFixed(5)} ETH Tokens`,
-			});
-		} else {
-			this.props.onClick(this.state.amount, this.state.total, this.state.beneficiary, this.state.otpCode);
+		if (fee === 0) {
+			// fee is zero, let use eth fee
+			if (!ethBallance) {
+				Modal.error({
+					centered: true,
+					icon: <FrownOutlined />,
+					title: "Can't withdraw",
+					content: `You need to generate ETH Wallets Address before withdraw!`,
+				});
+				return;
+			}
+			if (!ethFee || ethFee <= 0) {
+				Modal.warning({
+					centered: true,
+					icon: <FrownOutlined />,
+					title: "Can't withdraw",
+					content: `ETH Fee is unavailable now!`,
+				});
+				return;
+			}
+			if (Number(ethBallance) < Number(ethFee)) {
+				Modal.warning({
+					centered: true,
+					icon: <FrownOutlined />,
+					title: "Can't withdraw",
+					content: `You don\'t have enough ETH tokens to pay fee. Need more ${(
+						Number(ethFee) - Number(ethBallance)
+					).toFixed(5)} ETH Tokens`,
+				});
+				return;
+			}
 		}
+		this.setState({
+			...this.state,
+			amount: '',
+			otpCode: '',
+		});
+		this.props.onClick(this.state.amount, this.state.total, this.state.beneficiary, this.state.otpCode);
 	};
 
 	private handleFieldFocus = (field: string) => {

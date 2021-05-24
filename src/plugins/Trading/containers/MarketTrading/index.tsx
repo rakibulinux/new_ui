@@ -1,7 +1,6 @@
 import classnames from 'classnames';
 import cloneDeep from 'lodash/cloneDeep';
-// import uniq from 'lodash/uniq';
-import Tabs, { TabPane, TabsProps } from 'rc-tabs';
+import get from 'lodash/get';
 import * as React from 'react';
 import isEqual from 'react-fast-compare';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,12 +22,23 @@ import {
 import { rangerConnectFetch } from '../../../../modules/public/ranger';
 import { selectRanger } from '../../../../modules/public/ranger/selectors';
 import searchSvg from '../../assets/search.svg';
-import starSvg from '../../assets/star.svg';
+import { MarketTradingSvg } from '../../components/Icon/MarketTradingSvg';
 import { MarketsListTrading } from './MarketsListTrading';
 import { MarketTradingStyle, SearchBlockStyle, StarBlockStyle } from './styles';
+interface ObjDropdownState {
+	childActiveKey: string;
+}
 
-const TAB_LIST_KEYS = ['All'];
-const STAR_LIST_KEYS = ['All', 'BTC', 'ETH'];
+interface CheckedDropdownState {
+	[key: string]: ObjDropdownState;
+}
+
+interface StarItem {
+	key: string;
+	listKeyDropDown?: string[];
+}
+
+const LIST_KEY_FIAT_DROPDOWN = ['BUSD'];
 
 const MarketTradingContainer: React.FC = () => {
 	const history = useHistory();
@@ -41,11 +51,40 @@ const MarketTradingContainer: React.FC = () => {
 	const tickers = useSelector(selectMarketTickers);
 
 	const [searchFieldState, setSearchFieldState] = React.useState<string>('');
-	const [marketsTabsSelectedState, setMarketsTabsSelectedState] = React.useState<string>(TAB_LIST_KEYS[0]);
-	const [starSelectedState, setStarSelectedState] = React.useState<string>(STAR_LIST_KEYS[0]);
+	const [starSelectedState, setStarSelectedState] = React.useState<string>('ALL');
+	const [checkedDropdownState, setCheckedDropdownState] = React.useState<CheckedDropdownState>({});
+	const [favoriteKeyState, setFavoriteKeyState] = React.useState<string[]>([]);
 	const [radioSelectedState, setRadioSelectedState] = React.useState<'change' | 'volume'>('change');
 
+	const STAR_LIST_INFO: StarItem[] = [
+		{
+			key: 'FAVORITE',
+		},
+		{
+			key: 'ALL',
+		},
+		{
+			key: 'BTC',
+		},
+		{
+			key: 'ETH',
+		},
+		{
+			key: 'USDT',
+		},
+		{
+			key: 'OTHER',
+			listKeyDropDown: LIST_KEY_FIAT_DROPDOWN,
+		},
+	];
+
 	React.useEffect(() => {
+		//load favourites_markets
+		const listFavoriteKey = JSON.parse(localStorage.getItem('favourites_markets') || '[]') as string[];
+		if (listFavoriteKey.length) {
+			setFavoriteKeyState(listFavoriteKey);
+		}
+
 		setDocumentTitle('Trading');
 		const { connected, withAuth } = rangerState;
 
@@ -69,6 +108,10 @@ const MarketTradingContainer: React.FC = () => {
 			dispatch(setCurrentPrice(undefined));
 		};
 	}, []);
+
+	React.useEffect(() => {
+		localStorage.setItem('favourites_markets', JSON.stringify(favoriteKeyState));
+	}, [favoriteKeyState.length]);
 
 	React.useEffect(() => {
 		if (userLoggedIn) {
@@ -119,10 +162,6 @@ const MarketTradingContainer: React.FC = () => {
 		setSearchFieldState(e.target.value);
 	};
 
-	const marketsTabsSelectHandler: TabsProps['onChange'] = activeKey => {
-		setMarketsTabsSelectedState(activeKey);
-	};
-
 	const handleChangeRadio = (key: typeof radioSelectedState) => {
 		if (key === radioSelectedState) {
 			return;
@@ -163,31 +202,31 @@ const MarketTradingContainer: React.FC = () => {
 		);
 	};
 
-	const renderTabs = () => {
-		const renderContentTabs = (key: string) => {
-			let data: Market[] = cloneDeep(markets);
-			if (starSelectedState !== STAR_LIST_KEYS[0]) {
-				data = data.filter(market => market.name.toLowerCase().split('/')[1].includes(starSelectedState.toLowerCase()));
+	const getData = () => {
+		let data: Market[] = cloneDeep(markets);
+		if (starSelectedState === 'ALL') {
+			return data.filter(market => market.name.toLowerCase().includes(searchFieldState.toLowerCase()));
+		}
+		if (starSelectedState === 'FAVORITE') {
+			data = data.filter(market => favoriteKeyState.includes(market.id));
+		} else {
+			const itemStart = STAR_LIST_INFO.find(item => item.key === starSelectedState);
+			// tslint:disable-next-line: prefer-conditional-expression
+			if (itemStart && itemStart.listKeyDropDown) {
+				const searchDropDown = get(checkedDropdownState, `${starSelectedState}.childActiveKey`, '') as string;
+
+				// tslint:disable-next-line: prefer-conditional-expression
+				if (searchDropDown) {
+					data = data.filter(market => market.name.split('/')[1] === searchDropDown);
+				} else {
+					data = data.filter(market => (itemStart.listKeyDropDown || []).includes(market.name.split('/')[1]));
+				}
+			} else {
+				data = data.filter(market => market.name.toLowerCase().split('/')[1] === starSelectedState.toLowerCase());
 			}
-			data = data.filter(market => market.name.toLowerCase().includes(searchFieldState.toLowerCase()));
+		}
 
-			return (
-				<TabPane tab={key} key={key}>
-					{marketsTabsSelectedState === key ? (
-						<React.Fragment>
-							{renderSearch()}
-							<MarketsListTrading type={radioSelectedState} data={data} />
-						</React.Fragment>
-					) : null}
-				</TabPane>
-			);
-		};
-
-		return (
-			<Tabs defaultActiveKey={marketsTabsSelectedState} onChange={marketsTabsSelectHandler}>
-				{TAB_LIST_KEYS.map(renderContentTabs)}
-			</Tabs>
-		);
+		return data.filter(market => market.name.toLowerCase().includes(searchFieldState.toLowerCase()));
 	};
 
 	const handleSelectedStar = (key: string) => {
@@ -196,29 +235,111 @@ const MarketTradingContainer: React.FC = () => {
 		}
 	};
 
+	const handleSelectFavorite = (id: string) => {
+		if (favoriteKeyState.includes(id)) {
+			setFavoriteKeyState(favoriteKeyState.filter(item => item !== id));
+		} else {
+			setFavoriteKeyState([...favoriteKeyState].concat([id]));
+		}
+	};
+
+	const handleCheckDropdown = (key: string, chillKey: string) => {
+		setCheckedDropdownState(prev => ({
+			...prev,
+			[key]: {
+				childActiveKey: chillKey,
+			},
+		}));
+	};
+
 	const renderStarList = () => {
 		return (
 			<StarBlockStyle>
-				<img src={starSvg} />
-				{STAR_LIST_KEYS.map((key, i) => (
-					<button
-						className={classnames({
-							active: starSelectedState === key,
-						})}
-						onClick={() => handleSelectedStar(key)}
-						key={i}
-					>
-						{key}
-					</button>
-				))}
+				{STAR_LIST_INFO.map((item, i) => {
+					const { key } = item;
+					const isFavorite = key === 'FAVORITE';
+
+					const getContent = () => {
+						if (item.listKeyDropDown) {
+							const dropdownContentElm = (
+								<div className="td-markets-trading-list-dropdown-wrapper">
+									<div className="td-markets-trading-list-dropdown">
+										<div
+											className="td-markets-trading-list-dropdown__item"
+											style={{ color: '#54B489' }}
+											onClick={() => {
+												handleCheckDropdown(key, '');
+											}}
+										>
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+												<path
+													d="M19.5 4.5h-15v2h15v-2zM19.5 17.5h-15v2h15v-2zM19.5 11h-15v2h15v-2z"
+													fill="currentColor"
+												></path>
+											</svg>
+											{key}
+										</div>
+										{item.listKeyDropDown.map((keyDropdown, i) => (
+											<div
+												className="td-markets-trading-list-dropdown__item"
+												onClick={() => {
+													handleCheckDropdown(key, keyDropdown);
+												}}
+												key={i}
+											>
+												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+													<path fill="currentColor" d="M4 11h16v2H4z"></path>
+												</svg>
+												<span>{keyDropdown}</span>
+											</div>
+										))}
+									</div>
+								</div>
+							);
+
+							return (
+								<React.Fragment>
+									{get(checkedDropdownState, `${key}.childActiveKey`, null) || key}{' '}
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+										<path d="M16 9v1.2L12 15l-4-4.8V9h8z"></path>
+									</svg>
+									{dropdownContentElm}
+								</React.Fragment>
+							);
+						}
+
+						return key;
+					};
+
+					return (
+						<button
+							className={classnames({
+								active: starSelectedState === key,
+								favorite: isFavorite,
+							})}
+							onClick={() => handleSelectedStar(key)}
+							key={i}
+						>
+							{isFavorite ? <MarketTradingSvg /> : getContent()}
+						</button>
+					);
+				})}
 			</StarBlockStyle>
 		);
 	};
 
+	const dataTable = getData();
+
 	return (
 		<MarketTradingStyle>
 			{renderStarList()}
-			{renderTabs()}
+			{renderSearch()}
+			<MarketsListTrading
+				listFavoriteKey={favoriteKeyState}
+				onSelectFavorite={handleSelectFavorite}
+				type={radioSelectedState}
+				data={dataTable}
+			/>
 		</MarketTradingStyle>
 	);
 };

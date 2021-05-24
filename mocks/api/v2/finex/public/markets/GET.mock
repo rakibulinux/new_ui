@@ -9,7 +9,7 @@ Access-Control-Allow-Credentials: true
   {
     "id":"dashbtc",
     "name":"DASH/BTC",
-    "base_unit":"dash",
+    "base_unit":"busd",
     "quote_unit":"btc",
     "state":"enabled",
     "amount_precision":3,

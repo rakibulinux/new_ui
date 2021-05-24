@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Col, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { incrementalOrderBook } from '../../../../api';
 import { TradingChart } from '../../../../containers';
@@ -46,59 +45,28 @@ export const TradingScreen: React.FC<TradingScreenProps> = ({}) => {
 	}, []);
 
 	return (
-		<TradingScreenStyle>
-			<Row>
-				<div className="col-sm-9 d-flex flex-column p-0">
-					<div className="row">
-						<div className="col-md-12 border-container" style={{ paddingLeft: 'unset' }}>
-							<HeaderToolbar />
-						</div>
-					</div>
-
-					<div className="row flex-fill">
-						<div className="col-sm-4 border-container position-relative" style={{ paddingLeft: 'unset' }}>
-							<OrderBook />
-						</div>
-						<div className="col-sm-8 p-0">
-							<div
-								className="row"
-								style={{
-									display: 'flex',
-									flexDirection: 'column',
-									height: '100%',
-								}}
-							>
-								<div className="col-md-12 border-container" style={{ paddingBottom: '8px', flex: 'none' }}>
-									<TradingChart hideHeaderContent />
-								</div>
-								<div className="col-md-12 border-container" style={{ flex: 1 }}>
-									<Order />
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm-3 p-0">
-					<div
-						className="row"
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							height: '100%',
-						}}
-					>
-						<div className="col-md-12 border-container" style={{ paddingRight: 'unset', flex: 'none' }}>
-							<MarketTrading />
-						</div>
-						<div className="col-md-12 border-container position-relative" style={{ paddingRight: 'unset', flex: 1 }}>
-							<RecentTrades />
-						</div>
-					</div>
-				</div>
-				<Col xs={12} className="border-container pr-0 pl-0">
-					<OrderHistory />
-				</Col>
-			</Row>
+		<TradingScreenStyle className="td-pg-trading">
+			<div className="td-pg-trading--bg td-pg-trading__item td-pg-trading--bg td-pg-trading__header-toolbar">
+				<HeaderToolbar />
+			</div>
+			<div className="td-pg-trading--bg td-pg-trading__item td-pg-trading--bg td-pg-trading__market-trading">
+				<MarketTrading />
+			</div>
+			<div className="td-pg-trading--bg td-pg-trading__item td-pg-trading--bg td-pg-trading__order-book">
+				<OrderBook />
+			</div>
+			<div className="td-pg-trading--bg td-pg-trading__item td-pg-trading--bg td-pg-trading__trading-chart">
+				<TradingChart hideHeaderContent />
+			</div>
+			<div className="td-pg-trading--bg td-pg-trading__item td-pg-trading--bg td-pg-trading__order">
+				<Order />
+			</div>
+			<div className="td-pg-trading--bg td-pg-trading__item td-pg-trading--bg td-pg-trading__recent-trade">
+				<RecentTrades />
+			</div>
+			<div className="td-pg-trading--bg td-pg-trading__item td-pg-trading--bg td-pg-trading__order-history">
+				<OrderHistory />
+			</div>
 		</TradingScreenStyle>
 	);
 };

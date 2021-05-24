@@ -7,54 +7,10 @@ export const MarketTradingStyle = styled.div`
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
-	.rc-tabs {
-		overflow: hidden;
-		flex: 1;
-		.rc-tabs-tabpane {
-			outline: none;
-		}
-		.rc-tabs-nav-operations {
-			display: none;
-		}
-		.rc-tabs-nav {
-			padding: 0 23px;
-			.rc-tabs-nav-list {
-				background-color: #e5e5e5;
-				margin-top: 10px;
-				margin-bottom: 10px;
-				display: flex;
-				color: #fff;
-				background-color: #4e5463;
-				.rc-tabs-ink-bar {
-					display: none;
-				}
-				.rc-tabs-tab {
-					flex: 1;
-					height: 25px;
-					border-radius: 2px;
-					cursor: pointer;
-					font-weight: 500;
-					&-active {
-						background-color: #2fb67e;
-						font-weight: 600;
-					}
-					.rc-tabs-tab-btn {
-						:focus {
-							outline: none;
-						}
-						height: 100%;
-						display: flex;
-						justify-content: center;
-						align-items: center;
-					}
-				}
-			}
-		}
-	}
 `;
 
 export const SearchBlockStyle = styled.div`
-	padding: 0 23px 15px 23px;
+	padding: 10px 23px 15px 23px;
 	.search-wrapper {
 		display: flex;
 		justify-content: center;
@@ -116,18 +72,73 @@ export const StarBlockStyle = styled.div`
 	padding: 0 23px;
 	display: flex;
 	align-items: center;
-	img {
-		margin-right: 14px;
-	}
 	button {
+		position: relative;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		border: none;
-		border-radius: 2px;
+		border-radius: 5%;
+		margin-right: 2px;
 		outline: none;
 		background: transparent;
-		padding: 5px 6px;
+		padding: 2px 6px;
 		font-weight: 600;
-
+		letter-spacing: 0.05em;
 		color: #fff;
+		:hover {
+			:not(.active) {
+				background-color: rgb(41, 45, 63);
+			}
+			.td-markets-trading-list-dropdown-wrapper {
+				display: inline-block;
+			}
+		}
+		> svg {
+			box-sizing: border-box;
+			margin: 0px;
+			min-width: 0px;
+			color: currentcolor;
+			font-size: 10px;
+			fill: currentcolor;
+			transform: scale(1.8);
+			width: 1em;
+			height: 1em;
+		}
+		.td-markets-trading-list-dropdown-wrapper {
+			display: none;
+			position: absolute;
+			top: 22px;
+			left: 0;
+			z-index: 10;
+			padding-top: 3px;
+			.td-markets-trading-list-dropdown {
+				background-color: rgb(41, 45, 63);
+				&__item {
+					display: flex;
+					align-items: center;
+					padding: 2px 6px;
+					:hover {
+						background-color: rgba(132, 142, 156, 0.35);
+					}
+					> svg {
+						box-sizing: border-box;
+						margin: 0px 8px 0px 0px;
+						min-width: 0px;
+						color: currentcolor;
+						font-size: 10px;
+						fill: currentcolor;
+						width: 1em;
+						height: 1em;
+					}
+				}
+			}
+		}
+
+		&.favorite {
+			width: 30px;
+		}
 		&.active {
 			background-color: rgba(132, 142, 156, 0.35);
 		}
@@ -135,8 +146,7 @@ export const StarBlockStyle = styled.div`
 `;
 
 export const MarketsListTradingStyle = styled.div`
-	/* .td-markets-list-container */
-	.td-markets-list-container {
+	.td-markets-trading-list-container {
 		overflow-x: hidden;
 		overflow-y: scroll;
 		&__negative {
@@ -178,17 +188,23 @@ export const MarketsListTradingStyle = styled.div`
 								padding-left: 23px;
 							}
 						}
-						:last-child {
+						:nth-child(3) {
 							> span {
 								padding-right: 23px;
 							}
+						}
+						:last-child {
+							display: none;
 						}
 					}
 				}
 			}
 			tbody {
+				max-height: 305px;
+				overflow-y: scroll;
 				background-color: transparent;
 				tr {
+					position: relative;
 					&.td-table__row--selected {
 						background-color: #4e5463;
 					}
@@ -209,6 +225,9 @@ export const MarketsListTradingStyle = styled.div`
 							text-align: left;
 							color: #fff;
 							> span {
+								.favorite {
+									cursor: pointer;
+								}
 								display: flex;
 								padding-left: 23px;
 								align-items: center;
@@ -217,10 +236,13 @@ export const MarketsListTradingStyle = styled.div`
 								}
 							}
 						}
-						:last-child {
+						:nth-child(3) {
 							> span {
 								padding-right: 23px;
 							}
+						}
+						:last-child {
+							display: none;
 						}
 					}
 					:hover {

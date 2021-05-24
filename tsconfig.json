@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"baseUrl": "src",
 		"sourceMap": false,
 		"rootDir": "src",
 		"allowJs": false,

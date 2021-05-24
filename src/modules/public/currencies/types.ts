@@ -17,4 +17,5 @@ export interface Currency {
 	base_factor: number;
 	precision: number;
 	icon_url: string;
+	blockchain_key: string | null;
 }
