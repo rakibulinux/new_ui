@@ -85,7 +85,7 @@ class ToggleTwoFactorAuthComponent extends React.Component<Props, State> {
 		const submitHandler = enable2fa ? this.handleEnable2fa : this.handleDisable2fa;
 
 		return (
-			<div className="container mt-5 pg-profile-two-factor-auth__form p-0">
+			<div className="container mt-5 mb-5 pg-profile-two-factor-auth__form p-0">
 				<div className="row m-0 pg-profile-two-factor-auth__header">
 					<div className="col-11 col-lg-7 offset-lg-4 mt-0 p-0 pl-3">
 						{this.translate('page.body.profile.header.account.content.twoFactorAuthentication.header')}
