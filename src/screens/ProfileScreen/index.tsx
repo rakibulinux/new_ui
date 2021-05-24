@@ -278,21 +278,19 @@ const AnnouncementContainer: React.FC = () => {
 				</div>
 			</Link>
 			<div className="td-pg-profile__content__item__content d-flex flex-column">
-				{true
-					? null
-					: new Array(2).fill(null).map((_a, i) => (
-							<div className="td-pg-profile__announcement__item d-flex justify-content-between" key={i}>
-								<div className="td-pg-profile__announcement__item__title flex-fill">
-									<Link to={'/profile'}>
-										VITE Promotion - Win a Share of $50,000 in VITE,VITE Promotion - Win a Share of $50,000 in
-										VITEVITE Promotion - Win a Share of $50,000 in VITEVITE Promotion - Win a Share of $50,000
-										in VITEVITE Promotion - Win a Share of $50,000 in VITEVITE Promotion - Win a Share of
-										$50,000 in VITEVITE Promotion - Win a Share of $50,000 in VITE
-									</Link>
-								</div>
-								<div className="td-pg-profile__announcement__item__date">2021-04-09</div>
-							</div>
-					  ))}
+				{true ? null : new Array(2).fill(null).map((_a, i) => (
+					<div className="td-pg-profile__announcement__item d-flex justify-content-between" key={i}>
+						<div className="td-pg-profile__announcement__item__title flex-fill">
+							<Link to={'/profile'}>
+								VITE Promotion - Win a Share of $50,000 in VITE,VITE Promotion - Win a Share of $50,000 in
+								VITEVITE Promotion - Win a Share of $50,000 in VITEVITE Promotion - Win a Share of $50,000 in
+								VITEVITE Promotion - Win a Share of $50,000 in VITEVITE Promotion - Win a Share of $50,000 in
+								VITEVITE Promotion - Win a Share of $50,000 in VITE
+							</Link>
+						</div>
+						<div className="td-pg-profile__announcement__item__date">2021-04-09</div>
+					</div>
+				))}
 			</div>
 		</React.Fragment>
 	);
