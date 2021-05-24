@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { FormControl, InputGroup } from 'react-bootstrap';
+import openInputIcon from './assets/chevron-down-solid.png';
 
 export interface CustomInputProps {
+	className?: string;
 	type: string;
 	label: string;
 	defaultLabel: string;
@@ -18,7 +19,8 @@ export interface CustomInputProps {
 	handleClick?: (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
 	isDisabled?: boolean;
 	labelVisible?: boolean;
-	isInvalid?: boolean;
+	openInput?: boolean | undefined;
+	isInvalid?: boolean
 }
 
 interface OnChangeEvent {
@@ -28,55 +30,53 @@ interface OnChangeEvent {
 }
 type Props = CustomInputProps;
 
-class CustomInput extends React.Component<Props> {
-	public render() {
-		const {
-			label,
-			labelVisible,
-			placeholder,
-			defaultLabel,
-			inputValue,
-			classNameLabel,
-			type,
-			autoFocus,
-			readOnly,
-			id,
-			handleClick,
-			isDisabled,
-			onKeyPress,
-			isInvalid,
-		} = this.props;
-
-		return (
-			<React.Fragment>
-				<div className="custom-input">
-					<label className={classNameLabel}>{(labelVisible || inputValue) && (label || defaultLabel)}</label>
-					<InputGroup size="lg">
-						<FormControl
-							size="lg"
-							type={type}
-							value={inputValue.toString()}
-							placeholder={placeholder}
-							autoFocus={autoFocus}
-							onFocus={this.props.handleFocusInput}
-							onBlur={this.props.handleFocusInput}
-							onChange={e => this.handleChangeValue(e)}
-							readOnly={readOnly}
-							id={id}
-							onClick={handleClick}
-							disabled={isDisabled}
-							onKeyPress={onKeyPress}
-							isInvalid={isInvalid}
-						/>
-					</InputGroup>
-				</div>
-			</React.Fragment>
-		);
-	}
-
-	private handleChangeValue = (e: OnChangeEvent) => {
-		this.props.handleChangeInput && this.props.handleChangeInput(e.target.value);
+const CustomInput: React.FC<Props> = props => {
+	const handleChangeValue = (e: OnChangeEvent) => {
+		props.handleChangeInput && props.handleChangeInput(e.target.value);
 	};
-}
+	console.log(props.openInput);
 
+	const [enableInput, setenableInput] = React.useState(props.openInput);
+	const handleClickOpenInput = () => {
+		setenableInput(!enableInput);
+	};
+	return (
+		<div className={props.className || ''}>
+			<label
+				htmlFor="email"
+				className={props.classNameLabel}
+				onClick={() => {
+					handleClickOpenInput();
+				}}
+			>
+				{props.label}
+				{props.openInput == false ? <img src={openInputIcon} /> : ''}
+				{(props.labelVisible || '') && (props.label || props.defaultLabel)}
+			</label>
+			{enableInput ? (
+				<div className="col-12">
+					<input
+						className={'form-control success ' + props.classNameInput}
+						name="email"
+						required
+						type={props.type.toString()}
+						// value={props.inputValue.toString()}
+						placeholder={props.placeholder}
+						autoFocus={props.autoFocus}
+						onFocus={props.handleFocusInput}
+						onBlur={props.handleFocusInput}
+						onChange={e => handleChangeValue(e)}
+						readOnly={props.readOnly}
+						id={props.id}
+						onClick={props.handleClick}
+						disabled={props.isDisabled}
+						onKeyPress={props.onKeyPress}
+					/>
+				</div>
+			) : (
+				<></>
+			)}
+		</div>
+	);
+};
 export { CustomInput };
