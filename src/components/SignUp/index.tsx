@@ -4,7 +4,7 @@ import { Button, Form } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { CustomInput, PasswordStrengthMeter } from '../';
+import { CustomInput, PasswordStrengthMeter } from '..';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '../../helpers';
 import { selectMobileDeviceState } from '../../modules/public/globalSettings';
 
@@ -69,10 +69,10 @@ export const SignUpForm = (props: SignUpFormProps) => {
 		email,
 		confirmPassword,
 		refId,
-		onSignIn,
-		image,
+		// onSignIn,
+		// image,
 		isLoading,
-		labelSignIn,
+		// labelSignIn,
 		labelSignUp,
 		emailLabel,
 		confirmPasswordLabel,
@@ -124,7 +124,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
 					handleChangeInput={props.handleChangePassword}
 					inputValue={password}
 					handleFocusInput={props.handleFocusPassword}
-					classNameLabel="cr-sign-up-form__label"
+					classNameLabel="cr-sign-up-form__label col-12"
 					classNameInput="cr-sign-up-form__input"
 					autoFocus={false}
 				/>
@@ -199,39 +199,20 @@ export const SignUpForm = (props: SignUpFormProps) => {
 	const refIdGroupClass = cr('cr-sign-up-form__group', {
 		'cr-sign-up-form__group--focused': refIdFocused,
 	});
-	const logo = image ? (
-		<h1 className="cr-sign-up-form__title">
-			<img className="cr-sign-up-form__image" src={image} alt="logo" />
-		</h1>
-	) : null;
-
 	return (
 		<form>
-			<div className="cr-sign-up-form" onKeyPress={handleEnterPress}>
-				{!isMobileDevice && (
-					<div className="cr-sign-up-form__options-group">
-						<div className="cr-sign-up-form__option">
-							<div className="cr-sign-up-form__option-inner cr-sign-in-form__tab-signin" onClick={onSignIn}>
-								{labelSignIn || 'Sign In'}
-							</div>
-						</div>
-						<div className="cr-sign-up-form__option">
-							<div className="cr-sign-up-form__option-inner __selected">{labelSignUp || 'Sign Up'}</div>
-						</div>
-					</div>
-				)}
-				<div className="cr-sign-up-form__form-content">
-					{logo}
+			<div id="cr-sign-up-form" onKeyPress={handleEnterPress}>
+				<div className="cr-sign-up-form-form-content">
 					<div className={emailGroupClass}>
 						<CustomInput
 							type="email"
 							label={emailLabel || 'Email'}
-							placeholder={emailLabel || 'Email'}
+							placeholder={'...@example'}
 							defaultLabel="Email"
 							handleChangeInput={props.handleChangeEmail}
 							inputValue={email}
 							handleFocusInput={props.handleFocusEmail}
-							classNameLabel="cr-sign-up-form__label"
+							classNameLabel="cr-sign-up-form__label col-12"
 							classNameInput="cr-sign-up-form__input"
 							autoFocus={true}
 						/>
@@ -242,12 +223,12 @@ export const SignUpForm = (props: SignUpFormProps) => {
 						<CustomInput
 							type="password"
 							label={confirmPasswordLabel || 'Confirm Password'}
-							placeholder={confirmPasswordLabel || 'Confirm Password'}
+							placeholder={'Confirm Password'}
 							defaultLabel="Confirm Password"
 							handleChangeInput={props.handleChangeConfirmPassword}
 							inputValue={confirmPassword}
 							handleFocusInput={props.handleFocusConfirmPassword}
-							classNameLabel="cr-sign-up-form__label"
+							classNameLabel="cr-sign-up-form__label col-12"
 							classNameInput="cr-sign-up-form__input"
 							autoFocus={false}
 						/>
@@ -258,16 +239,17 @@ export const SignUpForm = (props: SignUpFormProps) => {
 							type="text"
 							label={referalCodeLabel || 'Referral code'}
 							placeholder={referalCodeLabel || 'Referral code'}
-							defaultLabel="Referral code"
+							defaultLabel={'Referral code'}
 							handleChangeInput={props.handleChangeRefId}
 							inputValue={refId}
 							handleFocusInput={props.handleFocusRefId}
-							classNameLabel="cr-sign-up-form__label"
-							classNameInput="cr-sign-up-form__input"
+							classNameLabel="cr-sign-up-form__label referral-code col-12"
+							classNameInput="cr-sign-up-form__input col-12"
 							autoFocus={false}
+							openInput={true}
 						/>
 					</div>
-					<Form className="cr-sign-up-form__group" onClick={e => props.clickCheckBox(e)}>
+					<Form className="cr-sign-up-form__group mb-5 col-12" onClick={e => props.clickCheckBox(e)}>
 						<Form.Check
 							type="checkbox"
 							custom
@@ -277,18 +259,24 @@ export const SignUpForm = (props: SignUpFormProps) => {
 						/>
 					</Form>
 					{props.renderCaptcha}
-					<div className="cr-sign-up-form__button-wrapper">
+					<div className="cr-sign-up-form_button-wrapper col-12">
 						<Button
 							block={true}
 							type="button"
 							disabled={disableButton()}
 							onClick={e => handleClick(undefined, e)}
 							size="lg"
-							variant="primary"
+							variant="success"
 						>
 							{isLoading ? 'Loading...' : labelSignUp ? labelSignUp : 'Sign up'}
 						</Button>
 					</div>
+					<p className="sign-up-form-back-login mt-4 col-12">
+						Already registered?{' '}
+						<span className="sign-up-form-open-form-login" onClick={() => history.push('/login')}>
+							Log In
+						</span>
+					</p>
 					{isMobileDevice && renderLogIn()}
 				</div>
 			</div>

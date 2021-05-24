@@ -20,7 +20,7 @@ export interface CustomInputProps {
 	isDisabled?: boolean;
 	labelVisible?: boolean;
 	openInput?: boolean | undefined;
-	isInvalid?: boolean
+	isInvalid?: boolean;
 }
 
 interface OnChangeEvent {
@@ -34,14 +34,14 @@ const CustomInput: React.FC<Props> = props => {
 	const handleChangeValue = (e: OnChangeEvent) => {
 		props.handleChangeInput && props.handleChangeInput(e.target.value);
 	};
-	console.log(props.openInput);
 
-	const [enableInput, setenableInput] = React.useState(props.openInput);
+	const [enableInput, setenableInput] = React.useState(true);
+
 	const handleClickOpenInput = () => {
-		setenableInput(!enableInput);
+		if (props.openInput) setenableInput(!enableInput);
 	};
 	return (
-		<div className={props.className || ''}>
+		<div id="custom-input" className={props.className || ''}>
 			<label
 				htmlFor="email"
 				className={props.classNameLabel}
@@ -50,13 +50,13 @@ const CustomInput: React.FC<Props> = props => {
 				}}
 			>
 				{props.label}
-				{props.openInput == false ? <img src={openInputIcon} /> : ''}
+				{props.openInput ? <img src={openInputIcon} className="toggle-input" /> : ''}
 				{(props.labelVisible || '') && (props.label || props.defaultLabel)}
 			</label>
 			{enableInput ? (
 				<div className="col-12">
 					<input
-						className={'form-control success ' + props.classNameInput}
+						className={'form-control form-input' || props.classNameInput}
 						name="email"
 						required
 						type={props.type.toString()}
