@@ -10,7 +10,7 @@ export const MarketTradingStyle = styled.div`
 `;
 
 export const SearchBlockStyle = styled.div`
-	padding: 10px 23px 15px 23px;
+	padding: 10px 18px 15px 18px;
 	.search-wrapper {
 		display: flex;
 		justify-content: center;
@@ -69,7 +69,7 @@ export const SearchBlockStyle = styled.div`
 `;
 
 export const StarBlockStyle = styled.div`
-	padding: 0 23px;
+	padding: 0 18px;
 	display: flex;
 	align-items: center;
 	button {
@@ -185,12 +185,12 @@ export const MarketsListTradingStyle = styled.div`
 						:first-child {
 							text-align: left;
 							> span {
-								padding-left: 23px;
+								padding-left: 18px;
 							}
 						}
 						:nth-child(3) {
 							> span {
-								padding-right: 23px;
+								padding-right: 18px;
 							}
 						}
 						:last-child {
@@ -229,7 +229,7 @@ export const MarketsListTradingStyle = styled.div`
 									cursor: pointer;
 								}
 								display: flex;
-								padding-left: 23px;
+								padding-left: 18px;
 								align-items: center;
 								> span {
 									margin-right: 5px;
@@ -238,7 +238,7 @@ export const MarketsListTradingStyle = styled.div`
 						}
 						:nth-child(3) {
 							> span {
-								padding-right: 23px;
+								padding-right: 18px;
 							}
 						}
 						:last-child {
