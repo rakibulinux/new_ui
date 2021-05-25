@@ -54,4 +54,6 @@ export * from './Announcement';
 export * from './HotAnnouncement';
 export * from './AnnouncementTable';
 export * from './AnnouncementDetail';
+export * from './PaginationAnnouncement';
+
 

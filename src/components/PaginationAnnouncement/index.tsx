@@ -21,6 +21,9 @@ interface PaginationProps {
 	/**
 	 * Number shows current page index
 	 */
+	onClickFirstPage: () => void;
+
+	onClickLastPage: () => void;
 
 	onClickToPage?: (value: number) => void;
 	/**
@@ -40,7 +43,7 @@ interface PaginationProps {
 	 */
 	totalText?: string;
 }
-export const Pagination: React.FC<PaginationProps> = props => {
+export const PaginationAnnouncement: React.FC<PaginationProps> = props => {
 	const { page, lastElemIndex, firstElemIndex } = props;
 
 	const prevDisabled = page === firstElemIndex;
@@ -60,6 +63,13 @@ export const Pagination: React.FC<PaginationProps> = props => {
 		props.onClickNextPage();
 	};
 
+	const onClickFirstPage = () => {
+		props.onClickFirstPage();
+
+	}
+	const onClickLastPage = () => {
+		props.onClickLastPage();
+	}
 	const paginationList = (c: number, m: number) => {
 		const current = c;
 		const last = m;
@@ -113,6 +123,12 @@ export const Pagination: React.FC<PaginationProps> = props => {
 	return (
 		<nav className="cr-desktop-table__pagination" aria-label="Page navigation example">
 			<ul className="pagination">
+				<li className="pagination-item" onClick={onClickFirstPage} style={{ width: '30px', margin: '0 10px' }}>
+					<a className="page-link" aria-label="Previous">
+						<span aria-hidden="true">««</span>
+						<span className="sr-only">First</span>
+					</a>
+				</li>
 				<li className="pagination-item" onClick={onClickPrevPage} style={{ width: '30px', margin: '0 10px' }}>
 					<a className="page-link" aria-label="Previous">
 						<span aria-hidden="true">«</span>
@@ -126,7 +142,12 @@ export const Pagination: React.FC<PaginationProps> = props => {
 						<span className="sr-only">Next</span>
 					</a>
 				</li>
-				
+				<li className="pagination-item" onClick={onClickLastPage} style={{ width: '30px', margin: '0 10px' }}>
+					<a className="page-link" aria-label="Next">
+						<span aria-hidden="true">»»</span>
+						<span className="sr-only">Last</span>
+					</a>
+				</li>
 			</ul>
 		</nav>
 	);
