@@ -3,7 +3,8 @@ import { TableBlockStyle } from '../../components/Table/styles';
 
 export const MarketHistory = styled.div`
 	background-color: #313445;
-	padding: 15px 13px 23px 26px;
+	padding: 18px;
+	padding-right: 18px;
 	height: 100%;
 	position: absolute;
 	top: 3px;
