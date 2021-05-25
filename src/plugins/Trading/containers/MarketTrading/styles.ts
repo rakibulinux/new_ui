@@ -10,7 +10,7 @@ export const MarketTradingStyle = styled.div`
 `;
 
 export const SearchBlockStyle = styled.div`
-	padding: 10px 18px 15px 16px;
+	padding: 10px 18px 15px 18px;
 	.search-wrapper {
 		display: flex;
 		justify-content: center;
