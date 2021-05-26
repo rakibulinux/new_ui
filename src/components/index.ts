@@ -50,3 +50,4 @@ export * from './MarketTable';
 export * from './MarketsHotOnList';
 export * from './TradeList';
 export * from './DepositBody';
+export * from './InputRegisterAndLogin';

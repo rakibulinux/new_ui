@@ -3,7 +3,7 @@ import * as React from 'react';
 // import { useIntl } from 'react-intl';
 // import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { CustomInput } from '../CustomInput';
+import { InputRegisterAndLogin } from '../InputRegisterAndLogin';
 import { EMAIL_REGEX } from '../../helpers';
 // import { selectMobileDeviceState } from '../../modules/public/globalSettings';
 
@@ -115,7 +115,7 @@ const SignInComponent = React.memo((props: SignInProps) => {
 				<div className="form-group" onKeyPress={handleEnterPress}>
 					<div className="form-input-login">
 						<div className={emailGroupClass}>
-							<CustomInput
+							<InputRegisterAndLogin
 								type="email"
 								label={emailLabel || 'Email'}
 								placeholder={emailPlaceholder}
@@ -129,7 +129,7 @@ const SignInComponent = React.memo((props: SignInProps) => {
 							{emailError && <div className={'cr-sign-in-form__error'}>{emailError}</div>}
 						</div>
 						<div className={passwordGroupClass}>
-							<CustomInput
+							<InputRegisterAndLogin
 								type="password"
 								label={passwordLabel || 'Password'}
 								placeholder={passwordPlaceholder}

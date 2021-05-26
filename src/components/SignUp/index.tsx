@@ -4,7 +4,7 @@ import { Button, Form } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { CustomInput, PasswordStrengthMeter } from '..';
+import { InputRegisterAndLogin, PasswordStrengthMeter } from './../';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '../../helpers';
 import { selectMobileDeviceState } from '../../modules/public/globalSettings';
 
@@ -116,7 +116,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
 
 		return (
 			<div className={passwordGroupClass}>
-				<CustomInput
+				<InputRegisterAndLogin
 					type="password"
 					label={passwordLabel || 'Password'}
 					placeholder={passwordLabel || 'Password'}
@@ -204,7 +204,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
 			<div id="cr-sign-up-form" onKeyPress={handleEnterPress}>
 				<div className="cr-sign-up-form-form-content">
 					<div className={emailGroupClass}>
-						<CustomInput
+						<InputRegisterAndLogin
 							type="email"
 							label={emailLabel || 'Email'}
 							placeholder={'...@example'}
@@ -220,7 +220,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
 					</div>
 					{renderPasswordInput()}
 					<div className={confirmPasswordGroupClass}>
-						<CustomInput
+						<InputRegisterAndLogin
 							type="password"
 							label={confirmPasswordLabel || 'Confirm Password'}
 							placeholder={'Confirm Password'}
@@ -235,7 +235,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
 						{confirmationError && <div className={'cr-sign-up-form__error'}>{confirmationError}</div>}
 					</div>
 					<div className={refIdGroupClass}>
-						<CustomInput
+						<InputRegisterAndLogin
 							type="text"
 							label={referalCodeLabel || 'Referral code'}
 							placeholder={referalCodeLabel || 'Referral code'}
