@@ -1,3 +1,4 @@
+import { accumulateVolume } from 'helpers';
 import get from 'lodash/get';
 import * as React from 'react';
 import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
@@ -13,7 +14,9 @@ import {
 	selectDepthAsks,
 	selectDepthBids,
 	selectMarketTickers,
+	setAmount,
 	setCurrentPrice,
+	setOrderType,
 	Ticker,
 } from '../../../../modules';
 import downSvg from '../../assets/down.svg';
@@ -78,20 +81,24 @@ export const OrderBookContainer = props => {
 	}, []);
 
 	const handleOnSelectBids = React.useCallback(
-		(index: string) => {
+		(index: string, total: number) => {
 			const priceToSet = bids[Number(index)] && Number(bids[Number(index)][0]);
-			if (currentPrice !== priceToSet) {
+			if (currentPrice !== priceToSet && currentMarket) {
 				dispatch(setCurrentPrice(priceToSet));
+				dispatch(setAmount(Decimal.formatRemoveZero(total, currentMarket.amount_precision)));
+				dispatch(setOrderType('buy'));
 			}
 		},
 		[bids, currentPrice, dispatch],
 	);
 
 	const handleOnSelectAsks = React.useCallback(
-		(index: string) => {
+		(index: string, total: number) => {
 			const priceToSet = asks[Number(index)] && Number(asks[Number(index)][0]);
-			if (currentPrice !== priceToSet) {
+			if (currentPrice !== priceToSet && currentMarket) {
 				dispatch(setCurrentPrice(priceToSet));
+				dispatch(setAmount(Decimal.formatRemoveZero(total, currentMarket.amount_precision)));
+				dispatch(setOrderType('sell'));
 			}
 		},
 		[currentPrice, dispatch, asks],
@@ -106,6 +113,48 @@ export const OrderBookContainer = props => {
 			</td>
 		</tr>
 	);
+	const getBidsElm = () => {
+		if (arrBidsElm.length > 0) {
+			const total = accumulateVolume(bids);
+
+			return arrBidsElm.map((item, i) => (
+				<TrStyle
+					color="rgba(47,182,126,0.4)"
+					placement="right"
+					percentWidth={(item[3] as number) || 0}
+					key={i}
+					onClick={() => handleOnSelectBids(i.toString(), total[i])}
+				>
+					<td className="td-order-book-item__positive">{item[0]}</td>
+					<td>{item[1]}</td>
+					<td>{item[2]}</td>
+				</TrStyle>
+			));
+		}
+
+		return noDataElm;
+	};
+	const getAsksElm = () => {
+		if (arrAsksElm.length > 0) {
+			const total = accumulateVolume(asks);
+
+			return arrAsksElm.map((item, i) => (
+				<TrStyle
+					color="rgba(224,30,90,0.2)"
+					placement="left"
+					percentWidth={(item[3] as number) || 0}
+					key={i}
+					onClick={() => handleOnSelectAsks(i.toString(), total[i])}
+				>
+					<td className="td-order-book-item__negative">{item[0]}</td>
+					<td>{item[1]}</td>
+					<td>{item[2]}</td>
+				</TrStyle>
+			));
+		}
+
+		return noDataElm;
+	};
 
 	const infoTabs: Array<{
 		labelTooltip: string;
@@ -199,23 +248,7 @@ export const OrderBookContainer = props => {
 						</Row>
 						{tabState === 'all' || tabState === 'sell' ? (
 							<table className="td-order-book-table td-reverse-table-body">
-								<tbody>
-									{arrAsksElm.length > 0
-										? arrAsksElm.map((item, i) => (
-												<TrStyle
-													color="rgba(224,30,90,0.2)"
-													placement="left"
-													percentWidth={(item[3] as number) || 0}
-													key={i}
-													onClick={() => handleOnSelectAsks(i.toString())}
-												>
-													<td className="td-order-book-item__negative">{item[0]}</td>
-													<td>{item[1]}</td>
-													<td>{item[2]}</td>
-												</TrStyle>
-										  ))
-										: noDataElm}
-								</tbody>
+								<tbody>{getAsksElm()}</tbody>
 							</table>
 						) : null}
 						<Row className="td-order-book-ticker">
@@ -229,23 +262,7 @@ export const OrderBookContainer = props => {
 						</Row>
 						{tabState === 'all' || tabState === 'buy' ? (
 							<table className="td-order-book-table">
-								<tbody>
-									{arrBidsElm.length > 0
-										? arrBidsElm.map((item, i) => (
-												<TrStyle
-													color="rgba(47,182,126,0.4)"
-													placement="right"
-													percentWidth={(item[3] as number) || 0}
-													key={i}
-													onClick={() => handleOnSelectBids(i.toString())}
-												>
-													<td className="td-order-book-item__positive">{item[0]}</td>
-													<td>{item[1]}</td>
-													<td>{item[2]}</td>
-												</TrStyle>
-										  ))
-										: noDataElm}
-								</tbody>
+								<tbody>{getBidsElm()}</tbody>
 							</table>
 						) : null}
 					</div>
