@@ -151,7 +151,7 @@ const SignInComponent = React.memo((props: SignInProps) => {
 					</div>
 				</div>
 			</form>
-			<div className="bottom-section mt-4">
+			<div className="bottom-section mt-4 col-12">
 				<div
 					className="forgot-password"
 					onClick={() => {

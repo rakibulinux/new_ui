@@ -41,7 +41,7 @@ const InputRegisterAndLogin: React.FC<Props> = props => {
 		if (props.openInput) setenableInput(!enableInput);
 	};
 	return (
-		<div id="custom-input" className={props.className || ''}>
+		<div id="custom-input-register-login" className={props.className || ''}>
 			<label
 				htmlFor="email"
 				className={props.classNameLabel}

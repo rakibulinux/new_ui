@@ -84,7 +84,7 @@ const SignIn: React.FC<Props> = props => {
 		return (
 			<div className="group-login  m-auto">
 				<div className="title">
-					<h3>Login</h3>
+					<h3>Log In</h3>
 					<p>Please check that you are visiting the correct URL</p>
 					<div className="link-web">
 						<a href="https://www.cx.finance/" style={{ width: '100%' }}>
