@@ -39,7 +39,7 @@ describe('Wallets', () => {
 		const balancesResponse = [
 			{
 				balance: '0.0',
-				currency: 'bch',
+				currency: 'busd1',
 				locked: '0.0',
 			},
 			{
@@ -60,7 +60,7 @@ describe('Wallets', () => {
 				deposit_fee: '0.0',
 				explorer_address: 'https://www.blocktrail.com/tBCC/address/#{address}',
 				explorer_transaction: 'https://www.blocktrail.com/tBCC/tx/#{txid}',
-				id: 'bch',
+				id: 'busd1',
 				min_deposit_amount: '0.0000748',
 				min_withdraw_amount: '0.0',
 				precision: 8,
@@ -111,7 +111,7 @@ describe('Wallets', () => {
 		const walletsDataActionPayload = [
 			{
 				balance: '0.0',
-				currency: 'bch',
+				currency: 'busd1',
 				explorerAddress: 'https://www.blocktrail.com/tBCC/address/#{address}',
 				explorerTransaction: 'https://www.blocktrail.com/tBCC/tx/#{txid}',
 				fee: '0.0',

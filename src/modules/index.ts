@@ -58,7 +58,7 @@ import { OrdersHistoryState, rootOrdersHistorySaga } from './user/ordersHistory'
 import { PasswordState, rootPasswordSaga } from './user/password';
 import { ProfileState, rootProfileSaga } from './user/profile';
 import { rootUserActivitySaga, UserActivityState } from './user/userActivity';
-import { rootWalletsSaga, WalletsState } from './user/wallets';
+import { ChildCurrenciesState, rootWalletsSaga, WalletsState } from './user/wallets';
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
 import {
 	CreateStakeState,
@@ -177,6 +177,8 @@ export interface RootState {
 		profile: ProfileState;
 		userActivity: UserActivityState;
 		wallets: WalletsState;
+		child_currencies: ChildCurrenciesState;
+		all_child_currencies: ChildCurrenciesState;
 		withdrawLimit: WithdrawLimitState;
 	};
 	events: {

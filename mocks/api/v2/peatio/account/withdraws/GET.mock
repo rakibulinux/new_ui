@@ -50,7 +50,7 @@ Access-Control-Allow-Credentials: true
   },
   {
     "id":276,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.1",
     "fee":"0.001",
@@ -64,7 +64,7 @@ Access-Control-Allow-Credentials: true
   },
   {
     "id":275,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.01",
     "fee":"0.001",
@@ -120,7 +120,7 @@ Access-Control-Allow-Credentials: true
   },
   {
     "id":267,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.1",
     "fee":"0.001",
@@ -134,7 +134,7 @@ Access-Control-Allow-Credentials: true
   },
   {
     "id":266,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.1",
     "fee":"0.001",
@@ -414,7 +414,7 @@ Access-Control-Allow-Credentials: true
   },
   {
     "id":154,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.013",
     "fee":"0.001",
@@ -428,7 +428,7 @@ Access-Control-Allow-Credentials: true
   },
   {
     "id":153,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.012",
     "fee":"0.001",
@@ -442,7 +442,7 @@ Access-Control-Allow-Credentials: true
   },
   {
     "id":136,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.02",
     "fee":"0.001",
@@ -456,7 +456,7 @@ Access-Control-Allow-Credentials: true
   },
   {
     "id":135,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.002",
     "fee":"0.001",
@@ -470,7 +470,7 @@ Access-Control-Allow-Credentials: true
   },
   {
     "id":134,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.002",
     "fee":"0.001",
@@ -484,7 +484,7 @@ Access-Control-Allow-Credentials: true
   },
   {
     "id":133,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.02",
     "fee":"0.001",
@@ -554,7 +554,7 @@ Access-Control-Allow-Credentials: true
   },
   {
     "id":128,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.1",
     "fee":"0.001",
@@ -568,7 +568,7 @@ Access-Control-Allow-Credentials: true
   },
   {
     "id":127,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.002",
     "fee":"0.001",
@@ -582,7 +582,7 @@ Access-Control-Allow-Credentials: true
   },
   {
     "id":126,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.002",
     "fee":"0.001",
@@ -596,7 +596,7 @@ Access-Control-Allow-Credentials: true
   },
   {
     "id":125,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.002",
     "fee":"0.001",
@@ -610,7 +610,7 @@ Access-Control-Allow-Credentials: true
   },
   {
     "id":124,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.002",
     "fee":"0.001",

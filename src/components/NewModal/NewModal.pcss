@@ -1,0 +1,69 @@
+.modal.td-cpn__modal {
+	.modal-dialog {
+		justify-content: center;
+	}
+
+	.modal-content {
+		background: unset;
+		border-radius: 10px;
+		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+		max-width: 424px;
+		overflow: hidden;
+
+		.modal-header {
+			background: var(--main-background-color);
+			border-bottom: 2px solid var(--divider-color-level-2);
+			padding-left: 23px;
+			padding-right: 23px;
+
+			.modal-title,
+			.close {
+				align-items: center;
+				color: var(--primary-text-color);
+				display: flex;
+				justify-content: center;
+			}
+
+			.modal-title.h4 {
+				flex: 1;
+				font-size: 16px;
+				font-style: normal;
+				font-weight: 600;
+				height: 100%;
+				margin: 0;
+				text-align: center;
+				text-transform: uppercase;
+			}
+
+			.close {
+				span:first-child {
+					font-size: 25px;
+				}
+			}
+		}
+
+		.modal-body {
+			background: rgb(49, 52, 69);
+			padding-bottom: 35px;
+			padding-left: 23px;
+			padding-right: 23px;
+			padding-top: 30px;
+
+			.td-email-form__group {
+				background: transparent;
+				margin-bottom: 20px;
+				position: relative;
+			}
+
+			.td-email-form__group--focused {
+				.td-email-form__label {
+					color: var(--input-legend-color-active);
+				}
+
+				input {
+					border-color: var(--input-legend-color-active) !important;
+				}
+			}
+		}
+	}
+}

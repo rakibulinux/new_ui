@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const OrderHistoryStyle = styled.div`
 	background-color: #313445;
-	padding: 10px;
+	padding: 10px 5px;
 	height: 350px;
 	margin-bottom: 3px;
 

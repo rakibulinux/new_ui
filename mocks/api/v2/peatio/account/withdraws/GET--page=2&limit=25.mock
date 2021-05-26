@@ -10,7 +10,7 @@ Total: 28
 [
   {
     "id":125,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.002",
     "fee":"0.001",
@@ -24,7 +24,7 @@ Total: 28
   },
   {
     "id":124,
-    "currency":"bch",
+    "currency":"busd1",
     "type":"coin",
     "amount":"0.002",
     "fee":"0.001",

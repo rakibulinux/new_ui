@@ -12,12 +12,13 @@ const OrderBookStyleVar = {
 
 export const OrderBookStyle = styled.div<OrderBookProps>`
 	position: absolute;
-	top: 3px;
+	top: 0;
 	left: 0;
-	bottom: 3px;
-	right: 3px;
+	bottom: 0;
+	right: 0;
 	height: calc(100% - 6px);
 	color: white;
+	padding: 0 18px;
 	.td-order-book {
 		background-color: #313445;
 		height: 100%;
@@ -40,12 +41,16 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 		}
 		&-tbheader {
 			height: ${OrderBookStyleVar.tbHeadHeight};
-			padding: 6px 23px;
+			padding-top: 6px;
+			padding-bottom: 6px;
 			color: #848e9c;
+			> div:last-child {
+				padding-right: 18px !important;
+			}
 		}
 		&-ticker {
 			height: ${OrderBookStyleVar.tickerHeight};
-			margin: 5px 23px !important;
+			margin: 5px 18px !important;
 			font-size: 14px;
 			&__last-price {
 				font-size: 20px;
@@ -67,7 +72,6 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 				display: block;
 				tr {
 					display: block;
-					padding: 0 23px;
 					background-color: transparent;
 					cursor: pointer;
 					:hover {
@@ -75,11 +79,14 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 					}
 					td,
 					th {
-						width: calc(100% / 3);
+						width: calc(100% / 3 - 11.5px);
 						display: inline-block;
 						text-align: right;
 						:first-child {
 							text-align: left;
+						}
+						:last-child {
+							width: calc(100% / 3 + 18px);
 						}
 					}
 				}
@@ -92,6 +99,9 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 					margin-bottom: 1px;
 					td {
 						height: 100%;
+						&:last-child {
+							padding-right: 18px;
+						}
 					}
 				}
 			}

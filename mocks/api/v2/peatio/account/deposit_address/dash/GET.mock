@@ -6,7 +6,7 @@ Access-Control-Max-Age: 3600
 Access-Control-Allow-Credentials: true
 
 {
-    "currencies": ["dash"],
+    "currencies": ["busd"],
     "address": "XpESxaUmonkq8RaLLp46Brx2K39ggQe226",
     "state": "active"
 }

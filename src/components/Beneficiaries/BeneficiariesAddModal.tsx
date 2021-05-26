@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import { injectIntl } from 'react-intl';
 import { connect, MapDispatchToProps } from 'react-redux';
 import { CustomInput } from '../../components';
+import { checkValidBitcoinAddress, checkValidErc20Address } from '../../helpers';
 import { IntlProps } from '../../index';
 import { Modal } from '../../mobile/components/Modal';
 import {
@@ -31,6 +32,7 @@ interface OwnProps {
 	type: 'fiat' | 'coin';
 	handleToggleAddAddressModal: () => void;
 	handleToggleConfirmationModal: () => void;
+	blockchainType: string;
 }
 
 interface CoinState {
@@ -41,6 +43,8 @@ interface CoinState {
 	coinAddressFocused: boolean;
 	coinBeneficiaryNameFocused: boolean;
 	coinDescriptionFocused: boolean;
+
+	isInvalidAddress: boolean;
 }
 
 interface FiatState {
@@ -71,6 +75,8 @@ const defaultState = {
 	coinAddressFocused: false,
 	coinBeneficiaryNameFocused: false,
 	coinDescriptionFocused: false,
+
+	isInvalidAddress: false,
 
 	fiatName: '',
 	fiatFullName: '',
@@ -180,19 +186,54 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 					classNameLabel="cr-email-form__label"
 					classNameInput="cr-email-form__input"
 					autoFocus={true}
+					isInvalid={false}
+				/>
+			</div>
+		);
+	};
+
+	private renderEnterCoinAddressInput = (field: string, optional?: boolean) => {
+		const focusedClass = classnames('cr-email-form__group', {
+			'cr-email-form__group--focused': this.state[`${field}Focused`],
+			'cr-email-form__group--optional': optional,
+		});
+
+		const { isInvalidAddress } = this.state;
+
+		return (
+			<div key={field} className={focusedClass}>
+				<CustomInput
+					type="text"
+					label={this.translate(`page.body.wallets.beneficiaries.addAddressModal.body.${field}`)}
+					placeholder={this.translate(`page.body.wallets.beneficiaries.addAddressModal.body.${field}`)}
+					defaultLabel={field}
+					handleChangeInput={value => this.handleChangeAddAddressFieldValue(field, value)}
+					inputValue={this.state[field]}
+					handleFocusInput={() => this.handleChangeFieldFocus(`${field}Focused`)}
+					classNameLabel="cr-email-form__label"
+					classNameInput="cr-email-form__input"
+					autoFocus={true}
+					isInvalid={isInvalidAddress}
 				/>
 			</div>
 		);
 	};
 
 	private renderAddAddressModalCryptoBody = () => {
-		const { coinAddress, coinBeneficiaryName } = this.state;
+		const { coinAddress, coinBeneficiaryName, isInvalidAddress } = this.state;
 
-		const isDisabled = !coinAddress || !coinBeneficiaryName;
+		const isDisabled = !coinAddress || !coinBeneficiaryName || isInvalidAddress;
 
 		return (
 			<div className="cr-email-form__form-content">
-				{this.renderAddAddressModalBodyItem('coinAddress')}
+				{isInvalidAddress ? (
+					<p style={{ fontSize: '12px', color: 'red' }}>
+						** Please enter <strong>{String(this.props.blockchainType).toUpperCase()}</strong> address
+					</p>
+				) : (
+					''
+				)}
+				{this.renderEnterCoinAddressInput('coinAddress')}
 				{this.renderAddAddressModalBodyItem('coinBeneficiaryName')}
 				{this.renderAddAddressModalBodyItem('coinDescription', true)}
 				<div className="cr-email-form__button-wrapper">
@@ -225,6 +266,39 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 				</div>
 			</div>
 		);
+	};
+
+	private handleChangeAddAddressFieldValue = (key: string, value: string) => {
+		const { blockchainType } = this.props;
+		let isValid = true;
+
+		switch (blockchainType) {
+			case 'eth-main':
+				isValid = checkValidErc20Address(value);
+				this.setState({
+					isInvalidAddress: !isValid,
+				});
+				break;
+			case 'bsc-main':
+				isValid = checkValidErc20Address(value);
+				this.setState({
+					isInvalidAddress: !isValid,
+				});
+				break;
+			case 'btc-main':
+				isValid = checkValidBitcoinAddress(value);
+				this.setState({
+					isInvalidAddress: !isValid,
+				});
+				break;
+			default:
+				break;
+		}
+
+		// @ts-ignore
+		this.setState({
+			[key]: value,
+		});
 	};
 
 	private handleChangeFieldValue = (key: string, value: string) => {

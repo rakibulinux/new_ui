@@ -12,11 +12,15 @@ import {
 	beneficiariesDelete,
 	Beneficiary,
 	BeneficiaryBank,
+	ChildCurrency,
+	Currency,
 	MemberLevels,
 	memberLevelsFetch,
 	RootState,
 	selectBeneficiaries,
 	selectBeneficiariesCreate,
+	selectChildCurrencies,
+	selectCurrencies,
 	selectMemberLevels,
 	selectMobileDeviceState,
 	selectUserInfo,
@@ -32,6 +36,8 @@ interface ReduxProps {
 	memberLevels?: MemberLevels;
 	userData: User;
 	isMobileDevice: boolean;
+	currencies: Currency[];
+	child_currencies: ChildCurrency[];
 }
 
 interface DispatchProps {
@@ -103,6 +109,21 @@ class BeneficiariesComponent extends React.Component<Props, State> {
 		}
 	}
 
+	public findBlockchainType = () => {
+		const { currency, currencies, child_currencies } = this.props;
+		const child_currencies_strings = child_currencies.map(cur => cur.id);
+
+		const parent_currencies = currencies.filter(currency => !child_currencies_strings.includes(currency.id));
+		const parent_currencies_strings = parent_currencies.map(cur => cur.id);
+
+		const parent_index = parent_currencies_strings.findIndex((parent_currency_id: string) => parent_currency_id === currency);
+		const child_index = child_currencies_strings.findIndex((child_currency_id: string) => child_currency_id === currency);
+
+		if (child_index !== -1) return child_currencies[child_index].blockchain_key;
+		if (parent_index !== -1) return parent_currencies[parent_index].blockchain_key;
+		return 'Unavailable';
+	};
+
 	public render() {
 		const { currency, type, beneficiaries, beneficiariesAddData, isMobileDevice } = this.props;
 		const { currentWithdrawalBeneficiary, isOpenAddressModal, isOpenConfirmationModal, isOpenFailModal } = this.state;
@@ -110,6 +131,8 @@ class BeneficiariesComponent extends React.Component<Props, State> {
 			'active',
 			'pending',
 		]);
+
+		const blockchainType = this.findBlockchainType();
 
 		return (
 			<div className="pg-beneficiaries">
@@ -127,6 +150,7 @@ class BeneficiariesComponent extends React.Component<Props, State> {
 						type={type}
 						handleToggleAddAddressModal={this.handleToggleAddAddressModal}
 						handleToggleConfirmationModal={this.handleToggleConfirmationModal}
+						blockchainType={blockchainType}
 					/>
 				)}
 				{isOpenConfirmationModal && (
@@ -508,6 +532,8 @@ const mapStateToProps = (state: RootState): ReduxProps => ({
 	memberLevels: selectMemberLevels(state),
 	userData: selectUserInfo(state),
 	isMobileDevice: selectMobileDeviceState(state),
+	currencies: selectCurrencies(state),
+	child_currencies: selectChildCurrencies(state),
 });
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = dispatch => ({

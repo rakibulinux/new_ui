@@ -1,66 +1,110 @@
-import cr from 'classnames';
-import * as React from 'react';
-import { Button, Form } from 'react-bootstrap';
-import { injectIntl } from 'react-intl';
-import { connect, MapDispatchToPropsFunction } from 'react-redux';
-import { withRouter } from 'react-router';
-import { CopyableTextField, CustomInput, Table } from '../../components';
-import { localeDate } from '../../helpers/localeDate';
-import { IntlProps } from '../../index';
-
+import { Empty, Switch } from 'antd';
+import classnames from 'classnames';
+import { CustomInput, NewCopyableTextField, NewModal } from 'components';
+import { localeDate } from 'helpers';
 import {
 	alertPush,
-	ApiKeyCreateFetch,
 	apiKeyCreateFetch,
+	ApiKeyCreateFetch,
 	ApiKeyDataInterface,
-	ApiKeyDeleteFetch,
 	apiKeyDeleteFetch,
-	ApiKeys2FAModal,
+	ApiKeyDeleteFetch,
 	apiKeys2FAModal,
+	ApiKeys2FAModal,
 	apiKeysFetch,
-	ApiKeyStateModal,
 	ApiKeyUpdateFetch,
 	apiKeyUpdateFetch,
-	RootState,
-	selectUserInfo,
-	User,
-} from '../../modules';
-import { selectApiKeys, selectApiKeysDataLoaded, selectApiKeysModal } from '../../modules/user/apiKeys/selectors';
+} from 'modules';
+import { selectApiKeys, selectApiKeysModal } from 'modules/user/apiKeys/selectors';
+import * as React from 'react';
+import { Button } from 'react-bootstrap';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 
-interface ReduxProps {
-	apiKeys: ApiKeyDataInterface[] | [];
-	dataLoaded: boolean;
-	modal: ApiKeyStateModal;
-	user: User;
-}
+// tslint:disable-next-line: no-empty-interface
+interface ProfileApiKeysProps {}
 
-interface DispatchProps {
-	toggleApiKeys2FAModal: typeof apiKeys2FAModal;
-	getApiKeys: typeof apiKeysFetch;
-	createApiKey: typeof apiKeyCreateFetch;
-	updateApiKey: typeof apiKeyUpdateFetch;
-	deleteApiKey: typeof apiKeyDeleteFetch;
-	fetchSuccess: typeof alertPush;
-}
+export const ProfileApiKeys: React.FC<ProfileApiKeysProps> = () => {
+	const intl = useIntl();
+	const dispatch = useDispatch();
 
-interface ProfileApiKeysState {
-	otpCode: string;
-	codeFocused: boolean;
-}
+	const [otpCode, setOtpCode] = React.useState('');
+	const [codeFocused, setCodeFocused] = React.useState(false);
+	const apiKeys = useSelector(selectApiKeys);
+	const modal = useSelector(selectApiKeysModal);
 
-type Props = ReduxProps & DispatchProps & IntlProps;
+	React.useEffect(() => {
+		dispatch(apiKeysFetch());
+	}, []);
 
-class ProfileApiKeysComponent extends React.Component<Props, ProfileApiKeysState> {
-	public state = {
-		otpCode: '',
-		codeFocused: false,
+	const translate = (id: string) => {
+		return intl.formatMessage({ id });
+	};
+	const getTableHeaders = () => {
+		return [
+			translate('page.body.profile.apiKeys.table.header.kid'),
+			translate('page.body.profile.apiKeys.table.header.algorithm'),
+			translate('page.body.profile.apiKeys.table.header.state'),
+			'Status',
+			translate('page.body.profile.apiKeys.table.header.created'),
+			translate('page.body.profile.apiKeys.table.header.updated'),
+			'Action',
+		];
 	};
 
-	public t = (key: string) => {
-		return this.props.intl.formatMessage({ id: key });
+	const onChangeSwitch = (checked: boolean, apiKey: ApiKeyDataInterface) => {
+		const payload: ApiKeys2FAModal['payload'] = { active: true, action: 'updateKey', apiKey };
+		dispatch(apiKeys2FAModal(payload));
 	};
 
-	public copy = (id: string) => {
+	const handleDeleteKeyClick = (apiKey: ApiKeyDataInterface) => {
+		const payload: ApiKeys2FAModal['payload'] = { active: true, action: 'deleteKey', apiKey };
+		dispatch(apiKeys2FAModal(payload));
+	};
+
+	const getTableData = () => {
+		return apiKeys.map(item => [
+			item.kid,
+			item.algorithm,
+			<div>
+				<span>{item.state}</span>
+			</div>,
+			<div>
+				<Switch
+					checked={item.state === 'active'}
+					onChange={checked => {
+						onChangeSwitch(checked, item);
+					}}
+				/>
+			</div>,
+			localeDate(item.created_at, 'fullDate'),
+			localeDate(item.updated_at, 'fullDate'),
+			<span className="td-pg-profile__action-delete" key={item.kid} onClick={() => handleDeleteKeyClick(item)}>
+				X
+			</span>,
+		]);
+	};
+
+	const handleCreateKey = () => {
+		const payload: ApiKeyCreateFetch['payload'] = { totp_code: otpCode };
+		dispatch(apiKeyCreateFetch(payload));
+		setOtpCode('');
+	};
+
+	const handleCreateSuccess = () => {
+		const payload: ApiKeys2FAModal['payload'] = { active: false };
+		dispatch(apiKeys2FAModal(payload));
+	};
+
+	const handleUpdateKey = () => {
+		const apiKey: ApiKeyDataInterface = { ...modal.apiKey } as any;
+		apiKey.state = apiKey.state === 'active' ? 'disabled' : 'active';
+		const payload: ApiKeyUpdateFetch['payload'] = { totp_code: otpCode, apiKey: apiKey };
+		dispatch(apiKeyUpdateFetch(payload));
+		setOtpCode('');
+	};
+
+	const copy = (id: string) => {
 		const copyText: HTMLInputElement | null = document.querySelector(`#${id}`);
 
 		if (copyText) {
@@ -71,178 +115,113 @@ class ProfileApiKeysComponent extends React.Component<Props, ProfileApiKeysState
 		}
 	};
 
-	public componentDidMount(): void {
-		this.props.getApiKeys();
-	}
-
-	public render() {
-		const { user, dataLoaded, apiKeys } = this.props;
-		const modal = this.props.modal.active ? (
-			<div className="cr-modal">
-				<div className="cr-email-form">
-					{this.renderModalHeader()}
-					{this.renderModalBody()}
-				</div>
-			</div>
-		) : null;
-
-		return (
-			<div className="pg-profile-page__api-keys">
-				<div className="pg-profile-page-header">
-					<div className="pg-profile-page__api-keys__header">
-						<h3>{this.t('page.body.profile.apiKeys.header')}</h3>
-						{user.otp && dataLoaded && (
-							<span className="pg-profile-page__pull-right" onClick={this.handleCreateKeyClick}>
-								{this.t('page.body.profile.apiKeys.header.create')}
-							</span>
-						)}
-					</div>
-				</div>
-
-				{!user.otp && (
-					<p className="pg-profile-page__label pg-profile-page__text-center">
-						{this.t('page.body.profile.apiKeys.noOtp')}
-					</p>
-				)}
-
-				{user.otp && dataLoaded && !apiKeys.length && (
-					<div className="pg-profile-page__label pg-profile-page__text-center">
-						{this.t('page.body.profile.apiKeys.noKeys')}
-					</div>
-				)}
-
-				{user.otp && dataLoaded && apiKeys.length > 0 && (
-					<Table header={this.getTableHeaders()} data={apiKeys && apiKeys.length ? this.getTableData(apiKeys) : [[]]} />
-				)}
-
-				{modal}
-			</div>
-		);
-	}
-
-	private getTableHeaders = () => {
-		return [
-			this.t('page.body.profile.apiKeys.table.header.kid'),
-			this.t('page.body.profile.apiKeys.table.header.algorithm'),
-			this.t('page.body.profile.apiKeys.table.header.state'),
-			'',
-			this.t('page.body.profile.apiKeys.table.header.created'),
-			this.t('page.body.profile.apiKeys.table.header.updated'),
-			'',
-		];
+	const handleCopy = (id: string, type: string) => {
+		copy(id);
+		dispatch(alertPush({ message: [`success.api_keys.copied.${type}`], type: 'success' }));
 	};
 
-	private getTableData(apiKeysData: ApiKeyDataInterface[]) {
-		return apiKeysData.map(item => [
-			item.kid,
-			item.algorithm,
-			<div className="pg-profile-page__api-keys__state">
-				<span
-					className={
-						item.state === 'active'
-							? 'pg-profile-page__api-keys__state__active'
-							: 'pg-profile-page__api-keys__state__disabled'
-					}
-				>
-					{item.state}
-				</span>
-			</div>,
-			<div className="pg-profile-page__api-keys__status">
-				<Form>
-					<Form.Check
-						type="switch"
-						id="apiKeyCheck"
-						label=""
-						onChange={this.handleToggleStateKeyClick(item)}
-						checked={item.state === 'active'}
-					/>
-				</Form>
-			</div>,
-			localeDate(item.created_at, 'fullDate'),
-			localeDate(item.updated_at, 'fullDate'),
-			<span className="pg-profile-page__close" key={item.kid} onClick={() => this.handleDeleteKeyClick(item)} />,
-		]);
-	}
-
-	private renderModalHeader = () => {
-		const headerText =
-			this.props.modal.action === 'createSuccess'
-				? this.t('page.body.profile.apiKeys.modal.created_header')
-				: this.t('page.body.profile.apiKeys.modal.header');
-
-		return (
-			<div className="cr-email-form__options-group">
-				<div className="cr-email-form__option">
-					<div className="cr-email-form__option-inner">
-						{headerText}
-						<span className="pg-profile-page__close pg-profile-page__pull-right" onClick={this.handleHide2FAModal} />
-					</div>
-				</div>
-			</div>
-		);
+	const handleDeleteKey = () => {
+		const payload: ApiKeyDeleteFetch['payload'] = {
+			kid: (modal.apiKey && modal.apiKey.kid) || '',
+			totp_code: otpCode,
+		};
+		dispatch(apiKeyDeleteFetch(payload));
+		setOtpCode('');
 	};
 
-	private renderModalBody = () => {
-		const { otpCode, codeFocused } = this.state;
-		const { modal } = this.props;
+	const handleOtpCodeChange = (value: string) => {
+		setOtpCode(value);
+	};
+
+	const handleChangeFocusField = () => {
+		setCodeFocused(prev => !prev);
+	};
+
+	const renderOnClick = () => {
+		switch (modal.action) {
+			case 'createKey':
+				handleCreateKey();
+				break;
+			case 'createSuccess':
+				handleCreateSuccess();
+				break;
+			case 'updateKey':
+				handleUpdateKey();
+				break;
+			case 'deleteKey':
+				handleDeleteKey();
+				break;
+			default:
+				break;
+		}
+	};
+
+	const handleEnterPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			renderOnClick();
+		}
+	};
+
+	const renderModalBody = () => {
 		/* const secret = (modal && modal.apiKey) ? modal.apiKey.secret : ''; */
-		const emailGroupClass = cr('cr-email-form__group', {
-			'cr-email-form__group--focused': codeFocused,
+		const emailGroupClass = classnames('td-email-form__group', {
+			'td-email-form__group--focused': codeFocused,
 		});
-		let body;
-		let button;
+		let body: JSX.Element | null = null;
+		let button: JSX.Element | null = null;
 		const isDisabled = !otpCode.match(/.{6}/g);
-		switch (this.props.modal.action) {
+		switch (modal.action) {
 			case 'createKey':
 				button = (
-					<Button block={true} onClick={this.handleCreateKey} disabled={isDisabled} size="lg" variant="primary">
-						{this.t('page.body.profile.apiKeys.modal.btn.create')}
+					<Button block={true} onClick={handleCreateKey} disabled={isDisabled} size="lg" variant="primary">
+						{translate('page.body.profile.apiKeys.modal.btn.create')}
 					</Button>
 				);
 				break;
 			case 'createSuccess':
 				button = (
-					<Button block={true} onClick={this.handleCreateSuccess} size="lg" variant="primary">
-						{this.t('page.body.profile.apiKeys.modal.btn.create')}
+					<Button block={true} onClick={handleCreateSuccess} size="lg" variant="primary">
+						{translate('page.body.profile.apiKeys.modal.btn.create')}
 					</Button>
 				);
 				body = (
-					<div className="cr-success-create">
-						<div className="pg-copyable-text__section">
-							<fieldset onClick={() => this.handleCopy('access-key-id', 'access')}>
-								<CopyableTextField
-									className="pg-copyable-text-field__input"
+					<div className="td-success-create">
+						<div className="td-copyable-text__section">
+							<fieldset onClick={() => handleCopy('access-key-id', 'access')}>
+								<NewCopyableTextField
+									className="td-copyable-text-field__input"
 									fieldId={'access-key-id'}
 									value={(modal.apiKey && modal.apiKey.kid) || ''}
-									copyButtonText={this.t('page.body.profile.content.copyLink')}
-									label={this.t('page.body.profile.apiKeys.modal.access_key')}
+									copyButtonText={translate('page.body.profile.content.copyLink')}
+									label={translate('page.body.profile.apiKeys.modal.access_key')}
 								/>
 							</fieldset>
 						</div>
 						<div className="secret-section">
 							<span className="secret-sign">&#9888;</span>
 							<p className="secret-warning">
-								<span>{this.t('page.body.profile.apiKeys.modal.secret_key')}</span>
+								<span>{translate('page.body.profile.apiKeys.modal.secret_key')}</span>
 								<br />
-								{this.t('page.body.profile.apiKeys.modal.secret_key_info')}
-								<span> {this.t('page.body.profile.apiKeys.modal.secret_key_store')}</span>
+								{translate('page.body.profile.apiKeys.modal.secret_key_info')}
+								<span> {translate('page.body.profile.apiKeys.modal.secret_key_store')}</span>
 							</p>
 						</div>
-						<div className="pg-copyable-text__section">
-							<fieldset onClick={() => this.handleCopy('secret-key-id', 'secret')}>
-								<CopyableTextField
-									className="pg-copyable-text-field__input"
+						<div className="td-copyable-text__section">
+							<fieldset onClick={() => handleCopy('secret-key-id', 'secret')}>
+								<NewCopyableTextField
+									className="td-copyable-text-field__input"
 									fieldId={'secret_key-id'}
 									value={(modal.apiKey && modal.apiKey.secret) || ''}
-									copyButtonText={this.t('page.body.profile.content.copyLink')}
-									label={this.t('page.body.profile.apiKeys.modal.secret_key')}
+									copyButtonText={translate('page.body.profile.content.copyLink')}
+									label={translate('page.body.profile.apiKeys.modal.secret_key')}
 								/>
 							</fieldset>
 						</div>
 						<p className="note-section">
-							<span>{this.t('page.body.profile.apiKeys.modal.note')} </span>
+							<span>{translate('page.body.profile.apiKeys.modal.note')} </span>
 							<br />
-							{this.t('page.body.profile.apiKeys.modal.note_content')}
+							{translate('page.body.profile.apiKeys.modal.note_content')}
 						</p>
 						<div className="button-confirmation">{button}</div>
 					</div>
@@ -250,17 +229,17 @@ class ProfileApiKeysComponent extends React.Component<Props, ProfileApiKeysState
 				break;
 			case 'updateKey':
 				button = (
-					<Button block={true} onClick={this.handleUpdateKey} disabled={isDisabled} size="lg" variant="primary">
+					<Button block={true} onClick={handleUpdateKey} disabled={isDisabled} size="lg" variant="primary">
 						{modal.apiKey && modal.apiKey.state === 'active'
-							? this.t('page.body.profile.apiKeys.modal.btn.disabled')
-							: this.t('page.body.profile.apiKeys.modal.btn.activate')}
+							? translate('page.body.profile.apiKeys.modal.btn.disabled')
+							: translate('page.body.profile.apiKeys.modal.btn.activate')}
 					</Button>
 				);
 				break;
 			case 'deleteKey':
 				button = (
-					<Button block={true} onClick={this.handleDeleteKey} disabled={isDisabled} size="lg" variant="primary">
-						{this.t('page.body.profile.apiKeys.modal.btn.delete')}
+					<Button block={true} onClick={handleDeleteKey} disabled={isDisabled} size="lg" variant="primary">
+						{translate('page.body.profile.apiKeys.modal.btn.delete')}
 					</Button>
 				);
 				break;
@@ -268,24 +247,24 @@ class ProfileApiKeysComponent extends React.Component<Props, ProfileApiKeysState
 				break;
 		}
 		body = !body ? (
-			<div className="cr-email-form__form-content">
-				<div className="cr-email-form__header">{this.t('page.body.profile.apiKeys.modal.title')}</div>
+			<div className="td-email-form">
+				<div className="td-email-form__header">{translate('page.body.profile.apiKeys.modal.title')}</div>
 				<div className={emailGroupClass}>
 					<CustomInput
 						type="number"
-						label={this.t('page.body.profile.apiKeys.modal.label')}
-						placeholder={this.t('page.body.profile.apiKeys.modal.placeholder')}
+						label={translate('page.body.profile.apiKeys.modal.label')}
+						placeholder={translate('page.body.profile.apiKeys.modal.placeholder')}
 						defaultLabel="2FA code"
-						handleChangeInput={this.handleOtpCodeChange}
+						handleChangeInput={handleOtpCodeChange}
 						inputValue={otpCode || ''}
-						handleFocusInput={this.handleChangeFocusField}
-						classNameLabel="cr-email-form__label"
-						classNameInput="cr-email-form__input"
+						handleFocusInput={handleChangeFocusField}
+						classNameLabel="td-email-form__label"
+						classNameInput="td-email-form__input"
 						autoFocus={true}
-						onKeyPress={this.handleEnterPress}
+						onKeyPress={handleEnterPress}
 					/>
 				</div>
-				<div className="cr-email-form__button-wrapper">{button}</div>
+				<div className="td-email-form__button-wrapper">{button}</div>
 			</div>
 		) : (
 			body
@@ -294,117 +273,62 @@ class ProfileApiKeysComponent extends React.Component<Props, ProfileApiKeysState
 		return <React.Fragment>{body}</React.Fragment>;
 	};
 
-	private handleChangeFocusField = () => {
-		this.setState(prev => ({
-			codeFocused: !prev.codeFocused,
-		}));
-	};
-
-	private handleHide2FAModal = () => {
+	const handleHide2FAModal = () => {
 		const payload: ApiKeys2FAModal['payload'] = { active: false };
-		this.props.toggleApiKeys2FAModal(payload);
-		this.setState({ otpCode: '' });
+		dispatch(apiKeys2FAModal(payload));
+		setOtpCode('');
 	};
 
-	private handleOtpCodeChange = (value: string) => {
-		this.setState({
-			otpCode: value,
-		});
+	const renderModalHeader = () => {
+		return modal.action === 'createSuccess'
+			? translate('page.body.profile.apiKeys.modal.created_header')
+			: translate('page.body.profile.apiKeys.modal.header');
 	};
 
-	private renderOnClick = () => {
-		switch (this.props.modal.action) {
-			case 'createKey':
-				this.handleCreateKey();
-				break;
-			case 'createSuccess':
-				this.handleCreateSuccess();
-				break;
-			case 'updateKey':
-				this.handleUpdateKey();
-				break;
-			case 'deleteKey':
-				this.handleDeleteKey();
-				break;
-			default:
-				break;
-		}
-	};
-
-	private handleEnterPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-		if (event.key === 'Enter') {
-			event.preventDefault();
-			this.renderOnClick();
-		}
-	};
-
-	private handleCreateKeyClick = () => {
+	const handleCreateKeyClick = () => {
 		const payload: ApiKeys2FAModal['payload'] = { active: true, action: 'createKey' };
-		this.props.toggleApiKeys2FAModal(payload);
+		dispatch(apiKeys2FAModal(payload));
 	};
 
-	private handleCreateKey = () => {
-		const payload: ApiKeyCreateFetch['payload'] = { totp_code: this.state.otpCode };
-		this.props.createApiKey(payload);
-		this.setState({ otpCode: '' });
-	};
-
-	private handleCreateSuccess = () => {
-		const payload: ApiKeys2FAModal['payload'] = { active: false };
-		this.props.toggleApiKeys2FAModal(payload);
-	};
-
-	private handleToggleStateKeyClick = apiKey => () => {
-		const payload: ApiKeys2FAModal['payload'] = { active: true, action: 'updateKey', apiKey };
-		this.props.toggleApiKeys2FAModal(payload);
-	};
-
-	private handleUpdateKey = () => {
-		const apiKey: ApiKeyDataInterface = { ...this.props.modal.apiKey } as any;
-		apiKey.state = apiKey.state === 'active' ? 'disabled' : 'active';
-		const payload: ApiKeyUpdateFetch['payload'] = { totp_code: this.state.otpCode, apiKey: apiKey };
-		this.props.updateApiKey(payload);
-		this.setState({ otpCode: '' });
-	};
-
-	private handleCopy = (id: string, type: string) => {
-		this.copy(id);
-		this.props.fetchSuccess({ message: [`success.api_keys.copied.${type}`], type: 'success' });
-	};
-
-	private handleDeleteKeyClick = apiKey => {
-		const payload: ApiKeys2FAModal['payload'] = { active: true, action: 'deleteKey', apiKey };
-		this.props.toggleApiKeys2FAModal(payload);
-	};
-
-	private handleDeleteKey = () => {
-		const { modal } = this.props;
-		const payload: ApiKeyDeleteFetch['payload'] = {
-			kid: (modal.apiKey && modal.apiKey.kid) || '',
-			totp_code: this.state.otpCode,
-		};
-		this.props.deleteApiKey(payload);
-		this.setState({ otpCode: '' });
-	};
-}
-
-const mapStateToProps = (state: RootState): ReduxProps => ({
-	apiKeys: selectApiKeys(state),
-	dataLoaded: selectApiKeysDataLoaded(state),
-	modal: selectApiKeysModal(state),
-	user: selectUserInfo(state),
-});
-
-const mapDispatchToProps: MapDispatchToPropsFunction<DispatchProps, {}> = dispatch => ({
-	toggleApiKeys2FAModal: (payload: ApiKeys2FAModal['payload']) => dispatch(apiKeys2FAModal(payload)),
-	getApiKeys: () => dispatch(apiKeysFetch()),
-	createApiKey: payload => dispatch(apiKeyCreateFetch(payload)),
-	updateApiKey: payload => dispatch(apiKeyUpdateFetch(payload)),
-	deleteApiKey: payload => dispatch(apiKeyDeleteFetch(payload)),
-	fetchSuccess: payload => dispatch(alertPush(payload)),
-});
-
-const connected = injectIntl(connect(mapStateToProps, mapDispatchToProps)(ProfileApiKeysComponent)) as any;
-const ProfileApiKeys = withRouter(connected);
-
-export { ProfileApiKeys };
+	return (
+		<div className="td-pg-profile--bg td-pg-profile--radius td-pg-profile__content__item td-pg-profile__list-api-key">
+			<div className="td-pg-profile__content__item__header">
+				<div className="td-pg-profile__content__item__header__title">My API Keys</div>
+				<div className="td-pg-profile__content__item__header__action">
+					<button type="button" className="td-pg-profile--radius btn btn-success" onClick={handleCreateKeyClick}>
+						Create new
+					</button>
+				</div>
+			</div>
+			<div className="td-pg-profile__content__item__content">
+				<div className="td-pg-profile__inner">
+					<table className="td-pg-profile--color--second td-pg-profile__list-api-key__table">
+						<thead>
+							<tr>
+								{getTableHeaders().map((title, i) => (
+									<th key={i}>{title}</th>
+								))}
+							</tr>
+						</thead>
+						<tbody>
+							{getTableData().map((record, i) => (
+								<tr key={i}>
+									{record.map((elm, j) => (
+										<td key={j}>{elm}</td>
+									))}
+								</tr>
+							))}
+						</tbody>
+					</table>
+					{!apiKeys.length && <Empty className="pt-3 pb-3" />}
+					<NewModal
+						show={modal.active}
+						onHide={handleHide2FAModal}
+						titleModal={renderModalHeader()}
+						bodyModal={renderModalBody()}
+					/>
+				</div>
+			</div>
+		</div>
+	);
+};

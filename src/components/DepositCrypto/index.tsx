@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
-import { CopyableTextField } from '../CopyableTextField';
+import { CopyableTextField } from '..';
 import { QRCode } from '../QRCode';
 /* import { isMobile } from 'react-device-detect'; */
 
@@ -57,6 +57,8 @@ export interface DepositCryptoProps {
 	 * Generate address button label
 	 */
 	buttonLabel?: string;
+
+	wallet_index: number;
 }
 
 /**
@@ -64,14 +66,11 @@ export interface DepositCryptoProps {
  */
 const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: DepositCryptoProps) => {
 	/* const QR_SIZE = isMobile ? 80 : 118; */
-	const QR_SIZE = 118;
+	const QR_SIZE = 200;
 	const {
 		data,
 		dimensions,
 		error,
-		textConfirmation,
-		textMinDeposit,
-		textNote,
 		copiableTextFieldText,
 		copyButtonText,
 		handleOnCopy,
@@ -79,7 +78,7 @@ const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: Depos
 		handleGenerateAddress,
 		buttonLabel,
 		isAccountActivated,
-		textDepositFee,
+		wallet_index,
 	} = props;
 	const size = dimensions || QR_SIZE;
 	const onCopy = !disabled ? handleOnCopy : undefined;
@@ -89,29 +88,14 @@ const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: Depos
 		if (isAccountActivated) {
 			return (
 				<>
-					<div className="note">
-						<div className="note__right">
-							<p>{textConfirmation}</p>
-							<p>{textMinDeposit}</p>
-							<p>{textDepositFee}</p>
-							<p className="textnote">
-								<span className="textnote__textj">Note:</span>
-								<span> {textNote}</span>
-							</p>
-						</div>
-						{data ? (
-							<div className="note__left">
-								<QRCode dimensions={size} data={data} />
-							</div>
-						) : null}
-					</div>
+					<div className="d-flex justify-content-center">{data ? <QRCode dimensions={size} data={data} /> : null}</div>
 					<div>
 						<form className={'cr-deposit-crypto__copyable'}>
 							<fieldset className={'cr-copyable-text-field'} onClick={onCopy}>
 								<CopyableTextField
 									className={'cr-deposit-crypto__copyable-area'}
 									value={data ? data : error}
-									fieldId={data ? 'copy_deposit_1' : 'copy_deposit_2'}
+									fieldId={data ? 'copy_deposit_' + wallet_index : 'copy_deposit_2'}
 									copyButtonText={copyButtonText}
 									disabled={disabled}
 									label={copiableTextFieldText ? copiableTextFieldText : 'Deposit by Wallet Address'}

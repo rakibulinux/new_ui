@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Spinner } from 'react-bootstrap';
+import { Button, Spinner } from 'react-bootstrap';
 import { injectIntl } from 'react-intl';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Route, RouterProps, Switch } from 'react-router';
 import { Redirect, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { minutesUntilAutoLogout, sessionCheckInterval /* showLanding */ } from '../../api';
-import { ExpiredSessionModal } from '../../components';
+import { NewModal } from '../../components';
 import { WalletsFetch } from '../../containers';
 import { toggleColorTheme } from '../../helpers';
 import { IntlProps } from '../../index';
@@ -67,6 +67,7 @@ import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../.
 import {
 	ChangeForgottenPasswordScreen,
 	ConfirmScreen,
+	DepositScreen,
 	EmailVerificationScreen,
 	FeeScreen,
 	ForgotPasswordScreen,
@@ -83,7 +84,9 @@ import {
 	RestrictedScreen,
 	// signUpScreen,
 	VerificationScreen,
-	WalletsScreen,
+	WalletListScreen,
+	WithdrawScreen,
+	// WalletsScreen,
 	/* HomeScreen, */
 } from '../../screens';
 import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
@@ -228,7 +231,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 			configsLoading,
 			platformAccessStatus,
 		} = this.props;
-		const { isShownExpSessionModal } = this.state;
 		const tradingCls = location.pathname.includes('/trading') ? 'trading-layout' : '';
 		toggleColorTheme(colorTheme);
 
@@ -362,7 +364,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						</Route>
 					</Switch>
 					{isLoggedIn && <WalletsFetch />}
-					{isShownExpSessionModal && this.handleRenderExpiredSessionModal()}
+					{this.handleRenderExpiredSessionModal()}
 				</div>
 			);
 		}
@@ -409,7 +411,29 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/history" component={HistoryScreen} />
 					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/confirm" component={ConfirmScreen} />
 					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/profile" component={ProfileScreen} />
-					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/wallets" component={WalletsScreen} />
+					{/* <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/wallets" component={WalletsScreen} /> */}
+					<PrivateRoute
+						loading={userLoading}
+						isLogged={isLoggedIn}
+						path="/wallets"
+						exact
+						component={WalletListScreen}
+					/>
+					<PrivateRoute
+						loading={userLoading}
+						isLogged={isLoggedIn}
+						path="/wallets/deposit/:currency_id"
+						exact
+						component={DepositScreen}
+					/>
+					<PrivateRoute
+						loading={userLoading}
+						isLogged={isLoggedIn}
+						path="/wallets/withdraw/:currency_id"
+						exact
+						component={WithdrawScreen}
+					/>
+
 					<PrivateRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}
@@ -434,7 +458,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					</Route>
 				</Switch>
 				{isLoggedIn && <WalletsFetch />}
-				{isShownExpSessionModal && this.handleRenderExpiredSessionModal()}
+				{this.handleRenderExpiredSessionModal()}
 			</div>
 		);
 	}
@@ -489,14 +513,22 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 		history.push('/signin');
 	};
 
-	private handleRenderExpiredSessionModal = () => (
-		<ExpiredSessionModal
-			title={this.translate('page.modal.expired.title')}
-			buttonLabel={this.translate('page.modal.expired.submit')}
-			handleChangeExpSessionModalState={this.handleChangeExpSessionModalState}
-			handleSubmitExpSessionModal={this.handleSubmitExpSessionModal}
-		/>
-	);
+	private handleRenderExpiredSessionModal = () => {
+		const { isShownExpSessionModal } = this.state;
+
+		return (
+			<NewModal
+				show={isShownExpSessionModal}
+				onHide={this.handleChangeExpSessionModalState}
+				titleModal={this.translate('page.modal.expired.title')}
+				bodyModal={
+					<Button block={true} type="button" onClick={this.handleSubmitExpSessionModal} size="lg" variant="primary">
+						{this.translate('page.modal.expired.submit')}
+					</Button>
+				}
+			/>
+		);
+	};
 
 	private handleChangeExpSessionModalState = () => {
 		this.setState({

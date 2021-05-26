@@ -10,7 +10,7 @@ export const MarketTradingStyle = styled.div`
 `;
 
 export const SearchBlockStyle = styled.div`
-	padding: 10px 23px 15px 23px;
+	padding: 10px 18px 15px 18px;
 	.search-wrapper {
 		display: flex;
 		justify-content: center;
@@ -69,18 +69,76 @@ export const SearchBlockStyle = styled.div`
 `;
 
 export const StarBlockStyle = styled.div`
-	padding: 0 23px;
+	padding: 0 18px;
 	display: flex;
 	align-items: center;
 	button {
+		position: relative;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		border: none;
-		border-radius: 2px;
+		border-radius: 5%;
+		margin-right: 2px;
 		outline: none;
 		background: transparent;
-		padding: 5px 6px;
+		padding: 2px 6px;
 		font-weight: 600;
-
+		letter-spacing: 0.05em;
 		color: #fff;
+		:hover {
+			:not(.active) {
+				background-color: rgb(41, 45, 63);
+			}
+			.td-markets-trading-list-dropdown-wrapper {
+				display: inline-block;
+			}
+		}
+		> svg {
+			box-sizing: border-box;
+			margin: 0px;
+			min-width: 0px;
+			color: currentcolor;
+			font-size: 10px;
+			fill: currentcolor;
+			transform: scale(1.8);
+			width: 1em;
+			height: 1em;
+		}
+		.td-markets-trading-list-dropdown-wrapper {
+			display: none;
+			position: absolute;
+			top: 22px;
+			left: 0;
+			z-index: 10;
+			padding-top: 3px;
+			.td-markets-trading-list-dropdown {
+				background-color: rgb(41, 45, 63);
+				&__item {
+					display: flex;
+					align-items: center;
+					padding: 2px 6px;
+					:hover {
+						background-color: rgba(132, 142, 156, 0.35);
+					}
+					> svg {
+						box-sizing: border-box;
+						margin: 0px 8px 0px 0px;
+						min-width: 0px;
+						color: currentcolor;
+						font-size: 10px;
+						fill: currentcolor;
+						width: 1em;
+						height: 1em;
+					}
+				}
+			}
+		}
+
+		&.favorite {
+			width: 30px;
+		}
 		&.active {
 			background-color: rgba(132, 142, 156, 0.35);
 		}
@@ -88,8 +146,7 @@ export const StarBlockStyle = styled.div`
 `;
 
 export const MarketsListTradingStyle = styled.div`
-	/* .td-markets-list-container */
-	.td-markets-list-container {
+	.td-markets-trading-list-container {
 		overflow-x: hidden;
 		overflow-y: scroll;
 		&__negative {
@@ -128,12 +185,12 @@ export const MarketsListTradingStyle = styled.div`
 						:first-child {
 							text-align: left;
 							> span {
-								padding-left: 23px;
+								padding-left: 18px;
 							}
 						}
 						:nth-child(3) {
 							> span {
-								padding-right: 23px;
+								padding-right: 18px;
 							}
 						}
 						:last-child {
@@ -172,7 +229,7 @@ export const MarketsListTradingStyle = styled.div`
 									cursor: pointer;
 								}
 								display: flex;
-								padding-left: 23px;
+								padding-left: 18px;
 								align-items: center;
 								> span {
 									margin-right: 5px;
@@ -181,7 +238,7 @@ export const MarketsListTradingStyle = styled.div`
 						}
 						:nth-child(3) {
 							> span {
-								padding-right: 23px;
+								padding-right: 18px;
 							}
 						}
 						:last-child {
