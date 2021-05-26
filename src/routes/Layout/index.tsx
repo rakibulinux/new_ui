@@ -6,7 +6,7 @@ import { Route, RouterProps, Switch } from 'react-router';
 import { Redirect, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { minutesUntilAutoLogout, sessionCheckInterval /* showLanding */ } from '../../api';
-import { ExpiredSessionModal, AnnouncementDetail, NewModal } from '../../components';
+import { AnnouncementDetail, NewModal } from '../../components';
 import { WalletsFetch, AdminAnnouncement, AnnouncementEdit} from '../../containers';
 import { toggleColorTheme } from '../../helpers';
 import { IntlProps } from '../../index';
