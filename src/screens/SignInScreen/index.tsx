@@ -8,7 +8,6 @@ import { compose } from 'redux';
 import { SignInComponent, TwoFactorAuth } from '../../components';
 import { EMAIL_REGEX, ERROR_EMPTY_PASSWORD, ERROR_INVALID_EMAIL, setDocumentTitle } from '../../helpers';
 import { IntlProps } from '../../index';
-import QRCode from './assets/qr.png';
 import LockIcon from './assets/lock.png';
 import {
 	RootState,
@@ -84,9 +83,6 @@ const SignIn: React.FC<Props> = props => {
 
 		return (
 			<div className="group-login  m-auto">
-				<div className="qr">
-					<img src={QRCode} />
-				</div>
 				<div className="title">
 					<h3>Login</h3>
 					<p>Please check that you are visiting the correct URL</p>
@@ -267,7 +263,7 @@ const SignIn: React.FC<Props> = props => {
 
 	const className = cx({ loading });
 	return (
-		<div className={className + 'm-auto'} id="sign-in-screen">
+		<div className={className} id="sign-in-screen">
 			{require2FA ? render2FA() : renderSignInForm()}
 		</div>
 	);

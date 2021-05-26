@@ -9,7 +9,6 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { Modal, SignUpForm } from '../../components';
 import { GeetestCaptcha } from '../../containers';
-import QRCode from './assets/qr.png';
 
 import {
 	EMAIL_REGEX,
@@ -167,9 +166,6 @@ class SignUp extends React.Component<Props> {
 		return (
 			<div id="sign-up-screen">
 				<div className="group-sign-up m-auto">
-					<div className="qr">
-						<img src={QRCode} />
-					</div>
 					<div className="title">
 						<h3>Create a free account</h3>
 						<p>Welcome to CiRCLEEX </p>
