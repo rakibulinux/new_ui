@@ -59,6 +59,9 @@ const renderFooterDesktop = (inputEmail, sendEmail, emailAddress) => {
 							<Link to="/fee">Asset Fee </Link>
 						</p>
 						<p className="footer__info__item">
+							<Link to="/announcement">Announcements </Link>
+						</p>
+						<p className="footer__info__item">
 							<a href="https://forms.gle/2eH6ia3XSTyzn2TR6" target="blank">
 								Submit New Coin/Token
 							</a>
