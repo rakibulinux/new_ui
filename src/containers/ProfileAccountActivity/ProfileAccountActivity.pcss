@@ -16,9 +16,30 @@
 			border-bottom: solid 1px #848e9c;
 		}
 
-		span {
-			align-items: center;
-			display: inline-flex;
+		& > div {
+			&:first-child {
+				& > span:last-child {
+					direction: rtl;
+				}
+			}
+
+			& > span {
+				display: inline-block;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				width: calc(50%);
+
+				&:first-child {
+					padding-right: 1rem;
+				}
+
+				&:last-child {
+					display: inline-block;
+					padding-left: 1rem;
+					text-align: right;
+				}
+			}
 		}
 
 		&__field--highlight {
