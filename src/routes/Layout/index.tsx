@@ -6,8 +6,8 @@ import { Route, RouterProps, Switch } from 'react-router';
 import { Redirect, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { minutesUntilAutoLogout, sessionCheckInterval /* showLanding */ } from '../../api';
-import { NewModal } from '../../components';
-import { WalletsFetch } from '../../containers';
+import { ExpiredSessionModal, AnnouncementDetail, NewModal } from '../../components';
+import { WalletsFetch, AdminAnnouncement, AnnouncementEdit} from '../../containers';
 import { toggleColorTheme } from '../../helpers';
 import { IntlProps } from '../../index';
 /* import { isMobile } from "react-device-detect"; */
@@ -88,6 +88,7 @@ import {
 	WithdrawScreen,
 	// WalletsScreen,
 	/* HomeScreen, */
+	AnnouncementScreen
 } from '../../screens';
 
 interface ReduxProps {
@@ -402,7 +403,13 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route exact={true} path="/" component={HomePageScreen} />
 					<Route exact={false} path="/fee" component={FeeScreen} />
 					<Route exact path="/markets" component={MarketsList} />
+					<Route path="/announcement" exact component={AnnouncementScreen} />
+                  
 
+
+					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/announcement/create" component={AdminAnnouncement} />
+                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/announcement/edit/:id" component={AnnouncementEdit} />
+					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/announcement/detail/:id" component={AnnouncementDetail} />
 					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/orders" component={OrdersTabScreen} />
 					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/history" component={HistoryScreen} />
 					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/confirm" component={ConfirmScreen} />

@@ -99,7 +99,8 @@ export const TickerTableScreen = (props: Props) => {
 			current: value,
 		}));
 	};
-
+	
+	
 	const renderItem = (market, index: number) => {
 		const marketChangeColor = +(market.change || 0) < 0 ? 'negative' : 'positive';
 		const decima = 4;
