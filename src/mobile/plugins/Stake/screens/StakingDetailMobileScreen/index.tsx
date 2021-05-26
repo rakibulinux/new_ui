@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { MyAssets, RegisterStake, StakeHistory, StakingInfo, UnStake } from '../../containers';
+import { MyAssets, RegisterStake, StakingInfo, UnStake } from '../../containers';
 import Tabs, { TabPane } from 'rc-tabs';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,8 +10,10 @@ import {
 	stakeHistoryFetch,
 	stakeWalletFetch,
 	stakingListFetch,
+	unStakeHistoryFetch,
 } from '../../../../../modules';
 import { useIntl } from 'react-intl';
+import { StakeHistory, UnStakeHistory } from '../../components';
 
 const initialStakingItem: Stake = {
 	stake_id: '',
@@ -51,6 +53,7 @@ export const StakingDetailMobileScreen = () => {
 	React.useEffect(() => {
 		dispatch(stakeWalletFetch({ uid: user.uid }));
 		dispatch(stakeHistoryFetch({ uid: user.uid }));
+		dispatch(unStakeHistoryFetch({ uid: user.uid }));
 	}, [user.uid]);
 
 	return (
@@ -106,9 +109,15 @@ export const StakingDetailMobileScreen = () => {
 				</div>
 				<hr />
 				<div className="row">
-					<div className="col-6">
+					<div className="col-12">
 						<h3>{intl.formatMessage({ id: `stake.detail.title.stakeHistory` })}</h3>
 						<StakeHistory currency_id={stakingItemState.currency_id} />
+					</div>
+				</div>
+				<div className="row">
+					<div className="col-12">
+						<h3>{intl.formatMessage({ id: `stake.detail.title.unStakeHistory` })}</h3>
+						<UnStakeHistory currency_id={stakingItemState.currency_id} />
 					</div>
 				</div>
 			</div>
