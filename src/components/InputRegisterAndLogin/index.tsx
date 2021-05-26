@@ -1,5 +1,5 @@
 import * as React from 'react';
-import openInputIcon from './assets/chevron-down-solid.png';
+import openInputIcon from './assets/dropdown.jpg';
 
 export interface InputRegisterAndLoginProps {
 	className?: string;
