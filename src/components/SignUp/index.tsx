@@ -246,7 +246,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
 							classNameLabel="cr-sign-up-form__label referral-code col-12"
 							classNameInput="cr-sign-up-form__input col-12"
 							autoFocus={false}
-							openInput={true}
+							toggleInput={true}
 						/>
 					</div>
 					<Form className="cr-sign-up-form__group mb-5 col-12" onClick={e => props.clickCheckBox(e)}>

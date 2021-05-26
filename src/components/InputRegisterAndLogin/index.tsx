@@ -1,5 +1,5 @@
 import * as React from 'react';
-import openInputIcon from './assets/dropdown.jpg';
+import toggleInputIcon from './assets/dropdown.jpg';
 
 export interface InputRegisterAndLoginProps {
 	className?: string;
@@ -19,7 +19,7 @@ export interface InputRegisterAndLoginProps {
 	handleClick?: (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
 	isDisabled?: boolean;
 	labelVisible?: boolean;
-	openInput?: boolean | undefined;
+	toggleInput?: boolean | undefined;
 	isInvalid?: boolean;
 }
 
@@ -35,10 +35,11 @@ const InputRegisterAndLogin: React.FC<Props> = props => {
 		props.handleChangeInput && props.handleChangeInput(e.target.value);
 	};
 
-	const [enableInput, setenableInput] = React.useState(true);
-
-	const handleClickOpenInput = () => {
-		if (props.openInput) setenableInput(!enableInput);
+	const [toggle, setToggle] = React.useState(props.toggleInput);
+	const handleClicktoggleInput = () => {
+		if (props.toggleInput) {
+			setToggle(!toggle);
+		}
 	};
 	return (
 		<div id="custom-input-register-login" className={props.className || ''}>
@@ -46,14 +47,14 @@ const InputRegisterAndLogin: React.FC<Props> = props => {
 				htmlFor="email"
 				className={props.classNameLabel}
 				onClick={() => {
-					handleClickOpenInput();
+					handleClicktoggleInput();
 				}}
 			>
 				{props.label}
-				{props.openInput ? <img src={openInputIcon} className="toggle-input" /> : ''}
+				{props.toggleInput ? <img src={toggleInputIcon} className="toggle-input" /> : ''}
 				{(props.labelVisible || '') && (props.label || props.defaultLabel)}
 			</label>
-			{enableInput ? (
+			{!toggle ? (
 				<div className="col-12">
 					<input
 						className={'form-control form-input' || props.classNameInput}
