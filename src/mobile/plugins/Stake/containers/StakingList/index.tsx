@@ -37,7 +37,7 @@ export const StakingList: React.FC<StakingListProps> = (props: StakingListProps)
 			) : (
 				<div style={{ marginTop: '50px' }} className="w-100 d-flex justify-content-center">
 					<img
-						src="https://lh3.googleusercontent.com/proxy/rjJB53aegpeYWeoE-P0VHT7OwI662-WCYh5k-p3UxkNtavuGdTPH5dM8OCGMRQtcP_l5dv7ikAaMTtx2JZ-vrlQ7mZ86FHZHJV85cw"
+						src="https://i.imgur.com/wm92tgK.png"
 						alt="no-data"
 					/>
 				</div>
