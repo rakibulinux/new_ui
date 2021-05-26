@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { TableBlockStyle } from '../../components/Table/styles';
 
 export const MarketHistory = styled.div`
 	background-color: #313445;
@@ -49,20 +48,6 @@ export const MarketHistory = styled.div`
 				height: 100%;
 				.rc-tabs-tabpane {
 					height: 100%;
-					.td-recent-trades__markets,
-					.td-recent-trades__yours {
-						height: 100%;
-						${TableBlockStyle} {
-							height: 100%;
-							.td-table {
-								height: 100%;
-								tbody {
-									max-height: unset;
-									height: 100%;
-								}
-							}
-						}
-					}
 				}
 			}
 		}
@@ -75,6 +60,8 @@ export const MarketHistory = styled.div`
 	.td-recent-trades__yours {
 		overflow-x: hidden;
 		overflow-y: scroll;
+		position: relative;
+		height: 100%;
 		&__negative {
 			color: var(--asks);
 		}
@@ -83,10 +70,20 @@ export const MarketHistory = styled.div`
 		}
 		.td-table-container {
 			padding-top: 10px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			display: flex;
+			flex-direction: column;
 			.td-table {
 				background: transparent;
 				width: 100%;
+				height: 100%;
 				.td-table__head {
+					height: 22px;
+					display: block;
 					background: transparent;
 					tr {
 						background: transparent;
@@ -109,6 +106,7 @@ export const MarketHistory = styled.div`
 					padding-right: 15px;
 					color: #fff;
 					background: transparent;
+					height: calc(100% - 22px);
 					::-webkit-scrollbar {
 						-webkit-appearance: none;
 						width: 5px;
