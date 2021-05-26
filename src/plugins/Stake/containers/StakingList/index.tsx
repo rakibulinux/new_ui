@@ -18,10 +18,10 @@ export const StakingList: React.FC<StakingListProps> = (props: StakingListProps)
 				</div>
 			) : staking_list.length > 0 ? (
 				staking_list.map((staking: Stake) => (
-					<div className="col-lg-4 col-md-6 mb-5" key={staking.staking_id}>
+					<div className="col-lg-4 col-md-6 mb-5" key={staking.stake_id}>
 						<StakingItem
-							key={staking.staking_id}
-							staking_id={staking.staking_id}
+							key={staking.stake_id}
+							stake_id={staking.stake_id}
 							currency_id={staking.currency_id}
 							staking_name={staking.staking_name}
 							rewards={staking.rewards}
@@ -36,10 +36,7 @@ export const StakingList: React.FC<StakingListProps> = (props: StakingListProps)
 				))
 			) : (
 				<div style={{ marginTop: '50px' }} className="w-100 d-flex justify-content-center">
-					<img
-						src="https://lh3.googleusercontent.com/proxy/rjJB53aegpeYWeoE-P0VHT7OwI662-WCYh5k-p3UxkNtavuGdTPH5dM8OCGMRQtcP_l5dv7ikAaMTtx2JZ-vrlQ7mZ86FHZHJV85cw"
-						alt="no-data"
-					/>
+					<img src="https://i.imgur.com/wm92tgK.png" alt="no-data" />
 				</div>
 			)}
 		</React.Fragment>

@@ -60,7 +60,15 @@ import { ProfileState, rootProfileSaga } from './user/profile';
 import { rootUserActivitySaga, UserActivityState } from './user/userActivity';
 import { rootWalletsSaga, WalletsState } from './user/wallets';
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
-import { CreateStakeState, StakingListState, StakeWalletState, StakeHistoryState, rootStakingSaga } from './plugins/staking';
+import {
+	CreateStakeState,
+	StakingListState,
+	StakeWalletState,
+	StakeHistoryState,
+	rootStakingSaga,
+	UnstakeState,
+	UnStakeHistoryState,
+} from './plugins/staking';
 
 export * from './public/markets';
 export * from './public/orderBook';
@@ -176,9 +184,11 @@ export interface RootState {
 	};
 	plugins: {
 		create_stake: CreateStakeState;
+		unstake: UnstakeState;
 		staking_list: StakingListState;
 		stake_wallet: StakeWalletState;
 		stake_history: StakeHistoryState;
+		unstake_history: UnStakeHistoryState;
 	};
 }
 

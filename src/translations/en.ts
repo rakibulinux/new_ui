@@ -883,6 +883,7 @@ export const en = {
 		'Even after the lockup is released, you must release the stake yourself before the amount is reflected in the "Available amount".',
 	'stake.detail.title.myAssets': 'My Assets',
 	'stake.detail.title.stakeHistory': 'Stake History',
+	'stake.detail.title.unStakeHistory': 'Unstake History',
 	'stake.detail.info.button.detail': 'View Details',
 	'stake.detail.info.button.trade': 'Trade',
 	'stake.detail.register.availableAmount': 'Trade',
@@ -903,6 +904,8 @@ export const en = {
 	'stake.detail.myAssets.totalBalance': 'Total Balance',
 
 	'create.stake.success': 'Create Stake successfully',
+	'unstake.success': 'UnStake successfully',
+
 	...nationalitiesNames,
 	...customTranslations,
 };

@@ -14,7 +14,7 @@ import {
 import { useIntl } from 'react-intl';
 
 const initialStakingItem: Stake = {
-	staking_id: '',
+	stake_id: '',
 	currency_id: '',
 	staking_name: '',
 	icon_url: '',
@@ -34,14 +34,14 @@ export const StakingDetailMobileScreen = () => {
 	const dispatch = useDispatch();
 	const dispatchFetchStakingList = () => dispatch(stakingListFetch());
 	const [stakingItemState, setStakingItemState] = React.useState<Stake>(initialStakingItem);
-	const { staking_id } = useParams<{ staking_id: string }>();
+	const { stake_id } = useParams<{ stake_id: string }>();
 	const staking_list = useSelector(selectStakingList);
 
 	React.useEffect(() => {
 		const staking_item =
-			staking_list.find(staking => staking.staking_id.toString() === staking_id.toString()) || initialStakingItem;
+			staking_list.find(staking => staking.stake_id.toString() === stake_id.toString()) || initialStakingItem;
 		setStakingItemState(staking_item);
-	}, [staking_id, staking_list]);
+	}, [stake_id, staking_list]);
 
 	React.useEffect(() => {
 		dispatchFetchStakingList();
@@ -106,7 +106,7 @@ export const StakingDetailMobileScreen = () => {
 				</div>
 				<hr />
 				<div className="row">
-					<div className="col-12">
+					<div className="col-6">
 						<h3>{intl.formatMessage({ id: `stake.detail.title.stakeHistory` })}</h3>
 						<StakeHistory currency_id={stakingItemState.currency_id} />
 					</div>

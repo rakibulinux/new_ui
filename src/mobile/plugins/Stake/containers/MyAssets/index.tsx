@@ -27,7 +27,7 @@ export const MyAssets = (props: MyAssetsProps) => {
 	const wallet = wallets.find(wallet => wallet.currency === currency_id) || { balance: 0, locked: 0 };
 
 	const stake_wallets = useSelector(selectStakeWallet);
-	const stake_wallet = stake_wallets.find(wallet => wallet.currency === currency_id) || { balance: 0, locked: 0 };
+	const stake_wallet = stake_wallets.find(wallet => wallet.currency_id === currency_id) || { balance: 0, locked: 0 };
 
 	const stake_histories = useSelector(selectStakeHistories);
 	const histories = stake_histories

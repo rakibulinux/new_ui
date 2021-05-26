@@ -9,7 +9,8 @@ interface StakeHistoryProps {
 }
 export const StakeHistory = (props: StakeHistoryProps) => {
 	const { currency_id } = props;
-	const stake_histories = useSelector(selectStakeHistories);
+	const stakeHistories = useSelector(selectStakeHistories);
+	console.log(stakeHistories);
 
 	const formatStatus = (tx: string) => {
 		const process = require('../../../../assets/status/wait.svg');
@@ -26,11 +27,12 @@ export const StakeHistory = (props: StakeHistoryProps) => {
 		return statusMapping[tx];
 	};
 
-	const histories = stake_histories
+	const histories = stakeHistories
 		.filter(history => history.currency_id.toLowerCase() === currency_id.toLowerCase())
 		.map(history => ({
 			...history,
 			period: `${history.period} days`,
+			rate: `${history.rate}%`,
 			amount: Number(history.amount),
 			lockup_date: format(new Date(history.lockup_date), 'yyyy-MM-dd hh:mm:ss'),
 			release_date: format(new Date(history.release_date), 'yyyy-MM-dd hh:mm:ss'),
@@ -41,6 +43,10 @@ export const StakeHistory = (props: StakeHistoryProps) => {
 			{
 				Header: 'Period',
 				accessor: 'period',
+			},
+			{
+				Header: 'Rate',
+				accessor: 'rate',
 			},
 			{
 				Header: 'Amount',

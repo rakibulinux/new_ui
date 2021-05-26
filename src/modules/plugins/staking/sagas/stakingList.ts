@@ -6,15 +6,14 @@ import { stakingListData, stakingListError, StakingListFetch } from '../actions'
 import { Stake } from '../types';
 
 export function* fetchStakingListSaga(action: StakingListFetch) {
+	yield put(
+		stakingListData({
+			payload: [],
+			loading: true,
+		}),
+	);
 	try {
-		yield put(
-			stakingListData({
-				payload: [],
-				loading: true,
-			}),
-		);
-		const stakingList = yield axios.get<Stake[]>('staking/list/fetch/all');
-
+		const stakingList = yield axios.get<Stake[]>('stake/list/fetch/all');
 		yield put(
 			stakingListData({
 				payload: [...stakingList.data],
@@ -22,6 +21,12 @@ export function* fetchStakingListSaga(action: StakingListFetch) {
 			}),
 		);
 	} catch (error) {
+		yield put(
+			stakingListData({
+				payload: [],
+				loading: false,
+			}),
+		);
 		yield put(stakingListError(error));
 	}
 }

@@ -4,13 +4,24 @@ import {
 	CREATE_STAKE_DATA,
 	STAKE_HISTORY_DATA,
 	STAKE_HISTORY_FETCH,
+	UNSTAKE_POST,
 	STAKE_WALLET_DATA,
 	STAKE_WALLET_FETCH,
 	STAKING_LIST_DATA,
 	STAKING_LIST_ERROR,
 	STAKING_LIST_FETCH,
+	UNSTAKE_DATA,
+	UNSTAKE_HISTORY_DATA,
+	UNSTAKE_HISTORY_FETCH,
 } from './constants';
-import { CreateStakeState, StakeHistoryState, StakeWalletState, StakingListState } from './types';
+import {
+	CreateStakeState,
+	StakeHistoryState,
+	StakeWalletState,
+	StakingListState,
+	UnStakeHistoryState,
+	UnstakeState,
+} from './types';
 
 export interface StakingListFetch {
 	type: typeof STAKING_LIST_FETCH;
@@ -65,6 +76,31 @@ export interface StakeHistoryData {
 	type: typeof STAKE_HISTORY_DATA;
 	payload: StakeHistoryState;
 }
+export interface UnStakeHistoryFetch {
+	type: typeof UNSTAKE_HISTORY_FETCH;
+	payload: {
+		uid: string;
+	};
+}
+
+export interface UnStakeHistoryData {
+	type: typeof UNSTAKE_HISTORY_DATA;
+	payload: UnStakeHistoryState;
+}
+
+export interface UnstakePost {
+	type: typeof UNSTAKE_POST;
+	payload: {
+		uid: string;
+		currency_id: string;
+		amount: string;
+	};
+}
+
+export interface UnstakeData {
+	type: typeof UNSTAKE_DATA;
+	payload: UnstakeState;
+}
 
 export type StakingActions =
 	| StakingListFetch
@@ -75,7 +111,11 @@ export type StakingActions =
 	| StakeWalletFetch
 	| StakeWalletData
 	| StakeHistoryFetch
-	| StakeHistoryData;
+	| StakeHistoryData
+	| UnstakePost
+	| UnstakeData
+	| UnStakeHistoryFetch
+	| UnStakeHistoryData;
 
 export const stakingListFetch = (): StakingListFetch => ({
 	type: STAKING_LIST_FETCH,
@@ -118,5 +158,25 @@ export const stakeHistoryFetch = (payload: StakeHistoryFetch['payload']): StakeH
 
 export const stakeHistoryData = (payload: StakeHistoryData['payload']): StakeHistoryData => ({
 	type: STAKE_HISTORY_DATA,
+	payload,
+});
+
+export const unStakeHistoryFetch = (payload: UnStakeHistoryFetch['payload']): UnStakeHistoryFetch => ({
+	type: UNSTAKE_HISTORY_FETCH,
+	payload,
+});
+
+export const unStakeHistoryData = (payload: UnStakeHistoryData['payload']): UnStakeHistoryData => ({
+	type: UNSTAKE_HISTORY_DATA,
+	payload,
+});
+
+export const unStakePost = (payload: UnstakePost['payload']): UnstakePost => ({
+	type: UNSTAKE_POST,
+	payload,
+});
+
+export const unStakeData = (payload: UnstakeData['payload']): UnstakeData => ({
+	type: UNSTAKE_DATA,
 	payload,
 });

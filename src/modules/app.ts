@@ -44,7 +44,14 @@ import { saleListReducer } from './sale/sale-list';
 import { competitionItemReducer } from './trading_competitions/competition_item';
 import { competitionsListReducer } from './trading_competitions/competitions';
 import { rankingsReducer } from './trading_competitions/rankings';
-import { createStakeReducer, stakeHistoryReducer, stakeWalletReducer, stakingListReducer } from './plugins/staking';
+import {
+	createStakeReducer,
+	stakeHistoryReducer,
+	stakeWalletReducer,
+	stakingListReducer,
+	unStakeHistoryReducer,
+	unStakeReducer,
+} from './plugins/staking';
 
 export const eventsReducer = combineReducers({
 	lunar: lunarReducer,
@@ -125,4 +132,6 @@ export const pluginsReducer = combineReducers({
 	stake_wallet: stakeWalletReducer,
 	stake_history: stakeHistoryReducer,
 	create_stake: createStakeReducer,
+	unstake: unStakeReducer,
+	unstake_history: unStakeHistoryReducer,
 });

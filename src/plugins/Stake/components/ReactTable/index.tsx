@@ -23,7 +23,6 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 		// The rest of these things are super handy, too ;)
 		canPreviousPage,
 		canNextPage,
-		pageOptions,
 		pageCount,
 		gotoPage,
 		nextPage,
@@ -47,7 +46,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 					{headerGroups.map(headerGroup => (
 						<tr {...headerGroup.getHeaderGroupProps()}>
 							{headerGroup.headers.map(column => (
-								<th width="25%" {...column.getHeaderProps()}>
+								<th {...column.getHeaderProps()}>
 									<span style={{ fontWeight: 'normal' }}>{column.render('Header')}</span>
 								</th>
 							))}
@@ -72,11 +71,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 							return (
 								<tr {...row.getRowProps()}>
 									{row.cells.map(cell => {
-										return (
-											<td width="25%" {...cell.getCellProps()}>
-												{cell.render('Cell')}
-											</td>
-										);
+										return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
 									})}
 								</tr>
 							);
@@ -85,26 +80,6 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 				)}
 			</table>
 			<div className="pagination">
-				<div className="pagination-page_number">
-					<span>
-						Page{' '}
-						<strong>
-							{pageIndex + 1} of {pageOptions.length}
-						</strong>{' '}
-					</span>
-					<span>
-						| Go to page:{' '}
-						<input
-							type="number"
-							defaultValue={pageIndex + 1}
-							onChange={e => {
-								const page = e.target.value ? Number(e.target.value) - 1 : 0;
-								gotoPage(page);
-							}}
-							style={{ width: '100px' }}
-						/>
-					</span>{' '}
-				</div>
 				<div className="pagination-button-box">
 					<button
 						className={classNames(!canPreviousPage ? 'disabled' : '')}

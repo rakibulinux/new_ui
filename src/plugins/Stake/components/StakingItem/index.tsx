@@ -10,12 +10,12 @@ type Props = Stake;
 
 export const StakingItem: React.FC<Props> = (props: Props) => {
 	const intl = useIntl();
-	const { staking_id, currency_id, staking_name, rewards, active, status, start_time, end_time } = props;
+	const { stake_id, currency_id, staking_name, rewards, active, status, start_time, end_time } = props;
 	const history = useHistory();
 	const currencies = useSelector(selectCurrencies);
 	const handleGoStacking = () => {
 		const location = {
-			pathname: '/stake/detail/' + staking_id,
+			pathname: '/stake/detail/' + stake_id,
 		};
 		history.push(location);
 	};

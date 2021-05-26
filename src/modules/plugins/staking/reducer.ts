@@ -1,10 +1,29 @@
-import { CREATE_STAKE_DATA, STAKE_HISTORY_DATA, STAKE_HISTORY_FETCH, STAKE_WALLET_DATA } from './constants';
+import {
+	CREATE_STAKE_DATA,
+	STAKE_HISTORY_DATA,
+	STAKE_HISTORY_FETCH,
+	STAKE_WALLET_DATA,
+	UNSTAKE_DATA,
+	UNSTAKE_HISTORY_DATA,
+	UNSTAKE_HISTORY_FETCH,
+} from './constants';
 // import { sliceArray } from '../../../../helpers';
 import { StakingActions } from './actions';
 import { STAKING_LIST_FETCH, STAKING_LIST_DATA, STAKING_LIST_ERROR, STAKE_WALLET_FETCH } from './constants';
-import { StakingListState, StakeWalletState, StakeHistoryState, CreateStakeState } from './types';
+import {
+	StakingListState,
+	StakeWalletState,
+	StakeHistoryState,
+	CreateStakeState,
+	UnstakeState,
+	UnStakeHistoryState,
+} from './types';
 
 export const initialCreateStake: CreateStakeState = {
+	loading: false,
+};
+
+export const initialUnStake: UnstakeState = {
 	loading: false,
 };
 
@@ -19,6 +38,11 @@ export const initialStakeWallet: StakeWalletState = {
 };
 
 export const initialStakeHistory: StakeHistoryState = {
+	payload: [],
+	loading: false,
+};
+
+export const initialUnStakeHistory: UnStakeHistoryState = {
 	payload: [],
 	loading: false,
 };
@@ -95,9 +119,44 @@ export const stakeHistoryReducer = (state = initialStakeHistory, action: Staking
 	}
 };
 
+export const unStakeHistoryReducer = (state = initialUnStakeHistory, action: StakingActions): UnStakeHistoryState => {
+	switch (action.type) {
+		case UNSTAKE_HISTORY_FETCH:
+			return {
+				...state,
+				loading: true,
+			};
+		case UNSTAKE_HISTORY_DATA:
+			const { payload, loading } = action.payload;
+
+			return {
+				...state,
+				payload: payload,
+				loading: loading,
+			};
+		default:
+			return state;
+	}
+};
+
 export const createStakeReducer = (state = initialCreateStake, action: StakingActions): CreateStakeState => {
 	switch (action.type) {
 		case CREATE_STAKE_DATA:
+			const { loading } = action.payload;
+
+			return {
+				...state,
+				loading: loading,
+				error: undefined,
+			};
+		default:
+			return state;
+	}
+};
+
+export const unStakeReducer = (state = initialUnStake, action: StakingActions): UnstakeState => {
+	switch (action.type) {
+		case UNSTAKE_DATA:
 			const { loading } = action.payload;
 
 			return {

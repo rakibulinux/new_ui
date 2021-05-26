@@ -18,10 +18,10 @@ export const StakingList: React.FC<StakingListProps> = (props: StakingListProps)
 				</div>
 			) : staking_list.length > 0 ? (
 				staking_list.map((staking: Stake) => (
-					<div className="col-lg-4 col-md-6 mb-5" key={staking.staking_id}>
+					<div className="col-lg-4 col-md-6 mb-5" key={staking.stake_id}>
 						<StakingItem
-							key={staking.staking_id}
-							staking_id={staking.staking_id}
+							key={staking.stake_id}
+							stake_id={staking.stake_id}
 							currency_id={staking.currency_id}
 							staking_name={staking.staking_name}
 							rewards={staking.rewards}

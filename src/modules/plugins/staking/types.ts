@@ -2,7 +2,7 @@ import { CommonState } from '../../../modules/types';
 
 export interface StakingReward {
 	reward_id: string;
-	staking_id: string;
+	stake_id: string;
 	period: string;
 	total_amount: string;
 	cap_amount: string;
@@ -13,7 +13,7 @@ export interface StakingReward {
 }
 
 export interface Stake {
-	staking_id: string;
+	stake_id: string;
 	currency_id: string;
 	staking_name: string;
 	description: string;
@@ -26,23 +26,15 @@ export interface Stake {
 }
 
 export interface StakeWallet {
-	balance?: string;
-	currency: string;
-	name: string;
-	type: 'fiat' | 'coin';
-	fee: number;
-	address?: string;
-	locked?: string;
-	explorerTransaction: string;
-	explorerAddress: string;
-	fixed: number;
-	iconUrl?: string;
+	balance: string;
+	locked: string;
+	currency_id: string;
 }
 
 export interface StakeHistory {
 	currency_id: string;
-	staking_name: string;
-	period: string;
+	period: number;
+	rate: number;
 	amount: string;
 	distributed_amount: string;
 	lockup_date: string;
@@ -52,6 +44,17 @@ export interface StakeHistory {
 
 export interface StakeHistoryState extends CommonState {
 	payload: StakeHistory[];
+	loading: boolean;
+}
+
+export interface UnStakeHistory {
+	currency_id: string;
+	amount: string;
+	completed_at: string;
+}
+
+export interface UnStakeHistoryState {
+	payload: UnStakeHistory[];
 	loading: boolean;
 }
 
@@ -66,5 +69,9 @@ export interface StakingListState extends CommonState {
 }
 
 export interface CreateStakeState extends CommonState {
+	loading: boolean;
+}
+
+export interface UnstakeState extends CommonState {
 	loading: boolean;
 }

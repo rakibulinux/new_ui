@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import { useSelector } from 'react-redux';
-import { selectStakeWallet } from '../../../../modules';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectStakeWallet, selectUserInfo, unStakePost, stakeHistoryFetch, stakeWalletFetch } from '../../../../modules';
 
 interface UnStakeProps {
 	currency_id: string;
@@ -11,19 +11,38 @@ export const UnStake: React.FC<UnStakeProps> = (props: UnStakeProps) => {
 	const { currency_id } = props;
 	const [amountState, setAmountState] = React.useState('');
 	const [agreeState, setAgreeState] = React.useState(false);
-	const stake_wallets = useSelector(selectStakeWallet);
-	const stake_wallet = stake_wallets.find(wallet => wallet.currency === currency_id) || { balance: 0, locked: 0 };
+	const stakeWallets = useSelector(selectStakeWallet);
+	const stakeWallet = stakeWallets.find(wallet => wallet.currency_id === currency_id) || { balance: 0, locked: 0 };
 
-	const isDisableUnstake =
-		!agreeState || Number(amountState || 0) > Number(stake_wallet.balance || 0) || Number(amountState) <= 0;
+	const isDisableUnstake = !agreeState || Number(amountState || 0) > Number(stakeWallet.balance) || Number(amountState) <= 0;
 	const unStakeClassNames = classNames('unstake-btn', isDisableUnstake ? 'unstake-btn--disabled' : '');
+
+	const user = useSelector(selectUserInfo);
+	const dispatch = useDispatch();
+
+	const handleUnStake = () => {
+		dispatch(
+			unStakePost({
+				uid: user.uid,
+				currency_id: currency_id,
+				amount: amountState,
+			}),
+		);
+		dispatch(stakeHistoryFetch({ uid: user.uid }));
+		dispatch(
+			stakeWalletFetch({
+				uid: user.uid,
+			}),
+		);
+	};
+
 	return (
 		<div id="un-stake">
 			<div className="container">
 				<div className="row">
 					<div className="col-12 text-right">
 						<span className="amount-number">
-							Available Amount: {stake_wallet.balance} {currency_id.toUpperCase()}
+							Available Amount: {Number(stakeWallet.balance).toFixed(8)} {currency_id.toUpperCase()}
 						</span>
 						<div className="amount-box">
 							<span>AMOUNT</span>
@@ -50,7 +69,7 @@ export const UnStake: React.FC<UnStakeProps> = (props: UnStakeProps) => {
 				</div>
 				<div className="row mt-2">
 					<div className="col-12">
-						<button disabled={isDisableUnstake} className={unStakeClassNames}>
+						<button disabled={isDisableUnstake} className={unStakeClassNames} onClick={handleUnStake}>
 							UNSTAKE
 						</button>
 					</div>
