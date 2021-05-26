@@ -92,6 +92,25 @@ export const Order: React.FC<OrderProps> = ({}) => {
 		setFormState(defaultFormState);
 	}, [currentMarket && currentMarket.id, tabTypeSelectedState]);
 
+	const resetAfterSubmit = (type: FormType) => {
+		setFormState(prev => ({
+			...prev,
+			priceBuy: prev.priceBuy || defaultFormState.priceBuy,
+			priceSell: prev.priceSell || defaultFormState.priceSell,
+			...(type === 'sell'
+				? {
+						totalSell: defaultFormState.totalSell,
+						amountSell: defaultFormState.amountSell,
+						percentSellMyBalance: defaultFormState.percentSellMyBalance,
+				  }
+				: {
+						totalBuy: defaultFormState.totalBuy,
+						amountBuy: defaultFormState.amountBuy,
+						percentBuyMyBalance: defaultFormState.percentBuyMyBalance,
+				  }),
+		}));
+	};
+
 	const getTickerValue = (value: string) => {
 		return currentMarket && (marketTickers[currentMarket.id] || defaultTicker)[value];
 	};
@@ -481,6 +500,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 
 		if (orderAllowed) {
 			dispatch(orderExecuteFetch(order));
+			resetAfterSubmit(type);
 		}
 	};
 

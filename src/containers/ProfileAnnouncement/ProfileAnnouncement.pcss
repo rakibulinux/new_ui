@@ -1,0 +1,37 @@
+.td-pg-profile__announcement {
+	&__item {
+		flex: 1;
+		padding: 20px 0;
+
+		&:not(:last-child) {
+			border-bottom: solid 1px #848e9c;
+		}
+
+		&__title {
+			padding-right: 20%;
+
+			a {
+				-webkit-box-orient: vertical;
+				color: #848e9c;
+				display: block;
+				display: -webkit-box;
+				font-size: 16px;
+				height: 45px;
+				-webkit-line-clamp: 2;
+				overflow: hidden;
+				text-decoration: none;
+				text-overflow: ellipsis;
+
+				&:hover {
+					color: #2fb67e;
+				}
+			}
+		}
+
+		&__date {
+			align-items: flex-end;
+			display: flex;
+			flex: none;
+		}
+	}
+}
