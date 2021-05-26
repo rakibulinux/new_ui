@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 
 const AnnouncementDetailStyle = styled.div`
   margin-top: 1rem;
+  margin-bottom: 10rem;
 `;
 
 const AnnouncementItemDetail = styled.div`

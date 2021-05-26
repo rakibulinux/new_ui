@@ -44,6 +44,7 @@ const ButtonStyle = styled.button`
 interface AnnouncementType {
   title: string;
   content: string;
+  announcement_img_pc: string;
 }
 
 export const AdminAnnouncement: React.FC = (props) => {
@@ -57,6 +58,7 @@ export const AdminAnnouncement: React.FC = (props) => {
   const [postAnnouncement, setPostAnnouncement] = React.useState<AnnouncementType>({
     title: '',
     content: '',
+	announcement_img_pc: '',
   });
 
   const handleHeading = (e: any) => {
@@ -67,6 +69,13 @@ export const AdminAnnouncement: React.FC = (props) => {
     }))
   }
 
+  const handleUrlImage =(e) => {
+	e.persist();
+	setPostAnnouncement((prev) => ({
+		...prev,
+		announcement_img_pc: e.target.value
+	}))
+  }
   const handleSubmitAnnouncement: React.DOMAttributes<HTMLFormElement>["onSubmit"] = (e) => {
     e.preventDefault();
     // console.log("step 1 : ", postAnnouncement)
@@ -81,6 +90,7 @@ export const AdminAnnouncement: React.FC = (props) => {
           <form onSubmit={handleSubmitAnnouncement}>
 
             <InpuStyle type="text" value={postAnnouncement.title} placeholder="Enter heading..." onChange={handleHeading} />
+			<InpuStyle type="text" value={postAnnouncement.announcement_img_pc} placeholder="url image..." onChange={handleUrlImage}/>
             <CKEditor
               editor={ClassicEditor}
               onChange={(_event, editor: any) => {

@@ -44,6 +44,7 @@ const ButtonStyle = styled.button`
 interface AnnouncementType {
   title: string;
   content: string;
+  announcement_img_pc: string;
   id: any;
 }
 
@@ -53,17 +54,20 @@ export const AnnouncementEdit: React.FC = (props) => {
   const { id }  = useParams<any>(); // id announcement
   
   const announcements = useSelector(selectAnnouncement);
-//   console.log(announcements)
-
-  const announcementEdit = announcements.data.filter(item => item.id === Number(id));
-//   console.log(announcementEdit)
 
   //state
   const [postAnnouncementUpdate, setPostAnnouncementUpdate] = React.useState<AnnouncementType>({
     title: '',
     content: '',
+	announcement_img_pc: '',
     id: id,
   });
+
+  React.useEffect(() => {
+	const announcementEdit = announcements.data.find(item => item.id === Number(id));
+	announcementEdit && setPostAnnouncementUpdate(announcementEdit)
+	
+  },[id])
 
   const handleHeading = (e: any) => {
     e.persist();
@@ -71,6 +75,13 @@ export const AnnouncementEdit: React.FC = (props) => {
       ...prev,
       title: e.target.value
     }))
+  }
+  const handleUrlImage =(e: any) => {
+	e.persist();
+	setPostAnnouncementUpdate((prev) => ({
+		...prev,
+		announcement_img_pc: e.target.value
+	  }))
   }
 
   const history = useHistory();
@@ -89,9 +100,10 @@ export const AnnouncementEdit: React.FC = (props) => {
         <AdminAnnounStyle>
           <form onSubmit={handleEditAnnouncement}>
 
-            <InpuStyle type="text" placeholder="Enter heading..." onChange={handleHeading} defaultValue={announcementEdit[0].title}/>
+            <InpuStyle type="text" placeholder="Enter heading..." onChange={handleHeading} value={postAnnouncementUpdate.title}/>
+			<InpuStyle type="text" placeholder="url image..." onChange={handleUrlImage} value={postAnnouncementUpdate.announcement_img_pc}/>
             <CKEditor
-			  data={announcementEdit[0].content}
+			  data={postAnnouncementUpdate.content}
               editor={ClassicEditor}
               onChange={(_event, editor: any) => {
 

@@ -20,6 +20,7 @@ export interface AnnouncementUpdate {
         id : string,
         content : string;
         title : string;
+		announcement_img_pc: string;
     };
 }
 export interface AnnouncementDelete {
@@ -34,6 +35,7 @@ export interface AnnouncementCreate {
     payload: {
         title: string;
         content: string;
+		announcement_img_pc: string;
     };
 }
 
