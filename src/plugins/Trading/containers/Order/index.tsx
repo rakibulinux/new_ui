@@ -126,7 +126,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 			const { amount_precision, price_precision, quote_unit, base_unit } = currentMarket;
 			const walletQuote = getWallet(quote_unit, wallets);
 			const walletBase = getWallet(base_unit, wallets);
-			const balance = type === 'buy' ? walletQuote.balance : walletBase.balance;
+			const balance = get(type === 'buy' ? walletQuote : walletBase, 'balance', 0);
 			const lastPrice = floor(getTickerValue('last'), price_precision);
 
 			if (balance) {
