@@ -88,6 +88,7 @@ import {
 	WithdrawScreen,
 	// WalletsScreen,
 	/* HomeScreen, */
+	NewHomePage
 } from '../../screens';
 
 interface ReduxProps {
@@ -444,6 +445,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						component={AirdropDetail}
 					/>
 					<Route path="/ieo" exact component={SaleListScreen} />
+					<Route path="/newhomepage"  component={NewHomePage} />
 					<Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
 					<Route path="/trading-competition" exact component={TradingCompetionListScreen} />
 					<Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
