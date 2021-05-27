@@ -71,6 +71,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 		if (currentPrice && currentMarket) {
 			const price = Decimal.formatRemoveZero(currentPrice, currentMarket.price_precision);
 			setFormState(prev => ({ ...prev, priceBuy: price, priceSell: price }));
+			changeAmountTotalSlider(currentOrderType === 'buy' ? 'buy' : 'sell', 'price');
 			changeAmount(currentAmount, currentOrderType === 'buy' ? 'sell' : 'buy');
 		}
 	}, [currentPrice, currentMarket, currentOrderType]);
@@ -139,7 +140,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 										: prev.percentSellMyBalance;
 								const totalSell =
 									+prev.amountSell && +prev.priceSell
-										? floor(+prev.amountSell * +prev.priceSell, amount_precision).toString()
+										? floor(+prev.amountSell * +prev.priceSell, 8).toString()
 										: prev.totalSell;
 
 								return {
@@ -158,7 +159,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 											: prev.amountSell;
 									const totalSell =
 										+amountSell && +prev.priceSell
-											? floor(+prev.priceSell * +amountSell, amount_precision).toString()
+											? floor(+prev.priceSell * +amountSell, 8).toString()
 											: prev.totalSell;
 
 									return {
@@ -174,9 +175,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 											? floor((+balance / 100) * prev.percentSellMyBalance, amount_precision).toString()
 											: prev.amountSell;
 									const totalSell =
-										+amountSell && lastPrice
-											? floor(lastPrice * +amountSell, amount_precision).toString()
-											: prev.totalSell;
+										+amountSell && lastPrice ? floor(lastPrice * +amountSell, 8).toString() : prev.totalSell;
 
 									return {
 										...prev,
@@ -205,7 +204,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 							setFormState(prev => {
 								const totalSell =
 									+prev.amountSell && +prev.priceSell
-										? floor(+prev.amountSell * +prev.priceSell, amount_precision).toString()
+										? floor(+prev.amountSell * +prev.priceSell, 8).toString()
 										: defaultFormState.totalSell;
 
 								return {
@@ -227,7 +226,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 										: 0;
 								const totalBuy =
 									+prev.amountBuy && +prev.priceBuy
-										? floor(+prev.amountBuy * +prev.priceBuy, amount_precision).toString()
+										? floor(+prev.amountBuy * +prev.priceBuy, 8).toString()
 										: '';
 
 								return {
@@ -242,9 +241,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 								setFormState(prev => {
 									const totalBuy =
 										+prev.priceBuy && prev.percentBuyMyBalance
-											? (
-													floor(prev.percentBuyMyBalance * (+balance / 100), amount_precision) || 0
-											  ).toString()
+											? (floor(prev.percentBuyMyBalance * (+balance / 100), 8) || 0).toString()
 											: prev.totalBuy;
 									const amountBuy =
 										+totalBuy && +prev.priceBuy
@@ -261,7 +258,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 								setFormState(prev => {
 									const totalBuy =
 										lastPrice && prev.percentBuyMyBalance
-											? floor(prev.percentBuyMyBalance * (+balance / 100), amount_precision).toString()
+											? floor(prev.percentBuyMyBalance * (+balance / 100), 8).toString()
 											: prev.totalBuy;
 									const amountBuy =
 										+totalBuy && lastPrice
@@ -298,7 +295,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 							setFormState(prev => {
 								const totalBuy =
 									+prev.amountBuy && +prev.priceBuy
-										? floor(+prev.amountBuy * +prev.priceBuy, amount_precision).toString()
+										? floor(+prev.amountBuy * +prev.priceBuy, 8).toString()
 										: prev.totalBuy;
 								const percentBuyMyBalance = +totalBuy ? floor(+totalBuy / (+balance / 100)) : 0;
 
@@ -337,7 +334,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 
 	const changeTotal = (value: string, type: FormType) => {
 		const convertedValue = cleanPositiveFloatInput(String(value));
-		if (convertedValue.match(precisionRegExp(get(currentMarket, 'amount_precision', 8)))) {
+		if (convertedValue.match(precisionRegExp(8))) {
 			if (type === 'sell') {
 				setFormState(prev => ({
 					...prev,
