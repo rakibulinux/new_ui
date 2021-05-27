@@ -1,6 +1,5 @@
 import * as React from 'react';
 import toggleInputIcon from './assets/dropdown.jpg';
-
 export interface InputRegisterAndLoginProps {
 	className?: string;
 	type: string;

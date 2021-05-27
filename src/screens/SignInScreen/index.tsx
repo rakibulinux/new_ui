@@ -36,18 +36,6 @@ interface DispatchProps {
 	signUpRequireVerification: typeof signUpRequireVerification;
 }
 
-// interface SignInState {
-//     email: string;
-//     emailError: string;
-//     emailFocused: boolean;
-//     password: string;
-//     passwordError: string;
-//     passwordFocused: boolean;
-//     otpCode: string;
-//     error2fa: string;
-//     codeFocused: boolean;
-// }
-
 type Props = ReduxProps & DispatchProps & RouterProps & IntlProps;
 
 const SignIn: React.FC<Props> = props => {
