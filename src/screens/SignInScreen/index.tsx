@@ -8,6 +8,7 @@ import { compose } from 'redux';
 import { SignInComponent, TwoFactorAuth } from '../../components';
 import { EMAIL_REGEX, ERROR_EMPTY_PASSWORD, ERROR_INVALID_EMAIL, setDocumentTitle } from '../../helpers';
 import { IntlProps } from '../../index';
+import LockIcon from './assets/lock.png';
 import {
 	RootState,
 	selectAlertState,
@@ -35,22 +36,10 @@ interface DispatchProps {
 	signUpRequireVerification: typeof signUpRequireVerification;
 }
 
-interface SignInState {
-	email: string;
-	emailError: string;
-	emailFocused: boolean;
-	password: string;
-	passwordError: string;
-	passwordFocused: boolean;
-	otpCode: string;
-	error2fa: string;
-	codeFocused: boolean;
-}
-
 type Props = ReduxProps & DispatchProps & RouterProps & IntlProps;
 
-class SignIn extends React.Component<Props, SignInState> {
-	public state = {
+const SignIn: React.FC<Props> = props => {
+	const [State, setState] = React.useState({
 		email: '',
 		emailError: '',
 		emailFocused: false,
@@ -60,122 +49,112 @@ class SignIn extends React.Component<Props, SignInState> {
 		otpCode: '',
 		error2fa: '',
 		codeFocused: false,
-	};
-
-	public componentDidMount() {
+	});
+	React.useEffect(() => {
 		setDocumentTitle('Sign In');
-		this.props.signInError({ code: 0, message: [''] });
-		this.props.signUpRequireVerification({ requireVerification: false });
-	}
+		props.signInError({ code: 0, message: [''] });
+		props.signUpRequireVerification({ requireVerification: false });
+	});
 
-	public componentWillReceiveProps(props: Props) {
+	React.useEffect(() => {
 		if (props.isLoggedIn) {
-			this.props.history.push('/wallets');
+			props.history.push('/wallets');
 		}
 		if (props.requireEmailVerification) {
-			props.history.push('/email-verification', { email: this.state.email });
+			props.history.push('/email-verification', { email: State.email });
 		}
-	}
+	}, []);
 
-	public render() {
-		const { loading, require2FA } = this.props;
-
-		const className = cx('pg-sign-in-screen__container', { loading });
+	const renderSignInForm = () => {
+		const { loading } = props;
+		const { email, emailError, emailFocused, password, passwordError, passwordFocused } = State;
 
 		return (
-			<div className="pg-sign-in-screen">
-				<div className={className}>{require2FA ? this.render2FA() : this.renderSignInForm()}</div>
+			<div className="group-login  m-auto">
+				<div className="title">
+					<h3>Log In</h3>
+					<p>Please check that you are visiting the correct URL</p>
+					<div className="link-web">
+						<a href="https://www.cx.finance/" style={{ width: '100%' }}>
+							<img src={LockIcon}></img>
+							<p>
+								<span>https://</span>
+								cx.finance
+							</p>
+						</a>
+					</div>
+				</div>
+				<SignInComponent
+					email={email}
+					emailError={emailError}
+					emailFocused={emailFocused}
+					emailPlaceholder={props.intl.formatMessage({ id: 'page.header.signIn.email' })}
+					password={password}
+					passwordError={passwordError}
+					passwordFocused={passwordFocused}
+					passwordPlaceholder={props.intl.formatMessage({ id: 'page.header.signIn.password' })}
+					labelSignIn={props.intl.formatMessage({ id: 'page.header.signIn' })}
+					labelSignUp={props.intl.formatMessage({ id: 'page.header.signUp' })}
+					emailLabel={props.intl.formatMessage({ id: 'page.header.signIn.email' })}
+					passwordLabel={props.intl.formatMessage({ id: 'page.header.signIn.password' })}
+					receiveConfirmationLabel={props.intl.formatMessage({ id: 'page.header.signIn.receiveConfirmation' })}
+					forgotPasswordLabel={props.intl.formatMessage({ id: 'page.header.signIn.forgotPassword' })}
+					isLoading={loading}
+					onForgotPassword={forgotPassword}
+					handleChangeFocusField={handleFieldFocus}
+					isFormValid={validateForm}
+					refreshError={refreshError}
+					changeEmail={handleChangeEmailValue}
+					changePassword={handleChangePasswordValue}
+				/>
 			</div>
-		);
-	}
-
-	private renderSignInForm = () => {
-		const { loading } = this.props;
-		const { email, emailError, emailFocused, password, passwordError, passwordFocused } = this.state;
-
-		return (
-			<SignInComponent
-				email={email}
-				emailError={emailError}
-				emailFocused={emailFocused}
-				emailPlaceholder={this.props.intl.formatMessage({ id: 'page.header.signIn.email' })}
-				password={password}
-				passwordError={passwordError}
-				passwordFocused={passwordFocused}
-				passwordPlaceholder={this.props.intl.formatMessage({ id: 'page.header.signIn.password' })}
-				labelSignIn={this.props.intl.formatMessage({ id: 'page.header.signIn' })}
-				labelSignUp={this.props.intl.formatMessage({ id: 'page.header.signUp' })}
-				emailLabel={this.props.intl.formatMessage({ id: 'page.header.signIn.email' })}
-				passwordLabel={this.props.intl.formatMessage({ id: 'page.header.signIn.password' })}
-				receiveConfirmationLabel={this.props.intl.formatMessage({ id: 'page.header.signIn.receiveConfirmation' })}
-				forgotPasswordLabel={this.props.intl.formatMessage({ id: 'page.header.signIn.forgotPassword' })}
-				isLoading={loading}
-				onForgotPassword={this.forgotPassword}
-				onSignUp={this.handleSignUp}
-				onSignIn={this.handleSignIn}
-				handleChangeFocusField={this.handleFieldFocus}
-				isFormValid={this.validateForm}
-				refreshError={this.refreshError}
-				changeEmail={this.handleChangeEmailValue}
-				changePassword={this.handleChangePasswordValue}
-			/>
 		);
 	};
 
-	private render2FA = () => {
-		const { loading } = this.props;
-		const { otpCode, error2fa, codeFocused } = this.state;
+	const render2FA = () => {
+		const { loading } = props;
+		const { otpCode, error2fa, codeFocused } = State;
 
 		return (
 			<TwoFactorAuth
 				isLoading={loading}
-				onSubmit={this.handle2FASignIn}
-				title={this.props.intl.formatMessage({ id: 'page.password2fa' })}
-				label={this.props.intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.code2fa' })}
-				buttonLabel={this.props.intl.formatMessage({ id: 'page.header.signIn' })}
-				message={this.props.intl.formatMessage({ id: 'page.password2fa.message' })}
+				onSubmit={handle2FASignIn}
+				title={props.intl.formatMessage({ id: 'page.password2fa' })}
+				label={props.intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.code2fa' })}
+				buttonLabel={props.intl.formatMessage({ id: 'page.header.signIn' })}
+				message={props.intl.formatMessage({ id: 'page.password2fa.message' })}
 				codeFocused={codeFocused}
 				otpCode={otpCode}
 				error={error2fa}
-				handleOtpCodeChange={this.handleChangeOtpCode}
-				handleChangeFocusField={this.handle2faFocus}
-				handleClose2fa={this.handleClose}
+				handleOtpCodeChange={handleChangeOtpCode}
+				handleChangeFocusField={handle2faFocus}
+				handleClose2fa={handleClose}
 			/>
 		);
 	};
 
-	private refreshError = () => {
-		this.setState({
+	const refreshError = () => {
+		let error = {
 			emailError: '',
 			passwordError: '',
+		};
+		setState({ ...error, ...State });
+	};
+
+	const handleChangeOtpCode = (value: string) => {
+		setState({
+			...{ error2fa: '', otpCode: value },
+			...State,
 		});
 	};
 
-	private handleChangeOtpCode = (value: string) => {
-		this.setState({
-			error2fa: '',
-			otpCode: value,
-		});
-	};
-
-	private handleSignIn = () => {
-		const { email, password } = this.state;
-
-		this.props.signIn({
-			email,
-			password,
-		});
-	};
-
-	private handle2FASignIn = () => {
-		const { email, password, otpCode } = this.state;
+	const handle2FASignIn = () => {
+		const { email, password, otpCode } = State;
 
 		if (!otpCode) {
-			this.setState({
-				error2fa: 'Please enter 2fa code',
-			});
+			setState({ error2fa: 'Please enter 2fa code', ...State });
 		} else {
-			this.props.signIn({
+			props.signIn({
 				email,
 				password,
 				otp_code: otpCode,
@@ -183,75 +162,100 @@ class SignIn extends React.Component<Props, SignInState> {
 		}
 	};
 
-	private handleSignUp = () => {
-		this.props.history.push('/signup');
+	const forgotPassword = () => {
+		props.history.push('/forgot_password');
 	};
 
-	private forgotPassword = () => {
-		this.props.history.push('/forgot_password');
-	};
-
-	private handleFieldFocus = (field: string) => {
+	const handleFieldFocus = (field: string) => {
 		switch (field) {
 			case 'email':
-				this.setState(prev => ({
-					emailFocused: !prev.emailFocused,
-				}));
+				setState({
+					...State,
+					...prev => ({
+						emailFocused: !prev.emailFocused,
+					}),
+				});
 				break;
 			case 'password':
-				this.setState(prev => ({
-					passwordFocused: !prev.passwordFocused,
-				}));
+				setState({
+					...State,
+					...prev => ({
+						passwordFocused: !prev.passwordFocused,
+					}),
+				});
 				break;
 			default:
 				break;
 		}
 	};
 
-	private handle2faFocus = () => {
-		this.setState(prev => ({
-			codeFocused: !prev.codeFocused,
-		}));
+	const handle2faFocus = () => {
+		setState({
+			...State,
+			...prev => ({
+				codeFocused: !prev.codeFocused,
+			}),
+		});
 	};
 
-	private validateForm = () => {
-		const { email, password } = this.state;
+	const validateForm = () => {
+		const { email, password } = State;
 		const isEmailValid = email.match(EMAIL_REGEX);
 
 		if (!isEmailValid) {
-			this.setState({
-				emailError: this.props.intl.formatMessage({ id: ERROR_INVALID_EMAIL }),
-				passwordError: '',
+			setState({
+				...{
+					emailError: props.intl.formatMessage({ id: ERROR_INVALID_EMAIL }),
+					passwordError: '',
+				},
+				...State,
 			});
 
 			return;
 		}
 		if (!password) {
-			this.setState({
-				emailError: '',
-				passwordError: this.props.intl.formatMessage({ id: ERROR_EMPTY_PASSWORD }),
+			setState({
+				...{
+					emailError: '',
+					passwordError: props.intl.formatMessage({ id: ERROR_EMPTY_PASSWORD }),
+				},
+				...State,
 			});
 
 			return;
 		}
 	};
 
-	private handleChangeEmailValue = (value: string) => {
-		this.setState({
-			email: value,
+	const handleChangeEmailValue = (value: string) => {
+		setState({
+			...{
+				email: value,
+			},
+			...State,
 		});
 	};
 
-	private handleChangePasswordValue = (value: string) => {
-		this.setState({
-			password: value,
+	const handleChangePasswordValue = (value: string) => {
+		setState({
+			...{
+				password: value,
+			},
+			...State,
 		});
 	};
 
-	private handleClose = () => {
-		this.props.signInRequire2FA({ require2fa: false });
+	const handleClose = () => {
+		props.signInRequire2FA({ require2fa: false });
 	};
-}
+	const { loading, require2FA } = props;
+
+	const className = cx({ loading });
+	return (
+		<div className={className} id="sign-in-screen">
+			{require2FA ? render2FA() : renderSignInForm()}
+		</div>
+	);
+};
 
 const mapStateToProps: MapStateToProps<ReduxProps, {}, RootState> = state => ({
 	alert: selectAlertState(state),
