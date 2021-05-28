@@ -9,7 +9,6 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { Modal, SignUpForm } from '../../components';
 import { GeetestCaptcha } from '../../containers';
-
 import {
 	EMAIL_REGEX,
 	ERROR_INVALID_EMAIL,
@@ -61,7 +60,7 @@ interface OwnProps {
 
 type Props = ReduxProps & DispatchProps & RouterProps & IntlProps & OwnProps;
 
-export const NewExtractRefID = (props: RouterProps) => new URLSearchParams(props.location.search).get('refid');
+export const extractRefID = (props: RouterProps) => new URLSearchParams(props.location.search).get('refid');
 
 class SignUp extends React.Component<Props> {
 	public readonly state = {
@@ -161,73 +160,65 @@ class SignUp extends React.Component<Props> {
 			passwordPopUp,
 		} = this.state;
 
-		const className = cx('sign-up-screen__container', { loading });
+		const className = cx('pg-sign-up-screen__container', { loading });
 
 		return (
-			<div id="sign-up-screen">
-				<div className="group-sign-up m-auto">
-					<div className="title">
-						<h3>Create a free account</h3>
-						<p>Welcome to CiRCLEEX </p>
-					</div>
-					<div className={className}>
-						<SignUpForm
-							labelSignIn={'Email' || this.props.intl.formatMessage({ id: 'page.header.signIn' })}
-							labelSignUp={this.props.intl.formatMessage({ id: 'page.header.signUp' })}
-							emailLabel={'Email' || this.props.intl.formatMessage({ id: 'page.header.signUp.email' })}
-							passwordLabel={'Password' || this.props.intl.formatMessage({ id: 'page.header.signUp.password' })}
-							confirmPasswordLabel={
-								'Confirm Password' || this.props.intl.formatMessage({ id: 'page.header.signUp.confirmPassword' })
-							}
-							referalCodeLabel={this.props.intl.formatMessage({ id: 'page.header.signUp.referalCode' })}
-							termsMessage={this.props.intl.formatMessage({ id: 'page.header.signUp.terms' })}
-							refId={refId}
-							handleChangeRefId={this.handleChangeRefId}
-							isLoading={loading}
-							onSignIn={this.handleSignIn}
-							onSignUp={this.handleSignUp}
-							email={email}
-							handleChangeEmail={this.handleChangeEmail}
-							password={password}
-							handleChangePassword={this.handleChangePassword}
-							confirmPassword={confirmPassword}
-							handleChangeConfirmPassword={this.handleChangeConfirmPassword}
-							hasConfirmed={hasConfirmed}
-							clickCheckBox={this.handleCheckboxClick}
-							validateForm={this.handleValidateForm}
-							emailError={emailError}
-							passwordError={passwordError}
-							confirmationError={confirmationError}
-							confirmPasswordFocused={confirmPasswordFocused}
-							refIdFocused={refIdFocused}
-							emailFocused={emailFocused}
-							passwordFocused={passwordFocused}
-							handleFocusEmail={this.handleFocusEmail}
-							handleFocusPassword={this.handleFocusPassword}
-							handleFocusConfirmPassword={this.handleFocusConfirmPassword}
-							handleFocusRefId={this.handleFocusRefId}
-							captchaType={configs.captcha_type}
-							renderCaptcha={this.renderCaptcha()}
-							reCaptchaSuccess={reCaptchaSuccess}
-							geetestCaptchaSuccess={geetestCaptchaSuccess}
-							captcha_response={captcha_response}
-							currentPasswordEntropy={currentPasswordEntropy}
-							minPasswordEntropy={configs.password_min_entropy}
-							passwordErrorFirstSolved={passwordErrorFirstSolved}
-							passwordErrorSecondSolved={passwordErrorSecondSolved}
-							passwordErrorThirdSolved={passwordErrorThirdSolved}
-							passwordPopUp={passwordPopUp}
-							myRef={this.myRef}
-							passwordWrapper={this.passwordWrapper}
-							translate={this.translate}
-						/>
-						<Modal
-							show={this.state.showModal}
-							header={this.renderModalHeader()}
-							content={this.renderModalBody()}
-							footer={this.renderModalFooter()}
-						/>
-					</div>
+			<div className="pg-sign-up-screen">
+				<div className={className}>
+					<SignUpForm
+						labelSignIn={this.props.intl.formatMessage({ id: 'page.header.signIn' })}
+						labelSignUp={this.props.intl.formatMessage({ id: 'page.header.signUp' })}
+						emailLabel={this.props.intl.formatMessage({ id: 'page.header.signUp.email' })}
+						passwordLabel={this.props.intl.formatMessage({ id: 'page.header.signUp.password' })}
+						confirmPasswordLabel={this.props.intl.formatMessage({ id: 'page.header.signUp.confirmPassword' })}
+						referalCodeLabel={this.props.intl.formatMessage({ id: 'page.header.signUp.referalCode' })}
+						termsMessage={this.props.intl.formatMessage({ id: 'page.header.signUp.terms' })}
+						refId={refId}
+						handleChangeRefId={this.handleChangeRefId}
+						isLoading={loading}
+						onSignIn={this.handleSignIn}
+						onSignUp={this.handleSignUp}
+						email={email}
+						handleChangeEmail={this.handleChangeEmail}
+						password={password}
+						handleChangePassword={this.handleChangePassword}
+						confirmPassword={confirmPassword}
+						handleChangeConfirmPassword={this.handleChangeConfirmPassword}
+						hasConfirmed={hasConfirmed}
+						clickCheckBox={this.handleCheckboxClick}
+						validateForm={this.handleValidateForm}
+						emailError={emailError}
+						passwordError={passwordError}
+						confirmationError={confirmationError}
+						confirmPasswordFocused={confirmPasswordFocused}
+						refIdFocused={refIdFocused}
+						emailFocused={emailFocused}
+						passwordFocused={passwordFocused}
+						handleFocusEmail={this.handleFocusEmail}
+						handleFocusPassword={this.handleFocusPassword}
+						handleFocusConfirmPassword={this.handleFocusConfirmPassword}
+						handleFocusRefId={this.handleFocusRefId}
+						captchaType={configs.captcha_type}
+						renderCaptcha={this.renderCaptcha()}
+						reCaptchaSuccess={reCaptchaSuccess}
+						geetestCaptchaSuccess={geetestCaptchaSuccess}
+						captcha_response={captcha_response}
+						currentPasswordEntropy={currentPasswordEntropy}
+						minPasswordEntropy={configs.password_min_entropy}
+						passwordErrorFirstSolved={passwordErrorFirstSolved}
+						passwordErrorSecondSolved={passwordErrorSecondSolved}
+						passwordErrorThirdSolved={passwordErrorThirdSolved}
+						passwordPopUp={passwordPopUp}
+						myRef={this.myRef}
+						passwordWrapper={this.passwordWrapper}
+						translate={this.translate}
+					/>
+					<Modal
+						show={this.state.showModal}
+						header={this.renderModalHeader()}
+						content={this.renderModalBody()}
+						footer={this.renderModalFooter()}
+					/>
 				</div>
 			</div>
 		);
@@ -475,7 +466,7 @@ class SignUp extends React.Component<Props> {
 	private renderModalFooter = () => {
 		return (
 			<div className="pg-exchange-modal-submit-footer">
-				<Button block={true} onClick={this.closeModal} size="lg" variant="success">
+				<Button block={true} onClick={this.closeModal} size="lg" variant="primary">
 					{this.props.intl.formatMessage({ id: 'page.header.signUp.modal.footer' })}
 				</Button>
 			</div>

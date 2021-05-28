@@ -50,10 +50,10 @@ export * from './MarketTable';
 export * from './MarketsHotOnList';
 export * from './TradeList';
 export * from './DepositBody';
-export * from './InputRegisterAndLogin';
 export * from './Announcement';
 export * from './HotAnnouncement';
 export * from './AnnouncementTable';
 export * from './AnnouncementDetail';
 export * from './PaginationAnnouncement';
+
 

@@ -46,7 +46,7 @@ export const PasswordStrengthMeter: React.FunctionComponent<PasswordStrengthMete
 	}
 
 	return (
-		<div className="pg-password-strength col-12">
+		<div className="pg-password-strength">
 			{props.passwordExist ? renderPasswordStrengthMeter(passwordStrengthMeterLength) : null}
 			{renderPasswordStrengthTip(props, passwordStrengthMeterLength)}
 		</div>
