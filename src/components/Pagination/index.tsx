@@ -21,6 +21,7 @@ interface PaginationProps {
 	/**
 	 * Number shows current page index
 	 */
+
 	onClickToPage?: (value: number) => void;
 	/**
 	 * Value for defining if next page exist or not
@@ -125,6 +126,7 @@ export const Pagination: React.FC<PaginationProps> = props => {
 						<span className="sr-only">Next</span>
 					</a>
 				</li>
+				
 			</ul>
 		</nav>
 	);

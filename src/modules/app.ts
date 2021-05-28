@@ -44,6 +44,8 @@ import { saleListReducer } from './sale/sale-list';
 import { competitionItemReducer } from './trading_competitions/competition_item';
 import { competitionsListReducer } from './trading_competitions/competitions';
 import { rankingsReducer } from './trading_competitions/rankings';
+import {announcementReducer} from './info/announcement';
+
 
 export const eventsReducer = combineReducers({
 	lunar: lunarReducer,
@@ -73,8 +75,9 @@ export const tradingCompetitionsReducer = combineReducers({
 	rankings: rankingsReducer,
 });
 export const infoReducer = combineReducers({
-	events: eventReducer,
-});
+    events: eventReducer,
+    announcement: announcementReducer,
+})
 
 export const publicReducer = combineReducers({
 	blocklistAccess: blocklistAccessReducer,

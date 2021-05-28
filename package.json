@@ -5,6 +5,8 @@
 	"dependencies": {
 		"@ant-design/icons": "^4.3.0",
 		"@brainhubeu/react-carousel": "^1.19.26",
+		"@ckeditor/ckeditor5-build-classic": "^27.1.0",
+		"@ckeditor/ckeditor5-react": "^3.0.2",
 		"@formatjs/intl-pluralrules": "^3.2.5",
 		"@formatjs/intl-relativetimeformat": "^7.0.0",
 		"@openware/cryptofont": "2.3.0",

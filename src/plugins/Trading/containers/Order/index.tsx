@@ -14,10 +14,12 @@ import {
 	alertPush,
 	orderExecuteFetch,
 	OrderExecution,
+	selectAmount,
 	selectCurrentMarket,
 	selectCurrentPrice,
 	selectMarketTickers,
 	selectOrderExecuteLoading,
+	selectOrderType,
 	selectUserLoggedIn,
 	selectWallets,
 	setCurrentPrice,
@@ -54,6 +56,8 @@ export const Order: React.FC<OrderProps> = ({}) => {
 	const marketTickers = useSelector(selectMarketTickers, isEqual);
 	const isLoggedIn = useSelector(selectUserLoggedIn, isEqual);
 	const currentPrice = useSelector(selectCurrentPrice, isEqual);
+	const currentOrderType = useSelector(selectOrderType, isEqual);
+	const currentAmount = useSelector(selectAmount, isEqual);
 
 	const TABS_LIST_KEY = [
 		intl.formatMessage({ id: 'page.body.trade.header.newOrder.content.orderType.limit' }),
@@ -67,8 +71,9 @@ export const Order: React.FC<OrderProps> = ({}) => {
 		if (currentPrice && currentMarket) {
 			const price = Decimal.formatRemoveZero(currentPrice, currentMarket.price_precision);
 			setFormState(prev => ({ ...prev, priceBuy: price, priceSell: price }));
+			changeAmount(currentAmount, currentOrderType === 'buy' ? 'sell' : 'buy');
 		}
-	}, [currentPrice, currentMarket]);
+	}, [currentPrice, currentMarket, currentOrderType]);
 
 	React.useEffect(() => {
 		setFormState(prev => ({ ...prev, fisrtFetchedPrice: false }));
@@ -91,6 +96,25 @@ export const Order: React.FC<OrderProps> = ({}) => {
 	React.useEffect(() => {
 		setFormState(defaultFormState);
 	}, [currentMarket && currentMarket.id, tabTypeSelectedState]);
+
+	const resetAfterSubmit = (type: FormType) => {
+		setFormState(prev => ({
+			...prev,
+			priceBuy: prev.priceBuy || defaultFormState.priceBuy,
+			priceSell: prev.priceSell || defaultFormState.priceSell,
+			...(type === 'sell'
+				? {
+						totalSell: defaultFormState.totalSell,
+						amountSell: defaultFormState.amountSell,
+						percentSellMyBalance: defaultFormState.percentSellMyBalance,
+				  }
+				: {
+						totalBuy: defaultFormState.totalBuy,
+						amountBuy: defaultFormState.amountBuy,
+						percentBuyMyBalance: defaultFormState.percentBuyMyBalance,
+				  }),
+		}));
+	};
 
 	const getTickerValue = (value: string) => {
 		return currentMarket && (marketTickers[currentMarket.id] || defaultTicker)[value];
@@ -481,6 +505,7 @@ export const Order: React.FC<OrderProps> = ({}) => {
 
 		if (orderAllowed) {
 			dispatch(orderExecuteFetch(order));
+			resetAfterSubmit(type);
 		}
 	};
 
