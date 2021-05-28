@@ -917,6 +917,7 @@ export const ru: LangType = {
 	'password.strength.tip.digit': 'At least One digit',
 
 	'stake.list.item.button.goStake': 'Go Stake',
+	'stake.list.item.button.view': 'View',
 	'stake.list.item.button.learnMore': 'Learn More',
 	'stake.detail.info.stakingNotes1':
 		'When setting up a stake, the tokens will be locked up and can only be unstaked after a certain period of time.',
@@ -928,7 +929,7 @@ export const ru: LangType = {
 	'stake.detail.title.unStakeHistory': 'Unstake History',
 	'stake.detail.info.button.detail': 'View Details',
 	'stake.detail.info.button.trade': 'Trade',
-	'stake.detail.register.availableAmount': 'Trade',
+	'stake.detail.register.availableAmount': 'Available Amount',
 	'stake.detail.register.amount': 'Amount',
 	'stake.detail.register.lockupPeriod': 'Lock-up Period',
 	'stake.detail.register.lockupDates': 'Lock-up dates',

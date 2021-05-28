@@ -15,13 +15,14 @@ import { LoadingSpinner } from '../../components';
 interface StakingInfoProps {
 	currency_id: string;
 	staking_name: string;
-	description: string;
-	logo_image: string;
+	description?: string;
+	logo_image?: string;
+	ref_link?: string;
 }
 
 export const StakingInfo: React.FC<StakingInfoProps> = (props: StakingInfoProps) => {
 	const intl = useIntl();
-	const { staking_name, description, currency_id } = props;
+	const { staking_name, description, currency_id, ref_link } = props;
 	const currencies = useSelector(selectCurrencies);
 	const getCryptoIcon = (currency_id: string): string => {
 		const currency = currencies.find((currency: any) => currency.id === currency_id);
@@ -66,7 +67,9 @@ export const StakingInfo: React.FC<StakingInfoProps> = (props: StakingInfoProps)
 					<button className="trade-btn" onClick={() => handleRedirectToTrading(currency_id.toLowerCase())}>
 						{intl.formatMessage({ id: `stake.detail.info.button.trade` })} {currency_id.toUpperCase()}
 					</button>
-					<button className="view-detail-btn">{intl.formatMessage({ id: `stake.detail.info.button.detail` })}</button>
+					<a rel="noopener noreferrer" target="_blank" href={ref_link} className="view-detail-btn btn">
+						{intl.formatMessage({ id: `stake.detail.info.button.detail` })}
+					</a>
 				</div>
 			</div>
 			<LoadingSpinner loading={isLoadingStakingList} />

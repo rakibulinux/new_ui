@@ -16,12 +16,13 @@ export interface Stake {
 	stake_id: string;
 	currency_id: string;
 	staking_name: string;
-	description: string;
+	description?: string;
 	start_time: string;
 	end_time: string;
 	active: boolean;
 	rewards: StakingReward[];
-	icon_url: string;
+	icon_url?: string;
+	ref_link?: string;
 	status: 'upcoming' | 'running' | 'ended' | '';
 }
 

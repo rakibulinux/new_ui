@@ -60,7 +60,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 					</div>
 				) : [...page].length === 0 ? (
 					<div className="text-center empty">
-						<img className="text-center" width="100px" src={EmptySVG} />
+						<img className="text-center" width="100px" src={EmptySVG} alt="empty" />
 						<br />
 						<p>No Data</p>
 					</div>

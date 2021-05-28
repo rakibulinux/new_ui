@@ -6,13 +6,14 @@ import { StakingList } from '../../containers';
 
 export const StakingListScreen = () => {
 	// state
-	const [filterStackingState, setFilterStackingState] = React.useState<'upcoming' | 'running' | 'all'>('all');
+	const [filterStackingState, setFilterStackingState] = React.useState<'upcoming' | 'running' | 'ended' | 'all'>('all');
 	const upcomingButtonClassName = classnames(
 		'stack-tab-btn',
-		filterStackingState === 'upcoming' ? 'stack-tab-btn__active' : '',
+		filterStackingState === 'upcoming' ? 'stack-tab-btn__upcoming' : '',
 	);
-	const runningButtonClassName = classnames('stack-tab-btn', filterStackingState === 'running' ? 'stack-tab-btn__active' : '');
-	const allButtonClassName = classnames('stack-tab-btn', filterStackingState === 'all' ? 'stack-tab-btn__active' : '');
+	const runningButtonClassName = classnames('stack-tab-btn', filterStackingState === 'running' ? 'stack-tab-btn__running' : '');
+	const allButtonClassName = classnames('stack-tab-btn', filterStackingState === 'all' ? 'stack-tab-btn__all' : '');
+	const endedButtonClassName = classnames('stack-tab-btn', filterStackingState === 'ended' ? 'stack-tab-btn__ended' : '');
 
 	// store
 	const staking_list = useSelector(selectStakingList);
@@ -33,6 +34,8 @@ export const StakingListScreen = () => {
 			<StakingList staking_list={[...upcoming_list]} />
 		) : filterStackingState === 'running' ? (
 			<StakingList staking_list={[...running_list]} />
+		) : filterStackingState === 'ended' ? (
+			<StakingList staking_list={[...ended_list]} />
 		) : (
 			<StakingList staking_list={[...running_list, ...upcoming_list, ...ended_list]} />
 		);
@@ -47,18 +50,23 @@ export const StakingListScreen = () => {
 					</div>
 				</div>
 				<div className="staking-buttons">
+					<button onClick={() => setFilterStackingState('all')} className={allButtonClassName}>
+						All
+					</button>
 					<button onClick={() => setFilterStackingState('upcoming')} className={upcomingButtonClassName}>
 						Upcoming
 					</button>
 					<button onClick={() => setFilterStackingState('running')} className={runningButtonClassName}>
 						Running
 					</button>
-					<button onClick={() => setFilterStackingState('all')} className={allButtonClassName}>
-						All
+					<button onClick={() => setFilterStackingState('ended')} className={endedButtonClassName}>
+						Ended
 					</button>
 				</div>
 
-				<div className="row mt-5">{renderStakingList()}</div>
+				<div style={{ position: 'relative' }} className="row mt-5">
+					{renderStakingList()}
+				</div>
 			</div>
 		</div>
 	);

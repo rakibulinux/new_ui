@@ -5,12 +5,16 @@ import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import Countdown from 'react-countdown';
 import { useIntl } from 'react-intl';
+import { ProgressBar } from 'react-bootstrap';
 
 type Props = Stake;
 
 export const StakingItem: React.FC<Props> = (props: Props) => {
 	const intl = useIntl();
-	const { stake_id, currency_id, staking_name, rewards, active, status, start_time, end_time } = props;
+	const { stake_id, currency_id, staking_name, rewards, active, status, start_time, end_time, ref_link } = props;
+	const [progressState, setProgressState] = React.useState('');
+	const [totalAmountState, setTotalAmountState] = React.useState('');
+	const [totalCapState, setTotalCapState] = React.useState('');
 	const history = useHistory();
 	const currencies = useSelector(selectCurrencies);
 	const handleGoStacking = () => {
@@ -52,11 +56,20 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 					Start in: <Countdown date={new Date(start_time)} renderer={renderer} />
 				</span>
 				<span className="text-danger" hidden={status !== 'running'}>
-					End in: <Countdown date={new Date(end_time)} renderer={renderer} />
+					Close in: <Countdown date={new Date(end_time)} renderer={renderer} />
 				</span>
 			</div>
 		);
 	};
+
+	React.useEffect(() => {
+		const totalAmount: number = rewards.map(reward => Number(reward.total_amount)).reduce((a, b) => a + b, 0);
+		const totalCap: number = rewards.map(reward => Number(reward.cap_amount)).reduce((a, b) => a + b, 0);
+		const percent = ((totalCap / totalAmount) * 100).toFixed(2);
+		setProgressState(percent);
+		setTotalAmountState(totalAmount.toFixed(5));
+		setTotalCapState(totalCap.toFixed(5));
+	}, [rewards]);
 
 	const renderer = ({ days, hours, minutes, seconds, completed }) => {
 		if (completed) {
@@ -71,7 +84,7 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 			// Render a countdown
 			return (
 				<span>
-					{days}:{hours}:{minutes}:{seconds}
+					{days}d {hours}h {minutes}m {seconds}s
 				</span>
 			);
 		}
@@ -90,22 +103,51 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 				</section>
 				<section className="text">
 					<h3 className="title">{staking_name}</h3>
-					<div className="reward-container flex-spacer">
+					<div className="reward-container d-flex flex-row flex-wrap align-items-center">
 						{rewards.map((reward, index) => (
-							<div className="reward-box" key={index}>
-								<div className="reward-box__rate">{Number(reward.annual_rate) * 100}%</div>
-								<div className="reward-box__period text-white">{Number(reward.period)} days</div>
+							<div className="reward">
+								<div className="reward-box" key={index}>
+									<div className="reward-box__rate">{Number(reward.annual_rate) * 100}%</div>
+									<div className="reward-box__period text-white">{Number(reward.period)} days</div>
+								</div>
 							</div>
 						))}
 					</div>
-					<div className="flex-spacer"></div>
+				</section>
+
+				<section className="stake-item__time d-flex flex-row justify-content-between align-items-end">
 					{renderProgressBar()}
 				</section>
+				<section className="stake-item__progress d-flex flex-row justify-content-between align-items-end">
+					<div style={{ position: 'relative', width: '100%' }}>
+						<ProgressBar
+							style={{ width: '100%', background: 'rgba(132, 142, 156, 0.35)', height: '20px' }}
+							animated
+							now={Number(progressState)}
+						/>
+						<span
+							className="text-white"
+							style={{
+								position: 'absolute',
+								top: '50%',
+								left: '50%',
+								transform: 'translate(-50%, -50%)',
+							}}
+						>
+							{totalCapState}/{totalAmountState}
+						</span>
+					</div>
+				</section>
+
 				<section className="buttons d-flex flex-row justify-content-between align-items-end">
 					<button onClick={handleGoStacking} className="go-stack-btn">
-						{intl.formatMessage({ id: `stake.list.item.button.goStake` })}
+						{status === 'ended' || status === 'upcoming'
+							? intl.formatMessage({ id: `stake.list.item.button.view` })
+							: intl.formatMessage({ id: `stake.list.item.button.goStake` })}
 					</button>
-					<button className="learn-more-btn">{intl.formatMessage({ id: `stake.list.item.button.learnMore` })}</button>
+					<a rel="noopener noreferrer" target="_blank" href={ref_link} className="btn learn-more-btn">
+						{intl.formatMessage({ id: `stake.list.item.button.learnMore` })}
+					</a>
 				</section>
 			</div>
 			<div hidden={active} className="stacking-item__disabled">

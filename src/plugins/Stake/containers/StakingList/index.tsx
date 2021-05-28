@@ -7,16 +7,11 @@ interface StakingListProps {
 }
 export const StakingList: React.FC<StakingListProps> = (props: StakingListProps) => {
 	const { staking_list } = props;
-
 	const isLoadingStakingList = useSelector(selectStakingListLoading);
 
 	return (
 		<React.Fragment>
-			{isLoadingStakingList ? (
-				<div style={{ marginTop: '200px' }}>
-					<LoadingSpinner loading={isLoadingStakingList} />
-				</div>
-			) : staking_list.length > 0 ? (
+			{staking_list.length > 0 ? (
 				staking_list.map((staking: Stake) => (
 					<div className="col-lg-4 col-md-6 mb-5" key={staking.stake_id}>
 						<StakingItem
@@ -31,6 +26,7 @@ export const StakingList: React.FC<StakingListProps> = (props: StakingListProps)
 							description={staking.description}
 							start_time={staking.start_time}
 							end_time={staking.end_time}
+							ref_link={staking.ref_link}
 						/>
 					</div>
 				))
@@ -39,6 +35,9 @@ export const StakingList: React.FC<StakingListProps> = (props: StakingListProps)
 					<img src="https://i.imgur.com/wm92tgK.png" alt="no-data" />
 				</div>
 			)}
+			<div hidden={!isLoadingStakingList} style={{ marginTop: '200px' }}>
+				<LoadingSpinner loading={isLoadingStakingList} />
+			</div>
 		</React.Fragment>
 	);
 };

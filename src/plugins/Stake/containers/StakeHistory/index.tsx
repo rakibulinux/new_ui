@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { getTimeZone } from '../../../../helpers';
 import { selectStakeHistories, selectStakeHistoriesLoading } from '../../../../modules';
 import { ReactTable } from '../../components';
 import { format } from 'date-fns';
@@ -10,7 +9,6 @@ interface StakeHistoryProps {
 export const StakeHistory = (props: StakeHistoryProps) => {
 	const { currency_id } = props;
 	const stakeHistories = useSelector(selectStakeHistories);
-	console.log(stakeHistories);
 
 	const formatStatus = (tx: string) => {
 		const process = require('../../../../assets/status/wait.svg');
@@ -66,12 +64,14 @@ export const StakeHistory = (props: StakeHistoryProps) => {
 			},
 		];
 	}, []);
-	const stake_history_loading = useSelector(selectStakeHistoriesLoading);
-
+	const stakeHistoryLoading = useSelector(selectStakeHistoriesLoading);
+	const stakedAmount: number = histories.length > 0 ? histories.map(history => history.amount).reduce((a, b) => a + b, 0) : 0;
 	return (
 		<div>
-			<span className="text-white text-right float-right">Timezone: GMT{getTimeZone()}</span>
-			<ReactTable columns={columns} data={histories.reverse()} loading={stake_history_loading} />
+			<div>
+				<span className="text-white text-left float-right">Total Staked: {stakedAmount.toFixed(5)}</span>
+			</div>
+			<ReactTable columns={columns} data={histories.reverse()} loading={stakeHistoryLoading} />
 		</div>
 	);
 };

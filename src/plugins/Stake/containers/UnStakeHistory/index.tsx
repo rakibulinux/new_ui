@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { getTimeZone } from '../../../../helpers';
 import { selectCurrencies, selectUnstakeHistory, selectUnstakeHistoryLoading } from '../../../../modules';
 import { ReactTable } from '../../components';
 import { format } from 'date-fns';
@@ -51,10 +50,13 @@ export const UnStakeHistory = (props: UnStakeHistoryProps) => {
 			amount: Number(history.amount),
 			completed_at: format(new Date(history.completed_at), 'yyyy-MM-dd hh:mm:ss'),
 		}));
+	const unStakedAmount: number = histories.length > 0 ? histories.map(history => history.amount).reduce((a, b) => a + b, 0) : 0;
 
 	return (
 		<div>
-			<span className="text-white text-right float-right">Timezone: GMT{getTimeZone()}</span>
+			<div>
+				<span className="text-white text-left float-right">Total UnStaked: {unStakedAmount.toFixed(5)}</span>
+			</div>
 			<ReactTable columns={columns} data={histories.reverse()} loading={unstakeHistoryLoading} />
 		</div>
 	);
