@@ -57,6 +57,7 @@ export interface StakeWalletFetch {
 	type: typeof STAKE_WALLET_FETCH;
 	payload: {
 		uid: string;
+		currency_id: string;
 	};
 }
 
@@ -69,6 +70,7 @@ export interface StakeHistoryFetch {
 	type: typeof STAKE_HISTORY_FETCH;
 	payload: {
 		uid: string;
+		stake_id: string;
 	};
 }
 
@@ -80,6 +82,7 @@ export interface UnStakeHistoryFetch {
 	type: typeof UNSTAKE_HISTORY_FETCH;
 	payload: {
 		uid: string;
+		currency_id: string;
 	};
 }
 

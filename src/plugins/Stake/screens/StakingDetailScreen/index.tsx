@@ -69,10 +69,10 @@ export const StakingDetailScreen = () => {
 	}, [dispatch]);
 
 	React.useEffect(() => {
-		dispatch(stakeWalletFetch({ uid: user.uid }));
-		dispatch(stakeHistoryFetch({ uid: user.uid }));
-		dispatch(unStakeHistoryFetch({ uid: user.uid }));
-	}, [user.uid, dispatch]);
+		dispatch(stakeWalletFetch({ uid: user.uid, currency_id: stakingItemState.currency_id }));
+		dispatch(stakeHistoryFetch({ uid: user.uid, stake_id: stake_id }));
+		dispatch(unStakeHistoryFetch({ uid: user.uid, currency_id: stakingItemState.currency_id }));
+	}, [user.uid, dispatch, stakingItemState.currency_id, stake_id]);
 
 	return (
 		<div id="staking-detail-screen">
@@ -95,7 +95,7 @@ export const StakingDetailScreen = () => {
 				</div>
 				<div className="row mt-5">
 					<div className="col-6">
-						<div style={{ position: 'relative' }}>
+						<div style={{ position: 'relative' }} hidden={Number(totalAmountState) <= 0}>
 							<ProgressBar
 								style={{ height: '75px', background: 'rgba(132, 142, 156, 0.35)', fontSize: '30px' }}
 								animated
@@ -129,6 +129,7 @@ export const StakingDetailScreen = () => {
 							<Tabs defaultActiveKey="stake">
 								<TabPane tab="STAKE" key="stake">
 									<RegisterStake
+										stake_id={stake_id}
 										currency_id={stakingItemState.currency_id}
 										start_time={stakingItemState.start_time}
 										end_time={stakingItemState.end_time}

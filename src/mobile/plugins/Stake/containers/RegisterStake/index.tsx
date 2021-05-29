@@ -7,6 +7,7 @@ import {
 	selectUserInfo,
 	selectWallets,
 	stakeHistoryFetch,
+	stakingListFetch,
 	StakingReward,
 } from '../../../../../modules';
 import { format, addDays } from 'date-fns';
@@ -17,6 +18,7 @@ import { LoadingSpinner } from '../../components';
 import { useIntl } from 'react-intl';
 
 interface RegisterStakeProps {
+	stake_id: string;
 	currency_id: string;
 	start_time: string;
 	end_time: string;
@@ -29,7 +31,7 @@ const DEFAULT_PERIOD_INDEX = 0;
 
 export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStakeProps) => {
 	const intl = useIntl();
-	const { currency_id, rewards, start_time, status, active } = props;
+	const { stake_id, currency_id, rewards, start_time, status, active } = props;
 	const [selectedPeriodIndexState, setSelectedPeriodIndexState] = React.useState<number>(DEFAULT_PERIOD_INDEX);
 	const [lockupDateState, setLockupDateState] = React.useState('');
 	const [releaseDateState, setReleaseDateState] = React.useState('');
@@ -145,7 +147,8 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 				release_date: releaseDateState,
 			}),
 		);
-		dispatch(stakeHistoryFetch({ uid: user.uid }));
+		dispatch(stakeHistoryFetch({ uid: user.uid, stake_id: stake_id }));
+		dispatch(stakingListFetch());
 	};
 
 	const stakeButtonClassNames = classNames('stake-btn', isDisableStakeButton ? 'stake-btn--disabled' : '');

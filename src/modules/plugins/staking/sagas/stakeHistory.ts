@@ -13,9 +13,9 @@ export function* fetchStakeHistory(action: StakeHistoryFetch) {
 		}),
 	);
 	try {
-		const { uid } = action.payload;
-		if (uid) {
-			const histories = yield axios.get<StakeHistory[]>(`stake/history/stake/fetch/uid=${uid}`);
+		const { uid, stake_id } = action.payload;
+		if (uid && stake_id) {
+			const histories = yield axios.get<StakeHistory[]>(`stake/history/stake/fetch/uid=${uid}/stake_id=${stake_id}`);
 			yield put(
 				stakeHistoryData({
 					payload: [...histories.data],

@@ -13,9 +13,9 @@ export function* fetchStakeWallet(action: StakeWalletFetch) {
 		}),
 	);
 	try {
-		const { uid } = action.payload;
-		if (uid) {
-			const wallets = yield axios.get<StakeWallet[]>(`stake/wallet/fetch/uid=${uid}`);
+		const { uid, currency_id } = action.payload;
+		if (uid && currency_id) {
+			const wallets = yield axios.get<StakeWallet[]>(`stake/wallet/fetch/uid=${uid}/currency_id=${currency_id}`);
 			yield put(
 				stakeWalletData({
 					payload: [...wallets.data],
