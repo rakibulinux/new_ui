@@ -7,6 +7,7 @@ import {
 	ethFeesReducer,
 	eventsReducer,
 	infoReducer,
+	pluginsReducer,
 	publicReducer,
 	saleReducer,
 	tradingCompetitionsReducer,
@@ -59,8 +60,16 @@ import { ProfileState, rootProfileSaga } from './user/profile';
 import { rootUserActivitySaga, UserActivityState } from './user/userActivity';
 import { ChildCurrenciesState, rootWalletsSaga, WalletsState } from './user/wallets';
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
+import {
+	CreateStakeState,
+	StakingListState,
+	StakeWalletState,
+	StakeHistoryState,
+	rootStakingSaga,
+	UnstakeState,
+	UnStakeHistoryState,
+} from './plugins/staking';
 import { AnnouncementState, rootAnnouncementSaga } from './info/announcement';
-
 
 export * from './public/markets';
 export * from './public/orderBook';
@@ -103,8 +112,8 @@ export * from './trading_competitions/competition_item';
 export * from './trading_competitions/rankings';
 export * from './info/events';
 export * from './events/lunar';
+export * from './plugins/staking';
 export * from './info/announcement';
-
 
 export interface RootState {
 	airdrops: {
@@ -178,6 +187,14 @@ export interface RootState {
 	events: {
 		lunar: LunarsState;
 	};
+	plugins: {
+		create_stake: CreateStakeState;
+		unstake: UnstakeState;
+		staking_list: StakingListState;
+		stake_wallet: StakeWalletState;
+		stake_history: StakeHistoryState;
+		unstake_history: UnStakeHistoryState;
+	};
 }
 
 export const rootReducer = combineReducers({
@@ -189,6 +206,7 @@ export const rootReducer = combineReducers({
 	trading_competitions: tradingCompetitionsReducer,
 	info: infoReducer,
 	events: eventsReducer,
+	plugins: pluginsReducer,
 });
 
 export function* rootSaga() {
@@ -237,7 +255,7 @@ export function* rootSaga() {
 		call(rootRankingsSaga),
 		call(rootEventSaga),
 		call(rootLunarSaga),
-        call(rootAnnouncementSaga),
-
+		call(rootStakingSaga),
+    call(rootAnnouncementSaga),
 	]);
 }
