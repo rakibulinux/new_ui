@@ -52,6 +52,7 @@ import {
 	unStakeHistoryReducer,
 	unStakeReducer,
 } from './plugins/staking';
+import {announcementReducer} from './info/announcement';
 
 export const eventsReducer = combineReducers({
 	lunar: lunarReducer,
@@ -81,8 +82,9 @@ export const tradingCompetitionsReducer = combineReducers({
 	rankings: rankingsReducer,
 });
 export const infoReducer = combineReducers({
-	events: eventReducer,
-});
+    events: eventReducer,
+    announcement: announcementReducer,
+})
 
 export const publicReducer = combineReducers({
 	blocklistAccess: blocklistAccessReducer,

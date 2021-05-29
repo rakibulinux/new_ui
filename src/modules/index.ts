@@ -69,6 +69,7 @@ import {
 	UnstakeState,
 	UnStakeHistoryState,
 } from './plugins/staking';
+import { AnnouncementState, rootAnnouncementSaga } from './info/announcement';
 
 export * from './public/markets';
 export * from './public/orderBook';
@@ -112,6 +113,7 @@ export * from './trading_competitions/rankings';
 export * from './info/events';
 export * from './events/lunar';
 export * from './plugins/staking';
+export * from './info/announcement';
 
 export interface RootState {
 	airdrops: {
@@ -135,8 +137,9 @@ export interface RootState {
 		withdraw: ETHFeeWithdrawState;
 	};
 	info: {
-		events: EventsState;
-	};
+        events: EventsState;
+        announcement: AnnouncementState;
+    };
 
 	public: {
 		alerts: AlertState;
@@ -253,5 +256,6 @@ export function* rootSaga() {
 		call(rootEventSaga),
 		call(rootLunarSaga),
 		call(rootStakingSaga),
+    call(rootAnnouncementSaga),
 	]);
 }
