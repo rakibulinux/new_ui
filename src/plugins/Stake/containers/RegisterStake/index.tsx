@@ -197,7 +197,11 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 						<div className="d-flex flex-row justify-content-between">
 							{rewards.map((reward: StakingReward, index: number) => (
 								<button
-									disabled={Number(reward.total_amount) <= Number(reward.cap_amount)}
+									disabled={
+										Number(reward.total_amount) === 0
+											? false
+											: Number(reward.total_amount) <= Number(reward.cap_amount)
+									}
 									key={index}
 									className={selectedPeriodIndexState === index ? selecterdPeriodButtonClass : 'period-btn'}
 									onClick={() => handleSelectLockupPeriod(index)}
