@@ -52,12 +52,7 @@ const WalletDepositBodyComponent = props => {
 
 		const textDepositFee = `${intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.depositfee' })} ${Number(
 			currencyItem.deposit_fee,
-		)} ${wallet.currency.toUpperCase()}`;
-
-		const checkDepositFee =
-			Number(currencyItem.deposit_fee) != 0
-				? textDepositFee
-				: `${translate('page.body.wallets.tabs.deposit.ccy.message.depositfee')} 1 %`;
+		)} %`;
 
 		const error = addressDepositError
 			? intl.formatMessage({ id: addressDepositError.message[0] })
@@ -94,7 +89,7 @@ const WalletDepositBodyComponent = props => {
 						data={walletAddress}
 						handleOnCopy={handleOnCopy}
 						error={error}
-						textDepositFee={checkDepositFee}
+						textDepositFee={textDepositFee}
 						disabled={walletAddress === ''}
 						copiableTextFieldText={`${wallet.currency.toUpperCase()} ${label}`}
 						copyButtonText={intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.button' })}

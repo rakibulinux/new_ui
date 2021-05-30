@@ -90,7 +90,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 
 	const textDepositFee = `${intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.depositfee' })} ${Number(
 		currency.deposit_fee,
-	)} ${selectedCurrencyID.toUpperCase()}`;
+	)} %`;
 
 	const textNote = `Only Deposit ${selectedCurrencyID.toUpperCase()} to this wallet.`;
 
