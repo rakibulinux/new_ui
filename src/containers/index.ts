@@ -43,3 +43,5 @@ export * from './WithdrawAddress';
 export * from './WithdrawHistory';
 export * from './ProfileActiveStep';
 export * from './ProfileAnnouncement';
+export * from './NewMarKetList';
+export * from './NewTeamSection';

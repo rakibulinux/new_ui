@@ -1,8 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { TeamSection, } from '../../containers';
-import {MarketsHotOnlist} from '../../components';
+import { NewTeamSection, NewMarketList} from '../../containers';
 import Feature1 from './Home/Feature1.svg';
 import Feature2 from './Home/Feature2.svg';
 import Feature3 from './Home/Feature3.svg';
@@ -36,7 +35,7 @@ export const NewHomePage: React.FC = () => {
 
 	const renderMarkets = () => {
 		return (
-			<MarketsHotOnlist />
+			<NewMarketList />
 		)
 	}
 	const renderFeature = () => (
@@ -50,11 +49,11 @@ export const NewHomePage: React.FC = () => {
 			<div className="container text-white">
 				<div className="row">
 					<div className="col-4 text-center">
-						<img className="img-fluid w-50" src={Feature1} alt="support" />
+						<img className="img-fluid w-50" src={Feature2} alt="support" />
 						<h3 style={{ marginTop: 62 }}>Revenue Sharing</h3>
 					</div>
 					<div className="col-4 text-center">
-						<img className="img-fluid w-50" src={Feature2} alt="support" />
+						<img className="img-fluid w-50" src={Feature1} alt="support" />
 						<h3 style={{ marginTop: 62 }}>Multi Layer Protection</h3>
 					</div>
 					<div className="col-4 text-center">
@@ -112,7 +111,7 @@ export const NewHomePage: React.FC = () => {
 	const renderTeam = () => {
 		return (
 			<div style={{ padding: '50px 0' }}>
-				<TeamSection />;
+				<NewTeamSection />;
 			</div>
 		)
 	};

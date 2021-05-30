@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import { Decimal } from '../../components';
+import Slider from "react-slick";
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 import {
 	currenciesFetch,
@@ -10,19 +12,50 @@ import {
 	selectMarkets,
 	selectMarketTickers,
 	Market,
-	selectCurrentMarket,
-	Ticker,
+	// selectCurrentMarket,
+	// Ticker,
 	setCurrentMarket,
 } from '../../modules';
 
 const ChartWrap = styled.div`
 	width: 100%;
+	padding-top: 150px;
 	display: flex;
 	justify-content: space-between;
+	background-color: #252A3B;
+
+	.container {
+		div {
+			.slick-initialized {
+				.slick-prev {
+					::before {
+						content: '◃';
+						font-size: 22px;
+						margin-left: -28px;
+						padding: 6px 10px 8px 6px;
+						border-radius: 4px;
+						vertical-align: middle;
+						background-color: #2FB67E;
+					}
+				}
+				.slick-next {
+					::before {
+						content: '▹';
+						font-size: 22px;
+						margin-right: -28px;
+						padding: 6px 6px 8px 10px;
+						border-radius: 4px;
+						vertical-align: middle;
+						background-color: #2FB67E;
+					}
+				}
+			}
+		}
+	}
 `;
 const MarketChartItem = styled.div`
 	min-height: 100px;
-	padding: 10px 0;
+	padding: 15px 5px;
 	border-radius: 4px;
 	background-color: var(--tab-panel-background-color);
 	:hover {
@@ -30,6 +63,7 @@ const MarketChartItem = styled.div`
 		box-shadow: #7d82b8 0px 0px 10px 0px;
 	}
 `;
+
 
 export const NewMarketList: React.FC<any> = () => {
 	const defaultTicker = {
@@ -42,14 +76,23 @@ export const NewMarketList: React.FC<any> = () => {
 		volume: '0.0',
 	};
 
+	const settings = {
+		dots: false,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 3,
+		slidesToScroll: 1
+	};
+
 	const dispatch = useDispatch();
 	const [marketNames, setMarketNames] = React.useState<string[]>([]);
 	const [kLinesState, setKlinesState] = React.useState<{ pv: string }[]>([]);
 
 	const markets = useSelector(selectMarkets);
+	console.log(markets)
 	const marketTickers = useSelector(selectMarketTickers);
 	const currencies = useSelector(selectCurrencies);
-	const currentMarket = useSelector(selectCurrentMarket);
+	// const currentMarket = useSelector(selectCurrentMarket);
 
 	React.useEffect(() => {
 		dispatch(currenciesFetch());
@@ -82,10 +125,11 @@ export const NewMarketList: React.FC<any> = () => {
 					return b.price_change_percent - a.price_change_percent;
 				});
 
-				const marketNames = marketListToState.slice(0, 4).map(market => {
+				const marketNames = marketListToState.slice(0, 9).map(market => {
 					return market.name;
 				});
 				setMarketNames(marketNames);
+				console.log(marketNames)
 			}
 		}
 	}, [marketTickers, markets]);
@@ -145,22 +189,14 @@ export const NewMarketList: React.FC<any> = () => {
 
 	const MarketChart = (data: any, marketID: string) => {
 		const market = markets.find(market => market.base_unit.toLowerCase() === marketID.split('/')[0].toLowerCase());
-		const getTickerValue = (cMarket: Market, tickers: { [key: string]: Ticker }) => {
-			const defaultTicker = { amount: 0, low: 0, last: 0, high: 0, volume: 0, open: 0, price_change_percent: '+0.00%' };
-
-			return tickers[cMarket.id] || defaultTicker;
-		};
-
-		const currentTicker = (currentMarket && getTickerValue(currentMarket, marketTickers)) || { volume: 0 };
 
 		if (market) {
 			const marketID = market.name.toUpperCase();
 			const baseCurrency = marketID.split('/')[0];
 			const quoteCurrency = marketID.split('/')[1];
-			const last = Number((marketTickers[market.id] || defaultTicker).last);
+			const last = Decimal.format(Number((marketTickers[market.id] || defaultTicker).last), market.price_precision);
 			const open = Number((marketTickers[market.id] || defaultTicker).open);
 			const price_change_percent = (marketTickers[market.id] || defaultTicker).price_change_percent;
-			const volume = Number((currentTicker[market.id] || defaultTicker).volume);
 			const change = +last - +open;
 			const marketChangeColor = +(change || 0) < 0 ? 'var(--system-red)' : 'var(--system-green)';
 			return (
@@ -174,15 +210,44 @@ export const NewMarketList: React.FC<any> = () => {
 										{marketID.toUpperCase()}
 									</span>
 								</div>
+								<span
+									style={{
+										color: '#fff',
+										padding: '0.5rem 1rem',
+										backgroundColor: 'rgba(47, 182, 126, 0.25)',
+										borderRadius: '6px',
+										fontWeight: 'bold',
+										maxHeight: '32px',
+									}}
+								>
+									24H
+									</span>
 							</div>
 						</div>
 						<div className="row mt-1">
 							<div className="col-6 d-flex justify-content-start align-items-center">
-								<span style={{ marginLeft: '5px', fontSize: '1.4rem', color: '#fff' }}>{last.toFixed(6)}</span>
+								<span style={{ marginLeft: '5px', fontSize: '1.4rem', color: '#fff' }}>{last}</span>
 							</div>
 
 							<div className="col-6 d-flex justify-content-end align-items-center">
-								<ResponsiveContainer ani width="100%" aspect={2.5 / 1.0}>
+								<span style={{ marginRight: '5px', color: marketChangeColor, fontWeight: 'bold' }}>
+									{price_change_percent}
+								</span>
+							</div>
+						</div>
+						<div className="row">
+							<div className="col-12 d-flex justify-content-between">
+								<span
+									style={{
+										fontSize: '1.4rem', margin: '5px', color: "#FFF",
+									}}
+								>
+									{quoteCurrency}</span>
+							</div>
+						</div>
+						<div className="row">
+							<div className="col-12 d-flex justify-content: center">
+								<ResponsiveContainer ani width="100%" aspect={6 / 1}>
 									<AreaChart
 										width={200}
 										height={60}
@@ -199,24 +264,11 @@ export const NewMarketList: React.FC<any> = () => {
 											type="monotone"
 											dataKey="pv"
 											stroke="#fff"
-											fill="#7d82b8"
+											fill="transparent"
 										/>
 									</AreaChart>
 								</ResponsiveContainer>
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-12 d-flex justify-content: center">
-								<span style={{ marginRight: '5px', color: marketChangeColor, fontWeight: 'bold' }}>
-									{price_change_percent}
-								</span>
-								<div className="ml-2">
-									<span style={{ color: '#ced4da' }}>Volume:</span>
-									<span className="ml-2" style={{ marginRight: '5px', color: '#ced4da', fontWeight: 'bold' }}>
-										{volume}
-									</span>
-									<span style={{ color: '#ced4da' }}>{quoteCurrency.toUpperCase()}</span>
-								</div>
+
 							</div>
 						</div>
 					</div>
@@ -226,20 +278,21 @@ export const NewMarketList: React.FC<any> = () => {
 		return '';
 	};
 
-	const renderChart = () => {
-		return (
-			<ChartWrap>
-				<div className="container" style={{ backgroundColor: 'transparent', padding: '25px 0px', borderRadius: '1rem' }}>
-					<div className="row">
+
+	return (
+		<ChartWrap>
+
+			<div className="container" style={{ borderRadius: '1rem' }}>
+				<div >
+					<Slider {...settings}>
 						{kLinesState.map((kline, i) => (
-							<div className="col-lg-3 col-md-6 mb-2" key={i}>
+							<div key={i}>
 								{MarketChart(kline, marketNames[i])}
 							</div>
 						))}
-					</div>
+					</Slider>
 				</div>
-			</ChartWrap>
-		);
-	};
-	return <React.Fragment>{renderChart()}</React.Fragment>;
+			</div>
+		</ChartWrap>
+	)
 };
