@@ -89,10 +89,8 @@ export const NewMarketList: React.FC<any> = () => {
 	const [kLinesState, setKlinesState] = React.useState<{ pv: string }[]>([]);
 
 	const markets = useSelector(selectMarkets);
-	console.log(markets)
 	const marketTickers = useSelector(selectMarketTickers);
 	const currencies = useSelector(selectCurrencies);
-	// const currentMarket = useSelector(selectCurrentMarket);
 
 	React.useEffect(() => {
 		dispatch(currenciesFetch());
