@@ -55,5 +55,4 @@ export * from './HotAnnouncement';
 export * from './AnnouncementTable';
 export * from './AnnouncementDetail';
 export * from './PaginationAnnouncement';
-
-
+export * from './ConvertUsd';

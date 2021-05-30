@@ -55,6 +55,9 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 			&__last-price {
 				font-size: 20px;
 			}
+			&__usd {
+				color: #848e9c;
+			}
 		}
 		&-table {
 			height: ${(props: OrderBookProps) =>

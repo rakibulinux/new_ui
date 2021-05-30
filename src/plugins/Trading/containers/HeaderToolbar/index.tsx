@@ -1,3 +1,5 @@
+import { ConvertUsd } from 'components';
+import get from 'lodash/get';
 import * as React from 'react';
 import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
@@ -37,29 +39,32 @@ const HeaderToolbarContainer: React.FC = () => {
 			<div className="td-header__toolbar--left">
 				<div className="td-header__toolbar-item">
 					<p className="td-header__toolbar-item-title">{(currentMarket && currentMarket.name) || 'NONE'}</p>
-					<p className={`td-header__toolbar-item-value td-header__toolbar-item-site`}>{askUnit}</p>
+					<p className={`td-header__toolbar-item-value`}>{askUnit}</p>
 				</div>
 				<div className="td-header__toolbar-item td-header__toolbar-item--hightlight">
 					<p className={`td-header__toolbar-item-value td-header__toolbar-item-value-${cls}`}>
-						{currentMarket && Decimal.format(Number(getTickerValue('last')), pricePrecision)}
+						{Decimal.format(Number(getTickerValue('last')), pricePrecision)}
+					</p>
+					<p className={`td-header__toolbar-item-value`}>
+						$ <ConvertUsd value={Number(getTickerValue('last'))} symbol={get(currentMarket, 'base_unit', '')} />
 					</p>
 				</div>
 				<div className="td-header__toolbar-item">
 					<p className="td-header__toolbar-item-text">{translate('page.body.trade.toolBar.change')}</p>
 					<p className={`td-header__toolbar-item-value td-header__toolbar-item-value-${cls}`}>
-						{currentMarket && (marketTickers[currentMarket.id] || defaultTicker).price_change_percent}
+						{getTickerValue('price_change_percent')}
 					</p>
 				</div>
 				<div className="td-header__toolbar-item">
 					<p className="td-header__toolbar-item-text">{translate('page.body.trade.toolBar.lowest')}</p>
 					<p className="td-header__toolbar-item-value td-header__toolbar-item-value-data">
-						{currentMarket && Decimal.format(Number(getTickerValue('low')), 6)}
+						{Decimal.format(Number(getTickerValue('low')), 6)}
 					</p>
 				</div>
 				<div className="td-header__toolbar-item">
 					<p className="td-header__toolbar-item-text">{translate('page.body.trade.toolBar.highest')}</p>
 					<p className="td-header__toolbar-item-value td-header__toolbar-item-value-data">
-						{currentMarket && Decimal.format(Number(getTickerValue('high')), 6)}
+						{Decimal.format(Number(getTickerValue('high')), 6)}
 					</p>
 				</div>
 
@@ -68,7 +73,7 @@ const HeaderToolbarContainer: React.FC = () => {
 						{translate('page.body.trade.toolBar.volume')}({bidUnit})
 					</p>
 					<p className={`td-header__toolbar-item-value td-header__toolbar-item-value-${cls}`}>
-						{currentMarket && Decimal.format(Number(getTickerValue('volume')), amountPrecision)}
+						{Decimal.format(Number(getTickerValue('volume')), amountPrecision)}
 					</p>
 				</div>
 			</div>
