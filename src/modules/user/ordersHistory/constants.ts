@@ -13,3 +13,6 @@ export const ORDERS_HISTORY_CANCEL_DATA = 'ordersHistory/CANCEL_DATA';
 export const ORDERS_HISTORY_CANCEL_ERROR = 'ordersHistory/CANCEL_ERROR';
 
 export const ORDERS_HISTORY_RESET = 'ordersHistory/RESET';
+
+export const ORDERS_HISTORY_ALL_FETCH = 'ordersHistoryAll/FETCH';
+export const ORDERS_HISTORY_ALL_DATA = 'ordersHistoryAll/DATA';

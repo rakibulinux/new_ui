@@ -1,4 +1,13 @@
-import { HISTORY_DATA, HISTORY_ERROR, HISTORY_FETCH, HISTORY_PUSH_EMIT, HISTORY_PUSH_FINISH, HISTORY_RESET } from './constants';
+import {
+	HISTORY_ALL_DATA,
+	HISTORY_ALL_FETCH,
+	HISTORY_DATA,
+	HISTORY_ERROR,
+	HISTORY_FETCH,
+	HISTORY_PUSH_EMIT,
+	HISTORY_PUSH_FINISH,
+	HISTORY_RESET,
+} from './constants';
 import { PrivateTradeEvent, WalletHistoryList } from './types';
 
 export interface HistoryFetchPayload {
@@ -16,6 +25,9 @@ interface HistorySuccessPayload {
 	page: number;
 	nextPageExists: boolean;
 }
+interface HistorySuccessAllPayload {
+	list: WalletHistoryList;
+}
 
 export interface HistoryFetch {
 	type: typeof HISTORY_FETCH;
@@ -26,7 +38,18 @@ export interface HistoryData {
 	type: typeof HISTORY_DATA;
 	payload: HistorySuccessPayload;
 }
+//
+export interface HistoryAllFetch {
+	type: typeof HISTORY_ALL_FETCH;
+	payload: HistoryFetchPayload;
+}
 
+export interface HistoryAllData {
+	type: typeof HISTORY_ALL_DATA;
+	payload: HistorySuccessAllPayload;
+}
+
+///
 export interface HistoryError {
 	type: typeof HISTORY_ERROR;
 	payload: WalletHistoryList;
@@ -46,7 +69,15 @@ export interface HistoryPush {
 	payload: PrivateTradeEvent;
 }
 
-export type HistoryActions = HistoryFetch | HistoryData | HistoryError | HistoryReset | HistoryPush | HistoryPushFinish;
+export type HistoryActions =
+	| HistoryFetch
+	| HistoryData
+	| HistoryError
+	| HistoryReset
+	| HistoryPush
+	| HistoryAllFetch
+	| HistoryAllData
+	| HistoryPushFinish;
 
 export const fetchHistory = (payload: HistoryFetchPayload): HistoryFetch => ({
 	type: HISTORY_FETCH,
@@ -57,6 +88,19 @@ export const successHistory = (payload: HistorySuccessPayload): HistoryData => (
 	type: HISTORY_DATA,
 	payload,
 });
+//
+// fetch all data
+export const historyAllFetch = (payload: HistoryFetchPayload): HistoryAllFetch => ({
+	type: HISTORY_ALL_FETCH,
+	payload,
+});
+
+export const historyAllData = (payload: HistorySuccessAllPayload): HistoryAllData => ({
+	type: HISTORY_ALL_DATA,
+	payload,
+});
+
+//
 
 export const failHistory = (payload: WalletHistoryList): HistoryError => ({
 	type: HISTORY_ERROR,

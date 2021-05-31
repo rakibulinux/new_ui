@@ -7,7 +7,7 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { minutesUntilAutoLogout, sessionCheckInterval /* showLanding */ } from '../../api';
 import { AnnouncementDetail, NewModal } from '../../components';
-import { WalletsFetch, AdminAnnouncement, AnnouncementEdit} from '../../containers';
+import { WalletsFetch, AdminAnnouncement, AnnouncementEdit } from '../../containers';
 import { toggleColorTheme } from '../../helpers';
 import { IntlProps } from '../../index';
 /* import { isMobile } from "react-device-detect"; */
@@ -78,6 +78,7 @@ import {
 	MagicLink,
 	MaintenanceScreen,
 	OrdersTabScreen,
+	OrdersTabScreenHistory,
 	ProfileScreen,
 	ProfileTwoFactorAuthScreen,
 	RegisterScreen,
@@ -88,7 +89,8 @@ import {
 	WithdrawScreen,
 	// WalletsScreen,
 	/* HomeScreen, */
-	AnnouncementScreen
+	HistoryTradeScreen,
+	AnnouncementScreen,
 } from '../../screens';
 import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
 import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
@@ -408,12 +410,37 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route exact={false} path="/fee" component={FeeScreen} />
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />
-                  
 
-
-					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/announcement/create" component={AdminAnnouncement} />
-                    <PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/announcement/edit/:id" component={AnnouncementEdit} />
-					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/announcement/detail/:id" component={AnnouncementDetail} />
+					<PrivateRoute
+						loading={userLoading}
+						isLogged={isLoggedIn}
+						path="/historyTrade"
+						component={HistoryTradeScreen}
+					/>
+					<PrivateRoute
+						loading={userLoading}
+						isLogged={isLoggedIn}
+						path="/ordersHistory"
+						component={OrdersTabScreenHistory}
+					/>
+					<PrivateRoute
+						loading={userLoading}
+						isLogged={isLoggedIn}
+						path="/announcement/create"
+						component={AdminAnnouncement}
+					/>
+					<PrivateRoute
+						loading={userLoading}
+						isLogged={isLoggedIn}
+						path="/announcement/edit/:id"
+						component={AnnouncementEdit}
+					/>
+					<PrivateRoute
+						loading={userLoading}
+						isLogged={isLoggedIn}
+						path="/announcement/detail/:id"
+						component={AnnouncementDetail}
+					/>
 					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/orders" component={OrdersTabScreen} />
 					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/history" component={HistoryScreen} />
 					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/confirm" component={ConfirmScreen} />

@@ -1,28 +1,28 @@
 import * as React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 // import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { useIntl, FormattedMessage } from 'react-intl';
 import {
 	changeUserDataFetch,
 	logoutFetch,
 	Market,
 	RootState,
 	selectCurrentMarket,
-	selectUserInfo,
-	selectUserLoggedIn,
-	User,
 	selectMarketSelectorState,
 	selectMobileWalletUi,
 	selectSidebarState,
+	selectUserInfo,
+	selectUserLoggedIn,
 	setMobileWalletUi,
 	toggleMarketSelector,
 	toggleSidebar,
+	User,
 } from '../../modules';
 // import { IntlProps } from '../../index';
 
 // import styled from 'styled-components';
-import { /* FaCog, */ FaStar, FaHistory, FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
+import { FaHistory, FaSignOutAlt, FaStar, FaUserCircle } from 'react-icons/fa';
 // interface State {
 //     isOpenDrop: boolean;
 //   }
@@ -112,13 +112,25 @@ export const Header: React.FC = () => {
 						<Link to="/orders">
 							<div className="header__right-menu__dropdown__wrap__content__title d-flex align-items-center">
 								<FaStar className="mr-2" />
-								{translate('page.body.landing.header.order')}
+								{translate('page.body.landing.header.openOrder')}
+							</div>
+						</Link>
+						<Link to="/ordersHistory">
+							<div className="header__right-menu__dropdown__wrap__content__title d-flex align-items-center">
+								<FaStar className="mr-2" />
+								{translate('page.body.landing.header.orderHistory')}
 							</div>
 						</Link>
 						<Link to="/history">
 							<div className="header__right-menu__dropdown__wrap__content__title d-flex align-items-center">
 								<FaHistory className="header__right-menu__dropdown__wrap__content__title__icon mr-2" />
 								{translate('page.body.landing.header.history')}
+							</div>
+						</Link>
+						<Link to="/historyTrade">
+							<div className="header__right-menu__dropdown__wrap__content__title d-flex flex-row align-items-center">
+								<FaHistory className="header__right-menu__dropdown__wrap__content__title__icon mr-2" />
+								{translate('page.body.landing.header.historyTrade')}
 							</div>
 						</Link>
 					</div>

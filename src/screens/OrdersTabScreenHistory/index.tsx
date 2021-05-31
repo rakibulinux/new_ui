@@ -1,4 +1,7 @@
 // tslint:disable-next-line: ordered-imports
+// import classnames from 'classnames';
+import { Empty } from 'antd';
+import * as moment from 'moment-timezone';
 import React from 'react';
 // tslint:disable-next-line: no-duplicate-imports
 import { useEffect, useState } from 'react';
@@ -30,6 +33,7 @@ import { RangerConnectFetch, rangerConnectFetch } from '../../modules/public/ran
 import { RangerState } from '../../modules/public/ranger/reducer';
 import { selectRanger } from '../../modules/public/ranger/selectors';
 import { OrderCommon } from '../../modules/types';
+import { FilterElement } from './../../components/FilterElementOrdersHistory/index';
 import { Pagination } from './../../components/PaginationOrdersHistory/index';
 
 interface ReduxProps {
@@ -52,9 +56,9 @@ interface DispatchProps {
 	userOrdersHistoryAllFetch: typeof userOrdersHistoryAllFetch;
 }
 
-export const OrdersTabScreen = () => {
+export const OrdersTabScreenHistory = () => {
 	const intl = useIntl();
-	const type = 'open';
+	const type = 'all';
 	const limitElem = 5;
 
 	const reduxProps = useSelector(
@@ -90,7 +94,7 @@ export const OrdersTabScreen = () => {
 
 		// hàm này chưa có api thaatj nên chạy sẽ bị lỗi
 		// listFunction.userOrdersHistoryAllFetch({ pageIndex: 0, type, limit: 25 });
-		setDocumentTitle('Open Orders');
+		setDocumentTitle('Orders History');
 		const {
 			rangerState: { connected },
 			userLoggedIn,
@@ -258,17 +262,11 @@ export const OrdersTabScreen = () => {
 
 		// console.log(indexElemStart, indexElemStop);
 		const bodyTable = () =>
-			[...listData].slice(indexElemStart, indexElemStop).map((item, index) => {
+			listData.slice(indexElemStart, indexElemStop).map((item, index) => {
 				return renderTableRow(item, index);
 			});
 		const emptyData = () => {
-			return [...listData].length === 0 ? (
-				<div className="text-center history-screen__tabs__content__table pt-5 pb-5">
-					Empty data . Please next page or prev page{' '}
-				</div>
-			) : (
-				''
-			);
+			return listData.length === 0 ? <Empty /> : '';
 		};
 
 		return fetching ? (
@@ -318,9 +316,64 @@ export const OrdersTabScreen = () => {
 		);
 	};
 
+	//-----------------      render fileter bar     ------------------//
+	const renderFilterBar = () => {
+		// tslint:disable-next-line: variable-name
+		const onFilter = (date_form: string, date_to: string, base_unit: string, quote_unit: string, side: string) => {
+			let dataFilter = reduxProps.list;
+			// filter by base_unit vs quote_unit
+			if (base_unit === 'all') {
+				// ko loc gì
+			} else {
+				if (quote_unit === 'all') {
+					// loc moi base unit
+					const baseStringLength = base_unit.length;
+					dataFilter = reduxProps.list.filter(e => e.market.slice(0, baseStringLength) === base_unit);
+				} else {
+					// loc cả hai base unit vs quote unit
+					// tslint:disable-next-line: restrict-plus-operands
+					const market = base_unit + quote_unit;
+					dataFilter = dataFilter.filter(e => e.market === market);
+				}
+			}
+			// filter by side
+			if (side !== 'all') {
+				dataFilter = dataFilter.filter(e => e.side === side);
+			}
+			// filter by time from
+			if (date_form !== '') {
+				dataFilter = dataFilter.filter(
+					e => moment(e.created_at, 'YYYYMMDD').valueOf() >= moment(date_form, 'YYYYMMDD').valueOf(),
+				);
+			}
+			// filter by time to
+			if (date_to !== '') {
+				dataFilter = dataFilter.filter(
+					e => moment(e.created_at, 'YYYYMMDD').valueOf() <= moment(date_to, 'YYYYMMDD').valueOf(),
+				);
+			}
+
+			setPageIndex(1);
+			setListData(dataFilter);
+			const newMaxPage = Math.ceil(dataFilter.length / limitElem) === 0 ? 1 : Math.ceil(dataFilter.length / limitElem);
+			setMaxPage(newMaxPage);
+		};
+
+		const onRestFilter = () => {
+			setListData(reduxProps.list);
+			setPageIndex(1);
+			const newMaxPage =
+				Math.ceil(reduxProps.list.length / limitElem) === 0 ? 1 : Math.ceil(reduxProps.list.length / limitElem);
+			setMaxPage(newMaxPage);
+		};
+
+		return <FilterElement onFilter={onFilter} onRestFilter={onRestFilter} />;
+	};
+
 	return (
 		<div className="history-screen history-screen-container">
-			<div className="history-screen__title">Open Orders</div>
+			<div className="history-screen__title">Orders History</div>
+			{renderFilterBar()}
 			<div className="history-screen__tabs ">
 				<div className="history-screen__tabs__content">{renderTable()}</div>
 				<div className="history-screen__tabs__content__pagination">{renderPagination()}</div>

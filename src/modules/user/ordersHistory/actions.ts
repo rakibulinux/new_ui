@@ -3,6 +3,8 @@ import {
 	ORDERS_CANCEL_ALL_DATA,
 	ORDERS_CANCEL_ALL_ERROR,
 	ORDERS_CANCEL_ALL_FETCH,
+	ORDERS_HISTORY_ALL_DATA,
+	ORDERS_HISTORY_ALL_FETCH,
 	ORDERS_HISTORY_CANCEL_DATA,
 	ORDERS_HISTORY_CANCEL_ERROR,
 	ORDERS_HISTORY_CANCEL_FETCH,
@@ -27,6 +29,13 @@ export interface UserOrdersHistoryDataPayload {
 	nextPageExists: boolean;
 	market?: string;
 }
+export interface UserOrdersHistoryAllDataPayload {
+	list: OrderCommon[];
+}
+
+export interface UserOrdersHistoryDataAllPayload {
+	list: OrderCommon[];
+}
 
 export interface UserOrdersHistoryFetch {
 	type: typeof ORDERS_HISTORY_FETCH;
@@ -37,6 +46,19 @@ export interface UserOrdersHistoryData {
 	type: typeof ORDERS_HISTORY_DATA;
 	payload: UserOrdersHistoryDataPayload;
 }
+
+////
+export interface UserOrdersHistoryAllFetch {
+	type: typeof ORDERS_HISTORY_ALL_FETCH;
+	payload: UserOrdersHistoryFetchPayload;
+}
+
+export interface UserOrdersHistoryAllData {
+	type: typeof ORDERS_HISTORY_ALL_DATA;
+	payload: UserOrdersHistoryAllDataPayload;
+}
+
+////
 
 export interface UserOrdersHistoryRangerData {
 	type: typeof ORDERS_HISTORY_RANGER_DATA;
@@ -90,6 +112,7 @@ export interface OrdersHistoryReset {
 
 export type OrdersHistoryAction =
 	| UserOrdersHistoryFetch
+	| UserOrdersHistoryAllFetch
 	| UserOrdersHistoryData
 	| UserOrdersHistoryRangerData
 	| UserOrdersHistoryError
@@ -100,8 +123,8 @@ export type OrdersHistoryAction =
 	| OrdersHistoryCancelFetch
 	| OrdersHistoryCancelData
 	| OrdersHistoryCancelError
+	| UserOrdersHistoryAllData
 	| OrdersHistoryReset;
-
 export const userOrdersHistoryFetch = (payload: UserOrdersHistoryFetchPayload): UserOrdersHistoryFetch => ({
 	type: ORDERS_HISTORY_FETCH,
 	payload,
@@ -111,7 +134,18 @@ export const userOrdersHistoryData = (payload: UserOrdersHistoryDataPayload): Us
 	type: ORDERS_HISTORY_DATA,
 	payload,
 });
+//
+export const userOrdersHistoryAllFetch = (payload: UserOrdersHistoryFetchPayload): UserOrdersHistoryAllFetch => ({
+	type: ORDERS_HISTORY_ALL_FETCH,
+	payload,
+});
 
+export const userOrdersHistoryAlldata = (payload: UserOrdersHistoryAllDataPayload): UserOrdersHistoryAllData => ({
+	type: ORDERS_HISTORY_ALL_DATA,
+	payload,
+});
+
+// ////
 export const userOrdersHistoryRangerData = (payload: OrderEvent): UserOrdersHistoryRangerData => ({
 	type: ORDERS_HISTORY_RANGER_DATA,
 	payload,
