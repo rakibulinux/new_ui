@@ -21,6 +21,8 @@ export const UnStake: React.FC<UnStakeProps> = (props: UnStakeProps) => {
 	const dispatch = useDispatch();
 
 	const handleUnStake = () => {
+		setAmountState("");
+		setAgreeState(false);
 		dispatch(
 			unStakePost({
 				uid: user.uid,
