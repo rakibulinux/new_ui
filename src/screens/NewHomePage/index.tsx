@@ -27,7 +27,7 @@ export const NewHomePage: React.FC = () => {
 				<div className="cx-title">
 					<h2 className="cx-title_exchange">CircleEX Exchange</h2>
 					<p className="cx-title_description">First Governance Community Exchange<br />For the community By the Community</p>
-					<a href="" className="cx-title_action">Get Started</a>
+					<a href="/signup" className="cx-title_action">Get Started</a>
 				</div>
 			</div>
 		</div>
@@ -43,7 +43,7 @@ export const NewHomePage: React.FC = () => {
 		<div style={{ padding: "150px 0", backgroundColor: '#252A3B' }}>
 			<div className="row">
 				<div className="col-12">
-					<Title>FEATURES</Title>
+					<Title>Features</Title>
 				</div>
 			</div>
 			<div className="container text-white">
@@ -111,7 +111,7 @@ export const NewHomePage: React.FC = () => {
 	const renderTeam = () => {
 		return (
 			<div style={{ padding: '50px 0' }}>
-				<NewTeamSection />;
+				<NewTeamSection />
 			</div>
 		)
 	};

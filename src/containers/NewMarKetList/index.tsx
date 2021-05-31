@@ -202,9 +202,9 @@ export const NewMarketList: React.FC<any> = () => {
 					<div className="container" onClick={() => handleRedirectToTrading(market.id)}>
 						<div className="row">
 							<div className="col-12 d-flex justify-content-between">
-								<div>
+								<div className="d-flex justify-content-between">
 									<img width="30px" height="30px" src={findIcon(baseCurrency)} alt={baseCurrency} />
-									<span style={{ fontSize: '1.2rem', margin: '5px' }} className="text-white">
+									<span style={{ fontSize: '1.4rem', margin: '5px' }} className="text-white">
 										{marketID.toUpperCase()}
 									</span>
 								</div>
@@ -219,10 +219,10 @@ export const NewMarketList: React.FC<any> = () => {
 									}}
 								>
 									24H
-									</span>
+								</span>
 							</div>
 						</div>
-						<div className="row mt-1">
+						<div className="row mt-4">
 							<div className="col-6 d-flex justify-content-start align-items-center">
 								<span style={{ marginLeft: '5px', fontSize: '1.4rem', color: '#fff' }}>{last}</span>
 							</div>

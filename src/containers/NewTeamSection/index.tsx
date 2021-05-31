@@ -203,7 +203,7 @@ export const NewTeamSection = () => {
 				</div>
 				<div className="col-8" style={{ paddingLeft: '50px'}}>
 					<div>
-						<h2 style={{ fontSize: '3rem', fontWeight: 'bold'  }}>OUR TEAM</h2>
+						<h2 style={{ fontSize: '3rem', fontWeight: 'bold'  }}>Our Team</h2>
 						<p style={{ fontSize: '1.3rem' }}>
 							CX Exchange, developed by ZoziTech, is a product of ZoziTech Software company.
 						</p>
