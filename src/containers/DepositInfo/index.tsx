@@ -60,7 +60,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 	const allChildCurrencies = useSelector(selectAllChildCurrencies);
 
 	// tslint:disable-next-line:no-shadowed-variable
-	const wallet = wallets.find(wallet => wallet.currency.toLowerCase() === selectedCurrencyID.toLowerCase()) || {
+	const wallet = wallets.find(wallet => wallet.currency.toLowerCase() === currency_id.toLowerCase()) || {
 		currency: '',
 		name: '',
 		type: 'fiat',
@@ -69,7 +69,9 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 	};
 
 	// tslint:disable-next-line:no-shadowed-variable
-	const currency = currencies.find((currency: Currency) => String(currency.id).toLowerCase() === selectedCurrencyID.toLowerCase()) || {
+	const currency = currencies.find(
+		(currency: Currency) => String(currency.id).toLowerCase() === selectedCurrencyID.toLowerCase(),
+	) || {
 		name: '',
 		min_confirmations: 6,
 		min_deposit_amount: 6,
@@ -88,7 +90,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 
 	const textDepositFee = `${intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.depositfee' })} ${Number(
 		currency.deposit_fee,
-	)} ${selectedCurrencyID.toUpperCase()}`;
+	)} %`;
 
 	const textNote = `Only Deposit ${selectedCurrencyID.toUpperCase()} to this wallet.`;
 
@@ -99,7 +101,9 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 		try {
 			return require(`../../../node_modules/cryptocurrency-icons/128/color/${code.toLowerCase()}.png`);
 		} catch (err) {
-			if (currency) { return currency.icon_url; }
+			if (currency) {
+				return currency.icon_url;
+			}
 
 			return require('../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
 		}

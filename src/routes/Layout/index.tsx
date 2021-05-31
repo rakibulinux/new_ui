@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Spinner } from 'react-bootstrap';
+import { Button, Spinner } from 'react-bootstrap';
 import { injectIntl } from 'react-intl';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Route, RouterProps, Switch } from 'react-router';
 import { Redirect, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { minutesUntilAutoLogout, sessionCheckInterval /* showLanding */ } from '../../api';
-import { ExpiredSessionModal, AnnouncementDetail } from '../../components';
+import { AnnouncementDetail, NewModal } from '../../components';
 import { WalletsFetch, AdminAnnouncement, AnnouncementEdit} from '../../containers';
 import { toggleColorTheme } from '../../helpers';
 import { IntlProps } from '../../index';
@@ -90,6 +90,8 @@ import {
 	/* HomeScreen, */
 	AnnouncementScreen
 } from '../../screens';
+import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
+import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
 
 interface ReduxProps {
 	colorTheme: string;
@@ -230,7 +232,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 			configsLoading,
 			platformAccessStatus,
 		} = this.props;
-		const { isShownExpSessionModal } = this.state;
 		const tradingCls = location.pathname.includes('/trading') ? 'trading-layout' : '';
 		toggleColorTheme(colorTheme);
 
@@ -357,12 +358,14 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							exact
 							component={TradingCompetitionDetailMobileScreen}
 						/>
+						<Route path="/stake" exact component={StakingListMobileScreen} />
+						<Route path="/stake/detail/:stake_id" exact component={StakingDetailMobileScreen} />
 						<Route path="**">
 							<Redirect to="/trading/" />
 						</Route>
 					</Switch>
 					{isLoggedIn && <WalletsFetch />}
-					{isShownExpSessionModal && this.handleRenderExpiredSessionModal()}
+					{this.handleRenderExpiredSessionModal()}
 				</div>
 			);
 		}
@@ -455,12 +458,14 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
 					<Route path="/trading-competition" exact component={TradingCompetionListScreen} />
 					<Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
+					<Route path="/stake" exact component={StakingListScreen} />
+					<Route path="/stake/detail/:stake_id" exact component={StakingDetailScreen} />
 					<Route path="**">
 						<Redirect to="/trading/" />
 					</Route>
 				</Switch>
 				{isLoggedIn && <WalletsFetch />}
-				{isShownExpSessionModal && this.handleRenderExpiredSessionModal()}
+				{this.handleRenderExpiredSessionModal()}
 			</div>
 		);
 	}
@@ -515,14 +520,22 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 		history.push('/signin');
 	};
 
-	private handleRenderExpiredSessionModal = () => (
-		<ExpiredSessionModal
-			title={this.translate('page.modal.expired.title')}
-			buttonLabel={this.translate('page.modal.expired.submit')}
-			handleChangeExpSessionModalState={this.handleChangeExpSessionModalState}
-			handleSubmitExpSessionModal={this.handleSubmitExpSessionModal}
-		/>
-	);
+	private handleRenderExpiredSessionModal = () => {
+		const { isShownExpSessionModal } = this.state;
+
+		return (
+			<NewModal
+				show={isShownExpSessionModal}
+				onHide={this.handleChangeExpSessionModalState}
+				titleModal={this.translate('page.modal.expired.title')}
+				bodyModal={
+					<Button block={true} type="button" onClick={this.handleSubmitExpSessionModal} size="lg" variant="primary">
+						{this.translate('page.modal.expired.submit')}
+					</Button>
+				}
+			/>
+		);
+	};
 
 	private handleChangeExpSessionModalState = () => {
 		this.setState({
