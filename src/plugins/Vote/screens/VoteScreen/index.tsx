@@ -58,7 +58,7 @@ export const VoteScreen: React.FC<VoteScreenProps> = ({}) => {
 
 	useVoteListFetch(pagination);
 
-	const getBodyTableData = () => {
+	const getBodyTableData = React.useCallback(() => {
 		const getRankData = (i: number) => (i <= 2 && pagination.pageIndex === 1 ? (i + 1).toString() : '');
 		const rowDatas = voteListInfo.data.map((vote, i) => {
 			return [
@@ -73,7 +73,7 @@ export const VoteScreen: React.FC<VoteScreenProps> = ({}) => {
 		});
 
 		return rowDatas;
-	};
+	}, [voteListInfo]);
 
 	const onToPage = (pageIndex: number) => {
 		setPagintion({
