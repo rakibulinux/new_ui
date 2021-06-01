@@ -70,6 +70,7 @@ import {
 	UnStakeHistoryState,
 } from './plugins/staking';
 import { AnnouncementState, rootAnnouncementSaga } from './info/announcement';
+import { rootVoteSaga, VoteState } from './plugins/vote';
 
 export * from './public/markets';
 export * from './public/orderBook';
@@ -113,6 +114,7 @@ export * from './trading_competitions/rankings';
 export * from './info/events';
 export * from './events/lunar';
 export * from './plugins/staking';
+export * from './plugins/vote';
 export * from './info/announcement';
 
 export interface RootState {
@@ -137,9 +139,9 @@ export interface RootState {
 		withdraw: ETHFeeWithdrawState;
 	};
 	info: {
-        events: EventsState;
-        announcement: AnnouncementState;
-    };
+		events: EventsState;
+		announcement: AnnouncementState;
+	};
 
 	public: {
 		alerts: AlertState;
@@ -194,6 +196,7 @@ export interface RootState {
 		stake_wallet: StakeWalletState;
 		stake_history: StakeHistoryState;
 		unstake_history: UnStakeHistoryState;
+		voteList: VoteState;
 	};
 }
 
@@ -256,6 +259,7 @@ export function* rootSaga() {
 		call(rootEventSaga),
 		call(rootLunarSaga),
 		call(rootStakingSaga),
-    call(rootAnnouncementSaga),
+		call(rootAnnouncementSaga),
+		call(rootVoteSaga),
 	]);
 }

@@ -57,7 +57,7 @@ const RecentTradesComponent: React.FC = () => {
 		setTabKeyActiveState(key);
 	};
 
-	const renderTabs1 = (tabsInfo: ReturnType<typeof getTabListInfo>) => {
+	const renderTabs = (tabsInfo: ReturnType<typeof getTabListInfo>) => {
 		return (
 			<Tabs defaultActiveKey="1" onChange={handleOnchangeTab}>
 				{tabsInfo.map(item => (
@@ -69,7 +69,7 @@ const RecentTradesComponent: React.FC = () => {
 		);
 	};
 
-	return <MarketHistory className="td-markets-history-list-container">{renderTabs1(getTabListInfo())}</MarketHistory>;
+	return <MarketHistory className="td-markets-history-list-container">{renderTabs(getTabListInfo())}</MarketHistory>;
 };
 
 export const RecentTrades = RecentTradesComponent;

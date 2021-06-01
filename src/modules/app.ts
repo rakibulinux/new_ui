@@ -52,7 +52,8 @@ import {
 	unStakeHistoryReducer,
 	unStakeReducer,
 } from './plugins/staking';
-import {announcementReducer} from './info/announcement';
+import { announcementReducer } from './info/announcement';
+import { voteReducer } from './plugins/vote';
 
 export const eventsReducer = combineReducers({
 	lunar: lunarReducer,
@@ -82,9 +83,9 @@ export const tradingCompetitionsReducer = combineReducers({
 	rankings: rankingsReducer,
 });
 export const infoReducer = combineReducers({
-    events: eventReducer,
-    announcement: announcementReducer,
-})
+	events: eventReducer,
+	announcement: announcementReducer,
+});
 
 export const publicReducer = combineReducers({
 	blocklistAccess: blocklistAccessReducer,
@@ -138,4 +139,5 @@ export const pluginsReducer = combineReducers({
 	create_stake: createStakeReducer,
 	unstake: unStakeReducer,
 	unstake_history: unStakeHistoryReducer,
+	voteList: voteReducer,
 });
