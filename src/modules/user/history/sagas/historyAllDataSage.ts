@@ -1,4 +1,5 @@
 // tslint:disable-next-line
+import { uniqBy } from 'lodash';
 import { call, put } from 'redux-saga/effects';
 import { API, RequestOptions } from '../../../../api';
 import { alertPush } from '../../../public/alert';
@@ -34,8 +35,10 @@ export function* historyAllDataSaga(action: HistoryAllFetch) {
 					if (checkData.length === max) {
 						// gooopj phân tử thì pahri lọc phần tử trùng
 						data = data.concat(checkData);
+						data = uniqBy(data , (e:any) => e.id );
 					} else {
 						data = data.concat(checkData);
+						data = uniqBy(data , (e:any) => e.id );
 						break;
 					}
 				}
@@ -43,7 +46,6 @@ export function* historyAllDataSaga(action: HistoryAllFetch) {
 				data = checkData;
 			}
 		}
-
 		yield put(historyAllData({ list: data }));
 	} catch (error) {
 		yield put(failHistory([]));

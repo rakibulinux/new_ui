@@ -20,7 +20,7 @@ import {
 	WalletHistoryList,
 } from '../../modules';
 
-import { localeDate, setDocumentTitle, setTradesType } from '../../helpers';
+import { localeDate, setDocumentTitle } from '../../helpers';
 import { FilterElement } from './../../components/FilterElementOrdersHistory/index';
 import { Pagination } from './../../components/PaginationOrdersHistory/index';
 
@@ -41,7 +41,7 @@ interface ReduxProps {
 export const HistoryTradeScreen = () => {
 	const intl = useIntl();
 	const type = 'trades';
-	const limitElem = 5;
+	const limitElem = 20;
 	const reduxProps = useSelector(
 		(state: RootState): ReduxProps => ({
 			currencies: selectCurrencies(state),
@@ -69,7 +69,7 @@ export const HistoryTradeScreen = () => {
 		// listFunction.fetchHistory({ page: 0, type, limit: 25 });
 		// call get all data
 		// vì đang lỗi nên có api thật mưới dùng đc
-		listFunction.historyAllFetch({ page: 2, type, limit: 25 });
+		listFunction.historyAllFetch({ page: 1, type, limit: 25 });
 		setDocumentTitle('History Trade');
 
 		if (currencies.length === 0) {
@@ -84,7 +84,7 @@ export const HistoryTradeScreen = () => {
 	}, [reduxProps.currencies]);
 
 	useEffect(() => {
-		console.log(reduxProps.list);
+		// console.log(reduxProps.list);
 		const newMaxPage =
 			Math.ceil(reduxProps.list.length / limitElem) === 0 ? 1 : Math.ceil(reduxProps.list.length / limitElem);
 		setMaxPage(Math.ceil(newMaxPage));
@@ -113,24 +113,32 @@ export const HistoryTradeScreen = () => {
 
 	const renderTableRow = (item, index) => {
 		const { marketsData } = reduxProps;
-		const { created_at, side, market, price, amount, total } = item;
+		const { created_at, side, market, price, amount, total, taker_type } = item;
+
+		// console.log({ created_at, side, market, price, amount, total, id, taker_type });
 		const marketToDisplay = marketsData.find(m => m.id === market) || {
 			name: '',
 			price_precision: 0,
 			amount_precision: 0,
 		};
 		const marketName = marketToDisplay ? marketToDisplay.name : market;
-		const sideText = setTradesType(side).text.toLowerCase()
-			? intl.formatMessage({ id: `page.body.history.trade.content.side.${setTradesType(side).text.toLowerCase()}` })
-			: '';
+
+		const tdSide = () => {
+			const textSide = side || taker_type;
+			const classname =
+				textSide === 'buy'
+					? 'history-screen__tabs__content__table__body__item-table--succeed'
+					: 'history-screen__tabs__content__table__body__item-table--failed';
+
+			return (
+				<td className={classname}>{intl.formatMessage({ id: `page.body.history.trade.content.side.${textSide}` })}</td>
+			);
+		};
 
 		return (
 			<tr key={index}>
 				<td>{localeDate(created_at, 'fullDate')}</td>
-				<td>
-					{sideText}
-					{side}
-				</td>
+				{tdSide()}
 				<td>{marketName}</td>
 				<td>{price}</td>
 				<td>{amount}</td>
@@ -176,7 +184,6 @@ export const HistoryTradeScreen = () => {
 		);
 	};
 	//--------------------------render pagination--------------------------//
-
 	const onclickFirstPage = () => {
 		setPageIndex(1);
 	};
@@ -204,32 +211,34 @@ export const HistoryTradeScreen = () => {
 			/>
 		);
 	};
-
-	//--------------------------
 	//-----------------      render fileter bar     ------------------//
 	const renderFilterBar = () => {
 		// tslint:disable-next-line: variable-name
 		const onFilter = (date_form: string, date_to: string, base_unit: string, quote_unit: string, side: string) => {
 			let dataFilter = reduxProps.list;
 			// // filter by base_unit vs quote_unit
-			// if (base_unit === 'all') {
-			// 	// ko loc gì
-			// } else {
-			// 	if (quote_unit === 'all') {
-			// 		// loc moi base unit
-			// 		const baseStringLength = base_unit.length;
-			// 		dataFilter = reduxProps.list.filter(e => e.market.slice(0, baseStringLength) === base_unit);
-			// 	} else {
-			// 		// loc cả hai base unit vs quote unit
-			// 		// tslint:disable-next-line: restrict-plus-operands
-			// 		const market = base_unit + quote_unit;
-			// 		dataFilter = dataFilter.filter(e => e.market === market);
-			// 	}
-			// }
+			if (base_unit === 'all') {
+				// ko loc gì
+			} else {
+				if (quote_unit === 'all') {
+					// loc moi base unit
+					const baseStringLength = base_unit.length;
+					dataFilter = reduxProps.list.filter((e:any) => e.market.slice(0, baseStringLength) === base_unit);
+				} else {
+					// loc cả hai base unit vs quote unit
+					// tslint:disable-next-line: restrict-plus-operands
+					const market = base_unit + quote_unit;
+					dataFilter = dataFilter.filter( (e:any) => e.market === market);
+				}
+			}
 			// // filter by side
-			// if (side !== 'all') {
-			// 	dataFilter = dataFilter.filter(e => e.taker_type === side);
-			// }
+			if (side !== 'all') {
+				dataFilter = dataFilter.filter((e: any) => {
+					const textSide = e.side || e.taker_type;
+
+					return textSide === side;
+				});
+			}
 
 			// filter by time from
 			if (date_form !== '') {

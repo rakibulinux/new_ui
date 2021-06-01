@@ -44,7 +44,7 @@ export const HistoryScreen = () => {
 	const intl = useIntl();
 	const tabMapping = ['deposits', 'withdraws'];
 	const type = tab;
-	const limitElem = 5;
+	const limitElem = 20;
 
 	const reduxProps = useSelector(
 		(state: RootState): ReduxProps => ({
@@ -75,10 +75,10 @@ export const HistoryScreen = () => {
 	useEffect(() => {
 		const { currencies } = reduxProps;
 		setDocumentTitle('History');
-		// listFunction.fetchHistory({ page: 0, type, limit: 25 });
+		// listFunction.fetchHistory({ page: 1, type, limit: 25 });
 		// call get all data
 		// vì đang lỗi nên có api thật mưới dùng đc
-		listFunction.historyAllFetch({ page: 0, type, limit: 25 });
+		listFunction.historyAllFetch({ page: 1, type, limit: 25 });
 		if (currencies.length === 0) {
 			// console.log('run fetch currencies ');
 			listFunction.fetchCurrencies();
@@ -86,11 +86,11 @@ export const HistoryScreen = () => {
 	}, []);
 
 	useEffect(() => {
-		// listFunction.fetchHistory({ page: 0, type, limit: 25 });
+		listFunction.fetchHistory({ page: 1, type, limit: 25 });
 		setPageIndex(1);
 		// call get all data
 		// vì đang lỗi nên có api thật mưới dùng đc
-		listFunction.historyAllFetch({ page: 0, type, limit: 25 });
+		// listFunction.historyAllFetch({ page: 0, type, limit: 25 });
 	}, [tab]);
 
 	useEffect(() => {

@@ -1,3 +1,4 @@
+import { uniqBy } from 'lodash';
 import { call, put } from 'redux-saga/effects';
 import { alertPush } from '../../..';
 import { API, RequestOptions } from '../../../../api';
@@ -12,7 +13,7 @@ export function* ordersHistoryAllSaga(action: UserOrdersHistoryAllFetch) {
 		const { pageIndex, limit, type } = action.payload;
 		const params = `${type === 'all' ? '' : '&state=wait'}`;
 		// get data with pageIndex=1 and limit ==limit
-		let data = yield call(API.get(ordersOptions), `/market/orders?page=${pageIndex + 1}&limit=${limit}${params}`);
+		let data = yield call(API.get(ordersOptions), `/market/orders?page=${pageIndex }&limit=${limit}${params}`);
 		console.log(data);
 		if (data.length === limit) {
 			// trả về 20 thằng đâu tiên cho ui chứ ko để loop xong het data moi trả về
@@ -27,8 +28,10 @@ export function* ordersHistoryAllSaga(action: UserOrdersHistoryAllFetch) {
 					checkData = yield call(API.get(ordersOptions), `/market/orders?page=${++index}&limit=${max}${params}`);
 					if (checkData.length === max) {
 						data = data.concat(checkData);
+						data = uniqBy(data , (e:any) => e.id );
 					} else {
 						data = data.concat(checkData);
+						data = uniqBy(data , (e:any) => e.id );
 						break;
 					}
 				}

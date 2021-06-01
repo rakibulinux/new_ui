@@ -21,7 +21,7 @@ export function* historySaga(action: HistoryFetch) {
 		const params = `page=${page}&limit=${limit}`;
 		const data = yield call(API.get(config), `${coreEndpoint[type]}?${params}`);
 
-		let nextPageExists = false;
+		const nextPageExists = false;
 
 		let updatedData = data;
 

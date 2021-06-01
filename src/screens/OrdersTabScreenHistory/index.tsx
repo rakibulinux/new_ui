@@ -59,7 +59,7 @@ interface DispatchProps {
 export const OrdersTabScreenHistory = () => {
 	const intl = useIntl();
 	const type = 'all';
-	const limitElem = 5;
+	const limitElem = 20;
 
 	const reduxProps = useSelector(
 		(state: RootState): ReduxProps => ({
@@ -90,10 +90,10 @@ export const OrdersTabScreenHistory = () => {
 
 	useEffect(() => {
 		// lấy về trước 20 phần tử
-		listFunction.userOrdersHistoryFetch({ pageIndex: 0, type, limit: 25 });
+		// listFunction.userOrdersHistoryFetch({ pageIndex: 1, type, limit: 25 });
 
 		// hàm này chưa có api thaatj nên chạy sẽ bị lỗi
-		// listFunction.userOrdersHistoryAllFetch({ pageIndex: 0, type, limit: 25 });
+		listFunction.userOrdersHistoryAllFetch({ pageIndex: 1, type, limit: 25 });
 		setDocumentTitle('Orders History');
 		const {
 			rangerState: { connected },
