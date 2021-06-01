@@ -86,10 +86,9 @@ export const AnnouncementEdit: React.FC = (props) => {
 
   const history = useHistory();
 
-  const handleEditAnnouncement: React.DOMAttributes<HTMLFormElement>["onSubmit"] = async (e) => {
+  const handleEditAnnouncement: React.DOMAttributes<HTMLFormElement>["onSubmit"] = (e) => {
     e.preventDefault();
-    await dispatch(announcementUpdate(postAnnouncementUpdate));
-
+    dispatch(announcementUpdate(postAnnouncementUpdate));
 	history.push("/announcement");
   }
 
