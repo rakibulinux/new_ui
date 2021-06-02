@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Decimal, MarketsHotOnlist, MarketTable } from '../../components';
+import { ConvertUsd, Decimal, MarketsHotOnlist, MarketTable } from '../../components';
 
 import Tabs, { TabPane } from 'rc-tabs';
 import styled from 'styled-components';
@@ -150,7 +150,7 @@ export const MarketsList = props => {
 		currentBidUnitsList = markets.reduce(formatFilteredMarkets, currentBidUnitsList);
 	}
 
-	const currentBidUnitMarkets = props.markets || markets;
+	const currentBidUnitMarkets = (props.markets || markets) as typeof markets;
 
 	const clickFavoritesMarket = (id: string) => {
 		const local = localStorage.getItem('favourites_markets') || '[]';
@@ -218,7 +218,14 @@ export const MarketsList = props => {
 								<span style={{ color: '#737f92' }}>{marketName[1]}</span>
 							</div>
 						),
-						last: <span style={{ color: marketChangeColor }}>{market.last}</span>,
+						last: (
+							<span style={{ color: marketChangeColor }}>
+								{market.last}
+								<p className="m-0" style={{ color: 'rgb(115 127 146)' }}>
+									$ <ConvertUsd value={+market.last} symbol={marketName[0]} />
+								</p>
+							</span>
+						),
 						open: <span style={{ color: marketChangeColor }}>{market.open}</span>,
 						change: <span style={{ color: marketChangeColor }}>{market.change}</span>,
 						volume: <span style={{ color: marketChangeColor }}>{market.volume}</span>,
