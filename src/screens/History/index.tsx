@@ -1,15 +1,7 @@
-import React from 'react';
-// tslint:disable-next-line: no-duplicate-imports
-import { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { localeDate, preciseData } from '../../helpers';
-// tslint:disable-next-line: no-duplicate-imports
-import { setDocumentTitle } from '../../helpers';
+import { FilterElement } from 'components/FilterElementOrdersHistory';
 import {
 	currenciesFetch,
 	Currency,
-	fetchHistory,
 	historyAllFetch,
 	Market,
 	resetHistory,
@@ -21,14 +13,12 @@ import {
 	selectWallets,
 	Wallet,
 	WalletHistoryList,
-} from '../../modules';
+} from 'modules';
+import React,{ useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { localeDate, preciseData ,setDocumentTitle } from '../../helpers';
 import { Pagination } from './../../components/PaginationOrdersHistory/index';
-
-interface DispatchProps {
-	fetchCurrencies: typeof currenciesFetch;
-	fetchHistory: typeof fetchHistory;
-	historyAllFetch: typeof historyAllFetch;
-}
 
 interface ReduxProps {
 	currencies: Currency[];
@@ -39,12 +29,11 @@ interface ReduxProps {
 }
 
 export const HistoryScreen = () => {
+	const intl = useIntl();
 	const [tab, setTab] = useState('deposits');
 	const dispatch = useDispatch();
-	const intl = useIntl();
-	const tabMapping = ['deposits', 'withdraws'];
-	const type = tab;
-	const limitElem = 20;
+	const [pageIndex, setPageIndex] = useState(1);
+	const [maxPage, setMaxPage] = useState(1);
 
 	const reduxProps = useSelector(
 		(state: RootState): ReduxProps => ({
@@ -55,60 +44,41 @@ export const HistoryScreen = () => {
 			fetching: selectHistoryLoading(state),
 		}),
 	);
-
 	const [listData, setListData] = useState(reduxProps.list);
-	const [pageIndex, setPageIndex] = useState(1);
-	const [maxPage, setMaxPage] = useState(1);
-	const onCurrentTabChange = (index: number) => {
-		if (tabMapping[index] !== type) {
-			dispatch(resetHistory());
-			setTab(tabMapping[index]);
-		}
-	};
-
-	const listFunction: DispatchProps = {
-		fetchHistory: payload => dispatch(fetchHistory(payload)),
-		fetchCurrencies: () => dispatch(currenciesFetch()),
-		historyAllFetch: payload => dispatch(historyAllFetch(payload)),
-	};
 
 	useEffect(() => {
 		const { currencies } = reduxProps;
 		setDocumentTitle('History');
-		// listFunction.fetchHistory({ page: 1, type, limit: 25 });
-		// call get all data
-		// vì đang lỗi nên có api thật mưới dùng đc
-		listFunction.historyAllFetch({ page: 1, type, limit: 25 });
+		dispatch(historyAllFetch({ page: 1, type:tab, limit: 25 }));
 		if (currencies.length === 0) {
-			// console.log('run fetch currencies ');
-			listFunction.fetchCurrencies();
+			dispatch(currenciesFetch());
 		}
 	}, []);
 
 	useEffect(() => {
-		listFunction.fetchHistory({ page: 1, type, limit: 25 });
-		setPageIndex(1);
-		// call get all data
-		// vì đang lỗi nên có api thật mưới dùng đc
-		// listFunction.historyAllFetch({ page: 0, type, limit: 25 });
-	}, [tab]);
-
-	useEffect(() => {
 		if (reduxProps.currencies.length === 0) {
-			listFunction.fetchCurrencies();
+			dispatch(currenciesFetch());
 		}
 	}, [reduxProps.currencies]);
 
 	useEffect(() => {
-		const newMaxPage =
-			Math.ceil(reduxProps.list.length / limitElem) === 0 ? 1 : Math.ceil(reduxProps.list.length / limitElem);
+		const newMaxPage =Math.ceil(reduxProps.list.length / limitElem) === 0 ? 1 : Math.ceil(reduxProps.list.length / limitElem);
 		setMaxPage(Math.ceil(newMaxPage));
 		setListData(reduxProps.list);
 	}, [reduxProps.list]);
 
-	//// render tabs label //////////////////
+	const tabMapping = ['deposits', 'withdraws' , 'trades'];
+	const limitElem = 20;
+	const onCurrentTabChange = (index: number) => {
+		if (tabMapping[index] !== tab) {
+			dispatch(resetHistory());
+			dispatch(historyAllFetch({ page: 1, type:tabMapping[index], limit: 25 }));
+			setPageIndex(1);
+			setTab(tabMapping[index]);
+		}
+	};
+	//-----------------           ------------------//
 	const renderTabsLabel = () => {
-		// console.log('renderTabsLabel');
 		const labelTabs = [
 			{
 				className:
@@ -124,6 +94,13 @@ export const HistoryScreen = () => {
 						: 'history-screen__tabs__label__item',
 				label: intl.formatMessage({ id: 'page.body.history.withdraw' }),
 			},
+			{
+				className:
+					tab === 'trades'
+						? 'history-screen__tabs__label__item history-screen__tabs__label__item--active'
+						: 'history-screen__tabs__label__item',
+				label: intl.formatMessage({ id: 'page.body.history.trade' }),
+			},
 		];
 
 		return (
@@ -138,10 +115,8 @@ export const HistoryScreen = () => {
 			</React.Fragment>
 		);
 	};
-	/////////////////////     render table      ////////////////////////////
-	// tslint:disable-next-line: no-shadowed-variable
+	//-----------------           ------------------//
 	const renderHeadersTable = (type: string) => {
-		// console.log("renderHeadersTable")
 		const headersTable = () => {
 			switch (type) {
 				case 'deposits':
@@ -161,6 +136,15 @@ export const HistoryScreen = () => {
 						intl.formatMessage({ id: 'page.body.history.withdraw.header.fee' }),
 						intl.formatMessage({ id: 'page.body.history.withdraw.header.status' }),
 					];
+				case 'trades':
+					return [
+						intl.formatMessage({ id: 'page.body.history.trade.header.date' }),
+						intl.formatMessage({ id: 'page.body.history.trade.header.side' }),
+						intl.formatMessage({ id: 'page.body.history.trade.header.market' }),
+						intl.formatMessage({ id: 'page.body.history.trade.header.price' }),
+						intl.formatMessage({ id: 'page.body.history.trade.header.amount' }),
+						intl.formatMessage({ id: 'page.body.history.trade.header.total' }),
+					];
 				default:
 					return [];
 			}
@@ -175,9 +159,7 @@ export const HistoryScreen = () => {
 		});
 	};
 
-	// tslint:disable-next-line: no-shadowed-variable
 	const renderTableRow = (type: string, item, index) => {
-		// console.log(item);
 		const { currencies, wallets } = reduxProps;
 		const getBlockchainLink = (currency: string, txid: string, rid?: string) => {
 			const currencyInfo = wallets && wallets.find(wallet => wallet.currency === currency);
@@ -200,18 +182,17 @@ export const HistoryScreen = () => {
 				const itemCurrency = currencies && currencies.find(cur => cur.id === currency);
 				const minConfirmations = itemCurrency && itemCurrency.min_confirmations;
 
-				const state =
+				const stateValue =
 					item.state === 'submitted' && confirmations !== undefined && minConfirmations !== undefined
 						? `${confirmations}/${minConfirmations}`
 						: intl.formatMessage({ id: `page.body.history.deposit.content.status.${item.state}` });
-				// tslint:disable-next-line: no-shadowed-variable
-				const classname = (state: string) => {
+				const classname = () => {
 					// tslint:disable-next-line: prefer-switch
-					if (state === 'Wait confirmation' || state === 'Succeed') {
+					if (stateValue === 'Wait confirmation' || stateValue === 'Succeed') {
 						return 'history-screen__tabs__content__table__body__item-table--succeed';
 					}
 					// tslint:disable-next-line: prefer-switch
-					if (state === 'Rejected by Admin' || state === 'Rejected by System') {
+					if (stateValue === 'Rejected by Admin' || stateValue === 'Rejected by System') {
 						return 'history-screen__tabs__content__table__body__item-table--failed';
 					}
 
@@ -228,7 +209,7 @@ export const HistoryScreen = () => {
 						<td>{localeDate(created_at, 'fullDate')}</td>
 						<td>{currency && currency.toUpperCase()}</td>
 						<td>{wallet && preciseData(amount, wallet.fixed)}</td>
-						<td className={classname(state)}>{state}</td>
+						<td className={classname()}>{stateValue}</td>
 					</tr>
 				);
 			}
@@ -257,6 +238,40 @@ export const HistoryScreen = () => {
 					</tr>
 				);
 			}
+			case 'trades':{
+				const { marketsData } = reduxProps;
+				const { created_at, side, market, price, amount, total, taker_type } = item;
+
+				const marketToDisplay = marketsData.find(m => m.id === market) || {
+					name: '',
+					price_precision: 0,
+					amount_precision: 0,
+				};
+				const marketName = marketToDisplay ? marketToDisplay.name : market;
+
+				const tdSide = () => {
+					const textSide = side || taker_type;
+					const classname =
+						textSide === 'buy'
+							? 'history-screen__tabs__content__table__body__item-table--succeed'
+							: 'history-screen__tabs__content__table__body__item-table--failed';
+
+					return (
+						<td className={classname}>{intl.formatMessage({ id: `page.body.history.trade.content.side.${textSide}` })}</td>
+					);
+				};
+
+				return (
+					<tr key={index}>
+						<td>{localeDate(created_at, 'fullDate')}</td>
+						{tdSide()}
+						<td>{marketName}</td>
+						<td>{price}</td>
+						<td>{amount}</td>
+						<td>{total}</td>
+					</tr>
+				);
+			}
 			default: {
 				return [];
 			}
@@ -265,16 +280,14 @@ export const HistoryScreen = () => {
 
 	const renderTable = () => {
 		const { fetching } = reduxProps;
-
 		const indexElemStart = (pageIndex - 1) * limitElem;
 		const indexElemStop = (pageIndex - 1) * limitElem + limitElem;
-
 		const bodyTable = () =>
-			[...listData].slice(indexElemStart, indexElemStop).map((item, index) => {
-				return renderTableRow(type, item, index);
+			listData.slice(indexElemStart, indexElemStop).map((item, index) => {
+				return renderTableRow(tab, item, index);
 			});
 		const emptyData = () => {
-			return [...listData].length === 0 ? (
+			return listData.length === 0 ? (
 				<div className="text-center history-screen__tabs__content__table pt-5 pb-5">
 					Empty data . Please next page or prev page{' '}
 				</div>
@@ -291,7 +304,7 @@ export const HistoryScreen = () => {
 			<div>
 				<table className="history-screen__tabs__content__table">
 					<thead className=" history-screen__tabs__content__table__header">
-						<tr>{renderHeadersTable(type)}</tr>
+						<tr>{renderHeadersTable(tab)}</tr>
 					</thead>
 					<tbody className="history-screen__tabs__content__table__body">{bodyTable()}</tbody>
 				</table>
@@ -300,19 +313,7 @@ export const HistoryScreen = () => {
 		);
 	};
 	//--------------------------render pagination--------------------------//
-
-	const onclickFirstPage = () => {
-		setPageIndex(1);
-	};
-	const onClickPrevPage = () => {
-		const pageIndexTmp = pageIndex - 1;
-		setPageIndex(pageIndexTmp);
-	};
-	const onClickLastPage = () => {
-		setPageIndex(maxPage);
-	};
-	const onClickNextPage = () => {
-		const pageIndexTmp = pageIndex + 1;
+	const onClickToPage = (pageIndexTmp:number) => {
 		setPageIndex(pageIndexTmp);
 	};
 
@@ -321,18 +322,34 @@ export const HistoryScreen = () => {
 			<Pagination
 				pageIndex={pageIndex}
 				max_page={maxPage}
-				onclickFirstPage={onclickFirstPage}
-				onClickPrevPage={onClickPrevPage}
-				onClickLastPage={onClickLastPage}
-				onClickNextPage={onClickNextPage}
+				onClickToPage={onClickToPage}
 			/>
 		);
 	};
+	//-----------------      render fileter bar     ------------------//
+	const renderFilterBar = () => {
+		const onFilter= (dataFilter:WalletHistoryList) => {
+			setPageIndex(1);
+			setListData(dataFilter);
+			const newMaxPage = Math.ceil(dataFilter.length / limitElem) === 0 ? 1 : Math.ceil(dataFilter.length / limitElem);
+			setMaxPage(newMaxPage);
+		};
 
-	//--------------------------
+		const onRestFilter = () => {
+			setListData(reduxProps.list);
+			setPageIndex(1);
+			const newMaxPage =
+				Math.ceil(reduxProps.list.length / limitElem) === 0 ? 1 : Math.ceil(reduxProps.list.length / limitElem);
+			setMaxPage(newMaxPage);
+		};
+
+		return tab === 'trades' ? <FilterElement onFilter={onFilter} onRestFilter={onRestFilter} data={reduxProps.list}/> :'';
+	};
+
 	return (
 		<div className="history-screen history-screen-container">
 			<div className="history-screen__title">History</div>
+			{renderFilterBar()}
 			<div className="history-screen__tabs ">
 				<div className="history-screen__tabs__label   d-flex">{renderTabsLabel()}</div>
 				<div className="history-screen__tabs__content">

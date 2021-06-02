@@ -47,7 +47,6 @@ export interface UserOrdersHistoryData {
 	payload: UserOrdersHistoryDataPayload;
 }
 
-////
 export interface UserOrdersHistoryAllFetch {
 	type: typeof ORDERS_HISTORY_ALL_FETCH;
 	payload: UserOrdersHistoryFetchPayload;
@@ -57,8 +56,6 @@ export interface UserOrdersHistoryAllData {
 	type: typeof ORDERS_HISTORY_ALL_DATA;
 	payload: UserOrdersHistoryAllDataPayload;
 }
-
-////
 
 export interface UserOrdersHistoryRangerData {
 	type: typeof ORDERS_HISTORY_RANGER_DATA;
@@ -134,7 +131,7 @@ export const userOrdersHistoryData = (payload: UserOrdersHistoryDataPayload): Us
 	type: ORDERS_HISTORY_DATA,
 	payload,
 });
-//
+
 export const userOrdersHistoryAllFetch = (payload: UserOrdersHistoryFetchPayload): UserOrdersHistoryAllFetch => ({
 	type: ORDERS_HISTORY_ALL_FETCH,
 	payload,
@@ -145,7 +142,6 @@ export const userOrdersHistoryAlldata = (payload: UserOrdersHistoryAllDataPayloa
 	payload,
 });
 
-// ////
 export const userOrdersHistoryRangerData = (payload: OrderEvent): UserOrdersHistoryRangerData => ({
 	type: ORDERS_HISTORY_RANGER_DATA,
 	payload,

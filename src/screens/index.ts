@@ -24,7 +24,3 @@ export * from './WalletListScreen';
 export * from './DepositScreen';
 export * from './WithdrawScreen';
 export * from './AnnouncementScreen';
-
-// new
-export * from './HistoryTrade';
-export * from './OrdersTabScreenHistory';

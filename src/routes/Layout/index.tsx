@@ -7,7 +7,7 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { minutesUntilAutoLogout, sessionCheckInterval /* showLanding */ } from '../../api';
 import { AnnouncementDetail, NewModal } from '../../components';
-import { WalletsFetch, AdminAnnouncement, AnnouncementEdit } from '../../containers';
+import { AdminAnnouncement, AnnouncementEdit, WalletsFetch } from '../../containers';
 import { toggleColorTheme } from '../../helpers';
 import { IntlProps } from '../../index';
 /* import { isMobile } from "react-device-detect"; */
@@ -78,7 +78,6 @@ import {
 	MagicLink,
 	MaintenanceScreen,
 	OrdersTabScreen,
-	OrdersTabScreenHistory,
 	ProfileScreen,
 	ProfileTwoFactorAuthScreen,
 	RegisterScreen,
@@ -89,7 +88,6 @@ import {
 	WithdrawScreen,
 	// WalletsScreen,
 	/* HomeScreen, */
-	HistoryTradeScreen,
 	AnnouncementScreen,
 } from '../../screens';
 import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
@@ -411,18 +409,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />
 
-					<PrivateRoute
-						loading={userLoading}
-						isLogged={isLoggedIn}
-						path="/historyTrade"
-						component={HistoryTradeScreen}
-					/>
-					<PrivateRoute
-						loading={userLoading}
-						isLogged={isLoggedIn}
-						path="/ordersHistory"
-						component={OrdersTabScreenHistory}
-					/>
+
 					<PrivateRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}

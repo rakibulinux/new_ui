@@ -1,4 +1,6 @@
+// tslint:disable-next-line: import-blacklist
 import { uniqBy } from 'lodash';
+import { OrderCommon } from 'modules/types';
 import { call, put } from 'redux-saga/effects';
 import { alertPush } from '../../..';
 import { API, RequestOptions } from '../../../../api';
@@ -12,16 +14,14 @@ export function* ordersHistoryAllSaga(action: UserOrdersHistoryAllFetch) {
 	try {
 		const { pageIndex, limit, type } = action.payload;
 		const params = `${type === 'all' ? '' : '&state=wait'}`;
-		// get data with pageIndex=1 and limit ==limit
 		let data = yield call(API.get(ordersOptions), `/market/orders?page=${pageIndex }&limit=${limit}${params}`);
-		console.log(data);
 		if (data.length === limit) {
-			// trả về 20 thằng đâu tiên cho ui chứ ko để loop xong het data moi trả về
 			yield put(userOrdersHistoryAlldata({ list: data }));
 			// loop get all data
 			let index = 1;
 			const max = 100;
-			let checkData = yield call(API.get(ordersOptions), `/market/orders?page=${index}&limit=${max}${params}`);
+			let checkData:OrderCommon[];
+			checkData = yield call(API.get(ordersOptions), `/market/orders?page=${index}&limit=${max}${params}`);
 			if (checkData.length === max) {
 				data = checkData;
 				while (1) {

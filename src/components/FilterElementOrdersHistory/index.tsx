@@ -1,14 +1,15 @@
+import { selectMarkets   } from 'modules';
+import * as moment from 'moment-timezone';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectMarkets } from '../../modules';
 
-interface ParentProps {
-	// tslint:disable-next-line: variable-name
-	onFilter: (date_form: string, date_to: string, base_unit: string, quote_unit: string, side: string) => void;
+interface Props {
+	onFilter: (data:any) => void;
 	onRestFilter: () => void;
+	data:any;
 }
 
-export const FilterElement = (parentProps: ParentProps) => {
+export const FilterElement:React.FC<Props> = props => {
 	const [valueForm, setValueForm] = useState({
 		date_from: '',
 		date_to: '',
@@ -21,10 +22,8 @@ export const FilterElement = (parentProps: ParentProps) => {
 
 	const initBase = marketsData.map(e => e.base_unit);
 	initBase.unshift('all');
-	// tslint:disable-next-line: variable-name
-	const [optionBase_unit, setOptionBase_unit] = useState(initBase);
-	// tslint:disable-next-line: variable-name
-	const [optionQuote_unit, setOptionQuote_unit] = useState(['all']);
+	const [optionBaseUnit, setOptionBaseUnit] = useState(initBase);
+	const [optionQuoteUnit, setOptionQuoteUnit] = useState(['all']);
 
 	const filterQuoteByBase = (base: string) => {
 		const quoteTamp: string[] = ['all'];
@@ -39,20 +38,54 @@ export const FilterElement = (parentProps: ParentProps) => {
 	};
 
 	const onChangeValueForm = (value: string, name: string): void => {
-		const form = { ...valueForm };
+		const form =  valueForm  ;
 		form[name] = value;
 
 		if (name === 'base_unit') {
-			setOptionQuote_unit([...filterQuoteByBase(value)]);
+			setOptionQuoteUnit(filterQuoteByBase(value));
 		}
-
 		setValueForm(form);
 	};
 
 	const onSearch = () => {
-		// tslint:disable-next-line: no-shadowed-variable
-		const { date_from, date_to, base_unit, quote_unit, side } = valueForm;
-		parentProps.onFilter(date_from, date_to, base_unit, quote_unit, side);
+
+		const {date_from, date_to, base_unit, quote_unit, side} = valueForm;
+		let dataFilter = props.data;
+		// // filter by base_unit vs quote_unit
+		if (base_unit === 'all') {
+			// no filter
+		} else {
+			if (quote_unit === 'all') {
+				const baseStringLength = base_unit.length;
+				dataFilter = dataFilter.filter((e:any) => e.market.slice(0, baseStringLength) === base_unit);
+			} else {
+				const market = base_unit + quote_unit;
+				dataFilter = dataFilter.filter( (e:any) => e.market === market);
+			}
+		}
+		// // filter by side
+		if (side !== 'all') {
+			dataFilter = dataFilter.filter((e: any) => {
+				const textSide = e.side || e.taker_type;
+
+				return textSide === side;
+			});
+		}
+		// filter by time from
+		if (date_from !== '') {
+			dataFilter = dataFilter.filter(
+				e => moment(e.created_at, 'YYYYMMDD').valueOf() >= moment(date_from, 'YYYYMMDD').valueOf(),
+			);
+		}
+		// filter by time to
+		if (date_to !== '') {
+			dataFilter = dataFilter.filter(
+				e => moment(e.created_at, 'YYYYMMDD').valueOf() <= moment(date_to, 'YYYYMMDD').valueOf(),
+			);
+		}
+
+		props.onFilter(dataFilter);
+
 	};
 
 	const onRestForm = () => {
@@ -63,8 +96,8 @@ export const FilterElement = (parentProps: ParentProps) => {
 			quote_unit: 'all',
 			side: 'all',
 		});
-		setOptionBase_unit(initBase);
-		parentProps.onRestFilter();
+		setOptionBaseUnit(initBase);
+		props.onRestFilter();
 	};
 
 	const renderInputDate = (name: string) => {
@@ -79,15 +112,14 @@ export const FilterElement = (parentProps: ParentProps) => {
 		);
 	};
 
-	const renderSelection = (name: string, optionElem) => {
-		const defaulValue = optionElem[0];
+	const renderSelection = (name: string, optionElem:string[]) => {
+		const defaultValue = optionElem[0];
 
 		return (
 			<select
 				className="form-control"
-				style={{ width: '80px' }}
 				name={name}
-				defaultValue={defaulValue}
+				defaultValue={defaultValue}
 				onChange={e => {
 					onChangeValueForm(e.target.value, e.target.name);
 				}}
@@ -103,8 +135,6 @@ export const FilterElement = (parentProps: ParentProps) => {
 		);
 	};
 
-	const { side } = valueForm;
-
 	return (
 		<div className="history-screen__filter">
 			<form className="d-flex align-items-center">
@@ -113,20 +143,19 @@ export const FilterElement = (parentProps: ParentProps) => {
 					{renderInputDate('date_from')}
 					{renderInputDate('date_to')}
 				</div>
-				<div className="history-screen__filter__pair d-flex align-items-center">
-					<div className="history-screen__filter__date__desc">Pair</div>
-					<div className="mr-3">{renderSelection('base_unit', optionBase_unit)}</div>
-					<div>{renderSelection('quote_unit', optionQuote_unit)}</div>
+				<div className="history-screen__filter__select d-flex align-items-center">
+					<div className="history-screen__filter__select__desc">Pair</div>
+					<div className="mr-3 history-screen__filter__select__choose">{renderSelection('base_unit', optionBaseUnit)}</div>
+					<div className="history-screen__filter__select__choose">{renderSelection('quote_unit', optionQuoteUnit)}</div>
 				</div>
-				<div className="history-screen__filter__side d-flex align-items-center">
-					<div className="history-screen__filter__date__desc">Type</div>
-					<div>
+				<div className="history-screen__filter__select d-flex align-items-center">
+					<div className="history-screen__filter__select__desc">Type</div>
+					<div className="history-screen__filter__select__choose">
 						<select
 							id="inputOrderType"
 							className="form-control"
-							style={{ width: '70px' }}
 							name="side"
-							value={side}
+							value={valueForm.side}
 							onChange={e => {
 								onChangeValueForm(e.target.value, e.target.name);
 							}}

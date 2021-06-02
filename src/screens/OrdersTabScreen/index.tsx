@@ -1,15 +1,4 @@
-// tslint:disable-next-line: ordered-imports
-import React from 'react';
-// tslint:disable-next-line: no-duplicate-imports
-import { useEffect, useState } from 'react';
-import { FaTimes } from 'react-icons/fa';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-// tslint:disable-next-line: ordered-imports
-import { Decimal } from '../../components/Decimal';
-import { localeDate, setTradeColor } from '../../helpers';
-// tslint:disable-next-line: no-duplicate-imports
-import { setDocumentTitle } from '../../helpers';
+import { FilterElement } from 'components/FilterElementOrdersHistory';
 import {
 	Market,
 	marketsFetch,
@@ -24,9 +13,14 @@ import {
 	selectOrdersHistoryLoading,
 	selectUserLoggedIn,
 	userOrdersHistoryAllFetch,
-	userOrdersHistoryFetch,
-} from '../../modules';
-import { RangerConnectFetch, rangerConnectFetch } from '../../modules/public/ranger';
+} from 'modules';
+import React,{ useEffect, useState } from 'react';
+import { FaTimes } from 'react-icons/fa';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { Decimal } from '../../components/Decimal';
+import { localeDate, setDocumentTitle, setTradeColor } from '../../helpers';
+import {  rangerConnectFetch } from '../../modules/public/ranger';
 import { RangerState } from '../../modules/public/ranger/reducer';
 import { selectRanger } from '../../modules/public/ranger/selectors';
 import { OrderCommon } from '../../modules/types';
@@ -42,20 +36,13 @@ interface ReduxProps {
 	userLoggedIn: boolean;
 }
 
-interface DispatchProps {
-	marketsFetch: typeof marketsFetch;
-	ordersHistoryCancelFetch: typeof ordersHistoryCancelFetch;
-	userOrdersHistoryFetch: typeof userOrdersHistoryFetch;
-	ordersCancelAll: typeof ordersCancelAllFetch;
-	resetOrdersHistory: typeof resetOrdersHistory;
-	rangerConnect: typeof rangerConnectFetch;
-	userOrdersHistoryAllFetch: typeof userOrdersHistoryAllFetch;
-}
+const LIMITELEM = 20;
 
 export const OrdersTabScreen = () => {
 	const intl = useIntl();
-	const type = 'open';
-	const limitElem = 20;
+	const [tab, setTab] = useState('open');
+	const [pageIndex, setPageIndex] = useState(1);
+	const [maxPage, setMaxPage] = useState(1);
 
 	const reduxProps = useSelector(
 		(state: RootState): ReduxProps => ({
@@ -68,54 +55,78 @@ export const OrdersTabScreen = () => {
 			userLoggedIn: selectUserLoggedIn(state),
 		}),
 	);
-
-	const [pageIndex, setPageIndex] = useState(1);
 	const [listData, setListData] = useState(reduxProps.list);
-	const [maxPage, setMaxPage] = useState(1);
 
 	const dispatch = useDispatch();
-	const listFunction: DispatchProps = {
-		marketsFetch: () => dispatch(marketsFetch()),
-		ordersHistoryCancelFetch: payload => dispatch(ordersHistoryCancelFetch(payload)),
-		userOrdersHistoryFetch: payload => dispatch(userOrdersHistoryFetch(payload)),
-		ordersCancelAll: () => dispatch(ordersCancelAllFetch()),
-		resetOrdersHistory: () => dispatch(resetOrdersHistory()),
-		rangerConnect: (payload: RangerConnectFetch['payload']) => dispatch(rangerConnectFetch(payload)),
-		userOrdersHistoryAllFetch: payload => dispatch(userOrdersHistoryAllFetch(payload)),
-	};
 
 	useEffect(() => {
-		// lấy về trước 20 phần tử
-		// listFunction.userOrdersHistoryFetch({ pageIndex: 1, type, limit: 25 });
-
-		// hàm này chưa có api thaatj nên chạy sẽ bị lỗi
-		listFunction.userOrdersHistoryAllFetch({ pageIndex: 1, type, limit: 25 });
-		setDocumentTitle('Open Orders');
+		dispatch(userOrdersHistoryAllFetch({ pageIndex: 1, type:tab, limit: 25 }));
+		setDocumentTitle('Orders');
 		const {
 			rangerState: { connected },
 			userLoggedIn,
 		} = reduxProps;
 
-		listFunction.marketsFetch();
+		dispatch(marketsFetch());
 
 		if (!connected) {
-			listFunction.rangerConnect({ withAuth: userLoggedIn });
+			dispatch(rangerConnectFetch({ withAuth: userLoggedIn }));
 		}
 
 		return () => {
-			listFunction.resetOrdersHistory();
+			dispatch(resetOrdersHistory());
 		};
 	}, []);
 
 	useEffect(() => {
 		setListData(reduxProps.list);
 		const newMaxPage =
-			Math.ceil(reduxProps.list.length / limitElem) === 0 ? 1 : Math.ceil(reduxProps.list.length / limitElem);
+			Math.ceil(reduxProps.list.length / LIMITELEM) === 0 ? 1 : Math.ceil(reduxProps.list.length / LIMITELEM);
 		setMaxPage(newMaxPage);
 	}, [reduxProps.list]);
 
+	const tabMapping = ['open', 'all'];
+
+	const onCurrentTabChange = (index: number) => {
+		if (tabMapping[index] !== tab) {
+			dispatch(userOrdersHistoryAllFetch({ pageIndex: 1, type :tabMapping[index] , limit: 25 }));
+			setPageIndex(1);
+			setTab(tabMapping[index]);
+		}
+	};
+
+	const renderTabsLabel = () => {
+		const labelTabs = [
+			{
+				className:
+					tab === 'open'
+						? 'history-screen__tabs__label__item history-screen__tabs__label__item--active'
+						: 'history-screen__tabs__label__item',
+				label: intl.formatMessage({ id: 'page.body.openOrders.tab.open' }),
+			},
+			{
+				className:
+					tab === 'all'
+						? 'history-screen__tabs__label__item history-screen__tabs__label__item--active'
+						: 'history-screen__tabs__label__item',
+				label: intl.formatMessage({ id: 'page.body.openOrders.tab.all' }),
+			},
+		];
+
+		return (
+			<React.Fragment>
+				{labelTabs.map((label, index) => {
+					return (
+						<div className={label.className} onClick={() => onCurrentTabChange(index)} key={index}>
+							{label.label}
+						</div>
+					);
+				})}
+			</React.Fragment>
+		);
+	};
+
 	const renderHeadersTable = () => {
-		// console.log("renderHeadersTable")
 		const headersTable = [
 			intl.formatMessage({ id: 'page.body.history.deposit.header.date' }),
 			intl.formatMessage({ id: 'page.body.openOrders.header.orderType' }),
@@ -126,9 +137,10 @@ export const OrdersTabScreen = () => {
 			intl.formatMessage({ id: 'page.body.openOrders.header.remaining' }),
 			intl.formatMessage({ id: 'page.body.openOrders.header.costRemaining' }),
 			intl.formatMessage({ id: 'page.body.openOrders.header.status' }),
-			<div className="text-center history-screen__tabs__content__table__header__item--icon">
-				<span onClick={() => listFunction.ordersCancelAll()}>
-					{intl.formatMessage({ id: 'page.body.openOrders.header.button.cancelAll' })} <FaTimes className="ml-2" />
+			<div className="history-screen__tabs__content__table__header__item--icon">
+				<span onClick={() => dispatch(ordersCancelAllFetch())}>
+					{intl.formatMessage({ id: 'page.body.openOrders.header.button.cancelAll' })}
+					{/* <FaTimes className="ml-2" /> */}
 				</span>
 			</div>,
 		];
@@ -142,7 +154,6 @@ export const OrdersTabScreen = () => {
 		});
 	};
 
-	// tslint:disable-next-line: no-shadowed-variable
 	const getType = (side: string, orderType: string) => {
 		if (!side || !orderType) {
 			return '';
@@ -152,7 +163,6 @@ export const OrdersTabScreen = () => {
 	};
 
 	const setOrderStatus = (status: string) => {
-		// console.log(status);
 		switch (status) {
 			case 'done':
 				return (
@@ -182,7 +192,7 @@ export const OrdersTabScreen = () => {
 		if (cancelAllFetching || cancelFetching) {
 			return;
 		}
-		listFunction.ordersHistoryCancelFetch({ id, type, list });
+		dispatch(ordersHistoryCancelFetch({ id, type:tab, list }));
 	};
 
 	const renderTableRow = (item, index) => {
@@ -195,7 +205,6 @@ export const OrdersTabScreen = () => {
 			avg_price,
 			remaining_volume,
 			origin_volume,
-			// tslint:disable-next-line: no-shadowed-variable
 			side,
 			state,
 			updated_at,
@@ -244,7 +253,7 @@ export const OrdersTabScreen = () => {
 					</Decimal>
 				</td>
 				<td>{status}</td>
-				<td className="text-center history-screen__tabs__content__table__body__item-table--icon">
+				<td className="text-right history-screen__tabs__content__table__body__item-table--icon">
 					{state === 'wait' && <FaTimes key={id} onClick={handleCancel(id)} />}
 				</td>
 			</tr>
@@ -253,16 +262,15 @@ export const OrdersTabScreen = () => {
 
 	const renderTable = () => {
 		const { fetching } = reduxProps;
-		const indexElemStart = (pageIndex - 1) * limitElem;
-		const indexElemStop = (pageIndex - 1) * limitElem + limitElem;
+		const indexElemStart = (pageIndex - 1) * LIMITELEM;
+		const indexElemStop = (pageIndex - 1) * LIMITELEM + LIMITELEM;
 
-		// console.log(indexElemStart, indexElemStop);
 		const bodyTable = () =>
-			[...listData].slice(indexElemStart, indexElemStop).map((item, index) => {
+			 listData .slice(indexElemStart, indexElemStop).map((item, index) => {
 				return renderTableRow(item, index);
 			});
 		const emptyData = () => {
-			return [...listData].length === 0 ? (
+			return  listData.length === 0 ? (
 				<div className="text-center history-screen__tabs__content__table pt-5 pb-5">
 					Empty data . Please next page or prev page{' '}
 				</div>
@@ -290,18 +298,7 @@ export const OrdersTabScreen = () => {
 
 	//--------------------------render pagination--------------------------//
 
-	const onclickFirstPage = () => {
-		setPageIndex(1);
-	};
-	const onClickPrevPage = () => {
-		const pageIndexTmp = pageIndex - 1;
-		setPageIndex(pageIndexTmp);
-	};
-	const onClickLastPage = () => {
-		setPageIndex(maxPage);
-	};
-	const onClickNextPage = () => {
-		const pageIndexTmp = pageIndex + 1;
+	const onClickToPage = (pageIndexTmp:number) => {
 		setPageIndex(pageIndexTmp);
 	};
 
@@ -310,18 +307,36 @@ export const OrdersTabScreen = () => {
 			<Pagination
 				pageIndex={pageIndex}
 				max_page={maxPage}
-				onclickFirstPage={onclickFirstPage}
-				onClickPrevPage={onClickPrevPage}
-				onClickLastPage={onClickLastPage}
-				onClickNextPage={onClickNextPage}
+				onClickToPage={onClickToPage}
 			/>
 		);
 	};
 
+	const renderFilterBar = () => {
+		const onFilter= (dataFilter:OrderCommon[]) => {
+			setPageIndex(1);
+			setListData(dataFilter);
+			const newMaxPage = Math.ceil(dataFilter.length / LIMITELEM) === 0 ? 1 : Math.ceil(dataFilter.length / LIMITELEM);
+			setMaxPage(newMaxPage);
+		};
+
+		const onRestFilter = () => {
+			setListData(reduxProps.list);
+			setPageIndex(1);
+			const newMaxPage =
+				Math.ceil(reduxProps.list.length / LIMITELEM) === 0 ? 1 : Math.ceil(reduxProps.list.length / LIMITELEM);
+			setMaxPage(newMaxPage);
+		};
+
+		return tab === 'all' ? <FilterElement onFilter={onFilter} onRestFilter={onRestFilter} data={reduxProps.list}/> :'';
+	};
+
 	return (
 		<div className="history-screen history-screen-container">
-			<div className="history-screen__title">Open Orders</div>
+			<div className="history-screen__title">Orders</div>
+			{renderFilterBar()}
 			<div className="history-screen__tabs ">
+				<div className="history-screen__tabs__label   d-flex">{renderTabsLabel()}</div>
 				<div className="history-screen__tabs__content">{renderTable()}</div>
 				<div className="history-screen__tabs__content__pagination">{renderPagination()}</div>
 			</div>

@@ -38,7 +38,7 @@ export interface HistoryData {
 	type: typeof HISTORY_DATA;
 	payload: HistorySuccessPayload;
 }
-//
+
 export interface HistoryAllFetch {
 	type: typeof HISTORY_ALL_FETCH;
 	payload: HistoryFetchPayload;
@@ -49,7 +49,6 @@ export interface HistoryAllData {
 	payload: HistorySuccessAllPayload;
 }
 
-///
 export interface HistoryError {
 	type: typeof HISTORY_ERROR;
 	payload: WalletHistoryList;
@@ -88,8 +87,7 @@ export const successHistory = (payload: HistorySuccessPayload): HistoryData => (
 	type: HISTORY_DATA,
 	payload,
 });
-//
-// fetch all data
+
 export const historyAllFetch = (payload: HistoryFetchPayload): HistoryAllFetch => ({
 	type: HISTORY_ALL_FETCH,
 	payload,
@@ -99,8 +97,6 @@ export const historyAllData = (payload: HistorySuccessAllPayload): HistoryAllDat
 	type: HISTORY_ALL_DATA,
 	payload,
 });
-
-//
 
 export const failHistory = (payload: WalletHistoryList): HistoryError => ({
 	type: HISTORY_ERROR,
