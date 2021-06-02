@@ -4,13 +4,13 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import styled from 'styled-components';
 
 import { useDispatch, useSelector } from "react-redux";
-import { selectAnnouncement, announcementFetch, alertPush  } from "../../modules";
+import { selectAnnouncement, announcementFetch, } from "../../modules";
 
 import { announcementCreate } from "../../modules/info/announcement/actions";
 import { AnnouncementTable } from '../../components';
 
 
-const InpuStyle = styled.input`
+const InputStyle = styled.input`
 width: 100%;
 height: 42px;
 margin-bottom: 20px;
@@ -42,78 +42,75 @@ const ButtonStyle = styled.button`
 `;
 
 interface AnnouncementType {
-  title: string;
-  content: string;
-  announcement_img_pc: string;
+	title: string;
+	content: string;
+	announcement_img_pc: string;
 }
 
 export const AdminAnnouncement: React.FC = (props) => {
 
-  
 
-  const announcements = useSelector(selectAnnouncement);
-  const dispatch = useDispatch();
 
-  //state
-  const [postAnnouncement, setPostAnnouncement] = React.useState<AnnouncementType>({
-    title: '',
-    content: '',
-	announcement_img_pc: '',
-  });
+	const announcements = useSelector(selectAnnouncement);
+	const dispatch = useDispatch();
 
-  const handleHeading = (e: any) => {
-    e.persist();
-    setPostAnnouncement((prev) => ({
-      ...prev,
-      title: e.target.value
-    }))
-  }
+	//state
+	const [postAnnouncement, setPostAnnouncement] = React.useState<AnnouncementType>({
+		title: '',
+		content: '',
+		announcement_img_pc: '',
+	});
 
-  const handleUrlImage =(e) => {
-	e.persist();
-	setPostAnnouncement((prev) => ({
-		...prev,
-		announcement_img_pc: e.target.value
-	}))
-  }
-  const handleSubmitAnnouncement: React.DOMAttributes<HTMLFormElement>["onSubmit"] = (e) => {
-    e.preventDefault();
-    dispatch(announcementCreate(postAnnouncement));
-	dispatch(announcementFetch());
-	dispatch(alertPush({ message: ['Create announcement success'], type: 'success' }));
-  }
+	const handleHeading = (e: any) => {
+		e.persist();
+		setPostAnnouncement((prev) => ({
+			...prev,
+			title: e.target.value
+		}))
+	}
 
-  const renderAdminAnnouncement = () => {
+	const handleUrlImage = (e) => {
+		e.persist();
+		setPostAnnouncement((prev) => ({
+			...prev,
+			announcement_img_pc: e.target.value
+		}))
+	}
+	const handleSubmitAnnouncement: React.DOMAttributes<HTMLFormElement>["onSubmit"] = (e) => {
+		e.preventDefault();
+		dispatch(announcementCreate(postAnnouncement));
+		dispatch(announcementFetch());
+	}
 
-    return (
-      <div className="container">
-        <AdminAnnounStyle>
-          <form onSubmit={handleSubmitAnnouncement}>
+	const renderAdminAnnouncement = () => {
 
-            <InpuStyle type="text" value={postAnnouncement.title} placeholder="Enter heading..." onChange={handleHeading} />
-			<InpuStyle type="text" value={postAnnouncement.announcement_img_pc} placeholder="url image..." onChange={handleUrlImage}/>
-            <CKEditor
-              editor={ClassicEditor}
-              onChange={(_event, editor: any) => {
+		return (
+			<div className="container">
+				<AdminAnnounStyle>
+					<form onSubmit={handleSubmitAnnouncement}>
+						<InputStyle type="text" value={postAnnouncement.title} placeholder="Enter heading..." onChange={handleHeading} />
+						<InputStyle type="text" value={postAnnouncement.announcement_img_pc} placeholder="url image..." onChange={handleUrlImage} />
+						<CKEditor
+							editor={ClassicEditor}
+							onChange={(_event, editor: any) => {
 
-                setPostAnnouncement((prev) => ({
-                  ...prev,
-                  content: editor.getData()
-                }))
-              }}
-            />
-            <ButtonStyle type="submit">submit</ButtonStyle>
+								setPostAnnouncement((prev) => ({
+									...prev,
+									content: editor.getData()
+								}))
+							}}
+						/>
+						<ButtonStyle type="submit">submit</ButtonStyle>
+					</form>
+					<AnnouncementTable announcements={announcements} />
+				</AdminAnnounStyle>
+			</div>
+		)
+	}
 
-          </form>
-          <AnnouncementTable announcements={announcements} />
-        </AdminAnnounStyle>
-      </div>
-    )
-  }
-
-  return (
-    <div>
-      {renderAdminAnnouncement()}
-    </div>
-  )
+	return (
+		<div>
+			{renderAdminAnnouncement()}
+		</div>
+	)
 }

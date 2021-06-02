@@ -921,6 +921,10 @@ export const en = {
 		'1. If you have deposited, please pay attention to the text messages, site letters and emails we send to you.',
 	'page.body.plugins.wallet.deposit.info.notice2':
 		'2. Until 2 confirmations are made, an equivalent amount of your assets will be temporarily unavailable for withdrawals.',
+		
+	'page.announcement.create.success': 'create announcement success.',
+	'page.announcement.create.fail': 'create announcement fail.',
+
 
 	...nationalitiesNames,
 	...customTranslations,
