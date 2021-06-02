@@ -44,9 +44,6 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 			padding-top: 6px;
 			padding-bottom: 6px;
 			color: #848e9c;
-			> div:last-child {
-				padding-right: 18px !important;
-			}
 		}
 		&-ticker {
 			height: ${OrderBookStyleVar.tickerHeight};
@@ -79,14 +76,11 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 					}
 					td,
 					th {
-						width: calc(100% / 3 - 11.5px);
+						width: calc(100% / 3);
 						display: inline-block;
-						text-align: right;
-						:first-child {
-							text-align: left;
-						}
-						:last-child {
-							width: calc(100% / 3 + 18px);
+						text-align: left;
+						&:last-child {
+							text-align: right;
 						}
 					}
 				}
@@ -99,9 +93,6 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 					margin-bottom: 1px;
 					td {
 						height: 100%;
-						&:last-child {
-							padding-right: 18px;
-						}
 					}
 				}
 			}
