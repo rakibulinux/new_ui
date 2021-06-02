@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import { Spinner } from 'react-bootstrap';
+import millify from 'millify';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { CombinedOrderBook, Decimal } from '../../components';
@@ -117,6 +118,15 @@ export const OrderBook = props => {
 
 						if (side === 'asks') {
 							if (isMobileDevice) {
+								const volumnCustom =
+									total[i] > 10000000 ? (
+										millify(total[i], {
+											precision: 2,
+										})
+									) : (
+										<OrderBookTableRow total={total[i]} fixed={amountFixed} />
+									);
+
 								return [
 									<OrderBookTableRow
 										type="price"
@@ -124,7 +134,7 @@ export const OrderBook = props => {
 										price={price}
 										fixed={priceFixed}
 									/>,
-									<OrderBookTableRow total={total[i]} fixed={amountFixed} />,
+									volumnCustom,
 								];
 							}
 
@@ -141,8 +151,17 @@ export const OrderBook = props => {
 						} else {
 							if (isLarge) {
 								if (isMobileDevice) {
+									const volumnCustom =
+										total[i] > 10000000 ? (
+											millify(total[i], {
+												precision: 2,
+											})
+										) : (
+											<OrderBookTableRow total={total[i]} fixed={amountFixed} />
+										);
+
 									return [
-										<OrderBookTableRow total={total[i]} fixed={amountFixed} />,
+										volumnCustom,
 										<OrderBookTableRow
 											type="price"
 											prevValue={array[i - 1] ? array[i - 1][0] : 0}
