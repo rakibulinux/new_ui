@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import millify from 'millify';
 import * as React from 'react';
 import { Spinner } from 'react-bootstrap';
 import { injectIntl } from 'react-intl';
@@ -212,22 +213,30 @@ class OrderBookContainer extends React.Component<Props, State> {
 		return array.length > 0
 			? array.map((item, i) => {
 					const [price, volume] = item;
+
 					switch (side) {
 						case 'asks':
-							total = isLarge
-								? accumulateVolume(array)
-								: accumulateVolume(array.slice(0).reverse()).slice(0).reverse();
+							total = isLarge ? total : accumulateVolume(array.slice(0).reverse()).slice(0).reverse();
 
 							if (isMobileDevice) {
+								const volumnCustom =
+									total[i] > 10000000 ? (
+										millify(total[i], {
+											precision: 2,
+										})
+									) : (
+										<Decimal key={i} fixed={amountFixed}>
+											{total[i]}
+										</Decimal>
+									);
+
 								return [
 									<span key={i}>
 										<Decimal fixed={priceFixed} prevValue={array[i + 1] ? array[i + 1][0] : 0}>
 											{price}
 										</Decimal>
 									</span>,
-									<Decimal key={i} fixed={amountFixed}>
-										{total[i]}
-									</Decimal>,
+									volumnCustom,
 								];
 							}
 
@@ -247,10 +256,19 @@ class OrderBookContainer extends React.Component<Props, State> {
 						default:
 							if (isLarge) {
 								if (isMobileDevice) {
+									const volumnCustom =
+										total[i] > 10000000 ? (
+											millify(total[i], {
+												precision: 2,
+											})
+										) : (
+											<Decimal key={i} fixed={amountFixed}>
+												{total[i]}
+											</Decimal>
+										);
+
 									return [
-										<Decimal key={i} fixed={amountFixed}>
-											{total[i]}
-										</Decimal>,
+										volumnCustom,
 										<span key={i}>
 											<Decimal fixed={priceFixed} prevValue={array[i - 1] ? array[i - 1][0] : 0}>
 												{price}
@@ -274,15 +292,24 @@ class OrderBookContainer extends React.Component<Props, State> {
 								];
 							} else {
 								if (isMobileDevice) {
+									const volumnCustom =
+										total[i] > 10000000 ? (
+											millify(total[i], {
+												precision: 2,
+											})
+										) : (
+											<Decimal key={i} fixed={amountFixed}>
+												{total[i]}
+											</Decimal>
+										);
+
 									return [
 										<span key={i}>
 											<Decimal fixed={priceFixed} prevValue={array[i - 1] ? array[i - 1][0] : 0}>
 												{price}
 											</Decimal>
 										</span>,
-										<Decimal key={i} fixed={amountFixed}>
-											{total[i]}
-										</Decimal>,
+										volumnCustom,
 									];
 								}
 
