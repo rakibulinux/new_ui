@@ -6,8 +6,8 @@ import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { Decimal } from '../../../../components';
-import { useOrderBookFetch } from '../../../../hooks';
+import { ConvertUsd, Decimal } from 'components';
+import { useOrderBookFetch } from 'hooks';
 import {
 	Market,
 	selectCurrentMarket,
@@ -19,7 +19,7 @@ import {
 	setCurrentPrice,
 	setOrderType,
 	Ticker,
-} from '../../../../modules';
+} from 'modules';
 import downSvg from '../../assets/down.svg';
 import upSvg from '../../assets/up.svg';
 import { OrderBookBuySvg, OrderBookSellSvg, OrderBookSvg } from '../../components/Icon/OrderBookSvg';
@@ -255,14 +255,18 @@ export const OrderBookContainer = props => {
 						) : null}
 						<Row className="td-order-book-ticker">
 							<Col
-								className={`p-0  td-order-book-ticker__last-price d-flex align-items-center justify-content-center td-order-book-item__${cls}`}
+								className={`p-0  td-order-book-ticker__last-price d-flex align-items-center td-order-book-item__${cls}`}
+								lg="auto"
 							>
-								{cls === 'positive' ? <img src={upSvg} /> : <img src={downSvg} />}
 								{Decimal.formatRemoveZero(
 									+get(currentTicker, 'last', 0),
 									get(currentMarket, 'price_precision', 0),
 								)}
-								{` ${quoteUnit}`}
+								{cls === 'positive' ? <img src={upSvg} /> : <img src={downSvg} />}
+							</Col>
+							<Col className={`p-0  td-order-book-ticker__usd d-flex align-items-center`} lg="auto">
+								${' '}
+								<ConvertUsd value={+get(currentTicker, 'last', 0)} symbol={get(currentMarket, 'base_unit', '')} />
 							</Col>
 						</Row>
 						{tabState === 'all' || tabState === 'buy' ? (
