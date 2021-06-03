@@ -67,13 +67,11 @@ export const OrderBookContainer = props => {
 			const [price, volume] = item;
 
 			const volumnCustom =
-				+volume > 10000000 ? (
-					millify(+volume, {
-						precision: 2,
-					})
-				) : (
-					Decimal.formatRemoveZero(volume, amountFixed)
-				);
+				+volume > 10000000
+					? millify(+volume, {
+							precision: 2,
+					  })
+					: Decimal.formatRemoveZero(volume, amountFixed);
 
 			return [
 				Decimal.formatRemoveZero(price, priceFixed),
@@ -233,23 +231,23 @@ export const OrderBookContainer = props => {
 							<Col className="p-0 d-flex align-items-center">{elementTabs}</Col>
 							<Col className="p-0 d-flex align-items-center"></Col>
 						</Row>
-						<Row className="td-order-book-tbheader">
-							<Col className="p-0">
+						<div className="td-order-book-tbheader">
+							<div className="p-0">
 								{`${formatMessage({ id: 'page.body.trading.header.orderBook.header.title.price' })}${
 									currentMarket ? `(${quoteUnit})` : ''
 								}`}
-							</Col>
-							<Col className="p-0">
+							</div>
+							<div className="p-0">
 								{`${formatMessage({ id: 'page.body.trading.header.orderBook.header.title.amount' })}${
 									currentMarket ? `(${baseUnit})` : ''
 								}`}
-							</Col>
-							<Col className="p-0 text-right">
+							</div>
+							<div className="p-0 text-right">
 								{`${formatMessage({ id: 'page.body.trading.header.orderBook.header.title.sum' })}${
 									currentMarket ? `(${quoteUnit})` : ''
 								}`}
-							</Col>
-						</Row>
+							</div>
+						</div>
 						{tabState === 'all' || tabState === 'sell' ? (
 							<table className="td-order-book-table td-reverse-table-body">
 								<tbody>{getAsksElm()}</tbody>
