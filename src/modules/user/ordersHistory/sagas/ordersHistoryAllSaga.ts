@@ -28,10 +28,8 @@ export function* ordersHistoryAllSaga(action: UserOrdersHistoryAllFetch) {
 					checkData = yield call(API.get(ordersOptions), `/market/orders?page=${++index}&limit=${max}${params}`);
 					if (checkData.length === max) {
 						data = data.concat(checkData);
-						data = uniqBy(data , (e:any) => e.id );
 					} else {
 						data = data.concat(checkData);
-						data = uniqBy(data , (e:any) => e.id );
 						break;
 					}
 				}
@@ -39,6 +37,7 @@ export function* ordersHistoryAllSaga(action: UserOrdersHistoryAllFetch) {
 				data = checkData;
 			}
 		}
+		data = uniqBy(data , (e:any) => e.id );
 
 		yield put(userOrdersHistoryAlldata({ list: data }));
 	} catch (error) {

@@ -33,10 +33,8 @@ export function* historyAllDataSaga(action: HistoryAllFetch) {
 					checkData = yield call(API.get(config), `${coreEndpoint[type]}?page=${++index}&limit=${max}`);
 					if (checkData.length === max) {
 						data = data.concat(checkData);
-						data = uniqBy(data , (e:any) => e.id );
 					} else {
 						data = data.concat(checkData);
-						data = uniqBy(data , (e:any) => e.id );
 						break;
 					}
 				}
@@ -44,6 +42,7 @@ export function* historyAllDataSaga(action: HistoryAllFetch) {
 				data = checkData;
 			}
 		}
+		data = uniqBy(data, (e: any) => e.id);
 		yield put(historyAllData({ list: data }));
 	} catch (error) {
 		yield put(failHistory([]));

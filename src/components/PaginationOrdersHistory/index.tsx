@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import React from 'react';
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
@@ -5,12 +6,11 @@ interface PaginationProps {
 	pageIndex: number;
 	nextPageExists?: boolean;
 	max_page: number;
-	onClickToPage:(pageIndexTmp:number) => void;
+	onClickToPage: (pageIndexTmp: number) => void;
 }
 
 export const Pagination = (paginationProps: PaginationProps) => {
 	const { pageIndex, max_page } = paginationProps;
-
 
 	const renderFirstPage = () => {
 		const isDisable = pageIndex === 1;
@@ -18,11 +18,11 @@ export const Pagination = (paginationProps: PaginationProps) => {
 			if (isDisable) {
 				return;
 			}
-			paginationProps.onClickToPage( 1);
+			paginationProps.onClickToPage(1);
 		};
-		const classname = isDisable
-			? 'history-screen__tabs__content__pagination__content__item__link history-screen__tabs__content__pagination__content__item__link--disable'
-			: 'history-screen__tabs__content__pagination__content__item__link';
+		const classname = classnames('history-screen__tabs__content__pagination__content__item__link', {
+			'history-screen__tabs__content__pagination__content__item__link--disable': isDisable,
+		});
 
 		return (
 			<li className="history-screen__tabs__content__pagination__content__item" onClick={onclickFirstPage}>
@@ -41,9 +41,9 @@ export const Pagination = (paginationProps: PaginationProps) => {
 			}
 			paginationProps.onClickToPage(pageIndex - 1);
 		};
-		const classname = isDisable
-			? 'history-screen__tabs__content__pagination__content__item__link history-screen__tabs__content__pagination__content__item__link--disable'
-			: 'history-screen__tabs__content__pagination__content__item__link';
+		const classname = classnames('history-screen__tabs__content__pagination__content__item__link', {
+			'history-screen__tabs__content__pagination__content__item__link--disable': isDisable,
+		});
 
 		return (
 			<li className="history-screen__tabs__content__pagination__content__item" onClick={onClickPrevPage}>
@@ -61,9 +61,10 @@ export const Pagination = (paginationProps: PaginationProps) => {
 			}
 			paginationProps.onClickToPage(max_page);
 		};
-		const classname = isDisable
-			? 'history-screen__tabs__content__pagination__content__item__link history-screen__tabs__content__pagination__content__item__link--disable'
-			: 'history-screen__tabs__content__pagination__content__item__link';
+
+		const classname = classnames('history-screen__tabs__content__pagination__content__item__link', {
+			'history-screen__tabs__content__pagination__content__item__link--disable': isDisable,
+		});
 
 		return (
 			<li className="history-screen__tabs__content__pagination__content__item" onClick={onClickLastPage}>
@@ -82,9 +83,10 @@ export const Pagination = (paginationProps: PaginationProps) => {
 			}
 			paginationProps.onClickToPage(pageIndex + 1);
 		};
-		const classname = isDisable
-			? 'history-screen__tabs__content__pagination__content__item__link history-screen__tabs__content__pagination__content__item__link--disable'
-			: 'history-screen__tabs__content__pagination__content__item__link';
+
+		const classname = classnames('history-screen__tabs__content__pagination__content__item__link', {
+			'history-screen__tabs__content__pagination__content__item__link--disable': isDisable,
+		});
 
 		return (
 			<li className="history-screen__tabs__content__pagination__content__item" onClick={onClickNextPage}>

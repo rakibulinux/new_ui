@@ -56,7 +56,7 @@ export const historyReducer = (state = initialState, action: HistoryActions) => 
 			return { ...state, list: [], page: 0, nextPageExists: false };
 		}
 		case HISTORY_PUSH_FINISH: {
-			let list = [...action.payload];
+			let list = action.payload;
 			list = getUnique(list, 'id');
 
 			return { ...state, list: sliceArray(list, defaultStorageLimit()) };

@@ -10,13 +10,15 @@ interface Props {
 }
 
 export const FilterElement:React.FC<Props> = props => {
-	const [valueForm, setValueForm] = useState({
+
+	const initialStateForm={
 		date_from: '',
 		date_to: '',
 		base_unit: 'all',
 		quote_unit: 'all',
 		side: 'all',
-	});
+	};
+	const [valueForm, setValueForm] = useState(initialStateForm);
 
 	const marketsData = useSelector(selectMarkets);
 
@@ -89,13 +91,7 @@ export const FilterElement:React.FC<Props> = props => {
 	};
 
 	const onRestForm = () => {
-		setValueForm({
-			date_from: '',
-			date_to: '',
-			base_unit: 'all',
-			quote_unit: 'all',
-			side: 'all',
-		});
+		setValueForm(initialStateForm);
 		setOptionBaseUnit(initBase);
 		props.onRestFilter();
 	};

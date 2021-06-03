@@ -1,11 +1,9 @@
 import { FilterElement } from 'components/FilterElementOrdersHistory';
 import {
-	Market,
 	marketsFetch,
 	ordersCancelAllFetch,
 	ordersHistoryCancelFetch,
 	resetOrdersHistory,
-	RootState,
 	selectCancelAllFetching,
 	selectCancelFetching,
 	selectMarkets,
@@ -21,20 +19,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Decimal } from '../../components/Decimal';
 import { localeDate, setDocumentTitle, setTradeColor } from '../../helpers';
 import {  rangerConnectFetch } from '../../modules/public/ranger';
-import { RangerState } from '../../modules/public/ranger/reducer';
 import { selectRanger } from '../../modules/public/ranger/selectors';
 import { OrderCommon } from '../../modules/types';
 import { Pagination } from './../../components/PaginationOrdersHistory/index';
 
-interface ReduxProps {
-	marketsData: Market[];
-	list: OrderCommon[];
-	fetching: boolean;
-	cancelAllFetching: boolean;
-	cancelFetching: boolean;
-	rangerState: RangerState;
-	userLoggedIn: boolean;
-}
 
 const LIMITELEM = 20;
 
@@ -44,32 +32,24 @@ export const OrdersTabScreen = () => {
 	const [pageIndex, setPageIndex] = useState(1);
 	const [maxPage, setMaxPage] = useState(1);
 
-	const reduxProps = useSelector(
-		(state: RootState): ReduxProps => ({
-			marketsData: selectMarkets(state),
-			list: selectOrdersHistory(state),
-			fetching: selectOrdersHistoryLoading(state),
-			cancelAllFetching: selectCancelAllFetching(state),
-			cancelFetching: selectCancelFetching(state),
-			rangerState: selectRanger(state),
-			userLoggedIn: selectUserLoggedIn(state),
-		}),
-	);
-	const [listData, setListData] = useState(reduxProps.list);
+	const marketsData=useSelector(selectMarkets);
+	const list=useSelector(selectOrdersHistory);
+	const fetching=useSelector(selectOrdersHistoryLoading);
+	const cancelAllFetching=useSelector(selectCancelAllFetching);
+	const cancelFetching=useSelector(selectCancelFetching);
+	const rangerState=useSelector(selectRanger);
+	const userLoggedIn=useSelector(selectUserLoggedIn);
+
+	const [listData, setListData] = useState( list);
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(userOrdersHistoryAllFetch({ pageIndex: 1, type:tab, limit: 25 }));
 		setDocumentTitle('Orders');
-		const {
-			rangerState: { connected },
-			userLoggedIn,
-		} = reduxProps;
-
 		dispatch(marketsFetch());
 
-		if (!connected) {
+		if (!rangerState.connected) {
 			dispatch(rangerConnectFetch({ withAuth: userLoggedIn }));
 		}
 
@@ -79,11 +59,11 @@ export const OrdersTabScreen = () => {
 	}, []);
 
 	useEffect(() => {
-		setListData(reduxProps.list);
+		setListData(list);
 		const newMaxPage =
-			Math.ceil(reduxProps.list.length / LIMITELEM) === 0 ? 1 : Math.ceil(reduxProps.list.length / LIMITELEM);
+			Math.ceil(list.length / LIMITELEM) === 0 ? 1 : Math.ceil(list.length / LIMITELEM);
 		setMaxPage(newMaxPage);
-	}, [reduxProps.list]);
+	}, [list]);
 
 	const tabMapping = ['open', 'all'];
 
@@ -188,7 +168,6 @@ export const OrdersTabScreen = () => {
 	};
 
 	const handleCancel = (id: number) => () => {
-		const { cancelAllFetching, cancelFetching, list } = reduxProps;
 		if (cancelAllFetching || cancelFetching) {
 			return;
 		}
@@ -210,7 +189,7 @@ export const OrdersTabScreen = () => {
 			updated_at,
 			created_at,
 		} = item;
-		const currentMarket = reduxProps.marketsData.find(m => m.id === market) || {
+		const currentMarket =  marketsData.find(m => m.id === market) || {
 			name: '',
 			price_precision: 0,
 			amount_precision: 0,
@@ -261,7 +240,6 @@ export const OrdersTabScreen = () => {
 	};
 
 	const renderTable = () => {
-		const { fetching } = reduxProps;
 		const indexElemStart = (pageIndex - 1) * LIMITELEM;
 		const indexElemStop = (pageIndex - 1) * LIMITELEM + LIMITELEM;
 
@@ -321,14 +299,14 @@ export const OrdersTabScreen = () => {
 		};
 
 		const onRestFilter = () => {
-			setListData(reduxProps.list);
+			setListData( list);
 			setPageIndex(1);
 			const newMaxPage =
-				Math.ceil(reduxProps.list.length / LIMITELEM) === 0 ? 1 : Math.ceil(reduxProps.list.length / LIMITELEM);
+				Math.ceil( list.length / LIMITELEM) === 0 ? 1 : Math.ceil( list.length / LIMITELEM);
 			setMaxPage(newMaxPage);
 		};
 
-		return tab === 'all' ? <FilterElement onFilter={onFilter} onRestFilter={onRestFilter} data={reduxProps.list}/> :'';
+		return tab === 'all' ? <FilterElement onFilter={onFilter} onRestFilter={onRestFilter} data={ list}/> :'';
 	};
 
 	return (

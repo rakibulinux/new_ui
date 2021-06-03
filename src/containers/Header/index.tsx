@@ -3,70 +3,25 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import {
-	changeUserDataFetch,
 	logoutFetch,
-	Market,
-	RootState,
-	selectCurrentMarket,
-	selectMarketSelectorState,
-	selectMobileWalletUi,
-	selectSidebarState,
-	selectUserInfo,
 	selectUserLoggedIn,
-	setMobileWalletUi,
-	toggleMarketSelector,
-	toggleSidebar,
-	User,
 } from '../../modules';
 
 import { FaHistory, FaSignOutAlt, FaStar, FaUserCircle } from 'react-icons/fa';
 
-interface ReduxProps {
-	isLoggedIn: boolean;
-	currentMarket: Market | undefined;
-	user: User;
-	mobileWallet: string;
-	sidebarOpened: boolean;
-	marketSelectorOpened: boolean;
-}
-
-interface DispatchProps {
-	logoutFetch: typeof logoutFetch;
-	setMobileWalletUi: typeof setMobileWalletUi;
-	toggleSidebar: typeof toggleSidebar;
-	toggleMarketSelector: typeof toggleMarketSelector;
-	changeUserDataFetch: typeof changeUserDataFetch;
-}
 
 const Logo = require('../../assets/images/logo.svg');
 
 export const Header: React.FC = () => {
 
-	const props = useSelector(
-		(state: RootState): ReduxProps => ({
-			isLoggedIn: selectUserLoggedIn(state),
-			currentMarket: selectCurrentMarket(state),
-			user: selectUserInfo(state),
-			mobileWallet: selectMobileWalletUi(state),
-			sidebarOpened: selectSidebarState(state),
-			marketSelectorOpened: selectMarketSelectorState(state),
-		}),
-	);
-
-	const dispatch = useDispatch();
-	const listFunction: DispatchProps = {
-		logoutFetch: () => dispatch(logoutFetch()),
-		changeUserDataFetch: payload => dispatch(changeUserDataFetch(payload)),
-		toggleSidebar: payload => dispatch(toggleSidebar(payload)),
-		toggleMarketSelector: () => dispatch(toggleMarketSelector()),
-		setMobileWalletUi: payload => dispatch(setMobileWalletUi(payload)),
-	};
-
 	const history = useHistory();
 	const intl = useIntl();
 
+	const isLoggedIn=useSelector( selectUserLoggedIn);
+
+	const dispatch = useDispatch();
+
 	const renderWalletLink = () => {
-		const { isLoggedIn } = props;
 
 		return (
 			isLoggedIn && (
@@ -80,7 +35,6 @@ export const Header: React.FC = () => {
 	};
 
 	const renderOrderTab = () => {
-		const { isLoggedIn } = props;
 
 		return (
 			isLoggedIn && (
@@ -109,14 +63,13 @@ export const Header: React.FC = () => {
 	};
 
 	const renderLogout = () => {
-		const { isLoggedIn } = props;
 
 		if (!isLoggedIn) {
 			return null;
 		}
 
 		return (
-			<Link to=" " onClick={() => listFunction.logoutFetch()}>
+			<Link to=" " onClick={() => dispatch(logoutFetch())}>
 				<div className="header__right-menu__dropdown__wrap__content__title d-flex align-items-center">
 					<FaSignOutAlt className="header__right-menu__dropdown__wrap__content__title__icon mr-2" />
 					<FormattedMessage id={'page.body.profile.content.action.logout'} />
@@ -126,7 +79,6 @@ export const Header: React.FC = () => {
 	};
 
 	const renderProfileLink = () => {
-		const { isLoggedIn } = props;
 
 		return (
 			isLoggedIn && (
@@ -141,7 +93,6 @@ export const Header: React.FC = () => {
 	};
 
 	const renderProfileTab = () => {
-		const { isLoggedIn } = props;
 
 		return (
 			isLoggedIn && (
@@ -172,7 +123,6 @@ export const Header: React.FC = () => {
 	const translate = (key: string) => intl.formatMessage({ id: key });
 
 	const renderUnLogin = () => {
-		const { isLoggedIn } = props;
 
 		return (
 			!isLoggedIn && (
