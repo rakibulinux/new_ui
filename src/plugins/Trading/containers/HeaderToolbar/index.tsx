@@ -46,7 +46,7 @@ const HeaderToolbarContainer: React.FC = () => {
 						{Decimal.formatRemoveZero(Number(getTickerValue('last')), pricePrecision)}
 					</p>
 					<p className={`td-header__toolbar-item-value`}>
-						$ <ConvertUsd value={Number(getTickerValue('last'))} symbol={get(currentMarket, 'base_unit', '')} />
+						$ <ConvertUsd value={Number(getTickerValue('last'))} symbol={get(currentMarket, 'quote_unit', '')} />
 					</p>
 				</div>
 				<div className="td-header__toolbar-item">

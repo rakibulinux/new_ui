@@ -266,7 +266,10 @@ export const OrderBookContainer = props => {
 							</Col>
 							<Col className={`p-0  td-order-book-ticker__usd d-flex align-items-center`} lg="auto">
 								${' '}
-								<ConvertUsd value={+get(currentTicker, 'last', 0)} symbol={get(currentMarket, 'base_unit', '')} />
+								<ConvertUsd
+									value={+get(currentTicker, 'last', 0)}
+									symbol={get(currentMarket, 'quote_unit', '')}
+								/>
 							</Col>
 						</Row>
 						{tabState === 'all' || tabState === 'buy' ? (

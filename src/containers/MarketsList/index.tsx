@@ -222,7 +222,7 @@ export const MarketsList = props => {
 							<span style={{ color: marketChangeColor }}>
 								{market.last}
 								<p className="m-0" style={{ color: 'rgb(115 127 146)' }}>
-									$ <ConvertUsd value={+market.last} symbol={marketName[0]} />
+									$ <ConvertUsd value={+market.last} symbol={marketName[1]} />
 								</p>
 							</span>
 						),
