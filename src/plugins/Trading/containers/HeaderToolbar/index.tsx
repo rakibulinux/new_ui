@@ -41,7 +41,7 @@ const HeaderToolbarContainer: React.FC = () => {
 				</div>
 				<div className="td-header__toolbar-item td-header__toolbar-item--hightlight">
 					<p className={`td-header__toolbar-item-value td-header__toolbar-item-value-${cls}`}>
-						{currentMarket && Decimal.format(Number(getTickerValue('last')), pricePrecision)}
+						{currentMarket && Decimal.formatRemoveZero(Number(getTickerValue('last')), pricePrecision)}
 					</p>
 				</div>
 				<div className="td-header__toolbar-item">
@@ -53,13 +53,13 @@ const HeaderToolbarContainer: React.FC = () => {
 				<div className="td-header__toolbar-item">
 					<p className="td-header__toolbar-item-text">{translate('page.body.trade.toolBar.lowest')}</p>
 					<p className="td-header__toolbar-item-value td-header__toolbar-item-value-data">
-						{currentMarket && Decimal.format(Number(getTickerValue('low')), 6)}
+						{currentMarket && Decimal.formatRemoveZero(Number(getTickerValue('low')), 6)}
 					</p>
 				</div>
 				<div className="td-header__toolbar-item">
 					<p className="td-header__toolbar-item-text">{translate('page.body.trade.toolBar.highest')}</p>
 					<p className="td-header__toolbar-item-value td-header__toolbar-item-value-data">
-						{currentMarket && Decimal.format(Number(getTickerValue('high')), 6)}
+						{currentMarket && Decimal.formatRemoveZero(Number(getTickerValue('high')), 6)}
 					</p>
 				</div>
 
@@ -68,7 +68,7 @@ const HeaderToolbarContainer: React.FC = () => {
 						{translate('page.body.trade.toolBar.volume')}({bidUnit})
 					</p>
 					<p className={`td-header__toolbar-item-value td-header__toolbar-item-value-${cls}`}>
-						{currentMarket && Decimal.format(Number(getTickerValue('volume')), amountPrecision)}
+						{currentMarket && Decimal.formatRemoveZero(Number(getTickerValue('volume')), amountPrecision)}
 					</p>
 				</div>
 			</div>

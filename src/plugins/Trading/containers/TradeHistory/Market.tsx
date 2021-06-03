@@ -74,13 +74,9 @@ const RecentTradesMarketContainer: React.FC = () => {
 
 			return [
 				<span className={classname} key={i}>
-					<Decimal fixed={priceFixed} prevValue={trades[i - 1] ? trades[i - 1].price : 0}>
-						{price}
-					</Decimal>
+					{Decimal.formatRemoveZero(price, priceFixed)}
 				</span>,
-				<span key={i}>
-					<Decimal fixed={amountFixed}>{amount}</Decimal>
-				</span>,
+				<span key={i}>{Decimal.formatRemoveZero(amount, amountFixed)}</span>,
 				<span key={i}>{higlightedDate}</span>,
 			];
 		};

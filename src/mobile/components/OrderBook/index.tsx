@@ -167,7 +167,7 @@ class OrderBookContainer extends React.Component<Props, State> {
 			return (
 				<React.Fragment>
 					<span className={cn}>
-						{Decimal.format(+currentTicker.last, currentMarket.price_precision)}&nbsp;
+						{Decimal.formatRemoveZero(+currentTicker.last, currentMarket.price_precision)}&nbsp;
 						{isMobileDevice ? null : currentMarket.quote_unit.toUpperCase()}
 					</span>
 					<span>{this.props.intl.formatMessage({ id: 'page.body.trade.orderbook.lastMarket' })}</span>
