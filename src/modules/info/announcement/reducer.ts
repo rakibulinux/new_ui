@@ -22,7 +22,6 @@ export const initialAnnouncement: AnnouncementState = {
 export const announcementReducer = (state = initialAnnouncement, action: AnnouncementActions): AnnouncementState => {
     switch (action.type) {
         case ANNOUNCMENT_CREATE:
-            // console.log("step 2 : ", action);
             return {
                 ...state,
                 loading: true,
@@ -30,7 +29,6 @@ export const announcementReducer = (state = initialAnnouncement, action: Announc
             };
 
         case ANNOUNCMENT_CREATE_DATA:
-            // console.log("step 5 : ",action);
             state.data.unshift(action.payload);
 
             return {
@@ -64,7 +62,6 @@ export const announcementReducer = (state = initialAnnouncement, action: Announc
             const index = state.data.findIndex(item => item.id === action.payload.id)
             const data = [...state.data];
             data[index] = action.payload;
-            // console.log(data, index)
             return {
                 ...state,
                 data,
@@ -79,7 +76,6 @@ export const announcementReducer = (state = initialAnnouncement, action: Announc
         case ANNOUNCMENT_DELETE_DATA:
             let newData = [...state.data];
             newData = newData.filter(item => item.id !== action.payload.id);
-            // console.log(newData, action.payload)
             return {
                 ...state,
                 data: newData,
