@@ -92,6 +92,9 @@ export const en = {
 	'page.body.landing.header.button3': 'Register',
 	'page.body.landing.header.orders': 'Orders',
 	'page.body.landing.header.order': 'Order',
+	'page.body.landing.header.openOrder': 'Open Order',
+	'page.body.landing.header.orderHistory': 'Orders History',
+	'page.body.landing.header.historyTrade': 'History Trade',
 	'page.body.landing.header.history': 'History',
 	'page.body.landing.header.account': 'Account',
 

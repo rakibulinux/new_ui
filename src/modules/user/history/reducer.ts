@@ -2,7 +2,15 @@ import { defaultStorageLimit } from '../../../api';
 import { sliceArray } from '../../../helpers';
 import { getUnique } from '../../../helpers/getUnique';
 import { HistoryActions } from './actions';
-import { HISTORY_DATA, HISTORY_ERROR, HISTORY_FETCH, HISTORY_PUSH_FINISH, HISTORY_RESET } from './constants';
+import {
+	HISTORY_ALL_DATA,
+	HISTORY_ALL_FETCH,
+	HISTORY_DATA,
+	HISTORY_ERROR,
+	HISTORY_FETCH,
+	HISTORY_PUSH_FINISH,
+	HISTORY_RESET,
+} from './constants';
 import { WalletHistoryList } from './types';
 
 export interface HistoryState {
@@ -10,6 +18,7 @@ export interface HistoryState {
 	fetching: boolean;
 	page: number;
 	nextPageExists: boolean;
+	max_page: number;
 }
 
 const initialState: HistoryState = {
@@ -17,6 +26,7 @@ const initialState: HistoryState = {
 	fetching: false,
 	page: 0,
 	nextPageExists: false,
+	max_page: 1,
 };
 
 export const historyReducer = (state = initialState, action: HistoryActions) => {
@@ -31,6 +41,14 @@ export const historyReducer = (state = initialState, action: HistoryActions) => 
 				page: action.payload.page,
 				nextPageExists: action.payload.nextPageExists,
 			};
+		case HISTORY_ALL_FETCH:
+			return { ...state, fetching: true };
+		case HISTORY_ALL_DATA:
+			return {
+				...state,
+				fetching: false,
+				list: action.payload.list,
+			};
 		case HISTORY_ERROR: {
 			return { ...state, list: [], fetching: false, nextPageExists: false, page: 0 };
 		}
@@ -38,7 +56,7 @@ export const historyReducer = (state = initialState, action: HistoryActions) => 
 			return { ...state, list: [], page: 0, nextPageExists: false };
 		}
 		case HISTORY_PUSH_FINISH: {
-			let list = [...action.payload];
+			let list = action.payload;
 			list = getUnique(list, 'id');
 
 			return { ...state, list: sliceArray(list, defaultStorageLimit()) };
