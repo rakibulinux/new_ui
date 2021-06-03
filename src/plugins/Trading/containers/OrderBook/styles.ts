@@ -44,6 +44,14 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 			padding-top: 6px;
 			padding-bottom: 6px;
 			color: #848e9c;
+			> div {
+				display: inline-block;
+				width: 28%;
+				&:last-child,
+				&:first-child {
+					width: 36%;
+				}
+			}
 		}
 		&-ticker {
 			height: ${OrderBookStyleVar.tickerHeight};
@@ -76,9 +84,13 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 					}
 					td,
 					th {
-						width: calc(100% / 3);
+						width: 28%;
 						display: inline-block;
 						text-align: left;
+						&:last-child,
+						&:first-child {
+							width: 36%;
+						}
 						&:last-child {
 							text-align: right;
 						}

@@ -23,7 +23,6 @@ import {
 import downSvg from '../../assets/down.svg';
 import upSvg from '../../assets/up.svg';
 import { OrderBookBuySvg, OrderBookSellSvg, OrderBookSvg } from '../../components/Icon/OrderBookSvg';
-import { OrderBookTableRow } from './OrderBookTableRow';
 import { OrderBookStyle, TrStyle } from './styles';
 
 const defaultTicker = { amount: 0, low: 0, last: 0, high: 0, volume: 0, price_change_percent: '+0.00%' };
@@ -68,23 +67,16 @@ export const OrderBookContainer = props => {
 			const [price, volume] = item;
 
 			const volumnCustom =
-				+volume > 10000000 ? (
-					millify(+volume, {
-						precision: 2,
-					})
-				) : (
-					<OrderBookTableRow total={volume} fixed={amountFixed} />
-				);
+				+volume > 10000000
+					? millify(+volume, {
+							precision: 2,
+					  })
+					: Decimal.formatRemoveZero(volume, amountFixed);
 
 			return [
-				<OrderBookTableRow
-					type="price"
-					prevValue={array[i - 1] ? array[i - 1][0] : 0}
-					price={price}
-					fixed={priceFixed}
-				/>,
+				Decimal.formatRemoveZero(price, priceFixed),
 				volumnCustom,
-				<OrderBookTableRow total={+price * +volume} fixed={priceFixed} />,
+				Decimal.formatRemoveZero(+price * +volume, priceFixed),
 				Number((Number(volume) / (maxVolume / 100)).toFixed(2)),
 			];
 		});
@@ -239,23 +231,23 @@ export const OrderBookContainer = props => {
 							<Col className="p-0 d-flex align-items-center">{elementTabs}</Col>
 							<Col className="p-0 d-flex align-items-center"></Col>
 						</Row>
-						<Row className="td-order-book-tbheader">
-							<Col className="p-0">
+						<div className="td-order-book-tbheader">
+							<div className="p-0">
 								{`${formatMessage({ id: 'page.body.trading.header.orderBook.header.title.price' })}${
 									currentMarket ? `(${quoteUnit})` : ''
 								}`}
-							</Col>
-							<Col className="p-0">
+							</div>
+							<div className="p-0">
 								{`${formatMessage({ id: 'page.body.trading.header.orderBook.header.title.amount' })}${
 									currentMarket ? `(${baseUnit})` : ''
 								}`}
-							</Col>
-							<Col className="p-0 text-right">
+							</div>
+							<div className="p-0 text-right">
 								{`${formatMessage({ id: 'page.body.trading.header.orderBook.header.title.sum' })}${
 									currentMarket ? `(${quoteUnit})` : ''
 								}`}
-							</Col>
-						</Row>
+							</div>
+						</div>
 						{tabState === 'all' || tabState === 'sell' ? (
 							<table className="td-order-book-table td-reverse-table-body">
 								<tbody>{getAsksElm()}</tbody>
@@ -266,7 +258,10 @@ export const OrderBookContainer = props => {
 								className={`p-0  td-order-book-ticker__last-price d-flex align-items-center justify-content-center td-order-book-item__${cls}`}
 							>
 								{cls === 'positive' ? <img src={upSvg} /> : <img src={downSvg} />}
-								{Decimal.format(+get(currentTicker, 'last', 0), get(currentMarket, 'price_precision', 0))}
+								{Decimal.formatRemoveZero(
+									+get(currentTicker, 'last', 0),
+									get(currentMarket, 'price_precision', 0),
+								)}
 								{` ${quoteUnit}`}
 							</Col>
 						</Row>
