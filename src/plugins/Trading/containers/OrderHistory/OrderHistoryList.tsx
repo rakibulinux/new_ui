@@ -1,8 +1,9 @@
+import { Decimal } from 'components';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { CloseIcon } from '../../../../assets/images/CloseIcon';
-import { localeDate, preciseData, setTradeColor } from '../../../../helpers';
+import { localeDate, setTradeColor } from '../../../../helpers';
 import {
 	ordersHistoryCancelFetch,
 	resetOrdersHistory,
@@ -73,19 +74,19 @@ export const OrderHistoryList: React.FC<OrderHistoryListProps> = ({}) => {
 				{orderType}
 			</span>,
 			<span style={{ color: setTradeColor(side).color }} key={id}>
-				{preciseData(actualPrice, price_precision)}
+				{Decimal.formatRemoveZero(actualPrice, price_precision)}
 			</span>,
 			<span style={{ color: setTradeColor(side).color }} key={id}>
-				{preciseData(origin_volume, amount_precision)}
+				{Decimal.formatRemoveZero(origin_volume, amount_precision)}
 			</span>,
 			<span style={{ color: setTradeColor(side).color }} key={id}>
-				{preciseData(executed_volume, amount_precision)}
+				{Decimal.formatRemoveZero(executed_volume, amount_precision)}
 			</span>,
 			<span style={{ color: setTradeColor(side).color }} key={id}>
-				{preciseData(remaining_volume, amount_precision)}
+				{Decimal.formatRemoveZero(remaining_volume, amount_precision)}
 			</span>,
 			<span style={{ color: setTradeColor(side).color }} key={id}>
-				{preciseData(costRemaining, amount_precision)}
+				{Decimal.formatRemoveZero(costRemaining, amount_precision)}
 			</span>,
 			status,
 			state === 'wait' && <CloseIcon key={id} onClick={() => id && handleCancel(id)} />,
