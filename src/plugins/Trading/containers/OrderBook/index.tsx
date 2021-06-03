@@ -1,5 +1,6 @@
 import { accumulateVolume } from 'helpers';
 import get from 'lodash/get';
+import millify from 'millify';
 import * as React from 'react';
 import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import isEqual from 'react-fast-compare';
@@ -65,9 +66,18 @@ export const OrderBookContainer = props => {
 		return array.map((item, i) => {
 			const [price, volume] = item;
 
+			const volumnCustom =
+				+volume > 10000000 ? (
+					millify(+volume, {
+						precision: 2,
+					})
+				) : (
+					Decimal.formatRemoveZero(volume, amountFixed)
+				);
+
 			return [
 				Decimal.formatRemoveZero(price, priceFixed),
-				Decimal.formatRemoveZero(volume, amountFixed),
+				volumnCustom,
 				Decimal.formatRemoveZero(+price * +volume, priceFixed),
 				Number((Number(volume) / (maxVolume / 100)).toFixed(2)),
 			];
@@ -107,7 +117,7 @@ export const OrderBookContainer = props => {
 			</td>
 		</tr>
 	);
-	const getBidsElm = () => {
+	const getBidsElm = React.useCallback(() => {
 		if (arrBidsElm.length > 0) {
 			const total = accumulateVolume(bids);
 
@@ -127,8 +137,8 @@ export const OrderBookContainer = props => {
 		}
 
 		return noDataElm;
-	};
-	const getAsksElm = () => {
+	}, [currentMarket, bids]);
+	const getAsksElm = React.useCallback(() => {
 		if (arrAsksElm.length > 0) {
 			const total = accumulateVolume(asks);
 
@@ -148,7 +158,7 @@ export const OrderBookContainer = props => {
 		}
 
 		return noDataElm;
-	};
+	}, [currentMarket, asks]);
 
 	const infoTabs: Array<{
 		labelTooltip: string;
@@ -229,7 +239,7 @@ export const OrderBookContainer = props => {
 									currentMarket ? `(${quoteUnit})` : ''
 								}`}
 							</Col>
-							<Col className="p-0 text-right">
+							<Col className="p-0">
 								{`${formatMessage({ id: 'page.body.trading.header.orderBook.header.title.amount' })}${
 									currentMarket ? `(${baseUnit})` : ''
 								}`}

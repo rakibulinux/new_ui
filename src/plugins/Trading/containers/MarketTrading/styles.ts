@@ -181,19 +181,20 @@ export const MarketsListTradingStyle = styled.div`
 						padding-top: 0 0 7px 0 !important;
 						padding-bottom: 0 0 7px 0 !important;
 						text-align: right;
-						width: calc(100% / 3);
-						:first-child {
+						width: 35%;
+						&:first-child {
 							text-align: left;
 							> span {
 								padding-left: 18px;
 							}
 						}
-						:nth-child(3) {
+						&:nth-child(3) {
+							width: 30%;
 							> span {
 								padding-right: 18px;
 							}
 						}
-						:last-child {
+						&:last-child {
 							display: none;
 						}
 					}
@@ -215,13 +216,13 @@ export const MarketsListTradingStyle = styled.div`
 					}
 					td {
 						background-color: transparent;
-						width: calc(100% / 3);
+						width: 35%;
 						text-align: right;
 						padding: unset !important;
 						> span {
 							display: block;
 						}
-						:first-child {
+						&:first-child {
 							text-align: left;
 							color: #fff;
 							> span {
@@ -236,16 +237,17 @@ export const MarketsListTradingStyle = styled.div`
 								}
 							}
 						}
-						:nth-child(3) {
+						&:nth-child(3) {
+							width: 30%;
 							> span {
 								padding-right: 18px;
 							}
 						}
-						:last-child {
+						&:last-child {
 							display: none;
 						}
 					}
-					:hover {
+					&:hover {
 						background-color: #4e5463;
 					}
 				}

@@ -4,7 +4,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import styled from 'styled-components';
 
 import { useDispatch, useSelector } from "react-redux";
-import { selectAnnouncement } from "../../modules";
+import { selectAnnouncement, announcementFetch, alertPush  } from "../../modules";
 
 import { announcementCreate } from "../../modules/info/announcement/actions";
 import { AnnouncementTable } from '../../components';
@@ -78,8 +78,9 @@ export const AdminAnnouncement: React.FC = (props) => {
   }
   const handleSubmitAnnouncement: React.DOMAttributes<HTMLFormElement>["onSubmit"] = (e) => {
     e.preventDefault();
-    // console.log("step 1 : ", postAnnouncement)
     dispatch(announcementCreate(postAnnouncement));
+	dispatch(announcementFetch());
+	dispatch(alertPush({ message: ['Create announcement success'], type: 'success' }));
   }
 
   const renderAdminAnnouncement = () => {
