@@ -180,15 +180,15 @@ export const MarketsListTradingStyle = styled.div`
 						background-color: transparent;
 						padding-top: 0 0 7px 0 !important;
 						padding-bottom: 0 0 7px 0 !important;
-						text-align: right;
+						text-align: left;
 						width: 35%;
 						&:first-child {
-							text-align: left;
 							> span {
 								padding-left: 18px;
 							}
 						}
 						&:nth-child(3) {
+							text-align: right;
 							width: 30%;
 							> span {
 								padding-right: 18px;
@@ -217,13 +217,12 @@ export const MarketsListTradingStyle = styled.div`
 					td {
 						background-color: transparent;
 						width: 35%;
-						text-align: right;
+						text-align: left;
 						padding: unset !important;
 						> span {
 							display: block;
 						}
 						&:first-child {
-							text-align: left;
 							color: #fff;
 							> span {
 								.favorite {
@@ -238,6 +237,7 @@ export const MarketsListTradingStyle = styled.div`
 							}
 						}
 						&:nth-child(3) {
+							text-align: right;
 							width: 30%;
 							> span {
 								padding-right: 18px;
