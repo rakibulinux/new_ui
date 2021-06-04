@@ -1,7 +1,6 @@
-// tslint:disable-next-line
 import { call, put } from 'redux-saga/effects';
 import { API, defaultStorageLimit, RequestOptions } from '../../../../api';
-import { sliceArray } from '../../../../helpers';
+import { getHistorySagaParam, sliceArray } from '../../../../helpers';
 import { alertPush } from '../../../public/alert';
 import { failHistory, HistoryFetch, successHistory } from '../actions';
 
@@ -17,12 +16,24 @@ export function* historySaga(action: HistoryFetch) {
 			withdraws: '/account/withdraws',
 			trades: '/market/trades',
 		};
-
-		const params = `page=${page}&limit=${limit}`;
+		const params = getHistorySagaParam(action.payload);
 		const data = yield call(API.get(config), `${coreEndpoint[type]}?${params}`);
 
-		const nextPageExists = false;
+		let nextPageExists = false;
 
+		if (limit && data.length === limit) {
+			const testActionPayload = {
+				...action.payload,
+				page: (page + 1) * limit,
+				limit: 1,
+			};
+			const testParams = getHistorySagaParam(testActionPayload);
+			const checkData = yield call(API.get(config), `${coreEndpoint[type]}?${testParams}`);
+
+			if (checkData.length === 1) {
+				nextPageExists = true;
+			}
+		}
 		let updatedData = data;
 
 		if (type === 'trades') {
