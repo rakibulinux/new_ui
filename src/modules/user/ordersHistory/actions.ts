@@ -33,10 +33,6 @@ export interface UserOrdersHistoryAllDataPayload {
 	list: OrderCommon[];
 }
 
-export interface UserOrdersHistoryDataAllPayload {
-	list: OrderCommon[];
-}
-
 export interface UserOrdersHistoryFetch {
 	type: typeof ORDERS_HISTORY_FETCH;
 	payload: UserOrdersHistoryFetchPayload;

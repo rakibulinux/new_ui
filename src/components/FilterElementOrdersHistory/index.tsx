@@ -14,56 +14,29 @@ export const FilterElement:React.FC<Props> = props => {
 	const initialStateForm={
 		date_from: '',
 		date_to: '',
-		base_unit: 'all',
-		quote_unit: 'all',
+		market:'all',
 		side: 'all',
 	};
 	const [valueForm, setValueForm] = useState(initialStateForm);
 
 	const marketsData = useSelector(selectMarkets);
 
-	const initBase = marketsData.map(e => e.base_unit);
-	initBase.unshift('all');
-	const [optionBaseUnit, setOptionBaseUnit] = useState(initBase);
-	const [optionQuoteUnit, setOptionQuoteUnit] = useState(['all']);
-
-	const filterQuoteByBase = (base: string) => {
-		const quoteTamp: string[] = ['all'];
-		// tslint:disable-next-line: ban
-		marketsData.forEach(e => {
-			if (e.base_unit === base) {
-				quoteTamp.push(e.quote_unit);
-			}
-		});
-
-		return quoteTamp;
-	};
-
 	const onChangeValueForm = (value: string, name: string): void => {
 		const form =  valueForm  ;
 		form[name] = value;
 
-		if (name === 'base_unit') {
-			setOptionQuoteUnit(filterQuoteByBase(value));
-		}
 		setValueForm(form);
 	};
 
 	const onSearch = () => {
 
-		const {date_from, date_to, base_unit, quote_unit, side} = valueForm;
+		const {date_from, date_to,market, side} = valueForm;
 		let dataFilter = props.data;
 		// // filter by base_unit vs quote_unit
-		if (base_unit === 'all') {
+		if (market === 'all') {
 			// no filter
 		} else {
-			if (quote_unit === 'all') {
-				const baseStringLength = base_unit.length;
-				dataFilter = dataFilter.filter((e:any) => e.market.slice(0, baseStringLength) === base_unit);
-			} else {
-				const market = base_unit + quote_unit;
-				dataFilter = dataFilter.filter( (e:any) => e.market === market);
-			}
+			dataFilter = dataFilter.filter( (e:any) => e.market === market);
 		}
 		// // filter by side
 		if (side !== 'all') {
@@ -92,7 +65,6 @@ export const FilterElement:React.FC<Props> = props => {
 
 	const onRestForm = () => {
 		setValueForm(initialStateForm);
-		setOptionBaseUnit(initBase);
 		props.onRestFilter();
 	};
 
@@ -108,22 +80,22 @@ export const FilterElement:React.FC<Props> = props => {
 		);
 	};
 
-	const renderSelection = (name: string, optionElem:string[]) => {
-		const defaultValue = optionElem[0];
+	const renderSelection = () => {
 
 		return (
 			<select
 				className="form-control"
-				name={name}
-				defaultValue={defaultValue}
+				name="market"
+				defaultValue="all"
 				onChange={e => {
 					onChangeValueForm(e.target.value, e.target.name);
 				}}
 			>
-				{optionElem.map(e => {
+				<option value="all">All</option>
+				{marketsData.map(e => {
 					return (
-						<option value={e} key={e}>
-							{e.toUpperCase()}
+						<option value={e.id} key={e.id}>
+							{e.name}
 						</option>
 					);
 				})}
@@ -141,8 +113,9 @@ export const FilterElement:React.FC<Props> = props => {
 				</div>
 				<div className="history-screen__filter__select d-flex align-items-center">
 					<div className="history-screen__filter__select__desc">Pair</div>
-					<div className="mr-3 history-screen__filter__select__choose">{renderSelection('base_unit', optionBaseUnit)}</div>
-					<div className="history-screen__filter__select__choose">{renderSelection('quote_unit', optionQuoteUnit)}</div>
+					<div className="mr-3 history-screen__filter__select__choose">
+						{renderSelection()}
+					</div>
 				</div>
 				<div className="history-screen__filter__select d-flex align-items-center">
 					<div className="history-screen__filter__select__desc">Type</div>

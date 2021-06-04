@@ -11,7 +11,7 @@ export function* ordersHistorySaga(action: UserOrdersHistoryFetch) {
 	try {
 		const { pageIndex, limit, type } = action.payload;
 		const params = `${type === 'all' ? '' : '&state=wait'}`;
-		const data = yield call(API.get(ordersOptions), `/market/orders?page=${pageIndex}&limit=${limit}${params}`);
+		const data = yield call(API.get(ordersOptions), `/market/orders?page=${pageIndex + 1}&limit=${limit}${params}`);
 		let nextPageExists = false;
 
 		if (data.length === limit) {
