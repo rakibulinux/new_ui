@@ -22,10 +22,16 @@ export const HeaderToolbarStyle = styled.div`
 				margin-left: 12px;
 			}
 		}
-		&-item {
+		&-item,
+		&-item--hightlight {
 			display: flex;
 			flex-flow: column;
 			justify-content: space-between;
+
+			p {
+				padding: 0;
+				margin: 0;
+			}
 
 			&:not(:first-child) {
 				margin-left: 15px;
@@ -42,12 +48,6 @@ export const HeaderToolbarStyle = styled.div`
 				margin: 0;
 			}
 
-			&-site {
-				color: #848e9c;
-				font-weight: 400;
-				font-size: 12px;
-			}
-
 			&-text {
 				color: #848e9c;
 				font-weight: 400;
@@ -56,7 +56,7 @@ export const HeaderToolbarStyle = styled.div`
 
 			&-value {
 				margin: 0;
-				font-size: 12px;
+				font-size: calc(var(--font-size) * 1);
 
 				&-positive {
 					color: var(--header-positive-text-color);
@@ -71,15 +71,11 @@ export const HeaderToolbarStyle = styled.div`
 				&-data {
 					color: wheat;
 					font-weight: 400;
-					font-size: calc(var(--font-size) * 1);
 				}
 			}
 		}
 		&-item--hightlight {
-			flex-flow: row;
-			justify-content: center;
-			align-items: center;
-			p {
+			p:first-child {
 				font-size: calc(var(--font-size) * 1.2);
 				font-weight: 600;
 			}

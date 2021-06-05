@@ -44,8 +44,13 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 			padding-top: 6px;
 			padding-bottom: 6px;
 			color: #848e9c;
-			> div:last-child {
-				padding-right: 18px !important;
+			> div {
+				display: inline-block;
+				width: 28%;
+				&:last-child,
+				&:first-child {
+					width: 36%;
+				}
 			}
 		}
 		&-ticker {
@@ -54,6 +59,9 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 			font-size: 14px;
 			&__last-price {
 				font-size: 20px;
+			}
+			&__usd {
+				color: #848e9c;
 			}
 		}
 		&-table {
@@ -79,14 +87,15 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 					}
 					td,
 					th {
-						width: calc(100% / 3 - 11.5px);
+						width: 28%;
 						display: inline-block;
-						text-align: right;
-						:first-child {
-							text-align: left;
+						text-align: left;
+						&:last-child,
+						&:first-child {
+							width: 36%;
 						}
-						:last-child {
-							width: calc(100% / 3 + 18px);
+						&:last-child {
+							text-align: right;
 						}
 					}
 				}
@@ -99,9 +108,6 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 					margin-bottom: 1px;
 					td {
 						height: 100%;
-						&:last-child {
-							padding-right: 18px;
-						}
 					}
 				}
 			}

@@ -85,12 +85,12 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 	);
 
 	const textMinDeposit = `${intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.mindeposit' })} ${
-		Number(currency.min_deposit_amount) + Number(currency.deposit_fee)
+		((100*Number(currency.min_deposit_amount))/(100 - Number(currency.deposit_fee)))
 	} ${selectedCurrencyID.toUpperCase()}`;
 
 	const textDepositFee = `${intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.depositfee' })} ${Number(
 		currency.deposit_fee,
-	)} ${selectedCurrencyID.toUpperCase()}`;
+	)} %`;
 
 	const textNote = `Only Deposit ${selectedCurrencyID.toUpperCase()} to this wallet.`;
 

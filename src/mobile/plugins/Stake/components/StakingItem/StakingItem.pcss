@@ -1,0 +1,197 @@
+#stacking-item {
+	background-color: #313445;
+	box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+	min-height: 370px;
+	position: relative;
+	width: 100%;
+
+	.staking-item-container {
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+
+		.image {
+			background-color: #434a57;
+			background-position: 50% 50%;
+			background-size: cover;
+			display: flex;
+			gap: normal;
+			height: 30%;
+			width: 100%;
+
+			.logo-image {
+				align-items: center;
+				display: flex;
+				height: 50px;
+				margin: auto;
+				width: 270px;
+
+				img {
+					margin: auto;
+					max-height: 100%;
+					max-width: 100%;
+				}
+			}
+		}
+
+		.text {
+			background-color: #313445;
+			min-height: 30%;
+			padding: 1rem 1rem;
+
+			.title,
+			.reward-container {
+				padding: 0.5rem 0;
+			}
+
+			.title {
+				color: #fff;
+				font-size: 16px;
+				font-weight: 700;
+				margin: 10px 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				width: 100%;
+			}
+
+			.reward-container {
+				.reward {
+					flex: 0 0 33.333333%;
+					font-size: 12px;
+					max-width: 33.333333%;
+					padding: 0 5px;
+
+					.reward-box {
+						background-color: #434a57;
+						border-radius: 5px;
+						box-sizing: border-box;
+						font-size: 12px;
+						margin-bottom: 1rem;
+						padding: 5px 0;
+						text-align: center;
+
+						&__rate {
+							color: #fff;
+							font-size: 13px;
+							font-weight: bold;
+						}
+					}
+				}
+			}
+		}
+
+		.stake-item__time {
+			height: 10%;
+			margin-top: 5%;
+			padding: 1rem 1.5rem;
+		}
+
+		.stake-item__progress {
+			height: 5%;
+			margin-top: 5%;
+			padding: 1rem 1.5rem;
+		}
+
+		.buttons {
+			height: 15%;
+			margin-bottom: 0;
+			padding: 1rem 1rem;
+
+			.go-stack-btn {
+				background-color: #30b57e;
+				border-radius: 5px;
+				color: #fff;
+				flex: 1 1 0%;
+				font-size: 13px;
+				line-height: 36px;
+				margin: 3px;
+				margin-bottom: 0;
+				padding: 0 5px;
+				text-align: center;
+				transition: background-color 0.2s;
+				white-space: nowrap;
+				will-change: background-color;
+
+				:hover {
+					background-color: #35cf8f;
+				}
+			}
+
+			.learn-more-btn {
+				background-color: #434a57;
+				border-radius: 5px;
+				color: #fff;
+				flex: 1 1 0%;
+				font-size: 13px;
+				line-height: 36px;
+				margin: 3px;
+				margin-bottom: 0;
+				padding: 0 5px;
+				text-align: center;
+				transition: background-color 0.2s;
+				white-space: nowrap;
+				will-change: background-color;
+			}
+		}
+	}
+
+	.stacking-item__disabled {
+		align-items: center;
+		background-color: #313445c9;
+		color: rgb(255, 255, 255);
+		content: '';
+		display: flex;
+		font-size: 30px;
+		height: 100%;
+		justify-content: center;
+		left: 0;
+		position: absolute;
+		text-align: center;
+		top: 0;
+		width: 100%;
+		z-index: 997;
+	}
+
+	.stacking-item__label {
+		align-items: center;
+		border-radius: 0 0 0 5px;
+		color: #fff;
+		display: flex;
+		font-size: 12px;
+		font-weight: 700;
+		height: 2rem;
+		justify-content: center;
+		position: absolute;
+		right: 0;
+		text-align: center;
+		top: 0;
+		width: 7rem;
+	}
+
+	.stacking-item__label-upcoming {
+		background-color: #e9c46a;
+	}
+
+	.stacking-item__label-running {
+		background: #2fb67e;
+	}
+
+	.stacking-item__label-ended {
+		background: #e63946;
+	}
+
+	.timer {
+		align-items: center;
+		background: #434a57;
+		border-radius: 5px;
+		color: #fff;
+		display: flex;
+		height: 30px;
+		justify-content: center;
+		text-align: center;
+		width: 100%;
+	}
+}

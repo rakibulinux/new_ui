@@ -2,6 +2,8 @@ import * as React from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { Decimal} from '../../components';
+
 import styled from 'styled-components';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 import {
@@ -10,8 +12,8 @@ import {
 	selectMarkets,
 	selectMarketTickers,
 	Market,
-	selectCurrentMarket,
-	Ticker,
+	// selectCurrentMarket,
+	// Ticker,
 	setCurrentMarket,
 } from '../../modules';
 
@@ -48,8 +50,10 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 
 	const markets = useSelector(selectMarkets);
 	const marketTickers = useSelector(selectMarketTickers);
+	// console.log(marketTickers)
 	const currencies = useSelector(selectCurrencies);
-	const currentMarket = useSelector(selectCurrentMarket);
+	// const currentMarket = useSelector(selectCurrentMarket);
+	// console.log(currentMarket)
 
 	React.useEffect(() => {
 		dispatch(currenciesFetch());
@@ -145,22 +149,22 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 
 	const MarketChart = (data: any, marketID: string) => {
 		const market = markets.find(market => market.base_unit.toLowerCase() === marketID.split('/')[0].toLowerCase());
-		const getTickerValue = (cMarket: Market, tickers: { [key: string]: Ticker }) => {
-			const defaultTicker = { amount: 0, low: 0, last: 0, high: 0, volume: 0, open: 0, price_change_percent: '+0.00%' };
+		// const getTickerValue = (cMarket: Market, tickers: { [key: string]: Ticker }) => {
 
-			return tickers[cMarket.id] || defaultTicker;
-		};
+		// 	return tickers[cMarket.id] || defaultTicker;
+		// };
 
-		const currentTicker = (currentMarket && getTickerValue(currentMarket, marketTickers)) || { volume: 0 };
-
+		// const currentTicker = (currentMarket && getTickerValue(currentMarket, marketTickers)) || { volume: 0 };
+		// console.log(currentTicker)
 		if (market) {
+			// console.log(market)
 			const marketID = market.name.toUpperCase();
 			const baseCurrency = marketID.split('/')[0];
 			const quoteCurrency = marketID.split('/')[1];
-			const last = Number((marketTickers[market.id] || defaultTicker).last);
+			const last = Decimal.format(Number((marketTickers[market.id] || defaultTicker).last), market.price_precision);
 			const open = Number((marketTickers[market.id] || defaultTicker).open);
 			const price_change_percent = (marketTickers[market.id] || defaultTicker).price_change_percent;
-			const volume = Number((currentTicker[market.id] || defaultTicker).volume);
+			const volume = Decimal.format(Number((marketTickers[market.id]|| defaultTicker).volume), market.amount_precision);
 			const change = +last - +open;
 			const marketChangeColor = +(change || 0) < 0 ? 'var(--system-red)' : 'var(--system-green)';
 			return (
@@ -178,7 +182,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 						</div>
 						<div className="row mt-1">
 							<div className="col-6 d-flex justify-content-start align-items-center">
-								<span style={{ marginLeft: '5px', fontSize: '1.4rem', color: '#fff' }}>{last.toFixed(6)}</span>
+								<span style={{ marginLeft: '5px', fontSize: '1.4rem', color: '#fff' }}>{last}</span>
 							</div>
 
 							<div className="col-6 d-flex justify-content-end align-items-center">
