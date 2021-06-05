@@ -22,4 +22,5 @@ export * from './HomeScreen';
 export * from './WalletListScreen';
 export * from './DepositScreen';
 export * from './WithdrawScreen';
+export * from './NewHomePage';
 export * from './AnnouncementScreen';
