@@ -71,9 +71,7 @@ import {
 	EmailVerificationScreen,
 	FeeScreen,
 	ForgotPasswordScreen,
-	/* LandingScreen, */
 	HistoryScreen,
-	HomePageScreen,
 	LogInScreen,
 	MagicLink,
 	MaintenanceScreen,
@@ -82,12 +80,9 @@ import {
 	ProfileTwoFactorAuthScreen,
 	RegisterScreen,
 	RestrictedScreen,
-	// signUpScreen,
 	VerificationScreen,
 	WalletListScreen,
 	WithdrawScreen,
-	// WalletsScreen,
-	/* HomeScreen, */
 	NewHomePage,
 	AnnouncementScreen,
 } from '../../screens';
@@ -405,7 +400,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route path="/404" component={RestrictedScreen} />
 					<Route path="/500" component={MaintenanceScreen} />
 					<Route exact={false} path="/trading/:market?" component={TradingScreen} />
-					<Route exact={true} path="/" component={HomePageScreen} />
+					<Route exact={true} path="/" component={NewHomePage} />
 					<Route exact={false} path="/fee" component={FeeScreen} />
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />
@@ -470,7 +465,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						component={AirdropDetail}
 					/>
 					<Route path="/ieo" exact component={SaleListScreen} />
-					<Route path="/newhomepage"  component={NewHomePage} />
 					<Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
 					<Route path="/trading-competition" exact component={TradingCompetionListScreen} />
 					<Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />

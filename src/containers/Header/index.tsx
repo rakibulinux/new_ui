@@ -183,17 +183,7 @@ export const Header: React.FC = () => {
 								</Link>
 							</div>
 						</div>
-						<div className="header__left-menu__dropdown flex-shrink-0  ">
-							<div className="header__left-menu__dropdown__wrap">
-								<Link
-									to="/newhomepage"
-									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
-								>
-									new homepage
-								</Link>
-							</div>
-						</div>
-						{/* <div className="header__left-menu__dropdown flex-shrink-0 d-none d-lg-block d-xl-block ">
+						<div className="header__left-menu__dropdown flex-shrink-0 d-none d-lg-block d-xl-block ">
 							<div className="header__left-menu__dropdown__wrap">
 								<Link
 									to="/stake"
