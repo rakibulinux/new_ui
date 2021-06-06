@@ -28,7 +28,7 @@ export const widgetOptions = (colorTheme?: string) => {
 		popup_width: '000',
 		show_popup_button: true,
 		studies_overrides: {},
-		timeframe: '5D',
+		timeframe: '2D',
 		user_id: 'public_user_id',
 		withdateranges: false,
 
