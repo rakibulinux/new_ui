@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Decimal } from '../../components';
-import Slider from "react-slick";
+import Slider from 'react-slick';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 import {
 	currenciesFetch,
@@ -22,7 +22,7 @@ const ChartWrap = styled.div`
 	padding-top: 150px;
 	display: flex;
 	justify-content: space-between;
-	background-color: #252A3B;
+	background-color: #252a3b;
 
 	.container {
 		div {
@@ -35,7 +35,7 @@ const ChartWrap = styled.div`
 						padding: 6px 10px 8px 6px;
 						border-radius: 4px;
 						vertical-align: middle;
-						background-color: #2FB67E;
+						background-color: #2fb67e;
 					}
 				}
 				.slick-next {
@@ -46,7 +46,7 @@ const ChartWrap = styled.div`
 						padding: 6px 6px 8px 10px;
 						border-radius: 4px;
 						vertical-align: middle;
-						background-color: #2FB67E;
+						background-color: #2fb67e;
 					}
 				}
 			}
@@ -64,7 +64,6 @@ const MarketChartItem = styled.div`
 	}
 `;
 
-
 export const NewMarketList: React.FC<any> = () => {
 	const defaultTicker = {
 		amount: '0.0',
@@ -81,7 +80,7 @@ export const NewMarketList: React.FC<any> = () => {
 		infinite: true,
 		speed: 500,
 		slidesToShow: 3,
-		slidesToScroll: 1
+		slidesToScroll: 1,
 	};
 
 	const dispatch = useDispatch();
@@ -127,7 +126,6 @@ export const NewMarketList: React.FC<any> = () => {
 					return market.name;
 				});
 				setMarketNames(marketNames);
-				console.log(marketNames)
 			}
 		}
 	}, [marketTickers, markets]);
@@ -138,7 +136,6 @@ export const NewMarketList: React.FC<any> = () => {
 			const klines = await axios.get(
 				`${BASE_MARKET_URL}/${marketId.split('/').join('')}/k-line?period=30&time_from=${from}&time_to=${to}`,
 			);
-
 			return klines.data.map((kline, index) => {
 				return { pv: kline[3] };
 			});
@@ -237,10 +234,13 @@ export const NewMarketList: React.FC<any> = () => {
 							<div className="col-12 d-flex justify-content-between">
 								<span
 									style={{
-										fontSize: '1.4rem', margin: '5px', color: "#FFF",
+										fontSize: '1.4rem',
+										margin: '5px',
+										color: '#FFF',
 									}}
 								>
-									{quoteCurrency}</span>
+									{quoteCurrency}
+								</span>
 							</div>
 						</div>
 						<div className="row">
@@ -266,7 +266,6 @@ export const NewMarketList: React.FC<any> = () => {
 										/>
 									</AreaChart>
 								</ResponsiveContainer>
-
 							</div>
 						</div>
 					</div>
@@ -276,21 +275,17 @@ export const NewMarketList: React.FC<any> = () => {
 		return '';
 	};
 
-
 	return (
 		<ChartWrap>
-
 			<div className="container" style={{ borderRadius: '1rem' }}>
-				<div >
+				<div>
 					<Slider {...settings}>
 						{kLinesState.map((kline, i) => (
-							<div key={i}>
-								{MarketChart(kline, marketNames[i])}
-							</div>
+							<div key={i}>{MarketChart(kline, marketNames[i])}</div>
 						))}
 					</Slider>
 				</div>
 			</div>
 		</ChartWrap>
-	)
+	);
 };

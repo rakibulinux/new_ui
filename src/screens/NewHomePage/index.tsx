@@ -1,11 +1,11 @@
+import { useMarketsFetch, useMarketsTickersFetch } from 'hooks';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { NewTeamSection, NewMarketList} from '../../containers';
+import { NewTeamSection, NewMarketList } from '../../containers';
 import Feature1 from './Home/Feature1.svg';
 import Feature2 from './Home/Feature2.svg';
 import Feature3 from './Home/Feature3.svg';
-
 
 const Title = styled.h1`
 	color: #fff;
@@ -17,30 +17,34 @@ const Title = styled.h1`
 `;
 
 export const NewHomePage: React.FC = () => {
-
 	const banner = require('./Home/bannercx.png');
 
-	const renderTitle = () => (
+	useMarketsFetch();
+	useMarketsTickersFetch();
 
-		<div className="main_page__title" style={{ backgroundImage: "url(" + banner + ")" }}>
+	const renderTitle = () => (
+		<div className="main_page__title" style={{ backgroundImage: 'url(' + banner + ')' }}>
 			<div className="container">
 				<div className="cx-title">
 					<h2 className="cx-title_exchange">CircleEX Exchange</h2>
-					<p className="cx-title_description">First Governance Community Exchange<br />For the community By the Community</p>
-					<a href="/signup" className="cx-title_action">Get Started</a>
+					<p className="cx-title_description">
+						First Governance Community Exchange
+						<br />
+						For the community By the Community
+					</p>
+					<a href="/signup" className="cx-title_action">
+						Get Started
+					</a>
 				</div>
 			</div>
 		</div>
-	)
+	);
 
 	const renderMarkets = () => {
-		return (
-			<NewMarketList />
-		)
-	}
+		return <NewMarketList />;
+	};
 	const renderFeature = () => (
-
-		<div style={{ padding: "150px 0", backgroundColor: '#252A3B' }}>
+		<div style={{ padding: '150px 0', backgroundColor: '#252A3B' }}>
 			<div className="row">
 				<div className="col-12">
 					<Title>Features</Title>
@@ -63,7 +67,7 @@ export const NewHomePage: React.FC = () => {
 				</div>
 			</div>
 		</div>
-	)
+	);
 
 	const renderPoster = () => {
 		const Download1 = require('./Home/download1.png');
@@ -82,7 +86,7 @@ export const NewHomePage: React.FC = () => {
 									<h4 className="mt-5" style={{ color: '#000' }}>
 										Download CircleEx APP, you will be able to easily at any time, anywhere trading global
 										mainstream, popular digital assets.
-										</h4>
+									</h4>
 								</div>
 							</div>
 							<div className="row mt-5">
@@ -100,7 +104,7 @@ export const NewHomePage: React.FC = () => {
 								</div>
 							</div>
 						</div>
-						<div className="col-6 pl-5" >
+						<div className="col-6 pl-5">
 							<img className="img-fluid" src={BannerCX} alt="exchange" />
 						</div>
 					</div>
@@ -113,7 +117,7 @@ export const NewHomePage: React.FC = () => {
 			<div style={{ padding: '50px 0' }}>
 				<NewTeamSection />
 			</div>
-		)
+		);
 	};
 
 	return (
@@ -124,5 +128,5 @@ export const NewHomePage: React.FC = () => {
 			{renderPoster()}
 			{renderTeam()}
 		</div>
-	)
-}
+	);
+};
