@@ -44,7 +44,7 @@ export const NewHomePage: React.FC = () => {
 		return <NewMarketList />;
 	};
 	const renderFeature = () => (
-		<div style={{ padding: '150px 0', backgroundColor: '#252A3B' }}>
+		<div style={{ padding: '100px 0', backgroundColor: '#252A3B' }}>
 			<div className="row">
 				<div className="col-12">
 					<Title>Features</Title>

@@ -19,7 +19,7 @@ import {
 
 const ChartWrap = styled.div`
 	width: 100%;
-	padding-top: 150px;
+	padding-top: 50px;
 	display: flex;
 	justify-content: space-between;
 	background-color: #252a3b;
