@@ -135,21 +135,13 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 								transform: 'translate(-50%, -50%)',
 							}}
 						>
-							{Number(totalCapState) > 1000000 ? (
-								millify(Number(totalCapState), {
-									precision: 2,
-								})
-							) : (
-								<Decimal fixed={8}>{totalCapState}</Decimal>
-							)}
+							{millify(Number(totalCapState), {
+								precision: 2,
+							})}
 							/
-							{Number(totalAmountState) > 1000000 ? (
-								millify(Number(totalAmountState), {
-									precision: 2,
-								})
-							) : (
-								<Decimal fixed={8}>{totalAmountState}</Decimal>
-							)}
+							{millify(Number(totalAmountState), {
+								precision: 2,
+							})}
 						</span>
 					</div>
 				</section>
