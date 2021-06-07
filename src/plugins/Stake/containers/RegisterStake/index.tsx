@@ -16,6 +16,7 @@ import { getTimeZone } from '../../../../helpers';
 import Countdown from 'react-countdown';
 import { LoadingSpinner } from '../../components';
 import { useIntl } from 'react-intl';
+import millify from 'millify';
 
 interface RegisterStakeProps {
 	stake_id: string;
@@ -98,8 +99,8 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 	React.useEffect(() => {
 		if (rewards.length > 0) {
 			const validRewardIndex = rewards.findIndex(reward => Number(reward.total_amount) > Number(reward.cap_amount));
-			setSelectedPeriodIndexState(validRewardIndex ? validRewardIndex : DEFAULT_PERIOD_INDEX);
-			handleSelectLockupPeriod(validRewardIndex ? validRewardIndex : DEFAULT_PERIOD_INDEX);
+			setSelectedPeriodIndexState(validRewardIndex !== -1 ? validRewardIndex : DEFAULT_PERIOD_INDEX);
+			handleSelectLockupPeriod(validRewardIndex !== -1 ? validRewardIndex : DEFAULT_PERIOD_INDEX);
 		}
 	}, [rewards, handleSelectLockupPeriod]);
 
@@ -196,7 +197,7 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 					<div className="col-12">
 						<span
 							hidden={
-								Number(rewardState.cap_amount_per_user) === 0
+								Number(rewardState.min_amount) === 0
 									? true
 									: Number(amountState) >= Number(rewardState.min_amount) || amountState === ''
 							}
@@ -204,7 +205,12 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 						>
 							No less than{' '}
 							<strong>
-								{Number(rewardState.min_amount)} {currency_id.toUpperCase()}
+								{Number(rewardState.min_amount) > 1000000
+									? millify(Number(rewardState.min_amount), {
+											precision: 2,
+									  })
+									: Number(rewardState.min_amount)}{' '}
+								{currency_id.toUpperCase()}
 							</strong>{' '}
 							can be staked at a time.
 						</span>
@@ -218,7 +224,12 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 						>
 							No larger than{' '}
 							<strong>
-								{Number(rewardState.cap_amount_per_user)} {currency_id.toUpperCase()}
+								{Number(rewardState.cap_amount_per_user) > 1000000
+									? millify(Number(rewardState.cap_amount_per_user), {
+											precision: 2,
+									  })
+									: Number(rewardState.cap_amount_per_user)}{' '}
+								{currency_id.toUpperCase()}
 							</strong>{' '}
 							can be staked at a time.
 						</span>
