@@ -1,19 +1,30 @@
-import axios from 'plugins/api/vote';
+import { API, RequestOptions } from 'api';
+import { alertPush } from 'modules/public/alert';
 import { stringify } from 'querystring';
-import { put } from 'redux-saga/effects';
-import { voteListData, voteListError, VoteListFetch } from '../actions';
-import { VoteCoin } from '../types';
+import { call, put } from 'redux-saga/effects';
+import { VoteDonateCreate, voteDonateData, VoteListData, voteListData, voteListError, VoteListFetch } from '../actions';
+
+const voteOptions: RequestOptions = {
+	apiVersion: 'sunshine',
+};
 
 export function* votesFetchSaga(actions: VoteListFetch) {
 	try {
-		const votes = yield axios.get<VoteCoin[]>(`/vote/list?${stringify(actions.payload)}`);
-		yield put(
-			voteListData({
-				data: votes.data.data as VoteCoin[],
-				total: votes.data.total,
-			}),
-		);
+		const voteList = yield call(API.get(voteOptions), `/public/vote/list?${stringify(actions.payload)}`);
+		yield put(voteListData(voteList as VoteListData['payload']));
 	} catch (error) {
 		yield put(voteListError(error));
+		yield put(alertPush({ message: [error.message], code: error.code, type: 'error' }));
+	}
+}
+
+export function* voteDonateCreateSaga(actions: VoteDonateCreate) {
+	try {
+		yield call(API.post(voteOptions), `private/vote/donate`, actions.payload);
+		yield put(voteDonateData(actions.payload));
+		yield put(alertPush({ message: ['Vote success'], type: 'success' }));
+	} catch (error) {
+		yield put(voteListError(error));
+		yield put(alertPush({ message: [error.message], code: error.code, type: 'error' }));
 	}
 }

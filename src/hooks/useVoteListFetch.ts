@@ -1,11 +1,28 @@
-import { voteListFetch, VotePagination } from 'modules';
+import debounce from 'lodash/debounce';
+import identity from 'lodash/identity';
+import pickBy from 'lodash/pickBy';
+import { selectVoteLoading, VoteFilter, voteListFetch } from 'modules';
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import isEqual from 'react-fast-compare';
+import { useDispatch, useSelector } from 'react-redux';
 
-export const useVoteListFetch = (pagination: VotePagination) => {
+export const useVoteListFetch = (voteFilter: VoteFilter) => {
 	const dispatch = useDispatch();
+	const isLoading = useSelector(selectVoteLoading);
+	const filter = React.useRef<VoteFilter | null>(null);
+
+	const fetchVoteList = () => {
+		if (!isLoading && !isEqual(filter.current, voteFilter)) {
+			dispatch(voteListFetch(pickBy(voteFilter, identity)));
+			filter.current = voteFilter;
+		}
+	};
+
+	const delayedFetch = React.useCallback(debounce(fetchVoteList, 500), [voteFilter]);
 
 	React.useEffect(() => {
-		dispatch(voteListFetch(pagination));
-	}, [dispatch, pagination]);
+		delayedFetch();
+
+		return delayedFetch.cancel;
+	}, [dispatch, voteFilter]);
 };

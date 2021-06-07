@@ -121,5 +121,45 @@
 				}
 			}
 		}
+		&__tbody {
+			&__button-vote {
+				&__overlay-input {
+					height: 30px;
+					input {
+						outline: none;
+						border: none;
+						border-top-left-radius: 3px;
+						border-bottom-left-radius: 3px;
+						border-top-right-radius: 0;
+						border-bottom-right-radius: 0;
+					}
+					&__accept,
+					&__close {
+						width: 30px;
+						outline: none;
+						border: none;
+						border-radius: none;
+					}
+					&__accept {
+						background-color: #5fb85c;
+						&:hover {
+							background-color: green;
+						}
+						&:disabled {
+							background-color: #5fb85c;
+							opacity: 0.5;
+						}
+					}
+					&__close {
+						background-color: #d9534f;
+						border-top-right-radius: 3px;
+						border-bottom-right-radius: 3px;
+						&:hover {
+							background-color: red;
+						}
+					}
+				}
+			}
+		}
 	}
 }

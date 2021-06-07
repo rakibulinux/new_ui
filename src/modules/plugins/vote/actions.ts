@@ -1,10 +1,10 @@
 import { CommonError } from '../../../modules/types';
-import { VOTE_LIST_DATA, VOTE_LIST_ERROR, VOTE_LIST_FETCH } from './constants';
-import { VoteCoin, VotePagination } from './types';
+import { VOTE_DONATE_CREATE, VOTE_DONATE_DATA, VOTE_LIST_DATA, VOTE_LIST_ERROR, VOTE_LIST_FETCH } from './constants';
+import { VoteCoin, VoteFilter } from './types';
 
 export interface VoteListFetch {
 	type: typeof VOTE_LIST_FETCH;
-	payload: VotePagination;
+	payload: VoteFilter;
 }
 export interface VoteListData {
 	type: typeof VOTE_LIST_DATA;
@@ -14,12 +14,24 @@ export interface VoteListData {
 	};
 }
 
+export interface VoteDonateCreate {
+	type: typeof VOTE_DONATE_CREATE;
+	payload: {
+		id: string;
+		amount: number;
+	};
+}
+export interface VoteDonateData {
+	type: typeof VOTE_DONATE_DATA;
+	payload: VoteDonateCreate['payload'];
+}
+
 export interface VoteListError {
 	type: typeof VOTE_LIST_ERROR;
 	error: CommonError;
 }
 
-export type VoteActions = VoteListFetch | VoteListData | VoteListError;
+export type VoteActions = VoteListFetch | VoteListData | VoteDonateCreate | VoteDonateData | VoteListError;
 
 export const voteListFetch = (payload: VoteListFetch['payload']): VoteListFetch => ({
 	type: VOTE_LIST_FETCH,
@@ -28,6 +40,16 @@ export const voteListFetch = (payload: VoteListFetch['payload']): VoteListFetch 
 
 export const voteListData = (payload: VoteListData['payload']): VoteListData => ({
 	type: VOTE_LIST_DATA,
+	payload,
+});
+
+export const voteDonateCreate = (payload: VoteDonateCreate['payload']): VoteDonateCreate => ({
+	type: VOTE_DONATE_CREATE,
+	payload,
+});
+
+export const voteDonateData = (payload: VoteDonateData['payload']): VoteDonateData => ({
+	type: VOTE_DONATE_DATA,
 	payload,
 });
 

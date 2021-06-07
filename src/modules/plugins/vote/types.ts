@@ -10,9 +10,10 @@ export interface VoteCoin {
 	total: number;
 }
 
-export interface VotePagination {
+export interface VoteFilter {
 	pageIndex?: number;
 	limit?: number;
+	keyword?: string;
 }
 
 export interface VoteState extends CommonState {
@@ -20,4 +21,5 @@ export interface VoteState extends CommonState {
 		data: VoteCoin[];
 		total: number;
 	};
+	donating: boolean;
 }
