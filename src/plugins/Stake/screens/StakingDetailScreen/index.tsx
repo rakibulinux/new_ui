@@ -14,6 +14,7 @@ import {
 } from '../../../../modules';
 import { useIntl } from 'react-intl';
 import { ProgressBar } from 'react-bootstrap';
+import millify from 'millify';
 
 const initialStakingItem: Stake = {
 	stake_id: '',
@@ -58,8 +59,16 @@ export const StakingDetailScreen = () => {
 			const totalCap: number = stakingItemState.rewards.map(reward => Number(reward.cap_amount)).reduce((a, b) => a + b, 0);
 			const percent = ((totalCap / totalAmount) * 100).toFixed(2);
 			setProgressState(percent);
-			setTotalAmountState(totalAmount.toFixed(5));
-			setTotalCapState(totalCap.toFixed(5));
+			setTotalAmountState(
+				millify(totalAmount, {
+					precision: 2,
+				}),
+			);
+			setTotalCapState(
+				millify(totalCap, {
+					precision: 2,
+				}),
+			);
 		}
 	}, [stakingItemState]);
 
