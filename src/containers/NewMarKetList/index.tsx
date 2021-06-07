@@ -2,7 +2,6 @@ import * as React from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
 import { Decimal } from '../../components';
 import Slider from 'react-slick';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
@@ -12,57 +11,8 @@ import {
 	selectMarkets,
 	selectMarketTickers,
 	Market,
-	// selectCurrentMarket,
-	// Ticker,
 	setCurrentMarket,
 } from '../../modules';
-
-const ChartWrap = styled.div`
-	width: 100%;
-	padding-top: 50px;
-	display: flex;
-	justify-content: space-between;
-	background-color: #252a3b;
-
-	.container {
-		div {
-			.slick-initialized {
-				.slick-prev {
-					::before {
-						content: '◃';
-						font-size: 22px;
-						margin-left: -28px;
-						padding: 6px 10px 8px 6px;
-						border-radius: 4px;
-						vertical-align: middle;
-						background-color: #2fb67e;
-					}
-				}
-				.slick-next {
-					::before {
-						content: '▹';
-						font-size: 22px;
-						margin-right: -28px;
-						padding: 6px 6px 8px 10px;
-						border-radius: 4px;
-						vertical-align: middle;
-						background-color: #2fb67e;
-					}
-				}
-			}
-		}
-	}
-`;
-const MarketChartItem = styled.div`
-	min-height: 100px;
-	padding: 15px 5px;
-	border-radius: 4px;
-	background-color: var(--tab-panel-background-color);
-	:hover {
-		cursor: pointer;
-		box-shadow: #7d82b8 0px 0px 10px 0px;
-	}
-`;
 
 export const NewMarketList: React.FC<any> = () => {
 	const defaultTicker = {
@@ -195,7 +145,7 @@ export const NewMarketList: React.FC<any> = () => {
 			const change = +last - +open;
 			const marketChangeColor = +(change || 0) < 0 ? 'var(--system-red)' : 'var(--system-green)';
 			return (
-				<MarketChartItem>
+				<div className="market-chart-item">
 					<div className="container" onClick={() => handleRedirectToTrading(market.id)}>
 						<div className="row">
 							<div className="col-12 d-flex justify-content-between">
@@ -269,16 +219,16 @@ export const NewMarketList: React.FC<any> = () => {
 							</div>
 						</div>
 					</div>
-				</MarketChartItem>
+				</div>
 			);
 		}
 		return '';
 	};
 
 	return (
-		<ChartWrap>
+		<div className="new-market">
 			<div className="container" style={{ borderRadius: '1rem' }}>
-				<div>
+				<div className="chart-wrapper">
 					<Slider {...settings}>
 						{kLinesState.map((kline, i) => (
 							<div key={i}>{MarketChart(kline, marketNames[i])}</div>
@@ -286,6 +236,6 @@ export const NewMarketList: React.FC<any> = () => {
 					</Slider>
 				</div>
 			</div>
-		</ChartWrap>
+		</div>
 	);
 };

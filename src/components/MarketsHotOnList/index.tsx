@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Decimal} from '../../components';
 
-import styled from 'styled-components';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 import {
 	currenciesFetch,
@@ -12,26 +11,8 @@ import {
 	selectMarkets,
 	selectMarketTickers,
 	Market,
-	// selectCurrentMarket,
-	// Ticker,
 	setCurrentMarket,
 } from '../../modules';
-
-const ChartWrap = styled.div`
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-`;
-const MarketChartItem = styled.div`
-	min-height: 100px;
-	padding: 10px 0;
-	border-radius: 4px;
-	background-color: var(--tab-panel-background-color);
-	:hover {
-		cursor: pointer;
-		box-shadow: #7d82b8 0px 0px 10px 0px;
-	}
-`;
 
 export const MarketsHotOnlist: React.FC<any> = () => {
 	const defaultTicker = {
@@ -50,10 +31,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 
 	const markets = useSelector(selectMarkets);
 	const marketTickers = useSelector(selectMarketTickers);
-	// console.log(marketTickers)
 	const currencies = useSelector(selectCurrencies);
-	// const currentMarket = useSelector(selectCurrentMarket);
-	// console.log(currentMarket)
 
 	React.useEffect(() => {
 		dispatch(currenciesFetch());
@@ -149,15 +127,8 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 
 	const MarketChart = (data: any, marketID: string) => {
 		const market = markets.find(market => market.base_unit.toLowerCase() === marketID.split('/')[0].toLowerCase());
-		// const getTickerValue = (cMarket: Market, tickers: { [key: string]: Ticker }) => {
-
-		// 	return tickers[cMarket.id] || defaultTicker;
-		// };
-
-		// const currentTicker = (currentMarket && getTickerValue(currentMarket, marketTickers)) || { volume: 0 };
-		// console.log(currentTicker)
+		
 		if (market) {
-			// console.log(market)
 			const marketID = market.name.toUpperCase();
 			const baseCurrency = marketID.split('/')[0];
 			const quoteCurrency = marketID.split('/')[1];
@@ -168,7 +139,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 			const change = +last - +open;
 			const marketChangeColor = +(change || 0) < 0 ? 'var(--system-red)' : 'var(--system-green)';
 			return (
-				<MarketChartItem>
+				<div className="market-chart">
 					<div className="container" onClick={() => handleRedirectToTrading(market.id)}>
 						<div className="row">
 							<div className="col-12 d-flex justify-content-between">
@@ -224,7 +195,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 							</div>
 						</div>
 					</div>
-				</MarketChartItem>
+				</div>
 			);
 		}
 		return '';
@@ -232,7 +203,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 
 	const renderChart = () => {
 		return (
-			<ChartWrap>
+			<div className="market-hot-on-List">
 				<div className="container" style={{ backgroundColor: 'transparent', padding: '25px 0px', borderRadius: '1rem' }}>
 					<div className="row">
 						{kLinesState.map((kline, i) => (
@@ -242,7 +213,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 						))}
 					</div>
 				</div>
-			</ChartWrap>
+			</div>
 		);
 	};
 	return <React.Fragment>{renderChart()}</React.Fragment>;

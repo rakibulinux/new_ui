@@ -1,0 +1,49 @@
+.new-market {
+	width: 100%;
+	padding-top: 50px;
+	display: flex;
+	justify-content: space-between;
+	background-color: #252a3b;
+
+	.container {
+		.chart-wrapper {
+			.slick-initialized {
+				.slick-prev {
+
+					&:before {
+						content: '◃';
+						font-size: 22px;
+						margin-left: -28px;
+						padding: 6px 10px 8px 6px;
+						border-radius: 4px;
+						vertical-align: middle;
+						background-color: #2fb67e;
+					}
+				}
+				.slick-next {
+
+					&:before {
+						content: '▹';
+						font-size: 22px;
+						margin-right: -28px;
+						padding: 6px 6px 8px 10px;
+						border-radius: 4px;
+						vertical-align: middle;
+						background-color: #2fb67e;
+					}
+				}
+			}
+		}
+		.market-chart-item {
+			min-height: 100px;
+			padding: 15px 5px;
+			border-radius: 4px;
+			background-color: var(--tab-panel-background-color);
+			
+			&:hover {
+				cursor: pointer;
+				box-shadow: #7d82b8 0px 0px 10px 0px;
+			}
+		}
+	}
+}
