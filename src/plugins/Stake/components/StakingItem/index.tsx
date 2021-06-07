@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import Countdown from 'react-countdown';
 import { useIntl } from 'react-intl';
 import { ProgressBar } from 'react-bootstrap';
-import { Decimal } from 'components';
 import millify from 'millify';
 
 type Props = Stake;
