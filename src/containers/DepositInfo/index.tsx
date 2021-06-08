@@ -85,7 +85,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 	);
 
 	const textMinDeposit = `${intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.mindeposit' })} ${
-		Number(currency.min_deposit_amount) + Number(currency.deposit_fee)
+		(100 * Number(currency.min_deposit_amount)) / (100 - Number(currency.deposit_fee))
 	} ${selectedCurrencyID.toUpperCase()}`;
 
 	const textDepositFee = `${intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.depositfee' })} ${Number(
@@ -136,7 +136,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 		<div id="deposit-info">
 			<div className="container" style={{ padding: '20px 0' }}>
 				<div className="row">
-					<div className="col-8 d-flex flex-row">
+					<div className="col-6 d-flex flex-row">
 						<button className="deposit-button">Deposit</button>
 						<button
 							className="withdraw-button"
@@ -145,7 +145,7 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 							Withdraw
 						</button>
 					</div>
-					<div className="col-4">
+					<div className="col-6">
 						<Select
 							styles={SelectStyles}
 							value={options.filter(option => option.value.toLowerCase() === currency_id.toLowerCase())}

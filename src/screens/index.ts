@@ -13,7 +13,6 @@ export * from './SignInScreen';
 export * from './SignUpScreen';
 export * from './LogInScreen';
 export * from './RegisterScreen';
-export * from './TradingScreen';
 export * from './VerificationScreen';
 export * from './RestrictedScreen';
 export * from './MaintenanceScreen';
@@ -23,5 +22,5 @@ export * from './HomeScreen';
 export * from './WalletListScreen';
 export * from './DepositScreen';
 export * from './WithdrawScreen';
+export * from './NewHomePage';
 export * from './AnnouncementScreen';
-

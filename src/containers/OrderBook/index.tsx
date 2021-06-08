@@ -70,7 +70,7 @@ export const OrderBook = props => {
 			return (
 				<React.Fragment>
 					<span className={classnames}>
-						{Decimal.format(+currentTicker.last, currentMarket.price_precision)}&nbsp;
+						{Decimal.formatRemoveZero(+currentTicker.last, currentMarket.price_precision)}&nbsp;
 						{isMobileDevice ? null : currentMarket.quote_unit.toUpperCase()}
 					</span>
 				</React.Fragment>

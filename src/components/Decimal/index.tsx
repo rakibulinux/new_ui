@@ -75,21 +75,21 @@ const formatWithSeparators = (value: string, thousSep?: string, floatSep?: strin
 };
 
 class Decimal extends React.Component<DecimalProps> {
-	public static formatRemoveZero(value: DecimalProps['children'], precision: number, thousSep = '.', floatSep?: string) {
+	public static formatRemoveZero(value: DecimalProps['children'], precision: number, thousSep?: string, floatSep?: string) {
 		const strArr = this.format(value, precision, thousSep, floatSep).split('');
-		for (let i = strArr.length - 1; i >= 0; i--) {
-			if (strArr[i] === '0') {
-				strArr.pop();
-			} else if (strArr[i] === thousSep) {
-				strArr.pop();
-				break;
-			} else if (strArr[i] === floatSep) {
-				strArr.pop();
-				if (strArr[i - 1] !== '0') {
+
+		if (Number(value) !== 0) {
+			for (let i = strArr.length - 1; i >= 0; i--) {
+				if (strArr[i] === thousSep || strArr[i] === floatSep || strArr[i] === '.') {
+					strArr.pop();
+					if (!strArr.includes(thousSep || '.') && !strArr.includes(floatSep || '.')) {
+						break;
+					}
+				} else if (strArr[i] === '0') {
+					strArr.pop();
+				} else {
 					break;
 				}
-			} else {
-				break;
 			}
 		}
 
@@ -122,7 +122,7 @@ class Decimal extends React.Component<DecimalProps> {
 	}
 
 	public static getNumberBeforeDot(value: DecimalProps['children'], fixed: number, thousSep?: string, floatSep?: string) {
-		return Decimal.format(value, 0, thousSep, floatSep);
+		return this.format(value, 0, thousSep, floatSep);
 	}
 
 	public static getNumberAfterDot(value: DecimalProps['children'], fixed: number, thousSep?: string, floatSep?: string) {
@@ -148,7 +148,7 @@ class Decimal extends React.Component<DecimalProps> {
 		} else {
 			return (
 				<React.Fragment>
-					<span>{Decimal.getNumberBeforeDot(children, fixed, thousSep, floatSep)}</span>
+					<span>{Decimal.getNumberBeforeDot(children, fixed, thousSep, floatSep) || '0'}</span>
 					<span className="cr-decimal__opacity">{Decimal.getNumberAfterDot(children, fixed)}</span>
 				</React.Fragment>
 			);

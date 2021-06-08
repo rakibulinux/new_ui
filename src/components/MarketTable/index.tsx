@@ -73,6 +73,7 @@ const PagiantionStyle = styled.div`
 `;
 export const MarketTable: React.FC<MarketTableProps> = (props: MarketTableProps) => {
 	const { columns, data } = props;
+
 	const {
 		getTableProps,
 		getTableBodyProps,
@@ -94,6 +95,7 @@ export const MarketTable: React.FC<MarketTableProps> = (props: MarketTableProps)
 			columns,
 			data,
 			initialState: { pageIndex: 0, pageSize: 10 },
+			autoResetPage: false,
 		},
 		usePagination,
 	);

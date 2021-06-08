@@ -31,19 +31,19 @@ class HeaderToolbarContainer extends React.Component<Props> {
 			<div className="pg-header__toolbar">
 				<div className="pg-header__toolbar-item">
 					<p className="pg-header__toolbar-item-value pg-header__toolbar-item-value-data">
-						{currentMarket && Decimal.format(Number(this.getTickerValue('low')), 6)}
+						{currentMarket && Decimal.formatRemoveZero(Number(this.getTickerValue('low')), 6)}
 					</p>
 					<p className="pg-header__toolbar-item-text">{this.translate('page.body.trade.toolBar.lowest')}</p>
 				</div>
 				<div className="pg-header__toolbar-item">
 					<p className="pg-header__toolbar-item-value pg-header__toolbar-item-value-data">
-						{currentMarket && Decimal.format(Number(this.getTickerValue('high')), 6)}
+						{currentMarket && Decimal.formatRemoveZero(Number(this.getTickerValue('high')), 6)}
 					</p>
 					<p className="pg-header__toolbar-item-text">{this.translate('page.body.trade.toolBar.highest')}</p>
 				</div>
 				<div className="pg-header__toolbar-item">
 					<p className={`pg-header__toolbar-item-value pg-header__toolbar-item-value-${cls}`}>
-						{currentMarket && Decimal.format(Number(this.getTickerValue('last')), 6)}
+						{currentMarket && Decimal.formatRemoveZero(Number(this.getTickerValue('last')), 6)}
 					</p>
 					<p className="pg-header__toolbar-item-text">{this.translate('page.body.trade.toolBar.lastPrice')}</p>
 				</div>
@@ -55,7 +55,7 @@ class HeaderToolbarContainer extends React.Component<Props> {
 				</div>
 				<div className="pg-header__toolbar-item">
 					<p className={`pg-header__toolbar-item-value pg-header__toolbar-item-value-${cls}`}>
-						{currentMarket && Decimal.format(Number(this.getTickerValue('volume')), 4)} {bidUnit}
+						{currentMarket && Decimal.formatRemoveZero(Number(this.getTickerValue('volume')), 4)} {bidUnit}
 					</p>
 					<p className="pg-header__toolbar-item-text">{this.translate('page.body.trade.toolBar.volume')}</p>
 				</div>

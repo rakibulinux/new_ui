@@ -7,7 +7,7 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { minutesUntilAutoLogout, sessionCheckInterval /* showLanding */ } from '../../api';
 import { AnnouncementDetail, NewModal } from '../../components';
-import { WalletsFetch, AdminAnnouncement, AnnouncementEdit } from '../../containers';
+import { AdminAnnouncement, AnnouncementEdit, WalletsFetch } from '../../containers';
 import { toggleColorTheme } from '../../helpers';
 import { IntlProps } from '../../index';
 /* import { isMobile } from "react-device-detect"; */
@@ -71,9 +71,7 @@ import {
 	EmailVerificationScreen,
 	FeeScreen,
 	ForgotPasswordScreen,
-	/* LandingScreen, */
 	HistoryScreen,
-	HomePageScreen,
 	LogInScreen,
 	MagicLink,
 	MaintenanceScreen,
@@ -82,12 +80,10 @@ import {
 	ProfileTwoFactorAuthScreen,
 	RegisterScreen,
 	RestrictedScreen,
-	// signUpScreen,
 	VerificationScreen,
 	WalletListScreen,
 	WithdrawScreen,
-	// WalletsScreen,
-	/* HomeScreen, */
+	NewHomePage,
 	AnnouncementScreen,
 } from '../../screens';
 import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
@@ -405,7 +401,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route path="/404" component={RestrictedScreen} />
 					<Route path="/500" component={MaintenanceScreen} />
 					<Route exact={false} path="/trading/:market?" component={TradingScreen} />
-					<Route exact={true} path="/" component={HomePageScreen} />
+					<Route exact={true} path="/" component={NewHomePage} />
 					<Route exact={false} path="/fee" component={FeeScreen} />
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 
 //  import styled from "styled-components";
-import { /* FaPhoneAlt, */ FaTelegram, FaTwitter, FaFacebook, FaEnvelope/* , FaGlobe */ } from 'react-icons/fa';
+import { /* FaPhoneAlt, */ FaTelegram, FaTwitter, FaFacebook, FaEnvelope /* , FaGlobe */ } from 'react-icons/fa';
 
 const Logo = require('../../assets/images/logo.svg');
 
@@ -49,7 +49,7 @@ const renderFooterDesktop = (inputEmail, sendEmail, emailAddress) => {
 							<FaPhoneAlt className="footer__info__item__icon" /> 0905333999
 						</p> */}
 						<p className="footer__info__item">
-							<FaEnvelope className="footer__info__item__icon" /> listing@cx.finance
+							<FaEnvelope className="footer__info__item__icon" /> admin@circleex.io
 						</p>
 					</div>
 

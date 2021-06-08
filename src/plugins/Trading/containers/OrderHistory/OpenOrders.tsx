@@ -1,8 +1,9 @@
+import { Decimal } from 'components';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { CloseIcon } from '../../../../assets/images/CloseIcon';
-import { localeDate, preciseData, setTradeColor } from '../../../../helpers';
+import { localeDate, setTradeColor } from '../../../../helpers';
 import {
 	openOrdersCancelFetch,
 	selectCurrentMarket,
@@ -76,13 +77,13 @@ export const OpenOrders: React.FC<OpenOrderProps> = ({}) => {
 					{orderType}
 				</span>,
 				<span style={{ color: setTradeColor(side).color }} key={id}>
-					{preciseData(price, priceFixed)}
+					{Decimal.formatRemoveZero(price, priceFixed)}
 				</span>,
 				<span style={{ color: setTradeColor(side).color }} key={id}>
-					{preciseData(remainingAmount, amountFixed)}
+					{Decimal.formatRemoveZero(remainingAmount, amountFixed)}
 				</span>,
 				<span style={{ color: setTradeColor(side).color }} key={id}>
-					{preciseData(total, amountFixed)}
+					{Decimal.formatRemoveZero(total, amountFixed)}
 				</span>,
 				<span style={{ color: setTradeColor(side).color }} key={id}>
 					{filled}%
@@ -94,7 +95,6 @@ export const OpenOrders: React.FC<OpenOrderProps> = ({}) => {
 
 	return (
 		<OpenOrdersStyle>
-			{/* <OpenOrdersCpn headersKeys={renderHeadersKeys()} headers={renderHeaders()} data={renderData()} onCancel={handleCancel} /> */}
 			<TableOrder headersKeys={renderHeaders()} data={renderData()} />
 		</OpenOrdersStyle>
 	);

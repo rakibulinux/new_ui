@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import Countdown from 'react-countdown';
 import { useIntl } from 'react-intl';
 import { ProgressBar } from 'react-bootstrap';
+import millify from 'millify';
 
 type Props = Stake;
 
@@ -114,7 +115,6 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 						))}
 					</div>
 				</section>
-
 				<section className="stake-item__time d-flex flex-row justify-content-between align-items-end">
 					{renderProgressBar()}
 				</section>
@@ -134,11 +134,16 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 								transform: 'translate(-50%, -50%)',
 							}}
 						>
-							{totalCapState}/{totalAmountState}
+							{millify(Number(totalCapState), {
+								precision: 2,
+							})}
+							/
+							{millify(Number(totalAmountState), {
+								precision: 2,
+							})}
 						</span>
 					</div>
 				</section>
-
 				<section className="buttons d-flex flex-row justify-content-between align-items-end">
 					<button onClick={handleGoStacking} className="go-stack-btn">
 						{status === 'ended' || status === 'upcoming'

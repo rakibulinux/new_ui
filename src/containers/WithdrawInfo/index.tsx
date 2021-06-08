@@ -100,7 +100,7 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
 		<div id="withdraw-info">
 			<div className="container" style={{ padding: '20px 0' }}>
 				<div className="row">
-					<div className="col-8 d-flex flex-row">
+					<div className="col-6 d-flex flex-row">
 						<button
 							className="deposit-button"
 							onClick={() => history.push({ pathname: `/wallets/deposit/${currency_id.toUpperCase()}` })}
@@ -109,7 +109,7 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
 						</button>
 						<button className="withdraw-button">Withdraw</button>
 					</div>
-					<div className="col-4">
+					<div className="col-6">
 						<Select
 							styles={SelectStyles}
 							value={options.filter(option => option.value == currency_id.toLowerCase())}

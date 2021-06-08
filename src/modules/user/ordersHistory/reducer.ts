@@ -7,6 +7,8 @@ import {
 	ORDERS_CANCEL_ALL_DATA,
 	ORDERS_CANCEL_ALL_ERROR,
 	ORDERS_CANCEL_ALL_FETCH,
+	ORDERS_HISTORY_ALL_DATA,
+	ORDERS_HISTORY_ALL_FETCH,
 	ORDERS_HISTORY_CANCEL_DATA,
 	ORDERS_HISTORY_CANCEL_ERROR,
 	ORDERS_HISTORY_CANCEL_FETCH,
@@ -54,6 +56,14 @@ export const ordersHistoryReducer = (state = initialOrdersHistoryState, action: 
 				pageIndex: action.payload.pageIndex,
 				nextPageExists: action.payload.nextPageExists,
 				market: action.payload.market,
+			};
+		case ORDERS_HISTORY_ALL_FETCH:
+			return { ...state, fetching: true };
+		case ORDERS_HISTORY_ALL_DATA:
+			return {
+				...state,
+				list: action.payload.list,
+				fetching: false,
 			};
 		case ORDERS_HISTORY_RANGER_DATA:
 			let data = insertOrUpdate(state.list, convertOrderEvent(action.payload));

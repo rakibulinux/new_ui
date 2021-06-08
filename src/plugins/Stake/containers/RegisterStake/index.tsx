@@ -16,6 +16,7 @@ import { getTimeZone } from '../../../../helpers';
 import Countdown from 'react-countdown';
 import { LoadingSpinner } from '../../components';
 import { useIntl } from 'react-intl';
+import millify from 'millify';
 
 interface RegisterStakeProps {
 	stake_id: string;
@@ -67,7 +68,16 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 			setSelectedPeriodIndexState(period_index);
 
 			if (reward) {
-				const { reward_id, period, annual_rate, min_amount, total_amount, cap_amount, payment_time } = reward;
+				const {
+					reward_id,
+					period,
+					annual_rate,
+					min_amount,
+					total_amount,
+					cap_amount,
+					payment_time,
+					cap_amount_per_user,
+				} = reward;
 				setLockupDateState(format(new Date(), 'yyyy-MM-dd hh:mm'));
 				setReleaseDateState(format(addDays(new Date(), Number(period)), 'yyyy-MM-dd hh:mm'));
 				setRewardState({
@@ -76,6 +86,7 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 					period: Number(period),
 					min_amount: min_amount,
 					cap_amount: cap_amount,
+					cap_amount_per_user: cap_amount_per_user,
 					total_amount: total_amount,
 					annual_rate: Number(annual_rate),
 					payment_time: payment_time !== '' ? format(new Date(payment_time), 'yyyy-MM-dd hh:mm') : '',
@@ -88,17 +99,22 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 	React.useEffect(() => {
 		if (rewards.length > 0) {
 			const validRewardIndex = rewards.findIndex(reward => Number(reward.total_amount) > Number(reward.cap_amount));
-			setSelectedPeriodIndexState(validRewardIndex ? validRewardIndex : DEFAULT_PERIOD_INDEX);
-			handleSelectLockupPeriod(validRewardIndex ? validRewardIndex : DEFAULT_PERIOD_INDEX);
+			setSelectedPeriodIndexState(validRewardIndex !== -1 ? validRewardIndex : DEFAULT_PERIOD_INDEX);
+			handleSelectLockupPeriod(validRewardIndex !== -1 ? validRewardIndex : DEFAULT_PERIOD_INDEX);
 		}
 	}, [rewards, handleSelectLockupPeriod]);
 
 	const isDisableStakeButton =
-		Number(amountState) < Number(rewardState.min_amount) ||
+		amountState === '' ||
+		(amountState !== '' && Number(rewardState.cap_amount_per_user) === 0
+			? false
+			: Number(amountState) > Number(rewardState.cap_amount_per_user)) ||
+		(amountState !== '' && Number(rewardState.min_amount) === 0
+			? false
+			: Number(amountState) < Number(rewardState.min_amount)) ||
 		!agreeState ||
 		Number(amountState) > Number(wallet.balance) ||
 		Number(expectedRewardState) <= 0;
-
 	const renderer = ({ days, hours, minutes, seconds, completed }) => {
 		if (completed) {
 			// Render a completed state
@@ -180,12 +196,40 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 					</div>
 					<div className="col-12">
 						<span
-							hidden={Number(amountState) >= Number(rewardState.min_amount) || amountState === ''}
+							hidden={
+								Number(rewardState.min_amount) === 0
+									? true
+									: Number(amountState) >= Number(rewardState.min_amount) || amountState === ''
+							}
 							className="text-danger float-right"
 						>
 							No less than{' '}
 							<strong>
-								{Number(rewardState.min_amount)} {currency_id.toUpperCase()}
+								{Number(rewardState.min_amount) > 1000000
+									? millify(Number(rewardState.min_amount), {
+											precision: 2,
+									  })
+									: Number(rewardState.min_amount)}{' '}
+								{currency_id.toUpperCase()}
+							</strong>{' '}
+							can be staked at a time.
+						</span>
+						<span
+							hidden={
+								Number(rewardState.cap_amount_per_user) === 0
+									? true
+									: Number(amountState) <= Number(rewardState.cap_amount_per_user) || amountState === ''
+							}
+							className="text-danger float-right"
+						>
+							No larger than{' '}
+							<strong>
+								{Number(rewardState.cap_amount_per_user) > 1000000
+									? millify(Number(rewardState.cap_amount_per_user), {
+											precision: 2,
+									  })
+									: Number(rewardState.cap_amount_per_user)}{' '}
+								{currency_id.toUpperCase()}
 							</strong>{' '}
 							can be staked at a time.
 						</span>

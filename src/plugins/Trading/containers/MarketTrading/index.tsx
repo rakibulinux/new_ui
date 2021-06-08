@@ -155,7 +155,7 @@ const MarketTradingContainer: React.FC = () => {
 
 	const setTradingTitle = (market: Market) => {
 		const tickerPrice = tickers[market.id] ? tickers[market.id].last : '0.0';
-		document.title = `${Decimal.format(tickerPrice, market.price_precision)} ${market.name}`;
+		document.title = `${Decimal.formatRemoveZero(tickerPrice, market.price_precision)} ${market.name}`;
 	};
 
 	const searchFieldChangeHandler: React.InputHTMLAttributes<HTMLInputElement>['onChange'] = e => {
