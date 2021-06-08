@@ -110,7 +110,7 @@ export const StakingDetailScreen = () => {
 				</div>
 				<div className="row mt-5">
 					<div className="col-6">
-						<div style={{ position: 'relative' }} hidden={Number(totalAmountState) <= 0}>
+						<div style={{ position: 'relative' }}>
 							<ProgressBar
 								style={{ height: '75px', background: 'rgba(132, 142, 156, 0.35)', fontSize: '30px' }}
 								animated
@@ -126,7 +126,7 @@ export const StakingDetailScreen = () => {
 									fontSize: '2rem',
 								}}
 							>
-								{totalCapState}/{totalAmountState}
+								{totalCapState} <span hidden={Number(totalAmountState) <= 0}>/{totalAmountState}</span>
 							</span>
 						</div>
 						<hr />

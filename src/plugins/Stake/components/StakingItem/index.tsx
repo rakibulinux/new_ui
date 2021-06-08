@@ -137,10 +137,12 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 							{millify(Number(totalCapState), {
 								precision: 2,
 							})}
-							/
-							{millify(Number(totalAmountState), {
-								precision: 2,
-							})}
+							<span hidden={Number(totalAmountState) <= 0}>
+								/
+								{millify(Number(totalAmountState), {
+									precision: 2,
+								})}
+							</span>
 						</span>
 					</div>
 				</section>
