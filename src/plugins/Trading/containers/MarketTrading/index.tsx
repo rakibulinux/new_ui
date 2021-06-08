@@ -78,85 +78,23 @@ const MarketTradingContainer: React.FC = () => {
 		},
 	];
 
-	React.useEffect(() => {
-		//load favourites_markets
-		const listFavoriteKey = JSON.parse(localStorage.getItem('favourites_markets') || '[]') as string[];
-		if (listFavoriteKey.length) {
-			setFavoriteKeyState(listFavoriteKey);
-		}
-
-		setDocumentTitle('Trading');
-		const { connected, withAuth } = rangerState;
-
-		if (markets.length < 1) {
-			dispatch(marketsFetch());
-		}
-
-		if (currentMarket && !incrementalOrderBook()) {
-			dispatch(depthFetch(currentMarket));
-		}
-
-		if (!connected) {
-			dispatch(rangerConnectFetch({ withAuth: userLoggedIn }));
-		}
-
-		if (userLoggedIn && !withAuth) {
-			dispatch(rangerConnectFetch({ withAuth: userLoggedIn }));
-		}
-
-		return () => {
-			dispatch(setCurrentPrice(undefined));
-		};
-	}, []);
-
-	React.useEffect(() => {
-		localStorage.setItem('favourites_markets', JSON.stringify(favoriteKeyState));
-	}, [favoriteKeyState.length]);
-
-	React.useEffect(() => {
-		if (userLoggedIn) {
-			dispatch(rangerConnectFetch({ withAuth: userLoggedIn }));
-		}
-	}, [userLoggedIn]);
-
-	React.useEffect(() => {
-		setMarketFromUrlIfExists();
-	}, [markets.length]);
-
-	React.useEffect(() => {
-		if (currentMarket) {
-			const marketFromUrl = history.location.pathname.split('/');
-			const marketNotMatched = currentMarket.id !== marketFromUrl[marketFromUrl.length - 1];
-			if (marketNotMatched) {
-				history.replace(`/trading/${currentMarket.id}`);
-
-				if (!incrementalOrderBook()) {
-					dispatch(depthFetch(currentMarket));
-				}
-			}
-		}
-	}, [currentMarket]);
-
-	React.useEffect(() => {
-		if (currentMarket && tickers) {
-			setTradingTitle(currentMarket);
-		}
-	}, [currentMarket, tickers]);
-
 	// tslint:disable-next-line: no-shadowed-variable
-	const setMarketFromUrlIfExists = (): void => {
+	const setMarketFromUrlIfExists = React.useCallback((): void => {
 		const urlMarket: string = getUrlPart(2, window.location.pathname);
 		const market: Market | undefined = markets.find(item => item.id === urlMarket);
 
 		if (market) {
 			dispatch(setCurrentMarket(market));
 		}
-	};
+	}, [dispatch, markets]);
 
-	const setTradingTitle = (market: Market) => {
-		const tickerPrice = tickers[market.id] ? tickers[market.id].last : '0.0';
-		document.title = `${Decimal.formatRemoveZero(tickerPrice, market.price_precision)} ${market.name}`;
-	};
+	const setTradingTitle = React.useCallback(
+		(market: Market) => {
+			const tickerPrice = tickers[market.id] ? tickers[market.id].last : '0.0';
+			document.title = `${Decimal.formatRemoveZero(tickerPrice, market.price_precision)} ${market.name}`;
+		},
+		[tickers],
+	);
 
 	const searchFieldChangeHandler: React.InputHTMLAttributes<HTMLInputElement>['onChange'] = e => {
 		setSearchFieldState(e.target.value);
@@ -173,7 +111,7 @@ const MarketTradingContainer: React.FC = () => {
 		return (
 			<SearchBlockStyle className="d-flex">
 				<div className="search-wrapper w-50">
-					<img className="search-icon" src={searchSvg} />
+					<img className="search-icon" src={searchSvg} alt="" />
 					<input
 						className="search-input"
 						type="text"
@@ -251,6 +189,71 @@ const MarketTradingContainer: React.FC = () => {
 			},
 		}));
 	};
+
+	React.useEffect(() => {
+		//load favourites_markets
+		const listFavoriteKey = JSON.parse(localStorage.getItem('favourites_markets') || '[]') as string[];
+		if (listFavoriteKey.length) {
+			setFavoriteKeyState(listFavoriteKey);
+		}
+
+		setDocumentTitle('Trading');
+		const { connected, withAuth } = rangerState;
+
+		if (markets.length < 1) {
+			dispatch(marketsFetch());
+		}
+
+		if (currentMarket && !incrementalOrderBook()) {
+			dispatch(depthFetch(currentMarket));
+		}
+
+		if (!connected) {
+			dispatch(rangerConnectFetch({ withAuth: userLoggedIn }));
+		}
+
+		if (userLoggedIn && !withAuth) {
+			dispatch(rangerConnectFetch({ withAuth: userLoggedIn }));
+		}
+
+		return () => {
+			dispatch(setCurrentPrice(undefined));
+		};
+	}, [currentMarket, dispatch, markets.length, rangerState, userLoggedIn]);
+
+	React.useEffect(() => {
+		localStorage.setItem('favourites_markets', JSON.stringify(favoriteKeyState));
+	}, [favoriteKeyState.length, favoriteKeyState]);
+
+	React.useEffect(() => {
+		if (userLoggedIn) {
+			dispatch(rangerConnectFetch({ withAuth: userLoggedIn }));
+		}
+	}, [userLoggedIn, dispatch]);
+
+	React.useEffect(() => {
+		setMarketFromUrlIfExists();
+	}, [markets.length, setMarketFromUrlIfExists]);
+
+	React.useEffect(() => {
+		if (currentMarket) {
+			const marketFromUrl = history.location.pathname.split('/');
+			const marketNotMatched = currentMarket.id !== marketFromUrl[marketFromUrl.length - 1];
+			if (marketNotMatched) {
+				history.replace(`/trading/${currentMarket.id}`);
+
+				if (!incrementalOrderBook()) {
+					dispatch(depthFetch(currentMarket));
+				}
+			}
+		}
+	}, [currentMarket, dispatch, history]);
+
+	React.useEffect(() => {
+		if (currentMarket && tickers) {
+			setTradingTitle(currentMarket);
+		}
+	}, [currentMarket, tickers, setTradingTitle]);
 
 	const renderStarList = () => {
 		return (

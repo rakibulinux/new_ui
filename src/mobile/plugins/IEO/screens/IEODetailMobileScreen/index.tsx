@@ -12,12 +12,15 @@ export const IEODetailMobileScreen: React.FC = () => {
 	const saleItem = useSelector(selectSaleItem);
 	const user = useSelector(selectUserInfo);
 	const dispatch = useDispatch();
-	const dispatchFetchSaleItemByID = (ieoIDParam: string | number) =>
-		dispatch(
-			findSalebyId({
-				id: ieoIDParam,
-			}),
-		);
+	const dispatchFetchSaleItemByID = React.useCallback(
+		(ieoIDParam: string | number) =>
+			dispatch(
+				findSalebyId({
+					id: ieoIDParam,
+				}),
+			),
+		[dispatch],
+	);
 
 	React.useEffect(() => {
 		if (saleItem.loading) {
@@ -33,7 +36,7 @@ export const IEODetailMobileScreen: React.FC = () => {
 
 	React.useEffect(() => {
 		dispatchFetchSaleItemByID(ieoID);
-	}, []);
+	}, [dispatchFetchSaleItemByID, ieoID]);
 
 	let saleInfoView: JSX.Element;
 	let saleBuyView: JSX.Element;

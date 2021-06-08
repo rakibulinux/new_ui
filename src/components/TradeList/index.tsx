@@ -13,10 +13,10 @@ export const TradeList: React.FC<TradeListProps> = (props: TradeListProps) => {
 	const markets = useSelector(selectMarkets);
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const dispatchFetchMarkets = () => dispatch(marketsFetch());
+	const dispatchFetchMarkets = React.useCallback(() => dispatch(marketsFetch()), [dispatch]);
 	React.useEffect(() => {
 		dispatchFetchMarkets();
-	}, []);
+	}, [dispatchFetchMarkets]);
 
 	const handleRedirectToTrading = (id: string) => {
 		const currentMarket: Market | undefined = markets.find(item => item.id === id);
@@ -32,12 +32,12 @@ export const TradeList: React.FC<TradeListProps> = (props: TradeListProps) => {
 			{markets
 				.filter(market => market.base_unit.toLowerCase() === currency_id.toLowerCase())
 				.map(market => (
-					<a
+					<span
 						style={{ color: '#fff', marginRight: '1rem', borderBottom: '1px solid #fff' }}
 						onClick={() => handleRedirectToTrading(market.id)}
 					>
 						{market.name}
-					</a>
+					</span>
 				))}
 		</div>
 	);

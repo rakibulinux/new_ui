@@ -112,7 +112,7 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
 					<div className="col-6">
 						<Select
 							styles={SelectStyles}
-							value={options.filter(option => option.value == currency_id.toLowerCase())}
+							value={options.filter(option => option.value.toLowerCase() === currency_id.toLowerCase())}
 							onChange={handleChange}
 							options={options.filter(option => !all_child_currencies.map(cur => cur.id).includes(option.value))}
 						/>

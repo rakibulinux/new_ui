@@ -86,77 +86,21 @@ const Table: React.FC<TableProps> = props => {
 	const [resultData, setResultData] = React.useState<CellData[][] | undefined>(undefined);
 	const [selectedRowKey, setSelectedRowKey] = React.useState<string | undefined>(props.selectedKey);
 
-	React.useEffect(() => {
-		// tslint:disable-next-line: no-shadowed-variable
-		const { filters } = props;
-		if (filters && filters.length > 0) {
-			handleFilter(filters[0]);
-		}
-	}, []);
+	const handleFilter = React.useCallback(
+		(item: Filter) => {
+			const { data } = props;
 
-	React.useEffect(() => {
-		if (selectedRowKey !== props.selectedKey) {
-			setSelectedRowKey(props.selectedKey);
-		}
-	}, [props.selectedKey]);
+			if (!item.filter) {
+				setResultData(data);
 
-	React.useEffect(() => {
-		if (props.filters) {
-			// tslint:disable-next-line: no-shadowed-variable
-			const activeFilter = props.filters.find(filter => filter.name === activeFilter);
-
-			if (activeFilter) {
-				handleFilter(activeFilter);
+				return;
 			}
-		}
-	}, [props.data]);
-
-	React.useEffect(() => {
-		if (props.onSelect) {
-			selectedRowKey && props.onSelect(selectedRowKey);
-		}
-	}, [selectedRowKey]);
-
-	const renderTitleComponent = () => {
-		// tslint:disable-next-line: no-shadowed-variable
-		const { titleComponent } = props;
-
-		return <div className={'td-title-component'}>{titleComponent}</div>;
-	};
-
-	const renderRowCells = (row: CellData[]) => {
-		// tslint:disable-next-line: no-shadowed-variable
-		const { data } = props;
-		const dataRow = row.map(c => c);
-		const isCheckEmpty = compactLd(flattenDeepnLd(dataRow)).length === 1;
-		// tslint:disable-next-line: no-shadowed-variable
-		const cn = classNames({ 'td-table__empty': isCheckEmpty && (data || []).length <= 1 });
-
-		return dataRow && dataRow.length
-			? dataRow.map((c, index: number) => {
-					return (
-						<td key={index} className={cn} colSpan={dataRow.length === 1 ? props.colSpan : undefined}>
-							{c}
-						</td>
-					);
-			  })
-			: [];
-	};
-
-	const handleFilter = (item: Filter) => {
-		// tslint:disable-next-line: no-shadowed-variable
-		const { data } = props;
-
-		if (!item.filter) {
-			setResultData(data);
-
-			return;
-		}
-		// tslint:disable-next-line: no-shadowed-variable
-		const resultData: CellData[][] = [...data].filter(item.filter);
-		setActiveFilter(item.name);
-		setResultData(resultData);
-	};
+			const resultData: CellData[][] = [...data].filter(item.filter);
+			setActiveFilter(item.name);
+			setResultData(resultData);
+		},
+		[props],
+	);
 
 	const handleSelect = (key: string) => () => {
 		const { onSelect } = props;
@@ -167,10 +111,8 @@ const Table: React.FC<TableProps> = props => {
 	};
 
 	const renderFilters = () => {
-		// tslint:disable-next-line: no-shadowed-variable
 		const { filters = [] } = props;
 
-		// tslint:disable-next-line: no-shadowed-variable
 		const cn = (filterName: string) =>
 			classNames('td-table__filter', {
 				'td-table__filter--active': activeFilter === filterName,
@@ -223,7 +165,6 @@ const Table: React.FC<TableProps> = props => {
 		return <div className={className}>{rowBackground && dataToBeMapped.map(renderBackgroundRow)}</div>;
 	};
 
-	// tslint:disable-next-line: no-shadowed-variable
 	const renderBody = (rows: CellData[][], rowKeyIndex: number | undefined) => {
 		const rowClassName = (key: string) =>
 			classNames({
@@ -244,7 +185,6 @@ const Table: React.FC<TableProps> = props => {
 		return <tbody className={'td-table__body'}>{rowElements}</tbody>;
 	};
 
-	// tslint:disable-next-line: no-shadowed-variable
 	const ensureDataIsValid = (data: CellData[][]) => {
 		const length = data[0].length;
 		const len = data.length;
@@ -262,6 +202,59 @@ const Table: React.FC<TableProps> = props => {
 	const cn = classNames('td-table-header__content', {
 		'td-table-header__content-empty': !titleComponent && filters.length === 0,
 	});
+
+	const renderTitleComponent = () => {
+		const { titleComponent } = props;
+
+		return <div className={'td-title-component'}>{titleComponent}</div>;
+	};
+
+	const renderRowCells = (row: CellData[]) => {
+		const { data } = props;
+		const dataRow = row.map(c => c);
+		const isCheckEmpty = compactLd(flattenDeepnLd(dataRow)).length === 1;
+		const cn = classNames({ 'td-table__empty': isCheckEmpty && (data || []).length <= 1 });
+
+		return dataRow && dataRow.length
+			? dataRow.map((c, index: number) => {
+					return (
+						<td key={index} className={cn} colSpan={dataRow.length === 1 ? props.colSpan : undefined}>
+							{c}
+						</td>
+					);
+			  })
+			: [];
+	};
+
+	React.useEffect(() => {
+		const { filters } = props;
+		if (filters && filters.length > 0) {
+			handleFilter(filters[0]);
+		}
+	}, [handleFilter, props]);
+
+	React.useEffect(() => {
+		if (selectedRowKey !== props.selectedKey) {
+			setSelectedRowKey(props.selectedKey);
+		}
+	}, [props.selectedKey, selectedRowKey]);
+
+	React.useEffect(() => {
+		if (props.filters) {
+			// tslint:disable-next-line: no-shadowed-variable
+			const activeFilter = props.filters.find(filter => filter.name === activeFilter);
+
+			if (activeFilter) {
+				handleFilter(activeFilter);
+			}
+		}
+	}, [props, handleFilter]);
+
+	React.useEffect(() => {
+		if (props.onSelect) {
+			selectedRowKey && props.onSelect(selectedRowKey);
+		}
+	}, [selectedRowKey, props]);
 
 	return (
 		<TableBlockStyle className="td-table-container">

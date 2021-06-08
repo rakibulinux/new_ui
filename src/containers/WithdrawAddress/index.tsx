@@ -193,7 +193,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 
 		const fixed = (wallet || { fixed: 0 }).fixed;
 
-		const selectedCurrency = currencies.find(cur => cur.id == currency);
+		const selectedCurrency = currencies.find(cur => cur.id === currency);
 		const minWithdrawAmount =
 			selectedCurrency && selectedCurrency.min_withdraw_amount ? selectedCurrency.min_withdraw_amount : undefined;
 		const parentCurrency = currencies.find(currency => currency.id === currency_id);
@@ -243,7 +243,7 @@ export const WithdrawAddress: React.FC<WithdrawAddressProps> = (props: WithdrawA
 		const ethBallance = ethWallet ? ethWallet.balance : undefined;
 		const currencyFee = eth_fee.find(cur => cur.currency_id === currency);
 
-		if (fee == 0) {
+		if (fee === 0) {
 			if (!(currencyFee && currencyFee.fee)) {
 				message.error('Something wrong with ETH fee.');
 				return;

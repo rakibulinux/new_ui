@@ -51,11 +51,11 @@ const settingEvents = {
 
 export const HomeScreen: React.FC<any> = (props: any) => {
 	const dispatch = useDispatch();
-	const dispatchFetchEvents = () => dispatch(eventFetch());
+	const dispatchFetchEvents = React.useCallback(() => dispatch(eventFetch()), [dispatch]);
 
 	React.useEffect(() => {
 		dispatchFetchEvents();
-	}, []);
+	}, [dispatchFetchEvents]);
 
 	const events = useSelector(selectEvents);
 
@@ -90,8 +90,8 @@ export const HomeScreen: React.FC<any> = (props: any) => {
 							<Slider {...settingEvents}>
 								{[...events.payload].map(event => {
 									return (
-										<a key={event.event_id} href={event.ref_link} target="_blank">
-											<img src={event.image_link} style={{ width: '100%', height: '100%' }}></img>
+										<a rel="noopener noreferrer" key={event.event_id} href={event.ref_link} target="_blank">
+											<img src={event.image_link} style={{ width: '100%', height: '100%' }} alt="" />
 										</a>
 									);
 								})}
@@ -132,7 +132,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
 					</p>
 					<ul className="feature">
 						<li>
-							<img src={IMG1}></img>
+							<img src={IMG1} alt="asset_services"></img>
 							<h3>Various Digital Asset Services</h3>
 							<p>
 								Support instant crypto purchase, spot trading, derivatives trading and a complex of investment
@@ -140,7 +140,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
 							</p>
 						</li>
 						<li>
-							<img src={IMG2}></img>
+							<img src={IMG2} alt="multi-layer"></img>
 							<h3>Multi-layer Protection</h3>
 							<p>
 								Multi-cluster network security structure. Multi-layer risk control and real time alerting system.
@@ -148,7 +148,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
 							</p>
 						</li>
 						<li>
-							<img src={IMG3}></img>
+							<img src={IMG3} alt="=user-oriented"></img>
 							<h3>User-oriented Design</h3>
 							<p>
 								User friendly product design. Multi-platform supported. Speedy memory matching system. All for the

@@ -271,7 +271,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 					centered: true,
 					icon: <FrownOutlined />,
 					title: "Can't withdraw",
-					content: `You don\'t have enough ETH tokens to pay fee. Need more ${(
+					content: `You don't have enough ETH tokens to pay fee. Need more ${(
 						Number(ethFee) - Number(ethBallance)
 					).toFixed(5)} ETH Tokens`,
 				});

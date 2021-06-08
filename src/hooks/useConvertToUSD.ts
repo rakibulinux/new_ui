@@ -30,7 +30,7 @@ export const useConvertToUSD = (value = 0, symbol?: string, precision = 6, defau
 				refLoading.current = false;
 			}
 		})();
-	}, [value, symbol]);
+	}, [value, symbol, exchangeRate, prevSymbol]);
 
 	const price = value * exchangeRate;
 

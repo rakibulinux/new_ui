@@ -23,11 +23,11 @@ export const StakingListMobileScreen = () => {
 
 	// dispatch
 	const dispatch = useDispatch();
-	const dispatchFetchStakingList = () => dispatch(stakingListFetch());
+	const dispatchFetchStakingList = React.useCallback(() => dispatch(stakingListFetch()), [dispatch]);
 
 	React.useEffect(() => {
 		dispatchFetchStakingList();
-	}, []);
+	}, [dispatchFetchStakingList]);
 	const renderStakingList = () => {
 		return filterStackingState === 'upcoming' ? (
 			<StakingList staking_list={[...upcoming_list]} />

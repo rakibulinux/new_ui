@@ -41,39 +41,44 @@ export const ClaimHistory: React.FC<ClaimHistoryProp> = (props: ClaimHistoryProp
 		loading: false,
 	});
 
-	const fetch = (params: any) => {
-		setTableState({ ...tableState, loading: true });
-		api.get(
-			`/claim/fetch/airdrop_id=${props.airdropID}&page=${params.pagination.current - 1}&size=${params.pagination.pageSize}`,
-		)
-			.then(response => {
-				const data: any = [...response.data.payload];
-				const newData = data.map(claim => {
-					const newdata = {
-						key: claim.claim_id,
-						timer_claim: format(new Date(claim.timer_claim), 'HH:mm:ss dd/MM/yyyy'),
-						user_uid: claim.user_uid,
-						email: `${claim.email.substring(0, 5)}**********`,
-						bonus: claim.bonus,
-					};
+	const fetch = React.useCallback(
+		(params: any) => {
+			setTableState({ ...tableState, loading: true });
+			api.get(
+				`/claim/fetch/airdrop_id=${props.airdropID}&page=${params.pagination.current - 1}&size=${
+					params.pagination.pageSize
+				}`,
+			)
+				.then(response => {
+					const data: any = [...response.data.payload];
+					const newData = data.map(claim => {
+						const newdata = {
+							key: claim.claim_id,
+							timer_claim: format(new Date(claim.timer_claim), 'HH:mm:ss dd/MM/yyyy'),
+							user_uid: claim.user_uid,
+							email: `${claim.email.substring(0, 5)}**********`,
+							bonus: claim.bonus,
+						};
 
-					return newdata;
-				});
+						return newdata;
+					});
 
-				setTableState({
-					loading: false,
-					data: newData,
-					pagination: {
-						...params.pagination,
-						pageSize: params.pagination.pageSize,
-						total: response.data.total,
-					},
+					setTableState({
+						loading: false,
+						data: newData,
+						pagination: {
+							...params.pagination,
+							pageSize: params.pagination.pageSize,
+							total: response.data.total,
+						},
+					});
+				})
+				.catch(err => {
+					//console.log(err);
 				});
-			})
-			.catch(err => {
-				//console.log(err);
-			});
-	};
+		},
+		[props.airdropID, tableState],
+	);
 
 	const handleTableChange = (pagination: any) => {
 		fetch({
@@ -84,7 +89,7 @@ export const ClaimHistory: React.FC<ClaimHistoryProp> = (props: ClaimHistoryProp
 	React.useEffect(() => {
 		const { pagination } = tableState;
 		fetch({ pagination });
-	}, []);
+	}, [fetch, tableState]);
 
 	return (
 		<div>

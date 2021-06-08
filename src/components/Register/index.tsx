@@ -344,7 +344,7 @@ export const Register = (props: RegisterFormProps) => {
 
 						<div style={{ textAlign: 'center', marginTop: '20px' }}>
 							Already registered?
-							<a
+							<span
 								data-bn-type="link"
 								className="cr-sign-up-form__button-wrapper__login"
 								onClick={onSignIn}
@@ -355,7 +355,7 @@ export const Register = (props: RegisterFormProps) => {
 								}}
 							>
 								Log In
-							</a>
+							</span>
 						</div>
 					</div>
 

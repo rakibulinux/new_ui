@@ -100,7 +100,11 @@ export const ProfileActiveStep: React.FC<ProfileActiveStepProps> = () => {
 					) : null}
 				</div>
 			</div>
-			<img className="td-pg-profile__active-step__mask-icon" src={require('assets/images/profile/maskIconToStep.svg')} />
+			<img
+				className="td-pg-profile__active-step__mask-icon"
+				src={require('assets/images/profile/maskIconToStep.svg')}
+				alt=""
+			/>
 		</div>
 	);
 };

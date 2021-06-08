@@ -47,10 +47,10 @@ export const WalletListScreen = () => {
 
 	// dispatch
 	const dispatch = useDispatch();
-	const dispatchFetchWallets = () => dispatch(walletsFetch());
-	const dispatchcFetchCurrencies = () => dispatch(currenciesFetch());
-	const dispatchcFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
-	const dispatchFetchBeneficiaries = () => dispatch(beneficiariesFetch());
+	const dispatchFetchWallets = React.useCallback(() => dispatch(walletsFetch()), [dispatch]);
+	const dispatchcFetchCurrencies = React.useCallback(() => dispatch(currenciesFetch()), [dispatch]);
+	const dispatchcFetchAllChildCurrencies = React.useCallback(() => dispatch(allChildCurrenciesFetch()), [dispatch]);
+	const dispatchFetchBeneficiaries = React.useCallback(() => dispatch(beneficiariesFetch()), [dispatch]);
 
 	// side effect
 	React.useEffect(() => {
@@ -58,7 +58,7 @@ export const WalletListScreen = () => {
 		dispatchcFetchCurrencies();
 		dispatchcFetchAllChildCurrencies();
 		dispatchFetchBeneficiaries();
-	}, []);
+	}, [dispatchFetchBeneficiaries, dispatchFetchWallets, dispatchcFetchCurrencies, dispatchcFetchAllChildCurrencies]);
 
 	// selector
 	const wallets = useSelector(selectWallets);

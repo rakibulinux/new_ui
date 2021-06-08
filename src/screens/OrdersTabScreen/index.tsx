@@ -12,17 +12,16 @@ import {
 	selectUserLoggedIn,
 	userOrdersHistoryAllFetch,
 } from 'modules';
-import React,{ useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Decimal } from '../../components/Decimal';
 import { localeDate, setDocumentTitle, setTradeColor } from '../../helpers';
-import {  rangerConnectFetch } from '../../modules/public/ranger';
+import { rangerConnectFetch } from '../../modules/public/ranger';
 import { selectRanger } from '../../modules/public/ranger/selectors';
 import { OrderCommon } from '../../modules/types';
 import { Pagination } from './../../components/PaginationOrdersHistory/index';
-
 
 const LIMITELEM = 20;
 
@@ -32,20 +31,20 @@ export const OrdersTabScreen = () => {
 	const [pageIndex, setPageIndex] = useState(1);
 	const [maxPage, setMaxPage] = useState(1);
 
-	const marketsData=useSelector(selectMarkets);
-	const list=useSelector(selectOrdersHistory);
-	const fetching=useSelector(selectOrdersHistoryLoading);
-	const cancelAllFetching=useSelector(selectCancelAllFetching);
-	const cancelFetching=useSelector(selectCancelFetching);
-	const rangerState=useSelector(selectRanger);
-	const userLoggedIn=useSelector(selectUserLoggedIn);
+	const marketsData = useSelector(selectMarkets);
+	const list = useSelector(selectOrdersHistory);
+	const fetching = useSelector(selectOrdersHistoryLoading);
+	const cancelAllFetching = useSelector(selectCancelAllFetching);
+	const cancelFetching = useSelector(selectCancelFetching);
+	const rangerState = useSelector(selectRanger);
+	const userLoggedIn = useSelector(selectUserLoggedIn);
 
-	const [listData, setListData] = useState( list);
+	const [listData, setListData] = useState(list);
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(userOrdersHistoryAllFetch({ pageIndex: 1, type:tab, limit: 25 }));
+		dispatch(userOrdersHistoryAllFetch({ pageIndex: 1, type: tab, limit: 25 }));
 		setDocumentTitle('Orders');
 		dispatch(marketsFetch());
 
@@ -56,12 +55,11 @@ export const OrdersTabScreen = () => {
 		return () => {
 			dispatch(resetOrdersHistory());
 		};
-	}, []);
+	}, [dispatch, rangerState.connected, tab, userLoggedIn]);
 
 	useEffect(() => {
 		setListData(list);
-		const newMaxPage =
-			Math.ceil(list.length / LIMITELEM) === 0 ? 1 : Math.ceil(list.length / LIMITELEM);
+		const newMaxPage = Math.ceil(list.length / LIMITELEM) === 0 ? 1 : Math.ceil(list.length / LIMITELEM);
 		setMaxPage(newMaxPage);
 	}, [list]);
 
@@ -69,7 +67,7 @@ export const OrdersTabScreen = () => {
 
 	const onCurrentTabChange = (index: number) => {
 		if (tabMapping[index] !== tab) {
-			dispatch(userOrdersHistoryAllFetch({ pageIndex: 1, type :tabMapping[index] , limit: 25 }));
+			dispatch(userOrdersHistoryAllFetch({ pageIndex: 1, type: tabMapping[index], limit: 25 }));
 			setPageIndex(1);
 			setTab(tabMapping[index]);
 		}
@@ -171,7 +169,7 @@ export const OrdersTabScreen = () => {
 		if (cancelAllFetching || cancelFetching) {
 			return;
 		}
-		dispatch(ordersHistoryCancelFetch({ id, type:tab, list }));
+		dispatch(ordersHistoryCancelFetch({ id, type: tab, list }));
 	};
 
 	const renderTableRow = (item, index) => {
@@ -189,7 +187,7 @@ export const OrdersTabScreen = () => {
 			updated_at,
 			created_at,
 		} = item;
-		const currentMarket =  marketsData.find(m => m.id === market) || {
+		const currentMarket = marketsData.find(m => m.id === market) || {
 			name: '',
 			price_precision: 0,
 			amount_precision: 0,
@@ -244,11 +242,11 @@ export const OrdersTabScreen = () => {
 		const indexElemStop = (pageIndex - 1) * LIMITELEM + LIMITELEM;
 
 		const bodyTable = () =>
-			 listData .slice(indexElemStart, indexElemStop).map((item, index) => {
+			listData.slice(indexElemStart, indexElemStop).map((item, index) => {
 				return renderTableRow(item, index);
 			});
 		const emptyData = () => {
-			return  listData.length === 0 ? (
+			return listData.length === 0 ? (
 				<div className="text-center history-screen__tabs__content__table pt-5 pb-5">
 					Empty data . Please next page or prev page{' '}
 				</div>
@@ -276,22 +274,16 @@ export const OrdersTabScreen = () => {
 
 	//--------------------------render pagination--------------------------//
 
-	const onClickToPage = (pageIndexTmp:number) => {
+	const onClickToPage = (pageIndexTmp: number) => {
 		setPageIndex(pageIndexTmp);
 	};
 
 	const renderPagination = () => {
-		return (
-			<Pagination
-				pageIndex={pageIndex}
-				max_page={maxPage}
-				onClickToPage={onClickToPage}
-			/>
-		);
+		return <Pagination pageIndex={pageIndex} max_page={maxPage} onClickToPage={onClickToPage} />;
 	};
 
 	const renderFilterBar = () => {
-		const onFilter= (dataFilter:OrderCommon[]) => {
+		const onFilter = (dataFilter: OrderCommon[]) => {
 			setPageIndex(1);
 			setListData(dataFilter);
 			const newMaxPage = Math.ceil(dataFilter.length / LIMITELEM) === 0 ? 1 : Math.ceil(dataFilter.length / LIMITELEM);
@@ -299,14 +291,13 @@ export const OrdersTabScreen = () => {
 		};
 
 		const onRestFilter = () => {
-			setListData( list);
+			setListData(list);
 			setPageIndex(1);
-			const newMaxPage =
-				Math.ceil( list.length / LIMITELEM) === 0 ? 1 : Math.ceil( list.length / LIMITELEM);
+			const newMaxPage = Math.ceil(list.length / LIMITELEM) === 0 ? 1 : Math.ceil(list.length / LIMITELEM);
 			setMaxPage(newMaxPage);
 		};
 
-		return tab === 'all' ? <FilterElement onFilter={onFilter} onRestFilter={onRestFilter} data={ list}/> :'';
+		return tab === 'all' ? <FilterElement onFilter={onFilter} onRestFilter={onRestFilter} data={list} /> : '';
 	};
 
 	return (

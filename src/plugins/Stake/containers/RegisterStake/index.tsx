@@ -70,15 +70,17 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 				const { reward_id, period, annual_rate, min_amount, total_amount, cap_amount, payment_time } = reward;
 				setLockupDateState(format(new Date(), 'yyyy-MM-dd hh:mm'));
 				setReleaseDateState(format(addDays(new Date(), Number(period)), 'yyyy-MM-dd hh:mm'));
-				setRewardState({
-					...rewardState,
-					reward_id: String(reward_id),
-					period: Number(period),
-					min_amount: min_amount,
-					cap_amount: cap_amount,
-					total_amount: total_amount,
-					annual_rate: Number(annual_rate),
-					payment_time: payment_time !== '' ? format(new Date(payment_time), 'yyyy-MM-dd hh:mm') : '',
+				setRewardState(r => {
+					return {
+						...r,
+						reward_id: String(reward_id),
+						period: Number(period),
+						min_amount: min_amount,
+						cap_amount: cap_amount,
+						total_amount: total_amount,
+						annual_rate: Number(annual_rate),
+						payment_time: payment_time !== '' ? format(new Date(payment_time), 'yyyy-MM-dd hh:mm') : '',
+					};
 				});
 			}
 		},

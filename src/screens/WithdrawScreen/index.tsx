@@ -32,14 +32,20 @@ export const WithdrawScreen = () => {
 	const childCurrencies = useSelector(selectChildCurrencies);
 
 	const dispatch = useDispatch();
-	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
-	const dispatchFetchWallets = () => dispatch(walletsFetch());
-	const dispatchFetchEthFee = () => dispatch(ethFeeFetch());
-	const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency_id }));
-	const dispatchcFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
-	const dispatchFetchMarkets = () => dispatch(marketsFetch());
-	const dispatchFetchHistories = () => dispatch(fetchHistory({ currency: currency_id, type: 'withdraws', page: 0, limit: 6 }));
-	const dispatchFetchBeneficiaries = () => dispatch(beneficiariesFetch());
+	const dispatchFetchCurrencies = React.useCallback(() => dispatch(currenciesFetch()), [dispatch]);
+	const dispatchFetchWallets = React.useCallback(() => dispatch(walletsFetch()), [dispatch]);
+	const dispatchFetchEthFee = React.useCallback(() => dispatch(ethFeeFetch()), [dispatch]);
+	const dispatchFetchChildCurrencies = React.useCallback(
+		() => dispatch(walletsChildCurrenciesFetch({ currency: currency_id })),
+		[dispatch, currency_id],
+	);
+	const dispatchcFetchAllChildCurrencies = React.useCallback(() => dispatch(allChildCurrenciesFetch()), [dispatch]);
+	const dispatchFetchMarkets = React.useCallback(() => dispatch(marketsFetch()), [dispatch]);
+	const dispatchFetchHistories = React.useCallback(
+		() => dispatch(fetchHistory({ currency: currency_id, type: 'withdraws', page: 0, limit: 6 })),
+		[dispatch, currency_id],
+	);
+	const dispatchFetchBeneficiaries = React.useCallback(() => dispatch(beneficiariesFetch()), [dispatch]);
 
 	const history = useHistory();
 
@@ -53,7 +59,17 @@ export const WithdrawScreen = () => {
 		dispatchcFetchAllChildCurrencies();
 		dispatchFetchHistories();
 		dispatchFetchBeneficiaries();
-	}, [currency_id]);
+	}, [
+		currency_id,
+		dispatchFetchMarkets,
+		dispatchFetchCurrencies,
+		dispatchFetchWallets,
+		dispatchFetchChildCurrencies,
+		dispatchFetchEthFee,
+		dispatchcFetchAllChildCurrencies,
+		dispatchFetchHistories,
+		dispatchFetchBeneficiaries,
+	]);
 
 	// method
 	const findIcon = (currency_id: string): string => {

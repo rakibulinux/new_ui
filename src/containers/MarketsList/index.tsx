@@ -136,20 +136,6 @@ export const MarketsList = props => {
 		}
 	};
 
-	const formatFilteredMarkets = (list: string[], market: Market) => {
-		if (!list.includes(market.quote_unit)) {
-			list.push(market.quote_unit);
-		}
-
-		return list;
-	};
-
-	let currentBidUnitsList: string[] = [''];
-
-	if (markets.length > 0) {
-		currentBidUnitsList = markets.reduce(formatFilteredMarkets, currentBidUnitsList);
-	}
-
 	const currentBidUnitMarkets = (props.markets || markets) as typeof markets;
 
 	const clickFavoritesMarket = (id: string) => {

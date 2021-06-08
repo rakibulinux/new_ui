@@ -17,7 +17,7 @@ import { TableOrder } from './TableOrder';
 // tslint:disable-next-line: no-empty-interface
 interface OpenOrderProps {}
 
-export const OpenOrders: React.FC<OpenOrderProps> = ({}) => {
+export const OpenOrders: React.FC<OpenOrderProps> = () => {
 	const dispatch = useDispatch();
 
 	const userLoggedIn = useSelector(selectUserLoggedIn);
@@ -30,7 +30,7 @@ export const OpenOrders: React.FC<OpenOrderProps> = ({}) => {
 		if (userLoggedIn && currentMarket) {
 			dispatch(userOpenOrdersFetch({ market: currentMarket }));
 		}
-	}, [currentMarket]);
+	}, [currentMarket, dispatch, userLoggedIn]);
 
 	const handleCancel = (index: number) => {
 		const orderToDelete = list[index];

@@ -36,10 +36,10 @@ export const StakingInfo: React.FC<StakingInfoProps> = (props: StakingInfoProps)
 	const markets = useSelector(selectMarkets);
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const dispatchFetchMarkets = () => dispatch(marketsFetch());
+	const dispatchFetchMarkets = React.useCallback(() => dispatch(marketsFetch()), [dispatch]);
 	React.useEffect(() => {
 		dispatchFetchMarkets();
-	}, []);
+	}, [dispatchFetchMarkets]);
 
 	const handleRedirectToTrading = (id: string) => {
 		const currentMarket: Market | undefined = markets.find(item => item.base_unit === id);

@@ -25,7 +25,7 @@ const MarketsComponent: React.FC<MarketsProps> = ({ headers }) => {
 				? markets
 				: markets.filter(market => market.quote_unit === currentBidUnitsList[currentTabIndex]);
 		setCurrentMarketsFilter(marketsFilter);
-	}, [currentTabIndex, markets]);
+	}, [currentTabIndex, markets, currentBidUnitsList]);
 
 	const defaultHeader = ['Name', 'Current', 'Chg'];
 
