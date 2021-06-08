@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	selectStakingList,
 	selectUserInfo,
+	selectUserLoggedIn,
 	Stake,
 	stakeHistoryFetch,
 	stakeWalletFetch,
@@ -15,6 +16,7 @@ import {
 import { useIntl } from 'react-intl';
 import { ProgressBar } from 'react-bootstrap';
 import millify from 'millify';
+import { useCurrenciesFetch } from 'hooks';
 
 const initialStakingItem: Stake = {
 	stake_id: '',
@@ -34,6 +36,8 @@ export const StakingDetailScreen = () => {
 	const intl = useIntl();
 	const user = useSelector(selectUserInfo);
 
+	useCurrenciesFetch();
+
 	// dispatch
 	const dispatch = useDispatch();
 	const dispatchFetchStakingList = () => dispatch(stakingListFetch());
@@ -44,6 +48,8 @@ export const StakingDetailScreen = () => {
 
 	const { stake_id } = useParams<{ stake_id: string }>();
 	const stakingList = useSelector(selectStakingList);
+
+	const isLogined = useSelector(selectUserLoggedIn);
 
 	React.useEffect(() => {
 		const staking_item =
@@ -104,7 +110,7 @@ export const StakingDetailScreen = () => {
 				</div>
 				<div className="row mt-5">
 					<div className="col-6">
-						<div style={{ position: 'relative' }} hidden={Number(totalAmountState) <= 0}>
+						<div style={{ position: 'relative' }}>
 							<ProgressBar
 								style={{ height: '75px', background: 'rgba(132, 142, 156, 0.35)', fontSize: '30px' }}
 								animated
@@ -120,7 +126,7 @@ export const StakingDetailScreen = () => {
 									fontSize: '2rem',
 								}}
 							>
-								{totalCapState}/{totalAmountState}
+								{totalCapState} <span hidden={Number(totalAmountState) <= 0}>/{totalAmountState}</span>
 							</span>
 						</div>
 						<hr />
@@ -165,6 +171,9 @@ export const StakingDetailScreen = () => {
 						<UnStakeHistory currency_id={stakingItemState.currency_id} />
 					</div>
 				</div>
+			</div>
+			<div className="detail__disabled" hidden={isLogined}>
+				<span>Please login before</span>
 			</div>
 		</div>
 	);
