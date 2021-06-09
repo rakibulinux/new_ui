@@ -60,7 +60,7 @@ import {
 } from '../../modules';
 import { CustomizationDataInterface, customizationFetch, selectCustomizationData } from '../../modules/public/customization';
 import { AirdropDetail, AirdropList } from '../../plugins/Airdrop';
-import { SaleListScreen } from '../../plugins/Sale';
+import { IEOListingScreen } from '../../plugins/IEO/screen/IEOListingScreen';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
 import { TradingScreen } from '../../plugins/Trading/screens/TradingScreen';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
@@ -405,7 +405,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />
 
-
 					<PrivateRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}
@@ -464,7 +463,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/airdrop/detail/:airdropID"
 						component={AirdropDetail}
 					/>
-					<Route path="/ieo" exact component={SaleListScreen} />
+					<Route path="/ieo" exact component={IEOListingScreen} />
 					<Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
 					<Route path="/trading-competition" exact component={TradingCompetionListScreen} />
 					<Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
