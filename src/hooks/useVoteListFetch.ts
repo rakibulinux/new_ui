@@ -1,14 +1,14 @@
 import debounce from 'lodash/debounce';
 import identity from 'lodash/identity';
 import pickBy from 'lodash/pickBy';
-import { selectVoteLoading, VoteFilter, voteListFetch } from 'modules';
+import { selectVoteListLoading, VoteFilter, voteListFetch } from 'modules';
 import * as React from 'react';
 import isEqual from 'react-fast-compare';
 import { useDispatch, useSelector } from 'react-redux';
 
-export const useVoteListFetch = (voteFilter: VoteFilter) => {
+export const useVoteListFetch = (voteFilter: VoteFilter = {}) => {
 	const dispatch = useDispatch();
-	const isLoading = useSelector(selectVoteLoading);
+	const isLoading = useSelector(selectVoteListLoading);
 	const filter = React.useRef<VoteFilter | null>(null);
 
 	const fetchVoteList = () => {

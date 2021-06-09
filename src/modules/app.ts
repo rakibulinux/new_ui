@@ -1,4 +1,20 @@
 import { combineReducers } from 'redux';
+import { airdropReducer } from './airdrops/airdrop';
+import { claimReducer } from './airdrops/claim';
+import { ethFeeReducer } from './eth-withdraw/fee';
+import { ethFeeWithdrawReducer } from './eth-withdraw/withdraw';
+import { lunarReducer } from './events/lunar';
+import { announcementReducer } from './info/announcement';
+import { eventReducer } from './info/events';
+import {
+	createStakeReducer,
+	stakeHistoryReducer,
+	stakeWalletReducer,
+	stakingListReducer,
+	unStakeHistoryReducer,
+	unStakeReducer,
+} from './plugins/staking';
+import { voteDonateReducer, voteHistoryReducer, voteListReducer } from './plugins/vote';
 import { alertReducer } from './public/alert';
 import { blocklistAccessReducer } from './public/blocklistAccess';
 import { configsReducer } from './public/configs';
@@ -13,6 +29,13 @@ import { memberLevelsReducer } from './public/memberLevels';
 import { depthReducer, incrementDepthReducer, orderBookReducer } from './public/orderBook';
 import { rangerReducer } from './public/ranger/reducer';
 import { recentTradesReducer } from './public/recentTrades';
+import { buyReducer, totalBuyersReducer } from './sale/buy';
+import { priceReducer } from './sale/price';
+import { saleItemReducer } from './sale/sale-item';
+import { saleListReducer } from './sale/sale-list';
+import { competitionsListReducer } from './trading_competitions/competitions';
+import { competitionItemReducer } from './trading_competitions/competition_item';
+import { rankingsReducer } from './trading_competitions/rankings';
 import { apiKeysReducer } from './user/apiKeys';
 import { authReducer } from './user/auth';
 import { beneficiariesReducer } from './user/beneficiaries';
@@ -30,30 +53,6 @@ import { profileReducer } from './user/profile';
 import { userActivityReducer } from './user/userActivity';
 import { allChildCurrenciesReducer, childCurrenciesReducer, walletsReducer } from './user/wallets';
 import { withdrawLimitReducer } from './user/withdrawLimit';
-
-import { airdropReducer } from './airdrops/airdrop';
-import { claimReducer } from './airdrops/claim';
-import { ethFeeReducer } from './eth-withdraw/fee';
-import { ethFeeWithdrawReducer } from './eth-withdraw/withdraw';
-import { lunarReducer } from './events/lunar';
-import { eventReducer } from './info/events';
-import { buyReducer, totalBuyersReducer } from './sale/buy';
-import { priceReducer } from './sale/price';
-import { saleItemReducer } from './sale/sale-item';
-import { saleListReducer } from './sale/sale-list';
-import { competitionItemReducer } from './trading_competitions/competition_item';
-import { competitionsListReducer } from './trading_competitions/competitions';
-import { rankingsReducer } from './trading_competitions/rankings';
-import {
-	createStakeReducer,
-	stakeHistoryReducer,
-	stakeWalletReducer,
-	stakingListReducer,
-	unStakeHistoryReducer,
-	unStakeReducer,
-} from './plugins/staking';
-import { announcementReducer } from './info/announcement';
-import { voteReducer } from './plugins/vote';
 
 export const eventsReducer = combineReducers({
 	lunar: lunarReducer,
@@ -132,6 +131,12 @@ export const userReducer = combineReducers({
 	withdrawLimit: withdrawLimitReducer,
 });
 
+const voteReducer = combineReducers({
+	list: voteListReducer,
+	history: voteHistoryReducer,
+	donate: voteDonateReducer,
+});
+
 export const pluginsReducer = combineReducers({
 	staking_list: stakingListReducer,
 	stake_wallet: stakeWalletReducer,
@@ -139,5 +144,5 @@ export const pluginsReducer = combineReducers({
 	create_stake: createStakeReducer,
 	unstake: unStakeReducer,
 	unstake_history: unStakeHistoryReducer,
-	voteList: voteReducer,
+	vote: voteReducer,
 });

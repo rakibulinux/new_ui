@@ -5,9 +5,17 @@ export interface VoteCoin {
 	name: string;
 	website: string;
 	active: boolean;
-	uid: string;
 	created_at: string;
 	total: number;
+}
+
+export interface VoteHistory {
+	id: number;
+	coin_id: string;
+	amount: string;
+	name: string;
+	created_at: string;
+	updated_at: string;
 }
 
 export interface VoteFilter {
@@ -15,11 +23,19 @@ export interface VoteFilter {
 	limit?: number;
 	keyword?: string;
 }
-
-export interface VoteState extends CommonState {
+export interface VoteListState extends CommonState {
 	info: {
 		data: VoteCoin[];
 		total: number;
 	};
-	donating: boolean;
+}
+
+export interface VoteHistoryState extends CommonState {
+	info: {
+		data: VoteHistory[];
+		total: number;
+	};
+}
+export interface VoteDonateState extends CommonState {
+	data?: VoteHistory;
 }
