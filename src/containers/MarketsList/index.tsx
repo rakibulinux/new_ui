@@ -1,10 +1,10 @@
 import * as React from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ConvertUsd, Decimal, MarketsHotOnlist, MarketTable } from '../../components';
 
 import Tabs, { TabPane } from 'rc-tabs';
-import styled from 'styled-components';
 
 import { useMarketsFetch, useMarketsTickersFetch, useRangerConnectFetch } from '../../hooks';
 import { Market, selectMarkets, selectMarketTickers, setCurrentMarket } from '../../modules';
@@ -21,53 +21,17 @@ const defaultTicker = {
 	volume: '0.0',
 };
 
-const TradeButtonStyles = styled.button`
-	width: 62px;
-	height: 32px;
-	background: #313445;
-	border: 0.5px solid #848e9c;
-	box-sizing: border-box;
-	border-radius: 4px;
-	color: #2fb67e;
-	outline: none;
-`;
-
-const SearchCoinWrap = styled.div`
-	border: solid 1px var(--input-border-color);
-	border-radius: 4px;
-	display: flex;
-	height: calc(var(--big-gap) * 0.6);
-	margin: 4px;
-	overflow: hidden;
-
-	input {
-		background: none;
-		border: none;
-		color: var(--input-text-color);
-		font-size: calc(var(--big-gap) * 0.25);
-		line-height: calc(var(--big-gap));
-		outline: none;
-		padding: 0 calc(var(--big-gap) * 0.1);
-		width: calc(100% - calc(var(--big-gap) * 0.6));
-	}
-`;
-const SearchCoinWrapIcon = styled.div`
-	align-items: center;
-	border-right: solid 1px var(--input-border-color);
-	display: flex;
-	height: 100%;
-	justify-content: center;
-	width: calc(var(--big-gap) * 0.6);
-
-	img {
-		margin: 0;
-	}
-`;
 export const MarketsList = props => {
 	const favoritemMarketsLocal = JSON.parse(localStorage.getItem('favourites_markets') || '[]');
 	const [marketIdsLocalState, setMarketIdsLocalState] = React.useState<string[]>(favoritemMarketsLocal);
 	const [searchMarketInputState, setSearchMarketInputState] = React.useState('');
-	const [marketPairBtc, setMarketPairBtc] = React.useState('');
+	const [marketPair, setMarketPair] = React.useState('');
+	const [marketPairActive, setMarketPairActive] = React.useState({
+		CX: false,
+		BTC: false,
+		USD: false,
+		ALTS: true,
+	});
 
 	useMarketsFetch();
 	useMarketsTickersFetch();
@@ -123,6 +87,7 @@ export const MarketsList = props => {
 
 	const formattedMarkets = currentBidUnitMarkets.length
 		? currentBidUnitMarkets
+
 				.map(market => ({
 					...market,
 					last: Decimal.format(Number((marketTickers[market.id] || defaultTicker).last), market.price_precision),
@@ -138,8 +103,10 @@ export const MarketsList = props => {
 				}))
 				.filter(
 					market =>
-						market.base_unit.includes(searchMarketInputState) || market.quote_unit.includes(searchMarketInputState),
+						market.base_unit.includes(searchMarketInputState.toLowerCase()) ||
+						market.quote_unit.includes(searchMarketInputState.toLowerCase()),
 				)
+				.filter(market => market.quote_unit.includes(marketPair))
 				.map(market => {
 					const marketChangeColor = +(market.change || 0) < 0 ? '#E01E5A' : '#2FB67E';
 					const marketName = market.name.split('/');
@@ -180,7 +147,23 @@ export const MarketsList = props => {
 						change: <span style={{ color: marketChangeColor }}>{market.change}</span>,
 						volume: <span style={{ color: marketChangeColor }}>{market.volume}</span>,
 						price_change_percent: <span style={{ color: marketChangeColor }}>{market.price_change_percent}</span>,
-						trade: <TradeButtonStyles onClick={() => handleRedirectToTrading(market.id)}>Trade</TradeButtonStyles>,
+						trade: (
+							<button
+								onClick={() => handleRedirectToTrading(market.id)}
+								style={{
+									width: 62,
+									height: 32,
+									background: '#313445',
+									border: '0.5px solid #848e9c',
+									boxSizing: 'border-box',
+									borderRadius: '4px',
+									color: '#2fb67e',
+									outline: 'none',
+								}}
+							>
+								Trade
+							</button>
+						),
 					};
 				})
 		: [];
@@ -190,35 +173,92 @@ export const MarketsList = props => {
 		setSearchMarketInputState(e.target.value);
 	};
 
-	// const handleMarketPairBTC = () => {
-	// 	setMarketPairBtc('btc')
-	// 	console.log(marketPairBtc)
-	// }
-
+	const handleCXMarket = () => {
+		setMarketPairActive(prev => ({
+			...prev,
+			ALTS: false,
+			BTC: false,
+			CX: true,
+			USD: false,
+		}));
+		setMarketPair('cx');
+	};
+	const handleUSDMarket = () => {
+		setMarketPairActive(prev => ({
+			...prev,
+			ALTS: false,
+			BTC: false,
+			CX: false,
+			USD: true,
+		}));
+		setMarketPair('usd');
+	};
+	const handleALTSMarket = () => {
+		setMarketPairActive(prev => ({
+			...prev,
+			ALTS: true,
+			BTC: false,
+			CX: false,
+			USD: false,
+		}));
+		setMarketPair('');
+	};
+	const handleBTCMarket = () => {
+		setMarketPairActive(prev => ({
+			...prev,
+			BTC: true,
+			CX: false,
+			ALTS: false,
+			USD: false,
+		}));
+		setMarketPair('btc');
+	};
 	const MarketsTabs = () => {
-		console.log(marketPairBtc);
 		return (
 			<div className="cx-market-item">
-				<Tabs
-					defaultActiveKey="Spot Markets"
-					tabBarExtraContent={
-						<SearchCoinWrap>
-							<SearchCoinWrapIcon>
-								<img alt="" src={require('./icon/search.svg')} />
-							</SearchCoinWrapIcon>
-							<input type="text" placeholder="search coin name..." onChange={handldeSearchInputChange} />
-						</SearchCoinWrap>
-					}
-				>
+				<Tabs defaultActiveKey="Spot Markets">
 					<div className="market__pair">
-						<div className="row">
-							<div className="col-md-6">
-								<button className="cx-market__pair cx-market__pair__cx">CX MARKET</button>
-								<button className="cx-market__pair  cx-market__pair__btc" onClick={() => setMarketPairBtc('btc')}>
+						<div className="row d-flex align-items: baseline">
+							<div className="col-md-6 d-flex align-items: center">
+								<button
+									className={marketPairActive.CX ? 'cx-market__pair__active' : 'cx-market__pair'}
+									onClick={handleCXMarket}
+								>
+									CX MARKET
+								</button>
+								<button
+									className={marketPairActive.BTC ? 'cx-market__pair__active' : 'cx-market__pair'}
+									onClick={handleBTCMarket}
+								>
 									BTC MARKET
 								</button>
+								<button
+									className={marketPairActive.USD ? 'cx-market__pair__active' : 'cx-market__pair'}
+									onClick={handleUSDMarket}
+								>
+									USD MARKET
+								</button>
+								<button
+									className={marketPairActive.ALTS ? 'cx-market__pair__active' : 'cx-market__pair'}
+									onClick={handleALTSMarket}
+								>
+									ALL MARKET
+								</button>
 							</div>
-							<div className="col-md-6"></div>
+							<div className="col-md-3"></div>
+							<div className="col-md-3">
+								<div className="search-coin">
+									<div className="search-coin__icon">
+										<img alt="" src={require('./icon/search.svg')} />
+									</div>
+									<input
+										className="search-coin__input"
+										type="text"
+										placeholder="search coin name..."
+										onChange={handldeSearchInputChange}
+									/>
+								</div>
+							</div>
 						</div>
 					</div>
 					<TabPane tab="Favorites" key="Favorites">
@@ -272,7 +312,7 @@ export const MarketsList = props => {
 	}, []);
 
 	return (
-		<div className="marketList">
+		<div id="marketList">
 			<div className="container">
 				<div className="row">
 					<div className="col-12">
