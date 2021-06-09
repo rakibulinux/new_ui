@@ -136,20 +136,23 @@ export const MarketsList = props => {
 						change: <span style={{ color: marketChangeColor }}>{market.change}</span>,
 						volume: <span style={{ color: marketChangeColor }}>{market.volume}</span>,
 						price_change_percent: <span style={{ color: marketChangeColor }}>{market.price_change_percent}</span>,
-						trade: <button  onClick={() => handleRedirectToTrading(market.id)}
-									style={{
-										width: 62,
-										height: 32,
-										background: '#313445',
-										border: '0.5px solid #848e9c',
-										boxSizing: 'border-box',
-										borderRadius: '4px',
-										color: '#2fb67e',
-										outline: 'none'
-									}}
-								>
-									Trade
-								</button>,
+						trade: (
+							<button
+								onClick={() => handleRedirectToTrading(market.id)}
+								style={{
+									width: 62,
+									height: 32,
+									background: '#313445',
+									border: '0.5px solid #848e9c',
+									boxSizing: 'border-box',
+									borderRadius: '4px',
+									color: '#2fb67e',
+									outline: 'none',
+								}}
+							>
+								Trade
+							</button>
+						),
 					};
 				})
 		: [];
@@ -168,7 +171,12 @@ export const MarketsList = props => {
 							<div className="search-market__icon">
 								<img alt="" src={require('./icon/search.svg')} />
 							</div>
-							<input className="search-market__input" type="text" placeholder="search coin name..." onChange={handldeSearchInputChange} />
+							<input
+								className="search-market__input"
+								type="text"
+								placeholder="search coin name..."
+								onChange={handldeSearchInputChange}
+							/>
 						</div>
 					}
 				>
@@ -223,7 +231,7 @@ export const MarketsList = props => {
 	}, []);
 
 	return (
-		<div className="market-list">
+		<div id="market-list">
 			<div className="container">
 				<div className="row">
 					<div className="col-12">

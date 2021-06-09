@@ -9,7 +9,6 @@ interface MarketTableProps {
 export const MarketTable: React.FC<MarketTableProps> = (props: MarketTableProps) => {
 	const { columns, data } = props;
 
-
 	const {
 		getTableProps,
 		getTableBodyProps,
@@ -25,19 +24,19 @@ export const MarketTable: React.FC<MarketTableProps> = (props: MarketTableProps)
 		nextPage,
 		previousPage,
 		//setPageSize,
-		state: { pageIndex, },
+		state: { pageIndex },
 	} = useTable(
 		{
 			columns,
 			data,
-			initialState: { pageIndex: 0, pageSize: 10},
-			autoResetPage: false
+			initialState: { pageIndex: 0, pageSize: 10 },
+			autoResetPage: false,
 		},
 		usePagination,
 	);
 
 	return (
-		<div className="market-table">
+		<div id="market-table">
 			<div className="market-table__table">
 				<table {...getTableProps()} style={{ position: 'relative' }}>
 					<thead>

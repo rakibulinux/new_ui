@@ -2,17 +2,10 @@ import * as React from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Decimal} from '../../components';
+import { Decimal } from '../../components';
 
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
-import {
-	currenciesFetch,
-	selectCurrencies,
-	selectMarkets,
-	selectMarketTickers,
-	Market,
-	setCurrentMarket,
-} from '../../modules';
+import { currenciesFetch, selectCurrencies, selectMarkets, selectMarketTickers, Market, setCurrentMarket } from '../../modules';
 
 export const MarketsHotOnlist: React.FC<any> = () => {
 	const defaultTicker = {
@@ -127,7 +120,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 
 	const MarketChart = (data: any, marketID: string) => {
 		const market = markets.find(market => market.base_unit.toLowerCase() === marketID.split('/')[0].toLowerCase());
-		
+
 		if (market) {
 			const marketID = market.name.toUpperCase();
 			const baseCurrency = marketID.split('/')[0];
@@ -135,7 +128,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 			const last = Decimal.format(Number((marketTickers[market.id] || defaultTicker).last), market.price_precision);
 			const open = Number((marketTickers[market.id] || defaultTicker).open);
 			const price_change_percent = (marketTickers[market.id] || defaultTicker).price_change_percent;
-			const volume = Decimal.format(Number((marketTickers[market.id]|| defaultTicker).volume), market.amount_precision);
+			const volume = Decimal.format(Number((marketTickers[market.id] || defaultTicker).volume), market.amount_precision);
 			const change = +last - +open;
 			const marketChangeColor = +(change || 0) < 0 ? 'var(--system-red)' : 'var(--system-green)';
 			return (
@@ -203,7 +196,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 
 	const renderChart = () => {
 		return (
-			<div className="market-hot-on-List">
+			<div id="market-hot-on-List">
 				<div className="container" style={{ backgroundColor: 'transparent', padding: '25px 0px', borderRadius: '1rem' }}>
 					<div className="row">
 						{kLinesState.map((kline, i) => (

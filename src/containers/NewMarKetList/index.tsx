@@ -5,14 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { Decimal } from '../../components';
 import Slider from 'react-slick';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
-import {
-	currenciesFetch,
-	selectCurrencies,
-	selectMarkets,
-	selectMarketTickers,
-	Market,
-	setCurrentMarket,
-} from '../../modules';
+import { currenciesFetch, selectCurrencies, selectMarkets, selectMarketTickers, Market, setCurrentMarket } from '../../modules';
 
 export const NewMarketList: React.FC<any> = () => {
 	const defaultTicker = {
@@ -226,7 +219,7 @@ export const NewMarketList: React.FC<any> = () => {
 	};
 
 	return (
-		<div className="new-market">
+		<div id="new-market">
 			<div className="container" style={{ borderRadius: '1rem' }}>
 				<div className="chart-wrapper">
 					<Slider {...settings}>
