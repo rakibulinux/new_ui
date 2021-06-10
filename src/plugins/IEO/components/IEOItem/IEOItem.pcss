@@ -4,7 +4,7 @@
 	box-shadow: 0 70px 100px rgba(0, 0, 0, 0.08);
 	height: 392px;
 	position: relative;
-
+	cursor: pointer;
 	.ioe-item-header {
 		background: rgba(171, 200, 188, 0.15);
 		height: 56%;
@@ -25,34 +25,37 @@
 			img {
 				height: 50%;
 				margin-top: 50px;
-				width: 30%;
+				width: 100px;
 			}
 		}
 	}
 
 	.ieo-item-content {
-		height: 24%;
-		text-align: center;
 		width: 100%;
-
+		position: relative;
+		text-align: center;
 		h3 {
+			/* position: absolute; */
 			font-size: 20px;
 			font-weight: 500;
 			line-height: 23px;
-			margin: 38px auto 15px auto;
+			/* left: 41px; */
+			margin: 38px auto 10px auto;
+			/* top: 38px; */
 		}
 
 		.ieo-item-currencies {
 			display: flex;
+			text-align: center;
 			justify-content: center;
-
 			.ieo-item-currency {
 				border: 1px solid #848e9c;
 				border-radius: 2px;
 				box-sizing: border-box;
 				color: #ffff;
 				height: 20px;
-				margin-right: 10px;
+				margin-right: 5px;
+				margin-top: 5px;
 				text-transform: uppercase;
 				width: 45px;
 			}
@@ -61,11 +64,15 @@
 
 	.ioe-item-footer {
 		display: flex;
-		height: 20%;
+		height: 50px;
+		margin-top: 18px;
 		justify-content: center;
-		width: 80%;
+		width: 100%;
+		position: relative;
 
 		.ioe-item-footer-status {
+			/* position: absolute;
+			bottom: 0; */
 			color: #f30072;
 			font-size: 14px;
 			font-style: normal;
@@ -74,11 +81,15 @@
 		}
 
 		span {
+			/* position: absolute;
+			bottom: 0; */
 			color: #c4c4c4;
 			margin: 0 10px 0 10px;
 		}
 
 		.ioe-item-footer-bonus {
+			/* position: absolute;
+			bottom: 0;	 */
 			color: #ffd600;
 			font-size: 14px;
 			font-style: normal;

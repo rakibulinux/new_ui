@@ -109,7 +109,7 @@ export const ListItemIEO = () => {
 	return (
 		<div id="ioe-listing-screen-ieos" className="row">
 			{listIEO.map(item => (
-				<div className="col-4" style={{ padding: '10px 10px 10px 10px' }}>
+				<div className="col-md-4 col-lg-3" style={{ padding: '10px 10px 10px 10px' }}>
 					<IEOItem
 						type={item.type}
 						currencyId={item.currency_id}

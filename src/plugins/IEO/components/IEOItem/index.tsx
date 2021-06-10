@@ -68,7 +68,7 @@ export const IEOItem: React.FC<IEOItemProps> = props => {
 
 			<div className="ieo-item-content">
 				<h3>{props.description}</h3>
-				<div className="ieo-item-currencies">
+				<div className="ieo-item-currencies d-flex flex-row flex-wrap">
 					{props.currencyAvailable.map(currency => (
 						<div className="ieo-item-currency">
 							<p>{currency}</p>
