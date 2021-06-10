@@ -88,21 +88,27 @@ export const MarketsList = props => {
 	const formattedMarkets = currentBidUnitMarkets.length
 		? currentBidUnitMarkets
 
-				.map(market => ({
-					...market,
-					last: Decimal.format(Number((marketTickers[market.id] || defaultTicker).last), market.price_precision),
-					open: Decimal.format(Number((marketTickers[market.id] || defaultTicker).open), market.price_precision),
-					price_change_percent: String((marketTickers[market.id] || defaultTicker).price_change_percent),
-					high: Decimal.format(Number((marketTickers[market.id] || defaultTicker).high), market.price_precision),
-					low: Decimal.format(Number((marketTickers[market.id] || defaultTicker).low), market.price_precision),
-					volume: Decimal.format(Number((marketTickers[market.id] || defaultTicker).volume), market.amount_precision),
-				}))
+				.filter(market => market.base_unit.toLowerCase().includes(searchMarketInputState.toLowerCase()))
+				.filter(market => market.quote_unit.includes(marketPair))
+				.map(market => {
+					return {
+						...market,
+						last: Decimal.format(Number((marketTickers[market.id] || defaultTicker).last), market.price_precision),
+						open: Decimal.format(Number((marketTickers[market.id] || defaultTicker).open), market.price_precision),
+						price_change_percent: String((marketTickers[market.id] || defaultTicker).price_change_percent),
+						high: Decimal.format(Number((marketTickers[market.id] || defaultTicker).high), market.price_precision),
+						low: Decimal.format(Number((marketTickers[market.id] || defaultTicker).low), market.price_precision),
+						volume: Decimal.format(
+							Number((marketTickers[market.id] || defaultTicker).volume),
+							market.amount_precision,
+						),
+					};
+				})
 				.map(market => ({
 					...market,
 					change: Decimal.format((+market.last - +market.open).toFixed(market.price_precision), market.price_precision),
 				}))
-				.filter(market => market.base_unit.toLowerCase().includes(searchMarketInputState.toLowerCase()))
-				.filter(market => market.quote_unit.includes(marketPair))
+
 				.map(market => {
 					const marketChangeColor = +(market.change || 0) < 0 ? '#E01E5A' : '#2FB67E';
 					const marketName = market.name.split('/');

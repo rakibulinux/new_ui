@@ -6,16 +6,7 @@ import { Decimal } from '../../components';
 
 import styled from 'styled-components';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
-import {
-	currenciesFetch,
-	selectCurrencies,
-	selectMarkets,
-	selectMarketTickers,
-	Market,
-	// selectCurrentMarket,
-	// Ticker,
-	setCurrentMarket,
-} from '../../modules';
+import { currenciesFetch, selectCurrencies, selectMarkets, selectMarketTickers, Market, setCurrentMarket } from '../../modules';
 
 const ChartWrap = styled.div`
 	width: 100%;
@@ -146,15 +137,8 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 
 	const MarketChart = (data: any, marketID: string) => {
 		const market = markets.find(market => market.base_unit.toLowerCase() === marketID.split('/')[0].toLowerCase());
-		// const getTickerValue = (cMarket: Market, tickers: { [key: string]: Ticker }) => {
 
-		// 	return tickers[cMarket.id] || defaultTicker;
-		// };
-
-		// const currentTicker = (currentMarket && getTickerValue(currentMarket, marketTickers)) || { volume: 0 };
-		// console.log(currentTicker)
 		if (market) {
-			// console.log(market)
 			const marketID = market.name.toUpperCase();
 			const baseCurrency = marketID.split('/')[0];
 			const quoteCurrency = marketID.split('/')[1];

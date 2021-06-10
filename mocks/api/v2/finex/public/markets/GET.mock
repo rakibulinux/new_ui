@@ -26,7 +26,7 @@ Access-Control-Allow-Credentials: true
     "min_price": "0.00000001",
     "max_price": "0.0",
     "min_amount": "10.0",
-    "amount_precision": 2,
+    "amount_precision": 3,
     "price_precision": 8,
     "state": "enabled"
   },
