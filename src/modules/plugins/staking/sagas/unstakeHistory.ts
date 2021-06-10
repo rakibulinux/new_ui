@@ -5,12 +5,6 @@ import { unStakeHistoryData, UnStakeHistoryFetch } from '../actions';
 import { StakeHistory } from '../types';
 
 export function* fetchUnStakeHistory(action: UnStakeHistoryFetch) {
-	yield put(
-		unStakeHistoryData({
-			payload: [],
-			loading: true,
-		}),
-	);
 	try {
 		const { uid, currency_id } = action.payload;
 		if (uid && currency_id) {

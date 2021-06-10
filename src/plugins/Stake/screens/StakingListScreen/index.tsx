@@ -18,6 +18,8 @@ export const StakingListScreen = () => {
 
 	// store
 	const staking_list = useSelector(selectStakingList);
+	console.log(staking_list);
+
 	const upcoming_list = staking_list.filter(staking => staking.status === 'upcoming');
 	const running_list = staking_list.filter(staking => staking.status === 'running');
 	const ended_list = staking_list.filter(staking => staking.status === 'ended');

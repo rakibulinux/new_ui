@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectStakeWallet, selectUserInfo, stakeWalletFetch, unStakeHistoryFetch, unStakePost } from '../../../../../modules';
+import { selectStakeWallet, selectUserInfo, unStakePost } from '../../../../../modules';
 
 interface UnStakeProps {
 	currency_id: string;
@@ -28,15 +28,6 @@ export const UnStake: React.FC<UnStakeProps> = (props: UnStakeProps) => {
 				amount: amountState,
 			}),
 		);
-		setTimeout(() => {
-			dispatch(unStakeHistoryFetch({ uid: user.uid, currency_id: currency_id }));
-			dispatch(
-				stakeWalletFetch({
-					uid: user.uid,
-					currency_id: currency_id,
-				}),
-			);
-		}, 2000);
 	};
 
 	return (

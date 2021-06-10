@@ -7,8 +7,6 @@ import {
 	selectStakeHistoriesLoading,
 	selectUserInfo,
 	selectWallets,
-	stakeHistoryFetch,
-	stakingListFetch,
 	StakingReward,
 } from '../../../../../modules';
 import { format, addDays } from 'date-fns';
@@ -154,14 +152,13 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 		dispatch(
 			createStake({
 				uid: user.uid,
+				stake_id: stake_id,
 				reward_id: rewardState.reward_id,
 				amount: amountState,
 				lockup_date: lockupDateState,
 				release_date: releaseDateState,
 			}),
 		);
-		dispatch(stakeHistoryFetch({ uid: user.uid, stake_id: stake_id }));
-		dispatch(stakingListFetch());
 	};
 
 	const stakeButtonClassNames = classNames('stake-btn', isDisableStakeButton ? 'stake-btn--disabled' : '');

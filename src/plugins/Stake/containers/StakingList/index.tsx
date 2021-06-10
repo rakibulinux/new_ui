@@ -34,8 +34,16 @@ export const StakingList: React.FC<StakingListProps> = (props: StakingListProps)
 					</div>
 				))
 			) : (
-				<div style={{ marginTop: '50px' }} className="w-100 d-flex justify-content-center">
-					<img src="https://i.imgur.com/wm92tgK.png" alt="no-data" />
+				<div style={{ marginTop: '50px', width: '100vw' }}>
+					<div className="w-100 text-center">
+						<img
+							src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
+							alt="no-data"
+						/>
+					</div>
+					<div className="w-100 text-center mt-2">
+						<h5>No Data</h5>
+					</div>
 				</div>
 			)}
 			<div hidden={!isLoadingStakingList} style={{ marginTop: '200px' }}>

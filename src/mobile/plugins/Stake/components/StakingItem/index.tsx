@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import Countdown from 'react-countdown';
 import { useIntl } from 'react-intl';
 import { ProgressBar } from 'react-bootstrap';
+import millify from 'millify';
 
 type Props = Stake;
 
@@ -133,21 +134,40 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 				<section className="stake-item__progress d-flex flex-row justify-content-between align-items-end">
 					<div style={{ position: 'relative', width: '100%' }}>
 						<ProgressBar
-							style={{ width: '100%', background: 'rgba(132, 142, 156, 0.35)', height: '20px' }}
+							style={{ width: '100%', background: 'rgba(132, 142, 156, 0.35)', height: '30px' }}
 							animated
 							now={Number(progressState)}
 						/>
-						<span
-							className="text-white"
+						<div
+							className="text-white d-flex justify-content-around align-items-center"
 							style={{
 								position: 'absolute',
-								top: '50%',
-								left: '50%',
-								transform: 'translate(-50%, -50%)',
+								top: '0',
+								left: '0',
+								width: '100%',
+								height: '100%',
+								padding: '0 1rem',
+								fontSize: '12px',
 							}}
 						>
-							{totalCapState}/{totalAmountState}
-						</span>
+							<span>
+								(Staked){' '}
+								{Number(totalCapState) > 100000000
+									? millify(Number(totalCapState), {
+											precision: 2,
+									  })
+									: Number(totalCapState)}
+							</span>
+							<span>/</span>
+							<span hidden={Number(totalAmountState) <= 0}>
+								{Number(totalAmountState) > 100000000
+									? millify(Number(totalAmountState), {
+											precision: 2,
+									  })
+									: Number(totalAmountState)}{' '}
+								(Total)
+							</span>
+						</div>
 					</div>
 				</section>
 
