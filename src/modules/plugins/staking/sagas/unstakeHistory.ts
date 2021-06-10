@@ -1,5 +1,4 @@
 import { put } from 'redux-saga/effects';
-import { alertPush } from '../../..';
 import axios from '../../../../plugins/api/index';
 
 import { unStakeHistoryData, UnStakeHistoryFetch } from '../actions';
@@ -32,6 +31,5 @@ export function* fetchUnStakeHistory(action: UnStakeHistoryFetch) {
 				loading: false,
 			}),
 		);
-		yield put(alertPush({ message: error.message, code: error.code, type: 'error' }));
 	}
 }

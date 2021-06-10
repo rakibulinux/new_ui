@@ -11,7 +11,19 @@ type Props = Stake;
 
 export const StakingItem: React.FC<Props> = (props: Props) => {
 	const intl = useIntl();
-	const { stake_id, currency_id, staking_name, rewards, active, status, start_time, end_time, ref_link } = props;
+	const {
+		stake_id,
+		currency_id,
+		staking_name,
+		rewards,
+		active,
+		status,
+		start_time,
+		end_time,
+		ref_link,
+		total_amount,
+		cap_amount,
+	} = props;
 	const [progressState, setProgressState] = React.useState('');
 	const [totalAmountState, setTotalAmountState] = React.useState('');
 	const [totalCapState, setTotalCapState] = React.useState('');
@@ -63,8 +75,8 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 	};
 
 	React.useEffect(() => {
-		const totalAmount: number = rewards.map(reward => Number(reward.total_amount)).reduce((a, b) => a + b, 0);
-		const totalCap: number = rewards.map(reward => Number(reward.cap_amount)).reduce((a, b) => a + b, 0);
+		const totalAmount: number = Number(total_amount);
+		const totalCap: number = Number(cap_amount);
 		const percent = ((totalCap / totalAmount) * 100).toFixed(2);
 		setProgressState(percent);
 		setTotalAmountState(totalAmount.toFixed(5));

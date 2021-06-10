@@ -21,7 +21,7 @@ export const UnStake: React.FC<UnStakeProps> = (props: UnStakeProps) => {
 	const dispatch = useDispatch();
 
 	const handleUnStake = () => {
-		setAmountState("");
+		setAmountState('');
 		setAgreeState(false);
 		dispatch(
 			unStakePost({
@@ -30,13 +30,15 @@ export const UnStake: React.FC<UnStakeProps> = (props: UnStakeProps) => {
 				amount: amountState,
 			}),
 		);
-		dispatch(unStakeHistoryFetch({ uid: user.uid, currency_id: currency_id }));
-		dispatch(
-			stakeWalletFetch({
-				uid: user.uid,
-				currency_id: currency_id,
-			}),
-		);
+		setTimeout(() => {
+			dispatch(unStakeHistoryFetch({ uid: user.uid, currency_id: currency_id }));
+			dispatch(
+				stakeWalletFetch({
+					uid: user.uid,
+					currency_id: currency_id,
+				}),
+			);
+		}, 2000);
 	};
 
 	return (
@@ -65,8 +67,8 @@ export const UnStake: React.FC<UnStakeProps> = (props: UnStakeProps) => {
 				<div className="row mt-5">
 					<div className="col-12">
 						<label className="agree">
-							<input type="checkbox" onChange={e => setAgreeState(e.target.checked)} />I have read and agree with
-							the cautions.
+							<input type="checkbox" checked={agreeState} onChange={e => setAgreeState(e.target.checked)} />I have
+							read and agree with the cautions.
 						</label>
 					</div>
 				</div>

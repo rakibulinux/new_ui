@@ -4,24 +4,22 @@ export interface StakingReward {
 	reward_id: string;
 	stake_id: string;
 	period: string;
-	total_amount: string;
-	cap_amount: string;
-	min_amount: string;
-	cap_amount_per_user: string;
 	annual_rate: string;
-	payment_time: string;
 }
 
 export interface Stake {
 	stake_id: string;
 	currency_id: string;
+	total_amount: string;
+	cap_amount: string;
+	min_amount: string;
+	cap_amount_per_user: string;
 	staking_name: string;
 	description?: string;
 	start_time: string;
 	end_time: string;
 	active: boolean;
 	rewards: StakingReward[];
-	icon_url?: string;
 	ref_link?: string;
 	status: 'upcoming' | 'running' | 'ended' | '';
 }

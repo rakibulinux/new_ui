@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import { useCurrenciesFetch } from 'hooks';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectStakingList, stakingListFetch } from '../../../../../modules';
@@ -24,6 +25,7 @@ export const StakingListMobileScreen = () => {
 	// dispatch
 	const dispatch = useDispatch();
 	const dispatchFetchStakingList = () => dispatch(stakingListFetch());
+	useCurrenciesFetch();
 
 	React.useEffect(() => {
 		dispatchFetchStakingList();

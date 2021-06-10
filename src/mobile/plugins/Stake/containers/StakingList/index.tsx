@@ -26,20 +26,20 @@ export const StakingList: React.FC<StakingListProps> = (props: StakingListProps)
 							staking_name={staking.staking_name}
 							rewards={staking.rewards}
 							active={staking.active}
-							icon_url={staking.icon_url}
 							status={staking.status}
 							description={staking.description}
 							start_time={staking.start_time}
 							end_time={staking.end_time}
+							cap_amount={staking.cap_amount}
+							total_amount={staking.total_amount}
+							min_amount={staking.min_amount}
+							cap_amount_per_user={staking.cap_amount_per_user}
 						/>
 					</div>
 				))
 			) : (
 				<div style={{ marginTop: '50px' }} className="w-100 d-flex justify-content-center">
-					<img
-						src="https://i.imgur.com/wm92tgK.png"
-						alt="no-data"
-					/>
+					<img src="https://i.imgur.com/wm92tgK.png" alt="no-data" />
 				</div>
 			)}
 		</React.Fragment>

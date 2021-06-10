@@ -1,5 +1,4 @@
 import { put } from 'redux-saga/effects';
-import { alertPush } from '../../..';
 import axios from '../../../../plugins/api/index';
 
 import { stakeHistoryData, StakeHistoryFetch } from '../actions';
@@ -30,6 +29,5 @@ export function* fetchStakeHistory(action: StakeHistoryFetch) {
 				loading: false,
 			}),
 		);
-		yield put(alertPush({ message: error.message, code: error.code, type: 'error' }));
 	}
 }
