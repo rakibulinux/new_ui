@@ -1,3 +1,4 @@
+import { Empty } from 'antd';
 import classnames from 'classnames';
 import { FilterElement } from 'components/FilterElementOrdersHistory';
 import {
@@ -266,13 +267,7 @@ export const HistoryScreen = () => {
 				return renderTableRow(tab, item, index);
 			});
 		const emptyData = () => {
-			return listData.length === 0 ? (
-				<div className="text-center history-screen__tabs__content__table pt-5 pb-5">
-					Empty data . Please next page or prev page{' '}
-				</div>
-			) : (
-				''
-			);
+			return listData.length === 0 ? <Empty /> : '';
 		};
 
 		return fetching ? (
