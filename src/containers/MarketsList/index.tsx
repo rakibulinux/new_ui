@@ -153,7 +153,7 @@ export const MarketsList = props => {
 							<button
 								onClick={() => handleRedirectToTrading(market.id)}
 								style={{
-									width: 62,
+									width: '8rem',
 									height: 32,
 									background: '#313445',
 									border: '0.5px solid #848e9c',
