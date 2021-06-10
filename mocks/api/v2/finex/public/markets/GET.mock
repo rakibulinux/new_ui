@@ -6,10 +6,34 @@ Access-Control-Max-Age: 3600
 Access-Control-Allow-Credentials: true
 
 [
+	{
+    "id": "cxeth",
+    "name": "CX/ETH",
+    "base_unit": "cx",
+    "quote_unit": "eth",
+    "min_price": "0.00000001",
+    "max_price": "0.0",
+    "min_amount": "100.0",
+    "amount_precision": 2,
+    "price_precision": 8,
+    "state": "enabled"
+  },
+  {
+    "id": "cxusdt",
+    "name": "CX/USDT",
+    "base_unit": "cx",
+    "quote_unit": "usdt",
+    "min_price": "0.00000001",
+    "max_price": "0.0",
+    "min_amount": "10.0",
+    "amount_precision": 2,
+    "price_precision": 8,
+    "state": "enabled"
+  },
   {
     "id":"dashbtc",
     "name":"DASH/BTC",
-    "base_unit":"busd",
+    "base_unit":"dash",
     "quote_unit":"btc",
     "state":"enabled",
     "amount_precision":3,

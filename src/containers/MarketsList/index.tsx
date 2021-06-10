@@ -101,11 +101,7 @@ export const MarketsList = props => {
 					...market,
 					change: Decimal.format((+market.last - +market.open).toFixed(market.price_precision), market.price_precision),
 				}))
-				.filter(
-					market =>
-						market.base_unit.includes(searchMarketInputState.toLowerCase()) ||
-						market.quote_unit.includes(searchMarketInputState.toLowerCase()),
-				)
+				.filter(market => market.base_unit.toLowerCase().includes(searchMarketInputState.toLowerCase()))
 				.filter(market => market.quote_unit.includes(marketPair))
 				.map(market => {
 					const marketChangeColor = +(market.change || 0) < 0 ? '#E01E5A' : '#2FB67E';
