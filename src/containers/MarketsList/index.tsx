@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { ConvertUsd, Decimal, MarketsHotOnlist, MarketTable } from '../../components';
+import { ConvertUsd, Decimal, MarketsHotOnlist, MarketTable, ButtonFIAT } from '../../components';
 
 import Tabs, { TabPane } from 'rc-tabs';
 
@@ -29,9 +29,10 @@ export const MarketsList = props => {
 	const [marketPairActive, setMarketPairActive] = React.useState({
 		CX: false,
 		BTC: false,
-		USD: false,
+		FIAT: false,
 		ALTS: true,
 	});
+	const [activeButton, setActiveButton] = React.useState(0);
 
 	useMarketsFetch();
 	useMarketsTickersFetch();
@@ -178,22 +179,12 @@ export const MarketsList = props => {
 	const handleCXMarket = () => {
 		setMarketPairActive(prev => ({
 			...prev,
+			CX: true,
 			ALTS: false,
 			BTC: false,
-			CX: true,
-			USD: false,
+			FIAT: false,
 		}));
 		setMarketPair('cx');
-	};
-	const handleUSDMarket = () => {
-		setMarketPairActive(prev => ({
-			...prev,
-			ALTS: false,
-			BTC: false,
-			CX: false,
-			USD: true,
-		}));
-		setMarketPair('usd');
 	};
 	const handleALTSMarket = () => {
 		setMarketPairActive(prev => ({
@@ -201,7 +192,7 @@ export const MarketsList = props => {
 			ALTS: true,
 			BTC: false,
 			CX: false,
-			USD: false,
+			FIAT: false,
 		}));
 		setMarketPair('');
 	};
@@ -211,9 +202,61 @@ export const MarketsList = props => {
 			BTC: true,
 			CX: false,
 			ALTS: false,
-			USD: false,
+			FIAT: false,
 		}));
 		setMarketPair('btc');
+	};
+	const handelFIATMarket = () => {
+		setMarketPairActive(prev => ({
+			...prev,
+			BTC: false,
+			CX: false,
+			ALTS: false,
+			FIAT: true,
+		}));
+		setMarketPair('');
+	};
+
+	const renderFIATMarketElement = (): any | boolean => {
+		console.log(activeButton);
+		if (marketPairActive.FIAT) {
+			const marketFIATs = [
+				{
+					name: 'ALL',
+					fill: '',
+				},
+				{
+					name: 'USDT',
+					fill: 'usdt',
+				},
+				{
+					name: 'ETH',
+					fill: 'eth',
+				},
+				{
+					name: 'BTC',
+					fill: 'btc',
+				},
+			];
+			return (
+				<div className="row">
+					<div className="col-md-12 d-flex align-items: baseline">
+						{marketFIATs.map((marketFiat, index) => {
+							return (
+								<ButtonFIAT
+									id={index}
+									value={marketFiat.fill}
+									marketFiat={marketFiat.name}
+									setActiveButton={setActiveButton}
+									setMarketPair={setMarketPair}
+									active={activeButton === index ? true : false}
+								/>
+							);
+						})}
+					</div>
+				</div>
+			);
+		}
 	};
 	const MarketsTabs = () => {
 		return (
@@ -221,7 +264,7 @@ export const MarketsList = props => {
 				<Tabs defaultActiveKey="Spot Markets">
 					<div className="market__pair">
 						<div className="row d-flex align-items: baseline">
-							<div className="col-md-6 d-flex align-items: center">
+							<div className="col-md-9 d-flex align-items: center">
 								<button
 									className={marketPairActive.CX ? 'cx-market__pair__active' : 'cx-market__pair'}
 									onClick={handleCXMarket}
@@ -235,10 +278,10 @@ export const MarketsList = props => {
 									BTC MARKET
 								</button>
 								<button
-									className={marketPairActive.USD ? 'cx-market__pair__active' : 'cx-market__pair'}
-									onClick={handleUSDMarket}
+									className={marketPairActive.FIAT ? 'cx-market__pair__active' : 'cx-market__pair'}
+									onClick={handelFIATMarket}
 								>
-									USD MARKET
+									FIAT MARKET
 								</button>
 								<button
 									className={marketPairActive.ALTS ? 'cx-market__pair__active' : 'cx-market__pair'}
@@ -247,7 +290,6 @@ export const MarketsList = props => {
 									ALL MARKET
 								</button>
 							</div>
-							<div className="col-md-3"></div>
 							<div className="col-md-3">
 								<div className="search-coin">
 									<div className="search-coin__icon">
@@ -262,7 +304,9 @@ export const MarketsList = props => {
 								</div>
 							</div>
 						</div>
+						<div className="market__pair__fiat">{renderFIATMarketElement()}</div>
 					</div>
+
 					<TabPane tab="Favorites" key="Favorites">
 						<MarketTable columns={columns} data={FavoriteMarkets} />
 					</TabPane>
@@ -307,7 +351,7 @@ export const MarketsList = props => {
 				accessor: 'volume',
 			},
 			{
-				Header: 'Edit',
+				Header: '',
 				accessor: 'trade',
 			},
 		];
