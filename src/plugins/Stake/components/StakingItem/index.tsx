@@ -156,7 +156,7 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 									  })
 									: Number(totalCapState)}
 							</span>
-							<span>/</span>
+							<span hidden={Number(totalAmountState) <= 0}> / </span>
 							<span hidden={Number(totalAmountState) <= 0}>
 								{Number(totalAmountState) > 100000000
 									? millify(Number(totalAmountState), {
