@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { IEOItem } from './../../components';
-
-export const ListItemIEO = () => {
+// import { FiSearch } from 'react-icons/ai';
+interface ListItemIEOProps {
+	type: string;
+}
+export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 	const listIEO = [
 		{
 			id: 1,
@@ -108,19 +111,24 @@ export const ListItemIEO = () => {
 	];
 	return (
 		<div id="ioe-listing-screen-ieos" className="row">
-			{listIEO.map(item => (
-				<div className="col-md-4 col-lg-3" style={{ padding: '10px 10px 10px 10px' }}>
-					<IEOItem
-						type={item.type}
-						currencyId={item.currency_id}
-						startDate={item.start_date}
-						endDate={item.end_date}
-						currencyAvailable={item.currency_available}
-						description={item.description}
-						bonus={item.bonus}
-					/>
-				</div>
-			))}
+			{listIEO.map((item, index) => {
+				return props.type == 'all' || item.type == props.type ? (
+					<div className="col-md-4 col-lg-3" style={{ padding: '10px 10px 10px 10px' }}>
+						<IEOItem
+							type={item.type}
+							currencyId={item.currency_id}
+							startDate={item.start_date}
+							endDate={item.end_date}
+							currencyAvailable={item.currency_available}
+							description={item.description}
+							bonus={item.bonus}
+							key={index}
+						/>
+					</div>
+				) : (
+					<></>
+				);
+			})}
 		</div>
 	);
 };
