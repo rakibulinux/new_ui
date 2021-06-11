@@ -12,7 +12,19 @@ type Props = Stake;
 
 export const StakingItem: React.FC<Props> = (props: Props) => {
 	const intl = useIntl();
-	const { stake_id, currency_id, staking_name, rewards, active, status, start_time, end_time, ref_link } = props;
+	const {
+		stake_id,
+		currency_id,
+		staking_name,
+		rewards,
+		active,
+		status,
+		start_time,
+		end_time,
+		ref_link,
+		total_amount,
+		cap_amount,
+	} = props;
 	const [progressState, setProgressState] = React.useState('');
 	const [totalAmountState, setTotalAmountState] = React.useState('');
 	const [totalCapState, setTotalCapState] = React.useState('');
@@ -64,8 +76,8 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 	};
 
 	React.useEffect(() => {
-		const totalAmount: number = rewards.map(reward => Number(reward.total_amount)).reduce((a, b) => a + b, 0);
-		const totalCap: number = rewards.map(reward => Number(reward.cap_amount)).reduce((a, b) => a + b, 0);
+		const totalAmount: number = Number(total_amount);
+		const totalCap: number = Number(cap_amount);
 		const percent = ((totalCap / totalAmount) * 100).toFixed(2);
 		setProgressState(percent);
 		setTotalAmountState(totalAmount.toFixed(5));
@@ -121,29 +133,39 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 				<section className="stake-item__progress d-flex flex-row justify-content-between align-items-end">
 					<div style={{ position: 'relative', width: '100%' }}>
 						<ProgressBar
-							style={{ width: '100%', background: 'rgba(132, 142, 156, 0.35)', height: '20px' }}
+							style={{ width: '100%', background: 'rgba(132, 142, 156, 0.35)', height: '30px' }}
 							animated
 							now={Number(progressState)}
 						/>
-						<span
-							className="text-white"
+						<div
+							className="text-white d-flex justify-content-around align-items-center"
 							style={{
 								position: 'absolute',
-								top: '50%',
-								left: '50%',
-								transform: 'translate(-50%, -50%)',
+								top: '0',
+								left: '0',
+								width: '100%',
+								height: '100%',
+								padding: '0 1rem',
 							}}
 						>
-							{millify(Number(totalCapState), {
-								precision: 2,
-							})}
-							<span hidden={Number(totalAmountState) <= 0}>
-								/
-								{millify(Number(totalAmountState), {
-									precision: 2,
-								})}
+							<span>
+								(Staked){' '}
+								{Number(totalCapState) > 100000000
+									? millify(Number(totalCapState), {
+											precision: 2,
+									  })
+									: Number(totalCapState)}
 							</span>
-						</span>
+							<span>/</span>
+							<span hidden={Number(totalAmountState) <= 0}>
+								{Number(totalAmountState) > 100000000
+									? millify(Number(totalAmountState), {
+											precision: 2,
+									  })
+									: Number(totalAmountState)}{' '}
+								(Total)
+							</span>
+						</div>
 					</div>
 				</section>
 				<section className="buttons d-flex flex-row justify-content-between align-items-end">

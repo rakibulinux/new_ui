@@ -15,12 +15,13 @@ import {
 import { useIntl } from 'react-intl';
 import { StakeHistory, UnStakeHistory } from '../../components';
 import { ProgressBar } from 'react-bootstrap';
+import { useCurrenciesFetch } from 'hooks';
+import millify from 'millify';
 
 const initialStakingItem: Stake = {
 	stake_id: '',
 	currency_id: '',
 	staking_name: '',
-	icon_url: '',
 	description: '',
 	start_time: '',
 	end_time: '',
@@ -28,6 +29,10 @@ const initialStakingItem: Stake = {
 	rewards: [],
 	status: '',
 	ref_link: '',
+	total_amount: '0',
+	cap_amount: '0',
+	cap_amount_per_user: '0',
+	min_amount: '0',
 };
 
 export const StakingDetailMobileScreen = () => {
@@ -44,7 +49,7 @@ export const StakingDetailMobileScreen = () => {
 
 	const { stake_id } = useParams<{ stake_id: string }>();
 	const stakingList = useSelector(selectStakingList);
-
+	useCurrenciesFetch();
 	React.useEffect(() => {
 		const staking_item =
 			stakingList.find(staking => staking.stake_id.toString() === stake_id.toString()) || initialStakingItem;
@@ -53,14 +58,28 @@ export const StakingDetailMobileScreen = () => {
 
 	React.useEffect(() => {
 		if (stakingItemState.rewards.length) {
-			const totalAmount: number = stakingItemState.rewards
-				.map(reward => Number(reward.total_amount))
-				.reduce((a, b) => a + b, 0);
-			const totalCap: number = stakingItemState.rewards.map(reward => Number(reward.cap_amount)).reduce((a, b) => a + b, 0);
+			const totalAmount: number = Number(stakingItemState.total_amount);
+			const totalCap: number = Number(stakingItemState.cap_amount);
 			const percent = ((totalCap / totalAmount) * 100).toFixed(2);
 			setProgressState(percent);
-			setTotalAmountState(totalAmount.toFixed(5));
-			setTotalCapState(totalCap.toFixed(5));
+			setTotalAmountState(
+				Number(totalAmount) > 100000000
+					? String(
+							millify(Number(totalAmount), {
+								precision: 2,
+							}),
+					  )
+					: String(totalAmount),
+			);
+			setTotalCapState(
+				Number(totalCap) > 100000000
+					? String(
+							millify(Number(totalCap), {
+								precision: 2,
+							}),
+					  )
+					: String(totalCap),
+			);
 		}
 	}, [stakingItemState]);
 
@@ -88,7 +107,6 @@ export const StakingDetailMobileScreen = () => {
 						<StakingInfo
 							currency_id={stakingItemState.currency_id}
 							staking_name={stakingItemState.staking_name}
-							logo_image={stakingItemState.icon_url}
 							description={stakingItemState.description}
 							ref_link={stakingItemState.ref_link}
 						/>
@@ -139,6 +157,10 @@ export const StakingDetailMobileScreen = () => {
 										rewards={stakingItemState.rewards}
 										status={stakingItemState.status}
 										active={stakingItemState.active}
+										total_amount={stakingItemState.total_amount}
+										cap_amount={stakingItemState.cap_amount}
+										cap_amount_per_user={stakingItemState.cap_amount_per_user}
+										min_amount={stakingItemState.min_amount}
 									/>
 								</TabPane>
 								<TabPane tab="UNSTAKE" key="unstake">
@@ -154,6 +176,8 @@ export const StakingDetailMobileScreen = () => {
 						<h3 className="text-warning">{intl.formatMessage({ id: `stake.detail.title.stakeHistory` })}</h3>
 						<StakeHistory currency_id={stakingItemState.currency_id} />
 					</div>
+				</div>
+				<div className="row mt-5">
 					<div className="col-12">
 						<h3 className="text-warning">{intl.formatMessage({ id: `stake.detail.title.unStakeHistory` })}</h3>
 						<UnStakeHistory currency_id={stakingItemState.currency_id} />

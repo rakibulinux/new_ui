@@ -22,7 +22,6 @@ const initialStakingItem: Stake = {
 	stake_id: '',
 	currency_id: '',
 	staking_name: '',
-	icon_url: '',
 	description: '',
 	start_time: '',
 	end_time: '',
@@ -30,6 +29,10 @@ const initialStakingItem: Stake = {
 	rewards: [],
 	status: '',
 	ref_link: '',
+	total_amount: '0',
+	cap_amount: '0',
+	cap_amount_per_user: '0',
+	min_amount: '0',
 };
 
 export const StakingDetailScreen = () => {
@@ -59,21 +62,28 @@ export const StakingDetailScreen = () => {
 
 	React.useEffect(() => {
 		if (stakingItemState.rewards.length) {
-			const totalAmount: number = stakingItemState.rewards
-				.map(reward => Number(reward.total_amount))
-				.reduce((a, b) => a + b, 0);
-			const totalCap: number = stakingItemState.rewards.map(reward => Number(reward.cap_amount)).reduce((a, b) => a + b, 0);
+			const totalAmount: number = Number(stakingItemState.total_amount);
+			const totalCap: number = Number(stakingItemState.cap_amount);
 			const percent = ((totalCap / totalAmount) * 100).toFixed(2);
 			setProgressState(percent);
+
 			setTotalAmountState(
-				millify(totalAmount, {
-					precision: 2,
-				}),
+				Number(totalAmount) > 100000000
+					? String(
+							millify(Number(totalAmount), {
+								precision: 2,
+							}),
+					  )
+					: String(totalAmount),
 			);
 			setTotalCapState(
-				millify(totalCap, {
-					precision: 2,
-				}),
+				Number(totalCap) > 100000000
+					? String(
+							millify(Number(totalCap), {
+								precision: 2,
+							}),
+					  )
+					: String(totalCap),
 			);
 		}
 	}, [stakingItemState]);
@@ -102,7 +112,6 @@ export const StakingDetailScreen = () => {
 						<StakingInfo
 							currency_id={stakingItemState.currency_id}
 							staking_name={stakingItemState.staking_name}
-							logo_image={stakingItemState.icon_url}
 							description={stakingItemState.description}
 							ref_link={stakingItemState.ref_link}
 						/>
@@ -151,6 +160,10 @@ export const StakingDetailScreen = () => {
 										rewards={stakingItemState.rewards}
 										status={stakingItemState.status}
 										active={stakingItemState.active}
+										total_amount={stakingItemState.total_amount}
+										cap_amount={stakingItemState.cap_amount}
+										cap_amount_per_user={stakingItemState.cap_amount_per_user}
+										min_amount={stakingItemState.min_amount}
 									/>
 								</TabPane>
 								<TabPane tab="UNSTAKE" key="unstake">
