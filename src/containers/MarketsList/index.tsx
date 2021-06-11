@@ -218,7 +218,6 @@ export const MarketsList = props => {
 	};
 
 	const renderFIATMarketElement = (): any | boolean => {
-		console.log(activeButton);
 		if (marketPairActive.FIAT) {
 			const marketFIATs = [
 				{
