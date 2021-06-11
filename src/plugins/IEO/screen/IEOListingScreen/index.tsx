@@ -1,29 +1,31 @@
+import classNames from 'classnames';
 import * as React from 'react';
 import { ListItemIEO } from './../../containers';
 
+export type typeIEO = 'all' | 'running' | 'upcoming';
 export const IEOListingScreen = () => {
-	const [typeIEO, settypeIEO] = React.useState('all');
-	const handleViewListIEO = (type: string) => {
-		settypeIEO(type);
-		document.querySelector('.button-active')?.classList.remove('button-active');
-		document.querySelector(`.${type}`)?.classList.add('button-active');
+	const [typeIEO, setTypeIEO] = React.useState<typeIEO>('all');
+	const handleViewListIEO = (type: typeIEO) => {
+		setTypeIEO(type);
 	};
-
+	const renderActiveButtonUpcomingClasses = classNames('upcoming', typeIEO === 'upcoming' ? 'button-active' : '');
+	const renderActiveButtonRunningClasses = classNames('running', typeIEO === 'running' ? 'button-active' : '');
+	const renderActiveButtonAllClasses = classNames('all', typeIEO === 'all' ? 'button-active' : '');
 	return (
 		<div id="ieo-listing-screen">
-			<div className="ioe-listing-screen-header">
+			<div className="ieo-listing-screen__header">
 				<h3>IEO</h3>
 				<label htmlFor="function-search" className="header-label">
 					IEO History
 				</label>
 				{/* <FiSearch /> */}
 
-				<div className="ioe-listing-function">
+				<div className="ieo-listing-function">
 					<input name="function-search" type="text" className="input-list-function-search"></input>
 					<div className="view-ioe-item-type">
 						<button
 							type="button"
-							className="upcoming"
+							className={renderActiveButtonUpcomingClasses}
 							onClick={() => {
 								handleViewListIEO('upcoming');
 							}}
@@ -32,7 +34,7 @@ export const IEOListingScreen = () => {
 						</button>
 						<button
 							type="button"
-							className="running"
+							className={renderActiveButtonRunningClasses}
 							onClick={() => {
 								handleViewListIEO('running');
 							}}
@@ -41,7 +43,7 @@ export const IEOListingScreen = () => {
 						</button>
 						<button
 							type="button"
-							className="button-active all"
+							className={renderActiveButtonAllClasses}
 							onClick={() => {
 								handleViewListIEO('all');
 							}}

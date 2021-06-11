@@ -113,7 +113,7 @@ export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 		<div id="ioe-listing-screen-ieos" className="row">
 			{listIEO.map((item, index) => {
 				return props.type == 'all' || item.type == props.type ? (
-					<div className="col-md-4 col-lg-3" style={{ padding: '10px 10px 10px 10px' }}>
+					<div className="col-md-6 col-lg-4 col-xl-3" style={{ padding: '10px 10px' }}>
 						<IEOItem
 							type={item.type}
 							currencyId={item.currency_id}
