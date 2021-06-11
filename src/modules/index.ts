@@ -16,7 +16,18 @@ import {
 import { ETHFeeState, rootETHFeeSaga } from './eth-withdraw/fee';
 import { ETHFeeWithdrawState, rootETHFeeWithdrawSaga } from './eth-withdraw/withdraw';
 import { LunarsState, rootLunarSaga } from './events/lunar';
+import { AnnouncementState, rootAnnouncementSaga } from './info/announcement';
 import { EventsState, rootEventSaga } from './info/events';
+import {
+	CreateStakeState,
+	rootStakingSaga,
+	StakeHistoryState,
+	StakeWalletState,
+	StakingListState,
+	UnStakeHistoryState,
+	UnstakeState,
+} from './plugins/staking';
+import { rootVoteSaga, VoteDonateState, VoteHistoryState, VoteListState } from './plugins/vote';
 import { AlertState, rootHandleAlertSaga } from './public/alert';
 import { BlocklistAccessState, rootBlocklistAccessSaga } from './public/blocklistAccess';
 import { ConfigsState, rootConfigsSaga } from './public/configs';
@@ -35,8 +46,8 @@ import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
 import { PriceState, rootPriceSaga } from './sale/price';
 import { rootSaleItemSaga, SaleItemState } from './sale/sale-item';
 import { rootSaleListSaga, SaleListState } from './sale/sale-list';
-import { CompetitionItemState, rootcompetitionItemSaga } from './trading_competitions/competition_item';
 import { CompetionListState, rootCompetionsListSaga } from './trading_competitions/competitions';
+import { CompetitionItemState, rootcompetitionItemSaga } from './trading_competitions/competition_item';
 import { rootRankingsSaga, TradingRankingsState } from './trading_competitions/rankings';
 import { ApiKeysState } from './user/apiKeys';
 import { rootApiKeysSaga } from './user/apiKeys/sagas';
@@ -60,60 +71,51 @@ import { ProfileState, rootProfileSaga } from './user/profile';
 import { rootUserActivitySaga, UserActivityState } from './user/userActivity';
 import { ChildCurrenciesState, rootWalletsSaga, WalletsState } from './user/wallets';
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
-import {
-	CreateStakeState,
-	StakingListState,
-	StakeWalletState,
-	StakeHistoryState,
-	rootStakingSaga,
-	UnstakeState,
-	UnStakeHistoryState,
-} from './plugins/staking';
-import { AnnouncementState, rootAnnouncementSaga } from './info/announcement';
 
-export * from './public/markets';
-export * from './public/orderBook';
-export * from './public/globalSettings';
+export * from './airdrops/airdrop';
+export * from './airdrops/claim';
+export * from './eth-withdraw/fee';
+export * from './eth-withdraw/withdraw';
+export * from './events/lunar';
+export * from './info/announcement';
+export * from './info/events';
+export * from './plugins/staking';
+export * from './plugins/vote';
+export * from './public/alert';
+export * from './public/blocklistAccess';
 export * from './public/configs';
 export * from './public/currencies';
 export * from './public/customization';
+export * from './public/globalSettings';
 export * from './public/i18n';
 export * from './public/kline';
-export * from './public/alert';
+export * from './public/markets';
+export * from './public/memberLevels';
+export * from './public/orderBook';
+export * from './sale/buy';
+export * from './sale/price';
+export * from './sale/sale-item';
+export * from './sale/sale-list';
+export * from './trading_competitions/competitions';
+export * from './trading_competitions/competition_item';
+export * from './trading_competitions/rankings';
 export * from './user/apiKeys';
 export * from './user/auth';
 export * from './user/beneficiaries';
 export * from './user/captcha';
 export * from './user/customization';
-export * from './user/wallets';
-export * from './user/profile';
+export * from './user/emailVerification';
+export * from './user/history';
+export * from './user/kyc';
+export * from './user/newHistory';
 export * from './user/openOrders';
 export * from './user/orders';
 export * from './user/ordersHistory';
 export * from './user/password';
+export * from './user/profile';
 export * from './user/userActivity';
-export * from './user/history';
-export * from './user/newHistory';
-export * from './user/kyc';
-export * from './user/emailVerification';
+export * from './user/wallets';
 export * from './user/withdrawLimit';
-export * from './public/memberLevels';
-export * from './public/blocklistAccess';
-export * from './airdrops/airdrop';
-export * from './airdrops/claim';
-export * from './eth-withdraw/fee';
-export * from './eth-withdraw/withdraw';
-export * from './sale/sale-list';
-export * from './sale/sale-item';
-export * from './sale/buy';
-export * from './sale/price';
-export * from './trading_competitions/competitions';
-export * from './trading_competitions/competition_item';
-export * from './trading_competitions/rankings';
-export * from './info/events';
-export * from './events/lunar';
-export * from './plugins/staking';
-export * from './info/announcement';
 
 export interface RootState {
 	airdrops: {
@@ -137,9 +139,9 @@ export interface RootState {
 		withdraw: ETHFeeWithdrawState;
 	};
 	info: {
-        events: EventsState;
-        announcement: AnnouncementState;
-    };
+		events: EventsState;
+		announcement: AnnouncementState;
+	};
 
 	public: {
 		alerts: AlertState;
@@ -194,6 +196,11 @@ export interface RootState {
 		stake_wallet: StakeWalletState;
 		stake_history: StakeHistoryState;
 		unstake_history: UnStakeHistoryState;
+		vote: {
+			list: VoteListState;
+			history: VoteHistoryState;
+			donate: VoteDonateState;
+		};
 	};
 }
 
@@ -256,6 +263,7 @@ export function* rootSaga() {
 		call(rootEventSaga),
 		call(rootLunarSaga),
 		call(rootStakingSaga),
-    call(rootAnnouncementSaga),
+		call(rootAnnouncementSaga),
+		call(rootVoteSaga),
 	]);
 }

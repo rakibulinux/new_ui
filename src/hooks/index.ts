@@ -16,4 +16,6 @@ export * from './useUserOrdersHistoryFetch';
 export * from './useWalletsAddressFetch';
 export * from './useWalletsFetch';
 export * from './useEthFeeFetch';
+export * from './useVoteListFetch';
 export * from './useConvertToUSD';
+export * from './useVoteHistoryFetch';

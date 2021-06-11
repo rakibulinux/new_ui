@@ -2,27 +2,21 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import {
-	logoutFetch,
-	selectUserLoggedIn,
-} from '../../modules';
+import { logoutFetch, selectUserLoggedIn } from '../../modules';
 
 import { FaHistory, FaSignOutAlt, FaStar, FaUserCircle } from 'react-icons/fa';
-
 
 const Logo = require('../../assets/images/logo.svg');
 
 export const Header: React.FC = () => {
-
 	const history = useHistory();
 	const intl = useIntl();
 
-	const isLoggedIn=useSelector( selectUserLoggedIn);
+	const isLoggedIn = useSelector(selectUserLoggedIn);
 
 	const dispatch = useDispatch();
 
 	const renderWalletLink = () => {
-
 		return (
 			isLoggedIn && (
 				<div className="header__right-menu__item ">
@@ -35,7 +29,6 @@ export const Header: React.FC = () => {
 	};
 
 	const renderOrderTab = () => {
-
 		return (
 			isLoggedIn && (
 				<div className="header__right-menu__dropdown__wrap">
@@ -63,7 +56,6 @@ export const Header: React.FC = () => {
 	};
 
 	const renderLogout = () => {
-
 		if (!isLoggedIn) {
 			return null;
 		}
@@ -79,7 +71,6 @@ export const Header: React.FC = () => {
 	};
 
 	const renderProfileLink = () => {
-
 		return (
 			isLoggedIn && (
 				<Link to="/profile">
@@ -93,7 +84,6 @@ export const Header: React.FC = () => {
 	};
 
 	const renderProfileTab = () => {
-
 		return (
 			isLoggedIn && (
 				<>
@@ -123,7 +113,6 @@ export const Header: React.FC = () => {
 	const translate = (key: string) => intl.formatMessage({ id: key });
 
 	const renderUnLogin = () => {
-
 		return (
 			!isLoggedIn && (
 				<>
@@ -190,6 +179,16 @@ export const Header: React.FC = () => {
 									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
 								>
 									Stake
+								</Link>
+							</div>
+						</div>
+						<div className="header__left-menu__dropdown flex-shrink-0  ">
+							<div className="header__left-menu__dropdown__wrap">
+								<Link
+									to="/vote"
+									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
+								>
+									Vote
 								</Link>
 							</div>
 						</div>
