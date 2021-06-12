@@ -27,10 +27,11 @@ export const MarketsList = props => {
 	const [searchMarketInputState, setSearchMarketInputState] = React.useState('');
 	const [marketPair, setMarketPair] = React.useState('');
 	const [marketPairActive, setMarketPairActive] = React.useState({
-		CX: false,
-		BTC: false,
-		FIAT: false,
 		ALTS: true,
+		USDT: false,
+		BTC: false,
+		ETH: false,
+		FIAT: false,
 	});
 	const [activeButton, setActiveButton] = React.useState(0);
 
@@ -176,22 +177,24 @@ export const MarketsList = props => {
 		setSearchMarketInputState(e.target.value);
 	};
 
-	const handleCXMarket = () => {
+	const handleUSDTMarket = () => {
 		setMarketPairActive(prev => ({
 			...prev,
-			CX: true,
+			USDT: true,
+			ETH: false,
 			ALTS: false,
 			BTC: false,
 			FIAT: false,
 		}));
-		setMarketPair('cx');
+		setMarketPair('usdt');
 	};
 	const handleALTSMarket = () => {
 		setMarketPairActive(prev => ({
 			...prev,
 			ALTS: true,
+			ETH: false,
 			BTC: false,
-			CX: false,
+			USDT: false,
 			FIAT: false,
 		}));
 		setMarketPair('');
@@ -200,17 +203,30 @@ export const MarketsList = props => {
 		setMarketPairActive(prev => ({
 			...prev,
 			BTC: true,
-			CX: false,
+			ETH: false,
+			USDT: false,
 			ALTS: false,
 			FIAT: false,
 		}));
 		setMarketPair('btc');
 	};
+	const handleETHMarket = () => {
+		setMarketPairActive(prev => ({
+			...prev,
+			ETH: true,
+			BTC: false,
+			USDT: false,
+			ALTS: false,
+			FIAT: false,
+		}));
+		setMarketPair('eth');
+	};
 	const handelFIATMarket = () => {
 		setMarketPairActive(prev => ({
 			...prev,
 			BTC: false,
-			CX: false,
+			ETH: false,
+			USDT: false,
 			ALTS: false,
 			FIAT: true,
 		}));
@@ -221,20 +237,8 @@ export const MarketsList = props => {
 		if (marketPairActive.FIAT) {
 			const marketFIATs = [
 				{
-					name: 'ALL',
-					fill: '',
-				},
-				{
-					name: 'USDT',
-					fill: 'usdt',
-				},
-				{
-					name: 'ETH',
-					fill: 'eth',
-				},
-				{
-					name: 'BTC',
-					fill: 'btc',
+					name: 'BUSD',
+					fill: 'busd',
 				},
 			];
 			return (
@@ -265,10 +269,16 @@ export const MarketsList = props => {
 						<div className="row d-flex align-items: baseline">
 							<div className="col-md-9 d-flex align-items: center">
 								<button
-									className={marketPairActive.CX ? 'cx-market__pair__active' : 'cx-market__pair'}
-									onClick={handleCXMarket}
+									className={marketPairActive.ALTS ? 'cx-market__pair__active' : 'cx-market__pair'}
+									onClick={handleALTSMarket}
 								>
-									CX MARKET
+									ALL MARKET
+								</button>
+								<button
+									className={marketPairActive.USDT ? 'cx-market__pair__active' : 'cx-market__pair'}
+									onClick={handleUSDTMarket}
+								>
+									USDT MARKET
 								</button>
 								<button
 									className={marketPairActive.BTC ? 'cx-market__pair__active' : 'cx-market__pair'}
@@ -277,16 +287,16 @@ export const MarketsList = props => {
 									BTC MARKET
 								</button>
 								<button
+									className={marketPairActive.ETH ? 'cx-market__pair__active' : 'cx-market__pair'}
+									onClick={handleETHMarket}
+								>
+									ETH MARKET
+								</button>
+								<button
 									className={marketPairActive.FIAT ? 'cx-market__pair__active' : 'cx-market__pair'}
 									onClick={handelFIATMarket}
 								>
 									FIAT MARKET
-								</button>
-								<button
-									className={marketPairActive.ALTS ? 'cx-market__pair__active' : 'cx-market__pair'}
-									onClick={handleALTSMarket}
-								>
-									ALL MARKET
 								</button>
 							</div>
 							<div className="col-md-3">
