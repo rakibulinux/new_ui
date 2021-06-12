@@ -1,4 +1,3 @@
-import { useWalletsFetch } from 'hooks';
 import * as React from 'react';
 import { Container } from 'react-bootstrap';
 import { VoteHistory, VoteNews } from '../../containers';
@@ -6,8 +5,6 @@ import { VoteHistory, VoteNews } from '../../containers';
 interface VoteScreenProps {}
 
 export const VoteScreen: React.FC<VoteScreenProps> = ({}) => {
-	useWalletsFetch();
-
 	return (
 		<div className="pg-vote">
 			<Container>

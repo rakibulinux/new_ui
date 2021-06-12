@@ -1,16 +1,44 @@
 .pg-vote__news {
-	&__title {
+	&__title,
+	&__countdown__wrapper,
+	&__wrapper-table,
+	&__navbar {
 		background: #313445;
-		border-radius: 10px;
-		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+	}
+
+	&__title,
+	&__countdown {
 		margin-bottom: 1em;
-		padding: 25px 20px 10px;
+		padding: 0.9em 1.8em;
+	}
+
+	&__countdown {
+		margin-bottom: 1em;
+		padding: 0.9em 1.8em;
+
+		&__last-win {
+			&__winner {
+				font-weight: 600;
+			}
+		}
+
+		&__done,
+		&__time-remaining,
+		&__last-win {
+			font-size: 2em;
+		}
+
+		&__wrapper {
+			min-width: 30vw;
+			padding: 0.9em 1.8em;
+		}
+	}
+
+	&__title {
+		padding: 2.2em 1.8em 0.9em;
 	}
 
 	&__wrapper-table {
-		background: #313445;
-		border-radius: 10px;
-		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
 		min-height: 30vw;
 		overflow: hidden;
 		padding-left: 1.8em;
@@ -18,10 +46,9 @@
 	}
 
 	&__navbar {
-		background: #313445;
 		border-top-left-radius: 10px;
 		border-top-right-radius: 10px;
-		padding: 25px 0 20px;
+		padding: 2.2em 0 1.8em;
 
 		&__title {
 			margin-bottom: 0.5em;

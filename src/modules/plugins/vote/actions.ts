@@ -10,7 +10,7 @@ import {
 	VOTE_LIST_ERROR,
 	VOTE_LIST_FETCH,
 } from './constants';
-import { VoteCoin, VoteFilter, VoteHistory } from './types';
+import { VoteFilter, VoteHistory, VoteListState } from './types';
 
 export interface VoteListFetch {
 	type: typeof VOTE_LIST_FETCH;
@@ -19,8 +19,9 @@ export interface VoteListFetch {
 export interface VoteListData {
 	type: typeof VOTE_LIST_DATA;
 	payload: {
-		data: VoteCoin[];
-		total: number;
+		data: VoteListState['info']['data'];
+		total: VoteListState['info']['total'];
+		infoRound: VoteListState['infoRound'];
 	};
 }
 

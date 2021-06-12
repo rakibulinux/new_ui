@@ -18,6 +18,12 @@ const initialVoteListState: VoteListState = {
 		data: [],
 		total: 1,
 	},
+	infoRound: {
+		lastWin: '',
+		startDay: '',
+		currentTime: '',
+		roundEndDate: 10,
+	},
 	loading: false,
 };
 
@@ -29,7 +35,9 @@ export const voteListReducer = (state = initialVoteListState, action: VoteListAc
 				draft.loading = true;
 				break;
 			case VOTE_LIST_DATA:
-				draft.info = action.payload;
+				draft.info.data = action.payload.data;
+				draft.info.total = action.payload.total;
+				draft.infoRound = action.payload.infoRound;
 				draft.loading = false;
 				break;
 			case VOTE_DONATE_DATA:

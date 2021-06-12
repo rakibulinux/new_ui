@@ -27,7 +27,7 @@ export function* voteListFetchSaga(actions: VoteListFetch) {
 		yield put(voteListData(voteList as VoteListData['payload']));
 	} catch (error) {
 		yield put(voteListError(error));
-		yield put(alertPush({ message: [error.message], code: error.code, type: 'error' }));
+		yield put(alertPush({ message: [], code: error.code, type: 'error' }));
 	}
 }
 
@@ -40,7 +40,7 @@ export function* voteHistoryFetchSaga(actions: VoteListFetch) {
 		yield put(voteHistoryData(voteHistory as VoteHistoryData['payload']));
 	} catch (error) {
 		yield put(voteHistoryError(error));
-		yield put(alertPush({ message: [error.message], code: error.code, type: 'error' }));
+		yield put(alertPush({ message: [], code: error.code, type: 'error' }));
 	}
 }
 
@@ -48,9 +48,9 @@ export function* voteDonateCreateSaga(actions: VoteDonateCreate) {
 	try {
 		const donate = yield call(API.post(createOptions(getCsrfToken())), `private/vote/donate`, actions.payload);
 		yield put(voteDonateData(donate as VoteHistory));
-		yield put(alertPush({ message: ['Vote success'], type: 'success' }));
+		yield put(alertPush({ message: ['page.body.vote.msg.success'], type: 'success' }));
 	} catch (error) {
 		yield put(voteDonateError(error));
-		yield put(alertPush({ message: [error.message], code: error.code, type: 'error' }));
+		yield put(alertPush({ message: ['page.body.vote.msg.fail'], code: error.code, type: 'error' }));
 	}
 }
