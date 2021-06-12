@@ -1,10 +1,20 @@
+import moment from 'moment';
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { announcementFetch, selectAnnouncement } from '../../modules';
 
 // tslint:disable-next-line: no-empty-interface
 interface ProfileAnnouncementProps {}
 
 export const ProfileAnnouncement: React.FC<ProfileAnnouncementProps> = () => {
+	const announcements = useSelector(selectAnnouncement);
+	const dispatch = useDispatch();
+
+	React.useEffect(() => {
+		dispatch(announcementFetch());
+	}, []);
+
 	return (
 		<div className="td-pg-profile--bg td-pg-profile--radius td-pg-profile__content__item td-pg-profile__announcement">
 			<Link to="/announcement" className="td-pg-profile__content__item__header td-pg-profile__content__item__header--link">
@@ -19,21 +29,16 @@ export const ProfileAnnouncement: React.FC<ProfileAnnouncementProps> = () => {
 				</div>
 			</Link>
 			<div className="td-pg-profile__content__item__content d-flex flex-column">
-				{true
-					? null
-					: new Array(2).fill(null).map((_a, i) => (
-							<div className="td-pg-profile__announcement__item d-flex justify-content-between" key={i}>
-								<div className="td-pg-profile__announcement__item__title flex-fill">
-									<Link to={'/profile'}>
-										VITE Promotion - Win a Share of $50,000 in VITE,VITE Promotion - Win a Share of $50,000 in
-										VITEVITE Promotion - Win a Share of $50,000 in VITEVITE Promotion - Win a Share of $50,000
-										in VITEVITE Promotion - Win a Share of $50,000 in VITEVITE Promotion - Win a Share of
-										$50,000 in VITEVITE Promotion - Win a Share of $50,000 in VITE
-									</Link>
-								</div>
-								<div className="td-pg-profile__announcement__item__date">2021-04-09</div>
-							</div>
-					  ))}
+				{announcements.data.slice(0, 2).map((_a, i) => (
+					<div className="td-pg-profile__announcement__item d-flex justify-content-between" key={i}>
+						<div className="td-pg-profile__announcement__item__title flex-fill">
+							<Link to={`/announcement/detail/${_a.id}`}>{_a.title}</Link>
+						</div>
+						<div className="td-pg-profile__announcement__item__date">
+							{moment(_a.created_at).format('yyyy - MM - DD')}
+						</div>
+					</div>
+				))}
 			</div>
 		</div>
 	);
