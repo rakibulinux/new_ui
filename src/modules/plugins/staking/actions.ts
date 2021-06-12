@@ -31,6 +31,7 @@ export interface CreateStake {
 	type: typeof CREATE_STAKE;
 	payload: {
 		uid: string;
+		stake_id: string;
 		reward_id: string;
 		amount: string;
 		lockup_date: string;

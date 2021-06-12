@@ -14,13 +14,13 @@ export function* ordersHistoryAllSaga(action: UserOrdersHistoryAllFetch) {
 	try {
 		const { pageIndex, limit, type } = action.payload;
 		const params = `${type === 'all' ? '' : '&state=wait'}`;
-		let data = yield call(API.get(ordersOptions), `/market/orders?page=${pageIndex }&limit=${limit}${params}`);
+		let data = yield call(API.get(ordersOptions), `/market/orders?page=${pageIndex}&limit=${limit}${params}`);
 		if (data.length === limit) {
 			yield put(userOrdersHistoryAlldata({ list: data }));
 			// loop get all data
 			let index = 1;
 			const max = 100;
-			let checkData:OrderCommon[];
+			let checkData: OrderCommon[];
 			checkData = yield call(API.get(ordersOptions), `/market/orders?page=${index}&limit=${max}${params}`);
 			if (checkData.length === max) {
 				data = checkData;
@@ -37,7 +37,7 @@ export function* ordersHistoryAllSaga(action: UserOrdersHistoryAllFetch) {
 				data = checkData;
 			}
 		}
-		data = uniqBy(data , (e:any) => e.id );
+		data = uniqBy(data, (e: any) => e.id);
 
 		yield put(userOrdersHistoryAlldata({ list: data }));
 	} catch (error) {

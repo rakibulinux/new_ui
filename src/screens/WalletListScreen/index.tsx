@@ -136,7 +136,7 @@ export const WalletListScreen = () => {
 
 			return {
 				coin: (
-					<span>
+					<span className="text-left">
 						{' '}
 						{currency_icon} {wallet.currency.toUpperCase()} <span className="text-secondary">{wallet.name}</span>
 					</span>

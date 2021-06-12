@@ -1,0 +1,36 @@
+.td-cpn-pagination {
+	border-radius: 0.25rem;
+	display: flex;
+	justify-content: center;
+	list-style: none;
+	padding: 10px 0;
+	padding-left: 0;
+
+	button {
+		background-color: transparent;
+		border: 1px solid #666;
+		border-radius: 2px;
+		color: #faf9f9;
+		margin: 0 6px;
+		padding: 4px 12px;
+
+		&[disabled] {
+			border: 1px solid #444;
+			color: #fae2f9;
+		}
+
+		&:not([disabled]) {
+			&:hover {
+				background: #313445;
+				border: 1px solid #fff;
+				color: #fff;
+				outline: none;
+			}
+		}
+	}
+
+	span {
+		align-items: center;
+		display: flex;
+	}
+}

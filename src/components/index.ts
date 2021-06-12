@@ -16,6 +16,7 @@ export * from './History';
 export * from './NewTabPanel';
 export * from './NewCustomInput';
 export * from './NewCopyableTextField';
+export * from './NewPagination';
 export * from './MarketDepths';
 export * from './Markets';
 export * from './Modal';

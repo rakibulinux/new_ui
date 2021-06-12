@@ -76,7 +76,7 @@ const formatWithSeparators = (value: string, thousSep?: string, floatSep?: strin
 
 class Decimal extends React.Component<DecimalProps> {
 	public static formatRemoveZero(value: DecimalProps['children'], precision: number, thousSep?: string, floatSep?: string) {
-		const strArr = this.format(value, precision, thousSep, floatSep).split('');
+		const strArr = this.format(value, precision > 19 ? 19 : precision, thousSep, floatSep).split('');
 
 		if (Number(value) !== 0) {
 			for (let i = strArr.length - 1; i >= 0; i--) {

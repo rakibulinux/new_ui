@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import { useCurrenciesFetch } from 'hooks';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectStakingList, stakingListFetch } from '../../../../modules';
@@ -17,6 +18,7 @@ export const StakingListScreen = () => {
 
 	// store
 	const staking_list = useSelector(selectStakingList);
+
 	const upcoming_list = staking_list.filter(staking => staking.status === 'upcoming');
 	const running_list = staking_list.filter(staking => staking.status === 'running');
 	const ended_list = staking_list.filter(staking => staking.status === 'ended');
@@ -24,6 +26,8 @@ export const StakingListScreen = () => {
 	// dispatch
 	const dispatch = useDispatch();
 	const dispatchFetchStakingList = () => dispatch(stakingListFetch());
+
+	useCurrenciesFetch();
 
 	React.useEffect(() => {
 		dispatchFetchStakingList();
