@@ -19,3 +19,4 @@ export * from './useEthFeeFetch';
 export * from './useVoteListFetch';
 export * from './useConvertToUSD';
 export * from './useVoteHistoryFetch';
+export * from './useAnnouncementFetch';
