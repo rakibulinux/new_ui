@@ -1,10 +1,10 @@
 import * as React from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { ConvertUsd, Decimal, MarketsHotOnlist, MarketTable } from '../../components';
+import { ConvertUsd, Decimal, MarketsHotOnlist, MarketTable, ButtonFIAT } from '../../components';
 
 import Tabs, { TabPane } from 'rc-tabs';
-import styled from 'styled-components';
 
 import { useMarketsFetch, useMarketsTickersFetch, useRangerConnectFetch } from '../../hooks';
 import { Market, selectMarkets, selectMarketTickers, setCurrentMarket } from '../../modules';
@@ -21,103 +21,18 @@ const defaultTicker = {
 	volume: '0.0',
 };
 
-const MarketsContainerStyles = styled.div`
-	.active_id {
-		fill: #f9c74f;
-		color: #f9c74f;
-	}
-
-	margin-bottom: 35px;
-`;
-
-const TradeButtonStyles = styled.button`
-	width: 62px;
-	height: 32px;
-	background: #313445;
-	border: 0.5px solid #848e9c;
-	box-sizing: border-box;
-	border-radius: 4px;
-	color: #2fb67e;
-	outline: none;
-`;
-const MarketListFilsStyle = styled.div`
-	width: 100%;
-	background-color: rgb(49, 52, 69);
-	.rc-tabs {
-		padding: 0 18px;
-	}
-	.rc-tabs-nav {
-		display: flex;
-		justify-content: space-between;
-		margin-bottom: 30px;
-		border-bottom: 1px solid #999;
-
-		.rc-tabs-nav-wrap {
-			padding: 20px 0px 0 0;
-
-			.rc-tabs-nav-list {
-				display: flex;
-				flex-direction: row;
-				justify-content: flex-start;
-
-				.rc-tabs-tab {
-					font-size: 14px;
-					font-weight: 600;
-					height: 40px;
-					cursor: pointer;
-					margin-right: 40px;
-				}
-				.rc-tabs-tab-active {
-					font-weight: bold;
-					color: #fff;
-					border-bottom: 2px solid rgb(47, 182, 126);
-				}
-			}
-		}
-		.rc-tabs-extra-content {
-			align-items: center;
-			display: flex;
-		}
-		.rc-tabs-content {
-			padding: 0 20px;
-		}
-	}
-`;
-const SearchCoinWrap = styled.div`
-	border: solid 1px var(--input-border-color);
-	border-radius: 4px;
-	display: flex;
-	height: calc(var(--big-gap) * 0.6);
-	margin: 4px;
-	overflow: hidden;
-
-	input {
-		background: none;
-		border: none;
-		color: var(--input-text-color);
-		font-size: calc(var(--big-gap) * 0.25);
-		line-height: calc(var(--big-gap));
-		outline: none;
-		padding: 0 calc(var(--big-gap) * 0.1);
-		width: calc(100% - calc(var(--big-gap) * 0.6));
-	}
-`;
-const SearchCoinWrapIcon = styled.div`
-	align-items: center;
-	border-right: solid 1px var(--input-border-color);
-	display: flex;
-	height: 100%;
-	justify-content: center;
-	width: calc(var(--big-gap) * 0.6);
-
-	img {
-		margin: 0;
-	}
-`;
 export const MarketsList = props => {
 	const favoritemMarketsLocal = JSON.parse(localStorage.getItem('favourites_markets') || '[]');
 	const [marketIdsLocalState, setMarketIdsLocalState] = React.useState<string[]>(favoritemMarketsLocal);
 	const [searchMarketInputState, setSearchMarketInputState] = React.useState('');
+	const [marketPair, setMarketPair] = React.useState('');
+	const [marketPairActive, setMarketPairActive] = React.useState({
+		CX: false,
+		BTC: false,
+		FIAT: false,
+		ALTS: true,
+	});
+	const [activeButton, setActiveButton] = React.useState(0);
 
 	useMarketsFetch();
 	useMarketsTickersFetch();
@@ -173,23 +88,28 @@ export const MarketsList = props => {
 
 	const formattedMarkets = currentBidUnitMarkets.length
 		? currentBidUnitMarkets
-				.map(market => ({
-					...market,
-					last: Decimal.format(Number((marketTickers[market.id] || defaultTicker).last), market.price_precision),
-					open: Decimal.format(Number((marketTickers[market.id] || defaultTicker).open), market.price_precision),
-					price_change_percent: String((marketTickers[market.id] || defaultTicker).price_change_percent),
-					high: Decimal.format(Number((marketTickers[market.id] || defaultTicker).high), market.price_precision),
-					low: Decimal.format(Number((marketTickers[market.id] || defaultTicker).low), market.price_precision),
-					volume: Decimal.format(Number((marketTickers[market.id] || defaultTicker).volume), market.amount_precision),
-				}))
+
+				.filter(market => market.base_unit.toLowerCase().includes(searchMarketInputState.toLowerCase()))
+				.filter(market => market.quote_unit.includes(marketPair))
+				.map(market => {
+					return {
+						...market,
+						last: Decimal.format(Number((marketTickers[market.id] || defaultTicker).last), market.price_precision),
+						open: Decimal.format(Number((marketTickers[market.id] || defaultTicker).open), market.price_precision),
+						price_change_percent: String((marketTickers[market.id] || defaultTicker).price_change_percent),
+						high: Decimal.format(Number((marketTickers[market.id] || defaultTicker).high), market.price_precision),
+						low: Decimal.format(Number((marketTickers[market.id] || defaultTicker).low), market.price_precision),
+						volume: Decimal.format(
+							Number((marketTickers[market.id] || defaultTicker).volume),
+							market.amount_precision,
+						),
+					};
+				})
 				.map(market => ({
 					...market,
 					change: Decimal.format((+market.last - +market.open).toFixed(market.price_precision), market.price_precision),
 				}))
-				.filter(
-					market =>
-						market.base_unit.includes(searchMarketInputState) || market.quote_unit.includes(searchMarketInputState),
-				)
+
 				.map(market => {
 					const marketChangeColor = +(market.change || 0) < 0 ? '#E01E5A' : '#2FB67E';
 					const marketName = market.name.split('/');
@@ -230,7 +150,23 @@ export const MarketsList = props => {
 						change: <span style={{ color: marketChangeColor }}>{market.change}</span>,
 						volume: <span style={{ color: marketChangeColor }}>{market.volume}</span>,
 						price_change_percent: <span style={{ color: marketChangeColor }}>{market.price_change_percent}</span>,
-						trade: <TradeButtonStyles onClick={() => handleRedirectToTrading(market.id)}>Trade</TradeButtonStyles>,
+						trade: (
+							<button
+								onClick={() => handleRedirectToTrading(market.id)}
+								style={{
+									width: '8rem',
+									height: 32,
+									background: '#313445',
+									border: '0.5px solid #848e9c',
+									boxSizing: 'border-box',
+									borderRadius: '4px',
+									color: '#2fb67e',
+									outline: 'none',
+								}}
+							>
+								Trade
+							</button>
+						),
 					};
 				})
 		: [];
@@ -239,20 +175,137 @@ export const MarketsList = props => {
 	const handldeSearchInputChange = (e: any) => {
 		setSearchMarketInputState(e.target.value);
 	};
+
+	const handleCXMarket = () => {
+		setMarketPairActive(prev => ({
+			...prev,
+			CX: true,
+			ALTS: false,
+			BTC: false,
+			FIAT: false,
+		}));
+		setMarketPair('cx');
+	};
+	const handleALTSMarket = () => {
+		setMarketPairActive(prev => ({
+			...prev,
+			ALTS: true,
+			BTC: false,
+			CX: false,
+			FIAT: false,
+		}));
+		setMarketPair('');
+	};
+	const handleBTCMarket = () => {
+		setMarketPairActive(prev => ({
+			...prev,
+			BTC: true,
+			CX: false,
+			ALTS: false,
+			FIAT: false,
+		}));
+		setMarketPair('btc');
+	};
+	const handelFIATMarket = () => {
+		setMarketPairActive(prev => ({
+			...prev,
+			BTC: false,
+			CX: false,
+			ALTS: false,
+			FIAT: true,
+		}));
+		setMarketPair('');
+	};
+
+	const renderFIATMarketElement = (): any | boolean => {
+		if (marketPairActive.FIAT) {
+			const marketFIATs = [
+				{
+					name: 'ALL',
+					fill: '',
+				},
+				{
+					name: 'USDT',
+					fill: 'usdt',
+				},
+				{
+					name: 'ETH',
+					fill: 'eth',
+				},
+				{
+					name: 'BTC',
+					fill: 'btc',
+				},
+			];
+			return (
+				<div className="row">
+					<div className="col-md-12 d-flex align-items: baseline">
+						{marketFIATs.map((marketFiat, index) => {
+							return (
+								<ButtonFIAT
+									id={index}
+									value={marketFiat.fill}
+									marketFiat={marketFiat.name}
+									setActiveButton={setActiveButton}
+									setMarketPair={setMarketPair}
+									active={activeButton === index ? true : false}
+								/>
+							);
+						})}
+					</div>
+				</div>
+			);
+		}
+	};
 	const MarketsTabs = () => {
 		return (
-			<MarketListFilsStyle>
-				<Tabs
-					defaultActiveKey="Spot Markets"
-					tabBarExtraContent={
-						<SearchCoinWrap>
-							<SearchCoinWrapIcon>
-								<img alt="" src={require('./icon/search.svg')} />
-							</SearchCoinWrapIcon>
-							<input type="text" placeholder="search coin name..." onChange={handldeSearchInputChange} />
-						</SearchCoinWrap>
-					}
-				>
+			<div className="cx-market-item">
+				<Tabs defaultActiveKey="Spot Markets">
+					<div className="market__pair">
+						<div className="row d-flex align-items: baseline">
+							<div className="col-md-9 d-flex align-items: center">
+								<button
+									className={marketPairActive.CX ? 'cx-market__pair__active' : 'cx-market__pair'}
+									onClick={handleCXMarket}
+								>
+									CX MARKET
+								</button>
+								<button
+									className={marketPairActive.BTC ? 'cx-market__pair__active' : 'cx-market__pair'}
+									onClick={handleBTCMarket}
+								>
+									BTC MARKET
+								</button>
+								<button
+									className={marketPairActive.FIAT ? 'cx-market__pair__active' : 'cx-market__pair'}
+									onClick={handelFIATMarket}
+								>
+									FIAT MARKET
+								</button>
+								<button
+									className={marketPairActive.ALTS ? 'cx-market__pair__active' : 'cx-market__pair'}
+									onClick={handleALTSMarket}
+								>
+									ALL MARKET
+								</button>
+							</div>
+							<div className="col-md-3">
+								<div className="search-coin">
+									<div className="search-coin__icon">
+										<img alt="" src={require('./icon/search.svg')} />
+									</div>
+									<input
+										className="search-coin__input"
+										type="text"
+										placeholder="search coin name..."
+										onChange={handldeSearchInputChange}
+									/>
+								</div>
+							</div>
+						</div>
+						<div className="market__pair__fiat">{renderFIATMarketElement()}</div>
+					</div>
+
 					<TabPane tab="Favorites" key="Favorites">
 						<MarketTable columns={columns} data={FavoriteMarkets} />
 					</TabPane>
@@ -260,7 +313,7 @@ export const MarketsList = props => {
 						<MarketTable columns={columns} data={formattedMarkets} />
 					</TabPane>
 				</Tabs>
-			</MarketListFilsStyle>
+			</div>
 		);
 	};
 	const MarketsHotOnList = () => {
@@ -297,14 +350,14 @@ export const MarketsList = props => {
 				accessor: 'volume',
 			},
 			{
-				Header: 'Edit',
+				Header: '',
 				accessor: 'trade',
 			},
 		];
 	}, []);
 
 	return (
-		<MarketsContainerStyles>
+		<div id="marketList">
 			<div className="container">
 				<div className="row">
 					<div className="col-12">
@@ -313,7 +366,7 @@ export const MarketsList = props => {
 					</div>
 				</div>
 			</div>
-		</MarketsContainerStyles>
+		</div>
 	);
 };
 

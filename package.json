@@ -74,7 +74,7 @@
 		"watch:css": "postcss src/index.pcss -o src/index.css -w",
 		"lint": "yarn style:lint && tsc --noEmit && tslint --project .",
 		"lint:fix": "tslint --project . --fix",
-		"style:lint": "npx stylelint \"**/*.pcss\" --fix",
+		"style:lint": "npx stylelint \"**/*.pcss\"--fix",
 		"mockAPI": "node mocks/mockAPI.js",
 		"mockWS": "node mocks/mockWS.js",
 		"start": "npm-run-all -p watch:css start-js",

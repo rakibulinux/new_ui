@@ -2,20 +2,11 @@ import * as React from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Decimal} from '../../components';
+import { Decimal } from '../../components';
 
 import styled from 'styled-components';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
-import {
-	currenciesFetch,
-	selectCurrencies,
-	selectMarkets,
-	selectMarketTickers,
-	Market,
-	// selectCurrentMarket,
-	// Ticker,
-	setCurrentMarket,
-} from '../../modules';
+import { currenciesFetch, selectCurrencies, selectMarkets, selectMarketTickers, Market, setCurrentMarket } from '../../modules';
 
 const ChartWrap = styled.div`
 	width: 100%;
@@ -50,10 +41,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 
 	const markets = useSelector(selectMarkets);
 	const marketTickers = useSelector(selectMarketTickers);
-	// console.log(marketTickers)
 	const currencies = useSelector(selectCurrencies);
-	// const currentMarket = useSelector(selectCurrentMarket);
-	// console.log(currentMarket)
 
 	React.useEffect(() => {
 		dispatch(currenciesFetch());
@@ -148,23 +136,19 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 	};
 
 	const MarketChart = (data: any, marketID: string) => {
-		const market = markets.find(market => market.base_unit.toLowerCase() === marketID.split('/')[0].toLowerCase());
-		// const getTickerValue = (cMarket: Market, tickers: { [key: string]: Ticker }) => {
-
-		// 	return tickers[cMarket.id] || defaultTicker;
-		// };
-
-		// const currentTicker = (currentMarket && getTickerValue(currentMarket, marketTickers)) || { volume: 0 };
-		// console.log(currentTicker)
+		const market = markets.find(
+			market =>
+				market.quote_unit.toLowerCase() === marketID.split('/')[1].toLowerCase() &&
+				market.base_unit.toLowerCase() === marketID.split('/')[0].toLowerCase(),
+		);
 		if (market) {
-			// console.log(market)
 			const marketID = market.name.toUpperCase();
 			const baseCurrency = marketID.split('/')[0];
 			const quoteCurrency = marketID.split('/')[1];
 			const last = Decimal.format(Number((marketTickers[market.id] || defaultTicker).last), market.price_precision);
 			const open = Number((marketTickers[market.id] || defaultTicker).open);
 			const price_change_percent = (marketTickers[market.id] || defaultTicker).price_change_percent;
-			const volume = Decimal.format(Number((marketTickers[market.id]|| defaultTicker).volume), market.amount_precision);
+			const volume = Decimal.format(Number((marketTickers[market.id] || defaultTicker).volume), market.amount_precision);
 			const change = +last - +open;
 			const marketChangeColor = +(change || 0) < 0 ? 'var(--system-red)' : 'var(--system-green)';
 			return (
