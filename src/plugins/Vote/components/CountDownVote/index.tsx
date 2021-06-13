@@ -10,8 +10,7 @@ interface CountDownVoteProps {}
 
 const CountDownVoteCpn: React.FC<CountDownVoteProps> = ({}) => {
 	const infoRound = useSelector(selectVoteListInfoRound, isEqual);
-	const startDate = moment(infoRound.currentTime);
-	const endDate = moment(infoRound.startDay).add(infoRound.roundEndDate, 'days');
+	const diffNum = moment(infoRound.startDay).add(infoRound.roundEndDate, 'days').diff(moment(infoRound.currentTime));
 
 	const rendererCountDown: CountdownRendererFn = ({ days, hours, minutes, seconds, completed }) => {
 		if (completed) {
@@ -38,7 +37,7 @@ const CountDownVoteCpn: React.FC<CountDownVoteProps> = ({}) => {
 	return (
 		<div className="pg-vote__cpn__countdown d-flex justify-content-center align-items-center">
 			<div className="pg-vote--border pg-vote__cpn__countdown__wrapper">
-				<Countdown date={Date.now() + (endDate.diff(startDate) || 10000)} renderer={rendererCountDown} />
+				<Countdown date={Date.now() + (infoRound.currentTime ? diffNum : 0)} renderer={rendererCountDown} />
 			</div>
 		</div>
 	);
