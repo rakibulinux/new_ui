@@ -1,1 +1,1 @@
-export const VOTE_CURRENCIE = 'ETH';
+export const VOTE_CURRENCIE = 'eth';

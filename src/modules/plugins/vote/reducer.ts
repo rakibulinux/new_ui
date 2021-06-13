@@ -37,7 +37,9 @@ export const voteListReducer = (state = initialVoteListState, action: VoteListAc
 			case VOTE_LIST_DATA:
 				draft.info.data = action.payload.data;
 				draft.info.total = action.payload.total;
-				draft.infoRound = action.payload.infoRound;
+				if (draft.infoRound.startDay !== action.payload.infoRound.startDay) {
+					draft.infoRound = action.payload.infoRound;
+				}
 				draft.loading = false;
 				break;
 			case VOTE_DONATE_DATA:

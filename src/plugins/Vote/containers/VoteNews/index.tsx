@@ -1,12 +1,10 @@
 import { Empty, Spin } from 'antd';
 import { NewPagination } from 'components';
 import { useVoteListFetch, useWalletsFetch } from 'hooks';
-import { selectVoteListInfo, selectVoteListInfoRound, selectVoteListLoading } from 'modules';
-import moment from 'moment';
+import { selectVoteListInfo, selectVoteListLoading } from 'modules';
 import * as constants from 'plugins/constants/vote';
-import { ButtonVote } from 'plugins/Vote/components';
+import { ButtonVote, CountDownVote } from 'plugins/Vote/components';
 import * as React from 'react';
-import Countdown, { CountdownRendererFn } from 'react-countdown';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 // tslint:disable-next-line: no-empty-interface
@@ -23,9 +21,6 @@ export const VoteNews: React.FC<VoteNewsProps> = ({}) => {
 	const [keyword, setKeyword] = React.useState('');
 	const voteListInfo = useSelector(selectVoteListInfo);
 	const isVoteListLoading = useSelector(selectVoteListLoading);
-	const infoRound = useSelector(selectVoteListInfoRound);
-	const startDate = moment(infoRound.currentTime);
-	const endDate = moment(infoRound.startDay).add(infoRound.roundEndDate, 'days');
 
 	useVoteListFetch({ ...pagination, keyword });
 
@@ -63,42 +58,17 @@ export const VoteNews: React.FC<VoteNewsProps> = ({}) => {
 
 	const dataTable = getBodyTableData();
 
-	const rendererCountDown: CountdownRendererFn = ({ days, hours, minutes, seconds, completed }) => {
-		if (completed) {
-			return <div className="pg-vote__news__countdown__done text-center">Waiting for the next round!</div>;
-		} else {
-			return (
-				<React.Fragment>
-					<div className="pg-vote__news__countdown__time-remaining text-center">
-						Days left {days} Time {hours}:{minutes}:{seconds}
-					</div>
-					{infoRound.lastWin && (
-						<div className="pg-vote__news__countdown__last-win text-center">
-							Last WIN :{' '}
-							<span className="pg-vote__news__countdown__last-win__winner text-success">
-								{infoRound.lastWin.toUpperCase()}
-							</span>
-						</div>
-					)}
-				</React.Fragment>
-			);
-		}
-	};
-
 	return (
 		<div className="pg-vote__news">
 			<div className="pg-vote--border pg-vote__news__title">
-				Every Wednesday we pick the most voted coin. Only one coin is selected. 1 vote = 1 {constants.VOTE_CURRENCIE}.
-				Minimum 250000 votes required to be considered. Votes are cumulative from week to week.
+				Every Wednesday we pick the most voted coin. Only one coin is selected. 1 vote = 1{' '}
+				{constants.VOTE_CURRENCIE.toUpperCase()}. Minimum 250000 votes required to be considered. Votes are cumulative
+				from week to week.
 				<p>
 					Click <Link to={`/wallets/deposit/${constants.VOTE_CURRENCIE}`}>here</Link> to add your coin!
 				</p>
 			</div>
-			<div className="pg-vote__news__countdown d-flex justify-content-center align-items-center">
-				<div className="pg-vote--border pg-vote__news__countdown__wrapper">
-					<Countdown date={Date.now() + (endDate.diff(startDate) || 10000)} renderer={rendererCountDown} />
-				</div>
-			</div>
+			<CountDownVote />
 			<div className="pg-vote--border pg-vote__news__wrapper-table">
 				<div className="pg-vote__news__navbar">
 					<h2 className="pg-vote__news__navbar__title">New Coins</h2>
