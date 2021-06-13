@@ -1,18 +1,17 @@
 import moment from 'moment';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { announcementFetch, selectAnnouncement, selectUserLoggedIn } from '../modules';
+import { announcementFetch, selectAnnouncement } from '../modules';
 
 export const useAnnouncementFetch = (dateFormat = 'yyyy - MM - DD') => {
 	const announcements = useSelector(selectAnnouncement);
-	const userLoggedIn = useSelector(selectUserLoggedIn);
 	const dispatch = useDispatch();
 
 	React.useEffect(() => {
-		if (userLoggedIn) {
+		if (!announcements.data.length) {
 			dispatch(announcementFetch());
 		}
-	}, [dispatch, userLoggedIn]);
+	}, [dispatch]);
 
 	return announcements.data.map(_e => ({
 		..._e,
