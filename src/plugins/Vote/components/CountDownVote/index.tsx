@@ -10,7 +10,7 @@ interface CountDownVoteProps {}
 
 const CountDownVoteCpn: React.FC<CountDownVoteProps> = ({}) => {
 	const infoRound = useSelector(selectVoteListInfoRound, isEqual);
-	const diffNum = moment(infoRound.startDay).add(infoRound.roundEndDate, 'days').diff(moment(infoRound.currentTime));
+	const diffNum = infoRound ? moment(infoRound.ended_at).diff(moment(infoRound.current_time)) : 0;
 
 	const rendererCountDown: CountdownRendererFn = ({ days, hours, minutes, seconds, completed }) => {
 		if (completed) {
@@ -19,26 +19,33 @@ const CountDownVoteCpn: React.FC<CountDownVoteProps> = ({}) => {
 			return (
 				<React.Fragment>
 					<div className="pg-vote__cpn__countdown__time-remaining text-center">
-						Days left {days} Time {hours}:{minutes}:{seconds}
+						Days left {days}
+						<br />
+						Time : {hours}:{minutes}:{seconds}
 					</div>
-					{infoRound.lastWin && (
-						<div className="pg-vote__cpn__countdown__last-win text-center">
-							Last WIN :{' '}
-							<span className="pg-vote__cpn__countdown__last-win__winner text-success">
-								{infoRound.lastWin.toUpperCase()}
-							</span>
-						</div>
-					)}
 				</React.Fragment>
 			);
 		}
 	};
 
 	return (
-		<div className="pg-vote__cpn__countdown d-flex justify-content-center align-items-center">
-			<div className="pg-vote--border pg-vote__cpn__countdown__wrapper">
-				<Countdown date={Date.now() + (infoRound.currentTime ? diffNum : 0)} renderer={rendererCountDown} />
+		<div className="pg-vote__cpn__countdown d-flex">
+			<div className="pg-vote--border pg-vote__cpn__countdown__count">
+				<Countdown date={Date.now() + diffNum} renderer={rendererCountDown} />
 			</div>
+			{infoRound && infoRound.coin_id && (
+				<div className="pg-vote--border pg-vote__cpn__countdown__last-win text-center">
+					Last WIN :{' '}
+					<span className="pg-vote__cpn__countdown__last-win__winner text-success">
+						{infoRound.infoCoin.id.toUpperCase()}
+					</span>
+					<br />
+					Website :{' '}
+					<a target="_blank" href={infoRound.infoCoin.website}>
+						{infoRound.infoCoin.website}
+					</a>
+				</div>
+			)}
 		</div>
 	);
 };

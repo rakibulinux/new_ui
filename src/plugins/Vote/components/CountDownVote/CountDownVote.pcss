@@ -1,6 +1,6 @@
 .pg-vote__cpn__countdown {
 	margin-bottom: 1em;
-	padding: 0.9em 1.8em;
+	padding: 0.9em 0;
 
 	&__last-win {
 		&__winner {
@@ -8,15 +8,12 @@
 		}
 	}
 
-	&__done,
-	&__time-remaining,
-	&__last-win {
-		font-size: 2em;
-	}
-
-	&__wrapper {
+	&__last-win,
+	&__count {
 		background: #313445;
-		min-width: 30vw;
+		flex: 1;
+		font-size: 1.5em;
+		margin: 0 1em;
 		padding: 0.9em 1.8em;
 	}
 }
