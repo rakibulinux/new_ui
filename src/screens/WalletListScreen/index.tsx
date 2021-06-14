@@ -1,4 +1,3 @@
-import NP from 'number-precision';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +15,8 @@ import {
 	selectCurrencies,
 	selectAllChildCurrencies,
 } from '../../modules';
+import NP from 'number-precision';
+NP.enableBoundaryChecking(false); // default param is true
 
 export interface WalletItem {
 	key: string;
@@ -90,6 +91,7 @@ export const WalletListScreen = () => {
 	);
 
 	const [searchInputState, setSearchInputState] = React.useState('');
+	console.log(currencies);
 
 	const data = wallets
 		.filter(wallet => !all_child_currencies.map(cur => cur.id).includes(wallet.currency))
@@ -161,7 +163,7 @@ export const WalletListScreen = () => {
 					</span>
 				),
 				action: (
-					<div className="d-flex justify-content-between">
+					<div className="d-flex flex-row">
 						<button
 							className="deposit-button"
 							onClick={() =>
@@ -183,6 +185,7 @@ export const WalletListScreen = () => {
 				),
 			};
 		});
+	console.table(data);
 
 	const renderTable = () => {
 		return <ReactTable columns={columns} data={[...data]} headColor="#222B42" />;
@@ -200,8 +203,7 @@ export const WalletListScreen = () => {
 					backgroundColor: '#2D2E3D',
 					borderRadius: '5px',
 					minHeight: '100vh',
-					marginTop: '-10px',
-					padding: '20px 10% 0 10%',
+					padding: '20px 10%',
 				}}
 			>
 				<div className="row">
