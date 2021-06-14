@@ -91,7 +91,6 @@ export const WalletListScreen = () => {
 	);
 
 	const [searchInputState, setSearchInputState] = React.useState('');
-	console.log(currencies);
 
 	const data = wallets
 		.filter(wallet => !all_child_currencies.map(cur => cur.id).includes(wallet.currency))
@@ -163,7 +162,7 @@ export const WalletListScreen = () => {
 					</span>
 				),
 				action: (
-					<div className="d-flex flex-row">
+					<div className="text-center">
 						<button
 							className="deposit-button"
 							onClick={() =>
@@ -185,7 +184,6 @@ export const WalletListScreen = () => {
 				),
 			};
 		});
-	console.table(data);
 
 	const renderTable = () => {
 		return <ReactTable columns={columns} data={[...data]} headColor="#222B42" />;
