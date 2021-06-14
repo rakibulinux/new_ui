@@ -31,6 +31,7 @@ export const MarketsList = props => {
 		USDT: false,
 		BTC: false,
 		ETH: false,
+		BNB: false,
 		FIAT: false,
 	});
 	const [activeButton, setActiveButton] = React.useState(0);
@@ -177,10 +178,24 @@ export const MarketsList = props => {
 		setSearchMarketInputState(e.target.value);
 	};
 
+	const handleBNBMarket = () => {
+		setMarketPairActive(prev => ({
+			...prev,
+			BNB: true,
+			USDT: false,
+			ETH: false,
+			ALTS: false,
+			BTC: false,
+			FIAT: false,
+		}));
+		setMarketPair('bnb');
+	};
+
 	const handleUSDTMarket = () => {
 		setMarketPairActive(prev => ({
 			...prev,
 			USDT: true,
+			BNB: false,
 			ETH: false,
 			ALTS: false,
 			BTC: false,
@@ -192,6 +207,7 @@ export const MarketsList = props => {
 		setMarketPairActive(prev => ({
 			...prev,
 			ALTS: true,
+			BNB: false,
 			ETH: false,
 			BTC: false,
 			USDT: false,
@@ -203,6 +219,7 @@ export const MarketsList = props => {
 		setMarketPairActive(prev => ({
 			...prev,
 			BTC: true,
+			BNB: false,
 			ETH: false,
 			USDT: false,
 			ALTS: false,
@@ -214,6 +231,7 @@ export const MarketsList = props => {
 		setMarketPairActive(prev => ({
 			...prev,
 			ETH: true,
+			BNB: false,
 			BTC: false,
 			USDT: false,
 			ALTS: false,
@@ -225,6 +243,7 @@ export const MarketsList = props => {
 		setMarketPairActive(prev => ({
 			...prev,
 			BTC: false,
+			BNB: false,
 			ETH: false,
 			USDT: false,
 			ALTS: false,
@@ -291,6 +310,12 @@ export const MarketsList = props => {
 									onClick={handleETHMarket}
 								>
 									ETH MARKET
+								</button>
+								<button
+									className={marketPairActive.BNB ? 'cx-market__pair__active' : 'cx-market__pair'}
+									onClick={handleBNBMarket}
+								>
+									BNB MARKET
 								</button>
 								<button
 									className={marketPairActive.FIAT ? 'cx-market__pair__active' : 'cx-market__pair'}
