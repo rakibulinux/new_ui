@@ -33,6 +33,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 			columns,
 			data,
 			initialState: { pageIndex: 0, pageSize: 20 },
+			autoResetPage: false
 		},
 		usePagination,
 	);
