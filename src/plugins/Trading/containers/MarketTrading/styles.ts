@@ -201,7 +201,7 @@ export const MarketsListTradingStyle = styled.div`
 				}
 			}
 			tbody {
-				max-height: 305px;
+				min-height: 305px;
 				overflow-y: scroll;
 				background-color: transparent;
 				tr {
