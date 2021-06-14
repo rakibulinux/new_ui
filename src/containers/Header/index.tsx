@@ -182,7 +182,7 @@ export const Header: React.FC = () => {
 								</Link>
 							</div>
 						</div>
-						<div className="header__left-menu__dropdown flex-shrink-0  ">
+						{/* <div className="header__left-menu__dropdown flex-shrink-0  ">
 							<div className="header__left-menu__dropdown__wrap">
 								<Link
 									to="/vote"
@@ -191,7 +191,7 @@ export const Header: React.FC = () => {
 									Vote
 								</Link>
 							</div>
-						</div>
+						</div> */}
 					</div>
 
 					<div className="header__right-menu d-flex align-items-center flex-row">
