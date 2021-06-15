@@ -6,6 +6,7 @@ interface LoadingSpinnerProps {
 
 export const LoadingSpinner = (props: LoadingSpinnerProps) => {
 	const { loading } = props;
+
 	return (
 		<div id="loading-spinner-mobile">
 			{loading ? (

@@ -1,8 +1,11 @@
-import * as React from 'react';
-import { MyAssets, RegisterStake, StakingInfo, UnStake } from '../../containers';
+import { useCurrenciesFetch } from 'hooks';
+import millify from 'millify';
 import Tabs, { TabPane } from 'rc-tabs';
-import { useParams } from 'react-router';
+import * as React from 'react';
+import { ProgressBar } from 'react-bootstrap';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 import {
 	selectStakingList,
 	selectUserInfo,
@@ -12,11 +15,8 @@ import {
 	stakingListFetch,
 	unStakeHistoryFetch,
 } from '../../../../../modules';
-import { useIntl } from 'react-intl';
 import { StakeHistory, UnStakeHistory } from '../../components';
-import { ProgressBar } from 'react-bootstrap';
-import { useCurrenciesFetch } from 'hooks';
-import millify from 'millify';
+import { MyAssets, RegisterStake, StakingInfo, UnStake } from '../../containers';
 
 const initialStakingItem: Stake = {
 	stake_id: '',
@@ -51,9 +51,9 @@ export const StakingDetailMobileScreen = () => {
 	const stakingList = useSelector(selectStakingList);
 	useCurrenciesFetch();
 	React.useEffect(() => {
-		const staking_item =
+		const stakingItem =
 			stakingList.find(staking => staking.stake_id.toString() === stake_id.toString()) || initialStakingItem;
-		setStakingItemState(staking_item);
+		setStakingItemState(stakingItem);
 	}, [stake_id, stakingList]);
 
 	React.useEffect(() => {
