@@ -11,7 +11,7 @@ import { OrderHistoryStyle } from './styles';
 // tslint:disable-next-line: no-empty-interface
 interface OrderHistoryProps {}
 
-export const OrderHistory: React.FC<OrderHistoryProps> = ({}) => {
+export const OrderHistory: React.FC<OrderHistoryProps> = () => {
 	const dispatch = useDispatch();
 	const intl = useIntl();
 

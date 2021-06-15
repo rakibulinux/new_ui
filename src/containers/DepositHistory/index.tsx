@@ -69,7 +69,7 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
 				accessor: 'amount',
 			},
 		];
-	}, []);
+	}, [intl]);
 
 	const parentHistoryList = list
 		.filter((history: any) => history.currency === currency_id.toLowerCase())
@@ -111,7 +111,7 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
 				status: 'success',
 				amount: history.amount,
 				txid: (
-					<a target="_blank" href={blockchainTxidAddress}>
+					<a rel="noopener noreferrer" target="_blank" href={blockchainTxidAddress}>
 						{history.txid}
 					</a>
 				),

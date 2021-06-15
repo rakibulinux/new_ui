@@ -21,7 +21,7 @@ import { TableOrder } from './TableOrder';
 // tslint:disable-next-line: no-empty-interface
 interface OrderHistoryListProps {}
 
-export const OrderHistoryList: React.FC<OrderHistoryListProps> = ({}) => {
+export const OrderHistoryList: React.FC<OrderHistoryListProps> = () => {
 	const dispatch = useDispatch();
 	const intl = useIntl();
 
@@ -39,7 +39,7 @@ export const OrderHistoryList: React.FC<OrderHistoryListProps> = ({}) => {
 		return () => {
 			dispatch(resetOrdersHistory());
 		};
-	}, [currentMarket]);
+	}, [currentMarket, dispatch, userLoggedIn]);
 
 	const renderOrdersHistoryRow = (item: OrderCommon) => {
 		if (!currentMarket) {

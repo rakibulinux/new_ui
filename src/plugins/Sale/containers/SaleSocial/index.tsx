@@ -48,7 +48,7 @@ export const SaleSocial: React.FC<SaleSocialProps> = (props: SaleSocialProps) =>
 				{props.twitter ? (
 					<div>
 						{' '}
-						<a href={props.twitter} target="_blank">
+						<a href={props.twitter} target="_blank" rel="noopener noreferrer">
 							<img src={TwitterIcon} alt="telegram" />
 						</a>{' '}
 					</div>
@@ -58,7 +58,7 @@ export const SaleSocial: React.FC<SaleSocialProps> = (props: SaleSocialProps) =>
 				{props.facebook ? (
 					<div>
 						{' '}
-						<a href={props.facebook} target="_blank">
+						<a href={props.facebook} target="_blank" rel="noopener noreferrer">
 							<img src={FacebookIcon} alt="telegram" />
 						</a>{' '}
 					</div>
@@ -68,7 +68,7 @@ export const SaleSocial: React.FC<SaleSocialProps> = (props: SaleSocialProps) =>
 				{props.instagram ? (
 					<div>
 						{' '}
-						<a href={props.instagram} target="_blank">
+						<a href={props.instagram} target="_blank" rel="noopener noreferrer">
 							<InstagramOutlined className="social-item" />
 						</a>{' '}
 					</div>
@@ -78,7 +78,7 @@ export const SaleSocial: React.FC<SaleSocialProps> = (props: SaleSocialProps) =>
 				{props.linkedin ? (
 					<div>
 						{' '}
-						<a href={props.linkedin} target="_blank">
+						<a href={props.linkedin} target="_blank" rel="noopener noreferrer">
 							<LinkedinOutlined className="social-item" />
 						</a>{' '}
 					</div>
@@ -88,7 +88,7 @@ export const SaleSocial: React.FC<SaleSocialProps> = (props: SaleSocialProps) =>
 				{props.telegram ? (
 					<div>
 						{' '}
-						<a href={props.telegram} target="_blank">
+						<a href={props.telegram} target="_blank" rel="noopener noreferrer">
 							<img src={TelegramIcon} alt="telegram" />
 						</a>{' '}
 					</div>

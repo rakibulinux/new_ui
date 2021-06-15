@@ -6,16 +6,16 @@ import { CompetitionItem } from '../../components';
 import './CompetitionList.css';
 
 export const CompetitionList: React.FC = () => {
-	// // Dispatch Fetch Wallets Of User Action
+	// Dispatch Fetch Wallets Of User Action
 	const dispatch = useDispatch();
-	const dispatchCompetitionListFetch = () => dispatch(competionListFetch());
+	const dispatchCompetitionListFetch = React.useCallback(() => dispatch(competionListFetch()), [dispatch]);
 
 	const competitions = useSelector(selectCompetionsList);
 
 	React.useEffect(() => {
 		// dispatch Active Competition List Fetch in one time
 		dispatchCompetitionListFetch();
-	}, []);
+	}, [dispatchCompetitionListFetch]);
 
 	React.useEffect(() => {
 		if (competitions.loading) {

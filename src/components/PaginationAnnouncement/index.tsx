@@ -65,11 +65,10 @@ export const PaginationAnnouncement: React.FC<PaginationProps> = props => {
 
 	const onClickFirstPage = () => {
 		props.onClickFirstPage();
-
-	}
+	};
 	const onClickLastPage = () => {
 		props.onClickLastPage();
-	}
+	};
 	const paginationList = (c: number, m: number) => {
 		const current = c;
 		const last = m;
@@ -114,9 +113,9 @@ export const PaginationAnnouncement: React.FC<PaginationProps> = props => {
 				key={i}
 				style={{ width: '30px', margin: '0 6px' }}
 			>
-				<a className="page-link" onClick={() => onClickToPage(value)}>
+				<span className="page-link" onClick={() => onClickToPage(value)}>
 					{value}
-				</a>
+				</span>
 			</li>
 		));
 
@@ -124,29 +123,29 @@ export const PaginationAnnouncement: React.FC<PaginationProps> = props => {
 		<nav className="cr-desktop-table__pagination" aria-label="Page navigation example">
 			<ul className="pagination">
 				<li className="pagination-item" onClick={onClickFirstPage} style={{ width: '30px', margin: '0 10px' }}>
-					<a className="page-link" aria-label="Previous">
+					<span className="page-link" aria-label="Previous">
 						<span aria-hidden="true">««</span>
 						<span className="sr-only">First</span>
-					</a>
+					</span>
 				</li>
 				<li className="pagination-item" onClick={onClickPrevPage} style={{ width: '30px', margin: '0 10px' }}>
-					<a className="page-link" aria-label="Previous">
+					<span className="page-link" aria-label="Previous">
 						<span aria-hidden="true">«</span>
 						<span className="sr-only">Previous</span>
-					</a>
+					</span>
 				</li>
 				{renderElmsPg()}
 				<li className="pagination-item" onClick={onClickNextPage} style={{ width: '30px', margin: '0 10px' }}>
-					<a className="page-link" aria-label="Next">
+					<span className="page-link" aria-label="Next">
 						<span aria-hidden="true">»</span>
 						<span className="sr-only">Next</span>
-					</a>
+					</span>
 				</li>
 				<li className="pagination-item" onClick={onClickLastPage} style={{ width: '30px', margin: '0 10px' }}>
-					<a className="page-link" aria-label="Next">
+					<span className="page-link" aria-label="Next">
 						<span aria-hidden="true">»»</span>
 						<span className="sr-only">Last</span>
-					</a>
+					</span>
 				</li>
 			</ul>
 		</nav>

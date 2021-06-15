@@ -17,7 +17,7 @@ import { TradingScreenStyle } from './styles';
 // tslint:disable-next-line: no-empty-interface
 interface TradingScreenProps {}
 
-export const TradingScreen: React.FC<TradingScreenProps> = ({}) => {
+export const TradingScreen: React.FC<TradingScreenProps> = () => {
 	const dispatch = useDispatch();
 	const currentMarket = useSelector(selectCurrentMarket);
 	const markets = useSelector(selectMarkets);
@@ -42,7 +42,7 @@ export const TradingScreen: React.FC<TradingScreenProps> = ({}) => {
 		if (userLoggedIn && !withAuth) {
 			dispatch(rangerConnectFetch({ withAuth: userLoggedIn }));
 		}
-	}, []);
+	}, [dispatch, currentMarket, markets.length, rangerState, userLoggedIn]);
 
 	return (
 		<TradingScreenStyle className="td-pg-trading">

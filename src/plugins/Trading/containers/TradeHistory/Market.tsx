@@ -40,7 +40,7 @@ const RecentTradesMarketContainer: React.FC = () => {
 		if (currentMarket) {
 			dispatch(recentTradesFetch(currentMarket));
 		}
-	}, [currentMarket]);
+	}, [currentMarket, dispatch]);
 
 	const getHeaders = () => {
 		const titleColPrice = `${intl.formatMessage({ id: 'page.body.trade.header.recentTrades.content.price' })}${

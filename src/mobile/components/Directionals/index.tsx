@@ -2,7 +2,7 @@ import { CrownOutlined, ExperimentOutlined, GiftOutlined, WalletOutlined } from 
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-const DirectionalsComponent: React.FC = ({}) => {
+const DirectionalsComponent: React.FC = () => {
 	return (
 		<div className="cr-mobile-directional">
 			<div className="cr-mobile-directional__inner">

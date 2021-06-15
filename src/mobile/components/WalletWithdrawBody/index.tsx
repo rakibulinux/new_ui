@@ -73,7 +73,7 @@ const WalletWithdrawBodyComponent = props => {
 	const ethFee = useSelector(selectETHFee);
 	React.useEffect(() => {
 		dispatch(ethFeeFetch());
-	}, []);
+	}, [dispatch]);
 
 	const isTwoFactorAuthRequired = (level: number, is2faEnabled: boolean) => {
 		return level > 1 || (level === 1 && is2faEnabled);

@@ -68,19 +68,19 @@ const PaginationComponent: React.FC<PaginationComponentComponent> = props => {
 		<nav className="cr-mobile-table__pagination" aria-label="Page navigation example">
 			<ul className="pagination">
 				<li className={classnames('page-item', { disabled: prevDisabled })} onClick={onClickPrevPage}>
-					<a className="page-link" aria-label="Previous">
+					<button className="page-link" aria-label="Previous">
 						<span aria-hidden="true">«</span>
 						<span className="sr-only">Previous</span>
-					</a>
+					</button>
 				</li>
 				<li className="page-item active">
-					<a className="page-link">{page}</a>
+					<button className="page-link">{page}</button>
 				</li>
 				<li className={classnames('page-item', { disabled: nextDisabled })} onClick={onClickNextPage}>
-					<a className="page-link" aria-label="Next">
+					<button className="page-link" aria-label="Next">
 						<span aria-hidden="true">»</span>
 						<span className="sr-only">Next</span>
-					</a>
+					</button>
 				</li>
 			</ul>
 		</nav>

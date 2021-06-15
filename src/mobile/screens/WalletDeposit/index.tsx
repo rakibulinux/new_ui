@@ -49,11 +49,14 @@ const WalletDeposit: React.FC = () => {
 	};
 	const isParentAccountActivated = parentWallet.type === 'fiat' || parentWallet.balance;
 	const isChildAccountActivated = selectedWallet.type === 'fiat' || selectedWallet.balance;
-	const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency }));
+	const dispatchFetchChildCurrencies = React.useCallback(() => dispatch(walletsChildCurrenciesFetch({ currency: currency })), [
+		dispatch,
+		currency,
+	]);
 	const childCurrencies = useSelector(selectChildCurrencies);
 	React.useEffect(() => {
 		dispatchFetchChildCurrencies();
-	}, [currency]);
+	}, [currency, dispatchFetchChildCurrencies]);
 
 	const childWallets = childCurrencies.map(childCurrency => {
 		// tslint:disable-next-line:no-shadowed-variable
@@ -86,7 +89,7 @@ const WalletDeposit: React.FC = () => {
 
 	React.useEffect(() => {
 		dispatch(walletsAddressFetch({ currency }));
-	}, []);
+	}, [currency, dispatch]);
 
 	// tslint:disable-next-line:no-shadowed-variable
 	const changeSelectTab = (currency: string) => {

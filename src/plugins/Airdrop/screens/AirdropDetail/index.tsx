@@ -257,16 +257,16 @@ const detailData: AirdropDetailConfig[] = [
 const Detail: React.FC<Props> = (props: Props) => {
 	const { airdropID } = useParams<{ airdropID: string }>();
 	const user = useSelector(selectUserInfo);
-
+	const { onFetchAirdrop, onFetchClaimOfUser } = props;
 	React.useEffect(() => {
-		props.onFetchAirdrop({
+		onFetchAirdrop({
 			id: airdropID,
 		});
-		props.onFetchClaimOfUser({
+		onFetchClaimOfUser({
 			airdrop_id: airdropID,
 			user_uid: user.uid,
 		});
-	}, []);
+	}, [airdropID, user.uid, onFetchAirdrop, onFetchClaimOfUser]);
 
 	const detail = detailData.find(detailParam => detailParam.id === airdropID);
 	let detailScreen: JSX.Element;

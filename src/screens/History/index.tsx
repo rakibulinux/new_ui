@@ -38,13 +38,13 @@ export const HistoryScreen = () => {
 		if (currencies.length === 0) {
 			dispatch(currenciesFetch());
 		}
-	}, []);
+	}, [dispatch, currencies.length, tab]);
 
 	useEffect(() => {
 		if (currencies.length === 0) {
 			dispatch(currenciesFetch());
 		}
-	}, [currencies]);
+	}, [currencies, dispatch]);
 
 	useEffect(() => {
 		const newMaxPage = Math.ceil(list.length / limitElem) === 0 ? 1 : Math.ceil(list.length / limitElem);

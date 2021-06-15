@@ -68,7 +68,7 @@ export const FacebookTab: React.FC<FacebookTabProps> = (props: FacebookTabProps)
 	);
 
 	const sharePageButton = (
-		<a onClick={() => setFacebookState({ ...facebookTaskState, sharePage: true })}>
+		<button onClick={() => setFacebookState({ ...facebookTaskState, sharePage: true })}>
 			<FacebookProvider appId={props.facebookConfig.facebookAppId}>
 				<Share href={props.facebookConfig.facebookPage}>
 					{({ handleClick, loading }) => (
@@ -78,7 +78,7 @@ export const FacebookTab: React.FC<FacebookTabProps> = (props: FacebookTabProps)
 					)}
 				</Share>
 			</FacebookProvider>
-		</a>
+		</button>
 	);
 
 	const likePostButton = (
@@ -93,7 +93,7 @@ export const FacebookTab: React.FC<FacebookTabProps> = (props: FacebookTabProps)
 	);
 
 	const sharePostButton = (
-		<a onClick={() => setFacebookState({ ...facebookTaskState, sharePost: true })}>
+		<button onClick={() => setFacebookState({ ...facebookTaskState, sharePost: true })}>
 			<FacebookProvider appId={props.facebookConfig.facebookAppId}>
 				<Share href={props.facebookConfig.facebookPost}>
 					{({ handleClick, loading }) => (
@@ -103,7 +103,7 @@ export const FacebookTab: React.FC<FacebookTabProps> = (props: FacebookTabProps)
 					)}
 				</Share>
 			</FacebookProvider>
-		</a>
+		</button>
 	);
 	const verifyButton = (
 		<FacebookProvider appId={props.facebookConfig.facebookAppId}>

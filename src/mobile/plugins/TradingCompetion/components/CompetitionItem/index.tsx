@@ -20,11 +20,11 @@ export const CompetitionItem: React.FC<CompetitionItemProps> = (props: Competiti
 	const history = useHistory();
 
 	const dispatch = useDispatch();
-	const dispatchcFetchCurrencies = () => dispatch(currenciesFetch());
+	const dispatchcFetchCurrencies = React.useCallback(() => dispatch(currenciesFetch()), [dispatch]);
 
 	React.useEffect(() => {
 		dispatchcFetchCurrencies();
-	}, []);
+	}, [dispatchcFetchCurrencies]);
 
 	const handleDetailClick = () => {
 		const location = {

@@ -15,12 +15,12 @@ const settings: Settings = {
 	autoplaySpeed: 2500,
 };
 
-const SlideComponent: React.FC = ({}) => {
+const SlideComponent: React.FC = () => {
 	const eventsData = useSelector(selectEvents).payload;
 
 	const renderElms = (paramsEventsDat: EventItem[]) =>
 		paramsEventsDat.map((event, i) => (
-			<a href={event.ref_link} target="_blank" key={i}>
+			<a rel="noopener noreferrer" href={event.ref_link} target="_blank" key={i}>
 				<img src={event.image_link} alt={event.description} />
 			</a>
 		));

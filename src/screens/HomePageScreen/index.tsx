@@ -96,11 +96,11 @@ export const HomePageScreen = () => {
 
 	// dispatch
 	const dispatch = useDispatch();
-	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
+	const dispatchFetchCurrencies = React.useCallback(() => dispatch(currenciesFetch()), [dispatch]);
 
 	React.useEffect(() => {
 		dispatchFetchCurrencies();
-	}, []);
+	}, [dispatchFetchCurrencies]);
 
 	const fetchMarketsKlines = async (marketId: string, from: number, to: number) => {
 		try {
@@ -139,7 +139,7 @@ export const HomePageScreen = () => {
 		};
 		// tslint:disable-next-line: no-floating-promises
 		drawMarketLines();
-	}, []);
+	}, [marketIds]);
 
 	const renderTitle = () => (
 		<Section>

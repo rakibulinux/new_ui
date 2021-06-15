@@ -27,12 +27,15 @@ const WalletWithdraw: React.FC = () => {
 	};
 	const child_currencies = useSelector(selectChildCurrencies);
 	const dispatch = useDispatch();
-	const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency }));
+	const dispatchFetchChildCurrencies = React.useCallback(() => dispatch(walletsChildCurrenciesFetch({ currency: currency })), [
+		currency,
+		dispatch,
+	]);
 	// side effects
 	React.useEffect(() => {
 		dispatchFetchChildCurrencies();
 		setCurrencyState(currency);
-	}, [currency]);
+	}, [currency, dispatchFetchChildCurrencies]);
 	useWalletsFetch();
 
 	const child_wallets = child_currencies.map(network => {

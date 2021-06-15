@@ -21,7 +21,7 @@ const RecentTradesComponent: React.FC = () => {
 		return () => {
 			dispatch(resetHistory());
 		};
-	}, []);
+	}, [dispatch]);
 
 	const getTabListInfo = () => {
 		const result = [
@@ -51,7 +51,7 @@ const RecentTradesComponent: React.FC = () => {
 		return () => {
 			dispatch(resetHistory());
 		};
-	}, []);
+	}, [dispatch]);
 
 	const handleOnchangeTab: TabsProps['onChange'] = key => {
 		setTabKeyActiveState(key);

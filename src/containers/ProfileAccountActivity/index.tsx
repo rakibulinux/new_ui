@@ -19,7 +19,7 @@ export const ProfileAccountActivity: React.FC<ProfileAccountActivityProps> = () 
 
 	React.useEffect(() => {
 		dispatch(getUserActivity({ page: 0, limit: 25 }));
-	}, []);
+	}, [dispatch]);
 
 	const renderResult = (result: string) => {
 		const className = classnames({

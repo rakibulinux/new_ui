@@ -55,7 +55,7 @@ export const OrdersTabScreen = () => {
 		return () => {
 			dispatch(resetOrdersHistory());
 		};
-	}, []);
+	}, [dispatch, rangerState.connected, tab, userLoggedIn]);
 
 	useEffect(() => {
 		setListData(list);

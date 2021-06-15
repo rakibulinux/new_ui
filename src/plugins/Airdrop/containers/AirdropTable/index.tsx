@@ -43,7 +43,7 @@ export const AirdropTable: React.FunctionComponent = () => {
 			.then(airdrops => {
 				handleAirdropList(tableState, airdrops.data);
 			});
-	}, []);
+	}, [tableState]);
 
 	const handleAirdropList = (params, airdrops) => {
 		setTableState({

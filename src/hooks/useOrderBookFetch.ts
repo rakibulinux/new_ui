@@ -10,5 +10,5 @@ export const useOrderBookFetch = () => {
 		if (currentMarket) {
 			dispatch(orderBookFetch(currentMarket));
 		}
-	}, [currentMarket]);
+	}, [currentMarket, dispatch]);
 };

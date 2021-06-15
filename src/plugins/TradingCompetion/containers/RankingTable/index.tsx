@@ -25,12 +25,14 @@ export const RankingTable: React.FC<RankingTableProps> = (props: RankingTablePro
 	const { competition_id, rank, prizes } = props;
 
 	const dispatch = useDispatch();
-	const dispatchFetchRanksByCompetitionID = (competitionId: number | string) =>
-		dispatch(tradingRankingsFetch({ competition_id: competitionId }));
+	const dispatchFetchRanksByCompetitionID = React.useCallback(
+		(competitionId: number | string) => dispatch(tradingRankingsFetch({ competition_id: competitionId })),
+		[dispatch],
+	);
 
 	React.useEffect(() => {
 		dispatchFetchRanksByCompetitionID(competition_id);
-	}, []);
+	}, [competition_id, dispatchFetchRanksByCompetitionID]);
 
 	const ranks = useSelector(selectTradingRankings);
 
@@ -108,7 +110,12 @@ export const RankingTable: React.FC<RankingTableProps> = (props: RankingTablePro
 
 			<div className="row">
 				<div className="col-6">
-					<h3 style={{ textAlign: 'start' }}>🏆 Top 20 Rankings</h3>
+					<h3 style={{ textAlign: 'start' }}>
+						<span role="img" aria-label="">
+							🏆
+						</span>{' '}
+						Top 20 Rankings
+					</h3>
 				</div>
 				<div className="col-6">{rank !== -1 ? <h3 style={{ textAlign: 'end' }}>Your rank: {rank}</h3> : ''}</div>
 			</div>

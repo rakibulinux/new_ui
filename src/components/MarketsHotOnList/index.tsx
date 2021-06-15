@@ -45,7 +45,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 
 	React.useEffect(() => {
 		dispatch(currenciesFetch());
-	}, []);
+	}, [dispatch]);
 
 	React.useEffect(() => {
 		if (markets.length) {
@@ -80,7 +80,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 				setMarketNames(marketNames);
 			}
 		}
-	}, [marketTickers, markets]);
+	}, [marketTickers, markets, defaultTicker, marketNames.length]);
 
 	const BASE_MARKET_URL = 'https://www.cx.finance/api/v2/peatio/public/markets';
 	const fetchMarketsKlines = async (marketId: string, from: number, to: number) => {
