@@ -92,12 +92,11 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 						cap_amount: cap_amount,
 						total_amount: total_amount,
 						annual_rate: Number(annual_rate),
-						payment_time: payment_time !== '' ? format(new Date(payment_time), 'yyyy-MM-dd hh:mm') : '',
 					};
 				});
 			}
 		},
-		[rewards],
+		[rewards, cap_amount, min_amount, total_amount],
 	);
 
 	React.useEffect(() => {
@@ -106,7 +105,7 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 			setSelectedPeriodIndexState(validRewardIndex !== -1 ? validRewardIndex : DEFAULT_PERIOD_INDEX);
 			handleSelectLockupPeriod(validRewardIndex !== -1 ? validRewardIndex : DEFAULT_PERIOD_INDEX);
 		}
-	}, [rewards, handleSelectLockupPeriod]);
+	}, [rewards, handleSelectLockupPeriod, cap_amount, total_amount]);
 
 	const isDisableStakeButton =
 		amountState === '' ||

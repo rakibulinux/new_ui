@@ -100,7 +100,7 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 			setSelectedPeriodIndexState(validRewardIndex ? validRewardIndex : DEFAULT_PERIOD_INDEX);
 			handleSelectLockupPeriod(validRewardIndex ? validRewardIndex : DEFAULT_PERIOD_INDEX);
 		}
-	}, [rewards, handleSelectLockupPeriod]);
+	}, [rewards, handleSelectLockupPeriod, cap_amount, total_amount]);
 
 	const isDisableStakeButton =
 		amountState === '' ||

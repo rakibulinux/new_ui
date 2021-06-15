@@ -82,7 +82,7 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 		setProgressState(percent);
 		setTotalAmountState(totalAmount.toFixed(5));
 		setTotalCapState(totalCap.toFixed(5));
-	}, [rewards]);
+	}, [rewards, cap_amount, total_amount]);
 
 	const renderer = ({ days, hours, minutes, seconds, completed }) => {
 		if (completed) {
