@@ -59,8 +59,8 @@ class ModalWithdraw extends React.Component<Props> {
 					{this.translate('page.body.wallets.tabs.withdraw.modal.message2')} {rid}
 					<br />
 					<span hidden={Number(selectedWalletFee) !== 0}>
-						{`Your ETH will remain 
-						${ethBallance} - ${ethFee} = 
+						{`Your ETH will remain
+						${ethBallance} - ${ethFee} =
 						${Number(Number(ethBallance) - ethFee).toFixed(5)} ETH`}
 					</span>
 				</p>

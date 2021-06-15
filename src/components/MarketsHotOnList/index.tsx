@@ -1,12 +1,12 @@
-import * as React from 'react';
 import axios from 'axios';
+import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Decimal } from '../../components';
 
+import { Area, AreaChart, ResponsiveContainer } from 'recharts';
 import styled from 'styled-components';
-import { AreaChart, Area, ResponsiveContainer } from 'recharts';
-import { currenciesFetch, selectCurrencies, selectMarkets, selectMarketTickers, Market, setCurrentMarket } from '../../modules';
+import { currenciesFetch, Market, selectCurrencies, selectMarkets, selectMarketTickers, setCurrentMarket } from '../../modules';
 
 const ChartWrap = styled.div`
 	width: 100%;
@@ -37,7 +37,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 
 	const dispatch = useDispatch();
 	const [marketNames, setMarketNames] = React.useState<string[]>([]);
-	const [kLinesState, setKlinesState] = React.useState<{ pv: string }[]>([]);
+	const [kLinesState, setKlinesState] = React.useState<Array<{ pv: string }>>([]);
 
 	const markets = useSelector(selectMarkets);
 	const marketTickers = useSelector(selectMarketTickers);
@@ -50,13 +50,14 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 	React.useEffect(() => {
 		if (markets.length) {
 			const marketListToState = markets.map(market => {
-				let price_change_percent = (marketTickers[market.id] || defaultTicker).price_change_percent;
+				const price_change_percent = (marketTickers[market.id] || defaultTicker).price_change_percent;
 				let result = 0;
 				if (price_change_percent[0] === '+') {
 					result = +price_change_percent.split('+').join('').split('%').join('');
 				} else {
 					result = -price_change_percent.split('-').join('').split('%').join('');
 				}
+
 				return {
 					id: market.id,
 					name: market.name.toLowerCase(),
@@ -67,6 +68,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 				if (current.price_change_percent !== 0) {
 					prev = false;
 				}
+
 				return prev;
 			}, true);
 			if (marketTickers && !marketNames.length && !isEmpty) {
@@ -109,6 +111,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 				} catch (error) {
 					// console.log(JSON.stringify(error));
 				}
+
 				return;
 			};
 			drawMarketLines();
@@ -120,7 +123,8 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 		try {
 			return require(`../../../node_modules/cryptocurrency-icons/128/color/${code.toLowerCase()}.png`);
 		} catch (err) {
-			if (currency) return currency.icon_url;
+			if (currency) { return currency.icon_url; }
+
 			return require('../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
 		}
 	};
@@ -151,6 +155,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 			const volume = Decimal.format(Number((marketTickers[market.id] || defaultTicker).volume), market.amount_precision);
 			const change = +last - +open;
 			const marketChangeColor = +(change || 0) < 0 ? 'var(--system-red)' : 'var(--system-green)';
+
 			return (
 				<MarketChartItem>
 					<div className="container" onClick={() => handleRedirectToTrading(market.id)}>
@@ -170,7 +175,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 							</div>
 
 							<div className="col-6 d-flex justify-content-end align-items-center">
-								<ResponsiveContainer ani width="100%" aspect={2.5 / 1.0}>
+								<ResponsiveContainer ani width="100%" aspect={2.5 / 1}>
 									<AreaChart
 										width={200}
 										height={60}
@@ -211,6 +216,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 				</MarketChartItem>
 			);
 		}
+
 		return '';
 	};
 
@@ -229,5 +235,6 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 			</ChartWrap>
 		);
 	};
+
 	return <React.Fragment>{renderChart()}</React.Fragment>;
 };

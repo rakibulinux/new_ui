@@ -1,12 +1,13 @@
-import * as React from 'react';
-import { useHistory } from 'react-router';
-import { selectCurrencies, Stake } from '../../../../modules';
-import { useSelector } from 'react-redux';
 import classNames from 'classnames';
+import * as React from 'react';
 import Countdown from 'react-countdown';
-import { useIntl } from 'react-intl';
-import { ProgressBar } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+
 import millify from 'millify';
+import { ProgressBar } from 'react-bootstrap';
+import { useIntl } from 'react-intl';
+import { useHistory } from 'react-router';
+import { Currency, selectCurrencies, Stake } from '../../../../modules';
 
 type Props = Stake;
 
@@ -32,17 +33,20 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 	const currencies = useSelector(selectCurrencies);
 	const handleGoStacking = () => {
 		const location = {
-			pathname: '/stake/detail/' + stake_id,
+			pathname: `/stake/detail/${stake_id}`,
 		};
 		history.push(location);
 	};
 
-	const getCryptoIcon = (currency_id: string): string => {
-		const currency = currencies.find((currency: any) => currency.id === currency_id);
+	const getCryptoIcon = (currencyID: string): string => {
+		const currency = currencies.find((cur: Currency) => cur.id === currencyID);
 		try {
-			return require(`../../../../../node_modules/cryptocurrency-icons/128/color/${currency_id.toLowerCase()}.png`);
+			return require(`../../../../../node_modules/cryptocurrency-icons/128/color/${currencyID.toLowerCase()}.png`);
 		} catch (err) {
-			if (currency) return currency.icon_url;
+			if (currency) {
+				return currency.icon_url;
+			}
+
 			return require('../../../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
 		}
 	};
@@ -52,10 +56,10 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 		status === 'upcoming'
 			? 'stacking-item__label-upcoming'
 			: status === 'running'
-			? 'stacking-item__label-running'
-			: status === 'ended'
-			? 'stacking-item__label-ended'
-			: '',
+				? 'stacking-item__label-running'
+				: status === 'ended'
+					? 'stacking-item__label-ended'
+					: '',
 	);
 
 	const renderStakeLabel = () => {
@@ -86,7 +90,7 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 
 	const renderer = ({ days, hours, minutes, seconds, completed }) => {
 		if (completed) {
-			// Render a completed state
+			// render a completed state
 			// window.location.reload(false);
 			return (
 				<span>
@@ -94,7 +98,7 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 				</span>
 			);
 		} else {
-			// Render a countdown
+			// render a countdown
 			return (
 				<span>
 					{days}d {hours}h {minutes}m {seconds}s
@@ -152,16 +156,16 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 								(Staked){' '}
 								{Number(totalCapState) > 100000000
 									? millify(Number(totalCapState), {
-											precision: 2,
-									  })
+										precision: 2,
+									})
 									: Number(totalCapState)}
 							</span>
 							<span hidden={Number(totalAmountState) <= 0}> / </span>
 							<span hidden={Number(totalAmountState) <= 0}>
 								{Number(totalAmountState) > 100000000
 									? millify(Number(totalAmountState), {
-											precision: 2,
-									  })
+										precision: 2,
+									})
 									: Number(totalAmountState)}{' '}
 								(Total)
 							</span>

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { LockIcon } from '../../assets/images/LockIcon';
 import { formatCCYAddress } from '../../helpers';
-import { selectCurrencies, selectUserInfo, selectWalletAddress, alertPush } from '../../modules';
+import { alertPush, selectCurrencies, selectUserInfo, selectWalletAddress } from '../../modules';
 import { DepositCrypto } from '../DepositCrypto';
 import { DepositFiat } from '../DepositFiat';
 
@@ -102,7 +102,7 @@ const WalletDepositBodyComponent = props => {
 		} else {
 			return (
 				<React.Fragment>
-					{currencyItem && currencyItem.deposit_enabled === false ? (
+					{currencyItem && !currencyItem.deposit_enabled ? (
 						<BlurDisable>
 							<LockIcon className="pg-blur__content__icon" />
 							{translate('page.body.wallets.tabs.deposit.disabled.message')}

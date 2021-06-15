@@ -17,31 +17,31 @@ export const StakingListScreen = () => {
 	const endedButtonClassName = classnames('stack-tab-btn', filterStackingState === 'ended' ? 'stack-tab-btn__ended' : '');
 
 	// store
-	const staking_list = useSelector(selectStakingList);
+	const stakingList = useSelector(selectStakingList);
 
-	const upcoming_list = staking_list.filter(staking => staking.status === 'upcoming');
-	const running_list = staking_list.filter(staking => staking.status === 'running');
-	const ended_list = staking_list.filter(staking => staking.status === 'ended');
+	const upcomingList = stakingList.filter(staking => staking.status === 'upcoming');
+	const runningList = stakingList.filter(staking => staking.status === 'running');
+	const endedList = stakingList.filter(staking => staking.status === 'ended');
 
 	// dispatch
 	const dispatch = useDispatch();
-	const dispatchFetchStakingList = React.useCallback(() => dispatch(stakingListFetch()), [dispatch]);
+	const dispatchFetchStakingList = () => dispatch(stakingListFetch());
 
 	useCurrenciesFetch();
 
 	React.useEffect(() => {
 		dispatchFetchStakingList();
-	}, [dispatchFetchStakingList]);
+	}, []);
 
 	const renderStakingList = () => {
 		return filterStackingState === 'upcoming' ? (
-			<StakingList staking_list={[...upcoming_list]} />
+			<StakingList staking_list={[...upcomingList]} />
 		) : filterStackingState === 'running' ? (
-			<StakingList staking_list={[...running_list]} />
+			<StakingList staking_list={[...runningList]} />
 		) : filterStackingState === 'ended' ? (
-			<StakingList staking_list={[...ended_list]} />
+			<StakingList staking_list={[...endedList]} />
 		) : (
-			<StakingList staking_list={[...running_list, ...upcoming_list, ...ended_list]} />
+			<StakingList staking_list={[...runningList, ...upcomingList, ...endedList]} />
 		);
 	};
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useTable, usePagination } from 'react-table';
+import { usePagination, useTable } from 'react-table';
 import EmptySVG from './empty.svg';
 
 interface ReacTableProps {
@@ -15,10 +15,10 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 		getTableBodyProps,
 		headerGroups,
 		prepareRow,
-		page, // Instead of using 'rows', we'll use page,
+		page, // instead of using 'rows', we'll use page,
 		// which has only the rows for the active page
 
-		// The rest of these things are super handy, too ;)
+		// the rest of these things are super handy, too ;)
 		canPreviousPage,
 		canNextPage,
 		pageOptions,
@@ -33,12 +33,12 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 			columns,
 			data,
 			initialState: { pageIndex: 0, pageSize: 20 },
-			autoResetPage: false
+			autoResetPage: false,
 		},
 		usePagination,
 	);
 
-	// Render the UI for your table
+	// render the UI for your table
 	return (
 		<div id="react-table">
 			<table {...getTableProps()} style={{ position: 'relative' }}>
@@ -63,6 +63,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 					<tbody {...getTableBodyProps()}>
 						{page.map(row => {
 							prepareRow(row);
+
 							return (
 								<tr {...row.getRowProps()}>
 									{row.cells.map(cell => {
@@ -99,11 +100,11 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 					<button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
 						{'<<'}
 					</button>{' '}
-					<button onClick={() => previousPage()} disabled={!canPreviousPage}>
+					<button onClick={previousPage} disabled={!canPreviousPage}>
 						{'<'}
 					</button>{' '}
 					<button style={{ backgroundColor: '#8093C4' }}>{pageIndex + 1}</button>{' '}
-					<button onClick={() => nextPage()} disabled={!canNextPage}>
+					<button onClick={nextPage} disabled={!canNextPage}>
 						{'>'}
 					</button>{' '}
 					<button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>

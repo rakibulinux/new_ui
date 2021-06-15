@@ -1,9 +1,9 @@
+import { format } from 'date-fns';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { getTimeZone } from '../../../../../helpers';
 import { selectStakeHistories, selectStakeHistoriesLoading } from '../../../../../modules';
-import { ReactTable } from '..';
-import { format } from 'date-fns';
+import { ReactTable } from '../ReactTable';
 
 interface StakeHistoryProps {
 	currency_id: string;
@@ -61,13 +61,13 @@ export const StakeHistory = (props: StakeHistoryProps) => {
 			},
 		];
 	}, []);
-	const stake_history_loading = useSelector(selectStakeHistoriesLoading);
+	const stakeHistoryLoading = useSelector(selectStakeHistoriesLoading);
 
 	return (
 		<React.Fragment>
 			<div>
 				<span className="text-white text-right float-right">Timezone: GMT{getTimeZone()}</span>
-				<ReactTable columns={columns} data={histories.reverse()} loading={stake_history_loading} />
+				<ReactTable columns={columns} data={histories.reverse()} loading={stakeHistoryLoading} />
 			</div>
 		</React.Fragment>
 	);

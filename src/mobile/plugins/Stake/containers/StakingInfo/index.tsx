@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import {
+	Currency,
 	Market,
 	marketsFetch,
 	selectCurrencies,
@@ -24,12 +25,15 @@ export const StakingInfo: React.FC<StakingInfoProps> = (props: StakingInfoProps)
 	const intl = useIntl();
 	const { staking_name, description, currency_id, ref_link } = props;
 	const currencies = useSelector(selectCurrencies);
-	const getCryptoIcon = (currency_id: string): string => {
-		const currency = currencies.find((currency: any) => currency.id === currency_id);
+	const getCryptoIcon = (currencyID: string): string => {
+		const currency = currencies.find((cur: Currency) => cur.id === currencyID);
 		try {
-			return require(`../../../../../../node_modules/cryptocurrency-icons/128/color/${currency_id.toLowerCase()}.png`);
+			return require(`../../../../../../node_modules/cryptocurrency-icons/128/color/${currencyID.toLowerCase()}.png`);
 		} catch (err) {
-			if (currency) return currency.icon_url;
+			if (currency) {
+				return currency.icon_url;
+			}
+
 			return require('../../../../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
 		}
 	};

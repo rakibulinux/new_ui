@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { ConvertUsd, Decimal, MarketsHotOnlist, MarketTable, ButtonFIAT } from '../../components';
+import { ButtonFIAT, ConvertUsd, Decimal, MarketsHotOnlist, MarketTable } from '../../components';
 
 import Tabs, { TabPane } from 'rc-tabs';
 
@@ -246,6 +246,7 @@ export const MarketsList = props => {
 					fill: 'busd',
 				},
 			];
+
 			return (
 				<div className="row">
 					<div className="col-md-12 d-flex align-items: baseline">

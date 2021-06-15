@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import Select from 'react-select';
 import { CurrencyInfo } from '../../components/CurrencyInfo';
 import { TradeList } from '../../components/TradeList';
-import { Wallet, selectCurrencies, selectAllChildCurrencies } from '../../modules';
+import { selectAllChildCurrencies, selectCurrencies, Wallet } from '../../modules';
 
 const SelectStyles = {
 	option: (provided, state) => ({
@@ -70,12 +70,13 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
 		try {
 			return require(`../../../node_modules/cryptocurrency-icons/128/color/${code.toLowerCase()}.png`);
 		} catch (err) {
-			if (currency) return currency.icon_url;
+			if (currency) { return currency.icon_url; }
+
 			return require('../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
 		}
 	};
 
-	// Select
+	// select
 	const options = currencies.map(currency => {
 		const newCurrency = {
 			value: currency.id,
@@ -85,6 +86,7 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
 				</span>
 			),
 		};
+
 		return newCurrency;
 	});
 

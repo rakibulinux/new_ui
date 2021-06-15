@@ -13,4 +13,3 @@ export const ANNOUNCMENTS_DATA = 'announcements/DATA';
 
 export const ANNOUNCMENT_ERROR = 'announcement/ERROR';
 
-

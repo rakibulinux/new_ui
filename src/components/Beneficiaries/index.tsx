@@ -119,8 +119,9 @@ class BeneficiariesComponent extends React.Component<Props, State> {
 		const parent_index = parent_currencies_strings.findIndex((parent_currency_id: string) => parent_currency_id === currency);
 		const child_index = child_currencies_strings.findIndex((child_currency_id: string) => child_currency_id === currency);
 
-		if (child_index !== -1) return child_currencies[child_index].blockchain_key;
-		if (parent_index !== -1) return parent_currencies[parent_index].blockchain_key;
+		if (child_index !== -1) { return child_currencies[child_index].blockchain_key; }
+		if (parent_index !== -1) { return parent_currencies[parent_index].blockchain_key; }
+
 		return 'Unavailable';
 	};
 

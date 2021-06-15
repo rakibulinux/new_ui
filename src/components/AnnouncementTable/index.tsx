@@ -1,11 +1,11 @@
-import * as React from "react";
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Link } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
-import { announcementDelete } from "../../modules/info/announcement/actions";
-import { AnnouncementState } from "../../modules";
+import { useDispatch } from 'react-redux';
+import { AnnouncementState } from '../../modules';
+import { announcementDelete } from '../../modules/info/announcement/actions';
 
 const AnnouncementTableStyle = styled.div`
 margin-top: 5rem;
@@ -18,7 +18,7 @@ margin-top: 5rem;
             text-align: justify;
             padding-top: 15px;
             padding-bottom: 15px;
-            padding-right: 10px; 
+            padding-right: 10px;
             padding-left: 10px;
             transition: all 0.2s;
             background-color: var(--subheader-background-color);
@@ -52,12 +52,12 @@ margin-top: 5rem;
               width: 30%;
           }
         }
-        th:not(:first-child) { 
+        th:not(:first-child) {
             text-align: center;
         }
         tr td:not(:first-child) {
             text-align: center;
-            
+
         }
     }
 `;
@@ -88,32 +88,32 @@ export const AnnouncementTable: React.FC<AnnouncementList> = (props: Announcemen
   const dispatch = useDispatch();
 
   const handleDeleteAnnouncement = (id : number) => {
-    dispatch(announcementDelete({
-      id
-    }));
-  }
+	dispatch(announcementDelete({
+		id,
+	}));
+  };
 
   return (
-    <AnnouncementTableStyle>
-      <table>
-        <thead>
-          <tr>
-            <th>Heading</th>
-            <th>Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {announcements.data.map((announcement) => (
-            <tr>
-              <td>{announcement.title}</td>
-              <td>
-                <TableDeletestyle onClick={() => handleDeleteAnnouncement(announcement.id)}><DeleteOutlined /></TableDeletestyle>
-                <TableEditstyle id={announcement.id.toString()}><Link to={"/announcement/edit/" + announcement.id}><EditOutlined /></Link></TableEditstyle>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </AnnouncementTableStyle>
+	<AnnouncementTableStyle>
+		<table>
+		<thead>
+			<tr>
+			<th>Heading</th>
+			<th>Edit</th>
+			</tr>
+		</thead>
+		<tbody>
+			{announcements.data.map(announcement => (
+			<tr>
+				<td>{announcement.title}</td>
+				<td>
+				<TableDeletestyle onClick={() => handleDeleteAnnouncement(announcement.id)}><DeleteOutlined /></TableDeletestyle>
+				<TableEditstyle id={announcement.id.toString()}><Link to={'/announcement/edit/' + announcement.id}><EditOutlined /></Link></TableEditstyle>
+				</td>
+			</tr>
+			))}
+		</tbody>
+		</table>
+	</AnnouncementTableStyle>
   );
-}
+};

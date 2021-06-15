@@ -1,5 +1,11 @@
 import classNames from 'classnames';
+import { addDays, format } from 'date-fns';
+import millify from 'millify';
 import * as React from 'react';
+import Countdown from 'react-countdown';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTimeZone } from '../../../../helpers';
 import {
 	createStake,
 	selectCreateStakeLoading,
@@ -9,13 +15,7 @@ import {
 	selectWallets,
 	StakingReward,
 } from '../../../../modules';
-import { format, addDays } from 'date-fns';
-import { useDispatch, useSelector } from 'react-redux';
-import { getTimeZone } from '../../../../helpers';
-import Countdown from 'react-countdown';
 import { LoadingSpinner } from '../../components';
-import { useIntl } from 'react-intl';
-import millify from 'millify';
 
 interface RegisterStakeProps {
 	stake_id: string;
@@ -66,37 +66,32 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 	const remainLimitedAmount = Number(cap_amount_per_user) - Number(stakedAmount);
 
 	const wallets = useSelector(selectWallets);
-	const wallet = wallets.find(wallet => wallet.currency.toLowerCase() === currency_id.toLowerCase()) || { balance: 0.0 };
+	const wallet = wallets.find(wal => wal.currency.toLowerCase() === currency_id.toLowerCase()) || { balance: 0 };
 
-	const selecterdPeriodButtonClass = classNames('period-btn', 'period-btn__active');
+	const selectedPeriodButtonClass = classNames('period-btn', 'period-btn__active');
 
 	React.useEffect(() => {
 		setExpectedRewardState(((rewardState.annual_rate / 365) * rewardState.period * Number(amountState)).toString());
 	}, [amountState, selectedPeriodIndexState, rewardState]);
 
 	const handleSelectLockupPeriod = React.useCallback(
-		(period_index: number) => {
-			const reward = rewards[period_index];
-			setSelectedPeriodIndexState(period_index);
+		(periodIndex: number) => {
+			const reward = rewards[periodIndex];
+			setSelectedPeriodIndexState(periodIndex);
 
 			if (reward) {
 				const { reward_id, period, annual_rate } = reward;
 				setLockupDateState(format(new Date(), 'yyyy-MM-dd hh:mm'));
 				setReleaseDateState(format(addDays(new Date(), Number(period)), 'yyyy-MM-dd hh:mm'));
-				setRewardState(r => {
-					return {
-						...r,
-						reward_id: String(reward_id),
-						period: Number(period),
-						min_amount: min_amount,
-						cap_amount: cap_amount,
-						total_amount: total_amount,
-						annual_rate: Number(annual_rate),
-					};
+				setRewardState({
+					...rewardState,
+					reward_id: String(reward_id),
+					period: Number(period),
+					annual_rate: Number(annual_rate),
 				});
 			}
 		},
-		[rewards, cap_amount, min_amount, total_amount],
+		[rewards],
 	);
 
 	React.useEffect(() => {
@@ -105,7 +100,7 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 			setSelectedPeriodIndexState(validRewardIndex !== -1 ? validRewardIndex : DEFAULT_PERIOD_INDEX);
 			handleSelectLockupPeriod(validRewardIndex !== -1 ? validRewardIndex : DEFAULT_PERIOD_INDEX);
 		}
-	}, [rewards, handleSelectLockupPeriod, cap_amount, total_amount]);
+	}, [rewards, handleSelectLockupPeriod]);
 
 	const isDisableStakeButton =
 		amountState === '' ||
@@ -116,7 +111,7 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 		Number(expectedRewardState) <= 0;
 	const renderer = ({ days, hours, minutes, seconds, completed }) => {
 		if (completed) {
-			// Render a completed state
+			// render a completed state
 			// window.location.reload(false);
 			return (
 				<span>
@@ -124,7 +119,7 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 				</span>
 			);
 		} else {
-			// Render a countdown
+			// render a countdown
 			return (
 				<span>
 					{days}d {hours}h {minutes}m {seconds}s
@@ -186,7 +181,7 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 								placeholder="0"
 								onChange={e => {
 									const amount = e.target.value;
-									if (Number(amount) >= 0) setAmountState(amount);
+									if (Number(amount) >= 0) { setAmountState(amount); }
 								}}
 							/>
 							<span>{currency_id.toUpperCase()}</span>
@@ -203,8 +198,8 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 							<strong>
 								{Number(min_amount) > 1000000
 									? millify(Number(min_amount), {
-											precision: 2,
-									  })
+										precision: 2,
+									})
 									: Number(min_amount)}{' '}
 								{currency_id.toUpperCase()}
 							</strong>{' '}
@@ -222,8 +217,8 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 							<strong>
 								{Number(remainLimitedAmount) > 1000000
 									? millify(Number(remainLimitedAmount), {
-											precision: 2,
-									  })
+										precision: 2,
+									})
 									: Number(remainLimitedAmount)}{' '}
 								{currency_id.toUpperCase()}
 							</strong>{' '}
@@ -239,7 +234,7 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 								<button
 									disabled={Number(total_amount) === 0 ? false : Number(total_amount) <= Number(cap_amount)}
 									key={index}
-									className={selectedPeriodIndexState === index ? selecterdPeriodButtonClass : 'period-btn'}
+									className={selectedPeriodIndexState === index ? selectedPeriodButtonClass : 'period-btn'}
 									onClick={() => handleSelectLockupPeriod(index)}
 								>
 									{Number(reward.period)} days
@@ -295,7 +290,7 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 				<div className="row">
 					<div className="col-12">
 						<button
-							onClick={() => handleCreateStake()}
+							onClick={handleCreateStake}
 							className={stakeButtonClassNames}
 							disabled={isDisableStakeButton}
 						>

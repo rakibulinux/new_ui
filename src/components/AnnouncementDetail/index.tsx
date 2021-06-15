@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { selectAnnouncement } from '../../modules';
-import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { selectAnnouncement } from '../../modules';
 
 const AnnouncementDetailStyle = styled.div`
 	margin-top: 1rem;
