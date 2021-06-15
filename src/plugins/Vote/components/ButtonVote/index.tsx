@@ -89,7 +89,7 @@ export const ButtonVote: React.FC<ButtonVoteProps> = props => {
 					className="h-100"
 					size="sm"
 					type="number"
-					placeholder="Amount"
+					placeholder={`Amount (${constants.VOTE_CURRENCIE.toUpperCase()})`}
 					value={amount}
 					onChange={changeAmount}
 				/>

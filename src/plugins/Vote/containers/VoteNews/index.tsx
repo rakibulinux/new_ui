@@ -61,11 +61,11 @@ export const VoteNews: React.FC<VoteNewsProps> = ({}) => {
 	return (
 		<div className="pg-vote__news">
 			<div className="pg-vote--border pg-vote__news__title">
-				Every Wednesday we pick the most voted coin. Only one coin is selected. 1 vote = 1{' '}
+				Every Wednesday we pick the most voted coin. Only one coin is selected. 1 vote = {constants.VOTE_RATE}{' '}
 				{constants.VOTE_CURRENCIE.toUpperCase()}. Minimum 250000 votes required to be considered. Votes are cumulative
 				from week to week.
 				<p>
-					Click <Link to={`/wallets/deposit/${constants.VOTE_CURRENCIE}`}>here</Link> to add your coin!
+					Click <Link to={`/wallets/deposit/${constants.VOTE_CURRENCIE.toLowerCase()}`}>here</Link> to add your coin!
 				</p>
 			</div>
 			<CountDownVote />

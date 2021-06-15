@@ -10,7 +10,7 @@ import {
 	VOTE_LIST_ERROR,
 	VOTE_LIST_FETCH,
 } from './constants';
-import { VoteFilter, VoteHistory, VoteListState } from './types';
+import { VoteCoin, VoteFilter, VoteHistory, VoteListState } from './types';
 
 export interface VoteListFetch {
 	type: typeof VOTE_LIST_FETCH;
@@ -39,7 +39,10 @@ export interface VoteDonateCreate {
 }
 export interface VoteDonateData {
 	type: typeof VOTE_DONATE_DATA;
-	payload: VoteHistory;
+	payload: {
+		donate: VoteHistory;
+		coin: VoteCoin;
+	};
 }
 
 export interface VoteDonateError {

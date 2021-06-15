@@ -43,9 +43,9 @@ export const voteListReducer = (state = initialVoteListState, action: VoteListAc
 				draft.loading = false;
 				break;
 			case VOTE_DONATE_DATA:
-				index = draft.info.data.findIndex(item => item.id === action.payload.coin_id);
+				index = draft.info.data.findIndex(item => item.id === action.payload.coin.id);
 				if (index !== -1) {
-					draft.info.data[index].total += +action.payload.amount;
+					draft.info.data[index].total = action.payload.coin.total || 0;
 					draft.info.data = draft.info.data.sort((a, b) => b.total - a.total);
 				}
 				break;
@@ -77,7 +77,7 @@ export const voteHistoryReducer = (state = initialVoteHistoryState, action: Vote
 				draft.loading = false;
 				break;
 			case VOTE_DONATE_DATA:
-				draft.info.data.unshift(action.payload);
+				draft.info.data.unshift(action.payload.donate);
 				break;
 			case VOTE_HISTORY_ERROR:
 				draft.loading = false;
@@ -99,7 +99,7 @@ export const voteDonateReducer = (state = initialVoteDonateState, action: VoteDo
 				draft.loading = true;
 				break;
 			case VOTE_DONATE_DATA:
-				draft.data = action.payload;
+				draft.data = action.payload.donate;
 				draft.loading = false;
 				break;
 			case VOTE_DONATE_ERROR:

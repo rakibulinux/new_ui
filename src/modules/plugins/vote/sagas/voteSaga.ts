@@ -5,6 +5,7 @@ import { stringify } from 'querystring';
 import { call, put } from 'redux-saga/effects';
 import {
 	VoteDonateCreate,
+	VoteDonateData,
 	voteDonateData,
 	voteDonateError,
 	voteHistoryData,
@@ -15,7 +16,6 @@ import {
 	voteListError,
 	VoteListFetch,
 } from '../actions';
-import { VoteHistory } from '../types';
 
 const createOptions = (csrfToken?: string): RequestOptions => {
 	return { apiVersion: 'sunshine', headers: { 'X-CSRF-Token': csrfToken } };
@@ -46,8 +46,8 @@ export function* voteHistoryFetchSaga(actions: VoteListFetch) {
 
 export function* voteDonateCreateSaga(actions: VoteDonateCreate) {
 	try {
-		const donate = yield call(API.post(createOptions(getCsrfToken())), `private/vote/donate`, actions.payload);
-		yield put(voteDonateData(donate as VoteHistory));
+		const data = yield call(API.post(createOptions(getCsrfToken())), `private/vote/donate`, actions.payload);
+		yield put(voteDonateData(data as VoteDonateData['payload']));
 		yield put(alertPush({ message: ['page.body.vote.msg.success'], type: 'success' }));
 	} catch (error) {
 		yield put(voteDonateError(error));

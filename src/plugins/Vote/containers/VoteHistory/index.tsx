@@ -4,6 +4,7 @@ import { Decimal } from 'components';
 import { localeDate } from 'helpers';
 import { useVoteHistoryFetch } from 'hooks';
 import { selectVoteDonateLoading, selectVoteHistoryInfo, selectVoteListLoading } from 'modules';
+import * as constants from 'plugins/constants/vote';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 // tslint:disable-next-line: no-empty-interface
@@ -65,7 +66,7 @@ export const VoteHistory: React.FC<VoteHistoryProps> = ({}) => {
 								<th>Number</th>
 								<th>Code</th>
 								<th>Name</th>
-								<th>Amount</th>
+								<th>Amount ({constants.VOTE_CURRENCIE.toUpperCase()})</th>
 								<th>Date</th>
 							</tr>
 						</thead>
