@@ -37,7 +37,7 @@ const WalletDepositBodyComponent = props => {
 		);
 
 		const textMinDeposit = `${translate('page.body.wallets.tabs.deposit.ccy.message.mindeposit')} ${
-			((100*Number(currencyItem.min_deposit_amount))/(100 - Number(currencyItem.deposit_fee)))
+			(100 * Number(currencyItem.min_deposit_amount)) / (100 - Number(currencyItem.deposit_fee))
 		} ${wallet.currency.toUpperCase()}`;
 
 		const textDepositFee = `${translate('page.body.wallets.tabs.deposit.ccy.message.depositfee')} ${Number(

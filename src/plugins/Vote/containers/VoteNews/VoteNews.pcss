@@ -1,0 +1,122 @@
+.pg-vote__news {
+	&__title {
+		background: #313445;
+		border-radius: 10px;
+		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+		margin-bottom: 1em;
+		padding: 25px 20px 10px;
+	}
+
+	&__wrapper-table {
+		background: #313445;
+		border-radius: 10px;
+		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+		min-height: 30vw;
+		overflow: hidden;
+		padding-left: 1.8em;
+		padding-right: 1.8em;
+	}
+
+	&__navbar {
+		background: #313445;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		padding: 25px 0 20px;
+
+		&__title {
+			margin-bottom: 0.5em;
+		}
+
+		&__input-search {
+			background: var(--main-background-color);
+			border: none;
+			border-radius: 10px;
+			height: 35px;
+			outline: none;
+			padding: 0 1.5em;
+			width: 100%;
+		}
+	}
+
+	&__table__inner {
+		position: relative;
+	}
+
+	&__table {
+		border-collapse: collapse;
+		border-style: hidden;
+		width: 100%;
+
+		thead th,
+		tbody td {
+			padding: 1.5em 0.9em;
+
+			&:first-child {
+				text-align: center;
+				width: 100px;
+			}
+
+			&:last-child {
+				display: flex;
+				justify-content: flex-end;
+			}
+
+			&:nth-child(2) {
+				width: 120px;
+			}
+		}
+
+		thead {
+			color: white;
+			font-size: 1.17em;
+
+			tr {
+				th {
+					background-color: #848e9c;
+					font-weight: 400;
+
+					&:first-child {
+						border-bottom-left-radius: 10px;
+						border-top-left-radius: 10px;
+					}
+
+					&:last-child {
+						border-bottom-right-radius: 10px;
+						border-top-right-radius: 10px;
+					}
+				}
+			}
+		}
+
+		tbody {
+			background: #313445;
+
+			tr {
+				&:not(:last-child) {
+					border-bottom: 1px solid #848e9c;
+				}
+
+				td {
+					button {
+						align-items: center;
+						border-color: #999;
+						color: white;
+						display: flex;
+						justify-content: center;
+
+						span {
+							background-color: white;
+							border-radius: 10px;
+							color: black;
+							padding: 0 0.7em;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.td-cpn-pagination {
+		border-top: 1px solid #848e9c;
+	}
+}

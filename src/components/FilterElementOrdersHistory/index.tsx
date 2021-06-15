@@ -1,20 +1,19 @@
-import { selectMarkets   } from 'modules';
+import { selectMarkets } from 'modules';
 import * as moment from 'moment-timezone';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 interface Props {
-	onFilter: (data:any) => void;
+	onFilter: (data: any) => void;
 	onRestFilter: () => void;
-	data:any;
+	data: any;
 }
 
-export const FilterElement:React.FC<Props> = props => {
-
-	const initialStateForm={
+export const FilterElement: React.FC<Props> = props => {
+	const initialStateForm = {
 		date_from: '',
 		date_to: '',
-		market:'all',
+		market: 'all',
 		side: 'all',
 	};
 	const [valueForm, setValueForm] = useState(initialStateForm);
@@ -22,21 +21,20 @@ export const FilterElement:React.FC<Props> = props => {
 	const marketsData = useSelector(selectMarkets);
 
 	const onChangeValueForm = (value: string, name: string): void => {
-		const form =  valueForm  ;
+		const form = valueForm;
 		form[name] = value;
 
 		setValueForm(form);
 	};
 
 	const onSearch = () => {
-
-		const {date_from, date_to,market, side} = valueForm;
+		const { date_from, date_to, market, side } = valueForm;
 		let dataFilter = props.data;
 		// // filter by base_unit vs quote_unit
 		if (market === 'all') {
 			// no filter
 		} else {
-			dataFilter = dataFilter.filter( (e:any) => e.market === market);
+			dataFilter = dataFilter.filter((e: any) => e.market === market);
 		}
 		// // filter by side
 		if (side !== 'all') {
@@ -60,7 +58,6 @@ export const FilterElement:React.FC<Props> = props => {
 		}
 
 		props.onFilter(dataFilter);
-
 	};
 
 	const onRestForm = () => {
@@ -81,7 +78,6 @@ export const FilterElement:React.FC<Props> = props => {
 	};
 
 	const renderSelection = () => {
-
 		return (
 			<select
 				className="form-control"
@@ -113,9 +109,7 @@ export const FilterElement:React.FC<Props> = props => {
 				</div>
 				<div className="history-screen__filter__select d-flex align-items-center">
 					<div className="history-screen__filter__select__desc">Pair</div>
-					<div className="mr-3 history-screen__filter__select__choose">
-						{renderSelection()}
-					</div>
+					<div className="mr-3 history-screen__filter__select__choose">{renderSelection()}</div>
 				</div>
 				<div className="history-screen__filter__select d-flex align-items-center">
 					<div className="history-screen__filter__select__desc">Type</div>

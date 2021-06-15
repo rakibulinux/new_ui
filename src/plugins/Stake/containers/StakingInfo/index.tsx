@@ -16,7 +16,6 @@ interface StakingInfoProps {
 	currency_id: string;
 	staking_name: string;
 	description?: string;
-	logo_image?: string;
 	ref_link?: string;
 }
 

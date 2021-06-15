@@ -105,6 +105,36 @@ const prizeList: Prizes[] = [
 			},
 		],
 	},
+
+	{
+		competition_id: 2,
+		prizes: [
+			{
+				rank: '1',
+				award: '500$ in Ecoin',
+			},
+			{
+				rank: '2',
+				award: '250$ in Ecoin',
+			},
+			{
+				rank: '3',
+				award: '100$ in Ecoin',
+			},
+			{
+				rank: '4',
+				award: '50$ in Ecoin',
+			},
+			{
+				rank: '5',
+				award: '50$ in Ecoin',
+			},
+			{
+				rank: '6',
+				award: '50$ in Ecoin',
+			},
+		],
+	},
 ];
 
 export const TradingCompetitionDetailScreen: React.FC = () => {

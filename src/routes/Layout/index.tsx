@@ -88,6 +88,7 @@ import {
 } from '../../screens';
 import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
 import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
+import { VoteScreen } from 'plugins/Vote';
 
 interface ReduxProps {
 	colorTheme: string;
@@ -405,7 +406,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />
 
-
 					<PrivateRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}
@@ -464,6 +464,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/airdrop/detail/:airdropID"
 						component={AirdropDetail}
 					/>
+					<Route path="/vote" exact component={VoteScreen} />
 					<Route path="/ieo" exact component={SaleListScreen} />
 					<Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
 					<Route path="/trading-competition" exact component={TradingCompetionListScreen} />

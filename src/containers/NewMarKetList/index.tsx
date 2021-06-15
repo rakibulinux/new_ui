@@ -173,7 +173,11 @@ export const NewMarketList: React.FC<any> = () => {
 	};
 
 	const MarketChart = (data: any, marketID: string) => {
-		const market = markets.find(market => market.base_unit.toLowerCase() === marketID.split('/')[0].toLowerCase());
+		const market = markets.find(
+			market =>
+				market.quote_unit.toLowerCase() === marketID.split('/')[1].toLowerCase() &&
+				market.base_unit.toLowerCase() === marketID.split('/')[0].toLowerCase(),
+		);
 
 		if (market) {
 			const marketID = market.name.toUpperCase();

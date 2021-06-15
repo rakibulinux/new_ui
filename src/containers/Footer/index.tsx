@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 
 //  import styled from "styled-components";
-import { /* FaPhoneAlt, */ FaTelegram, FaTwitter, FaFacebook, FaEnvelope/* , FaGlobe */ } from 'react-icons/fa';
+import { /* FaPhoneAlt, */ FaTelegram, FaTwitter, FaFacebook, FaEnvelope /* , FaGlobe */ } from 'react-icons/fa';
 
 const Logo = require('../../assets/images/logo.svg');
 

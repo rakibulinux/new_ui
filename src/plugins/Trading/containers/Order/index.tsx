@@ -568,7 +568,7 @@ export const Order: React.FC<OrderProps> = () => {
 							<div className="d-flex title-block mb-3">
 								<div className="flex-fill title-block-left">
 									{intl.formatMessage({ id: `page.body.trade.header.newOrder.content.title.${type}` })}{' '}
-									{quote_unit.toUpperCase()}
+									{base_unit.toUpperCase()}
 								</div>
 								<div className="flex-fill text-right title-block-right">
 									<img className="mr-2" src={moneySvg} alt="money_svg" />

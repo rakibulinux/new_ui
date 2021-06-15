@@ -1,194 +1,194 @@
 #wallet-list-screen {
-    .deposit-button {
-      background: #e76f51;
-      border: none;
-      border-radius: 2px;
-      color: white;
-      display: inline-block;
-      margin-right: 5px;
-      outline: none;
-      padding: 0.5rem 1.5rem;
-      text-align: center;
-      text-decoration: none;
-      transition: all 0.2s;
+	.deposit-button {
+		background: #e76f51;
+		border: none;
+		border-radius: 2px;
+		color: white;
+		display: inline-block;
+		margin-right: 5px;
+		outline: none;
+		padding: 0.5rem 1.5rem;
+		text-align: center;
+		text-decoration: none;
+		transition: all 0.2s;
 
-      :focus {
-        outline: none;
-      }
+		:focus {
+			outline: none;
+		}
 
-      :hover {
-        background: #e9795c;
-      }
+		:hover {
+			background: #e9795c;
+		}
 
-      :disabled {
-        background: #264653;
-        cursor: not-allowed;
-      }
-    }
+		:disabled {
+			background: #264653;
+			cursor: not-allowed;
+		}
+	}
 
-    .withdraw-button {
-      background: #2a9d8f;
-      border: none;
-      border-radius: 2px;
-      color: white;
-      display: inline-block;
-      margin-right: 5px;
-      outline: none;
-      padding: 0.5rem 1.5rem;
-      text-align: center;
-      text-decoration: none;
-      transition: all 0.2s;
+	.withdraw-button {
+		background: #2a9d8f;
+		border: none;
+		border-radius: 2px;
+		color: white;
+		display: inline-block;
+		margin-right: 5px;
+		outline: none;
+		padding: 0.5rem 1.5rem;
+		text-align: center;
+		text-decoration: none;
+		transition: all 0.2s;
 
-      :focus {
-        outline: none;
-      }
+		:focus {
+			outline: none;
+		}
 
-      :hover {
-        background: #2eafa0;
-      }
+		:hover {
+			background: #2eafa0;
+		}
 
-      :disabled {
-        background: #264653;
-        cursor: not-allowed;
-      }
-    }
+		:disabled {
+			background: #264653;
+			cursor: not-allowed;
+		}
+	}
 
-    .checkbox-input {
-      align-items: center;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
+	.checkbox-input {
+		align-items: center;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
 
-      .checkbox {
-        --background: #fff;
-        --border: #d1d6ee;
-        --border-hover: #bbc1e1;
-        --border-active: #182034;
-        --tick: #fff;
+		.checkbox {
+			--background: #fff;
+			--border: #d1d6ee;
+			--border-hover: #bbc1e1;
+			--border-active: #182034;
+			--tick: #fff;
 
-        position: relative;
+			position: relative;
 
-        input,
-        svg {
-          display: block;
-          height: 21px;
-          width: 21px;
-        }
+			input,
+			svg {
+				display: block;
+				height: 21px;
+				width: 21px;
+			}
 
-        input {
-          -webkit-appearance: none;
-          -moz-appearance: none;
-          background: var(--background);
-          border: 2px solid #5d76b5;
-          border-radius: 4px;
-          box-shadow: inset 0 0 0 var(--s, 1px) var(--b, var(--border));
-          cursor: pointer;
-          margin: 0;
-          outline: none;
-          padding: 0;
-          position: relative;
-          transition: box-shadow 0.3s;
+			input {
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				background: var(--background);
+				border: 2px solid #5d76b5;
+				border-radius: 4px;
+				box-shadow: inset 0 0 0 var(--s, 1px) var(--b, var(--border));
+				cursor: pointer;
+				margin: 0;
+				outline: none;
+				padding: 0;
+				position: relative;
+				transition: box-shadow 0.3s;
 
-          &:hover {
-            --s: 2px;
-            --b: var(--border-hover);
-          }
+				&:hover {
+					--s: 2px;
+					--b: var(--border-hover);
+				}
 
-          &:checked {
-            --b: var(--border-active);
-          }
-        }
+				&:checked {
+					--b: var(--border-active);
+				}
+			}
 
-        svg {
-          fill: none;
-          height: 21px;
-          left: 0;
-          pointer-events: none;
-          position: absolute;
-          stroke: var(--stroke, var(--border-active));
-          stroke-linecap: round;
-          stroke-linejoin: round;
-          stroke-width: 2px;
-          top: 0;
-          transform: scale(var(--scale, 1)) translateZ(0);
-          width: 21px;
-        }
+			svg {
+				fill: none;
+				height: 21px;
+				left: 0;
+				pointer-events: none;
+				position: absolute;
+				stroke: var(--stroke, var(--border-active));
+				stroke-linecap: round;
+				stroke-linejoin: round;
+				stroke-width: 2px;
+				top: 0;
+				transform: scale(var(--scale, 1)) translateZ(0);
+				width: 21px;
+			}
 
-        &.path {
-          input {
-            &:checked {
-              --s: 2px;
+			&.path {
+				input {
+					&:checked {
+						--s: 2px;
 
-              transition-delay: 0.4s;
+						transition-delay: 0.4s;
 
-              & + svg {
-                --a: 16.1 86.12;
-                --o: 102.22;
-              }
-            }
-          }
+						& + svg {
+							--a: 16.1 86.12;
+							--o: 102.22;
+						}
+					}
+				}
 
-          svg {
-            stroke-dasharray: var(--a, 86.12);
-            stroke-dashoffset: var(--o, 86.12);
-            transition: stroke-dasharray 0.6s, stroke-dashoffset 0.6s;
-          }
-        }
+				svg {
+					stroke-dasharray: var(--a, 86.12);
+					stroke-dashoffset: var(--o, 86.12);
+					transition: stroke-dasharray 0.6s, stroke-dashoffset 0.6s;
+				}
+			}
 
-        &.bounce {
-          --stroke: var(--tick);
+			&.bounce {
+				--stroke: var(--tick);
 
-          input {
-            &:checked {
-              --s: 11px;
+				input {
+					&:checked {
+						--s: 11px;
 
-              & + svg {
-                animation: bounce 0.4s linear forwards 0.2s;
-              }
-            }
-          }
+						& + svg {
+							animation: bounce 0.4s linear forwards 0.2s;
+						}
+					}
+				}
 
-          svg {
-            --scale: 0;
-          }
-        }
-      }
+				svg {
+					--scale: 0;
+				}
+			}
+		}
 
-      @keyframes bounce {
-        50% {
-          transform: scale(1.2);
-        }
+		@keyframes bounce {
+			50% {
+				transform: scale(1.2);
+			}
 
-        75% {
-          transform: scale(0.9);
-        }
+			75% {
+				transform: scale(0.9);
+			}
 
-        100% {
-          transform: scale(1);
-        }
-      }
-    }
+			100% {
+				transform: scale(1);
+			}
+		}
+	}
 
-    .search-input {
-      background-color: #4e5363;
-      border: 1px solid #5d76b5;
-      border-radius: 2px;
-      color: #fff;
-      font-size: 1.2rem;
-      outline: none;
-      padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-      -webkit-transition: width 0.4s ease-in-out;
-      transition: all 0.2s ease-in-out;
-      width: 130px;
+	.search-input {
+		background-color: #4e5363;
+		border: 1px solid #5d76b5;
+		border-radius: 2px;
+		color: #fff;
+		font-size: 1.2rem;
+		outline: none;
+		padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+		-webkit-transition: width 0.4s ease-in-out;
+		transition: all 0.2s ease-in-out;
+		width: 200px;
 
-      /* When the input field gets focus, change its width to 100% */
-      :focus {
-        border: 1px solid #4e5363;
-        width: 200px;
-      }
+		/* When the input field gets focus, change its width to 100% */
+		:focus {
+			border: 1px solid #4e5363;
+			width: 200px;
+		}
 
-      ::placeholder {
-        color: #fff;
-      }
-    }
-  }
+		::placeholder {
+			color: #fff;
+		}
+	}
+}

@@ -70,6 +70,9 @@ const MarketTradingContainer: React.FC = () => {
 			key: 'ETH',
 		},
 		{
+			key: 'BNB',
+		},
+		{
 			key: 'USDT',
 		},
 		{

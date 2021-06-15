@@ -32,7 +32,8 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 		{
 			columns,
 			data,
-			initialState: { pageIndex: 0 },
+			initialState: { pageIndex: 0, pageSize: 20 },
+			autoResetPage: false
 		},
 		usePagination,
 	);
@@ -45,7 +46,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 					{headerGroups.map(headerGroup => (
 						<tr {...headerGroup.getHeaderGroupProps()}>
 							{headerGroup.headers.map(column => (
-								<th width="25%" {...column.getHeaderProps()}>
+								<th {...column.getHeaderProps()}>
 									<span style={{ fontWeight: 'normal' }}>{column.render('Header')}</span>
 								</th>
 							))}
@@ -65,11 +66,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 							return (
 								<tr {...row.getRowProps()}>
 									{row.cells.map(cell => {
-										return (
-											<td width="25%" {...cell.getCellProps()}>
-												{cell.render('Cell')}
-											</td>
-										);
+										return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
 									})}
 								</tr>
 							);
@@ -120,7 +117,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 							setPageSize(Number(e.target.value));
 						}}
 					>
-						{[20, 40, 60].map(pageSize => (
+						{[20, 30, 40, 50].map(pageSize => (
 							<option key={pageSize} value={pageSize}>
 								Show {pageSize}
 							</option>
