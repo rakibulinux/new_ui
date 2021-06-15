@@ -31,7 +31,7 @@ const RecentTradesYoursContainer: React.FC = () => {
 		if (currentMarket) {
 			dispatch(fetchHistory({ type: 'trades', page: 0, time_from: timeFrom, market: currentMarket.id }));
 		}
-	}, [currentMarket, dispatch]);
+	}, [currentMarket]);
 
 	const getHeaders = () => {
 		const titleColPrice = `${intl.formatMessage({ id: 'page.body.trade.header.recentTrades.content.price' })}${
