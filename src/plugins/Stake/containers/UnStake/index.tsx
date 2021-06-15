@@ -48,7 +48,7 @@ export const UnStake: React.FC<UnStakeProps> = (props: UnStakeProps) => {
 								placeholder="0"
 								onChange={e => {
 									const amount = e.target.value;
-									if (Number(amount) >= 0) setAmountState(amount);
+									if (Number(amount) >= 0) { setAmountState(amount); }
 								}}
 							/>
 							<span>{currency_id.toUpperCase()}</span>

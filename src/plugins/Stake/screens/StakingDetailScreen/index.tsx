@@ -1,8 +1,11 @@
-import * as React from 'react';
-import { MyAssets, RegisterStake, StakeHistory, StakingInfo, UnStake, UnStakeHistory } from '../../containers';
+import { useCurrenciesFetch } from 'hooks';
+import millify from 'millify';
 import Tabs, { TabPane } from 'rc-tabs';
-import { useParams } from 'react-router';
+import * as React from 'react';
+import { ProgressBar } from 'react-bootstrap';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 import {
 	selectStakingList,
 	selectUserInfo,
@@ -13,10 +16,8 @@ import {
 	stakingListFetch,
 	unStakeHistoryFetch,
 } from '../../../../modules';
-import { useIntl } from 'react-intl';
-import { ProgressBar } from 'react-bootstrap';
-import millify from 'millify';
-import { useCurrenciesFetch } from 'hooks';
+import { MyAssets, RegisterStake, StakeHistory, StakingInfo, UnStake, UnStakeHistory } from '../../containers';
+
 
 const initialStakingItem: Stake = {
 	stake_id: '',
@@ -52,12 +53,12 @@ export const StakingDetailScreen = () => {
 	const { stake_id } = useParams<{ stake_id: string }>();
 	const stakingList = useSelector(selectStakingList);
 
-	const isLogined = useSelector(selectUserLoggedIn);
+	const isLogin = useSelector(selectUserLoggedIn);
 
 	React.useEffect(() => {
-		const staking_item =
+		const stakingItem =
 			stakingList.find(staking => staking.stake_id.toString() === stake_id.toString()) || initialStakingItem;
-		setStakingItemState(staking_item);
+		setStakingItemState(stakingItem);
 	}, [stake_id, stakingList]);
 
 	React.useEffect(() => {
@@ -185,7 +186,7 @@ export const StakingDetailScreen = () => {
 					</div>
 				</div>
 			</div>
-			<div className="detail__disabled" hidden={isLogined}>
+			<div className="detail__disabled" hidden={isLogin}>
 				<span>Please login before</span>
 			</div>
 		</div>

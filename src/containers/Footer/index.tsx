@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-import { useHistory, Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 //  import styled from "styled-components";
-import { /* FaPhoneAlt, */ FaTelegram, FaTwitter, FaFacebook, FaEnvelope /* , FaGlobe */ } from 'react-icons/fa';
+import { /* FaPhoneAlt, */ FaEnvelope, FaFacebook, FaTelegram, FaTwitter /* , FaGlobe */ } from 'react-icons/fa';
 
 const Logo = require('../../assets/images/logo.svg');
 
 export const Footer: React.FC = Props => {
-	let history = useHistory();
+	const history = useHistory();
 
 	const [emailAddress, setemailAddress] = useState('');
 
@@ -33,6 +33,7 @@ export const Footer: React.FC = Props => {
 
 const renderFooterDesktop = (inputEmail, sendEmail, emailAddress) => {
 	const valueInput: string = emailAddress;
+
 	return (
 		<div className="footerDesktop-screen">
 			<div className="container-footer-screen">
@@ -83,9 +84,9 @@ const renderFooterDesktop = (inputEmail, sendEmail, emailAddress) => {
 								placeholder="enter your email"
 								type="email"
 								value={valueInput}
-								onChange={e => inputEmail(e)}
+								onChange={inputEmail}
 							/>
-							<span className="footer__news__take-email__btn" onClick={() => sendEmail()}>
+							<span className="footer__news__take-email__btn" onClick={sendEmail}>
 								Send
 							</span>
 						</div>

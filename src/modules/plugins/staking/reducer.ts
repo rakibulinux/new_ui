@@ -1,3 +1,5 @@
+// import { sliceArray } from '../../../../helpers';
+import { StakingActions } from './actions';
 import {
 	CREATE_STAKE_DATA,
 	STAKE_HISTORY_DATA,
@@ -7,16 +9,14 @@ import {
 	UNSTAKE_HISTORY_DATA,
 	UNSTAKE_HISTORY_FETCH,
 } from './constants';
-// import { sliceArray } from '../../../../helpers';
-import { StakingActions } from './actions';
-import { STAKING_LIST_FETCH, STAKING_LIST_DATA, STAKING_LIST_ERROR, STAKE_WALLET_FETCH } from './constants';
+import { STAKE_WALLET_FETCH, STAKING_LIST_DATA, STAKING_LIST_ERROR, STAKING_LIST_FETCH } from './constants';
 import {
-	StakingListState,
-	StakeWalletState,
-	StakeHistoryState,
 	CreateStakeState,
-	UnstakeState,
+	StakeHistoryState,
+	StakeWalletState,
+	StakingListState,
 	UnStakeHistoryState,
+	UnstakeState,
 } from './types';
 
 export const initialCreateStake: CreateStakeState = {

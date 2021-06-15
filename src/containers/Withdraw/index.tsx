@@ -177,6 +177,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 		const isPending = beneficiary.state && beneficiary.state.toLowerCase() === 'pending';
 		const isLimitWithdraw24h = Number(limitWitdraw24h) === 0 ? false : Number(amount) > Number(limitWitdraw24h);
+
 		return (
 			Number(total) <= 0 ||
 			!Boolean(beneficiary.id) ||
@@ -207,6 +208,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 	private renderTotal = () => {
 		const total = this.state.total;
 		const { fixed, currency } = this.props;
+
 		return total ? (
 			<span>
 				<Decimal fixed={fixed}>{total.toString()}</Decimal> {currency.toUpperCase()}
@@ -252,29 +254,32 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 				Modal.error({
 					centered: true,
 					icon: <FrownOutlined />,
-					title: "Can't withdraw",
+					title: 'Can\'t withdraw',
 					content: `You need to generate ETH Wallets Address before withdraw!`,
 				});
+
 				return;
 			}
 			if (!ethFee || ethFee <= 0) {
 				Modal.warning({
 					centered: true,
 					icon: <FrownOutlined />,
-					title: "Can't withdraw",
+					title: 'Can\'t withdraw',
 					content: `ETH Fee is unavailable now!`,
 				});
+
 				return;
 			}
 			if (Number(ethBallance) < Number(ethFee)) {
 				Modal.warning({
 					centered: true,
 					icon: <FrownOutlined />,
-					title: "Can't withdraw",
+					title: 'Can\'t withdraw',
 					content: `You don't have enough ETH tokens to pay fee. Need more ${(
 						Number(ethFee) - Number(ethBallance)
 					).toFixed(5)} ETH Tokens`,
 				});
+
 				return;
 			}
 		}

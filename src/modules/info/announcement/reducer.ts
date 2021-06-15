@@ -2,13 +2,13 @@ import { AnnouncementActions } from './actions';
 import {
 	ANNOUNCMENT_CREATE,
 	ANNOUNCMENT_CREATE_DATA,
-	ANNOUNCMENT_ERROR,
-	ANNOUNCMENT_FETCH,
-	ANNOUNCMENTS_DATA,
-	ANNOUNCMENT_UPDATE,
-	ANNOUNCMENT_UPDATE_DATA,
 	ANNOUNCMENT_DELETE,
 	ANNOUNCMENT_DELETE_DATA,
+	ANNOUNCMENT_ERROR,
+	ANNOUNCMENT_FETCH,
+	ANNOUNCMENT_UPDATE,
+	ANNOUNCMENT_UPDATE_DATA,
+	ANNOUNCMENTS_DATA,
 } from './constants';
 import { AnnouncementState } from './types';
 
@@ -58,6 +58,7 @@ export const announcementReducer = (state = initialAnnouncement, action: Announc
 			const index = state.data.findIndex(item => item.id === action.payload.id);
 			const data = [...state.data];
 			data[index] = action.payload;
+
 			return {
 				...state,
 				data,
@@ -72,6 +73,7 @@ export const announcementReducer = (state = initialAnnouncement, action: Announc
 		case ANNOUNCMENT_DELETE_DATA:
 			let newData = [...state.data];
 			newData = newData.filter(item => item.id !== action.payload.id);
+
 			return {
 				...state,
 				data: newData,

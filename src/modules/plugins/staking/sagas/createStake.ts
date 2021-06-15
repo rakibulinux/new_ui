@@ -1,7 +1,7 @@
-import { stakeHistoryFetch, stakingListFetch } from './../actions';
-import { alertPush } from './../../../public/alert/actions';
 import { put } from 'redux-saga/effects';
 import axios from '../../../../plugins/api/index';
+import { alertPush } from './../../../public/alert/actions';
+import { stakeHistoryFetch, stakingListFetch } from './../actions';
 
 import { CreateStake, createStakeData } from '../actions';
 
@@ -16,7 +16,7 @@ export function* createStakeSaga(action: CreateStake) {
 			release_date: release_date,
 		};
 		const result = yield axios.post('stake/stakes', stake_data);
-		if (result.data.error) throw new Error(result.data.error);
+		if (result.data.error) { throw new Error(result.data.error); }
 		yield put(stakingListFetch());
 		yield put(stakeHistoryFetch({ uid: uid, stake_id: stake_id }));
 		yield put(alertPush({ message: ['create.stake.success'], type: 'success' }));

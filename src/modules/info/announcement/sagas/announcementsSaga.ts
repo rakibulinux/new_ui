@@ -4,14 +4,14 @@ import pluginsAPI from '../../../../plugins/api/index';
 
 import {
 	AnnouncementCreate,
-	announcementUpdateData,
+	AnnouncementDelete,
 	// announcementCreateData,
+	announcementDeleteData,
 	announcementError,
 	AnnouncementFetch,
 	announcementsData,
 	AnnouncementUpdate,
-	AnnouncementDelete,
-	announcementDeleteData,
+	announcementUpdateData,
 } from '../actions';
 import { Announcement } from '../types';
 
