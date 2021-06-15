@@ -41,7 +41,7 @@ const CountDownVoteCpn: React.FC<CountDownVoteProps> = ({}) => {
 					</span>
 					<br />
 					Website :{' '}
-					<a target="_blank" href={infoRound.infoCoin.website}>
+					<a rel="noopener noreferrer" target="_blank" href={infoRound.infoCoin.website}>
 						{infoRound.infoCoin.website}
 					</a>
 				</div>
