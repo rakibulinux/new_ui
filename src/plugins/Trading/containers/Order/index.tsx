@@ -46,7 +46,7 @@ const defaultFormState = {
 
 const defaultTicker = { amount: 0, low: 0, last: 0, high: 0, volume: 0, price_change_percent: '+0.00%' };
 
-export const Order: React.FC<OrderProps> = () => {
+export const Order: React.FC<OrderProps> = ({}) => {
 	const intl = useIntl();
 	const dispatch = useDispatch();
 
@@ -67,6 +67,37 @@ export const Order: React.FC<OrderProps> = () => {
 	const [tabTypeSelectedState, setTabTypeSelectedState] = React.useState<string>(TABS_LIST_KEY[0]);
 	const [formState, setFormState] = React.useState(defaultFormState);
 
+	React.useEffect(() => {
+		if (currentPrice && currentMarket) {
+			const price = Decimal.formatRemoveZero(currentPrice, currentMarket.price_precision);
+			setFormState(prev => ({ ...prev, priceBuy: price, priceSell: price }));
+			changeAmountTotalSlider(currentOrderType === 'buy' ? 'buy' : 'sell', 'price');
+			changeAmount(currentAmount, currentOrderType === 'buy' ? 'sell' : 'buy');
+		}
+	}, [currentPrice, currentMarket, currentOrderType]);
+
+	React.useEffect(() => {
+		setFormState(prev => ({ ...prev, fisrtFetchedPrice: false }));
+	}, [currentMarket]);
+
+	React.useEffect(() => {
+		const last = getTickerValue('last') as number;
+		if (currentMarket && last && !formState.priceBuy && !formState.priceSell && !formState.fisrtFetchedPrice) {
+			const price = Decimal.formatRemoveZero(last, currentMarket.price_precision);
+			setFormState(prev => ({ ...prev, priceBuy: price, priceSell: price, fisrtFetchedPrice: true }));
+		}
+	}, [currentMarket, marketTickers]);
+
+	React.useEffect(() => {
+		if (isLoggedIn && !wallets.length) {
+			dispatch(walletsFetch());
+		}
+	}, [isLoggedIn, wallets]);
+
+	React.useEffect(() => {
+		setFormState(defaultFormState);
+	}, [currentMarket && currentMarket.id, tabTypeSelectedState]);
+
 	const resetAfterSubmit = (type: FormType) => {
 		setFormState(prev => ({
 			...prev,
@@ -86,231 +117,220 @@ export const Order: React.FC<OrderProps> = () => {
 		}));
 	};
 
-	const getTickerValue = React.useCallback(
-		(value: string) => {
-			return currentMarket && (marketTickers[currentMarket.id] || defaultTicker)[value];
-		},
-		[currentMarket, marketTickers],
-	);
+	const getTickerValue = (value: string) => {
+		return currentMarket && (marketTickers[currentMarket.id] || defaultTicker)[value];
+	};
 
-	const changeAmountTotalSlider = React.useCallback(
-		(type: FormType, field: 'amount' | 'slider' | 'total' | 'price') => {
-			if (currentMarket) {
-				const { amount_precision, price_precision, quote_unit, base_unit } = currentMarket;
-				const walletQuote = getWallet(quote_unit, wallets);
-				const walletBase = getWallet(base_unit, wallets);
-				const balance = get(type === 'buy' ? walletQuote : walletBase, 'balance', 0);
-				const lastPrice = floor(getTickerValue('last'), price_precision);
+	const changeAmountTotalSlider = (type: FormType, field: 'amount' | 'slider' | 'total' | 'price') => {
+		if (currentMarket) {
+			const { amount_precision, price_precision, quote_unit, base_unit } = currentMarket;
+			const walletQuote = getWallet(quote_unit, wallets);
+			const walletBase = getWallet(base_unit, wallets);
+			const balance = get(type === 'buy' ? walletQuote : walletBase, 'balance', 0);
+			const lastPrice = floor(getTickerValue('last'), price_precision);
 
-				if (balance) {
-					if (type === 'sell') {
-						switch (field) {
-							case 'amount':
+			if (balance) {
+				if (type === 'sell') {
+					switch (field) {
+						case 'amount':
+							setFormState(prev => {
+								const percentSellMyBalance =
+									+prev.priceSell && +prev.amountSell
+										? floor((+prev.amountSell / +balance) * 100)
+										: prev.percentSellMyBalance;
+								const totalSell =
+									+prev.amountSell && +prev.priceSell
+										? floor(+prev.amountSell * +prev.priceSell, 8).toString()
+										: prev.totalSell;
+
+								return {
+									...prev,
+									percentSellMyBalance,
+									totalSell,
+								};
+							});
+							break;
+						case 'slider':
+							if (tabTypeSelectedState === TABS_LIST_KEY[0]) {
 								setFormState(prev => {
-									const percentSellMyBalance =
-										+prev.priceSell && +prev.amountSell
-											? floor((+prev.amountSell / +balance) * 100)
-											: prev.percentSellMyBalance;
+									const amountSell =
+										+prev.priceSell && prev.percentSellMyBalance
+											? floor((+balance / 100) * prev.percentSellMyBalance, amount_precision).toString()
+											: prev.amountSell;
 									const totalSell =
-										+prev.amountSell && +prev.priceSell
-											? floor(+prev.amountSell * +prev.priceSell, 8).toString()
+										+amountSell && +prev.priceSell
+											? floor(+prev.priceSell * +amountSell, 8).toString()
 											: prev.totalSell;
 
 									return {
 										...prev,
-										percentSellMyBalance,
+										amountSell,
 										totalSell,
 									};
 								});
-								break;
-							case 'slider':
-								if (tabTypeSelectedState === TABS_LIST_KEY[0]) {
-									setFormState(prev => {
-										const amountSell =
-											+prev.priceSell && prev.percentSellMyBalance
-												? floor((+balance / 100) * prev.percentSellMyBalance, amount_precision).toString()
-												: prev.amountSell;
-										const totalSell =
-											+amountSell && +prev.priceSell
-												? floor(+prev.priceSell * +amountSell, 8).toString()
-												: prev.totalSell;
-
-										return {
-											...prev,
-											amountSell,
-											totalSell,
-										};
-									});
-								} else {
-									setFormState(prev => {
-										const amountSell =
-											lastPrice && prev.percentSellMyBalance
-												? floor((+balance / 100) * prev.percentSellMyBalance, amount_precision).toString()
-												: prev.amountSell;
-										const totalSell =
-											+amountSell && lastPrice
-												? floor(lastPrice * +amountSell, 8).toString()
-												: prev.totalSell;
-
-										return {
-											...prev,
-											amountSell,
-											totalSell,
-										};
-									});
-								}
-								break;
-							case 'total':
+							} else {
 								setFormState(prev => {
 									const amountSell =
-										+prev.totalSell && +prev.priceSell
-											? floor(+prev.totalSell / +prev.priceSell, amount_precision).toString()
+										lastPrice && prev.percentSellMyBalance
+											? floor((+balance / 100) * prev.percentSellMyBalance, amount_precision).toString()
 											: prev.amountSell;
-									const percentSellMyBalance = +amountSell ? floor((+amountSell / +balance) * 100) : 0;
+									const totalSell =
+										+amountSell && lastPrice ? floor(lastPrice * +amountSell, 8).toString() : prev.totalSell;
 
 									return {
 										...prev,
 										amountSell,
-										percentSellMyBalance: percentSellMyBalance > 100 ? 100 : percentSellMyBalance,
-									};
-								});
-								break;
-							case 'price':
-								setFormState(prev => {
-									const totalSell =
-										+prev.amountSell && +prev.priceSell
-											? floor(+prev.amountSell * +prev.priceSell, 8).toString()
-											: defaultFormState.totalSell;
-
-									return {
-										...prev,
 										totalSell,
 									};
 								});
-								break;
-							default:
-								break;
-						}
-					} else {
-						switch (field) {
-							case 'amount':
+							}
+							break;
+						case 'total':
+							setFormState(prev => {
+								const amountSell =
+									+prev.totalSell && +prev.priceSell
+										? floor(+prev.totalSell / +prev.priceSell, amount_precision).toString()
+										: prev.amountSell;
+								const percentSellMyBalance = +amountSell ? floor((+amountSell / +balance) * 100) : 0;
+
+								return {
+									...prev,
+									amountSell,
+									percentSellMyBalance: percentSellMyBalance > 100 ? 100 : percentSellMyBalance,
+								};
+							});
+							break;
+						case 'price':
+							setFormState(prev => {
+								const totalSell =
+									+prev.amountSell && +prev.priceSell
+										? floor(+prev.amountSell * +prev.priceSell, 8).toString()
+										: defaultFormState.totalSell;
+
+								return {
+									...prev,
+									totalSell,
+								};
+							});
+							break;
+						default:
+							break;
+					}
+				} else {
+					switch (field) {
+						case 'amount':
+							setFormState(prev => {
+								const percentBuyMyBalance =
+									+prev.priceBuy && +prev.amountBuy
+										? floor((+prev.amountBuy * +prev.priceBuy) / (+balance / 100))
+										: 0;
+								const totalBuy =
+									+prev.amountBuy && +prev.priceBuy
+										? floor(+prev.amountBuy * +prev.priceBuy, 8).toString()
+										: '';
+
+								return {
+									...prev,
+									percentBuyMyBalance,
+									totalBuy,
+								};
+							});
+							break;
+						case 'slider':
+							if (tabTypeSelectedState === TABS_LIST_KEY[0]) {
 								setFormState(prev => {
-									const percentBuyMyBalance =
-										+prev.priceBuy && +prev.amountBuy
-											? floor((+prev.amountBuy * +prev.priceBuy) / (+balance / 100))
-											: 0;
 									const totalBuy =
-										+prev.amountBuy && +prev.priceBuy
-											? floor(+prev.amountBuy * +prev.priceBuy, 8).toString()
-											: '';
-
-									return {
-										...prev,
-										percentBuyMyBalance,
-										totalBuy,
-									};
-								});
-								break;
-							case 'slider':
-								if (tabTypeSelectedState === TABS_LIST_KEY[0]) {
-									setFormState(prev => {
-										const totalBuy =
-											+prev.priceBuy && prev.percentBuyMyBalance
-												? (floor(prev.percentBuyMyBalance * (+balance / 100), 8) || 0).toString()
-												: prev.totalBuy;
-										const amountBuy =
-											+totalBuy && +prev.priceBuy
-												? floor(+totalBuy / +prev.priceBuy, amount_precision).toString()
-												: prev.amountBuy;
-
-										return {
-											...prev,
-											amountBuy,
-											totalBuy,
-										};
-									});
-								} else {
-									setFormState(prev => {
-										const totalBuy =
-											lastPrice && prev.percentBuyMyBalance
-												? floor(prev.percentBuyMyBalance * (+balance / 100), 8).toString()
-												: prev.totalBuy;
-										const amountBuy =
-											+totalBuy && lastPrice
-												? floor(+totalBuy / lastPrice, amount_precision).toString()
-												: prev.amountBuy;
-
-										return {
-											...prev,
-											amountBuy,
-											totalBuy,
-										};
-									});
-								}
-								break;
-							case 'total':
-								setFormState(prev => {
+										+prev.priceBuy && prev.percentBuyMyBalance
+											? (floor(prev.percentBuyMyBalance * (+balance / 100), 8) || 0).toString()
+											: prev.totalBuy;
 									const amountBuy =
-										+prev.priceBuy && +prev.totalBuy
-											? floor(+prev.totalBuy / +prev.priceBuy, amount_precision).toString()
+										+totalBuy && +prev.priceBuy
+											? floor(+totalBuy / +prev.priceBuy, amount_precision).toString()
 											: prev.amountBuy;
-									const percentBuyMyBalance =
-										+amountBuy && +prev.totalBuy
-											? floor((+prev.totalBuy / +balance) * 100)
-											: prev.percentBuyMyBalance;
 
 									return {
 										...prev,
 										amountBuy,
-										percentBuyMyBalance: percentBuyMyBalance > 100 ? 100 : percentBuyMyBalance,
+										totalBuy,
 									};
 								});
-								break;
-							case 'price':
+							} else {
 								setFormState(prev => {
 									const totalBuy =
-										+prev.amountBuy && +prev.priceBuy
-											? floor(+prev.amountBuy * +prev.priceBuy, 8).toString()
+										lastPrice && prev.percentBuyMyBalance
+											? floor(prev.percentBuyMyBalance * (+balance / 100), 8).toString()
 											: prev.totalBuy;
-									const percentBuyMyBalance = +totalBuy ? floor(+totalBuy / (+balance / 100)) : 0;
+									const amountBuy =
+										+totalBuy && lastPrice
+											? floor(+totalBuy / lastPrice, amount_precision).toString()
+											: prev.amountBuy;
 
 									return {
 										...prev,
+										amountBuy,
 										totalBuy,
-										percentBuyMyBalance: percentBuyMyBalance > 100 ? 100 : percentBuyMyBalance,
 									};
 								});
-								break;
-							default:
-								break;
-						}
+							}
+							break;
+						case 'total':
+							setFormState(prev => {
+								const amountBuy =
+									+prev.priceBuy && +prev.totalBuy
+										? floor(+prev.totalBuy / +prev.priceBuy, amount_precision).toString()
+										: prev.amountBuy;
+								const percentBuyMyBalance =
+									+amountBuy && +prev.totalBuy
+										? floor((+prev.totalBuy / +balance) * 100)
+										: prev.percentBuyMyBalance;
+
+								return {
+									...prev,
+									amountBuy,
+									percentBuyMyBalance: percentBuyMyBalance > 100 ? 100 : percentBuyMyBalance,
+								};
+							});
+							break;
+						case 'price':
+							setFormState(prev => {
+								const totalBuy =
+									+prev.amountBuy && +prev.priceBuy
+										? floor(+prev.amountBuy * +prev.priceBuy, 8).toString()
+										: prev.totalBuy;
+								const percentBuyMyBalance = +totalBuy ? floor(+totalBuy / (+balance / 100)) : 0;
+
+								return {
+									...prev,
+									totalBuy,
+									percentBuyMyBalance: percentBuyMyBalance > 100 ? 100 : percentBuyMyBalance,
+								};
+							});
+							break;
+						default:
+							break;
 					}
 				}
 			}
-		},
-		[TABS_LIST_KEY, currentMarket, getTickerValue, tabTypeSelectedState, wallets],
-	);
+		}
+	};
 
-	const changeAmount = React.useCallback(
-		(value: string, type: FormType) => {
-			const convertedValue = cleanPositiveFloatInput(String(value));
-			if (convertedValue.match(precisionRegExp(get(currentMarket, 'amount_precision', 6)))) {
-				if (type === 'sell') {
-					setFormState(prev => ({
-						...prev,
-						amountSell: convertedValue,
-					}));
-				} else {
-					setFormState(prev => ({
-						...prev,
-						amountBuy: convertedValue,
-					}));
-				}
-				changeAmountTotalSlider(type, 'amount');
+	const changeAmount = (value: string, type: FormType) => {
+		const convertedValue = cleanPositiveFloatInput(String(value));
+		if (convertedValue.match(precisionRegExp(get(currentMarket, 'amount_precision', 6)))) {
+			if (type === 'sell') {
+				setFormState(prev => ({
+					...prev,
+					amountSell: convertedValue,
+				}));
+			} else {
+				setFormState(prev => ({
+					...prev,
+					amountBuy: convertedValue,
+				}));
 			}
-		},
-		[changeAmountTotalSlider, currentMarket],
-	);
+			changeAmountTotalSlider(type, 'amount');
+		}
+	};
 
 	const changeTotal = (value: string, type: FormType) => {
 		const convertedValue = cleanPositiveFloatInput(String(value));
@@ -486,37 +506,6 @@ export const Order: React.FC<OrderProps> = () => {
 		}
 	};
 
-	React.useEffect(() => {
-		if (currentPrice && currentMarket) {
-			const price = Decimal.formatRemoveZero(currentPrice, currentMarket.price_precision);
-			setFormState(prev => ({ ...prev, priceBuy: price, priceSell: price }));
-			changeAmountTotalSlider(currentOrderType === 'buy' ? 'buy' : 'sell', 'price');
-			changeAmount(currentAmount, currentOrderType === 'buy' ? 'sell' : 'buy');
-		}
-	}, [currentPrice, currentMarket, currentOrderType, changeAmount, changeAmountTotalSlider, currentAmount]);
-
-	React.useEffect(() => {
-		setFormState(prev => ({ ...prev, fisrtFetchedPrice: false }));
-	}, [currentMarket]);
-
-	React.useEffect(() => {
-		const last = getTickerValue('last') as number;
-		if (currentMarket && last && !formState.priceBuy && !formState.priceSell && !formState.fisrtFetchedPrice) {
-			const price = Decimal.formatRemoveZero(last, currentMarket.price_precision);
-			setFormState(prev => ({ ...prev, priceBuy: price, priceSell: price, fisrtFetchedPrice: true }));
-		}
-	}, [currentMarket, marketTickers, formState.fisrtFetchedPrice, formState.priceBuy, formState.priceSell, getTickerValue]);
-
-	React.useEffect(() => {
-		if (isLoggedIn && !wallets.length) {
-			dispatch(walletsFetch());
-		}
-	}, [isLoggedIn, wallets, dispatch]);
-
-	React.useEffect(() => {
-		setFormState(defaultFormState);
-	}, [tabTypeSelectedState]);
-
 	const renderForm = () => {
 		if (!currentMarket) {
 			return (
@@ -571,7 +560,7 @@ export const Order: React.FC<OrderProps> = () => {
 									{base_unit.toUpperCase()}
 								</div>
 								<div className="flex-fill text-right title-block-right">
-									<img className="mr-2" src={moneySvg} alt="money_svg" />
+									<img className="mr-2" src={moneySvg} />
 									{` ${balance || '-'} `}
 									{type === 'buy' ? quote_unit.toUpperCase() : base_unit.toUpperCase()}
 								</div>

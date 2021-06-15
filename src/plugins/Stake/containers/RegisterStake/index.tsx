@@ -92,7 +92,6 @@ export const RegisterStake: React.FC<RegisterStakeProps> = (props: RegisterStake
 						cap_amount: cap_amount,
 						total_amount: total_amount,
 						annual_rate: Number(annual_rate),
-						payment_time: payment_time !== '' ? format(new Date(payment_time), 'yyyy-MM-dd hh:mm') : '',
 					};
 				});
 			}

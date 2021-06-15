@@ -91,7 +91,7 @@ export const OrderBookContainer = props => {
 				dispatch(setOrderType('buy'));
 			}
 		},
-		[bids, currentPrice, dispatch, currentMarket],
+		[bids, currentPrice, dispatch],
 	);
 
 	const handleOnSelectAsks = React.useCallback(
@@ -103,7 +103,7 @@ export const OrderBookContainer = props => {
 				dispatch(setOrderType('sell'));
 			}
 		},
-		[currentPrice, dispatch, asks, currentMarket],
+		[currentPrice, dispatch, asks],
 	);
 
 	const arrAsksElm = renderOrderBook(asks, 'asks', currentMarket);
@@ -135,7 +135,7 @@ export const OrderBookContainer = props => {
 		}
 
 		return noDataElm;
-	}, [bids, arrBidsElm, handleOnSelectBids, noDataElm]);
+	}, [currentMarket, bids]);
 	const getAsksElm = React.useCallback(() => {
 		if (arrAsksElm.length > 0) {
 			const total = accumulateVolume(asks);
@@ -156,7 +156,7 @@ export const OrderBookContainer = props => {
 		}
 
 		return noDataElm;
-	}, [asks, noDataElm, arrAsksElm, handleOnSelectAsks]);
+	}, [currentMarket, asks]);
 
 	const infoTabs: Array<{
 		labelTooltip: string;
@@ -262,7 +262,7 @@ export const OrderBookContainer = props => {
 									+get(currentTicker, 'last', 0),
 									get(currentMarket, 'price_precision', 0),
 								)}
-								{cls === 'positive' ? <img src={upSvg} alt="up_svg" /> : <img src={downSvg} alt="down_svg" />}
+								{cls === 'positive' ? <img src={upSvg} /> : <img src={downSvg} />}
 							</Col>
 							<Col className={`p-0  td-order-book-ticker__usd d-flex align-items-center`} lg="auto">
 								${' '}

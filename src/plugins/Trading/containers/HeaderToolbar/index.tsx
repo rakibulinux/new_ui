@@ -78,7 +78,7 @@ const HeaderToolbarContainer: React.FC = () => {
 				</div>
 			</div>
 			<div className="td-header__toolbar--right">
-				<img src={playSvg} alt="play-svg" />
+				<img src={playSvg} />
 				<a className="link-tutorial" href="/">
 					Spot Tutorial
 				</a>
