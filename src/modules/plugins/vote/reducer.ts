@@ -1,4 +1,5 @@
 import produce from 'immer';
+import get from 'lodash/get';
 import { VoteDonateActions, VoteHistoryActions, VoteListActions } from './actions';
 import {
 	VOTE_DONATE_CREATE,
@@ -29,7 +30,16 @@ export const voteListReducer = (state = initialVoteListState, action: VoteListAc
 				draft.loading = true;
 				break;
 			case VOTE_LIST_DATA:
-				draft.info = action.payload;
+				const { data, infoRound, total } = action.payload;
+				draft.info.data = data;
+				draft.info.total = total;
+				const isUpdateInfoRound =
+					(get(draft.infoRound, 'started_at') !== get(infoRound, 'started_at') &&
+						get(draft.infoRound, 'ended_at') !== get(infoRound, 'ended_at')) ||
+					infoRound;
+				if (isUpdateInfoRound) {
+					draft.infoRound = action.payload.infoRound;
+				}
 				draft.loading = false;
 				break;
 			case VOTE_DONATE_DATA:

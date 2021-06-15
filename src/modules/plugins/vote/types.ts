@@ -28,6 +28,16 @@ export interface VoteListState extends CommonState {
 		data: VoteCoin[];
 		total: number;
 	};
+	infoRound?: {
+		id: number;
+		coin_id?: any;
+		active: boolean;
+		started_at: string;
+		ended_at: string;
+		current_time: string;
+		infoCoin: VoteCoin;
+		created_at: string;
+	};
 }
 
 export interface VoteHistoryState extends CommonState {

@@ -1,9 +1,9 @@
 import { Empty, Spin } from 'antd';
 import { NewPagination } from 'components';
-import { useVoteListFetch } from 'hooks';
+import { useVoteListFetch, useWalletsFetch } from 'hooks';
 import { selectVoteListInfo, selectVoteListLoading } from 'modules';
 import * as constants from 'plugins/constants/vote';
-import { ButtonVote } from 'plugins/Vote/components';
+import { ButtonVote, CountDownVote } from 'plugins/Vote/components';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -16,10 +16,12 @@ const defaultPaginationState = {
 };
 
 export const VoteNews: React.FC<VoteNewsProps> = ({}) => {
+	useWalletsFetch();
 	const [pagination, setPagintion] = React.useState(defaultPaginationState);
 	const [keyword, setKeyword] = React.useState('');
 	const voteListInfo = useSelector(selectVoteListInfo);
 	const isVoteListLoading = useSelector(selectVoteListLoading);
+
 	useVoteListFetch({ ...pagination, keyword });
 
 	React.useEffect(() => {
@@ -58,14 +60,16 @@ export const VoteNews: React.FC<VoteNewsProps> = ({}) => {
 
 	return (
 		<div className="pg-vote__news">
-			<div className="pg-vote__news__title">
-				Every Wednesday we pick the most voted coin. Only one coin is selected. 1 vote = 1 {constants.VOTE_CURRENCIE}.
-				Minimum 250000 votes required to be considered. Votes are cumulative from week to week.
+			<div className="pg-vote--border pg-vote__news__title">
+				Every Wednesday we pick the most voted coin. Only one coin is selected. 1 vote = 1{' '}
+				{constants.VOTE_CURRENCIE.toUpperCase()}. Minimum 250000 votes required to be considered. Votes are cumulative
+				from week to week.
 				<p>
 					Click <Link to={`/wallets/deposit/${constants.VOTE_CURRENCIE}`}>here</Link> to add your coin!
 				</p>
 			</div>
-			<div className="pg-vote__news__wrapper-table">
+			<CountDownVote />
+			<div className="pg-vote--border pg-vote__news__wrapper-table">
 				<div className="pg-vote__news__navbar">
 					<h2 className="pg-vote__news__navbar__title">New Coins</h2>
 					<input
