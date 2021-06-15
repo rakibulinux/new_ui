@@ -25,7 +25,6 @@ export const TableBlockStyle = styled.div`
 			-webkit-box-flex: 1;
 			flex: 1 1 auto;
 			display: block;
-			max-height: 352px;
 			overflow-y: scroll;
 			flex-grow: 1;
 			overflow-x: hidden;
