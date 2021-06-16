@@ -1,3 +1,4 @@
+import { VoteScreen } from 'plugins/Vote';
 import * as React from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 import { injectIntl } from 'react-intl';
@@ -8,8 +9,12 @@ import { compose } from 'redux';
 import { minutesUntilAutoLogout, sessionCheckInterval /* showLanding */ } from '../../api';
 import { AnnouncementDetail, NewModal } from '../../components';
 import { AdminAnnouncement, AnnouncementEdit, WalletsFetch } from '../../containers';
+import { MarketsList } from '../../containers/MarketsList';
 import { toggleColorTheme } from '../../helpers';
 import { IntlProps } from '../../index';
+import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
+import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
+import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
 /* import { isMobile } from "react-device-detect"; */
 import {
 	ChangeForgottenPasswordMobileScreen,
@@ -34,11 +39,6 @@ import {
 	WalletsMobileScreen,
 	WalletWithdraw,
 } from '../../mobile/screens';
-
-import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
-
-import { MarketsList } from '../../containers/MarketsList';
-import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
 import {
 	configsFetch,
 	logoutFetch,
@@ -62,9 +62,11 @@ import { CustomizationDataInterface, customizationFetch, selectCustomizationData
 import { AirdropDetail, AirdropList } from '../../plugins/Airdrop';
 import { SaleListScreen } from '../../plugins/Sale';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
+import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
 import { TradingScreen } from '../../plugins/Trading/screens/TradingScreen';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
 import {
+	AnnouncementScreen,
 	ChangeForgottenPasswordScreen,
 	ConfirmScreen,
 	DepositScreen,
@@ -75,6 +77,7 @@ import {
 	LogInScreen,
 	MagicLink,
 	MaintenanceScreen,
+	NewHomePage,
 	OrdersTabScreen,
 	ProfileScreen,
 	ProfileTwoFactorAuthScreen,
@@ -83,12 +86,7 @@ import {
 	VerificationScreen,
 	WalletListScreen,
 	WithdrawScreen,
-	NewHomePage,
-	AnnouncementScreen,
 } from '../../screens';
-import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
-import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
-import { VoteScreen } from 'plugins/Vote';
 
 interface ReduxProps {
 	colorTheme: string;
