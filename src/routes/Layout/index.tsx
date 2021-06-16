@@ -61,7 +61,7 @@ import {
 import { CustomizationDataInterface, customizationFetch, selectCustomizationData } from '../../modules/public/customization';
 import { AirdropDetail, AirdropList } from '../../plugins/Airdrop';
 import { IEOListingScreen } from '../../plugins/IEO/screen/IEOListingScreen';
-import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
+import { IEODetailScreen } from '../../plugins/IEO/screen/IEODetailScreen';
 import { TradingScreen } from '../../plugins/Trading/screens/TradingScreen';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
 import {
@@ -464,7 +464,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						component={AirdropDetail}
 					/>
 					<Route path="/ieo" exact component={IEOListingScreen} />
-					<Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
+					<Route path="/ieo/detail/" exact component={IEODetailScreen} />
 					<Route path="/trading-competition" exact component={TradingCompetionListScreen} />
 					<Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
 					<Route path="/stake" exact component={StakingListScreen} />
