@@ -42,6 +42,9 @@ declare global {
 
 window.env = window.env || defaultConfig;
 Cryptobase.config = { ...window.env };
+//hot custome env
+Cryptobase.config.api.sunshineUrl = Cryptobase.config.api.sunshineUrl || '/api/v2/sunshine';
+//end custome env
 Cryptobase.config.storage = Cryptobase.config.storage || {};
 
 export const tradeUrl = () => Cryptobase.config.api.tradeUrl;
