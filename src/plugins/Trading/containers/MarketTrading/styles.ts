@@ -150,8 +150,6 @@ export const MarketsListTradingStyle = styled.div`
 	.td-markets-trading-list-container {
 		position: relative;
 		height: 100%;
-		overflow-x: hidden;
-		overflow-y: scroll;
 		&__negative {
 			color: var(--asks);
 		}
@@ -174,6 +172,7 @@ export const MarketsListTradingStyle = styled.div`
 			left: 0;
 			bottom: 0;
 			right: 0;
+			overflow: hidden;
 		}
 		.td-table {
 			width: 100%;
@@ -181,6 +180,7 @@ export const MarketsListTradingStyle = styled.div`
 			background-color: transparent;
 			thead {
 				background-color: transparent;
+				display: block;
 				tr {
 					background-color: transparent;
 					width: 100%;
