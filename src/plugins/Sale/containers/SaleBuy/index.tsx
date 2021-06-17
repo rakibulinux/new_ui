@@ -279,7 +279,14 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 	};
 
 	const handleBuyDisabled = () => {
-		return quoteBalanceState < quoteTotalState || quantityInputState < props.sale.min_buy || !priceState || priceState <= 0;
+		return (
+			quantityInputState <= 0 ||
+			quoteTotalState <= 0 ||
+			quoteBalanceState < quoteTotalState ||
+			quantityInputState < props.sale.min_buy ||
+			!priceState ||
+			priceState <= 0
+		);
 	};
 
 	let buyButton;
