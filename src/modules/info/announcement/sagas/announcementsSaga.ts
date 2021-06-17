@@ -1,17 +1,16 @@
 import { put } from 'redux-saga/effects';
 // import { API, RequestOptions } from '../../../../../api';
 import pluginsAPI from '../../../../plugins/api/index';
-
+import { alertPush } from '../../../';
 import {
 	AnnouncementCreate,
-	AnnouncementDelete,
-	// announcementCreateData,
-	announcementDeleteData,
+	announcementUpdateData,
 	announcementError,
 	AnnouncementFetch,
 	announcementsData,
 	AnnouncementUpdate,
-	announcementUpdateData,
+	AnnouncementDelete,
+	announcementDeleteData,
 } from '../actions';
 import { Announcement } from '../types';
 
@@ -20,6 +19,7 @@ export function* announcementCreateSaga(action: AnnouncementCreate) {
 		yield pluginsAPI.post<Announcement>('announcement/create', action.payload);
 	} catch (error) {
 		yield put(announcementError(error));
+		yield put(alertPush({ message: ['page.announcement.create.fail'], type: 'error' }));
 	}
 }
 

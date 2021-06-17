@@ -4,7 +4,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import styled from 'styled-components';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAnnouncement, announcementFetch, alertPush } from '../../modules';
+import { selectAnnouncement, announcementFetch } from '../../modules';
 
 import { announcementCreate } from '../../modules/info/announcement/actions';
 import { AnnouncementTable } from '../../components';
@@ -45,7 +45,7 @@ interface AnnouncementType {
 	announcement_img_pc: string;
 }
 
-export const AdminAnnouncement: React.FC = props => {
+export const AdminAnnouncement: React.FC = () => {
 	const announcements = useSelector(selectAnnouncement);
 	const dispatch = useDispatch();
 
@@ -75,7 +75,6 @@ export const AdminAnnouncement: React.FC = props => {
 		e.preventDefault();
 		dispatch(announcementCreate(postAnnouncement));
 		dispatch(announcementFetch());
-		dispatch(alertPush({ message: ['Create announcement success'], type: 'success' }));
 	};
 
 	const renderAdminAnnouncement = () => {
@@ -104,6 +103,7 @@ export const AdminAnnouncement: React.FC = props => {
 								}));
 							}}
 						/>
+
 						<ButtonStyle type="submit">submit</ButtonStyle>
 					</form>
 					<AnnouncementTable announcements={announcements} />

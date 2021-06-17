@@ -969,5 +969,8 @@ export const ru: LangType = {
 	'page.body.plugins.wallet.deposit.info.notice2':
 		'2. Until 2 confirmations are made, an equivalent amount of your assets will be temporarily unavailable for withdrawals.',
 
+	'page.announcement.create.success': 'create announcement success.',
+	'page.announcement.create.fail': 'create announcement fail.',
+
 	...nationalitiesNames,
 };
