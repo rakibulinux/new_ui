@@ -39,6 +39,9 @@ import {
 	WalletsMobileScreen,
 	WalletWithdraw,
 } from '../../mobile/screens';
+
+import { MarketScreen } from '../../mobile/new_screens';
+
 import {
 	configsFetch,
 	logoutFetch,
@@ -343,6 +346,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							path="/profile"
 							component={ProfileMobileScreen}
 						/>
+
+						<Route exact={false} path="/market" component={MarketScreen} />
 						<Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
 						<Route exact={true} path="/" component={LandingScreenMobile} />
 						<Route path="/ieo" exact component={IEOListMobileScreen} />
