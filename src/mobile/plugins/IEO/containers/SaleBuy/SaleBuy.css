@@ -1,6 +1,5 @@
 #sale-buy-mobile {
 	position: relative;
-	background-color: #1c3049;
 	width: 100%;
 	height: 100%;
 	padding: 2vw 1.5vw;
@@ -24,10 +23,10 @@
 	height: 100%;
 	padding: 10px 28px 10px 10px;
 	font-size: 1rem;
-	border: 1px solid rgb(70, 80, 105);
+	border: 1px solid #2a2c3b;
 	border-radius: 4px;
 	opacity: 0.9;
-	background: rgb(20, 38, 59);
+	background: #3c4055;
 	z-index: 2;
 	color: rgb(255, 255, 255);
 	outline: none;

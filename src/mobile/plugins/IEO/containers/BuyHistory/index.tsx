@@ -26,11 +26,6 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 			key: 'quantity',
 		},
 		{
-			title: 'Currency',
-			dataIndex: 'base_currency',
-			key: 'base_currency',
-		},
-		{
 			title: 'Total Purchase',
 			dataIndex: 'total',
 			key: 'total',
@@ -107,7 +102,7 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 	React.useEffect(() => {
 		const { pagination } = tableState;
 		fetch({ pagination });
-	}, [fetch, tableState]);
+	}, []);
 
 	return (
 		<React.Fragment>

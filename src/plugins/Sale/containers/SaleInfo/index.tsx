@@ -73,7 +73,7 @@ export const SaleInfo: React.FC<SaleInfoProps> = (props: SaleInfoProps) => {
 	}, [dispatchGetTotalBuyers, props.ieoID]);
 
 	return (
-		<div id="sale-info" style={{ backgroundColor: '#1c3049', padding: '3vw', height: '100%' }}>
+		<div id="sale-info" style={{ backgroundColor: '#2D2E3D', padding: '3vw', height: '100%' }}>
 			<div className="row">
 				<div className="col-12">
 					<img className="w-50" src={props.sale.image_link} alt="sale-logo" />

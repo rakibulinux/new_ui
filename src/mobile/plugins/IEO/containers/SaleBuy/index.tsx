@@ -170,22 +170,25 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 		}
 	};
 
-	React.useEffect(() => {
-		dispatchWalletsFetch();
-		dispatchGetPrice({
-			fsym: 'USD',
-			tsyms: props.sale.currency_available,
-		});
-		updateBonusState(quantityInputState);
-		setQuoteBalanceState(handleGetBalance(props.sale.currency_available[0]));
-	}, [
-		dispatchGetPrice,
-		dispatchWalletsFetch,
-		handleGetBalance,
-		props.sale.currency_available,
-		quantityInputState,
-		updateBonusState,
-	]);
+	React.useEffect(
+		() => {
+			dispatchWalletsFetch();
+			dispatchGetPrice({
+				fsym: 'USD',
+				tsyms: props.sale.currency_available,
+			});
+			updateBonusState(quantityInputState);
+			setQuoteBalanceState(handleGetBalance(props.sale.currency_available[0]));
+		},
+		[
+			// dispatchGetPrice,
+			// dispatchWalletsFetch,
+			// handleGetBalance,
+			// props.sale.currency_available,
+			// quantityInputState,
+			// updateBonusState,
+		],
+	);
 
 	React.useEffect(() => {
 		setQuoteBalanceState(handleGetBalance(quoteCurrencyState));
@@ -207,42 +210,45 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 		setIsBuyConfirmModalVisibleState(true);
 	};
 
-	React.useEffect(() => {
-		if (buyResponse.error) {
-			notification.error({
-				message: buyResponse.error.message,
-			});
-		}
-
-		if (buyResponse.payload) {
-			if (buyResponse.payload.success) {
-				notification.success({
-					message: `Buy ${currency_id.toUpperCase()} successfully`,
+	React.useEffect(
+		() => {
+			if (buyResponse.error) {
+				notification.error({
+					message: buyResponse.error.message,
 				});
-				dispatchResetBuyResponse();
-				dispatchGetTotalBuyers(props.sale.id); // update Total Buyers in Sale Info
-				setTimeout(() => {
-					dispatchFetchSaleItemByID(props.sale.id);
-				}, 3000);
 			}
-		}
 
-		if (buyResponse.loading) {
-			const hide = message.loading('Buying in progress..', 0);
-			// dismiss manually and asynchronously
-			setTimeout(hide, 2500);
-		}
-	}, [
-		buyResponse.error,
-		buyResponse.payload.success,
-		buyResponse.loading,
-		buyResponse.payload,
-		currency_id,
-		dispatchFetchSaleItemByID,
-		dispatchGetTotalBuyers,
-		dispatchResetBuyResponse,
-		props.sale.id,
-	]);
+			if (buyResponse.payload) {
+				if (buyResponse.payload.success) {
+					notification.success({
+						message: `Buy ${currency_id.toUpperCase()} successfully`,
+					});
+					dispatchResetBuyResponse();
+					dispatchGetTotalBuyers(props.sale.id); // update Total Buyers in Sale Info
+					setTimeout(() => {
+						dispatchFetchSaleItemByID(props.sale.id);
+					}, 3000);
+				}
+			}
+
+			if (buyResponse.loading) {
+				const hide = message.loading('Buying in progress..', 0);
+				// dismiss manually and asynchronously
+				setTimeout(hide, 2500);
+			}
+		},
+		[
+			// buyResponse.error,
+			// buyResponse.payload.success,
+			// buyResponse.loading,
+			// buyResponse.payload,
+			// currency_id,
+			// dispatchFetchSaleItemByID,
+			// dispatchGetTotalBuyers,
+			// dispatchResetBuyResponse,
+			// props.sale.id,
+		],
+	);
 
 	const handleBuy = () => {
 		const uid = props.uid;

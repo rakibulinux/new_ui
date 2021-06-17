@@ -171,23 +171,26 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 		}
 	};
 
-	React.useEffect(() => {
-		dispatchWalletsFetch();
-		dispatchGetPrice({
-			fsym: 'USD',
-			tsyms: props.sale.currency_available,
-		});
-		updateBonusState(quantityInputState);
-		setQuoteBalanceState(handleGetBalance(props.sale.currency_available[0]));
-	}, [
-		dispatchWalletsFetch,
-		dispatchGetPrice,
-		updateBonusState,
-		setQuoteBalanceState,
-		handleGetBalance,
-		props.sale,
-		quantityInputState,
-	]);
+	React.useEffect(
+		() => {
+			dispatchWalletsFetch();
+			dispatchGetPrice({
+				fsym: 'USD',
+				tsyms: props.sale.currency_available,
+			});
+			updateBonusState(quantityInputState);
+			setQuoteBalanceState(handleGetBalance(props.sale.currency_available[0]));
+		},
+		[
+			// dispatchWalletsFetch,
+			// dispatchGetPrice,
+			// updateBonusState,
+			// setQuoteBalanceState,
+			// handleGetBalance,
+			// props.sale,
+			// quantityInputState,
+		],
+	);
 
 	React.useEffect(() => {
 		setQuoteBalanceState(handleGetBalance(quoteCurrencyState));
