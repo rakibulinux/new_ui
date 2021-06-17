@@ -14,7 +14,7 @@ export const AnnouncementContainer: React.FC = () => {
 
 	const [paginationState, setPaginationState] = React.useState({
 		current: 1,
-		pageSize: 5,
+		pageSize: 10,
 		total: 0,
 	});
 
@@ -110,8 +110,8 @@ export const AnnouncementContainer: React.FC = () => {
 				</Row>
 
 				<Row gutter={[12, 0]} className="mt-5">
-					<Col className="left_article" span={16}>
-						<div className="article-Box">
+					<Col className="left__article" span={16}>
+						<div className="left__article-Box">
 							<div className="article mb-4">
 								{announcements.data
 									.slice(
@@ -144,8 +144,8 @@ export const AnnouncementContainer: React.FC = () => {
 						</div>
 					</Col>
 
-					<Col className="right_article" span={8} style={{ maxHeight: 400 }}>
-						<div className="article-Box">
+					<Col className="right__article" span={8}>
+						<div className="right__article-Box">
 							<HotAnnouncement />
 						</div>
 					</Col>

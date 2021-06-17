@@ -405,6 +405,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route exact={false} path="/fee" component={FeeScreen} />
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />
+					<Route path="/announcement/detail/:id" component={AnnouncementDetail} />
 
 					<PrivateRoute
 						loading={userLoading}
@@ -418,12 +419,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/announcement/edit/:id"
 						component={AnnouncementEdit}
 					/>
-					<PrivateRoute
-						loading={userLoading}
-						isLogged={isLoggedIn}
-						path="/announcement/detail/:id"
-						component={AnnouncementDetail}
-					/>
+
 					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/orders" component={OrdersTabScreen} />
 					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/history" component={HistoryScreen} />
 					<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/confirm" component={ConfirmScreen} />
