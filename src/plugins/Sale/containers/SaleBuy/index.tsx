@@ -171,23 +171,26 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 		}
 	};
 
-	React.useEffect(() => {
-		dispatchWalletsFetch();
-		dispatchGetPrice({
-			fsym: 'USD',
-			tsyms: props.sale.currency_available,
-		});
-		updateBonusState(quantityInputState);
-		setQuoteBalanceState(handleGetBalance(props.sale.currency_available[0]));
-	}, [
-		dispatchWalletsFetch,
-		dispatchGetPrice,
-		updateBonusState,
-		setQuoteBalanceState,
-		handleGetBalance,
-		props.sale,
-		quantityInputState,
-	]);
+	React.useEffect(
+		() => {
+			dispatchWalletsFetch();
+			dispatchGetPrice({
+				fsym: 'USD',
+				tsyms: props.sale.currency_available,
+			});
+			updateBonusState(quantityInputState);
+			setQuoteBalanceState(handleGetBalance(props.sale.currency_available[0]));
+		},
+		[
+			// dispatchWalletsFetch,
+			// dispatchGetPrice,
+			// updateBonusState,
+			// setQuoteBalanceState,
+			// handleGetBalance,
+			// props.sale,
+			// quantityInputState,
+		],
+	);
 
 	React.useEffect(() => {
 		setQuoteBalanceState(handleGetBalance(quoteCurrencyState));
@@ -276,7 +279,14 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 	};
 
 	const handleBuyDisabled = () => {
-		return quoteBalanceState < quoteTotalState || quantityInputState < props.sale.min_buy || !priceState || priceState <= 0;
+		return (
+			quantityInputState <= 0 ||
+			quoteTotalState <= 0 ||
+			quoteBalanceState < quoteTotalState ||
+			quantityInputState < props.sale.min_buy ||
+			!priceState ||
+			priceState <= 0
+		);
 	};
 
 	let buyButton;

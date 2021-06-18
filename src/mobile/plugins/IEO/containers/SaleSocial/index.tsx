@@ -23,13 +23,13 @@ export const SaleSocial: React.FC<SaleSocialProps> = (props: SaleSocialProps) =>
 		<React.Fragment>
 			<Row gutter={[32, 16]} className="link-wrapper-mobile">
 				<Col span={8} className="text-center">
-					<Button style={{ backgroundColor: '#1d3557', border: '#1d3557' }} block href={props.website} target="_blank">
+					<Button style={{ backgroundColor: '#3C4055', border: '#3C4055' }} block href={props.website} target="_blank">
 						Website
 					</Button>
 				</Col>
 				<Col span={8} className="text-center">
 					<Button
-						style={{ backgroundColor: '#1d3557', border: '#1d3557' }}
+						style={{ backgroundColor: '#3C4055', border: '#3C4055' }}
 						block
 						href={props.whitepaper}
 						target="_blank"
@@ -38,7 +38,7 @@ export const SaleSocial: React.FC<SaleSocialProps> = (props: SaleSocialProps) =>
 					</Button>
 				</Col>
 				<Col span={8} className="text-center">
-					<Button style={{ backgroundColor: '#1d3557', border: '#1d3557' }} block href={props.ico} target="_blank">
+					<Button style={{ backgroundColor: '#3C4055', border: '#3C4055' }} block href={props.ico} target="_blank">
 						ICO
 					</Button>
 				</Col>

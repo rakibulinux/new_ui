@@ -115,7 +115,7 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 	React.useEffect(() => {
 		const { pagination } = tableState;
 		fetch({ pagination });
-	}, [fetch, tableState]);
+	}, []);
 
 	return (
 		<React.Fragment>
