@@ -99,11 +99,13 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 	const calculatePrice = React.useCallback(
 		(basePrice: number, quotePrice: number) => {
 			switch (quoteCurrencyState.toLowerCase()) {
-				case 'kobe':
-					return NP.divide(NP.divide(1, quotePrice), NP.divide(1, basePrice));
-				case 'esc':
-					return NP.divide(NP.divide(1, quotePrice), NP.divide(1, basePrice));
-				case 'swp':
+				// case 'kobe':
+				// 	return NP.divide(NP.divide(1, quotePrice), NP.divide(1, basePrice));
+				// case 'esc':
+				// 	return NP.divide(NP.divide(1, quotePrice), NP.divide(1, basePrice));
+				// case 'swp':
+				// 	return NP.divide(NP.divide(1, quotePrice), NP.divide(1, basePrice));
+				case 'cx':
 					return NP.divide(NP.divide(1, quotePrice), NP.divide(1, basePrice));
 				default:
 					return NP.divide(quotePrice, NP.divide(1, basePrice));
