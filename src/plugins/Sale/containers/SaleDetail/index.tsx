@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { LKT } from './LKT';
-import { LKT2 } from './LKT2';
+import { UDON } from './UDON';
 
 interface SaleDetailProps {
 	ieoID: number;
@@ -11,10 +10,7 @@ export const SaleDetail: React.FC<SaleDetailProps> = (props: SaleDetailProps) =>
 
 	switch (props.ieoID) {
 		case 1:
-			saleDetail = <LKT />;
-			break;
-		case 2:
-			saleDetail = <LKT2 />;
+			saleDetail = <UDON />;
 			break;
 
 		default:

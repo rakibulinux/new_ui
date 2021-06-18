@@ -1,11 +1,11 @@
 import { Menu } from 'antd';
 import * as React from 'react';
 
-import { LKTInfo } from './Info';
-/* import { LKTAbout } from './About'; */
-import { LKTMore } from './More';
+import { UDONInfo } from './Info';
+import { UDONAbout } from './About';
+import { UDONMore } from './More';
 
-export const LKT = () => {
+export const UDON = () => {
 	const [selectedViewState, setSelectedViewState] = React.useState<string>('1');
 	const handleSelectMenuItem = ({ key, domEvent }) => {
 		setSelectedViewState(key);
@@ -23,12 +23,16 @@ export const LKT = () => {
 						<Menu.Item key="2">
 							<span style={{ fontSize: '20px' }}>More Information</span>
 						</Menu.Item>
+						<Menu.Item key="3">
+							<span style={{ fontSize: '20px' }}>About</span>
+						</Menu.Item>
 					</Menu>
 				</div>
 			</div>
 			<div style={{ padding: '3rem 5vw' }}>
-				{selectedViewState === '1' ? <LKTInfo /> : ''}
-				{selectedViewState === '2' ? <LKTMore /> : ''}
+				{selectedViewState === '1' ? <UDONInfo /> : ''}
+				{selectedViewState === '2' ? <UDONMore /> : ''}
+				{selectedViewState === '3' ? <UDONAbout /> : ''}
 			</div>
 		</React.Fragment>
 	);
