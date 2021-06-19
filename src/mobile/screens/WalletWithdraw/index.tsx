@@ -21,11 +21,14 @@ const WalletWithdraw: React.FC = () => {
 	const wallets = useSelector(selectWallets) || [];
 	const wallet = wallets.find(item => item.currency === currency) || defaultWallet;
 	const parent_currencies = useSelector(selectCurrencies);
+	const currencies = useSelector(selectCurrencies);
+
 	const parent_currency = parent_currencies.find(par_cur => par_cur.id.toLowerCase() === String(currency).toLowerCase()) || {
 		blockchain_key: '',
 		withdrawal_enabled: false,
 	};
 	const child_currencies = useSelector(selectChildCurrencies);
+	const founded_currency = currencies.find(c => c.id.toLowerCase() === currency.toLowerCase()) || { icon_url: '' };
 	const dispatch = useDispatch();
 	const dispatchFetchChildCurrencies = React.useCallback(() => dispatch(walletsChildCurrenciesFetch({ currency: currency })), [
 		currency,
@@ -58,7 +61,7 @@ const WalletWithdraw: React.FC = () => {
 				backTitle={intl.formatMessage({ id: 'page.body.wallets.balance' })}
 				onGoBack={() => history.push(`/wallets/${currency}/history`)}
 			/>
-			<WalletHeader currency={wallet.currency} name={wallet.name} />
+			 <WalletHeader currency={wallet.currency} name={wallet.name} iconUrl={founded_currency.icon_url} />
 			<WalletBanner wallet={wallet} />
 
 			<div className="react-tabs">
