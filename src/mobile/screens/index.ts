@@ -20,6 +20,5 @@ export * from './Trading';
 export * from './WalletDeposit';
 export * from './WalletsHistory';
 export * from './WalletsScreen';
-// export * from './Wallets';
 export * from './WalletWithdraw';
 export * from './MarketNewUi';

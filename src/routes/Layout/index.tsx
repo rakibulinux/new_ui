@@ -36,11 +36,10 @@ import {
 	SignUpMobileScreen,
 	TradingScreenMobile,
 	WalletDeposit,
-	WalletsMobileScreen,
 	WalletWithdraw,
 } from '../../mobile/screens';
 
-import { MarketScreen } from '../../mobile/new_screens';
+import { MarketScreen, WalletsMobileScreen } from '../../mobile/new_screens';
 
 import {
 	configsFetch,
