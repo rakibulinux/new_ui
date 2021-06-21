@@ -1,17 +1,21 @@
-import { put } from 'redux-saga/effects';
-import axios from '../../../../plugins/api/index';
+import { API, RequestOptions } from 'api';
+import { stringify } from 'querystring';
+import { call, put } from 'redux-saga/effects';
 
 import { stakeWalletData, StakeWalletFetch } from '../actions';
-import { StakeWallet } from '../types';
+
+const createOptions = (csrfToken?: string): RequestOptions => {
+	return { apiVersion: 'sunshine', headers: { 'X-CSRF-Token': csrfToken } };
+};
 
 export function* fetchStakeWallet(action: StakeWalletFetch) {
 	try {
-		const { uid, currency_id } = action.payload;
-		if (uid && currency_id) {
-			const wallets = yield axios.get<StakeWallet[]>(`stake/wallet/fetch/uid=${uid}/currency_id=${currency_id}`);
+		const { uid } = action.payload;
+		if (uid) {
+			const wallets = yield call(API.get(createOptions()), `/private/stake/accounts?${stringify(action.payload)}`);
 			yield put(
 				stakeWalletData({
-					payload: [...wallets.data],
+					payload: [...wallets],
 					loading: false,
 				}),
 			);

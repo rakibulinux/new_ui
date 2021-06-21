@@ -1,9 +1,14 @@
-import { put } from 'redux-saga/effects';
-import pluginAPI from '../../../../plugins/api';
+import { call, put } from 'redux-saga/effects';
 import { alertPush } from './../../../public/alert/actions';
 import { stakeWalletFetch, unStakeHistoryFetch } from './../actions';
 
 import { unStakeData, UnstakePost } from '../actions';
+import { API, RequestOptions } from 'api';
+import { getCsrfToken } from 'helpers';
+
+const createOptions = (csrfToken?: string): RequestOptions => {
+	return { apiVersion: 'sunshine', headers: { 'X-CSRF-Token': csrfToken } };
+};
 
 export function* unstakeSaga(action: UnstakePost) {
 	try {
@@ -13,13 +18,14 @@ export function* unstakeSaga(action: UnstakePost) {
 			currency_id,
 			amount,
 		};
-		const result = yield pluginAPI.post('stake/unstake', unstake_data);
-		if (result.data.error) { throw new Error(result.data.error); }
+		const result = yield call(API.post(createOptions(getCsrfToken())), `private/stake/unstake`, unstake_data);
+		if (result.error) {
+			throw new Error(result.error);
+		}
 		yield put(unStakeHistoryFetch({ uid: uid, currency_id: currency_id }));
 		yield put(
 			stakeWalletFetch({
 				uid: uid,
-				currency_id: currency_id,
 			}),
 		);
 		yield put(alertPush({ message: ['unstake.success'], type: 'success' }));

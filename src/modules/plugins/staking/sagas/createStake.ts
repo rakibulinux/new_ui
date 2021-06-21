@@ -1,22 +1,22 @@
-import { put } from 'redux-saga/effects';
-import axios from '../../../../plugins/api/index';
+import { call, put } from 'redux-saga/effects';
 import { alertPush } from './../../../public/alert/actions';
 import { stakeHistoryFetch, stakingListFetch } from './../actions';
 
 import { CreateStake, createStakeData } from '../actions';
+import { API, RequestOptions } from 'api';
+import { getCsrfToken } from 'helpers';
+
+const createOptions = (csrfToken?: string): RequestOptions => {
+	return { apiVersion: 'sunshine', headers: { 'X-CSRF-Token': csrfToken } };
+};
 
 export function* createStakeSaga(action: CreateStake) {
 	try {
-		const { uid, reward_id, amount, lockup_date, release_date, stake_id } = action.payload;
-		const stake_data = {
-			uid: uid,
-			reward_id: reward_id,
-			amount: amount,
-			lockup_date: lockup_date,
-			release_date: release_date,
-		};
-		const result = yield axios.post('stake/stakes', stake_data);
-		if (result.data.error) { throw new Error(result.data.error); }
+		const { uid, stake_id } = action.payload;
+		const result = yield call(API.post(createOptions(getCsrfToken())), `private/stake/register`, action.payload);
+		if (result.error) {
+			throw new Error(result.error);
+		}
 		yield put(stakingListFetch());
 		yield put(stakeHistoryFetch({ uid: uid, stake_id: stake_id }));
 		yield put(alertPush({ message: ['create.stake.success'], type: 'success' }));
