@@ -48,7 +48,7 @@ const TableComponent: React.FC<TableProps> = ({ headers, markets }) => {
 	const actionFilterPage = React.useCallback(() => {
 		const start = tablePagination.pageSize * tablePagination.current - tablePagination.pageSize;
 		setTableFilterPagination(markets.slice(start, start + tablePagination.pageSize));
-	}, [markets, tablePagination]);
+	}, [markets]);
 
 	React.useEffect(() => {
 		if (markets) {

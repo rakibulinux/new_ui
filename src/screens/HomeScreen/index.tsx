@@ -1,14 +1,12 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { MarketsTableScreen } from '../../containers/MarketsTableScreen';
-
-import { Col, Row } from 'react-bootstrap';
-import Slider from 'react-slick';
-
 import { AndroidFilled, AppleFilled } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'react-redux';
-import { eventFetch, selectEvents } from '../../modules';
-
+import { useEventsFetch } from 'hooks';
+import * as React from 'react';
+import { Col, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
+import { MarketsTableScreen } from '../../containers/MarketsTableScreen';
+import { selectEvents } from '../../modules';
 import './style.css';
 
 const settingEvents = {
@@ -50,13 +48,7 @@ const settingEvents = {
 };
 
 export const HomeScreen: React.FC<any> = (props: any) => {
-	const dispatch = useDispatch();
-	const dispatchFetchEvents = React.useCallback(() => dispatch(eventFetch()), [dispatch]);
-
-	React.useEffect(() => {
-		dispatchFetchEvents();
-	}, [dispatchFetchEvents]);
-
+	useEventsFetch();
 	const events = useSelector(selectEvents);
 
 	const renderBanner = () => {
