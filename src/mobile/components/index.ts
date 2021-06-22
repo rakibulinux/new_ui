@@ -27,3 +27,8 @@ export * from './Directionals';
 export * from './Table';
 export * from './Pagination';
 export * from './NewBottomNavbar';
+export * from './NewWalletHeader';
+export * from './NewWalletSearchBox';
+export * from './NewWalletToggle';
+export * from './NewWalletList';
+export * from './NewWalletItem';
