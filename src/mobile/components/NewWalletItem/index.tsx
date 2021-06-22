@@ -13,7 +13,7 @@ interface NewWalletItemProps {
 }
 
 export const NewWalletItem: FC<NewWalletItemProps> = ({ iconUrl, total, balance, currency, name }) => {
-	const estimate = useConvertToUSD(total, currency);
+	const estimate = useConvertToUSD(total, currency, 3);
 	const history = useHistory();
 
 	return (
@@ -25,7 +25,7 @@ export const NewWalletItem: FC<NewWalletItemProps> = ({ iconUrl, total, balance,
 			<div className="wallet-item__bottom">
 				<div className="wallet-item__bottom__block wallet-item__bottom__block--flex-1">
 					<span className="wallet-item__bottom__block__text">Estimation</span>
-					<span className="wallet-item__bottom__block__number">≈¥ {estimate}</span>
+					<span className="wallet-item__bottom__block__number">≈$ {estimate}</span>
 				</div>
 				<div className="wallet-item__bottom__block">
 					<span className="wallet-item__bottom__block__text">Total</span>

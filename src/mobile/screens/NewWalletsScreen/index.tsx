@@ -14,14 +14,14 @@ export const NewWalletsMobileScreen = () => {
 	const wallets = useSelector(selectWallets);
 	const allChildCurrencies = useSelector(selectAllChildCurrencies);
 
-	const [searcString, setSearcString] = useState<string>('');
+	const [searchString, setSearchString] = useState<string>('');
 	const [hideSmallBalance, setHideSmallBalance] = useState<boolean>(false);
 
-	const data = calcWalletsData(wallets, allChildCurrencies, searcString, hideSmallBalance);
+	const data = calcWalletsData(wallets, allChildCurrencies, searchString, hideSmallBalance);
 
 	return (
 		<div>
-			<NewWalletHeader setSearchString={setSearcString} setHideSmallBalance={setHideSmallBalance} />
+			<NewWalletHeader setSearchString={setSearchString} setHideSmallBalance={setHideSmallBalance} />
 			<NewWalletList data={data} />
 		</div>
 	);
