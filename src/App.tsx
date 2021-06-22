@@ -23,7 +23,9 @@ if (gaKey) {
 }
 
 /* Mobile components */
-const MobileFooter = React.lazy(() => import('./mobile/components/Footer').then(({ Footer }) => ({ default: Footer })));
+const MobileFooter = React.lazy(() =>
+	import('./mobile/components/NewBottomNavbar').then(({ BottomNavbar }) => ({ default: BottomNavbar })),
+);
 const MobileHeader = React.lazy(() => import('./mobile/components/Header').then(({ Header }) => ({ default: Header })));
 
 /* Desktop components */

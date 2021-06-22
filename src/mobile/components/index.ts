@@ -26,3 +26,4 @@ export * from './Slide';
 export * from './Directionals';
 export * from './Table';
 export * from './Pagination';
+export * from './NewBottomNavbar';
