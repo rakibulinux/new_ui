@@ -117,7 +117,7 @@ export const Header: React.FC = () => {
 			!isLoggedIn && (
 				<>
 					<div className="header__right-menu__item flex-shrink-0 custom-poiter" onClick={e => redirectSingIn()}>
-						<div className="header__right-menu__item__title d-none d-xl-block">
+						<div className="header__right-menu__item__title">
 							<span>{translate('page.body.landing.header.button2')}</span>
 						</div>
 					</div>
