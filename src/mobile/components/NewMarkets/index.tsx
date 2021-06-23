@@ -31,9 +31,7 @@ export const NewMarkets = () => {
 	const [sortPairs, setSortPairs] = useState(false);
 	const [sortPrice, setSortPrice] = useState(false);
 	const [sortChange, setSortChanges] = useState(false);
-	const [isSortPairs, setIsSortPairs] = useState(false);
-	const [isSortPrice, setIsSortPrice] = useState(false);
-	const [isSortChange, setIsSortChange] = useState(false);
+	const [isSort, setIsSort] = useState({ pairs: false, price: false, change: false });
 
 	useEffect(() => {
 		const formatFilteredMarkets = (list: string[], market) => {
@@ -71,9 +69,7 @@ export const NewMarkets = () => {
 			setMaxPage(Math.ceil(listMarketTamp.length / MAXELEMENT));
 			listMarketTamp = listMarketTamp.slice(0, MAXELEMENT);
 			setListMarket(listMarketTamp);
-			setIsSortChange(false);
-			setIsSortPairs(false);
-			setIsSortPrice(false);
+			setIsSort({ pairs: false, price: false, change: false });
 		}
 	}, [tab]);
 
@@ -87,60 +83,10 @@ export const NewMarkets = () => {
 			} else {
 				listMarketTamp = markets.filter(e => e.name.split('/')[0] === valueSearch.toUpperCase());
 			}
-
-			setIsSortChange(false);
-			setIsSortPairs(false);
-			setIsSortPrice(false);
+			setIsSort({ pairs: false, price: false, change: false });
 			setListMarket(listMarketTamp);
 		}
 	}, [valueSearch]);
-
-	useEffect(() => {
-		if (isSortChange) {
-			const listMarketTamp = listMarket;
-			if (sortChange) {
-				listMarketTamp.sort((a, b) => {
-					const priceA = tickers[a.id] || defaultTicker;
-					const priceB = tickers[b.id] || defaultTicker;
-
-					return (
-						Number(priceA.price_change_percent.replace(/[+%]/g, '')) -
-						Number(priceB.price_change_percent.replace(/[+%]/g, ''))
-					);
-				});
-			} else {
-				listMarketTamp.sort((a, b) => {
-					const priceA = tickers[a.id] || defaultTicker;
-					const priceB = tickers[b.id] || defaultTicker;
-
-					return (
-						Number(priceB.price_change_percent.replace(/[+%]/g, '')) -
-						Number(priceA.price_change_percent.replace(/[+%]/g, ''))
-					);
-				});
-			}
-			setListMarket(listMarketTamp);
-		}
-		if (isSortPrice) {
-			const listMarketTamp = listMarket;
-			if (sortPrice) {
-				listMarketTamp.sort((a, b) => {
-					const priceA = tickers[a.id] || defaultTicker;
-					const PriceB = tickers[b.id] || defaultTicker;
-
-					return Number(priceA.last) - Number(PriceB.last);
-				});
-			} else {
-				listMarketTamp.sort((a, b) => {
-					const priceA = tickers[a.id] || defaultTicker;
-					const PriceB = tickers[b.id] || defaultTicker;
-
-					return Number(PriceB.last) - Number(priceA.last);
-				});
-			}
-			setListMarket(listMarketTamp);
-		}
-	}, [tickers]);
 
 	const onChangeTab = (nameTab: string) => {
 		if (tab !== nameTab) {
@@ -152,10 +98,8 @@ export const NewMarkets = () => {
 		const listMarketTamp = listMarket;
 		switch (typeSort) {
 			case 'Trading Pairs':
-				if (!isSortPairs) {
-					setIsSortChange(false);
-					setIsSortPairs(true);
-					setIsSortPrice(false);
+				if (!isSort.pairs) {
+					setIsSort({ pairs: true, price: false, change: false });
 				}
 				if (sortPairs) {
 					listMarketTamp.sort((a, b) => {
@@ -177,10 +121,8 @@ export const NewMarkets = () => {
 
 				break;
 			case 'Latest  Price':
-				if (!isSortPrice) {
-					setIsSortChange(false);
-					setIsSortPairs(false);
-					setIsSortPrice(true);
+				if (!isSort.price) {
+					setIsSort({ pairs: false, price: true, change: false });
 				}
 				if (sortPrice) {
 					listMarketTamp.sort((a, b) => {
@@ -202,10 +144,8 @@ export const NewMarkets = () => {
 
 				break;
 			case '24h Change':
-				if (!isSortChange) {
-					setIsSortChange(true);
-					setIsSortPairs(false);
-					setIsSortPrice(false);
+				if (!isSort.change) {
+					setIsSort({ pairs: false, price: false, change: true });
 				}
 				if (sortChange) {
 					listMarketTamp.sort((a, b) => {
@@ -248,8 +188,8 @@ export const NewMarkets = () => {
 
 	const renderTab = () => {
 		const classname = (nameTab: String) =>
-			classNames('td-market__body__selection__box__item', {
-				'td-market__body__selection__box__item--active': nameTab === tab,
+			classNames('td-mobile-new-market__body__selection__box__item', {
+				'td-mobile-new-market__body__selection__box__item--active': nameTab === tab,
 			});
 
 		return listTab.map((name, i) => {
@@ -264,33 +204,33 @@ export const NewMarkets = () => {
 	const renderHeaderTable = () => {
 		const listHeader = ['Trading Pairs', 'Latest  Price', '24h Change'];
 		const renderUiHeader = listHeader.map((name, i) => {
-			let classActiveUpDown = 'd-flex flex-column justify-content-center td-market__body__info__item__icon';
+			let classActiveUpDown = 'd-flex flex-column justify-content-center td-mobile-new-market__body__info__item__icon';
 
 			switch (name) {
 				case 'Trading Pairs':
-					if (isSortPairs) {
+					if (isSort.pairs) {
 						classActiveUpDown = classNames(
-							'd-flex flex-column justify-content-center td-market__body__info__item__icon',
-							{ 'td-market__body__info__item__icon--active-up': sortPairs },
-							{ 'td-market__body__info__item__icon--active-down': !sortPairs },
+							'd-flex flex-column justify-content-center td-mobile-new-market__body__info__item__icon',
+							{ 'td-mobile-new-market__body__info__item__icon--active-up': sortPairs },
+							{ 'td-mobile-new-market__body__info__item__icon--active-down': !sortPairs },
 						);
 					}
 					break;
 				case 'Latest  Price':
-					if (isSortPrice) {
+					if (isSort.price) {
 						classActiveUpDown = classNames(
-							'd-flex flex-column justify-content-center td-market__body__info__item__icon',
-							{ 'td-market__body__info__item__icon--active-up': sortPrice },
-							{ 'td-market__body__info__item__icon--active-down': !sortPrice },
+							'd-flex flex-column justify-content-center td-mobile-new-market__body__info__item__icon',
+							{ 'td-mobile-new-market__body__info__item__icon--active-up': !sortPrice },
+							{ 'td-mobile-new-market__body__info__item__icon--active-down': sortPrice },
 						);
 					}
 					break;
 				case '24h Change':
-					if (isSortChange) {
+					if (isSort.change) {
 						classActiveUpDown = classNames(
-							'd-flex flex-column justify-content-center td-market__body__info__item__icon',
-							{ 'td-market__body__info__item__icon--active-up': !sortChange },
-							{ 'td-market__body__info__item__icon--active-down': sortChange },
+							'd-flex flex-column justify-content-center td-mobile-new-market__body__info__item__icon',
+							{ 'td-mobile-new-market__body__info__item__icon--active-up': !sortChange },
+							{ 'td-mobile-new-market__body__info__item__icon--active-down': sortChange },
 						);
 					}
 					break;
@@ -300,9 +240,9 @@ export const NewMarkets = () => {
 
 			return (
 				<th key={i}>
-					<div className={classNames('td-market__body__info d-flex', { 'justify-content-end': i !== 0 })}>
+					<div className={classNames('td-mobile-new-market__body__info d-flex', { 'justify-content-end': i !== 0 })}>
 						<div className="d-flex" onClick={() => onSort(name)}>
-							<div className="td-market__body__info__item ">{name}</div>
+							<div className="td-mobile-new-market__body__info__item ">{name}</div>
 							<div className={classActiveUpDown}>
 								<FaSortUp />
 								<FaSortDown />
@@ -328,9 +268,9 @@ export const NewMarkets = () => {
 
 			return (
 				<React.Fragment>
-					<tbody className="td-market__body__markets">
+					<tbody className="td-mobile-new-market__body__markets">
 						<tr>
-							<td className="td-market__body__markets__desc">Main</td>
+							<td className="td-mobile-new-market__body__markets__desc">Main</td>
 							<td></td>
 							<td></td>
 						</tr>
@@ -351,22 +291,24 @@ export const NewMarkets = () => {
 				const listMarketTamp = markets.slice(indexElemStart, indexElemStop);
 				setListMarket(listMarketTamp);
 				setPageIndex(index);
-				setIsSortChange(false);
-				setIsSortPairs(false);
-				setIsSortPrice(false);
+				setIsSort({ pairs: false, price: false, change: false });
 			}
 		};
 
-		return listMarket.length === 0 ? <Empty /> : <NewPagination page={pageIndex} total={maxPage} toPage={goToPgae} />;
+		return listMarket.length === 0 ? (
+			<Empty />
+		) : (
+			<NewPagination page={pageIndex === 0 ? 1 : pageIndex} total={maxPage} toPage={goToPgae} />
+		);
 	};
 
 	return (
-		<div className="td-market">
+		<div className="td-mobile-new-market">
 			<HeaderSearch onSearch={onSearch} backToAll={backToAllList} />
 
-			<div className="td-market__body ">
-				<div className="td-market__body__selection ">
-					<div className="td-market__body__selection__box">{renderTab()}</div>
+			<div className="td-mobile-new-market__body ">
+				<div className="td-mobile-new-market__body__selection ">
+					<div className="td-mobile-new-market__body__selection__box">{renderTab()}</div>
 				</div>
 
 				<table>

@@ -31,18 +31,18 @@ export const RowTable = ({ market }) => {
 	const ticker = tickers[market.id] || defaultTicker;
 	const marketTickerChange = +(+ticker.last - +ticker.open).toFixed(market.price_precision);
 
-	const marketChangeBtnClass = classNames('d-flex justify-content-end td-market__body__markets__item__btn', {
-		'td-market__body__markets__item__btn--false': (+marketTickerChange || 0) < 0,
+	const marketChangeBtnClass = classNames('d-flex justify-content-end td-mobile-new-market__body__markets__item__btn', {
+		'td-mobile-new-market__body__markets__item__btn--false': (+marketTickerChange || 0) < 0,
 	});
 
 	return (
-		<tr className="td-market__body__markets__item">
+		<tr className="td-mobile-new-market__body__markets__item">
 			<td>
-				<div className="td-market__body__markets__item__pairs d-flex flex-column">
+				<div className="td-mobile-new-market__body__markets__item__pairs d-flex flex-column">
 					<div>
-						<span className="td-market__body__markets__item__pairs__first">{market.name.split('/')[0]}</span>
-						<span className="td-market__body__markets__item__pairs__second">/{market.name.split('/')[1]}</span>
-						{/* <span className="td-market__body__markets__item__pairs__margin">5x</span> */}
+						<span className="td-mobile-new-market__body__markets__item__pairs__first">{market.name.split('/')[0]}</span>
+						<span className="td-mobile-new-market__body__markets__item__pairs__second">/{market.name.split('/')[1]}</span>
+						{/* <span className="td-mobile-new-market__body__markets__item__pairs__margin">5x</span> */}
 					</div>
 
 					<div>
@@ -54,8 +54,8 @@ export const RowTable = ({ market }) => {
 
 			<td>
 				<div className="d-flex justify-content-end">
-					<div className="td-market__body__markets__item__price d-flex flex-column text-right">
-						<div className="td-market__body__markets__item__price__volume">
+					<div className="td-mobile-new-market__body__markets__item__price d-flex flex-column text-right">
+						<div className="td-mobile-new-market__body__markets__item__price__volume">
 							{Decimal.format(ticker.last, market.price_precision, ',')}
 						</div>
 
