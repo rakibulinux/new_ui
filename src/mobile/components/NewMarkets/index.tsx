@@ -351,6 +351,9 @@ export const NewMarkets = () => {
 				const listMarketTamp = markets.slice(indexElemStart, indexElemStop);
 				setListMarket(listMarketTamp);
 				setPageIndex(index);
+				setIsSortChange(false);
+				setIsSortPairs(false);
+				setIsSortPrice(false);
 			}
 		};
 
