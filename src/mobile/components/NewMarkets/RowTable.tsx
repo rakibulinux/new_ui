@@ -36,7 +36,7 @@ export const RowTable = ({ market }) => {
 	});
 
 	return (
-		<tr className="td-mobile-new-market__body__markets__item">
+		<tr className="td-mobile-new-market__body__markets__item"  onClick={() => redirectToTrading(market)} >
 			<td>
 				<div className="td-mobile-new-market__body__markets__item__pairs d-flex flex-column">
 					<div>
@@ -66,7 +66,7 @@ export const RowTable = ({ market }) => {
 
 			<td>
 				<div className={marketChangeBtnClass}>
-					<button type="button" className="btn btn-primary" onClick={() => redirectToTrading(market)}>
+					<button type="button" className="btn btn-primary">
 						{ticker.price_change_percent}
 					</button>
 				</div>

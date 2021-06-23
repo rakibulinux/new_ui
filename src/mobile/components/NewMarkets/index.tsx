@@ -19,19 +19,26 @@ const defaultTicker: Ticker = {
 	volume: '0.0',
 	avg_price: '0',
 };
+
+const DEFAULTSORT = { pairs: false, price: false, change: false };
+
+const DEFAULTMAXPAGE = 1;
+
+const DEFAULTPAGEINDEX = 1;
+
+const DEFAULTTAB = 'all';
+
 export const NewMarkets = () => {
 	const markets = useSelector(selectMarkets);
 	const tickers = useSelector(selectMarketTickers);
 	const [listTab, setListTab] = useState(['']);
-	const [tab, setTab] = useState('all');
+	const [tab, setTab] = useState(DEFAULTTAB);
 	const [listMarket, setListMarket] = useState(markets);
-	const [maxPage, setMaxPage] = useState(1);
-	const [pageIndex, setPageIndex] = useState(1);
+	const [maxPage, setMaxPage] = useState(DEFAULTMAXPAGE);
+	const [pageIndex, setPageIndex] = useState(DEFAULTPAGEINDEX);
 	const [valueSearch, setValueSearch] = useState('');
-	const [sortPairs, setSortPairs] = useState(false);
-	const [sortPrice, setSortPrice] = useState(false);
-	const [sortChange, setSortChanges] = useState(false);
-	const [isSort, setIsSort] = useState({ pairs: false, price: false, change: false });
+	const [sortBy, setSortBy] = useState(DEFAULTSORT);
+	const [isSort, setIsSort] = useState(DEFAULTSORT);
 
 	useEffect(() => {
 		const formatFilteredMarkets = (list: string[], market) => {
@@ -45,8 +52,8 @@ export const NewMarkets = () => {
 		if (markets.length > 0) {
 			const currentBidUnitsList = markets.reduce(formatFilteredMarkets, ['all']);
 			setListTab(currentBidUnitsList);
-			const listMarketTamp = markets.slice(0, MAXELEMENT);
-
+			let listMarketTamp = markets.slice(0, MAXELEMENT);
+			listMarketTamp = sortForAZ(listMarketTamp, true);
 			setListMarket(listMarketTamp);
 			setMaxPage(Math.ceil(markets.length / MAXELEMENT));
 		}
@@ -65,11 +72,12 @@ export const NewMarkets = () => {
 
 				return e.quote_unit === tab;
 			});
-			setPageIndex(1);
+			listMarketTamp = sortForAZ(listMarketTamp, true);
+			setPageIndex(DEFAULTPAGEINDEX);
 			setMaxPage(Math.ceil(listMarketTamp.length / MAXELEMENT));
 			listMarketTamp = listMarketTamp.slice(0, MAXELEMENT);
 			setListMarket(listMarketTamp);
-			setIsSort({ pairs: false, price: false, change: false });
+			setIsSort(DEFAULTSORT);
 		}
 	}, [tab]);
 
@@ -83,7 +91,7 @@ export const NewMarkets = () => {
 			} else {
 				listMarketTamp = markets.filter(e => e.name.split('/')[0] === valueSearch.toUpperCase());
 			}
-			setIsSort({ pairs: false, price: false, change: false });
+			setIsSort(DEFAULTSORT);
 			setListMarket(listMarketTamp);
 		}
 	}, [valueSearch]);
@@ -94,37 +102,40 @@ export const NewMarkets = () => {
 		}
 	};
 
+	const sortForAZ = (listMarketTamp, upOrDown) => {
+		return listMarketTamp.sort((a, b) => {
+			const textA = a.name.charAt(0);
+			const textB = b.name.charAt(0);
+			if (upOrDown) {
+				return textA > textB ? -1 : textA < textB ? 1 : 0;
+			} else {
+				return textA < textB ? -1 : textA > textB ? 1 : 0;
+			}
+		});
+	};
+
 	const onSort = (typeSort: string) => {
-		const listMarketTamp = listMarket;
+		let listMarketTamp = listMarket;
 		switch (typeSort) {
 			case 'Trading Pairs':
 				if (!isSort.pairs) {
 					setIsSort({ pairs: true, price: false, change: false });
 				}
-				if (sortPairs) {
-					listMarketTamp.sort((a, b) => {
-						const textA = a.name.charAt(0);
-						const textB = b.name.charAt(0);
-
-						return textA > textB ? -1 : textA < textB ? 1 : 0;
-					});
+				// tslint:disable-next-line: prefer-conditional-expression
+				if (sortBy.pairs) {
+					listMarketTamp = sortForAZ(listMarketTamp, sortBy.pairs);
 				} else {
-					listMarketTamp.sort((a, b) => {
-						const textA = a.name.charAt(0);
-						const textB = b.name.charAt(0);
-
-						return textA < textB ? -1 : textA > textB ? 1 : 0;
-					});
+					listMarketTamp = sortForAZ(listMarketTamp, sortBy.pairs);
 				}
 
-				setSortPairs(!sortPairs);
+				setSortBy({ ...DEFAULTSORT, pairs: !sortBy.pairs });
 
 				break;
 			case 'Latest  Price':
 				if (!isSort.price) {
 					setIsSort({ pairs: false, price: true, change: false });
 				}
-				if (sortPrice) {
+				if (sortBy.price) {
 					listMarketTamp.sort((a, b) => {
 						const priceA = tickers[a.id] || defaultTicker;
 						const PriceB = tickers[b.id] || defaultTicker;
@@ -140,14 +151,14 @@ export const NewMarkets = () => {
 					});
 				}
 
-				setSortPrice(!sortPrice);
+				setSortBy({ ...DEFAULTSORT, price: !sortBy.price });
 
 				break;
 			case '24h Change':
 				if (!isSort.change) {
 					setIsSort({ pairs: false, price: false, change: true });
 				}
-				if (sortChange) {
+				if (sortBy.change) {
 					listMarketTamp.sort((a, b) => {
 						const priceA = tickers[a.id] || defaultTicker;
 						const priceB = tickers[b.id] || defaultTicker;
@@ -168,7 +179,7 @@ export const NewMarkets = () => {
 						);
 					});
 				}
-				setSortChanges(!sortChange);
+				setSortBy({ ...DEFAULTSORT, change: !sortBy.change });
 				break;
 
 			default:
@@ -183,7 +194,7 @@ export const NewMarkets = () => {
 	};
 
 	const backToAllList = () => {
-		setTab('all');
+		setTab(DEFAULTTAB);
 	};
 
 	const renderTab = () => {
@@ -211,8 +222,8 @@ export const NewMarkets = () => {
 					if (isSort.pairs) {
 						classActiveUpDown = classNames(
 							'd-flex flex-column justify-content-center td-mobile-new-market__body__info__item__icon',
-							{ 'td-mobile-new-market__body__info__item__icon--active-up': sortPairs },
-							{ 'td-mobile-new-market__body__info__item__icon--active-down': !sortPairs },
+							{ 'td-mobile-new-market__body__info__item__icon--active-up': sortBy.pairs },
+							{ 'td-mobile-new-market__body__info__item__icon--active-down': !sortBy.pairs },
 						);
 					}
 					break;
@@ -220,8 +231,8 @@ export const NewMarkets = () => {
 					if (isSort.price) {
 						classActiveUpDown = classNames(
 							'd-flex flex-column justify-content-center td-mobile-new-market__body__info__item__icon',
-							{ 'td-mobile-new-market__body__info__item__icon--active-up': !sortPrice },
-							{ 'td-mobile-new-market__body__info__item__icon--active-down': sortPrice },
+							{ 'td-mobile-new-market__body__info__item__icon--active-up': !sortBy.price },
+							{ 'td-mobile-new-market__body__info__item__icon--active-down': sortBy.price },
 						);
 					}
 					break;
@@ -229,8 +240,8 @@ export const NewMarkets = () => {
 					if (isSort.change) {
 						classActiveUpDown = classNames(
 							'd-flex flex-column justify-content-center td-mobile-new-market__body__info__item__icon',
-							{ 'td-mobile-new-market__body__info__item__icon--active-up': !sortChange },
-							{ 'td-mobile-new-market__body__info__item__icon--active-down': sortChange },
+							{ 'td-mobile-new-market__body__info__item__icon--active-up': !sortBy.change },
+							{ 'td-mobile-new-market__body__info__item__icon--active-down': sortBy.change },
 						);
 					}
 					break;
@@ -291,7 +302,7 @@ export const NewMarkets = () => {
 				const listMarketTamp = markets.slice(indexElemStart, indexElemStop);
 				setListMarket(listMarketTamp);
 				setPageIndex(index);
-				setIsSort({ pairs: false, price: false, change: false });
+				setIsSort(DEFAULTSORT);
 			}
 		};
 
