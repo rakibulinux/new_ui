@@ -366,8 +366,6 @@ export const NewMarkets = () => {
 
 			<div className="td-market__body ">
 				<div className="td-market__body__selection ">
-					<div className="td-market__body__selection__desc">Option</div>
-
 					<div className="td-market__body__selection__box">{renderTab()}</div>
 				</div>
 
