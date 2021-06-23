@@ -127,7 +127,7 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
 							isClearable={false}
 							onChange={handleChange}
 							options={options.filter(option => !all_child_currencies.map(cur => cur.id).includes(option.value))}
-							placeholder="Search..."
+							placeholder="Search Coin/Token Name"
 							styles={SelectStyles}
 							tabSelectsValue={false}
 							value={options.filter(option => option.value.toLowerCase() === currency_id.toLowerCase())}
