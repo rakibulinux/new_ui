@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Decimal } from '../../../components';
@@ -17,6 +18,7 @@ const defaultTicker: Ticker = {
 };
 
 export const RowTable = ({ market }) => {
+	const intl = useIntl();
 	const history = useHistory();
 	const tickers = useSelector(selectMarketTickers);
 	const dispatch = useDispatch();
@@ -43,17 +45,22 @@ export const RowTable = ({ market }) => {
 						{/* <span className="td-market__body__markets__item__pairs__margin">5x</span> */}
 					</div>
 
-					<div>Khối lượng:{Decimal.format(ticker.volume, 6, ',')}</div>
+					<div>
+						{intl.formatMessage({ id: 'page.mobile.currentMarketInfo.volume' })}{' '}
+						{Decimal.format(ticker.volume, 6, ',')}
+					</div>
 				</div>
 			</td>
 
 			<td>
-				<div className="td-market__body__markets__item__price d-flex flex-column text-right">
-					<div className="td-market__body__markets__item__price__volume">
-						{Decimal.format(ticker.last, market.price_precision, ',')}
-					</div>
+				<div className="d-flex justify-content-end">
+					<div className="td-market__body__markets__item__price d-flex flex-column text-right">
+						<div className="td-market__body__markets__item__price__volume">
+							{Decimal.format(ticker.last, market.price_precision, ',')}
+						</div>
 
-					<div>&asymp;{Decimal.format(ticker.last, 4, ',')}</div>
+						<div>&asymp;{Decimal.format(ticker.last, 4, ',')}</div>
+					</div>
 				</div>
 			</td>
 

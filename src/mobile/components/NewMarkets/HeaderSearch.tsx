@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { DebounceInput } from 'react-debounce-input';
 import { FaSearch } from 'react-icons/fa';
 
 interface SearchProps {
@@ -22,19 +23,17 @@ export const HeaderSearch: React.FC<SearchProps> = ({ onSearch, backToAll }) => 
 		if (value) {
 			setIsOpenInput(false);
 		} else {
+			setValueSearch('');
 			backToAll();
 			setIsOpenInput(true);
 		}
 	};
 
-	const handleSubmit = e => {
-		e.preventDefault();
-		if (valueSearch !== '') {
-			onSearch(valueSearch);
-			e.target.reset();
-		}
-	};
 	const onChangeInput = e => {
+		if (e.target.value === '') {
+			backToAll();
+		}
+		onSearch(e.target.value);
 		setValueSearch(e.target.value);
 	};
 
@@ -52,14 +51,15 @@ export const HeaderSearch: React.FC<SearchProps> = ({ onSearch, backToAll }) => 
 					<span>
 						<FaSearch />
 					</span>
-					<form action="" onSubmit={handleSubmit} className=" w-100">
-						<input
-							type="text"
-							className="form-control w-100"
-							onChange={onChangeInput}
-							placeholder="Tìm kiếm các thẻ"
-						/>
-					</form>
+
+					<DebounceInput
+						className="form-control w-100"
+						value={valueSearch}
+						placeholder="Tìm kiếm các thẻ"
+						minLength={1}
+						debounceTimeout={300}
+						onChange={onChangeInput}
+					/>
 				</div>
 				<div className="td-market__header-search__desc" onClick={() => openForm(false)}>
 					Hủy

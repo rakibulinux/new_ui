@@ -31,6 +31,8 @@ export const NewMarkets = () => {
 	const [sortPairs, setSortPairs] = useState(false);
 	const [sortPrice, setSortPrice] = useState(false);
 	const [sortChange, setSortChanges] = useState(false);
+	const [isSortPairs, setIsSortPairs] = useState(false);
+	const [isSortPrice, setIsSortPrice] = useState(false);
 	const [isSortChange, setIsSortChange] = useState(false);
 
 	useEffect(() => {
@@ -70,6 +72,8 @@ export const NewMarkets = () => {
 			listMarketTamp = listMarketTamp.slice(0, MAXELEMENT);
 			setListMarket(listMarketTamp);
 			setIsSortChange(false);
+			setIsSortPairs(false);
+			setIsSortPrice(false);
 		}
 	}, [tab]);
 
@@ -85,6 +89,8 @@ export const NewMarkets = () => {
 			}
 
 			setIsSortChange(false);
+			setIsSortPairs(false);
+			setIsSortPrice(false);
 			setListMarket(listMarketTamp);
 		}
 	}, [valueSearch]);
@@ -115,6 +121,25 @@ export const NewMarkets = () => {
 			}
 			setListMarket(listMarketTamp);
 		}
+		if (isSortPrice) {
+			const listMarketTamp = listMarket;
+			if (sortPrice) {
+				listMarketTamp.sort((a, b) => {
+					const priceA = tickers[a.id] || defaultTicker;
+					const PriceB = tickers[b.id] || defaultTicker;
+
+					return Number(priceA.last) - Number(PriceB.last);
+				});
+			} else {
+				listMarketTamp.sort((a, b) => {
+					const priceA = tickers[a.id] || defaultTicker;
+					const PriceB = tickers[b.id] || defaultTicker;
+
+					return Number(PriceB.last) - Number(priceA.last);
+				});
+			}
+			setListMarket(listMarketTamp);
+		}
 	}, [tickers]);
 
 	const onChangeTab = (nameTab: string) => {
@@ -127,6 +152,11 @@ export const NewMarkets = () => {
 		const listMarketTamp = listMarket;
 		switch (typeSort) {
 			case 'Trading Pairs':
+				if (!isSortPairs) {
+					setIsSortChange(false);
+					setIsSortPairs(true);
+					setIsSortPrice(false);
+				}
 				if (sortPairs) {
 					listMarketTamp.sort((a, b) => {
 						const textA = a.name.charAt(0);
@@ -147,6 +177,11 @@ export const NewMarkets = () => {
 
 				break;
 			case 'Latest  Price':
+				if (!isSortPrice) {
+					setIsSortChange(false);
+					setIsSortPairs(false);
+					setIsSortPrice(true);
+				}
 				if (sortPrice) {
 					listMarketTamp.sort((a, b) => {
 						const priceA = tickers[a.id] || defaultTicker;
@@ -169,6 +204,8 @@ export const NewMarkets = () => {
 			case '24h Change':
 				if (!isSortChange) {
 					setIsSortChange(true);
+					setIsSortPairs(false);
+					setIsSortPrice(false);
 				}
 				if (sortChange) {
 					listMarketTamp.sort((a, b) => {
@@ -227,12 +264,46 @@ export const NewMarkets = () => {
 	const renderHeaderTable = () => {
 		const listHeader = ['Trading Pairs', 'Latest  Price', '24h Change'];
 		const renderUiHeader = listHeader.map((name, i) => {
+			let classActiveUpDown = 'd-flex flex-column justify-content-center td-market__body__info__item__icon';
+
+			switch (name) {
+				case 'Trading Pairs':
+					if (isSortPairs) {
+						classActiveUpDown = classNames(
+							'd-flex flex-column justify-content-center td-market__body__info__item__icon',
+							{ 'td-market__body__info__item__icon--active-up': sortPairs },
+							{ 'td-market__body__info__item__icon--active-down': !sortPairs },
+						);
+					}
+					break;
+				case 'Latest  Price':
+					if (isSortPrice) {
+						classActiveUpDown = classNames(
+							'd-flex flex-column justify-content-center td-market__body__info__item__icon',
+							{ 'td-market__body__info__item__icon--active-up': sortPrice },
+							{ 'td-market__body__info__item__icon--active-down': !sortPrice },
+						);
+					}
+					break;
+				case '24h Change':
+					if (isSortChange) {
+						classActiveUpDown = classNames(
+							'd-flex flex-column justify-content-center td-market__body__info__item__icon',
+							{ 'td-market__body__info__item__icon--active-up': !sortChange },
+							{ 'td-market__body__info__item__icon--active-down': sortChange },
+						);
+					}
+					break;
+				default:
+					break;
+			}
+
 			return (
 				<th key={i}>
 					<div className={classNames('td-market__body__info d-flex', { 'justify-content-end': i !== 0 })}>
 						<div className="d-flex" onClick={() => onSort(name)}>
 							<div className="td-market__body__info__item ">{name}</div>
-							<div className="d-flex flex-column justify-content-center td-market__body__info__item__icon">
+							<div className={classActiveUpDown}>
 								<FaSortUp />
 								<FaSortDown />
 							</div>
@@ -259,7 +330,7 @@ export const NewMarkets = () => {
 				<React.Fragment>
 					<tbody className="td-market__body__markets">
 						<tr>
-							<td className="td-market__body__markets__desc">Vùng chính</td>
+							<td className="td-market__body__markets__desc">Main</td>
 							<td></td>
 							<td></td>
 						</tr>
@@ -292,7 +363,7 @@ export const NewMarkets = () => {
 
 			<div className="td-market__body ">
 				<div className="td-market__body__selection ">
-					<div className="td-market__body__selection__desc">Tuỳ chọn</div>
+					<div className="td-market__body__selection__desc">Option</div>
 
 					<div className="td-market__body__selection__box">{renderTab()}</div>
 				</div>

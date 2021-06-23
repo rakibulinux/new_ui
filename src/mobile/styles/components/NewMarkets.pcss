@@ -74,14 +74,20 @@
 				z-index: 10;
 			}
 
-			input[type='text'] {
+			input[type="text"] {
 				background-color: #c4c4c438;
 				border: 0;
 				border: none; /* <-- This thing here */
 				color: white;
-				height: 26px;
-				outline: none;
+				height: 30px;
 				padding-left: 30px;
+
+				&:focus {
+					border-color: inherit;
+					-webkit-box-shadow: none;
+					box-shadow: none;
+					outline: none;
+				}
 
 				&::-webkit-input-placeholder {
 					/* Chrome/Opera/Safari */
@@ -103,7 +109,7 @@
 	&__body {
 		background-color: #313445;
 		margin: 10px 15px;
-		min-height: calc(100vh - 190px);
+		min-height: calc(100vh - 145px);
 		padding: 15px 10px;
 
 		&__selection {
@@ -143,26 +149,18 @@
 					position: relative;
 					text-align: center;
 
-					&:first-child {
-						padding-left: 10px;
-					}
-
-					&:last-child {
-						padding-right: 10px;
-					}
-
 					&--active {
 						color: #fff;
+						position: relative;
 
-						&::after {
-							background-color: #2fb67e;
-							content: '';
-							height: 1px;
+						&::before {
+							border-bottom: 2px solid #2fb67e;
+							content: "";
+							left: 50%;
 							position: absolute;
 							top: 30px;
-							transform: translateX(-80%);
+							transform: translateX(-50%);
 							width: 100%;
-							z-index: 10;
 						}
 					}
 				}
@@ -182,6 +180,22 @@
 					color: #848e9c;
 					font-size: 12px;
 					padding-right: 10px;
+
+					&--active-up {
+						svg {
+							&:first-child {
+								color: #fff !important;
+							}
+						}
+					}
+
+					&--active-down {
+						svg {
+							&:last-child {
+								color: #fff !important;
+							}
+						}
+					}
 
 					&:first-child {
 						padding-right: 0;
@@ -220,11 +234,9 @@
 				font-weight: 500;
 				line-height: 16px;
 
-				&:last-child {
-					border-bottom: 0 solid #848e9c8c;
-				}
-
 				&__pairs {
+					width: 110px;
+
 					&__first {
 						color: white;
 						font-size: 14px;
@@ -251,6 +263,8 @@
 				}
 
 				&__price {
+					width: 90px;
+
 					&__volume {
 						color: white;
 						font-size: 14px;
