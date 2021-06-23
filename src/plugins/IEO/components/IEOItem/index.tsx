@@ -1,9 +1,11 @@
 import React from 'react';
 import './IEOItem.pcss';
+import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { currenciesFetch, selectCurrencies } from '../../../../modules';
 import { formatDistance } from 'date-fns';
 interface IEOItemProps {
+	id: String;
 	type: string;
 	currencyId: string;
 	startDate: string;
@@ -15,7 +17,7 @@ interface IEOItemProps {
 export const IEOItem: React.FC<IEOItemProps> = props => {
 	const dispatch = useDispatch();
 	const dispatchcFetchCurrencies = () => dispatch(currenciesFetch());
-
+	const history = useHistory();
 	React.useEffect(() => {
 		dispatchcFetchCurrencies();
 	}, []);
@@ -61,7 +63,15 @@ export const IEOItem: React.FC<IEOItemProps> = props => {
 		<div id="ieo-item">
 			<div className="ioe-item-header">
 				{renderStatus(props.type)}
-				<div className="ieo-item-coin-img">
+				<div
+					className="ieo-item-coin-img"
+					onClick={() => {
+						const location = {
+							pathname: `/ieo/detail/${props.id}`,
+						};
+						history.push(location);
+					}}
+				>
 					<img src={findIcon(props.currencyId)} />
 				</div>
 			</div>

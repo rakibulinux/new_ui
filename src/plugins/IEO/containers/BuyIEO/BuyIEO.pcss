@@ -1,0 +1,222 @@
+#buy-ieo {
+	height: 591px;
+
+	#buy-ieo-container {
+		margin-top: 28px;
+	}
+
+	#buy-ieo-coins {
+		display: flex;
+		justify-content: center;
+	}
+
+	.buy-ieo-coin {
+		background-color: rgb(67, 74, 86);
+		border-radius: 2px;
+		box-sizing: border-box;
+		color: #fff;
+		cursor: pointer;
+		font-size: 16px;
+		font-style: normal;
+		font-weight: 300;
+		height: 40px;
+		line-height: 20px;
+		outline: none;
+		text-transform: uppercase;
+		width: 105px;
+	}
+
+	.active {
+		border: 2px solid #2fb67e;
+	}
+
+	.non_active {
+		border: 2px solid #848e9c;
+	}
+
+	#buy-ieo-body {
+		margin-top: 20px;
+
+		#buy-ieo-body-bonus {
+			p {
+				border: 1px solid #ffd600;
+				border-radius: 50px;
+				box-sizing: border-box;
+				color: #fff;
+				font-size: 13px;
+				font-style: normal;
+				font-weight: 500;
+				height: 27px;
+				line-height: 20px;
+				text-align: center;
+				width: 104px;
+			}
+		}
+
+		#buy-ieo-body-available {
+			.buy-ieo-type {
+				color: #2fb67e;
+				cursor: pointer;
+				font-size: 15px;
+				font-style: normal;
+				font-weight: 500;
+				height: 20px;
+				line-height: 20px;
+				text-align: right;
+			}
+
+			.buy-ieo-available-amount {
+				color: #c4c4c4;
+				font-size: 15px;
+				font-weight: 300;
+				line-height: 20px;
+				text-align: right;
+
+				span {
+					color: #fff;
+				}
+			}
+		}
+
+		#buy-ieo-body-payment {
+			border: 2px solid #848e9c;
+			border-radius: 2px;
+			box-sizing: border-box;
+			color: #fff;
+			height: 48px;
+			position: relative;
+			width: 93%;
+
+			#buy-ieo-body-payment-coin-avt {
+				border-right: 1px solid #848e9c;
+				display: flex;
+				justify-content: center;
+				line-height: 10px;
+				width: 20%;
+
+				img {
+					cursor: pointer;
+					height: 35px;
+					margin-top: 4px;
+				}
+			}
+
+			#buy-ieo-body-payment-input {
+				background-color: rgb(67, 74, 86);
+				border: none;
+				color: #fff;
+				outline: none;
+				text-align: right;
+				width: 60%;
+			}
+
+			#denominations-coin {
+				margin-top: 8px;
+				position: absolute;
+				right: 2px;
+			}
+		}
+
+		#buy-ieo-body-payment-percents {
+			border: 2px solid #848e9c;
+			border-radius: 2px;
+			box-sizing: border-box;
+			color: #fff;
+			height: 30px;
+			margin-top: 10px;
+			width: 93%;
+
+			button {
+				border: none;
+				cursor: pointer;
+				height: 26px;
+				outline: none;
+				text-align: center;
+			}
+
+			.percent_active {
+				background: #2fb67e;
+				color: #ffff;
+			}
+
+			.percent_non_active {
+				background-color: rgb(67, 74, 86);
+				color: #848e9c;
+			}
+		}
+
+		#buy-ieo-body-customer-get {
+			border: 2px solid #848e9c;
+			border-radius: 2px;
+			box-sizing: border-box;
+			color: #fff;
+			height: 50px;
+			margin-top: 10px;
+			width: 93%;
+
+			p {
+				color: #848e9c;
+				font-size: 13px;
+				margin-left: 20px;
+				margin-top: 8px;
+			}
+
+			.coin-convention {
+				color: #ffff;
+				margin-right: 20px;
+
+				span {
+					color: #2fb67e;
+				}
+			}
+		}
+
+		#regulations {
+			color: #848e9c;
+			margin-top: 13px;
+
+			.regulations-law {
+				background: rgba(132, 142, 156, 0.35);
+				border: 1px solid #a3a3a3;
+				box-sizing: border-box;
+				height: 16px;
+				width: 16px;
+
+				a {
+					text-decoration: underline;
+				}
+			}
+		}
+
+		.btn-buy-ieo {
+			background-color: #2fb67e;
+			color: #fff;
+			height: 46px;
+			margin-bottom: 18px;
+			margin-top: 18px;
+			width: 93%;
+		}
+	}
+
+	.buy-ieo-notes {
+		width: 93%;
+
+		.buy-ieo-note {
+			display: flex;
+			font-size: 13px;
+			font-weight: 500;
+			justify-content: space-between;
+			line-height: 15px;
+			list-style: none;
+			margin-bottom: 10px;
+
+			li {
+				color: #848e9c;
+			}
+
+			.value {
+				color: #ffff;
+			}
+		}
+	}
+}

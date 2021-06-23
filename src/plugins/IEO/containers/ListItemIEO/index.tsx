@@ -7,7 +7,7 @@ interface ListItemIEOProps {
 export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 	const listIEO = [
 		{
-			id: 1,
+			id: "1",
 			description: 'Listing ConfirmedBonus 10%',
 			image_link: 'shorturl.at/yFHU1',
 			currency_id: 'usd',
@@ -24,7 +24,7 @@ export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 			type: 'running',
 		},
 		{
-			id: 2,
+			id: "2",
 			description: 'Listing ConfirmedBonus 10%',
 			image_link: 'shorturl.at/yFHU1',
 			currency_id: 'lkt',
@@ -41,7 +41,7 @@ export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 			type: 'upcoming',
 		},
 		{
-			id: 3,
+			id: "3",
 			description: 'Listing ConfirmedBonus 10%',
 			image_link: 'shorturl.at/yFHU1',
 			currency_id: 'usd',
@@ -58,7 +58,7 @@ export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 			type: 'ended',
 		},
 		{
-			id: 1,
+			id: "4",
 			description: 'Listing ConfirmedBonus 10%',
 			image_link: 'shorturl.at/yFHU1',
 			currency_id: 'usd',
@@ -75,7 +75,7 @@ export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 			type: 'running',
 		},
 		{
-			id: 2,
+			id: "5",
 			description: 'Listing ConfirmedBonus 10%',
 			image_link: 'shorturl.at/yFHU1',
 			currency_id: 'lkt',
@@ -92,7 +92,7 @@ export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 			type: 'upcoming',
 		},
 		{
-			id: 3,
+			id: "6",
 			description: 'Listing ConfirmedBonus 10%',
 			image_link: 'shorturl.at/yFHU1',
 			currency_id: 'usd',
@@ -123,6 +123,7 @@ export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 							description={item.description}
 							bonus={item.bonus}
 							key={index}
+							id={item.id}
 						/>
 					</div>
 				) : (
