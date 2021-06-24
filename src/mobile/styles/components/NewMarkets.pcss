@@ -76,7 +76,7 @@
 				z-index: 10;
 			}
 
-			input[type="text"] {
+			input[type='text'] {
 				background-color: #c4c4c438;
 				border: 0;
 				border: none; /* <-- This thing here */
@@ -161,7 +161,7 @@
 						&::before {
 							border-bottom: 2px solid #2fb67e;
 							box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
-							content: "";
+							content: '';
 							left: 50%;
 							position: absolute;
 							top: 30px;
@@ -311,27 +311,8 @@
 			width: 100%;
 		}
 
-		&__pagination {
-			padding-top: 15px;
-
-			&__btn {
-				button {
-					background-color: inherit !important;
-					border: 1px solid rgba(255, 255, 255, 0.514) !important;
-					transform: scale(0.8);
-				}
-			}
-
-			&__index {
-				color: white;
-				font-size: 0.75em;
-				font-weight: 400;
-				line-height: 14px;
-
-				&--blurred {
-					color: #848e9c;
-				}
-			}
+		.td-cpn-pagination {
+			border-top: 1px solid #848e9c8c;
 		}
 	}
 }
