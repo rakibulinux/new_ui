@@ -17,6 +17,7 @@ import {
 	EmailVerificationMobileScreen,
 	ForgotPasswordMobileScreen,
 	LandingScreenMobile,
+	NewMarketsScreenMobile,
 	OrdersMobileScreen,
 	ProfileAccountActivityMobileScreen,
 	ProfileApiKeysMobileScreen,
@@ -82,6 +83,7 @@ import {
 	RestrictedScreen,
 	VerificationScreen,
 	WalletListScreen,
+	// tslint:disable-next-line: ordered-imports
 	WithdrawScreen,
 	NewHomePage,
 	AnnouncementScreen,
@@ -347,6 +349,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						/>
 						<Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
 						<Route exact={true} path="/" component={LandingScreenMobile} />
+						<Route exact={true} path="/markets" component={NewMarketsScreenMobile} />
 						<Route path="/ieo" exact component={IEOListMobileScreen} />
 						<Route path="/ieo/detail/:ieoID" exact component={IEODetailMobileScreen} />
 						<Route path="/trading-competition" exact component={TradingCompetionListMobileScreen} />
