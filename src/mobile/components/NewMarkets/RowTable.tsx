@@ -45,7 +45,7 @@ export const RowTable = ({ market }) => {
 						{/* <span className="td-mobile-new-market__body__markets__item__pairs__margin">5x</span> */}
 					</div>
 
-					<div>
+					<div className="td-mobile-new-market__body__markets__item__pairs__vol" >
 						{intl.formatMessage({ id: 'page.mobile.currentMarketInfo.volume' })}{' '}
 						{Decimal.format(ticker.volume, 6, ',')}
 					</div>
@@ -59,7 +59,7 @@ export const RowTable = ({ market }) => {
 							{Decimal.format(ticker.last, market.price_precision, ',')}
 						</div>
 
-						<div>&asymp;{Decimal.format(ticker.last, 4, ',')}</div>
+						<div className="td-mobile-new-market__body__markets__item__price__volume-last" >&asymp;{Decimal.format(ticker.last, 4, ',')}</div>
 					</div>
 				</div>
 			</td>
