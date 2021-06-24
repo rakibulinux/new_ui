@@ -23,8 +23,9 @@ if (gaKey) {
 }
 
 /* Mobile components */
-const MobileFooter = React.lazy(() => import('./mobile/components/Footer').then(({ Footer }) => ({ default: Footer })));
-const MobileHeader = React.lazy(() => import('./mobile/components/Header').then(({ Header }) => ({ default: Header })));
+const MobileFooter = React.lazy(() =>
+	import('./mobile/components/NewBottomNavbar').then(({ BottomNavbar }) => ({ default: BottomNavbar })),
+);
 
 /* Desktop components */
 const AlertsContainer = React.lazy(() => import('./containers/Alerts').then(({ Alerts }) => ({ default: Alerts })));
@@ -53,7 +54,6 @@ const RenderDeviceContainers = () => {
 	if (isMobileDevice) {
 		return (
 			<div className="pg-mobile-app">
-				<MobileHeader />
 				<AlertsContainer />
 				<LayoutContainer />
 				<MobileFooter />

@@ -42,3 +42,4 @@ export * from './checkConsistency';
 export * from './getTimeZone';
 export * from './checkBlockchainAddress';
 export * from './getWalletTabName';
+export * from './calcWalletsData';
