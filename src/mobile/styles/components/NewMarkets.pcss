@@ -2,6 +2,7 @@
 	&__header {
 		align-items: center;
 		background-color: #313445;
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 		display: flex;
 		justify-content: space-between;
 		padding-bottom: 15px;
@@ -39,6 +40,7 @@
 	&__header-search {
 		align-items: center;
 		background-color: #313445;
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 		display: flex;
 		justify-content: space-between;
 		padding-bottom: 15px;
@@ -108,6 +110,8 @@
 
 	&__body {
 		background-color: #313445;
+		border-radius: 3px;
+		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
 		margin: 10px 15px;
 		padding: 15px 10px;
 		padding-bottom: 5px;
@@ -156,6 +160,7 @@
 
 						&::before {
 							border-bottom: 2px solid #2fb67e;
+							box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
 							content: '';
 							left: 50%;
 							position: absolute;
@@ -235,6 +240,10 @@
 				font-weight: 500;
 				height: 50px;
 				line-height: 16px;
+
+				&:last-child {
+					border: none;
+				}
 
 				&__pairs {
 					width: 110px;
