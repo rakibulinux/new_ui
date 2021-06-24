@@ -1,4 +1,5 @@
 export const en = {
+	'error.order.create.minTotal': 'Total must be >= {total}$, current : ≈{totalUsd}$, for the purpose of avoiding spam',
 	/* Lunar-game */
 	'page.body.lunar.nav.back': 'Back',
 	'page.body.lunar.title': 'Draw lucky lots',

@@ -12,7 +12,7 @@ const CreateOrderComponent = props => {
 		<div className="pg-mobile-create-order">
 			<div className="pg-mobile-create-order__row-double">
 				<OrderBook />
-				<OrderComponent defaultTabIndex={props.currentOrderTypeIndex} />
+				<OrderComponent defaultTabIndex={props.currentOrderTypeIndex as number | undefined} />
 			</div>
 			{userLoggedIn ? <OpenOrders /> : null}
 		</div>

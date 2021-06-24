@@ -7,7 +7,15 @@ const createOptions = (): RequestOptions => {
 	return { apiVersion: 'sunshine' };
 };
 
-export const useConvertToUSD = (value = 0, symbol?: string, precision = 6, defaultValue = '0.00') => {
+/**
+ *
+ * @param value
+ * @param symbol
+ * @param precision
+ * @param defaultValue
+ * @returns [stringValueConverted, exchangeRate(1Coin/USD)]
+ */
+export const useConvertToUSD = (value = 0, symbol = '', precision = 6, defaultValue = '0.00'): [string, number] => {
 	const [exchangeRate, setExchangeRate] = React.useState<number>(0);
 	const [prevSymbol, SetPrevSymbol] = React.useState<string>('');
 	const refLoading = React.useRef<boolean>(false);
@@ -36,5 +44,7 @@ export const useConvertToUSD = (value = 0, symbol?: string, precision = 6, defau
 
 	const price = value * exchangeRate;
 
-	return isNaN(price) || !Boolean(price) ? defaultValue : Decimal.formatRemoveZero(price, precision);
+	return isNaN(price) || !Boolean(price)
+		? [defaultValue, exchangeRate]
+		: [Decimal.formatRemoveZero(price, precision), exchangeRate];
 };

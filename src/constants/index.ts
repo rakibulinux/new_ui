@@ -1,5 +1,10 @@
 import { DropdownElem } from '../components/Order';
 
+export const createOrderConfig = {
+	minimumTotal: 10,
+	status: true,
+};
+
 export const PG_TITLE_PREFIX = 'CircleEx Exchange';
 
 export const pgRoutes = (isLoggedIn: boolean, isLight?: boolean): string[][] => {
