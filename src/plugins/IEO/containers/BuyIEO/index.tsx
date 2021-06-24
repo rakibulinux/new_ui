@@ -12,7 +12,20 @@ interface BuyIEOProps {
 const percents = ['25%', '50%', '75%', '100%'];
 export const BuyIEO: React.FC<BuyIEOProps> = props => {
 	const activeBuyCoinClassNames = classNames('buy-ieo-coin', 'active');
+	const [currencyPayment, setSelectedCurrency] = React.useState(props.coins[0] || '');
 	const non_activeClassNames = classNames('buy-ieo-coin', 'non_active');
+
+	const findIcon = (code: string): string => {
+		const currency = currencies.find(currencyParam => currencyParam.id === code);
+		try {
+			return require(`../../../../../node_modules/cryptocurrency-icons/128/color/${code.toLowerCase()}.png`);
+		} catch (err) {
+			if (currency) {
+				return currency.icon_url;
+			}
+			return require('../../../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
+		}
+	};
 	const [coinActive, setCoinActive] = React.useState(0);
 	const [percentActive, setPercentActive] = React.useState(0);
 	const dispatch = useDispatch();
@@ -24,18 +37,6 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 	const non_ActivePercentClassNames = classNames('percent_non_active');
 	const currencies = useSelector(selectCurrencies);
 
-	const findIcon = (code: string): string => {
-		const currency = currencies.find(currencyParam => currencyParam.id === code);
-		try {
-			return require(`../../../../../node_modules/cryptocurrency-icons/128/color/${code.toLowerCase()}.png`);
-		} catch (err) {
-			if (currency) {
-				return currency.icon_url;
-			}
-
-			return require('../../../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
-		}
-	};
 	return (
 		<div id="buy-ieo">
 			<div id="buy-ieo-container" className="col-md-12">
@@ -45,6 +46,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 							className={coinActive === index ? activeBuyCoinClassNames : non_activeClassNames}
 							onClick={() => {
 								setCoinActive(index);
+								setSelectedCurrency(coin.toString());
 							}}
 						>
 							{coin}
@@ -67,7 +69,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 
 					<div id="buy-ieo-body-payment" style={{ padding: '0' }} className="d-flex flex-wrap">
 						<div id="buy-ieo-body-payment-coin-avt">
-							<img src={findIcon(props.currencyID)} alt="iconCoin"></img>
+							<img src={findIcon(currencyPayment.toString())} alt="iconCoin"></img>
 						</div>
 						<input type="number" id="buy-ieo-body-payment-input" placeholder="0"></input>
 						<span id="denominations-coin">PROB</span>
@@ -119,7 +121,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 					</div>
 
 					<button type="button" className="btn-buy-ieo btn">
-						Buy CX
+						{`Buy ${props.currencyID}`}
 					</button>
 				</div>
 			</div>

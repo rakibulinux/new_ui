@@ -53,7 +53,7 @@ export const IEODetailScreen = () => {
 				</div>
 				<div className="col-5" style={{ backgroundColor: '#434A56', height: '591px' }}>
 					<BuyIEO
-						coins={IEOItem.payload.currency_available || ''}
+						coins={IEOItem.payload.currency_available.length ? IEOItem.payload.currency_available : ['loading']}
 						currencyID={IEOItem.payload.currency_id || 'loading'}
 						bonus={IEOItem.payload.bonus || 'loading'}
 					/>
