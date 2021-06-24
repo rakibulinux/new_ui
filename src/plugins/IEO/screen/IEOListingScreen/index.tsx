@@ -2,14 +2,14 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { ListItemIEO } from './../../containers';
 
-export type typeIEO = 'all' | 'running' | 'upcoming';
+export type typeIEO = 'all' | 'ongoing' | 'upcoming';
 export const IEOListingScreen = () => {
 	const [typeIEO, setTypeIEO] = React.useState<typeIEO>('all');
 	const handleViewListIEO = (type: typeIEO) => {
 		setTypeIEO(type);
 	};
 	const renderActiveButtonUpcomingClasses = classNames('upcoming', typeIEO === 'upcoming' ? 'button-active' : '');
-	const renderActiveButtonRunningClasses = classNames('running', typeIEO === 'running' ? 'button-active' : '');
+	const renderActiveButtonRunningClasses = classNames('running', typeIEO === 'ongoing' ? 'button-active' : '');
 	const renderActiveButtonAllClasses = classNames('all', typeIEO === 'all' ? 'button-active' : '');
 	return (
 		<div id="ieo-listing-screen">
@@ -18,7 +18,6 @@ export const IEOListingScreen = () => {
 				<label htmlFor="function-search" className="header-label">
 					IEO History
 				</label>
-				{/* <FiSearch /> */}
 
 				<div className="ieo-listing-function">
 					<input name="function-search" type="text" className="input-list-function-search"></input>
@@ -36,7 +35,7 @@ export const IEOListingScreen = () => {
 							type="button"
 							className={renderActiveButtonRunningClasses}
 							onClick={() => {
-								handleViewListIEO('running');
+								handleViewListIEO('ongoing');
 							}}
 						>
 							Running
@@ -52,7 +51,6 @@ export const IEOListingScreen = () => {
 						</button>
 					</div>
 				</div>
-				{/* <input type="checkbox">Show Only Launchpads</input> */}
 			</div>
 			<ListItemIEO type={typeIEO} />
 		</div>

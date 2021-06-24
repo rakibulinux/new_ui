@@ -1,8 +1,12 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import iconCoin from './assets/lK.png';
+import { useSelector, useDispatch } from 'react-redux';
+import { currenciesFetch, selectCurrencies } from '../../../../modules';
+
 interface BuyIEOProps {
 	coins: Array<String>;
+	bonus: string;
+	currencyID: string;
 }
 
 const percents = ['25%', '50%', '75%', '100%'];
@@ -11,10 +15,27 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 	const non_activeClassNames = classNames('buy-ieo-coin', 'non_active');
 	const [coinActive, setCoinActive] = React.useState(0);
 	const [percentActive, setPercentActive] = React.useState(0);
-
+	const dispatch = useDispatch();
+	const dispatchcFetchCurrencies = () => dispatch(currenciesFetch());
+	React.useEffect(() => {
+		dispatchcFetchCurrencies();
+	}, []);
 	const activePercentClassNames = classNames('percent_active');
 	const non_ActivePercentClassNames = classNames('percent_non_active');
+	const currencies = useSelector(selectCurrencies);
 
+	const findIcon = (code: string): string => {
+		const currency = currencies.find(currencyParam => currencyParam.id === code);
+		try {
+			return require(`../../../../../node_modules/cryptocurrency-icons/128/color/${code.toLowerCase()}.png`);
+		} catch (err) {
+			if (currency) {
+				return currency.icon_url;
+			}
+
+			return require('../../../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
+		}
+	};
 	return (
 		<div id="buy-ieo">
 			<div id="buy-ieo-container" className="col-md-12">
@@ -46,7 +67,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 
 					<div id="buy-ieo-body-payment" style={{ padding: '0' }} className="d-flex flex-wrap">
 						<div id="buy-ieo-body-payment-coin-avt">
-							<img src={iconCoin} alt="iconCoin"></img>
+							<img src={findIcon(props.currencyID)} alt="iconCoin"></img>
 						</div>
 						<input type="number" id="buy-ieo-body-payment-input" placeholder="0"></input>
 						<span id="denominations-coin">PROB</span>

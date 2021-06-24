@@ -464,7 +464,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						component={AirdropDetail}
 					/>
 					<Route path="/ieo" exact component={IEOListingScreen} />
-					<Route path="/ieo/detail/:ieo_id" exact component={IEODetailScreen} />
+					<Route path="/ieo/detail/:ieoID" exact component={IEODetailScreen} />
 					<Route path="/trading-competition" exact component={TradingCompetionListScreen} />
 					<Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
 					<Route path="/stake" exact component={StakingListScreen} />
