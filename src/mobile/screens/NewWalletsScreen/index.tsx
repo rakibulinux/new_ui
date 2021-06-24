@@ -1,6 +1,6 @@
 import { Empty } from 'antd';
 import { calcWalletsData } from 'helpers';
-import { useAllChildCurrenciesFetch, useConvertToUSD, useDocumentTitle, useWalletsFetch } from 'hooks';
+import { useAllChildCurrenciesFetch, useDocumentTitle, useWalletsFetch } from 'hooks';
 import { SearchIcon } from 'mobile/assets/icons';
 import React, { useState } from 'react';
 import { DebounceInput } from 'react-debounce-input';
