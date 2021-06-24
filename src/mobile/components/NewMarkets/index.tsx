@@ -4,12 +4,12 @@ import { NewPagination } from 'components';
 import React, { useEffect, useState } from 'react';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
-import { selectMarkets, selectMarketTickers, Ticker } from '../../../modules/public/markets';
+import { Market, selectMarkets, selectMarketTickers, Ticker } from '../../../modules/public/markets';
 import { HeaderSearch } from './HeaderSearch';
 import { RowTable } from './RowTable';
 
-const MAXELEMENT = 10;
-const defaultTicker: Ticker = {
+const MAX_ELEMENT = 10;
+const DEFAULT_TICKER: Ticker = {
 	amount: '0.0',
 	last: '0.0',
 	high: '0.0',
@@ -20,25 +20,25 @@ const defaultTicker: Ticker = {
 	avg_price: '0',
 };
 
-const DEFAULTSORT = { pairs: false, price: false, change: false };
+const DEFAULT_SORT = { pairs: false, price: false, change: false };
 
-const DEFAULTMAXPAGE = 1;
+const DEFAULT_MAXPAGE = 1;
 
-const DEFAULTPAGEINDEX = 1;
+const DEFAULT_PAGEINDEX = 1;
 
-const DEFAULTTAB = 'all';
+const DEFAULT_TAB = 'all';
 
 export const NewMarkets = () => {
 	const markets = useSelector(selectMarkets);
 	const tickers = useSelector(selectMarketTickers);
 	const [listTab, setListTab] = useState(['']);
-	const [tab, setTab] = useState(DEFAULTTAB);
+	const [tab, setTab] = useState(DEFAULT_TAB);
 	const [listMarket, setListMarket] = useState(markets);
-	const [maxPage, setMaxPage] = useState(DEFAULTMAXPAGE);
-	const [pageIndex, setPageIndex] = useState(DEFAULTPAGEINDEX);
+	const [maxPage, setMaxPage] = useState(DEFAULT_MAXPAGE);
+	const [pageIndex, setPageIndex] = useState(DEFAULT_PAGEINDEX);
 	const [valueSearch, setValueSearch] = useState('');
-	const [sortBy, setSortBy] = useState(DEFAULTSORT);
-	const [isSort, setIsSort] = useState(DEFAULTSORT);
+	const [sortBy, setSortBy] = useState(DEFAULT_SORT);
+	const [isSort, setIsSort] = useState(DEFAULT_SORT);
 
 	useEffect(() => {
 		const formatFilteredMarkets = (list: string[], market) => {
@@ -52,10 +52,10 @@ export const NewMarkets = () => {
 		if (markets.length > 0) {
 			const currentBidUnitsList = markets.reduce(formatFilteredMarkets, ['all']);
 			setListTab(currentBidUnitsList);
-			let listMarketTamp = markets.slice(0, MAXELEMENT);
-			listMarketTamp = sortForAZ(listMarketTamp, true);
+			let listMarketTamp = markets.slice(0, MAX_ELEMENT);
+			listMarketTamp = sortForAZ(listMarketTamp, false);
 			setListMarket(listMarketTamp);
-			setMaxPage(Math.ceil(markets.length / MAXELEMENT));
+			setMaxPage(Math.ceil(markets.length / MAX_ELEMENT));
 		}
 	}, [markets]);
 
@@ -72,12 +72,12 @@ export const NewMarkets = () => {
 
 				return e.quote_unit === tab;
 			});
-			listMarketTamp = sortForAZ(listMarketTamp, true);
-			setPageIndex(DEFAULTPAGEINDEX);
-			setMaxPage(Math.ceil(listMarketTamp.length / MAXELEMENT));
-			listMarketTamp = listMarketTamp.slice(0, MAXELEMENT);
+			listMarketTamp = sortForAZ(listMarketTamp, false);
+			setPageIndex(DEFAULT_PAGEINDEX);
+			setMaxPage(Math.ceil(listMarketTamp.length / MAX_ELEMENT));
+			listMarketTamp = listMarketTamp.slice(0, MAX_ELEMENT);
 			setListMarket(listMarketTamp);
-			setIsSort(DEFAULTSORT);
+			setIsSort(DEFAULT_SORT);
 		}
 	}, [tab]);
 
@@ -91,7 +91,7 @@ export const NewMarkets = () => {
 			} else {
 				listMarketTamp = markets.filter(e => e.name.split('/')[0] === valueSearch.toUpperCase());
 			}
-			setIsSort(DEFAULTSORT);
+			setIsSort(DEFAULT_SORT);
 			setListMarket(listMarketTamp);
 		}
 	}, [valueSearch]);
@@ -102,7 +102,7 @@ export const NewMarkets = () => {
 		}
 	};
 
-	const sortForAZ = (listMarketTamp, upOrDown) => {
+	const sortForAZ = (listMarketTamp: Market[], upOrDown: boolean) => {
 		return listMarketTamp.sort((a, b) => {
 			const textA = a.name.charAt(0);
 			const textB = b.name.charAt(0);
@@ -128,7 +128,7 @@ export const NewMarkets = () => {
 					listMarketTamp = sortForAZ(listMarketTamp, sortBy.pairs);
 				}
 
-				setSortBy({ ...DEFAULTSORT, pairs: !sortBy.pairs });
+				setSortBy({ ...DEFAULT_SORT, pairs: !sortBy.pairs });
 
 				break;
 			case 'Latest  Price':
@@ -137,21 +137,21 @@ export const NewMarkets = () => {
 				}
 				if (sortBy.price) {
 					listMarketTamp.sort((a, b) => {
-						const priceA = tickers[a.id] || defaultTicker;
-						const PriceB = tickers[b.id] || defaultTicker;
+						const priceA = tickers[a.id] || DEFAULT_TICKER;
+						const PriceB = tickers[b.id] || DEFAULT_TICKER;
 
 						return Number(priceA.last) - Number(PriceB.last);
 					});
 				} else {
 					listMarketTamp.sort((a, b) => {
-						const priceA = tickers[a.id] || defaultTicker;
-						const PriceB = tickers[b.id] || defaultTicker;
+						const priceA = tickers[a.id] || DEFAULT_TICKER;
+						const PriceB = tickers[b.id] || DEFAULT_TICKER;
 
 						return Number(PriceB.last) - Number(priceA.last);
 					});
 				}
 
-				setSortBy({ ...DEFAULTSORT, price: !sortBy.price });
+				setSortBy({ ...DEFAULT_SORT, price: !sortBy.price });
 
 				break;
 			case '24h Change':
@@ -160,8 +160,8 @@ export const NewMarkets = () => {
 				}
 				if (sortBy.change) {
 					listMarketTamp.sort((a, b) => {
-						const priceA = tickers[a.id] || defaultTicker;
-						const priceB = tickers[b.id] || defaultTicker;
+						const priceA = tickers[a.id] || DEFAULT_TICKER;
+						const priceB = tickers[b.id] || DEFAULT_TICKER;
 
 						return (
 							Number(priceA.price_change_percent.replace(/[+%]/g, '')) -
@@ -170,8 +170,8 @@ export const NewMarkets = () => {
 					});
 				} else {
 					listMarketTamp.sort((a, b) => {
-						const priceA = tickers[a.id] || defaultTicker;
-						const priceB = tickers[b.id] || defaultTicker;
+						const priceA = tickers[a.id] || DEFAULT_TICKER;
+						const priceB = tickers[b.id] || DEFAULT_TICKER;
 
 						return (
 							Number(priceB.price_change_percent.replace(/[+%]/g, '')) -
@@ -179,7 +179,7 @@ export const NewMarkets = () => {
 						);
 					});
 				}
-				setSortBy({ ...DEFAULTSORT, change: !sortBy.change });
+				setSortBy({ ...DEFAULT_SORT, change: !sortBy.change });
 				break;
 
 			default:
@@ -194,7 +194,7 @@ export const NewMarkets = () => {
 	};
 
 	const backToAllList = () => {
-		setTab(DEFAULTTAB);
+		setTab(DEFAULT_TAB);
 	};
 
 	const renderTab = () => {
@@ -297,12 +297,12 @@ export const NewMarkets = () => {
 	const renderPagination = () => {
 		const goToPgae = index => {
 			if (index <= maxPage && index >= 1) {
-				const indexElemStart = (index - 1) * MAXELEMENT;
-				const indexElemStop = (index - 1) * MAXELEMENT + MAXELEMENT;
+				const indexElemStart = (index - 1) * MAX_ELEMENT;
+				const indexElemStop = (index - 1) * MAX_ELEMENT + MAX_ELEMENT;
 				const listMarketTamp = markets.slice(indexElemStart, indexElemStop);
 				setListMarket(listMarketTamp);
 				setPageIndex(index);
-				setIsSort(DEFAULTSORT);
+				setIsSort(DEFAULT_SORT);
 			}
 		};
 
