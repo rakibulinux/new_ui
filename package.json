@@ -37,6 +37,7 @@
 		"react-color": "^2.18.0",
 		"react-confetti": "^6.0.0",
 		"react-countdown": "^2.3.2",
+		"react-debounce-input": "^3.2.3",
 		"react-device-detect": "1.13.1",
 		"react-dom": "^16.6.3",
 		"react-facebook": "^8.1.4",

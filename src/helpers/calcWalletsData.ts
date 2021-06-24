@@ -3,33 +3,31 @@ import { ChildCurrency, Wallet } from 'modules';
 export const calcWalletsData = (
 	wallets: Wallet[],
 	allChildCurrencies: ChildCurrency[],
-	searchString = '',
-	hideSmallBalance?: boolean,
+	precision = 6,
 ) => {
-	return wallets
-		.filter(wallet => !allChildCurrencies.map(cur => cur.id).includes(wallet.currency))
-		.map(wallet => {
-			const childCurrencies = allChildCurrencies
-				.filter(childCurrency => childCurrency.parent_id === wallet.currency)
-				.map(childCurrency => childCurrency.id);
 
-			const totalChildBalances = wallets
-				.filter(wal => childCurrencies.includes(wal.currency))
-				.map(child => Number(child.balance))
-				.reduce((x, y) => x + y, 0);
+	const dict = {};
+	for (const wallet of wallets) { dict[wallet.currency] = {...wallet, child_currencies: []}; }
+	for (const childCurrency of allChildCurrencies){
+		dict[childCurrency.parent_id].child_currencies.push(childCurrency.id);
+	}
 
-			const totalChildLocked = wallets
-				.filter(wal => childCurrencies.includes(wal.currency))
-				.map(child => Number(child.locked))
-				.reduce((x, y) => x + y, 0);
+	const data : Wallet[] = [];
+	for (const key in dict){
+		let totalBalance =  Number(dict[key].balance) || 0;
+		let totalLocked = Number(dict[key].locked) || 0;
 
-			return {
-				...wallet,
-				total: Number(wallet.balance) + Number(wallet.locked) + totalChildBalances + totalChildLocked || 0,
-				balance: Number(wallet.balance) + totalChildBalances || 0,
-				locked: Number(wallet.locked) + totalChildLocked || 0,
-			};
-		})
-		.filter(wallet => wallet.currency.toLocaleUpperCase().includes(searchString.toUpperCase()))
-		.filter(wallet => !hideSmallBalance || wallet.total);
+		for (const c of dict[key].child_currencies){
+			totalBalance += Number(dict[c].balance) || 0;
+			totalLocked += Number(dict[c].locked) || 0;
+		}
+		data.push({
+			...dict[key],
+			total: Number(totalBalance + totalLocked).toFixed(precision),
+			balance: Number(totalBalance).toFixed(precision),
+			locked: Number(totalLocked).toFixed(precision),
+		});
+	}
+
+	return data;
 };
