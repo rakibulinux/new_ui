@@ -38,22 +38,6 @@
 	#buy-ieo-body {
 		margin-top: 20px;
 
-		#buy-ieo-body-bonus {
-			p {
-				border: 1px solid #ffd600;
-				border-radius: 50px;
-				box-sizing: border-box;
-				color: #fff;
-				font-size: 13px;
-				font-style: normal;
-				font-weight: 500;
-				height: 27px;
-				line-height: 20px;
-				text-align: center;
-				width: 104px;
-			}
-		}
-
 		#buy-ieo-body-available {
 			.buy-ieo-type {
 				color: #2fb67e;
@@ -79,8 +63,7 @@
 				}
 			}
 		}
-
-		#buy-ieo-body-payment {
+		.input-group-body {
 			border: 2px solid #848e9c;
 			border-radius: 2px;
 			box-sizing: border-box;
@@ -88,8 +71,7 @@
 			height: 48px;
 			position: relative;
 			width: 100%;
-
-			#buy-ieo-body-payment-coin-avt {
+			#buy-ieo-body-coin-avt {
 				border-right: 1px solid #848e9c;
 				display: flex;
 				justify-content: center;
@@ -97,27 +79,27 @@
 				width: 20%;
 
 				img {
-					cursor: pointer;
 					height: 35px;
 					margin-top: 4px;
 				}
 			}
-
-			#buy-ieo-body-payment-input {
+			#buy-ieo-body-input {
 				background-color: rgb(67, 74, 86);
 				border: none;
 				color: #fff;
 				outline: none;
 				text-align: right;
 				font-size: 18px;
-				width: 60%;
+				width: calc(80% - 50px);
 			}
 
 			#denominations-coin {
+				width: 50px;
 				margin-top: 8px;
 				font-size: 18px;
 				position: absolute;
-				right: 2px;
+				right: 0px;
+				text-align: center;
 				text-transform: uppercase;
 			}
 		}
@@ -201,29 +183,6 @@
 			width: 100%;
 			text-transform: uppercase;
 			font-size: 15px;
-		}
-	}
-
-	.buy-ieo-notes {
-		width: 100%;
-
-		.buy-ieo-note {
-			width: 100%;
-			display: flex;
-			font-size: 13px;
-			font-weight: 500;
-			justify-content: space-between;
-			line-height: 15px;
-			list-style: none;
-			margin-bottom: 10px;
-			padding-inline-start: 0px;
-			li {
-				color: #848e9c;
-			}
-
-			.value {
-				color: #ffff;
-			}
 		}
 	}
 }

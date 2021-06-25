@@ -5,13 +5,14 @@ import { currenciesFetch, selectCurrencies } from '../../../../modules';
 
 interface BuyIEOProps {
 	coins: Array<String>;
-	bonus: string;
 	currencyID: string;
 }
 
 export const BuyIEO: React.FC<BuyIEOProps> = props => {
-	console.log(props.coins);
 	const [currencyPayment, setSelectedCurrency] = React.useState(props.coins[0] || '');
+	React.useEffect(() => {
+		setSelectedCurrency(props.coins[0]);
+	}, [props.coins[0]]);
 	const [coinActive, setCoinActive] = React.useState(0);
 	const currencies = useSelector(selectCurrencies);
 	const findIcon = (code: string): string => {
@@ -52,30 +53,47 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 				</div>
 				<div id="buy-ieo-body" className="d-flex flex-wrap">
 					<div className="col-12 d-flex justify-content-between" style={{ padding: '0' }}>
-						<div id="buy-ieo-body-bonus" className="col-md-6">
-							<p className="ml-4">Bonus 2%</p>
-						</div>
-
-						<div id="buy-ieo-body-available" className="col-md-6" style={{ paddingRight: '20' }}>
+						<div id="buy-ieo-body-available" style={{ textAlign: 'right', width: '100%' }}>
 							<p className="buy-ieo-available-amount">
-								Available Amount <span>0.00000000</span> PROB
+								Available Amount <span>0.00000000</span> {`${props.currencyID.toUpperCase()}`}
 							</p>
 						</div>
 					</div>
 
-					<div id="buy-ieo-body-payment" style={{ padding: '0' }} className="d-flex flex-wrap">
-						<div id="buy-ieo-body-payment-coin-avt">
-							<img src={findIcon(currencyPayment.toString())} alt="iconCoin"></img>
+					<div id="buy-ieo-body-payment" style={{ padding: '0' }} className="d-flex flex-wrap input-group-body mt-5">
+						<div id="buy-ieo-body-coin-avt">
+							<img src={findIcon(props.currencyID)} alt="iconCoin"></img>
 						</div>
-						<input type="number" id="buy-ieo-body-payment-input" placeholder="0"></input>
+						<input type="number" id="buy-ieo-body-input" placeholder="0"></input>
 						<span id="denominations-coin">{props.currencyID}</span>
 					</div>
 
-					<div id="buy-ieo-body-customer-get" className="d-flex justify-content-between">
-						<p>you get</p>
-						<p className="coin-convention">
-							<span>0</span> ONI
-						</p>
+					<div id="buy-ieo-body-price" style={{ padding: '0' }} className="d-flex flex-wrap input-group-body mt-5">
+						<div id="buy-ieo-body-coin-avt">
+							<img src={findIcon(currencyPayment.toString())} alt="iconCoin"></img>
+						</div>
+						<input
+							type="number"
+							id="buy-ieo-body-input"
+							placeholder="0"
+							style={{ background: 'rgb(61 55 81 / 40%)', borderRight: '1px solid #848e9c', cursor: 'not-allowed' }}
+							disabled
+						></input>
+						<span id="denominations-coin">{currencyPayment.toString()}</span>
+					</div>
+
+					<div id="buy-ieo-body-total" style={{ padding: '0' }} className="d-flex flex-wrap input-group-body mt-5">
+						<div id="buy-ieo-body-coin-avt">
+							<img src={findIcon(currencyPayment.toString())} alt="iconCoin"></img>
+						</div>
+						<input
+							type="number"
+							id="buy-ieo-body-input"
+							style={{ background: 'rgb(61 55 81 / 40%)', borderRight: '1px solid #848e9c', cursor: 'not-allowed' }}
+							placeholder="0"
+							disabled
+						></input>
+						<span id="denominations-coin">{currencyPayment.toString()}</span>
 					</div>
 
 					<div id="regulations">
@@ -103,24 +121,6 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 						{`Buy ${props.currencyID}`}
 					</button>
 				</div>
-			</div>
-			<div className="buy-ieo-notes col-12">
-				<ul className="buy-ieo-note">
-					<li>Estimated Value</li>
-					<li className="value">0 USDT</li>
-				</ul>
-				<ul className="buy-ieo-note">
-					<li>Estimated Value</li>
-					<li className="value">0 USDT</li>
-				</ul>
-				<ul className="buy-ieo-note">
-					<li>Estimated Value</li>
-					<li className="value">0 USDT</li>
-				</ul>
-				<ul className="buy-ieo-note">
-					<li>Estimated Value</li>
-					<li className="value">0 USDT</li>
-				</ul>
 			</div>
 		</div>
 	);
