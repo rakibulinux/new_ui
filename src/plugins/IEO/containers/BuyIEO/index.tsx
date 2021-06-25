@@ -10,6 +10,7 @@ interface BuyIEOProps {
 }
 
 export const BuyIEO: React.FC<BuyIEOProps> = props => {
+	console.log(props.coins);
 	const [currencyPayment, setSelectedCurrency] = React.useState(props.coins[0] || '');
 	const [coinActive, setCoinActive] = React.useState(0);
 	const currencies = useSelector(selectCurrencies);
