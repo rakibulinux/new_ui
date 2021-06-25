@@ -1,13 +1,13 @@
 import React from 'react';
 import { useMarketsFetch, useMarketsTickersFetch, useRangerConnectFetch } from '../../../hooks';
-import { NewMarkets } from './../../components';
+import { Markets } from './Markets';
 
 const NewMarketsComponent = () => {
 	useMarketsFetch();
 	useMarketsTickersFetch();
 	useRangerConnectFetch();
 
-	return <NewMarkets />;
+	return <Markets />;
 };
 
 export const NewMarketsScreenMobile = React.memo(NewMarketsComponent);

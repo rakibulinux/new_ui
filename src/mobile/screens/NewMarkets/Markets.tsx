@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { Market, selectMarkets, selectMarketTickers, Ticker } from '../../../modules/public/markets';
+import { MarketList } from '../../components/';
 import { HeaderSearch } from './HeaderSearch';
-import { RowTable } from './RowTable';
 
 const MAX_ELEMENT = 10;
 const DEFAULT_TICKER: Ticker = {
@@ -28,7 +28,7 @@ const DEFAULT_PAGEINDEX = 1;
 
 const DEFAULT_TAB = 'all';
 
-export const NewMarkets = () => {
+export const Markets = () => {
 	const markets = useSelector(selectMarkets);
 	const tickers = useSelector(selectMarketTickers);
 	const [listTab, setListTab] = useState(['']);
@@ -273,21 +273,19 @@ export const NewMarkets = () => {
 
 	const renderBodyTable = () => {
 		const BodyTableMarkets = () => {
-			const renderRowTable = () => {
-				return listMarket.map((e, index) => <RowTable key={index} market={e} />);
+
+			const child = () => {
+				return (
+					<tr>
+						<td className="td-mobile-new-market__body__markets__desc">Main</td>
+						<td></td>
+						<td></td>
+					</tr>
+				);
 			};
 
 			return (
-				<React.Fragment>
-					<tbody className="td-mobile-new-market__body__markets">
-						<tr>
-							<td className="td-mobile-new-market__body__markets__desc">Main</td>
-							<td></td>
-							<td></td>
-						</tr>
-						{renderRowTable()}
-					</tbody>
-				</React.Fragment>
+				<MarketList listMarket={listMarket} child={child()} />
 			);
 		};
 

@@ -27,4 +27,4 @@ export * from './Directionals';
 export * from './Table';
 export * from './Pagination';
 export * from './NewBottomNavbar';
-export * from './NewMarkets';
+export * from './NewMarketsList';
