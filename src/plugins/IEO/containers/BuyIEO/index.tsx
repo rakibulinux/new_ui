@@ -9,12 +9,10 @@ interface BuyIEOProps {
 	currencyID: string;
 }
 
-const percents = ['25%', '50%', '75%', '100%'];
 export const BuyIEO: React.FC<BuyIEOProps> = props => {
-	const activeBuyCoinClassNames = classNames('buy-ieo-coin', 'active');
 	const [currencyPayment, setSelectedCurrency] = React.useState(props.coins[0] || '');
-	const non_activeClassNames = classNames('buy-ieo-coin', 'non_active');
-
+	const [coinActive, setCoinActive] = React.useState(0);
+	const currencies = useSelector(selectCurrencies);
 	const findIcon = (code: string): string => {
 		const currency = currencies.find(currencyParam => currencyParam.id === code);
 		try {
@@ -26,16 +24,14 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 			return require('../../../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
 		}
 	};
-	const [coinActive, setCoinActive] = React.useState(0);
-	const [percentActive, setPercentActive] = React.useState(0);
+
 	const dispatch = useDispatch();
-	const dispatchcFetchCurrencies = () => dispatch(currenciesFetch());
+	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
 	React.useEffect(() => {
-		dispatchcFetchCurrencies();
+		dispatchFetchCurrencies();
 	}, []);
-	const activePercentClassNames = classNames('percent_active');
-	const non_ActivePercentClassNames = classNames('percent_non_active');
-	const currencies = useSelector(selectCurrencies);
+	const non_activeClassNames = classNames('buy-ieo-coin', 'non_active');
+	const activeBuyCoinClassNames = classNames('buy-ieo-coin', 'active');
 
 	return (
 		<div id="buy-ieo">
@@ -53,14 +49,13 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 						</button>
 					))}
 				</div>
-				<div id="buy-ieo-body" className="d-flex flex-wrap justify-content-center">
+				<div id="buy-ieo-body" className="d-flex flex-wrap">
 					<div className="col-12 d-flex justify-content-between" style={{ padding: '0' }}>
 						<div id="buy-ieo-body-bonus" className="col-md-6">
 							<p className="ml-4">Bonus 2%</p>
 						</div>
 
 						<div id="buy-ieo-body-available" className="col-md-6" style={{ paddingRight: '20' }}>
-							<p className="buy-ieo-type">Buy PROB</p>
 							<p className="buy-ieo-available-amount">
 								Available Amount <span>0.00000000</span> PROB
 							</p>
@@ -72,24 +67,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 							<img src={findIcon(currencyPayment.toString())} alt="iconCoin"></img>
 						</div>
 						<input type="number" id="buy-ieo-body-payment-input" placeholder="0"></input>
-						<span id="denominations-coin">PROB</span>
-					</div>
-
-					<div id="buy-ieo-body-payment-percents" className="row d-flex justify-content-center">
-						{percents.map((percent, index) => (
-							<button
-								type="button"
-								className={`col-3  ${
-									index === percentActive ? activePercentClassNames : non_ActivePercentClassNames
-								}`}
-								onClick={event => {
-									event.preventDefault();
-									setPercentActive(index);
-								}}
-							>
-								{percent}
-							</button>
-						))}
+						<span id="denominations-coin">{props.currencyID}</span>
 					</div>
 
 					<div id="buy-ieo-body-customer-get" className="d-flex justify-content-between">

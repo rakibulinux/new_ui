@@ -44,7 +44,6 @@ export const IEODetailScreen = () => {
 			<div id="ieo-detail-screen_container" className="d-flex justify-content-center">
 				<div className="col-5" style={{ height: '591px' }}>
 					<IEODetail
-						imageLink={IEOItem.payload.image_link || ''}
 						endDate={IEOItem.payload.end_date || ''}
 						startDate={IEOItem.payload.start_date || ''}
 						bonus={IEOItem.payload.bonus || 'loading'}

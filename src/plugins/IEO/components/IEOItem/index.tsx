@@ -33,7 +33,7 @@ export const IEOItem: React.FC<IEOItemProps> = props => {
 	};
 	const renderStatus = (type: string) => {
 		switch (type) {
-			case 'running':
+			case 'upcoming':
 				return status(
 					`linear-gradient(90deg, #0E33CA 0%, #FD0056 100%)`,
 					`Ends in ${distanceDate(new Date(), new Date(props.endDate))}`,
