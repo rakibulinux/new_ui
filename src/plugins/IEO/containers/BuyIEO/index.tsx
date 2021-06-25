@@ -103,7 +103,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 					</button>
 				</div>
 			</div>
-			<div className="buy-ieo-notes">
+			<div className="buy-ieo-notes col-12">
 				<ul className="buy-ieo-note">
 					<li>Estimated Value</li>
 					<li className="value">0 USDT</li>
