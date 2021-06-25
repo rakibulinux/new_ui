@@ -264,32 +264,23 @@ export const Markets = () => {
 			);
 		});
 
-		return (
-			<thead>
-				<tr>{renderUiHeader}</tr>
-			</thead>
-		);
+		return <tr>{renderUiHeader}</tr>;
 	};
 
-	const renderBodyTable = () => {
-		const BodyTableMarkets = () => {
-
-			const child = () => {
-				return (
-					<tr>
-						<td className="td-mobile-new-market__body__markets__desc">Main</td>
-						<td></td>
-						<td></td>
-					</tr>
-				);
-			};
-
+	const renderTable = () => {
+		const child = () => {
 			return (
-				<MarketList listMarket={listMarket} child={child()} />
+				<tr>
+					<td className="td-mobile-new-market__body__markets__desc">Main</td>
+					<td></td>
+					<td></td>
+				</tr>
 			);
 		};
 
-		return BodyTableMarkets();
+		return (
+			<MarketList listMarket={listMarket} isShowTHead={true} childOfTBody={child()} childOfTHead={renderHeaderTable()} />
+		);
 	};
 
 	const renderPagination = () => {
@@ -320,10 +311,7 @@ export const Markets = () => {
 					<div className="td-mobile-new-market__body__selection__box">{renderTab()}</div>
 				</div>
 
-				<table>
-					{renderHeaderTable()}
-					{renderBodyTable()}
-				</table>
+				{renderTable()}
 
 				{renderPagination()}
 			</div>
