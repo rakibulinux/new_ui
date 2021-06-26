@@ -36,12 +36,14 @@ export const IEODetail: React.FC<IEODetailProps> = props => {
 			<div className="content col-11 m-auto">
 				<div id="ieo-detail-header"></div>
 				<div id="ieo-detail-body" className="col-12">
-					<img className="logo-icon" src={findIcon(props.currencyID)} alt="image coin"></img>
+					<div className="logo-icon d-flex justify-content-center">
+						<img src={findIcon(props.currencyID)} alt="image coin"></img>
+					</div>
 					<p id="ieo-detail-body-time">{`${formatDate(props.startDate)} ~ ${formatDate(props.endDate)}`}</p>
 				</div>
 				<hr></hr>
 				<div id="ieo-detail-footer">
-					<p>{`${props.bonus}% Bonus ${props.currencyID}`}</p>
+					<p>{`${props.bonus}% Bonus ${props.currencyID.toUpperCase()}`}</p>
 				</div>
 			</div>
 		</div>

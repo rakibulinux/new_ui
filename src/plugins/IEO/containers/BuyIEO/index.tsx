@@ -6,15 +6,25 @@ import { currenciesFetch, selectCurrencies } from '../../../../modules';
 interface BuyIEOProps {
 	coins: Array<String>;
 	currencyID: string;
+	priceIEO: number | undefined;
+	type: string | undefined;
+	minBuy: number | undefined;
+	uid: string;
 }
 
 export const BuyIEO: React.FC<BuyIEOProps> = props => {
-	const [currencyPayment, setSelectedCurrency] = React.useState(props.coins[0] || '');
-	React.useEffect(() => {
-		setSelectedCurrency(props.coins[0]);
-	}, [props.coins[0]]);
+	const [selectedCurrencyState, setSelectedCurrencyState] = React.useState(props.coins[0] || '');
 	const [coinActive, setCoinActive] = React.useState(0);
 	const currencies = useSelector(selectCurrencies);
+	React.useEffect(() => {
+		setSelectedCurrencyState(props.coins[0]);
+	}, [props.coins[0]]);
+
+	const dispatch = useDispatch();
+	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
+	React.useEffect(() => {
+		dispatchFetchCurrencies();
+	}, []);
 	const findIcon = (code: string): string => {
 		const currency = currencies.find(currencyParam => currencyParam.id === code);
 		try {
@@ -27,11 +37,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 		}
 	};
 
-	const dispatch = useDispatch();
-	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
-	React.useEffect(() => {
-		dispatchFetchCurrencies();
-	}, []);
+
 	const non_activeClassNames = classNames('buy-ieo-coin', 'non_active');
 	const activeBuyCoinClassNames = classNames('buy-ieo-coin', 'active');
 
@@ -44,7 +50,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 							className={coinActive === index ? activeBuyCoinClassNames : non_activeClassNames}
 							onClick={() => {
 								setCoinActive(index);
-								setSelectedCurrency(coin.toString());
+								setSelectedCurrencyState(coin.toString());
 							}}
 						>
 							{coin}
@@ -70,7 +76,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 
 					<div id="buy-ieo-body-price" style={{ padding: '0' }} className="d-flex flex-wrap input-group-body mt-5">
 						<div id="buy-ieo-body-coin-avt">
-							<img src={findIcon(currencyPayment.toString())} alt="iconCoin"></img>
+							<img src={findIcon(selectedCurrencyState.toString())} alt="iconCoin"></img>
 						</div>
 						<input
 							type="number"
@@ -79,12 +85,12 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 							style={{ background: 'rgb(61 55 81 / 40%)', borderRight: '1px solid #848e9c', cursor: 'not-allowed' }}
 							disabled
 						></input>
-						<span id="denominations-coin">{currencyPayment.toString()}</span>
+						<span id="denominations-coin">{selectedCurrencyState.toString()}</span>
 					</div>
 
 					<div id="buy-ieo-body-total" style={{ padding: '0' }} className="d-flex flex-wrap input-group-body mt-5">
 						<div id="buy-ieo-body-coin-avt">
-							<img src={findIcon(currencyPayment.toString())} alt="iconCoin"></img>
+							<img src={findIcon(selectedCurrencyState.toString())} alt="iconCoin"></img>
 						</div>
 						<input
 							type="number"
@@ -93,7 +99,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 							placeholder="0"
 							disabled
 						></input>
-						<span id="denominations-coin">{currencyPayment.toString()}</span>
+						<span id="denominations-coin">{selectedCurrencyState.toString()}</span>
 					</div>
 
 					<div id="regulations">

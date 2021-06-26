@@ -4,12 +4,13 @@ import { IEODetail, BuyIEO } from './../../containers';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { findSalebyId, selectSaleItem } from '../../../../modules';
+import { findSalebyId, selectSaleItem, selectUserInfo } from '../../../../modules';
 
 export const IEODetailScreen = () => {
 	const history = useHistory();
 	const { ieoID } = useParams<{ ieoID: string }>();
 	const IEOItem = useSelector(selectSaleItem);
+	const user = useSelector(selectUserInfo);
 	const dispatch = useDispatch();
 	const dispatchFetchSaleItemByID = (ieoIdParam: string) =>
 		dispatch(
@@ -41,8 +42,8 @@ export const IEODetailScreen = () => {
 			>
 				Return to Lists
 			</button>
-			<div id="ieo-detail-screen_container" className="d-flex justify-content-center">
-				<div className="col-5" style={{ height: '591px' }}>
+			<div id="ieo-detail-screen_container" className="d-flex flex-wrap justify-content-center">
+				<div className="col-md-5">
 					<IEODetail
 						endDate={IEOItem.payload.end_date || ''}
 						startDate={IEOItem.payload.start_date || ''}
@@ -50,10 +51,15 @@ export const IEODetailScreen = () => {
 						currencyID={IEOItem.payload.currency_id || ''}
 					/>
 				</div>
-				<div className="col-5" style={{ backgroundColor: '#434A56', height: '591px' }}>
+
+				<div className="col-md-5" style={{ backgroundColor: '#434A56' }}>
 					<BuyIEO
 						coins={IEOItem.payload.currency_available.length ? IEOItem.payload.currency_available : ['']}
 						currencyID={IEOItem.payload.currency_id || ''}
+						priceIEO={Number(IEOItem.payload.price)}
+						type={IEOItem.payload.type}
+						minBuy={IEOItem.payload.min_buy}
+						uid={user.uid}
 					/>
 				</div>
 			</div>
