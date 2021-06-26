@@ -16,6 +16,7 @@ const mockConfig: Config = {
 		arkeUrl: '/api/v2/arke',
 		finexUrl: '/api/v2/finex',
 		sunshineUrl: '/api/v2/sunshine',
+		stakeUrl: '/api/v2/stake',
 	},
 	minutesUntilAutoLogout: '30',
 	rangerReconnectPeriod: '1',

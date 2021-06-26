@@ -53,6 +53,7 @@ export const tradeUrl = () => Cryptobase.config.api.tradeUrl;
 export const authUrl = () => Cryptobase.config.api.authUrl;
 export const applogicUrl = () => Cryptobase.config.api.applogicUrl;
 export const sunshineUrl = () => Cryptobase.config.api.sunshineUrl;
+export const stakeUrl = () => Cryptobase.config.api.stakeUrl;
 export const rangerUrl = () => Cryptobase.config.api.rangerUrl;
 export const arkeUrl = () => Cryptobase.config.api.arkeUrl || tradeUrl();
 export const finexUrl = () => Cryptobase.config.api.finexUrl || tradeUrl();

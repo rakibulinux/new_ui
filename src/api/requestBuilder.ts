@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosPromise, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { applogicUrl, authUrl, finexUrl, sunshineUrl, tradeUrl, withCredentials } from './config';
+import { applogicUrl, authUrl, finexUrl, stakeUrl, sunshineUrl, tradeUrl, withCredentials } from './config';
 
 export type HTTPMethod = 'get' | 'post' | 'delete' | 'put' | 'patch';
 
@@ -33,6 +33,7 @@ const getAPI = () => ({
 	peatio: tradeUrl(),
 	finex: finexUrl(),
 	sunshine: sunshineUrl(),
+	stake: stakeUrl(),
 });
 
 const buildRequest = (request: Request, configData: RequestOptions) => {

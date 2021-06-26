@@ -35,13 +35,13 @@ export const StakingListScreen = () => {
 
 	const renderStakingList = () => {
 		return filterStackingState === 'upcoming' ? (
-			<StakingList staking_list={[...upcomingList]} />
+			<StakingList stakes={[...upcomingList]} />
 		) : filterStackingState === 'running' ? (
-			<StakingList staking_list={[...runningList]} />
+			<StakingList stakes={[...runningList]} />
 		) : filterStackingState === 'ended' ? (
-			<StakingList staking_list={[...endedList]} />
+			<StakingList stakes={[...endedList]} />
 		) : (
-			<StakingList staking_list={[...runningList, ...upcomingList, ...endedList]} />
+			<StakingList stakes={[...runningList, ...upcomingList, ...endedList]} />
 		);
 	};
 
@@ -55,16 +55,16 @@ export const StakingListScreen = () => {
 				</div>
 				<div className="staking-buttons">
 					<button onClick={() => setFilterStackingState('all')} className={allButtonClassName}>
-						All
+						All <span hidden={filterStackingState != 'all'}>({stakingList.length})</span>
 					</button>
 					<button onClick={() => setFilterStackingState('upcoming')} className={upcomingButtonClassName}>
-						Upcoming
+						Upcoming <span hidden={filterStackingState != 'upcoming'}>({upcomingList.length})</span>
 					</button>
 					<button onClick={() => setFilterStackingState('running')} className={runningButtonClassName}>
-						Running
+						Running <span hidden={filterStackingState != 'running'}>({runningList.length})</span>
 					</button>
 					<button onClick={() => setFilterStackingState('ended')} className={endedButtonClassName}>
-						Ended
+						Ended <span hidden={filterStackingState != 'ended'}>({endedList.length})</span>
 					</button>
 				</div>
 
