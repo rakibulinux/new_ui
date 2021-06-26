@@ -18,7 +18,7 @@ export const OrderBookStyle = styled.div<OrderBookProps>`
 	right: 0;
 	height: calc(100% - 6px);
 	color: white;
-	padding: 0 18px;
+	padding: 0 10px;
 	.td-order-book {
 		background-color: #313445;
 		height: 100%;

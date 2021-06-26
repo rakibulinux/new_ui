@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const MarketHistory = styled.div`
 	background-color: #313445;
-	padding: 18px;
-	padding-right: 18px;
+	padding: 10px;
+	padding-right: 10px;
 	height: 100%;
 	position: absolute;
 	top: 3px;
