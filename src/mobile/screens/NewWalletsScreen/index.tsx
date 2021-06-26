@@ -28,7 +28,7 @@ export const NewWalletsMobileScreen = () => {
 
 	const renderWalletList = (walletsParam: Wallet[]) => {
 		return walletsParam.map(wallet => (
-			<Link to={`/wallets/${wallet.currency}/history`} className="td-mobile-wallets__list__item" key={wallet.currency}>
+			<Link to={`/wallets/${wallet.currency}/detail`} className="td-mobile-wallets__list__item" key={wallet.currency}>
 				<div className="td-mobile-wallets__list__item__top">
 					<img className="td-mobile-wallets__list__item__top__icon" src={wallet.iconUrl} alt={wallet.name} />
 					<span className="td-mobile-wallets__list__item__top__symbol">{wallet.currency.toUpperCase()}</span>

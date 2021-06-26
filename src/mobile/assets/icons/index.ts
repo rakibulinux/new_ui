@@ -4,3 +4,4 @@ export * from './BottomNavbar/TradeIcon';
 export * from './BottomNavbar/SwapIcon';
 export * from './BottomNavbar/WalletIcon';
 export * from './WalletScreen/Search';
+export * from './GoBackIcon';

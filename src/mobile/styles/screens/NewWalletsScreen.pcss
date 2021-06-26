@@ -88,8 +88,12 @@
 
 		&__item {
 			border-bottom: 0.5px solid rgba(132, 142, 156, 0.5);
-			padding: 0.9em 0;
 			display: block;
+			padding: 0.9em 0;
+
+			&:hover {
+				text-decoration: none;
+			}
 
 			&:last-child {
 				border-bottom: none;
@@ -131,15 +135,15 @@
 				}
 
 				&__text {
+					color: #848e9c;
 					font-size: 0.75em;
 					font-weight: 600;
-					color: #848e9c;
 				}
 
 				&__number {
 					color: #fff;
-					font-weight: 700;
 					font-size: 0.875em;
+					font-weight: 700;
 				}
 			}
 		}
