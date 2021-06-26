@@ -7,6 +7,7 @@ export interface Config {
 		arkeUrl: string;
 		finexUrl: string;
 		sunshineUrl: string;
+		stakeUrl: string;
 	};
 	minutesUntilAutoLogout?: string;
 	rangerReconnectPeriod?: string;

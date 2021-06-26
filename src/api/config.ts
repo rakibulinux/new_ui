@@ -10,6 +10,7 @@ export const defaultConfig: Config = {
 		arkeUrl: '',
 		finexUrl: '',
 		sunshineUrl: '',
+		stakeUrl: '',
 	},
 	minutesUntilAutoLogout: '30',
 	rangerReconnectPeriod: '1',
@@ -44,6 +45,7 @@ window.env = window.env || defaultConfig;
 Cryptobase.config = { ...window.env };
 //hot custome env
 Cryptobase.config.api.sunshineUrl = Cryptobase.config.api.sunshineUrl || '/api/v2/sunshine';
+Cryptobase.config.api.stakeUrl = Cryptobase.config.api.stakeUrl || '/api/v2/stake';
 //end custome env
 Cryptobase.config.storage = Cryptobase.config.storage || {};
 

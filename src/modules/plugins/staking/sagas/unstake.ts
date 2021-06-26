@@ -7,7 +7,7 @@ import { API, RequestOptions } from 'api';
 import { getCsrfToken } from 'helpers';
 
 const createOptions = (csrfToken?: string): RequestOptions => {
-	return { apiVersion: 'sunshine', headers: { 'X-CSRF-Token': csrfToken } };
+	return { apiVersion: 'stake', headers: { 'X-CSRF-Token': csrfToken } };
 };
 
 export function* unstakeSaga(action: UnstakePost) {

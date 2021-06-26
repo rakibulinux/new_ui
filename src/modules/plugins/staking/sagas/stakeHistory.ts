@@ -5,7 +5,7 @@ import { call, put } from 'redux-saga/effects';
 import { stakeHistoryData, StakeHistoryFetch } from '../actions';
 
 const createOptions = (csrfToken?: string): RequestOptions => {
-	return { apiVersion: 'sunshine', headers: { 'X-CSRF-Token': csrfToken } };
+	return { apiVersion: 'stake', headers: { 'X-CSRF-Token': csrfToken } };
 };
 
 export function* fetchStakeHistory(action: StakeHistoryFetch) {

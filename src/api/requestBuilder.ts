@@ -9,7 +9,7 @@ export interface JsonBody {
 }
 
 export interface RequestOptions {
-	apiVersion: 'applogic' | 'peatio' | 'barong' | 'finex' | 'sunshine';
+	apiVersion: 'applogic' | 'peatio' | 'barong' | 'finex' | 'sunshine' | 'stake';
 	withHeaders?: boolean;
 	headers?: Object;
 }
