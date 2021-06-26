@@ -18,17 +18,19 @@ export function* getPrice(action: GetPrice) {
 			price.data[key] = Number(price.data[key]);
 		});
 		let newPrice = { ...price.data };
-		const kobePrice = yield axios.get('https://www.cx.finance/api/v2/peatio/public/markets/kobeusdt/tickers');
-		const escPrice = yield axios.get('https://www.cx.finance/api/v2/peatio/public/markets/escusdt/tickers');
-		const swpPrice = yield axios.get('https://www.cx.finance/api/v2/peatio/public/markets/swpusdt/tickers');
+		// const kobePrice = yield axios.get('https://www.cx.finance/api/v2/peatio/public/markets/kobeusdt/tickers');
+		// const escPrice = yield axios.get('https://www.cx.finance/api/v2/peatio/public/markets/escusdt/tickers');
+		// const swpPrice = yield axios.get('https://www.cx.finance/api/v2/peatio/public/markets/swpusdt/tickers');
+		const cxPrice = yield axios.get('https://www.cx.finance/api/v2/peatio/public/markets/cxusdt/tickers');
 
 		newPrice = {
 			...newPrice,
-			KOBE: Number(kobePrice.data.ticker.last),
-			ESC: Number(escPrice.data.ticker.last),
-			SWP: Number(swpPrice.data.ticker.last),
+			// KOBE: Number(kobePrice.data.ticker.last),
+			// ESC: Number(escPrice.data.ticker.last),
+			// SWP: Number(swpPrice.data.ticker.last),
+			CX: Number(cxPrice.data.ticker.last),
 		};
-
+		console.log(newPrice);
 		yield put(
 			priceData({
 				payload: {

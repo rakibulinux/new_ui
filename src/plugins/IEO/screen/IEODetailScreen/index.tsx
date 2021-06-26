@@ -40,29 +40,33 @@ export const IEODetailScreen = () => {
 					history.goBack();
 				}}
 			>
-				Return to Lists
+				Return to List
 			</button>
-			<div id="ieo-detail-screen_container" className="d-flex flex-wrap justify-content-center">
-				<div className="col-md-5">
-					<IEODetail
-						endDate={IEOItem.payload.end_date || ''}
-						startDate={IEOItem.payload.start_date || ''}
-						bonus={IEOItem.payload.bonus || ''}
-						currencyID={IEOItem.payload.currency_id || ''}
-					/>
-				</div>
+			{IEOItem.loading ? (
+				<></>
+			) : (
+				<div id="ieo-detail-screen_container" className="d-flex flex-wrap justify-content-center">
+					<div className="col-md-5">
+						<IEODetail
+							endDate={IEOItem.payload.end_date}
+							startDate={IEOItem.payload.start_date}
+							bonus={IEOItem.payload.bonus}
+							currencyID={IEOItem.payload.currency_id}
+						/>
+					</div>
 
-				<div className="col-md-5" style={{ backgroundColor: '#434A56' }}>
-					<BuyIEO
-						coins={IEOItem.payload.currency_available.length ? IEOItem.payload.currency_available : ['']}
-						currencyID={IEOItem.payload.currency_id || ''}
-						priceIEO={Number(IEOItem.payload.price)}
-						type={IEOItem.payload.type}
-						minBuy={IEOItem.payload.min_buy}
-						uid={user.uid}
-					/>
+					<div className="col-md-5" style={{ backgroundColor: '#434A56' }}>
+						<BuyIEO
+							coins={IEOItem.payload.currency_available.length ? IEOItem.payload.currency_available : ['']}
+							currencyID={IEOItem.payload.currency_id}
+							priceIEO={Number(IEOItem.payload.price)}
+							type={IEOItem.payload.type}
+							minBuy={IEOItem.payload.min_buy}
+							uid={user.uid}
+						/>
+					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 };

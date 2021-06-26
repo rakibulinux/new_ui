@@ -110,7 +110,7 @@ export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 		},
 	];
 	return (
-		<div id="ioe-listing-screen-ieos" className="row">
+		<div id="ioe-listing-screen-ieos" className="row mt-5">
 			{listIEO.map((item, index) => {
 				return props.type === 'all' || item.type === props.type ? (
 					<div className="col-md-6 col-lg-4 col-xl-3" style={{ padding: '10px 10px' }}>

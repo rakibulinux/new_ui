@@ -378,6 +378,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/accounts/confirmation"
 						component={VerificationScreen}
 					/>
+
 					<PublicRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}
@@ -396,7 +397,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/email-verification"
 						component={EmailVerificationScreen}
 					/>
-
 					<Route path="/404" component={RestrictedScreen} />
 					<Route path="/500" component={MaintenanceScreen} />
 					<Route exact={false} path="/trading/:market?" component={TradingScreen} />
@@ -404,7 +404,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route exact={false} path="/fee" component={FeeScreen} />
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />
-
 					<PrivateRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}
@@ -449,7 +448,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						exact
 						component={WithdrawScreen}
 					/>
-
 					<PrivateRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}
