@@ -1,5 +1,10 @@
 import { DropdownElem } from '../components/Order';
 
+export const createOrderConfig = {
+	minimumTotal: 1,
+	status: true,
+};
+
 export const PG_TITLE_PREFIX = 'CircleEx Exchange';
 
 export const pgRoutes = (isLoggedIn: boolean, isLight?: boolean): string[][] => {
@@ -20,10 +25,10 @@ export const pgRoutes = (isLoggedIn: boolean, isLight?: boolean): string[][] => 
 
 export const DEFAULT_CCY_PRECISION = 4;
 export const STORAGE_DEFAULT_LIMIT = 20;
-export const ORDER_BOOK_DEFAULT_SIDE_LIMIT = 50;
+export const ORDER_BOOK_DEFAULT_SIDE_LIMIT = 70;
 export const DEFAULT_TRADING_VIEW_INTERVAL = '30';
 export const VALUATION_PRIMARY_CURRENCY = 'USDT';
-export const VALUATION_SECONDARY_CURRENCY = 'ETH';
+export const VALUATION_SECONDARY_CURRENCY = 'BTC';
 
 export const PASSWORD_ENTROPY_STEP = 6;
 
