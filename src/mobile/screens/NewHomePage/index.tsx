@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useDepthFetch, useEventsFetch, useMarketsFetch, useMarketsTickersFetch, useRangerConnectFetch } from '../../../hooks';
 import { selectUserLoggedIn } from '../../../modules';
-import { Avatar, Notification } from './../../assets/icons';
+import { Avatar } from './../../assets/icons';
 import { NewAllMarketList } from './../../components';
 import { BoxImg } from './BoxImg';
 import { MarketsTop } from './MarketTop';
@@ -60,19 +60,15 @@ const NewHomePage = () => {
 					<Link to={linkToProfile}>
 						<Avatar />
 					</Link>
-					<div className="td-mobile-new-home-page__header__info__desc">
-						<span className="td-mobile-new-home-page__header__info__desc__first">CiRCLEEX</span>
-						<span className="td-mobile-new-home-page__header__info__desc__second">¥ 0.00</span>
-					</div>
+					<div className="td-mobile-new-home-page__header__info__desc"></div>
 				</div>
-				<Notification />
 			</div>
 
 			<div className="td-mobile-new-home-page__box-img">
 				<BoxImg />
 			</div>
 
-			<MarketsTop/>
+			<MarketsTop />
 
 			<div className="td-mobile-new-home-page__direction">{renderDirectionals()}</div>
 
