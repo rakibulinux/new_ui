@@ -245,6 +245,14 @@ export const MarketsList = props => {
 					name: 'BUSD',
 					fill: 'busd',
 				},
+				{
+					name: 'USDC',
+					fill: 'usdc',
+				},
+				{
+					name: 'TUSD',
+					fill: 'tusd',
+				},
 			];
 
 			return (
