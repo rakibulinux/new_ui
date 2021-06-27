@@ -2,7 +2,6 @@ import { LangType } from '../../translations';
 import { nationalitiesNames } from '../../translations/nationalities';
 
 export const ru: LangType = {
-	'error.order.create.minTotal': 'Итого должно быть>= {total} $, current: ≈ {totalUsd} $, во избежание спама',
 	/**Vote */
 	'page.body.vote.msg.success': 'Vote success',
 	'page.body.vote.msg.fail': 'Vote fail',

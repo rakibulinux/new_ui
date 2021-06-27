@@ -1,5 +1,4 @@
 import { Slider } from 'antd';
-import { useConvertToUSD } from 'hooks';
 import floor from 'lodash/floor';
 import get from 'lodash/get';
 import Tabs, { TabPane, TabsProps } from 'rc-tabs';
@@ -10,7 +9,6 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Decimal, FormType, WalletItemProps } from '../../../../components';
-import { createOrderConfig } from '../../../../constants';
 import { cleanPositiveFloatInput, precisionRegExp } from '../../../../helpers';
 import {
 	alertPush,
@@ -60,8 +58,6 @@ export const Order: React.FC<OrderProps> = ({}) => {
 	const currentPrice = useSelector(selectCurrentPrice, isEqual);
 	const currentOrderType = useSelector(selectOrderType, isEqual);
 	const currentAmount = useSelector(selectAmount, isEqual);
-
-	const exchangeRate = useConvertToUSD(1, get(currentMarket, 'quote_unit'))[1];
 
 	const TABS_LIST_KEY = [
 		intl.formatMessage({ id: 'page.body.trade.header.newOrder.content.orderType.limit' }),
@@ -418,7 +414,6 @@ export const Order: React.FC<OrderProps> = ({}) => {
 		const walletQuote = getWallet(quote_unit, wallets);
 		const walletBase = getWallet(base_unit, wallets);
 
-		const total = Number(type === 'sell' ? formState.totalSell : formState.totalBuy);
 		const amount = Number(type === 'sell' ? formState.amountSell : formState.amountBuy);
 		const priceType = type === 'buy' ? formState.priceBuy : formState.priceSell;
 		const price =
@@ -434,25 +429,6 @@ export const Order: React.FC<OrderProps> = ({}) => {
 
 		const order = tabTypeSelectedState === TABS_LIST_KEY[0] ? { ...resultData, price: price } : resultData;
 		let orderAllowed = true;
-
-		if (createOrderConfig.status) {
-			if (total * exchangeRate < 10) {
-				dispatch(
-					alertPush({
-						message: [
-							intl.formatMessage(
-								{ id: 'error.order.create.minTotal' },
-								// tslint:disable-next-line: radix
-								{ total: createOrderConfig.minimumTotal, totalUsd: parseInt(`${total * exchangeRate || 0}`) },
-							),
-						],
-						type: 'error',
-					}),
-				);
-
-				orderAllowed = false;
-			}
-		}
 
 		if (+currentMarket.min_amount && +resultData.volume < +currentMarket.min_amount) {
 			dispatch(
@@ -502,7 +478,10 @@ export const Order: React.FC<OrderProps> = ({}) => {
 			orderAllowed = false;
 		}
 
-		if (available < total) {
+		if (
+			(available < +formState.totalBuy && order.side === 'buy') ||
+			(available < +formState.amountSell && order.side === 'sell')
+		) {
 			dispatch(
 				alertPush({
 					message: [
