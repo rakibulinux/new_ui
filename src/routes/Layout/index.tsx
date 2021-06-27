@@ -34,6 +34,7 @@ import {
 	WalletDeposit,
 	NewWalletsMobileScreen,
 	WalletWithdraw,
+	HomePageScreenMobile,
 } from '../../mobile/screens';
 
 import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
@@ -347,6 +348,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							path="/profile"
 							component={ProfileMobileScreen}
 						/>
+
+						<Route exact={false} path="/index" component={HomePageScreenMobile} />
 						<Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
 						<Route exact={true} path="/" component={LandingScreenMobile} />
 						<Route exact={true} path="/markets" component={NewMarketsScreenMobile} />
