@@ -6,17 +6,17 @@ export const InformationIEO = () => {
 	};
 	const information = {
 		name: 'oni Exchange (ONI)',
-		date: '',
+		date: '2021-05-06 16:00 (GMT+7)',
 		price: '1 ONI = 5 USDT',
-		homepage: '',
+		homepage: 'https://www.cx.finance/',
 		bonus: '2% Bonus for PROB',
-		bonusLookup: '',
+		bonusLookup: '2 Weeks',
 		softcap: '100,000 USDT',
-		hardcap: '',
+		hardcap: '5,000,000 USDT',
 		usage: 'Intelligent AMM and yield farm on Binance Smart Chain',
-		whitepaper: '',
+		whitepaper: 'English',
 		tech: 'BEP-20',
-		sns: '',
+		sns: 'Twitter Telegram',
 	};
 	const showInformationComponent = () => {
 		let content: Array<JSX.Element> = [];
