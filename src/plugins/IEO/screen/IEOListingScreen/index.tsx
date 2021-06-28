@@ -2,15 +2,15 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { ListItemIEO } from './../../containers';
 
-export type typeIEO = 'all' | 'ongoing' | 'upcoming';
+export type typeIEO = 'ended' | 'ongoing' | 'upcoming';
 export const IEOListingScreen = () => {
-	const [typeIEO, setTypeIEO] = React.useState<typeIEO>('all');
+	const [typeIEO, setTypeIEO] = React.useState<typeIEO>('ongoing');
 	const handleViewListIEO = (type: typeIEO) => {
 		setTypeIEO(type);
 	};
 	const renderActiveButtonUpcomingClasses = classNames('upcoming', typeIEO === 'upcoming' ? 'button-active' : '');
 	const renderActiveButtonRunningClasses = classNames('running', typeIEO === 'ongoing' ? 'button-active' : '');
-	const renderActiveButtonAllClasses = classNames('all', typeIEO === 'all' ? 'button-active' : '');
+	const renderActiveButtonEndedClasses = classNames('ended', typeIEO === 'ended' ? 'button-active' : '');
 	return (
 		<div id="ieo-listing-screen">
 			<div className="ieo-listing-screen__header">
@@ -38,16 +38,16 @@ export const IEOListingScreen = () => {
 								handleViewListIEO('ongoing');
 							}}
 						>
-							Running
+							OnGoing
 						</button>
 						<button
 							type="button"
-							className={renderActiveButtonAllClasses}
+							className={renderActiveButtonEndedClasses}
 							onClick={() => {
-								handleViewListIEO('all');
+								handleViewListIEO('ended');
 							}}
 						>
-							All
+							Ended
 						</button>
 					</div>
 				</div>
