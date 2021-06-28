@@ -1,27 +1,53 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { useSelector, useDispatch } from 'react-redux';
-import { currenciesFetch, selectCurrencies, selectWallets, selectPrice, getPrice, walletsFetch } from '../../../../modules';
+import { message } from 'antd';
+import { useHistory } from 'react-router';
+import { BuyConfirmModal } from './../BuyConfirmModal';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import {
+	currenciesFetch,
+	selectCurrencies,
+	selectWallets,
+	selectPrice,
+	getPrice,
+	walletsFetch,
+	Buy,
+	buySaleItem,
+	selectBuy,
+	resetBuyResponse,
+	getTotalBuyers,
+	findSalebyId,
+	// alertPush,
+} from '../../../../modules';
 import NP from 'number-precision';
+import { notification } from 'antd';
 
 interface BuyIEOProps {
-	coins: Array<String>;
+	coins: Array<string>;
 	currencyID: string;
 	priceIEO: number;
 	type: string;
 	minBuy: number;
 	uid: string;
+	id: string;
+	bonus: string;
 }
 
 export const BuyIEO: React.FC<BuyIEOProps> = props => {
+	const history = useHistory();
 	const [selectedCurrencyState, setSelectedCurrencyState] = React.useState(props.coins[0] || '');
 	const [coinActive, setCoinActive] = React.useState(0);
 	const [quantityState, setQuantityState] = React.useState(props.minBuy);
 	const [priceState, setPriceState] = React.useState(0);
 	const [totalPriceState, setTotalPriceState] = React.useState<number>(0);
+	const [isShowBuyConfirmModalState, setIsShowBuyConfirmModalState] = React.useState<boolean>(false);
+
 	const currencies = useSelector(selectCurrencies);
 	const wallets = useSelector(selectWallets);
 	const priceSelector = useSelector(selectPrice);
+	const buyResponse = useSelector(selectBuy, shallowEqual);
+
+	const filteredWallets = wallets.filter(wallet => props.coins.includes(wallet.currency));
 	const baseWallet = wallets.find(wallet => wallet.currency === props.currencyID);
 	const baseBalance = baseWallet ? Number(baseWallet.balance) : 0;
 	React.useEffect(() => {
@@ -29,22 +55,163 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 	}, [props.coins[0]]);
 
 	const dispatch = useDispatch();
+	const dispatchBuy = React.useCallback((buyInfo: Buy) => dispatch(buySaleItem(buyInfo)), [dispatch]);
+
 	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
 	const dispatchGetPrice = React.useCallback((priceConfig: any) => dispatch(getPrice(priceConfig)), [dispatch]);
 	const dispatchWalletsFetch = React.useCallback(() => dispatch(walletsFetch()), [dispatch]);
+	const dispatchResetBuyResponse = () => dispatch(resetBuyResponse());
+
+	// dispatch(alertPush({ message: ['Create announcement success'], type: 'success' }));
+	const dispatchGetTotalBuyers = (ieoID: string) =>
+		dispatch(
+			getTotalBuyers({
+				ieo_id: ieoID,
+			}),
+		);
+	const dispatchFetchSaleItemByID = (ieoID: string) =>
+		dispatch(
+			findSalebyId({
+				id: ieoID,
+			}),
+		);
 
 	React.useEffect(() => {
 		dispatchFetchCurrencies();
 	}, []);
 	React.useEffect(() => {
-		console.log('coins', props.coins);
 		dispatchWalletsFetch();
 		dispatchGetPrice({
 			fsym: 'USD',
 			tsyms: props.coins,
 		});
 	}, []);
+	const handleGetBalance = React.useCallback(
+		currency => {
+			const foundedWallet = filteredWallets.find(wallet => wallet.currency === currency);
 
+			if (foundedWallet) {
+				return Number(foundedWallet.balance);
+			}
+
+			return 0;
+		},
+		[filteredWallets],
+	);
+	const [quoteBalanceState, setQuoteBalanceState] = React.useState<number>(handleGetBalance(selectedCurrencyState));
+
+	React.useEffect(() => {
+		if (buyResponse.error) {
+			notification.error({
+				message: buyResponse.error.message,
+			});
+		}
+
+		if (buyResponse.payload) {
+			if (buyResponse.payload.success) {
+				notification.success({
+					message: `Buy ${props.currencyID.toUpperCase()} successfully`,
+				});
+				dispatchResetBuyResponse();
+				dispatchGetTotalBuyers(props.id); // update Total Buyers in Sale Info
+				setTimeout(() => {
+					dispatchFetchSaleItemByID(props.id);
+				}, 3000);
+			}
+		}
+
+		if (buyResponse.loading) {
+			const hide = message.loading('Buying in progress..', 0);
+			// dismiss manually and asynchronously
+			setTimeout(hide, 2500);
+		}
+	}, [buyResponse.error, buyResponse.payload.success, buyResponse.loading]);
+
+	const returnLoginScreen = () => {
+		return (
+			<button
+				type="button"
+				className="btn-buy-ieo btn"
+				onClick={() => {
+					const location = {
+						pathname: '/login',
+					};
+					history.push(location);
+				}}
+			>
+				Please Login For Buy
+			</button>
+		);
+	};
+	const buyIEOButton = () => {
+		return (
+			<button
+				type="button"
+				className="btn-buy-ieo btn"
+				onClick={() => {
+					setIsShowBuyConfirmModalState(true);
+				}}
+				disabled={quantityState === 0 || handleGetBalance(selectedCurrencyState) == 0}
+			>
+				{`Buy ${props.currencyID}`}
+			</button>
+		);
+	};
+	const hiddenBuyConfirmModal = () => {
+		setIsShowBuyConfirmModalState(false);
+	};
+	const handleBuy = () => {
+		const uid = props.uid;
+		if (
+			priceState &&
+			priceState > 0 &&
+			quantityState > 0 &&
+			totalPriceState &&
+			totalPriceState > 0 &&
+			selectedCurrencyState
+		) {
+			const buyInfo: Buy = {
+				ieo_id: props.id,
+				uid: uid,
+				quantity: quantityState,
+				total_purchase: totalPriceState,
+				quote_currency: selectedCurrencyState.toLowerCase(),
+			};
+			dispatchBuy(buyInfo);
+			setIsShowBuyConfirmModalState(false);
+		} else {
+			notification.error({
+				message: 'Something went wrong.',
+			});
+		}
+	};
+
+	const showBuyConfirmModalView = () => {
+		const check =
+			isShowBuyConfirmModalState &&
+			totalPriceState &&
+			selectedCurrencyState &&
+			quantityState >= props.minBuy &&
+			priceState &&
+			priceState > 0;
+		return check ? (
+			<BuyConfirmModal
+				visible={isShowBuyConfirmModalState}
+				onHiddenModal={hiddenBuyConfirmModal}
+				onBuy={handleBuy}
+				quantity={quantityState}
+				ieoID={props.id.toString()}
+				baseBalance={baseBalance}
+				baseCurrency={String(props.currencyID).toUpperCase()}
+				quoteBalance={quoteBalanceState}
+				quoteCurrency={String(selectedCurrencyState).toUpperCase()}
+				quoteTotal={totalPriceState}
+				bonus={Number(props.bonus)}
+			/>
+		) : (
+			<></>
+		);
+	};
 	const findIcon = (code: string): string => {
 		const currency = currencies.find(currencyParam => currencyParam.id === code);
 		try {
@@ -71,19 +238,29 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 			setTotalPriceState(NP.strip(NP.times(quantityState, convertedPrice)));
 		}
 	}, [quantityState, priceSelector, selectedCurrencyState]);
-	const non_activeClassNames = classNames('buy-ieo-coin', 'non_active');
+	const nonActiveCoinClassNames = classNames('buy-ieo-coin', 'non_active');
 	const activeBuyCoinClassNames = classNames('buy-ieo-coin', 'active');
-
+	const disabledBuyClassName = classNames('disabledBuy');
 	return (
 		<div id="buy-ieo">
-			<div id="buy-ieo-container" className="col-md-12">
+			{showBuyConfirmModalView()}
+
+			<div
+				id="buy-ieo-container"
+				className={`col-md-12  ${props.type === 'ended' || isShowBuyConfirmModalState ? disabledBuyClassName : ''}`}
+			>
 				<div id="buy-ieo-coins">
 					{props.coins.map((coin, index) => (
 						<button
-							className={coinActive === index ? activeBuyCoinClassNames : non_activeClassNames}
+							className={coinActive === index ? activeBuyCoinClassNames : nonActiveCoinClassNames}
 							onClick={() => {
 								setCoinActive(index);
-								setSelectedCurrencyState(coin.toString());
+								setSelectedCurrencyState(coin);
+								setQuoteBalanceState(handleGetBalance(coin));
+								setQuantityState(props.minBuy);
+								if (priceSelector.payload[coin.toUpperCase()]) {
+									setTotalPriceState(calculatePrice(props.priceIEO, priceSelector.payload[coin.toUpperCase()]));
+								}
 							}}
 						>
 							{coin}
@@ -136,7 +313,11 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 							id="buy-ieo-body-input"
 							value={priceState}
 							placeholder="0"
-							style={{ background: 'rgb(61 55 81 / 40%)', borderRight: '1px solid #848e9c', cursor: 'not-allowed' }}
+							style={{
+								background: 'rgb(61 55 81 / 40%)',
+								borderRight: '1px solid #848e9c',
+								cursor: 'not-allowed',
+							}}
 							disabled
 						></input>
 						<span id="denominations-coin">{selectedCurrencyState.toString()}</span>
@@ -152,7 +333,11 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 							type="number"
 							id="buy-ieo-body-input"
 							value={totalPriceState}
-							style={{ background: 'rgb(61 55 81 / 40%)', borderRight: '1px solid #848e9c', cursor: 'not-allowed' }}
+							style={{
+								background: 'rgb(61 55 81 / 40%)',
+								borderRight: '1px solid #848e9c',
+								cursor: 'not-allowed',
+							}}
 							placeholder="0"
 							disabled
 						></input>
@@ -179,10 +364,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 							</label>
 						</div>
 					</div>
-
-					<button type="button" className="btn-buy-ieo btn">
-						{props.uid ? 'Please Login For Buy ' : `Buy ${props.currencyID}`}
-					</button>
+					{props.uid ? buyIEOButton() : returnLoginScreen()}
 				</div>
 			</div>
 		</div>

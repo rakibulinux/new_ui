@@ -63,6 +63,8 @@ export const IEODetailScreen = () => {
 							type={IEOItem.payload.type}
 							minBuy={IEOItem.payload.min_buy}
 							uid={user.uid}
+							id={ieoID}
+							bonus={IEOItem.payload.bonus}
 						/>
 					</div>
 				</div>
