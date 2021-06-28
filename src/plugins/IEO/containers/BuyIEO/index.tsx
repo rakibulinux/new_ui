@@ -290,7 +290,10 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 					<div className="col-12 d-flex justify-content-between" style={{ padding: '0' }}>
 						<div id="buy-ieo-body-available" style={{ textAlign: 'right', width: '100%' }}>
 							<p className="buy-ieo-available-amount">
-								Available Amount <span>{baseBalance}</span> {`${props.currencyID.toUpperCase()}`}
+								Available Amount : <span>{baseBalance}</span> {`${props.currencyID.toUpperCase()}`}
+							</p>
+							<p className="buy-ieo-available-amount">
+								Available Balance : <span>{handleGetBalance(selectedCurrencyState)}</span> {`${props.currencyID.toUpperCase()}`}
 							</p>
 						</div>
 					</div>
