@@ -85,6 +85,7 @@ import {
 	WithdrawScreen,
 	NewHomePage,
 	AnnouncementScreen,
+	AssetsFeeScreen,
 } from '../../screens';
 import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
 import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
@@ -471,6 +472,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
 					<Route path="/stake" exact component={StakingListScreen} />
 					<Route path="/stake/detail/:stake_id" exact component={StakingDetailScreen} />
+					<Route path="/assets" exact component={AssetsFeeScreen} />
 					<Route path="**">
 						<Redirect to="/trading/" />
 					</Route>
