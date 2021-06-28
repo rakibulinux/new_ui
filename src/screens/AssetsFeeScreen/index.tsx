@@ -90,19 +90,25 @@ export const AssetsFeeScreen = () => {
 			const imgDeposit = currency.deposit_enabled ? <img src={open} alt="" /> : <img src={close} alt="" />;
 			const imgWithdraw = currency.withdrawal_enabled ? <img src={open} alt="" /> : <img src={close} alt="" />;
 
-			const foundedCurrency = ethFee.find(cur => cur.currency_id === currency.id);
-			const withdrawFee =
-				+currency.withdraw_fee !== 0 ? (
-					<div className="d-flex flex-row justify-content-between">
-						{currency.withdraw_fee} <span className="text-secondary">{currency.id.toUpperCase()}</span>
-					</div>
-				) : foundedCurrency ? (
-					<div className="d-flex flex-row justify-content-between">
-						{foundedCurrency.fee} <span className="text-secondary">ETH</span>
-					</div>
-				) : (
-					<div className="text-center">-</div>
-				);
+			const renderWithdrawFee = (withdrawFee: string | null) => {
+				if (Number(withdrawFee) !== 0) {
+					return (
+						<div className="d-flex flex-row justify-content-between">
+							{withdrawFee} <span className="text-secondary">{currency.id.toUpperCase()}</span>
+						</div>
+					);
+				}
+				const foundedCurrency = ethFee.find(cur => cur.currency_id === currency.id);
+
+				if (foundedCurrency) {
+					return (
+						<div className="d-flex flex-row justify-content-between">
+							<span>{foundedCurrency.fee}</span> <span className="text-secondary">ETH</span>
+						</div>
+					);
+				}
+				return <div className="text-center">-</div>;
+			};
 			const childs = allChildCurrencies.filter(
 				childCurrency => childCurrency.parent_id.toLowerCase() === currency.id.toLowerCase(),
 			);
@@ -113,26 +119,45 @@ export const AssetsFeeScreen = () => {
 				...currency,
 				coin: (
 					<span>
-						<img width="30px" height="30px" src={findIcon(currency.id)} alt="" /> {currency.id.toUpperCase()}
+						<div className="text-center my-2">
+							<img width="30px" height="30px" src={findIcon(currency.id)} alt={currency.id.toUpperCase()} />
+						</div>
+						<div className="text-center my-2">{currency.id.toUpperCase()}</div>
 					</span>
 				),
 				min_deposit_amount: (
-					<div className="d-flex flex-row justify-content-between">
-						{Number(currency.min_deposit_amount) === 0 ? 'unlimited' : currency.min_deposit_amount}
-						<span className="text-secondary">{currency.id.toUpperCase()}</span>
+					<div className="d-flex flex-column">
+						{blockchainKeys.map(key => (
+							<div className="d-flex flex-row justify-content-between my-1">
+								{Number(currency.min_deposit_amount) === 0 ? 'unlimited' : currency.min_deposit_amount}
+								<span className="text-secondary">{currency.id.toUpperCase()}</span>
+							</div>
+						))}
 					</div>
 				),
-				withdraw_fee: <div className="text-center">{withdrawFee}</div>,
+				withdraw_fee: (
+					<div className="d-flex flex-column">
+						{blockchainKeys.map(key => renderWithdrawFee(currency.withdraw_fee))}
+					</div>
+				),
 				min_withdraw_amount: (
-					<div className="d-flex flex-row justify-content-between">
-						{Number(currency.min_withdraw_amount) === 0 ? 'unlimited' : currency.min_withdraw_amount}
-						<span className="text-secondary">{currency.id.toUpperCase()}</span>
+					<div className="d-flex flex-column">
+						{blockchainKeys.map(key => (
+							<div className="d-flex flex-row justify-content-between my-1">
+								{Number(currency.min_withdraw_amount) === 0 ? 'unlimited' : currency.min_withdraw_amount}
+								<span className="text-secondary">{currency.id.toUpperCase()}</span>
+							</div>
+						))}
 					</div>
 				),
 				withdraw_limit_24h: (
-					<div className="d-flex flex-row justify-content-between">
-						{Number(currency.withdraw_limit_24h) === 0 ? 'unlimited' : currency.withdraw_limit_24h}
-						<span className="text-secondary">{currency.id.toUpperCase()}</span>
+					<div className="d-flex flex-column">
+						{blockchainKeys.map(key => (
+							<div className="d-flex flex-row justify-content-between my-1">
+								{Number(currency.withdraw_limit_24h) === 0 ? 'unlimited' : currency.withdraw_limit_24h}
+								<span className="text-secondary">{currency.id.toUpperCase()}</span>
+							</div>
+						))}
 					</div>
 				),
 				deposit_status: <div className="text-center">{imgDeposit}</div>,
@@ -140,7 +165,9 @@ export const AssetsFeeScreen = () => {
 				network: (
 					<div className="d-flex flex-column text-center">
 						{blockchainKeys.map(key => (
-							<span className="badge badge-warning my-2">{key !== null ? getTabName(key) : null}</span>
+							<span className="badge my-2" style={{ backgroundColor: '#2fb67e' }}>
+								{key !== null ? getTabName(key) : null}
+							</span>
 						))}
 					</div>
 				),
@@ -149,7 +176,7 @@ export const AssetsFeeScreen = () => {
 	return (
 		<React.Fragment>
 			<div id="assets-fee-header" className="container-fluid">
-				<div className="row">
+				<div className="row pt-4">
 					<div className="col-12">
 						<h1>Fee Structure on CircleEX Exchange</h1>
 					</div>
