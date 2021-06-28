@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { message } from 'antd';
-import { IEODetail, BuyIEO, CautionsDetail } from './../../containers';
+import { IEODetail, BuyIEO, CautionsDetail, InformationIEO } from './../../containers';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -69,6 +69,7 @@ export const IEODetailScreen = () => {
 					</div>
 					<div className="container-fluid" style={{ maxWidth: '83.333334%', paddingRight: '0px', marginTop: '36px' }}>
 						<CautionsDetail />
+						<InformationIEO />
 					</div>
 				</div>
 			)}
