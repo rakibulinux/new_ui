@@ -69,7 +69,6 @@ import {
 	ConfirmScreen,
 	DepositScreen,
 	EmailVerificationScreen,
-	FeeScreen,
 	ForgotPasswordScreen,
 	HistoryScreen,
 	LogInScreen,
@@ -85,6 +84,7 @@ import {
 	WithdrawScreen,
 	NewHomePage,
 	AnnouncementScreen,
+	AssetsFeeScreen,
 } from '../../screens';
 import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
 import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
@@ -402,7 +402,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route path="/500" component={MaintenanceScreen} />
 					<Route exact={false} path="/trading/:market?" component={TradingScreen} />
 					<Route exact={true} path="/" component={NewHomePage} />
-					<Route exact={false} path="/fee" component={FeeScreen} />
+					<Route exact={false} path="/fee" component={AssetsFeeScreen} />
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />
 

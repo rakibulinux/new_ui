@@ -24,3 +24,4 @@ export * from './DepositScreen';
 export * from './WithdrawScreen';
 export * from './NewHomePage';
 export * from './AnnouncementScreen';
+export * from './AssetsFeeScreen';
