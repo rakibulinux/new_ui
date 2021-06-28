@@ -25,39 +25,33 @@ const DEFAULT_MAXPAGE = 1;
 
 const DEFAULT_PAGEINDEX = 1;
 
-const DEFAULT_TAB = 'all';
+const DEFAULT_TAB = 'USDT';
+
+const DEFAULT_LIST_TAB = ['Favorite', 'USDT', 'BTC', 'ETH', 'ALTS'];
 
 interface SearchProp {
-	valueSearch ?: string;
-	setValueSearch ?: (value: string) => void;
+	valueSearch?: string;
+	setValueSearch?: (value: string) => void;
 }
-
 // tslint:disable-next-line: no-empty
 export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setValueSearch = () => {} }) => {
 	const markets = useSelector(selectMarkets);
 	const tickers = useSelector(selectMarketTickers);
-	const [listTab, setListTab] = useState(['']);
+	const [listTab, setListTab] = useState(DEFAULT_LIST_TAB);
 	const [tab, setTab] = useState(DEFAULT_TAB);
 	const [listMarket, setListMarket] = useState(markets);
 	const [maxPage, setMaxPage] = useState(DEFAULT_MAXPAGE);
 	const [pageIndex, setPageIndex] = useState(DEFAULT_PAGEINDEX);
 	const [sortBy, setSortBy] = useState(DEFAULT_SORT);
 	const [isSort, setIsSort] = useState(DEFAULT_SORT);
+	const favoritemMarketsLocal = JSON.parse(localStorage.getItem('favourites_markets') || '[]');
 
 	useEffect(() => {
-		const formatFilteredMarkets = (list: string[], market) => {
-			if (!list.includes(market.quote_unit)) {
-				list.push(market.quote_unit);
-			}
-
-			return list;
-		};
-
 		if (markets.length > 0) {
-			const currentBidUnitsList = markets.reduce(formatFilteredMarkets, ['all']);
-			setListTab(currentBidUnitsList);
+			setListTab(DEFAULT_LIST_TAB);
 			let listMarketTamp = markets.slice(0, MAX_ELEMENT);
 			listMarketTamp = sortForAZ(listMarketTamp, false);
+			listMarketTamp = listMarketTamp.filter(e => e.quote_unit === DEFAULT_TAB.toLowerCase());
 			setListMarket(listMarketTamp);
 			setMaxPage(Math.ceil(markets.length / MAX_ELEMENT));
 		}
@@ -65,16 +59,23 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 
 	useEffect(() => {
 		if (tab !== '') {
-			if (tab === 'all') {
+			if (valueSearch !== '') {
 				setValueSearch('');
 			}
 
 			let listMarketTamp = markets.filter(e => {
-				if (tab === 'all') {
-					return true;
+				switch (tab) {
+					case 'ALTS':
+						return (
+							e.quote_unit !== DEFAULT_LIST_TAB[1].toLowerCase() &&
+							e.quote_unit !== DEFAULT_LIST_TAB[2].toLowerCase() &&
+							e.quote_unit !== DEFAULT_LIST_TAB[3].toLowerCase()
+						);
+					case 'Favorite':
+						return favoritemMarketsLocal.includes(e.id);
+					default:
+						return e.quote_unit === tab.toLowerCase();
 				}
-
-				return e.quote_unit === tab;
 			});
 			listMarketTamp = sortForAZ(listMarketTamp, false);
 			setPageIndex(DEFAULT_PAGEINDEX);
@@ -204,7 +205,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 		return listTab.map((name, i) => {
 			return (
 				<div key={i} className={classname(name)} onClick={() => onChangeTab(name)}>
-					{name.toUpperCase()}
+					{name}
 				</div>
 			);
 		});
