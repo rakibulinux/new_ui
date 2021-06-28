@@ -1,34 +1,38 @@
 #buy-confirm-modal {
-	position: absolute;
-	z-index: 1;
 	background-color: #1f174c;
-
-	top: 25%;
 	display: flex;
-	width: 95%;
-	margin: auto;
 	flex-wrap: wrap;
 	justify-content: center;
+	margin: auto;
+	position: absolute;
+	top: 25%;
+	width: 95%;
+	z-index: 1;
+
 	#buy-confirm-modal-header {
-		height: 50px;
-		width: 100%;
-		font-size: 25px;
-		text-align: center;
-		border-bottom: 1px solid #ffff;
 		background-color: #1f174c;
-	}
-	#buy-confirm-modal-body {
-		height: 200px;
+		border-bottom: 1px solid #ffff;
+		font-size: 25px;
+		height: 50px;
+		text-align: center;
 		width: 100%;
+	}
+
+	#buy-confirm-modal-body {
 		color: #fff;
+		height: 200px;
 		position: static;
+		width: 100%;
+
 		.infor-price {
-			margin-top: 15px;
-			height: 150px;
 			background-color: rgb(16, 9, 36);
+			height: 150px;
+			margin-top: 15px;
+
 			.base-title-content {
 				margin-top: 50px;
 			}
+
 			.information_to_Buy {
 				display: flex;
 				font-size: 20px;
@@ -38,25 +42,29 @@
 					color: #ffff;
 				}
 			}
+
 			.up {
 				color: green;
 			}
+
 			.down {
 				color: yellow;
 			}
 		}
+
 		.bonus {
 			margin-top: 5px;
 			text-align: center;
 		}
 	}
+
 	#buy-confirm-modal-footer {
+		background: #1f1f1f;
+		border-top: 1px solid #303030;
+		color: #fff;
 		display: flex;
+		height: 40px;
 		justify-content: space-around;
 		width: 100%;
-		background: #1f1f1f;
-		height: 40px;
-		color: #fff;
-		border-top: 1px solid #303030;
 	}
 }

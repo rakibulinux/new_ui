@@ -59,7 +59,7 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
 	const bonusComponent = () => {
 		return (
 			<>
-				{bonus === 0 ? (
+				{bonus > 0 ? (
 					<div className="bonus">
 						<p>
 							{`🥳 You will receive ${bonus * 100}% bonus of ${quantity} ${baseCurrency.toUpperCase()}
@@ -68,7 +68,7 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
 						</p>
 					</div>
 				) : (
-					''
+					<></>
 				)}
 			</>
 		);
