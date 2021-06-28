@@ -41,7 +41,8 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 	const [priceState, setPriceState] = React.useState(0);
 	const [totalPriceState, setTotalPriceState] = React.useState<number>(0);
 	const [isShowBuyConfirmModalState, setIsShowBuyConfirmModalState] = React.useState<boolean>(false);
-
+	const [checkedregulationState, setCheckRegulationSate] = React.useState<boolean>(false);
+	const [isCitizenState, setIsCitizenState] = React.useState<boolean>(false);
 	const currencies = useSelector(selectCurrencies);
 	const wallets = useSelector(selectWallets);
 	const priceSelector = useSelector(selectPrice);
@@ -144,6 +145,12 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 		);
 	};
 	const buyIEOButton = () => {
+		const checkSatisfy =
+			checkedregulationState &&
+			isCitizenState &&
+			quantityState !== 0 &&
+			handleGetBalance(selectedCurrencyState) !== 0 &&
+			props.type === 'ongoing';
 		return (
 			<button
 				type="button"
@@ -151,7 +158,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 				onClick={() => {
 					setIsShowBuyConfirmModalState(true);
 				}}
-				disabled={quantityState === 0 || handleGetBalance(selectedCurrencyState) == 0}
+				disabled={!checkSatisfy}
 			>
 				{`Buy ${props.currencyID}`}
 			</button>
@@ -212,6 +219,18 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 			<></>
 		);
 	};
+	const showCloseView = () => {
+		return (
+			<div className="buy-ieo-close-view">
+				<div className="buy-ieo-close-view-content">
+					<span>STARTING PRICE:</span>
+					<p>${props.priceIEO} USD</p>
+					<span>STARTS AFTER:</span>
+					<p style={{ color: 'rgb(248, 83, 113)' }}>{props.type.toUpperCase()}</p>
+				</div>
+			</div>
+		);
+	};
 	const findIcon = (code: string): string => {
 		const currency = currencies.find(currencyParam => currencyParam.id === code);
 		try {
@@ -244,10 +263,10 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 	return (
 		<div id="buy-ieo">
 			{showBuyConfirmModalView()}
-
+			{props.type !== 'ongoing' ? showCloseView() : <></>}
 			<div
 				id="buy-ieo-container"
-				className={`col-md-12  ${props.type === 'ended' || isShowBuyConfirmModalState ? disabledBuyClassName : ''}`}
+				className={`col-md-12  ${props.type !== 'ongoing' || isShowBuyConfirmModalState ? disabledBuyClassName : ''}`}
 			>
 				<div id="buy-ieo-coins">
 					{props.coins.map((coin, index) => (
@@ -306,7 +325,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 					</label>
 					<div id="buy-ieo-body-price" style={{ padding: '0' }} className="d-flex flex-wrap input-group-body">
 						<div id="buy-ieo-body-coin-avt">
-							<img src={findIcon(selectedCurrencyState.toString())} alt="iconCoin"></img>
+							<img src={findIcon(selectedCurrencyState)} alt="iconCoin"></img>
 						</div>
 						<input
 							type="number"
@@ -320,14 +339,14 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 							}}
 							disabled
 						></input>
-						<span id="denominations-coin">{selectedCurrencyState.toString()}</span>
+						<span id="denominations-coin">{selectedCurrencyState}</span>
 					</div>
 					<label htmlFor="quantityToBuy" className="mt-5">
 						Total :
 					</label>
 					<div id="buy-ieo-body-total" style={{ padding: '0' }} className="d-flex flex-wrap input-group-body">
 						<div id="buy-ieo-body-coin-avt">
-							<img src={findIcon(selectedCurrencyState.toString())} alt="iconCoin"></img>
+							<img src={findIcon(selectedCurrencyState)} alt="iconCoin"></img>
 						</div>
 						<input
 							type="number"
@@ -341,7 +360,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 							placeholder="0"
 							disabled
 						></input>
-						<span id="denominations-coin">{selectedCurrencyState.toString()}</span>
+						<span id="denominations-coin">{selectedCurrencyState}</span>
 					</div>
 
 					<div id="regulations">
@@ -351,6 +370,9 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 								name="regulations-view-items"
 								id="regulations-view-items"
 								className="regulations-law"
+								onClick={() => {
+									setCheckRegulationSate(!checkedregulationState);
+								}}
 							></input>
 							<label htmlFor="regulations-view-items" className="ml-2" style={{ color: ' #848e9c' }}>
 								I agree with the token purchasing terms .
@@ -358,7 +380,14 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 							</label>
 						</div>
 						<div className="input-group d-flex">
-							<input type="checkbox" className="regulations-law" name="check-citizen-ban"></input>
+							<input
+								type="checkbox"
+								className="regulations-law"
+								name="check-citizen-ban"
+								onClick={() => {
+									setIsCitizenState(!isCitizenState);
+								}}
+							></input>
 							<label htmlFor="check-citizen-ban" className="ml-2" style={{ color: ' #848e9c' }}>
 								I'm not a citizen of one of the countries that bans ICO trading.
 							</label>
