@@ -69,7 +69,6 @@ import {
 	ConfirmScreen,
 	DepositScreen,
 	EmailVerificationScreen,
-	FeeScreen,
 	ForgotPasswordScreen,
 	HistoryScreen,
 	LogInScreen,
@@ -403,7 +402,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route path="/500" component={MaintenanceScreen} />
 					<Route exact={false} path="/trading/:market?" component={TradingScreen} />
 					<Route exact={true} path="/" component={NewHomePage} />
-					<Route exact={false} path="/fee" component={FeeScreen} />
+					<Route exact={false} path="/fee" component={AssetsFeeScreen} />
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />
 
@@ -472,7 +471,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
 					<Route path="/stake" exact component={StakingListScreen} />
 					<Route path="/stake/detail/:stake_id" exact component={StakingDetailScreen} />
-					<Route path="/assets" exact component={AssetsFeeScreen} />
 					<Route path="**">
 						<Redirect to="/trading/" />
 					</Route>
