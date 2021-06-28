@@ -293,7 +293,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 								Available Amount : <span>{baseBalance}</span> {`${props.currencyID.toUpperCase()}`}
 							</p>
 							<p className="buy-ieo-available-amount">
-								Available Balance : <span>{handleGetBalance(selectedCurrencyState)}</span> {`${props.currencyID.toUpperCase()}`}
+								Available Balance : <span>{handleGetBalance(selectedCurrencyState)}</span> {`${selectedCurrencyState.toUpperCase()}`}
 							</p>
 						</div>
 					</div>
