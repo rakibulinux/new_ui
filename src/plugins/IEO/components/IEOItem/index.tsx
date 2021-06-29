@@ -29,7 +29,13 @@ export const IEOItem: React.FC<IEOItemProps> = props => {
 		);
 	};
 	const distanceDate = (dateStart: Date, dateEnd: Date) => {
-		return `${formatDistance(dateStart, dateEnd)} ${23 - dateEnd.getHours()} hours `;
+		const distanceDay = formatDistance(dateStart, dateEnd);
+		const distanceHours = dateEnd.getHours() - new Date().getHours();
+
+		if (dateEnd.getDate() === new Date().getDate() + 1) {
+			return ` ${distanceDay}`;
+		}
+		return `${distanceDay} ${distanceHours} hours`;
 	};
 	const renderStatus = (type: string) => {
 		switch (type) {

@@ -102,7 +102,6 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 	const [quoteBalanceState, setQuoteBalanceState] = React.useState<number>(handleGetBalance(selectedCurrencyState));
 
 	React.useEffect(() => {
-		console.log(buyResponse);
 		if (buyResponse.error) {
 			notification.error({
 				message: buyResponse.error.message,
