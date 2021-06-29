@@ -42,9 +42,7 @@ export const IEOListingScreen = () => {
 		<div id="ieo-listing-screen">
 			<div className="ieo-listing-screen__header">
 				<h3>IEO</h3>
-				<label htmlFor="function-search" className="header-label">
-					IEO History
-				</label>
+				<h6 className="header-history">IEO History</h6>
 
 				<div className="ieo-listing-function">
 					<input name="function-search" type="text" className="input-list-function-search"></input>
@@ -79,7 +77,7 @@ export const IEOListingScreen = () => {
 					</div>
 				</div>
 			</div>
-			<div className="container-fluid">
+			<div className="container-full">
 				{saleList.loading ? (
 					<div className="loading">
 						<div className="spinner-border text-primary" role="status">

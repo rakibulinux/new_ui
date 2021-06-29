@@ -40,7 +40,7 @@ export const IEODetailScreen = () => {
 					history.goBack();
 				}}
 			>
-				Return to List
+				{`< Return To List`}
 			</button>
 			{IEOItem.loading ? (
 				<></>
