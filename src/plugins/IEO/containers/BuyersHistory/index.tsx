@@ -83,12 +83,22 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 		const { pagination } = tableState;
 		fetch({ pagination });
 	}, []);
-	console.log(tableState);
 	const disabledForwardClass = classnames('disable-forward');
+	const EmptyComponent = () => {
+		return (
+			<div className="col-12 d-flex justify-content-center mb-3">
+				<img
+					src="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+					style={{ marginTop: '3rem' }}
+					alt="empty"
+				/>
+			</div>
+		);
+	};
 	const renderPagination = () => {
 		return (
 			<nav aria-label="Page navigation">
-				<ul className="pagination">
+				<ul className="pagination" style ={{justifyContent: "flex-end"}}>
 					<li className="page-item">
 						<a
 							className={`page-link ${numberPage === 1 ? disabledForwardClass : ''}`}
@@ -134,7 +144,7 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 			<div id="buyers-history">
 				<h2 className="text-center text-white">All Purchase Transaction</h2>
 
-				<div className="table-responsive-xl">
+				<div className="table-responsive-xl mb-4">
 					<table className="table">
 						<thead
 							style={{
@@ -171,8 +181,9 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 							})}
 						</tbody>
 					</table>
-					{renderPagination()}
+					{!tableState.data.length ? EmptyComponent() : <></>}
 				</div>
+				{renderPagination()}
 			</div>
 		</React.Fragment>
 	);
