@@ -30,7 +30,6 @@ export function* getPrice(action: GetPrice) {
 			// SWP: Number(swpPrice.data.ticker.last),
 			CX: Number(cxPrice.data.ticker.last),
 		};
-		console.log(newPrice);
 		yield put(
 			priceData({
 				payload: {

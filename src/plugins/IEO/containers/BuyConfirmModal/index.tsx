@@ -100,7 +100,7 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
 								props.onHiddenModal();
 							}}
 						>
-							cancel
+							Cancel
 						</button>
 						<button
 							className="btn btn-success"
@@ -108,7 +108,7 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
 								props.onBuy();
 							}}
 						>
-							Okay
+							Agree to Buy
 						</button>
 					</div>
 				</div>

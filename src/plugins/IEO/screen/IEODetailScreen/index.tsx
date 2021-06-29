@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { message } from 'antd';
-import { IEODetail, BuyIEO, CautionsDetail, InformationIEO } from './../../containers';
+import { IEODetail, BuyIEO, CautionsDetail, InformationIEO, BuyersHistory, BuyHistory } from './../../containers';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,11 +31,30 @@ export const IEODetailScreen = () => {
 	React.useEffect(() => {
 		dispatchFetchSaleItemByID(ieoID);
 	}, []);
+	const renderBuyHistoryView = () => {
+		if (user) {
+			return (
+				<div className="buy-history-view col-12 d-flex flex-wrap justify-content-center">
+					<div className="buy-history-title col-12 text-center">
+						<h3>Buy History</h3>
+					</div>
+					<div className="col-md-12 col-xl-6" style={{ paddingRight: '15px', marginTop: '36px' }}>
+						<BuyHistory uid={user.uid} ieoID={Number(ieoID)} />
+					</div>
+					<div className="col-md-12 col-xl-6" style={{ paddingLeft: '0px', marginTop: '36px' }}>
+						<BuyersHistory ieoID={Number(ieoID)} />
+					</div>
+				</div>
+			);
+		}
+		return <BuyersHistory ieoID={Number(ieoID)} />;
+	};
 	return (
 		<div id="ieo-detail-screen">
 			<h3 className="ieo-title">IEO</h3>
 			<button
 				id="ioe-detail-screen__return-list"
+				className="col-12"
 				onClick={() => {
 					history.goBack();
 				}}
@@ -46,7 +65,7 @@ export const IEODetailScreen = () => {
 				<></>
 			) : (
 				<div id="ieo-detail-screen_container" className="d-flex flex-wrap justify-content-center">
-					<div className="col-md-5">
+					<div className="col-md-6">
 						<IEODetail
 							endDate={IEOItem.payload.end_date}
 							startDate={IEOItem.payload.start_date}
@@ -55,7 +74,7 @@ export const IEODetailScreen = () => {
 						/>
 					</div>
 
-					<div className="col-md-5" style={{ backgroundColor: '#434A56' }}>
+					<div className="col-md-6" style={{ backgroundColor: '#434A56' }}>
 						<BuyIEO
 							coins={IEOItem.payload.currency_available.length ? IEOItem.payload.currency_available : ['']}
 							currencyID={IEOItem.payload.currency_id}
@@ -67,7 +86,8 @@ export const IEODetailScreen = () => {
 							bonus={IEOItem.payload.bonus}
 						/>
 					</div>
-					<div className="container-fluid" style={{ maxWidth: '83.333334%', paddingRight: '0px', marginTop: '36px' }}>
+					<div className="container-fluid col-12" style={{ paddingRight: '0px', marginTop: '36px' }}>
+						{renderBuyHistoryView()}
 						<CautionsDetail />
 						<InformationIEO />
 					</div>

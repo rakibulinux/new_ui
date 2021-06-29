@@ -43,7 +43,7 @@ export const InformationIEO = () => {
 			<div className="col-11 content row" style={{ padding: '0px' }}>
 				{showInformationComponent()}
 			</div>
-			<div className="information-ieo-image col-11" style={{ padding: '0px' }}>
+			<div className="information-ieo-image col-11 d-flex justify-content-center" style={{ padding: '0px' }}>
 				<img src={imgDetail}></img>
 			</div>
 		</div>
