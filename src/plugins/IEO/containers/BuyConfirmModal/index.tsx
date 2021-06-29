@@ -103,7 +103,7 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
 							cancel
 						</button>
 						<button
-							className="btn btn-primary"
+							className="btn btn-success"
 							onClick={() => {
 								props.onBuy();
 							}}
