@@ -25,9 +25,9 @@ const DEFAULT_MAXPAGE = 1;
 
 const DEFAULT_PAGEINDEX = 1;
 
-const DEFAULT_TAB = 'USDT';
+const DEFAULT_TAB = 'ALL';
 
-const DEFAULT_LIST_TAB = ['Favorite', 'USDT', 'BTC', 'ETH', 'ALTS'];
+const DEFAULT_LIST_TAB = ['Favorite','ALL','USDT', 'BTC', 'ETH', 'ALTS'];
 
 interface SearchProp {
 	valueSearch?: string;
@@ -51,7 +51,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 			setListTab(DEFAULT_LIST_TAB);
 			let listMarketTamp = markets.slice(0, MAX_ELEMENT);
 			listMarketTamp = sortForAZ(listMarketTamp, false);
-			listMarketTamp = listMarketTamp.filter(e => e.quote_unit === DEFAULT_TAB.toLowerCase());
+			listMarketTamp = listMarketTamp.filter(e => true);
 			setListMarket(listMarketTamp);
 			setMaxPage(Math.ceil(markets.length / MAX_ELEMENT));
 		}
@@ -73,6 +73,8 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 						);
 					case 'Favorite':
 						return favoritemMarketsLocal.includes(e.id);
+					case 'ALL':
+						return true;
 					default:
 						return e.quote_unit === tab.toLowerCase();
 				}
