@@ -1,6 +1,13 @@
 import { ConvertUsd } from 'components';
 import { calcWalletsData } from 'helpers';
-import { useAllChildCurrenciesFetch, useDocumentTitle, useMarketsFetch, useMarketsTickersFetch, useRangerConnectFetch, useWalletsFetch } from 'hooks';
+import {
+	useAllChildCurrenciesFetch,
+	useDocumentTitle,
+	useMarketsFetch,
+	useMarketsTickersFetch,
+	useRangerConnectFetch,
+	useWalletsFetch,
+} from 'hooks';
 import { GoBackIcon } from 'mobile/assets/icons';
 import { MarketList } from 'mobile/components';
 import { selectAllChildCurrencies, selectMarkets, selectWallets } from 'modules';
@@ -9,7 +16,7 @@ import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
-export const NewWalletDetail:FC = () => {
+export const NewWalletDetail: FC = () => {
 	useDocumentTitle('Wallets');
 
 	useWalletsFetch();
@@ -20,10 +27,15 @@ export const NewWalletDetail:FC = () => {
 
 	const { currency } = useParams<{ currency: string }>();
 	const wallet = calcWalletsData(wallets, allChildCurrencies).find(_wallet => _wallet.currency === currency);
+	const hasTotalCurrency: string[] = calcWalletsData(wallets, allChildCurrencies)
+		.filter(_wallet => Number(_wallet.total) > 0)
+		.map(_wallet => _wallet.currency);
 
 	const history = useHistory();
 
-	if (!wallet) { history.goBack(); }
+	if (!wallet) {
+		history.goBack();
+	}
 
 	// TODO: List Market
 	useMarketsFetch();
@@ -35,35 +47,29 @@ export const NewWalletDetail:FC = () => {
 
 	useEffect(() => {
 		if (markets.length > 0) {
-		  setListMarket(markets);
+			setListMarket(markets.filter(_market => hasTotalCurrency.includes(_market.quote_unit)));
 		}
-	  }, [markets]);
+	}, [markets]);
 
 	return (
-		<div className="td-mobile-wallet-detail" >
-
-			<div className="td-mobile-wallet-detail__header" >
-				<GoBackIcon
-					className="td-mobile-wallet-detail__header__goback"
-					onClick={() => history.goBack()}
-				/>
+		<div className="td-mobile-wallet-detail">
+			<div className="td-mobile-wallet-detail__header">
+				<GoBackIcon className="td-mobile-wallet-detail__header__goback" onClick={() => history.goBack()} />
 				<h3 className="td-mobile-wallet-detail__header__title">Wallet Detail</h3>
-				<Link
-					className="td-mobile-wallet-detail__header__history"
-					to={`/wallets/${wallet?.currency}/history`}>
+				<Link className="td-mobile-wallet-detail__header__history" to={`/wallets/${wallet?.currency}/history`}>
 					History
 				</Link>
 			</div>
 
-			<div className="td-mobile-wallet-detail__panel" >
-				<h2 className="td-mobile-wallet-detail__panel__title" >
+			<div className="td-mobile-wallet-detail__panel">
+				<h2 className="td-mobile-wallet-detail__panel__title">
 					{wallet?.currency.toUpperCase()}/{wallet?.name}
 				</h2>
-				<div className="td-mobile-wallet-detail__panel__row" >
-					<span className="td-mobile-wallet-detail__panel__row__text" >Total</span>
-					<div className="td-mobile-wallet-detail__panel__row__number" >
+				<div className="td-mobile-wallet-detail__panel__row">
+					<span className="td-mobile-wallet-detail__panel__row__text">Total</span>
+					<div className="td-mobile-wallet-detail__panel__row__number">
 						<span>{wallet?.total}</span> <br />
-						<span className="td-mobile-wallet-detail__panel__row__number__estimate" >
+						<span className="td-mobile-wallet-detail__panel__row__number__estimate">
 							≈$&nbsp;
 							<ConvertUsd
 								value={Number(wallet?.total)}
@@ -74,24 +80,17 @@ export const NewWalletDetail:FC = () => {
 						</span>
 					</div>
 				</div>
-				<div className="td-mobile-wallet-detail__panel__row" >
-					<span className="td-mobile-wallet-detail__panel__row__text" >Availible</span>
-					<span className="td-mobile-wallet-detail__panel__row__number" >
-						{wallet?.balance}
-					</span>
+				<div className="td-mobile-wallet-detail__panel__row">
+					<span className="td-mobile-wallet-detail__panel__row__text">Availible</span>
+					<span className="td-mobile-wallet-detail__panel__row__number">{wallet?.balance}</span>
 				</div>
-				<div className="td-mobile-wallet-detail__panel__row" >
-					<span className="td-mobile-wallet-detail__panel__row__text" >Locked</span>
-					<span className="td-mobile-wallet-detail__panel__row__number" >
-						{wallet?.locked}
-					</span>
+				<div className="td-mobile-wallet-detail__panel__row">
+					<span className="td-mobile-wallet-detail__panel__row__text">Locked</span>
+					<span className="td-mobile-wallet-detail__panel__row__number">{wallet?.locked}</span>
 				</div>
 
-				<div className="td-mobile-wallet-detail__panel__buttons" >
-					<Link
-						to={`/wallets/${wallet?.currency}/withdraw`}
-						className="td-mobile-wallet-detail__panel__buttons__btn"
-					>
+				<div className="td-mobile-wallet-detail__panel__buttons">
+					<Link to={`/wallets/${wallet?.currency}/withdraw`} className="td-mobile-wallet-detail__panel__buttons__btn">
 						Withdraw
 					</Link>
 					<Link
@@ -103,11 +102,10 @@ export const NewWalletDetail:FC = () => {
 				</div>
 			</div>
 
-			<div className="td-mobile-wallet-detail__market" >
-				<span className="td-mobile-wallet-detail__market__title" >Market list</span>
+			<div className="td-mobile-wallet-detail__market">
+				<span className="td-mobile-wallet-detail__market__title">Forward to trading</span>
 				<MarketList isShowTHead={false} listMarket={listMarket} />
 			</div>
-
 		</div>
 	);
 };
