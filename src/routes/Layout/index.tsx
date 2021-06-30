@@ -16,8 +16,9 @@ import {
 	ConfirmMobileScreen,
 	EmailVerificationMobileScreen,
 	ForgotPasswordMobileScreen,
-	LandingScreenMobile,
+	HomePageScreenMobile,
 	NewMarketsScreenMobile,
+	NewWalletsMobileScreen,
 	OrdersMobileScreen,
 	ProfileAccountActivityMobileScreen,
 	ProfileApiKeysMobileScreen,
@@ -32,13 +33,14 @@ import {
 	SignUpMobileScreen,
 	TradingScreenMobile,
 	WalletDeposit,
-	NewWalletsMobileScreen,
 	WalletWithdraw,
 } from '../../mobile/screens';
 
 import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
 
+import { VoteScreen } from 'plugins/Vote';
 import { MarketsList } from '../../containers/MarketsList';
+import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
 import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
 import {
 	configsFetch,
@@ -63,9 +65,11 @@ import { CustomizationDataInterface, customizationFetch, selectCustomizationData
 import { AirdropDetail, AirdropList } from '../../plugins/Airdrop';
 import { SaleListScreen } from '../../plugins/Sale';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
+import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
 import { TradingScreen } from '../../plugins/Trading/screens/TradingScreen';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
 import {
+	AnnouncementScreen,
 	ChangeForgottenPasswordScreen,
 	ConfirmScreen,
 	DepositScreen,
@@ -76,21 +80,17 @@ import {
 	LogInScreen,
 	MagicLink,
 	MaintenanceScreen,
+	NewHomePage,
 	OrdersTabScreen,
 	ProfileScreen,
 	ProfileTwoFactorAuthScreen,
 	RegisterScreen,
 	RestrictedScreen,
+	// tslint:disable-next-line: ordered-imports
 	VerificationScreen,
 	WalletListScreen,
-	// tslint:disable-next-line: ordered-imports
 	WithdrawScreen,
-	NewHomePage,
-	AnnouncementScreen,
 } from '../../screens';
-import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
-import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
-import { VoteScreen } from 'plugins/Vote';
 
 interface ReduxProps {
 	colorTheme: string;
@@ -347,8 +347,9 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							path="/profile"
 							component={ProfileMobileScreen}
 						/>
+
 						<Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
-						<Route exact={true} path="/" component={LandingScreenMobile} />
+						<Route exact={true} path="/" component={HomePageScreenMobile} />
 						<Route exact={true} path="/markets" component={NewMarketsScreenMobile} />
 						<Route path="/ieo" exact component={IEOListMobileScreen} />
 						<Route path="/ieo/detail/:ieoID" exact component={IEODetailMobileScreen} />
