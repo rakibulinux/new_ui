@@ -12,6 +12,7 @@ import {
 export type typeIEO = 'ended' | 'ongoing' | 'upcoming';
 export const IEOListingScreen = () => {
 	const [typeIEO, setTypeIEO] = React.useState<typeIEO>('ongoing');
+	const [searchInputState, setSearchInputState] = React.useState<string>('');
 	const handleViewListIEO = (type: typeIEO) => {
 		setTypeIEO(type);
 		switch (type) {
@@ -42,10 +43,17 @@ export const IEOListingScreen = () => {
 		<div id="ieo-listing-screen">
 			<div className="ieo-listing-screen__header">
 				<h3>IEO</h3>
-				<h6 className="header-history">IEO History</h6>
-
 				<div className="ieo-listing-function">
-					<input name="function-search" type="text" className="input-list-function-search"></input>
+					<input
+						name="function-search"
+						type="text"
+						className="input-list-function-search"
+						placeholder="search IEO"
+						value={searchInputState}
+						onChange={e => {
+							setSearchInputState(e.target.value);
+						}}
+					/>
 					<div className="view-ioe-item-type">
 						<button
 							type="button"
@@ -85,7 +93,13 @@ export const IEOListingScreen = () => {
 						</div>
 					</div>
 				) : (
-					<ListItemIEO IEOList={[...saleList.payload]} />
+					<ListItemIEO
+						IEOList={[
+							...saleList.payload.filter(item =>
+								item.currency_id.toLowerCase().includes(searchInputState.toLowerCase()),
+							),
+						]}
+					/>
 				)}
 			</div>
 		</div>
