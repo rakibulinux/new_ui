@@ -44,7 +44,7 @@
 			margin: 0;
 
 			&__text {
-				font-size: 0.9em;
+				font-size: 0.75em;
 				text-align: right;
 			}
 
@@ -88,7 +88,12 @@
 
 		&__item {
 			border-bottom: 0.5px solid rgba(132, 142, 156, 0.5);
+			display: block;
 			padding: 0.9em 0;
+
+			&:hover {
+				text-decoration: none;
+			}
 
 			&:last-child {
 				border-bottom: none;
@@ -130,12 +135,14 @@
 				}
 
 				&__text {
-					font-size: 0.9em;
+					color: #848e9c;
+					font-size: 0.75em;
 					font-weight: 600;
 				}
 
 				&__number {
 					color: #fff;
+					font-size: 0.875em;
 					font-weight: 700;
 				}
 			}

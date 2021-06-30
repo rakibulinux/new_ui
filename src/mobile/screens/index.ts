@@ -23,4 +23,5 @@ export * from './WalletsScreen';
 export * from './WalletWithdraw';
 export * from './NewMarkets';
 export * from './NewWalletsScreen';
+export * from './NewWalletDetail';
 export * from './NewHomePage';

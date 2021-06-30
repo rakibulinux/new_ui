@@ -27,7 +27,7 @@ const DEFAULT_PAGEINDEX = 1;
 
 const DEFAULT_TAB = 'ALL';
 
-const DEFAULT_LIST_TAB = ['Favorite','ALL','USDT', 'BTC', 'ETH', 'ALTS'];
+const DEFAULT_LIST_TAB = ['Favorite', 'ALL', 'USDT', 'BTC', 'ETH', 'ALTS'];
 
 interface SearchProp {
 	valueSearch?: string;

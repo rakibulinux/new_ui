@@ -27,18 +27,13 @@ const SlideImg: React.FC = () => {
 
 	if (!eventsData.length) {
 		return (
-				<div className="td-mobile-new-home-page__box-img__loading">
-					<div className="spinner-border" role="status">
-					</div>
+			<div className="td-mobile-new-home-page__box-img__loading">
+				<div className="spinner-border" role="status"></div>
 			</div>
 		);
 	}
 
-	return (
-			<Slider {...settings}>{renderElms(eventsData)}</Slider>
-	);
+	return <Slider {...settings}>{renderElms(eventsData)}</Slider>;
 };
 
 export const BoxImg = React.memo(SlideImg);
-
-

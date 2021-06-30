@@ -6,6 +6,7 @@ import { SearchIcon } from 'mobile/assets/icons';
 import React, { useState } from 'react';
 import { DebounceInput } from 'react-debounce-input';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { selectAllChildCurrencies, selectWallets, Wallet } from '../../../modules';
 
 export const NewWalletsMobileScreen = () => {
@@ -27,7 +28,7 @@ export const NewWalletsMobileScreen = () => {
 
 	const renderWalletList = (walletsParam: Wallet[]) => {
 		return walletsParam.map(wallet => (
-			<div className="td-mobile-wallets__list__item" key={wallet.currency}>
+			<Link to={`/wallets/${wallet.currency}/detail`} className="td-mobile-wallets__list__item" key={wallet.currency}>
 				<div className="td-mobile-wallets__list__item__top">
 					<img className="td-mobile-wallets__list__item__top__icon" src={wallet.iconUrl} alt={wallet.name} />
 					<span className="td-mobile-wallets__list__item__top__symbol">{wallet.currency.toUpperCase()}</span>
@@ -54,7 +55,7 @@ export const NewWalletsMobileScreen = () => {
 						<span className="td-mobile-wallets__list__item__bottom__number">{wallet.balance}</span>
 					</div>
 				</div>
-			</div>
+			</Link>
 		));
 	};
 

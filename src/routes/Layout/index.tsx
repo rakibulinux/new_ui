@@ -34,6 +34,7 @@ import {
 	TradingScreenMobile,
 	WalletDeposit,
 	WalletWithdraw,
+	NewWalletDetail,
 } from '../../mobile/screens';
 
 import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
@@ -267,6 +268,12 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							isLogged={isLoggedIn}
 							path="/email-verification"
 							component={EmailVerificationMobileScreen}
+						/>
+						<PrivateRoute
+							loading={userLoading}
+							isLogged={isLoggedIn}
+							path="/wallets/:currency/detail"
+							component={NewWalletDetail}
 						/>
 						<PrivateRoute
 							loading={userLoading}
