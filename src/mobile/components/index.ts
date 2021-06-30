@@ -28,3 +28,4 @@ export * from './Table';
 export * from './Pagination';
 export * from './NewBottomNavbar';
 export * from './NewMarketsList';
+export * from './NewAllMarketList';
