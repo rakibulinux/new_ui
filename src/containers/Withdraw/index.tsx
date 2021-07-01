@@ -157,8 +157,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 						</p>
 						<p>
 							<span>2. Withdraw Limit: </span>
-							<span>{this.props.limitWitdraw24h !=0 ?  + this.props.limitWitdraw24h ' ' + currency.toUpperCase() : 'No Limited'}</span>
-						</p>
+							<span>{this.props.limitWitdraw24h + ' ' + this.props.limitWitdraw24hLabel}</span></p>
 						<p>
 							<span>
 								3. Please withdrawal to your personal wallet address directly. Remember not to withdrawal to ICO's
