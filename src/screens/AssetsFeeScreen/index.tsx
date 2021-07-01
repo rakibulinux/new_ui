@@ -1,4 +1,5 @@
 import { getTabName } from 'helpers';
+import millify from 'millify';
 import {
 	allChildCurrenciesFetch,
 	currenciesFetch,
@@ -55,10 +56,6 @@ export const AssetsFeeScreen = () => {
 				accessor: 'withdraw_fee',
 			},
 			{
-				Header: 'Withdraw Daily Limit',
-				accessor: 'withdraw_limit_24h',
-			},
-			{
 				Header: 'Deposit Status',
 				accessor: 'deposit_status',
 			},
@@ -79,8 +76,44 @@ export const AssetsFeeScreen = () => {
 	const currencies = useSelector(selectCurrencies);
 	const ethFee = useSelector(selectETHFee);
 	const allChildCurrencies = useSelector(selectAllChildCurrencies);
-	const listAllChildCurrencyID = allChildCurrencies.map(currency => currency.id.toLowerCase());
+	const childCurrencies = allChildCurrencies.map(child => {
+		const currency = currencies.find(cur => cur.id === child.id) || {
+			blockchain_key: null,
+			min_deposit_amount: null,
+			min_withdraw_amount: null,
+			withdraw_fee: null,
+			withdraw_limit_24h: null,
+			withdrawal_enabled: null,
+			deposit_enabled: null,
+		};
+		return {
+			...child,
+			blockchain_key: currency.blockchain_key,
+			min_deposit_amount: currency.min_deposit_amount,
+			min_withdraw_amount: currency.min_withdraw_amount,
+			withdraw_fee: currency.withdraw_fee,
+			withdrawal_enabled: currency.withdrawal_enabled,
+			deposit_enabled: currency.deposit_enabled,
+		};
+	});
+	const listAllChildCurrencyID = childCurrencies.map(currency => currency.id.toLowerCase());
 
+	const millifyAmountString = (amount: string | null) => {
+		if (Number(amount) >= 1000000) {
+			return millify(Number(amount), {
+				precision: 2,
+			});
+		}
+		return amount;
+	};
+	const millifyAmountNumber = (amount: number) => {
+		if (amount >= 1000000) {
+			return millify(amount, {
+				precision: 2,
+			});
+		}
+		return amount;
+	};
 	const data = currencies
 		.filter(currency => (searchState === '' ? true : currency.id.toLowerCase().includes(searchState.toLowerCase())))
 		.filter(currency => !listAllChildCurrencyID.includes(currency.id.toLowerCase()))
@@ -94,7 +127,8 @@ export const AssetsFeeScreen = () => {
 				if (Number(withdrawFee) !== 0) {
 					return (
 						<div className="d-flex flex-row justify-content-between">
-							{withdrawFee} <span className="text-secondary">{currency.id.toUpperCase()}</span>
+							<span>{millifyAmountString(withdrawFee)}</span>{' '}
+							<span className="text-secondary">{currency.id.toUpperCase()}</span>
 						</div>
 					);
 				}
@@ -103,17 +137,25 @@ export const AssetsFeeScreen = () => {
 				if (foundedCurrency) {
 					return (
 						<div className="d-flex flex-row justify-content-between">
-							<span>{foundedCurrency.fee}</span> <span className="text-secondary">ETH</span>
+							<span>{millifyAmountNumber(foundedCurrency.fee)}</span> <span className="text-secondary">ETH</span>
 						</div>
 					);
 				}
 				return <div className="text-center">-</div>;
 			};
-			const childs = allChildCurrencies.filter(
+
+			const childs = childCurrencies.filter(
 				childCurrency => childCurrency.parent_id.toLowerCase() === currency.id.toLowerCase(),
 			);
 			const childBlockchainKeys = childs.map(child => child.blockchain_key);
+			const childMinDeposits = childs.map(child => child.min_deposit_amount);
+			const childMinWithdraw = childs.map(child => child.min_withdraw_amount);
+			const childWithdrawFee = childs.map(child => child.withdraw_fee);
+
 			const blockchainKeys = [currency.blockchain_key, ...childBlockchainKeys];
+			const minDeposits = [currency.min_deposit_amount, ...childMinDeposits];
+			const minWithdraws = [currency.min_withdraw_amount, ...childMinWithdraw];
+			const withdrawFees = [currency.withdraw_fee, ...childWithdrawFee];
 
 			return {
 				...currency,
@@ -126,35 +168,27 @@ export const AssetsFeeScreen = () => {
 					</span>
 				),
 				min_deposit_amount: (
-					<div className="d-flex flex-column">
-						{blockchainKeys.map(key => (
-							<div className="d-flex flex-row justify-content-between my-1">
-								{Number(currency.min_deposit_amount) === 0 ? 'unlimited' : currency.min_deposit_amount}
+					<div>
+						{minDeposits.map(amount => (
+							<div className="d-flex flex-row justify-content-between">
+								{Number(amount) === 0 ? 'unlimited' : millifyAmountString(amount)}
 								<span className="text-secondary">{currency.id.toUpperCase()}</span>
 							</div>
 						))}
 					</div>
 				),
 				withdraw_fee: (
-					<div className="d-flex flex-column">
-						{blockchainKeys.map(key => renderWithdrawFee(currency.withdraw_fee))}
+					<div>
+						{withdrawFees.map(amount => {
+							return renderWithdrawFee(amount);
+						})}
 					</div>
 				),
 				min_withdraw_amount: (
-					<div className="d-flex flex-column">
-						{blockchainKeys.map(key => (
-							<div className="d-flex flex-row justify-content-between my-1">
-								{Number(currency.min_withdraw_amount) === 0 ? 'unlimited' : currency.min_withdraw_amount}
-								<span className="text-secondary">{currency.id.toUpperCase()}</span>
-							</div>
-						))}
-					</div>
-				),
-				withdraw_limit_24h: (
-					<div className="d-flex flex-column">
-						{blockchainKeys.map(key => (
-							<div className="d-flex flex-row justify-content-between my-1">
-								{Number(currency.withdraw_limit_24h) === 0 ? 'unlimited' : currency.withdraw_limit_24h}
+					<div>
+						{minWithdraws.map(amount => (
+							<div className="d-flex flex-row justify-content-between">
+								{Number(amount) === 0 ? 'unlimited' : millifyAmountString(amount)}
 								<span className="text-secondary">{currency.id.toUpperCase()}</span>
 							</div>
 						))}
@@ -176,7 +210,7 @@ export const AssetsFeeScreen = () => {
 	return (
 		<React.Fragment>
 			<div id="assets-fee-header" className="container-fluid">
-				<div className="row pt-4">
+				<div className="row">
 					<div className="col-12">
 						<h1>Fee Structure on CircleEX Exchange</h1>
 					</div>
