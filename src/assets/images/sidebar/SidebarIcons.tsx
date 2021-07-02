@@ -113,6 +113,39 @@ export const SidebarIcons: React.FC<SidebarIconsProps> = (props: SidebarIconsPro
 					/>
 				</svg>
 			);
+		case 'api':
+			return (
+				<svg
+					width="20"
+					height="20"
+					viewBox="0 0 75 75"
+					className="fill-stroke"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M21.875 51.5625L6.25 37.5L21.875 23.4375"
+						stroke="var(--icons)"
+						strokeWidth="3"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					/>
+					<path
+						d="M53.125 51.5625L68.75 37.5L53.125 23.4375"
+						stroke="var(--icons)"
+						strokeWidth="3"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					/>
+					<path
+						d="M42.6682 19.4763L32.3318 55.5236"
+						stroke="var(--icons)"
+						strokeWidth="3"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					/>
+				</svg>
+			);
 		default:
 			return null;
 	}

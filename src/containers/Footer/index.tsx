@@ -68,9 +68,7 @@ const renderFooterDesktop = (inputEmail, sendEmail, emailAddress) => {
 							</a>
 						</p>
 						<p className="footer__info__item">
-							<a href="https://api.cx.finance" target="blank">
-								API Documentation
-							</a>
+							<Link to="/api">API Documentation</Link>
 						</p>
 					</div>
 
