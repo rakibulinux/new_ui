@@ -1,0 +1,83 @@
+.td-mobile-signup {
+	font-size: 0.875rem;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	padding-top: 4rem;
+	padding-bottom: 2rem;
+	&__header {
+		padding: 1.5rem 1rem;
+		width: 100%;
+		position: fixed;
+		top: 0;
+		z-index: 9999;
+	}
+	&__body {
+		flex: 1;
+		padding: 1rem;
+		&__form {
+			border-radius: 10px 10px 0px 0px;
+			background: #313445;
+			padding: 2em 0.5em;
+			display: flex;
+			flex-direction: column;
+			&__title {
+				text-align: center;
+				font-size: 1.5rem;
+				color: #848e9c;
+				margin-bottom: 1rem;
+			}
+			&__description {
+				text-align: center;
+				font-size: 1em;
+				color: #848e9c;
+				margin-bottom: 1rem;
+			}
+			&__label {
+				color: #c4c4c4;
+				letter-spacing: 0.5px;
+				&__input {
+					background: transparent;
+					height: 2.5rem;
+					border: 1px solid rgba(47, 182, 126, 0.33);
+					border-radius: 5px;
+					padding: 0.7em 1em;
+				}
+			}
+			&__checkbox {
+				margin: 0.5em 0;
+				font-size: 0.75rem;
+			}
+
+			&__submit {
+				border-radius: 5px;
+				background: #2fb67e;
+				font-size: 1rem;
+				padding: 0.8em;
+				height: max-content;
+				border: none;
+				&:hover {
+					background-color: rgba(#2fb67e, 0.8);
+				}
+			}
+
+			&__to-login {
+				text-align: center;
+				margin-top: 1em;
+				color: #848e9c;
+				&__link {
+					color: #2fb67e;
+				}
+			}
+			& [for='email'],
+			& [for='password'],
+			& [for='confirm'] {
+				color: #c4c4c4;
+			}
+		}
+	}
+	&__footer {
+		text-align: center;
+		font-size: 0.75rem;
+	}
+}

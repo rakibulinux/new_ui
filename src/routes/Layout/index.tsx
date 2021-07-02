@@ -30,7 +30,8 @@ import {
 	ProfileVerificationMobileScreen,
 	SelectedWalletMobileScreen,
 	SignInMobileScreen,
-	SignUpMobileScreen,
+	NewSignUpMobileScreen,
+	// SignUpMobileScreen,
 	TradingScreenMobile,
 	WalletDeposit,
 	WalletWithdraw,
@@ -244,7 +245,12 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 				<div className={'container-fluid pg-layout pg-layout--mobile'}>
 					<Switch>
 						<PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/signin" component={SignInMobileScreen} />
-						<PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/signup" component={SignUpMobileScreen} />
+						<PublicRoute
+							loading={userLoading}
+							isLogged={isLoggedIn}
+							path="/signup"
+							component={NewSignUpMobileScreen}
+						/>
 						<PublicRoute
 							loading={userLoading}
 							isLogged={isLoggedIn}
