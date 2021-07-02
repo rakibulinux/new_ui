@@ -61,11 +61,12 @@ export const VoteNews: React.FC<VoteNewsProps> = ({}) => {
 	return (
 		<div className="pg-vote__news">
 			<div className="pg-vote--border pg-vote__news__title">
-				Every Wednesday we pick the most voted coin. Only one coin is selected. 1 vote = {constants.VOTE_RATE}{' '}
-				{constants.VOTE_CURRENCIE.toUpperCase()}. Minimum 250000 votes required to be considered. Votes are cumulative
-				from week to week.
 				<p>
-					Click <Link to={`/wallets/deposit/${constants.VOTE_CURRENCIE.toLowerCase()}`}>here</Link> to add your coin!
+					Every 10 days we pick the most voted coin. Only one coin is selected. 1 vote = {constants.VOTE_RATE}{' '}
+					{constants.VOTE_CURRENCIE.toUpperCase()}. Minimum 10,000 votes required to be considered.
+				</p>
+				<p>
+					You can buy CX on <Link to="/trading/cxusdt">CX Exchange</Link> or <a href = "https://app.uniswap.org/#/swap?outputCurrency=0x3f4e02741b155f5ce8d6190d294d4f916125b896&use=V2" target="blank">Uniswap</a>
 				</p>
 			</div>
 			<CountDownVote />
