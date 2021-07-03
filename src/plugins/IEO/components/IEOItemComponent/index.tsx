@@ -3,7 +3,8 @@ import './IEOItem.pcss';
 import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { currenciesFetch, selectCurrencies } from '../../../../modules';
-import { formatDistance } from 'date-fns';
+import Countdown from 'react-countdown';
+
 interface IEOItemProps {
 	id: String;
 	type: string;
@@ -14,40 +15,40 @@ interface IEOItemProps {
 	currencyAvailable: Array<string>;
 	bonus?: string;
 }
-export const IEOItem: React.FC<IEOItemProps> = props => {
+export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 	const dispatch = useDispatch();
 	const dispatchcFetchCurrencies = () => dispatch(currenciesFetch());
 	const history = useHistory();
 	React.useEffect(() => {
 		dispatchcFetchCurrencies();
 	}, []);
-	const status = (color, text) => {
+	const status = (color, type: string, date: Date) => {
 		return (
 			<div className="ieo-item-coin-time" style={{ background: `${color}` }}>
-				<p>{text}</p>
+				<p>
+					{type}
+					<Countdown date={date} renderer={renderer} />
+				</p>
 			</div>
 		);
 	};
-	const distanceDate = (dateStart: Date, dateEnd: Date) => {
-		const distanceDay = formatDistance(dateStart, dateEnd);
-		const distanceHours = dateEnd.getHours() - new Date().getHours();
-
-		if (dateEnd.getDate() === new Date().getDate() + 1) {
-			return ` ${distanceDay}`;
-		}
-		return `${distanceDay} ${distanceHours} hours`;
+	const renderer = ({ days, hours, minutes, seconds, completed }) => {
+		return !completed ? (
+			<span>
+				{days} d : {hours} h : {minutes} m : {seconds} s
+			</span>
+		) : (
+			<></>
+		);
 	};
 	const renderStatus = (type: string) => {
 		switch (type) {
 			case 'ongoing':
-				return status(
-					`linear-gradient(90deg, #0E33CA 0%, #FD0056 100%)`,
-					`Ends in ${distanceDate(new Date(), new Date(props.endDate))}`,
-				);
+				return status(`linear-gradient(90deg, #0E33CA 0%, #FD0056 100%)`, `Ends in `, new Date(props.endDate));
 			case 'upcoming':
-				return status(`#FF6400`, `Start in ${distanceDate(new Date(), new Date(props.startDate))}`);
+				return status(`#FF6400`, `Start in `, new Date(props.startDate));
 			case 'ended':
-				return status(`#858E9D`, 'Ended');
+				return status(`#858E9D`, 'Ended ', new Date());
 			default:
 				return `#ffff`;
 		}

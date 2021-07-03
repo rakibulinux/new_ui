@@ -1,6 +1,6 @@
-import { CommonState } from '../../../modules/types';
+import { CommonState } from '../../../../modules/types';
 
-export interface SaleItem {
+export interface IEOItem {
 	id: string;
 	host_uid?: string;
 	currency_id: string;
@@ -23,11 +23,11 @@ export interface SaleItem {
 		telegram?: string;
 		instagram?: string;
 		linkedin?: string;
-	};
+	} | null;
 	type: 'ongoing' | 'upcoming' | 'ended';
 }
 
-export interface SaleItemState extends CommonState {
-	payload: SaleItem;
+export interface IEOItemState extends CommonState {
+	payload: IEOItem;
 	loading: boolean;
 }

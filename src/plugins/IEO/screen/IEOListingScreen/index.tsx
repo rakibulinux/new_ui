@@ -2,41 +2,25 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { ListItemIEO } from './../../containers';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	selectSaleList,
-	activeSaleListFetch,
-	upComingSaleListFetch,
-	onGoingSaleListFetch,
-	endedSaleListFetch,
-} from './../../../../modules';
+import { selectIEOList, IEOListDataFetch } from './../../../../modules';
 export type typeIEO = 'ended' | 'ongoing' | 'upcoming';
 export const IEOListingScreen = () => {
 	const [typeIEO, setTypeIEO] = React.useState<typeIEO>('ongoing');
 	const [searchInputState, setSearchInputState] = React.useState<string>('');
+
 	const handleViewListIEO = (type: typeIEO) => {
 		setTypeIEO(type);
-		switch (type) {
-			case 'upcoming':
-				dispatchUpcomingSaleListFetch();
-				break;
-			case 'ongoing':
-				dispatchOnGoingSaleListFetch();
-				break;
-			case 'ended':
-				dispatchEndedSaleListFetch();
-		}
 	};
 	const dispatch = useDispatch();
-	const dispatchActiveSaleListFetch = () => dispatch(activeSaleListFetch());
-	const dispatchUpcomingSaleListFetch = () => dispatch(upComingSaleListFetch());
-	const dispatchOnGoingSaleListFetch = () => dispatch(onGoingSaleListFetch());
-	const dispatchEndedSaleListFetch = () => dispatch(endedSaleListFetch());
+
 	const renderActiveButtonUpcomingClasses = classNames('upcoming', typeIEO === 'upcoming' ? 'button-active' : '');
 	const renderActiveButtonRunningClasses = classNames('running', typeIEO === 'ongoing' ? 'button-active' : '');
 	const renderActiveButtonEndedClasses = classNames('ended', typeIEO === 'ended' ? 'button-active' : '');
-	const saleList = useSelector(selectSaleList);
+	const listIEO = useSelector(selectIEOList);
+
 	React.useEffect(() => {
-		dispatchActiveSaleListFetch();
+		dispatch(IEOListDataFetch());
+		// dispatchListIEO();
 	}, []);
 
 	return (
@@ -71,7 +55,7 @@ export const IEOListingScreen = () => {
 								handleViewListIEO('ongoing');
 							}}
 						>
-							OnGoing
+							Ongoing
 						</button>
 						<button
 							type="button"
@@ -86,7 +70,7 @@ export const IEOListingScreen = () => {
 				</div>
 			</div>
 			<div className="container-full">
-				{saleList.loading ? (
+				{listIEO.loading ? (
 					<div className="loading">
 						<div className="spinner-border text-primary" role="status">
 							<span className="sr-only">Loading...</span>
@@ -95,8 +79,10 @@ export const IEOListingScreen = () => {
 				) : (
 					<ListItemIEO
 						IEOList={[
-							...saleList.payload.filter(item =>
-								item.currency_id.toLowerCase().includes(searchInputState.toLowerCase()),
+							...listIEO.payload.filter(
+								item =>
+									item.currency_id.toLowerCase().includes(searchInputState.toLowerCase().trim()) &&
+									item.type === typeIEO,
 							),
 						]}
 					/>

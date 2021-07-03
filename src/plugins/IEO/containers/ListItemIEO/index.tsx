@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { IEOItem } from './../../components';
-import { SaleItem } from './../../../../modules';
+import { IEOItemComponent } from './../../components';
+import { IEOItem } from './../../../../modules';
 
 interface ListItemIEOProps {
-	IEOList: Array<SaleItem>;
+	IEOList: Array<IEOItem>;
 }
 export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 	const { IEOList } = props;
@@ -25,7 +25,7 @@ export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 				: IEOList.map((item, index) => {
 						return (
 							<div className="col-md-6 col-lg-4 col-xl-3" style={{ padding: '10px 10px' }}>
-								<IEOItem
+								<IEOItemComponent
 									type={item.type}
 									currencyId={item.currency_id}
 									startDate={item.start_date}

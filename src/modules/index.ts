@@ -10,6 +10,7 @@ import {
 	pluginsReducer,
 	publicReducer,
 	saleReducer,
+	IEOReducer,
 	tradingCompetitionsReducer,
 	userReducer,
 } from './app';
@@ -33,6 +34,8 @@ import { RangerState } from './public/ranger/reducer';
 import { RecentTradesState, rootRecentTradesSaga } from './public/recentTrades';
 import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
 import { PriceState, rootPriceSaga } from './sale/price';
+import { IEOItemState, rootIEOItemSaga } from './plugins/ieo/item';
+import { IEOListState, rootIEOListSaga } from './plugins/ieo/list';
 import { rootSaleItemSaga, SaleItemState } from './sale/sale-item';
 import { rootSaleListSaga, SaleListState } from './sale/sale-list';
 import { CompetitionItemState, rootcompetitionItemSaga } from './trading_competitions/competition_item';
@@ -107,6 +110,8 @@ export * from './sale/sale-list';
 export * from './sale/sale-item';
 export * from './sale/buy';
 export * from './sale/price';
+export * from './plugins/ieo/item';
+export * from './plugins/ieo/list';
 export * from './trading_competitions/competitions';
 export * from './trading_competitions/competition_item';
 export * from './trading_competitions/rankings';
@@ -119,6 +124,10 @@ export interface RootState {
 	airdrops: {
 		airdrops: AirdropState;
 		claims: ClaimState;
+	};
+	IEO: {
+		IEOItem: IEOItemState;
+		IEOList: IEOListState;
 	};
 	sale: {
 		saleList: SaleListState;
@@ -137,9 +146,9 @@ export interface RootState {
 		withdraw: ETHFeeWithdrawState;
 	};
 	info: {
-        events: EventsState;
-        announcement: AnnouncementState;
-    };
+		events: EventsState;
+		announcement: AnnouncementState;
+	};
 
 	public: {
 		alerts: AlertState;
@@ -203,6 +212,7 @@ export const rootReducer = combineReducers({
 	airdrops: airdropsReducer,
 	ethFee: ethFeesReducer,
 	sale: saleReducer,
+	IEO: IEOReducer,
 	trading_competitions: tradingCompetitionsReducer,
 	info: infoReducer,
 	events: eventsReducer,
@@ -248,6 +258,8 @@ export function* rootSaga() {
 		call(rootETHFeeWithdrawSaga),
 		call(rootSaleListSaga),
 		call(rootSaleItemSaga),
+		call(rootIEOItemSaga),
+		call(rootIEOListSaga),
 		call(rootBuySaga),
 		call(rootPriceSaga),
 		call(rootCompetionsListSaga),
@@ -256,6 +268,6 @@ export function* rootSaga() {
 		call(rootEventSaga),
 		call(rootLunarSaga),
 		call(rootStakingSaga),
-    call(rootAnnouncementSaga),
+		call(rootAnnouncementSaga),
 	]);
 }

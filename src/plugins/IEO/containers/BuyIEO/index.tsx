@@ -149,6 +149,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 			checkedregulationState &&
 			isCitizenState &&
 			quantityState !== 0 &&
+			props.minBuy <= quantityState &&
 			handleGetBalance(selectedCurrencyState) !== 0 &&
 			props.type === 'ongoing';
 		return (

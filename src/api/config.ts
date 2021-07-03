@@ -9,6 +9,7 @@ export const defaultConfig: Config = {
 		rangerUrl: '',
 		arkeUrl: '',
 		finexUrl: '',
+		ieoUrl: '',
 	},
 	minutesUntilAutoLogout: '30',
 	rangerReconnectPeriod: '1',

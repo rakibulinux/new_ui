@@ -4,17 +4,18 @@ import { IEODetail, BuyIEO, CautionsDetail, InformationIEO, BuyersHistory, BuyHi
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { findSalebyId, selectSaleItem, selectUserInfo } from '../../../../modules';
+import { selectIEOItem, selectUserInfo, findIEOById } from '../../../../modules';
 
 export const IEODetailScreen = () => {
 	const history = useHistory();
 	const { ieoID } = useParams<{ ieoID: string }>();
-	const IEOItem = useSelector(selectSaleItem);
+	const IEOItem = useSelector(selectIEOItem);
+	console.log(IEOItem);
 	const user = useSelector(selectUserInfo);
 	const dispatch = useDispatch();
-	const dispatchFetchSaleItemByID = (ieoIdParam: string) =>
+	const dispatchFetchIEOItemByID = (ieoIdParam: string) =>
 		dispatch(
-			findSalebyId({
+			findIEOById({
 				id: ieoIdParam,
 			}),
 		);
@@ -29,7 +30,7 @@ export const IEODetailScreen = () => {
 		};
 	}, [IEOItem.loading]);
 	React.useEffect(() => {
-		dispatchFetchSaleItemByID(ieoID);
+		dispatchFetchIEOItemByID(ieoID);
 	}, []);
 	const renderBuyHistoryView = () => {
 		if (user) {
