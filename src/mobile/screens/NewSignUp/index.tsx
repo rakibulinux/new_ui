@@ -38,7 +38,7 @@ export const NewSignUpMobileScreen: FC = () => {
 						},
 					]}
 					hasFeedback
-					help={email !== null && !isEmail(email) ? 'Email invalid!' : ''}
+					help={email !== null && !isEmail(email) ? 'Email invalid!' : undefined}
 					validateStatus={email === null ? '' : isEmail(email) ? 'success' : 'error'}
 				>
 					<Input
@@ -52,7 +52,11 @@ export const NewSignUpMobileScreen: FC = () => {
 					label="Password"
 					name="password"
 					hasFeedback
-					help={pass !== null && !isValidPassword(pass) ? 'Pass must have at least 1 digit, 1 upper and 1 lower.' : ''}
+					help={
+						pass !== null && !isValidPassword(pass)
+							? 'Pass must have at least 1 digit, 1 upper and 1 lower.'
+							: undefined
+					}
 					validateStatus={pass === null ? '' : isValidPassword(pass) ? 'success' : 'error'}
 				>
 					<Input.Password
@@ -66,7 +70,7 @@ export const NewSignUpMobileScreen: FC = () => {
 					label="Confirm password"
 					name="confirm"
 					hasFeedback
-					help={confirm !== null && confirm !== pass ? "Confirm password doesn't same" : ''}
+					help={confirm !== null && confirm !== pass ? "Confirm password doesn't same" : undefined}
 					validateStatus={confirm === null ? '' : confirm !== pass ? 'error' : 'success'}
 				>
 					<Input.Password

@@ -1,78 +1,88 @@
 .td-mobile-signup {
-	font-size: 0.875rem;
 	display: flex;
 	flex-direction: column;
+	font-size: 0.875rem;
 	min-height: 100vh;
-	padding-top: 4rem;
 	padding-bottom: 2.5rem;
+	padding-top: 4rem;
+
 	&__header {
 		padding: 1.5rem 1rem;
-		width: 100%;
 		position: fixed;
 		top: 0;
+		width: 100%;
 		z-index: 9999;
 	}
+
 	&__body {
 		flex: 1;
 		padding: 1rem;
+
 		&__form {
-			border-radius: 10px 10px 0px 0px;
 			background: #313445;
-			padding: 2em 0.5em;
+			border-radius: 10px 10px 0 0;
 			display: flex;
 			flex-direction: column;
+			padding: 2em 0.5em;
+
 			&__title {
-				text-align: center;
+				color: #848e9c;
 				font-size: 1.5rem;
-				color: #848e9c;
 				margin-bottom: 1rem;
-			}
-			&__description {
 				text-align: center;
-				font-size: 1em;
-				color: #848e9c;
-				margin-bottom: 1rem;
 			}
+
+			&__description {
+				color: #848e9c;
+				font-size: 1em;
+				margin-bottom: 1rem;
+				text-align: center;
+			}
+
 			&__label {
 				color: #c4c4c4;
 				letter-spacing: 0.5px;
-				margin-bottom: 0.3rem;
+
 				&__input {
 					background: transparent;
-					height: 2.5rem;
 					border: 1px solid rgba(47, 182, 126, 0.33);
 					border-radius: 5px;
+					height: 2.5rem;
 					padding: 0.7em 1em;
 				}
 			}
+
 			&__checkbox {
 				& > span {
-					font-size: 0.75rem;
 					color: #848e9c;
+					font-size: 0.75rem;
 				}
 			}
 
 			&__submit {
-				border-radius: 5px;
 				background: #2fb67e;
-				font-size: 1rem;
-				padding: 0.8em;
-				height: max-content;
-				width: 100%;
 				border: none;
+				border-radius: 5px;
+				font-size: 1rem;
+				height: max-content;
+				padding: 0.8em;
+				width: 100%;
+
 				&:hover {
 					background-color: rgba(#2fb67e, 0.8);
 				}
 			}
 
 			&__to-login {
-				text-align: center;
-				margin-top: 1em;
 				color: #848e9c;
+				margin-top: 1em;
+				text-align: center;
+
 				&__link {
 					color: #2fb67e;
 				}
 			}
+
 			& [for='email'],
 			& [for='password'],
 			& [for='confirm'] {
@@ -86,8 +96,9 @@
 			}
 		}
 	}
+
 	&__footer {
-		text-align: center;
 		font-size: 0.75rem;
+		text-align: center;
 	}
 }
