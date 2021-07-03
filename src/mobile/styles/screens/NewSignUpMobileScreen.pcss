@@ -4,7 +4,7 @@
 	flex-direction: column;
 	min-height: 100vh;
 	padding-top: 4rem;
-	padding-bottom: 2rem;
+	padding-bottom: 2.5rem;
 	&__header {
 		padding: 1.5rem 1rem;
 		width: 100%;
@@ -36,6 +36,7 @@
 			&__label {
 				color: #c4c4c4;
 				letter-spacing: 0.5px;
+				margin-bottom: 0.3rem;
 				&__input {
 					background: transparent;
 					height: 2.5rem;
@@ -45,8 +46,10 @@
 				}
 			}
 			&__checkbox {
-				margin: 0.5em 0;
-				font-size: 0.75rem;
+				& > span {
+					font-size: 0.75rem;
+					color: #848e9c;
+				}
 			}
 
 			&__submit {
@@ -55,6 +58,7 @@
 				font-size: 1rem;
 				padding: 0.8em;
 				height: max-content;
+				width: 100%;
 				border: none;
 				&:hover {
 					background-color: rgba(#2fb67e, 0.8);
@@ -73,6 +77,12 @@
 			& [for='password'],
 			& [for='confirm'] {
 				color: #c4c4c4;
+			}
+
+			& [for='email']::before,
+			& [for='password']::before,
+			& [for='confirm']::before {
+				display: none !important;
 			}
 		}
 	}
