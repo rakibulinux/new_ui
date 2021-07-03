@@ -41,7 +41,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 	const [priceState, setPriceState] = React.useState(0);
 	const [totalPriceState, setTotalPriceState] = React.useState<number>(0);
 	const [isShowBuyConfirmModalState, setIsShowBuyConfirmModalState] = React.useState<boolean>(false);
-	const [checkedregulationState, setCheckRegulationSate] = React.useState<boolean>(false);
+	const [checkedRegulationState, setCheckRegulationSate] = React.useState<boolean>(false);
 	const [isCitizenState, setIsCitizenState] = React.useState<boolean>(false);
 	const currencies = useSelector(selectCurrencies);
 	const wallets = useSelector(selectWallets);
@@ -146,7 +146,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 	};
 	const buyIEOButton = () => {
 		const checkSatisfy =
-			checkedregulationState &&
+			checkedRegulationState &&
 			isCitizenState &&
 			quantityState !== 0 &&
 			props.minBuy <= quantityState &&
@@ -272,6 +272,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 				<div id="buy-ieo-coins">
 					{props.coins.map((coin, index) => (
 						<button
+							key={index}
 							className={coinActive === index ? activeBuyCoinClassNames : nonActiveCoinClassNames}
 							onClick={() => {
 								setCoinActive(index);
@@ -376,7 +377,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 								id="regulations-view-items"
 								className="regulations-law"
 								onClick={() => {
-									setCheckRegulationSate(!checkedregulationState);
+									setCheckRegulationSate(!checkedRegulationState);
 								}}
 							></input>
 							<label htmlFor="regulations-view-items" className="ml-2" style={{ color: ' #848e9c' }}>

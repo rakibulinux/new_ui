@@ -10,7 +10,7 @@ export const IEODetailScreen = () => {
 	const history = useHistory();
 	const { ieoID } = useParams<{ ieoID: string }>();
 	const IEOItem = useSelector(selectIEOItem);
-	console.log(IEOItem);
+
 	const user = useSelector(selectUserInfo);
 	const dispatch = useDispatch();
 	const dispatchFetchIEOItemByID = (ieoIdParam: string) =>
@@ -51,49 +51,51 @@ export const IEODetailScreen = () => {
 		return <BuyersHistory ieoID={Number(ieoID)} />;
 	};
 	return (
-		<div id="ieo-detail-screen">
-			<h3 className="ieo-title">IEO</h3>
-			<button
-				id="ioe-detail-screen__return-list"
-				className="col-12"
-				onClick={() => {
-					history.goBack();
-				}}
-			>
-				{`< Return To List`}
-			</button>
-			{IEOItem.loading ? (
-				<></>
-			) : (
-				<div id="ieo-detail-screen_container" className="d-flex flex-wrap justify-content-center">
-					<div className="col-md-6">
-						<IEODetail
-							endDate={IEOItem.payload.end_date}
-							startDate={IEOItem.payload.start_date}
-							bonus={IEOItem.payload.bonus}
-							currencyID={IEOItem.payload.currency_id}
-						/>
-					</div>
+		<React.Fragment>
+			<div id="ieo-detail-screen">
+				<h3 className="ieo-title">IEO</h3>
+				<button
+					id="ioe-detail-screen__return-list"
+					className="col-12"
+					onClick={() => {
+						history.goBack();
+					}}
+				>
+					{`< Return To List`}
+				</button>
+				{IEOItem.loading ? (
+					<></>
+				) : (
+					<div id="ieo-detail-screen_container" className="d-flex flex-wrap justify-content-center">
+						<div className="col-md-6">
+							<IEODetail
+								endDate={IEOItem.payload.end_date}
+								startDate={IEOItem.payload.start_date}
+								bonus={IEOItem.payload.bonus}
+								currencyID={IEOItem.payload.currency_id}
+							/>
+						</div>
 
-					<div className="col-md-6" style={{ backgroundColor: '#434A56' }}>
-						<BuyIEO
-							coins={IEOItem.payload.currency_available.length ? IEOItem.payload.currency_available : ['']}
-							currencyID={IEOItem.payload.currency_id}
-							priceIEO={Number(IEOItem.payload.price)}
-							type={IEOItem.payload.type}
-							minBuy={IEOItem.payload.min_buy}
-							uid={user.uid}
-							id={ieoID}
-							bonus={IEOItem.payload.bonus}
-						/>
+						<div className="col-md-6" style={{ backgroundColor: '#434A56' }}>
+							<BuyIEO
+								coins={IEOItem.payload.currency_available.length ? IEOItem.payload.currency_available : ['']}
+								currencyID={IEOItem.payload.currency_id}
+								priceIEO={Number(IEOItem.payload.price)}
+								type={IEOItem.payload.type}
+								minBuy={IEOItem.payload.min_buy}
+								uid={user.uid}
+								id={ieoID}
+								bonus={IEOItem.payload.bonus}
+							/>
+						</div>
+						<div className="container-fluid col-12" style={{ paddingRight: '0px', marginTop: '36px' }}>
+							{renderBuyHistoryView()}
+							<CautionsDetail />
+							<InformationIEO />
+						</div>
 					</div>
-					<div className="container-fluid col-12" style={{ paddingRight: '0px', marginTop: '36px' }}>
-						{renderBuyHistoryView()}
-						<CautionsDetail />
-						<InformationIEO />
-					</div>
-				</div>
-			)}
-		</div>
+				)}
+			</div>
+		</React.Fragment>
 	);
 };

@@ -22,7 +22,7 @@ export const InformationIEO = () => {
 		let content: Array<JSX.Element> = [];
 		for (let key in information) {
 			const jsx = (
-				<div className="col-md-6 col-sm-12 d-flex detail" style={{ padding: '0px' }}>
+				<div key={key} className="col-md-6 col-sm-12 d-flex detail" style={{ padding: '0px' }}>
 					<div className="content-key col-md-5 col-xl-3">
 						<p>{toUpperCaseFirstChar(key)}</p>
 					</div>
