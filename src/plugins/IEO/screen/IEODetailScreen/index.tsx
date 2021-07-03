@@ -32,8 +32,9 @@ export const IEODetailScreen = () => {
 	React.useEffect(() => {
 		dispatchFetchIEOItemByID(ieoID);
 	}, []);
+
 	const renderBuyHistoryView = () => {
-		if (user) {
+		if (user.uid) {
 			return (
 				<div className="buy-history-view col-12 d-flex flex-wrap justify-content-center">
 					<div className="buy-history-title col-12 text-center">
@@ -48,7 +49,16 @@ export const IEODetailScreen = () => {
 				</div>
 			);
 		}
-		return <BuyersHistory ieoID={Number(ieoID)} />;
+		return (
+			<div className="buy-history-view col-12 d-flex flex-wrap justify-content-center">
+				<div className="buy-history-title col-12 text-center">
+					<h3>Buy History</h3>
+				</div>
+				<div className="col-md-10" style={{ paddingLeft: '0px', marginTop: '36px' }}>
+					<BuyersHistory ieoID={Number(ieoID)} />
+				</div>
+			</div>
+		);
 	};
 	return (
 		<React.Fragment>
