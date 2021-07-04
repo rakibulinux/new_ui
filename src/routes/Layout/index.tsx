@@ -29,7 +29,7 @@ import {
 	ProfileThemeMobileScreen,
 	ProfileVerificationMobileScreen,
 	SelectedWalletMobileScreen,
-	SignInMobileScreen,
+	// SignInMobileScreen,
 	NewSignUpMobileScreen,
 	// SignUpMobileScreen,
 	TradingScreenMobile,

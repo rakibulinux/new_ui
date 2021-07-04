@@ -3,10 +3,11 @@ import { isEmail, isValidPassword } from 'helpers';
 import { useDocumentTitle } from 'hooks';
 import { GoBackIcon } from 'mobile/assets/icons';
 import React, { FC, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 export const NewSignUpMobileScreen: FC = () => {
 	useDocumentTitle('Sign Up');
+	const history = useHistory();
 
 	const onSubmit = (value: any) => {
 		// tslint:disable-next-line: no-console
@@ -110,7 +111,7 @@ export const NewSignUpMobileScreen: FC = () => {
 	return (
 		<div className="td-mobile-signup">
 			<div className="td-mobile-signup__header">
-				<GoBackIcon />
+				<GoBackIcon onClick={() => history.goBack()} />
 			</div>
 			<div className="td-mobile-signup__body">{renderForm()}</div>
 			<div className="td-mobile-signup__footer">© 2017 - 2021 CiRCLEEX.com. All rights reserved</div>

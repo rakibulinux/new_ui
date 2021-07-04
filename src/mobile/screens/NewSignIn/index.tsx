@@ -1,10 +1,14 @@
 import { Button, Form, Input } from 'antd';
 import { isEmail } from 'helpers';
+import { useDocumentTitle } from 'hooks';
 import { GoBackIcon } from 'mobile/assets/icons';
 import React, { FC, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 export const NewSignInMobileScreen: FC = () => {
+	useDocumentTitle('Sign In');
+	const history = useHistory();
+
 	const [email, setEmail] = useState<string | null>(null);
 	const [pass, setPass] = useState<string | null>(null);
 
@@ -77,7 +81,7 @@ export const NewSignInMobileScreen: FC = () => {
 		<div>
 			<div className="td-mobile-signin">
 				<div className="td-mobile-signin__header">
-					<GoBackIcon />
+					<GoBackIcon onClick={() => history.goBack()} />
 				</div>
 				<div className="td-mobile-signin__body">{renderForm()}</div>
 				<div className="td-mobile-signin__footer">© 2017 - 2021 CiRCLEEX.com. All rights reserved</div>
