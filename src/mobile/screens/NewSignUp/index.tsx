@@ -39,6 +39,7 @@ export const NewSignUpMobileScreen: FC = () => {
 					<Input
 						className="td-mobile-signup__body__form__label__input"
 						value={email || ''}
+						placeholder="Enter your email"
 						onChange={e => setEmail(e.target.value)}
 					/>
 				</Form.Item>
@@ -58,6 +59,7 @@ export const NewSignUpMobileScreen: FC = () => {
 					<Input.Password
 						className="td-mobile-signup__body__form__label__input"
 						value={pass || ''}
+						placeholder="Enter your password"
 						onChange={e => setPass(e.target.value)}
 					/>
 				</Form.Item>
@@ -73,6 +75,7 @@ export const NewSignUpMobileScreen: FC = () => {
 					<Input.Password
 						className="td-mobile-signup__body__form__label__input"
 						value={confirm || ''}
+						placeholder="Confirm password"
 						onChange={e => setConfirm(e.target.value)}
 					/>
 				</Form.Item>
