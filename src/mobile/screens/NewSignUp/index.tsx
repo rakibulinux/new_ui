@@ -31,12 +31,6 @@ export const NewSignUpMobileScreen: FC = () => {
 					className="td-mobile-signup__body__form__label"
 					label="Email"
 					name="email"
-					rules={[
-						{
-							required: true,
-							message: 'Please input your username!',
-						},
-					]}
 					hasFeedback
 					help={email !== null && !isEmail(email) ? 'Email invalid!' : undefined}
 					validateStatus={email === null ? '' : isEmail(email) ? 'success' : 'error'}
@@ -49,6 +43,7 @@ export const NewSignUpMobileScreen: FC = () => {
 				</Form.Item>
 
 				<Form.Item
+					className="td-mobile-signup__body__form__label"
 					label="Password"
 					name="password"
 					hasFeedback
@@ -67,10 +62,11 @@ export const NewSignUpMobileScreen: FC = () => {
 				</Form.Item>
 
 				<Form.Item
+					className="td-mobile-signup__body__form__label"
 					label="Confirm password"
 					name="confirm"
 					hasFeedback
-					help={confirm !== null && confirm !== pass ? "Confirm password doesn't same" : undefined}
+					help={confirm !== null && confirm !== pass ? 'Confirm password does not same' : undefined}
 					validateStatus={confirm === null ? '' : confirm !== pass ? 'error' : 'success'}
 				>
 					<Input.Password
@@ -90,9 +86,9 @@ export const NewSignUpMobileScreen: FC = () => {
 					</Checkbox>
 				</Form.Item>
 
-				<Form.Item>
+				<Form.Item className="td-mobile-signup__body__form__submit">
 					<Button
-						className="td-mobile-signup__body__form__submit"
+						className="td-mobile-signup__body__form__submit__btn"
 						htmlType="submit"
 						type="primary"
 						disabled={!canSubmit()}
