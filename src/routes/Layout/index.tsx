@@ -36,6 +36,7 @@ import {
 	WalletDeposit,
 	WalletWithdraw,
 	NewWalletDetail,
+	NewSignInMobileScreen,
 } from '../../mobile/screens';
 
 import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
@@ -244,7 +245,12 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 			return (
 				<div className={'container-fluid pg-layout pg-layout--mobile'}>
 					<Switch>
-						<PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/signin" component={SignInMobileScreen} />
+						<PublicRoute
+							loading={userLoading}
+							isLogged={isLoggedIn}
+							path="/signin"
+							component={NewSignInMobileScreen}
+						/>
 						<PublicRoute
 							loading={userLoading}
 							isLogged={isLoggedIn}

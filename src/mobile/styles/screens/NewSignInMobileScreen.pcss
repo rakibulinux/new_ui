@@ -1,4 +1,4 @@
-.td-mobile-signup {
+.td-mobile-signin {
 	display: flex;
 	flex-direction: column;
 	font-size: 0.875rem;
@@ -36,8 +36,8 @@
 
 			&__description {
 				color: #848e9c;
-				font-size: 1em;
-				margin-bottom: 0.75rem;
+				font-size: 0.75rem;
+				margin-bottom: 1rem;
 				text-align: center;
 			}
 
@@ -55,51 +55,19 @@
 				}
 			}
 
-			&__checkbox {
-				& > span {
-					color: #848e9c;
-					font-size: 0.75rem;
-				}
-			}
+			&__links {
+				font-size: 0.75rem;
+				display: flex;
+				gap: 0.5em;
 
-			&__submit {
-				margin-bottom: 0.9em;
+				& > * {
+					color: #2fb67e;
 
-				&__btn {
-					background: #2fb67e;
-					border: none;
-					border-radius: 5px;
-					font-size: 1rem;
-					height: max-content;
-					padding: 0.8em;
-					width: 100%;
-
-					&:hover {
-						background-color: rgba(#2fb67e, 0.8);
+					&:first-child {
+						color: #848e9c;
+						flex-grow: 1;
 					}
 				}
-			}
-
-			&__to-login {
-				color: #848e9c;
-				font-size: 0.75rem;
-				text-align: center;
-
-				&__link {
-					color: #2fb67e;
-				}
-			}
-
-			& [for='email'],
-			& [for='password'],
-			& [for='confirm'] {
-				color: #c4c4c4;
-			}
-
-			& [for='email']::before,
-			& [for='password']::before,
-			& [for='confirm']::before {
-				display: none !important;
 			}
 		}
 	}

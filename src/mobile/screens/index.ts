@@ -26,3 +26,4 @@ export * from './NewWalletsScreen';
 export * from './NewWalletDetail';
 export * from './NewHomePage';
 export * from './NewSignUp';
+export * from './NewSignIn';

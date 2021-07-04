@@ -22,7 +22,7 @@ export const NewSignUpMobileScreen: FC = () => {
 		return email !== null && isEmail(email) && pass !== null && isValidPassword(pass) && pass === confirm && isCheckTerms;
 	};
 
-	const renderFrom = () => {
+	const renderForm = () => {
 		return (
 			<Form className="td-mobile-signup__body__form" layout="vertical" onFinish={onSubmit}>
 				<h3 className="td-mobile-signup__body__form__title">Create a free account</h3>
@@ -112,7 +112,7 @@ export const NewSignUpMobileScreen: FC = () => {
 			<div className="td-mobile-signup__header">
 				<GoBackIcon />
 			</div>
-			<div className="td-mobile-signup__body">{renderFrom()}</div>
+			<div className="td-mobile-signup__body">{renderForm()}</div>
 			<div className="td-mobile-signup__footer">© 2017 - 2021 CiRCLEEX.com. All rights reserved</div>
 		</div>
 	);
