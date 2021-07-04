@@ -53,6 +53,7 @@ import { profileReducer } from './user/profile';
 import { userActivityReducer } from './user/userActivity';
 import { allChildCurrenciesReducer, childCurrenciesReducer, walletsReducer } from './user/wallets';
 import { withdrawLimitReducer } from './user/withdrawLimit';
+import { documentationReducer } from './user/documentation';
 
 export const eventsReducer = combineReducers({
 	lunar: lunarReducer,
@@ -109,6 +110,7 @@ export const userReducer = combineReducers({
 	auth: authReducer,
 	beneficiaries: beneficiariesReducer,
 	customizationUpdate: customizationUpdateReducer,
+	documentation: documentationReducer,
 	label: labelReducer,
 	orders: ordersReducer,
 	password: passwordReducer,
