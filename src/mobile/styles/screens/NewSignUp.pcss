@@ -1,4 +1,4 @@
-.td-mobile-signin {
+.td-mobile-pg-signup {
 	display: flex;
 	flex-direction: column;
 	font-size: 0.875rem;
@@ -22,20 +22,19 @@
 
 		&__form {
 			background: #313445;
-			border-radius: 10px 10px 0 0;
+			border-radius: 10px;
 			display: flex;
 			flex-direction: column;
 			padding: 2em 0.5em;
 
 			&__title {
-				color: #848e9c;
-				font-size: 1.5rem;
+				color: #c4c4c4;
 				margin-bottom: 1rem;
 				text-align: center;
 			}
 
 			&__description {
-				color: #848e9c;
+				color: #dadada;
 				font-size: 0.75rem;
 				margin-bottom: 1rem;
 				text-align: center;
@@ -55,19 +54,51 @@
 				}
 			}
 
-			&__links {
-				display: flex;
-				font-size: 0.75rem;
-				gap: 0.5em;
+			&__checkbox {
+				& > span {
+					color: #848e9c;
+					font-size: 0.75rem;
+				}
+			}
 
-				& > * {
-					color: #2fb67e;
+			&__submit {
+				margin-bottom: 0.9em;
 
-					&:first-child {
-						color: #848e9c;
-						flex-grow: 1;
+				&__btn {
+					background: #2fb67e;
+					border: none;
+					border-radius: 5px;
+					font-size: 1rem;
+					height: max-content;
+					padding: 0.8em;
+					width: 100%;
+
+					&:hover {
+						background-color: rgba(#2fb67e, 0.8);
 					}
 				}
+			}
+
+			&__to-login {
+				color: #848e9c;
+				font-size: 0.75rem;
+				text-align: center;
+
+				&__link {
+					color: #2fb67e;
+				}
+			}
+
+			& [for='email'],
+			& [for='password'],
+			& [for='confirm'] {
+				color: #c4c4c4;
+			}
+
+			& [for='email']::before,
+			& [for='password']::before,
+			& [for='confirm']::before {
+				display: none !important;
 			}
 		}
 	}

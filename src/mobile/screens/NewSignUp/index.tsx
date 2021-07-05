@@ -25,11 +25,11 @@ export const NewSignUpMobileScreen: FC = () => {
 
 	const renderForm = () => {
 		return (
-			<Form className="td-mobile-signup__body__form" layout="vertical" onFinish={onSubmit}>
-				<h3 className="td-mobile-signup__body__form__title">Create a free account</h3>
-				<h4 className="td-mobile-signup__body__form__description">Welcome to CiRCLEEX</h4>
+			<Form className="td-mobile-pg-signup__body__form w-100" layout="vertical" onFinish={onSubmit}>
+				<h4 className="td-mobile-pg-signup__body__form__title">Create a free account</h4>
+				<span className="td-mobile-pg-signup__body__form__description">Welcome to CiRCLEEX</span>
 				<Form.Item
-					className="td-mobile-signup__body__form__label"
+					className="td-mobile-pg-signup__body__form__label"
 					label="Email"
 					name="email"
 					hasFeedback
@@ -37,7 +37,7 @@ export const NewSignUpMobileScreen: FC = () => {
 					validateStatus={email === null ? '' : isEmail(email) ? 'success' : 'error'}
 				>
 					<Input
-						className="td-mobile-signup__body__form__label__input"
+						className="td-mobile-pg-signup__body__form__label__input"
 						value={email || ''}
 						placeholder="Enter your email"
 						onChange={e => setEmail(e.target.value)}
@@ -45,7 +45,7 @@ export const NewSignUpMobileScreen: FC = () => {
 				</Form.Item>
 
 				<Form.Item
-					className="td-mobile-signup__body__form__label"
+					className="td-mobile-pg-signup__body__form__label"
 					label="Password"
 					name="password"
 					hasFeedback
@@ -57,7 +57,7 @@ export const NewSignUpMobileScreen: FC = () => {
 					validateStatus={pass === null ? '' : isValidPassword(pass) ? 'success' : 'error'}
 				>
 					<Input.Password
-						className="td-mobile-signup__body__form__label__input"
+						className="td-mobile-pg-signup__body__form__label__input"
 						value={pass || ''}
 						placeholder="Enter your password"
 						onChange={e => setPass(e.target.value)}
@@ -65,7 +65,7 @@ export const NewSignUpMobileScreen: FC = () => {
 				</Form.Item>
 
 				<Form.Item
-					className="td-mobile-signup__body__form__label"
+					className="td-mobile-pg-signup__body__form__label"
 					label="Confirm password"
 					name="confirm"
 					hasFeedback
@@ -73,7 +73,7 @@ export const NewSignUpMobileScreen: FC = () => {
 					validateStatus={confirm === null ? '' : confirm !== pass ? 'error' : 'success'}
 				>
 					<Input.Password
-						className="td-mobile-signup__body__form__label__input"
+						className="td-mobile-pg-signup__body__form__label__input"
 						value={confirm || ''}
 						placeholder="Confirm password"
 						onChange={e => setConfirm(e.target.value)}
@@ -82,7 +82,7 @@ export const NewSignUpMobileScreen: FC = () => {
 
 				<Form.Item name="remember" valuePropName="checked">
 					<Checkbox
-						className="td-mobile-signup__body__form__checkbox"
+						className="td-mobile-pg-signup__body__form__checkbox"
 						value={isCheckTerms}
 						onChange={e => setIsCheckTerms(e.target.checked)}
 					>
@@ -90,20 +90,20 @@ export const NewSignUpMobileScreen: FC = () => {
 					</Checkbox>
 				</Form.Item>
 
-				<Form.Item className="td-mobile-signup__body__form__submit">
+				<Form.Item className="td-mobile-pg-signup__body__form__submit">
 					<Button
-						className="td-mobile-signup__body__form__submit__btn"
+						className="td-mobile-pg-signup__body__form__submit__btn"
 						htmlType="submit"
 						type="primary"
 						disabled={!canSubmit()}
 					>
-						Submit
+						Sign Up
 					</Button>
 				</Form.Item>
 
-				<div className="td-mobile-signup__body__form__to-login">
+				<div className="td-mobile-pg-signup__body__form__to-login">
 					<span>Already registered?</span>{' '}
-					<Link className="td-mobile-signup__body__form__to-login__link" to="/signin">
+					<Link className="td-mobile-pg-signup__body__form__to-login__link" to="/signin">
 						Log In
 					</Link>
 				</div>
@@ -112,12 +112,12 @@ export const NewSignUpMobileScreen: FC = () => {
 	};
 
 	return (
-		<div className="td-mobile-signup">
-			<div className="td-mobile-signup__header">
+		<div className="td-mobile-pg-signup">
+			<div className="td-mobile-pg-signup__header">
 				<GoBackIcon onClick={() => history.goBack()} />
 			</div>
-			<div className="td-mobile-signup__body">{renderForm()}</div>
-			<div className="td-mobile-signup__footer">© 2017 - 2021 CiRCLEEX.com. All rights reserved</div>
+			<div className="td-mobile-pg-signup__body">{renderForm()}</div>
+			<div className="td-mobile-pg-signup__footer">© 2020 - 2021 CiRCLEEX.com. All rights reserved</div>
 		</div>
 	);
 };
