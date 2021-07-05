@@ -46,25 +46,29 @@ export const ButtonVote: React.FC<ButtonVoteProps> = props => {
 	};
 
 	const onAccept = () => {
-		if (wallet) {
-			if (wallet.balance) {
-				if ((amount || 0) > +wallet.balance) {
-					pushNotification(`Amount(${amount}) must be less than wallet balance(${wallet.balance})`);
+		if (amount) {
+			if (wallet) {
+				if (wallet.balance) {
+					if (amount * constants.VOTE_RATE > +wallet.balance) {
+						pushNotification(`Amount(${amount}) must be less than wallet balance(${wallet.balance})`);
+					} else {
+						dispatch(
+							voteDonateCreate({
+								id,
+								amount: amount * constants.VOTE_RATE,
+							}),
+						);
+						onToggleShow();
+						setAmount(undefined);
+					}
 				} else {
-					dispatch(
-						voteDonateCreate({
-							id,
-							amount: Number(amount),
-						}),
-					);
-					onToggleShow();
-					setAmount(undefined);
+					pushNotification(`You don't have ${constants.VOTE_CURRENCIE} wallet balance yet`);
 				}
 			} else {
-				pushNotification(`You don't have ${constants.VOTE_CURRENCIE} wallet balance yet`);
+				pushNotification(`You don't have ${constants.VOTE_CURRENCIE} wallet`);
 			}
 		} else {
-			pushNotification(`You don't have ${constants.VOTE_CURRENCIE} wallet`);
+			pushNotification(`Please enter amount!`);
 		}
 	};
 
@@ -89,7 +93,8 @@ export const ButtonVote: React.FC<ButtonVoteProps> = props => {
 					className="h-100"
 					size="sm"
 					type="number"
-					placeholder={`Amount (${constants.VOTE_CURRENCIE.toUpperCase()})`}
+					min={1}
+					placeholder={`Amount`}
 					value={amount}
 					onChange={changeAmount}
 				/>
