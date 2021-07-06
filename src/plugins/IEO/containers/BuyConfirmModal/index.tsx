@@ -20,11 +20,22 @@ interface BuyConfirmModalProps {
 
 export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfirmModalProps) => {
 	const currencies = useSelector(selectCurrencies);
-	const { quantity, quoteBalance, quoteCurrency, baseBalance, baseCurrency, quoteTotal, bonus } = props;
-	const findIcon = (code: string): string => {
-		const currency = currencies.find(currencyParam => currencyParam.id === code);
+	const {
+		onHiddenModal,
+		onBuy,
+		quantity,
+		quoteBalance,
+		quoteCurrency,
+		baseBalance,
+		baseCurrency,
+		quoteTotal,
+		bonus,
+		visible,
+	} = props;
+	const findIcon = (currencyID: string): string => {
+		const currency = currencies.find(currency => currency.id === currencyID);
 		try {
-			return require(`../../../../../node_modules/cryptocurrency-icons/128/color/${code.toLowerCase()}.png`);
+			return require(`../../../../../node_modules/cryptocurrency-icons/128/color/${currencyID.toLowerCase()}.png`);
 		} catch (err) {
 			if (currency) {
 				return currency.icon_url;
@@ -38,13 +49,13 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
 	const totalQuantity = NP.plus(baseBalance, quantity, bonusQuantity);
 	const baseTitle = (
 		<div className="base-title-content">
-			<img style={{ width: '3rem', height: '3rem' }} src={findIcon(baseCurrency)} alt="" />
+			<img style={{ width: '3rem', height: '3rem' }} src={findIcon(baseCurrency)} alt={baseCurrency} />
 			<span style={{ fontSize: '1.6rem', marginLeft: '5px' }}>{baseCurrency}</span>
 		</div>
 	);
 	const quoteTitle = (
 		<div className="base-title-content">
-			<img style={{ width: '3rem', height: '3rem' }} src={findIcon(quoteCurrency)} alt="" />
+			<img style={{ width: '3rem', height: '3rem' }} src={findIcon(quoteCurrency)} alt={quoteCurrency} />
 			<span style={{ fontSize: '1.6rem', marginLeft: '5px' }}>{quoteCurrency}</span>
 		</div>
 	);
@@ -57,25 +68,23 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
 		);
 	};
 	const bonusComponent = () => {
+		if (bonus <= 0) {
+			return null;
+		}
 		return (
-			<>
-				{bonus > 0 ? (
-					<div className="bonus">
-						<p>
-							{`🥳 You will receive ${bonus * 100}% bonus of ${quantity} ${baseCurrency.toUpperCase()}
-								(+${bonusQuantity} ${baseCurrency.toUpperCase()}) = ${NP.plus(quantity, bonusQuantity)} 
-								${baseCurrency.toUpperCase()}`}
-						</p>
-					</div>
-				) : (
-					<></>
-				)}
-			</>
+			<div className="bonus">
+				<p>
+					{`🥳 You will receive ${bonus * 100}% bonus of ${quantity} ${baseCurrency.toUpperCase()}
+					(+${bonusQuantity} ${baseCurrency.toUpperCase()}) = ${NP.plus(quantity, bonusQuantity)} 
+					${baseCurrency.toUpperCase()}`}
+				</p>
+			</div>
 		);
 	};
+
 	return (
-		<>
-			{props.visible ? (
+		<React.Fragment>
+			{visible ? (
 				<div id="buy-confirm-modal">
 					<div id="buy-confirm-modal-header">
 						<h2 style={{ marginTop: '8px' }}>Confirm To Buy</h2>
@@ -94,27 +103,15 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
 						{bonusComponent()}
 					</div>
 					<div id="buy-confirm-modal-footer">
-						<button
-							className="btn btn-light"
-							onClick={() => {
-								props.onHiddenModal();
-							}}
-						>
+						<button className="btn btn-secondary w-50" style={{ borderRadius: 0 }} onClick={onHiddenModal}>
 							Cancel
 						</button>
-						<button
-							className="btn btn-success"
-							onClick={() => {
-								props.onBuy();
-							}}
-						>
+						<button className="btn btn-primary w-50" style={{ borderRadius: 0 }} onClick={onBuy}>
 							Agree to Buy
 						</button>
 					</div>
 				</div>
-			) : (
-				<></>
-			)}
-		</>
+			) : null}
+		</React.Fragment>
 	);
 };

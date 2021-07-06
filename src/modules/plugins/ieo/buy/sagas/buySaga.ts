@@ -1,26 +1,17 @@
+import { alertPush } from 'modules';
 import { put } from 'redux-saga/effects';
 import { BuyIEO } from '..';
 import axios from '../../../../../plugins/api/index';
 
-import { buyIEOError, buyIEOResponse, BuyIEOItem, GetIEOTotalBuyers, totalIEOBuyersData, totalIEOBuyersError } from '../actions';
+import { buyIEOResponse, BuyIEOItem, GetIEOTotalBuyers, totalIEOBuyersData, totalIEOBuyersError } from '../actions';
 import { TotalIEOBuyers } from '../types';
 
 export function* buyIEOItemSaga(action: BuyIEOItem) {
 	try {
-		const response = yield axios.post<BuyIEO>(`private/ieo/buy`, action.payload);
-		yield put(
-			buyIEOResponse({
-				payload: response.data,
-				loading: false,
-			}),
-		);
+		yield axios.post<BuyIEO>(`private/ieo/buy`, action.payload);
+		yield put(alertPush({ message: ['page.ieo.buy.success'], type: 'success' }));
 	} catch (error) {
-		yield put(
-			buyIEOError({
-				code: error.response.code,
-				message: error.response.data.msg,
-			}),
-		);
+		yield put(alertPush({ message: ['page.ieo.buy.error'], type: 'error' }));
 	}
 }
 

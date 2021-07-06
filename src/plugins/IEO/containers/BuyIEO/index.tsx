@@ -1,9 +1,8 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { message } from 'antd';
 import { useHistory } from 'react-router';
 import { BuyConfirmModal } from '../BuyConfirmModal';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
 	currenciesFetch,
 	selectCurrencies,
@@ -13,10 +12,6 @@ import {
 	walletsFetch,
 	BuyIEO,
 	buyIEOItem,
-	selectBuyIEO,
-	resetBuyIEOResponse,
-	getIEOTotalBuyers,
-	findIEOById,
 } from '../../../../modules';
 import NP from 'number-precision';
 import { notification } from 'antd';
@@ -45,7 +40,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 	const currencies = useSelector(selectCurrencies);
 	const wallets = useSelector(selectWallets);
 	const priceSelector = useSelector(selectPrice);
-	const buyResponse = useSelector(selectBuyIEO, shallowEqual);
+	const [isLoadingState, setIsLoadingState] = React.useState<boolean>(false);
 
 	const filteredWallets = wallets.filter(wallet => props.coins.includes(wallet.currency));
 	const baseWallet = wallets.find(wallet => wallet.currency === props.currencyID);
@@ -60,20 +55,6 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
 	const dispatchGetPrice = React.useCallback((priceConfig: any) => dispatch(getPrice(priceConfig)), [dispatch]);
 	const dispatchWalletsFetch = React.useCallback(() => dispatch(walletsFetch()), [dispatch]);
-	const dispatchResetBuyResponse = () => dispatch(resetBuyIEOResponse());
-
-	const dispatchGetTotalBuyers = (ieoID: string) =>
-		dispatch(
-			getIEOTotalBuyers({
-				ieo_id: ieoID,
-			}),
-		);
-	const dispatchFetchSaleItemByID = (ieoID: string) =>
-		dispatch(
-			findIEOById({
-				id: ieoID,
-			}),
-		);
 
 	React.useEffect(() => {
 		dispatchFetchCurrencies();
@@ -99,33 +80,15 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 	);
 	const [quoteBalanceState, setQuoteBalanceState] = React.useState<number>(handleGetBalance(selectedCurrencyState));
 
-	React.useEffect(() => {
-		if (buyResponse.error) {
-			notification.error({
-				message: buyResponse.error.message,
-			});
-		}
-
-		if (buyResponse.payload) {
-			if (buyResponse.payload.success) {
-				notification.success({
-					message: `Buy ${props.currencyID.toUpperCase()} successfully`,
-				});
-				dispatchResetBuyResponse();
-				dispatchGetTotalBuyers(props.id); // update Total Buyers in  Info
-				setTimeout(() => {
-					dispatchFetchSaleItemByID(props.id);
-				}, 3000);
-			}
-		}
-
-		if (buyResponse.loading) {
-			const hide = message.loading('Buying in progress..', 0);
-			// dismiss manually and asynchronously
-			setTimeout(hide, 2500);
-		}
-	}, [buyResponse.error, buyResponse.payload.success, buyResponse.loading]);
-
+	const loadingBuyIEO = () => {
+		return (
+			<div className="d-flex justify-content-center" style={{ position: 'absolute', top: '45%', left: '50%' }}>
+				<div className="spinner-border text-primary" role="status">
+					<span className="sr-only">Loading...</span>
+				</div>
+			</div>
+		);
+	};
 	const returnLoginScreen = () => {
 		return (
 			<button
@@ -167,6 +130,8 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 		setIsShowBuyConfirmModalState(false);
 	};
 	const handleBuy = () => {
+		setIsLoadingState(true);
+
 		const uid = props.uid;
 		if (
 			priceState &&
@@ -190,8 +155,10 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 				message: 'Something went wrong.',
 			});
 		}
+		setTimeout(() => {
+			setIsLoadingState(false);
+		}, 2500);
 	};
-
 	const showBuyConfirmModalView = () => {
 		const check =
 			isShowBuyConfirmModalState &&
@@ -200,6 +167,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 			quantityState >= props.minBuy &&
 			priceState &&
 			priceState > 0;
+
 		return check ? (
 			<BuyConfirmModal
 				visible={isShowBuyConfirmModalState}
@@ -262,10 +230,13 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 	return (
 		<div id="buy-ieo">
 			{showBuyConfirmModalView()}
+			{isLoadingState ? loadingBuyIEO() : <></>}
 			{props.type !== 'ongoing' ? showCloseView() : <></>}
 			<div
 				id="buy-ieo-container"
-				className={`col-md-12  ${props.type !== 'ongoing' || isShowBuyConfirmModalState ? disabledBuyClassName : ''}`}
+				className={`col-md-12  ${
+					props.type !== 'ongoing' || isShowBuyConfirmModalState || isLoadingState ? disabledBuyClassName : ''
+				}`}
 			>
 				<div id="buy-ieo-coins">
 					{props.coins.map((coin, index) => (
@@ -290,11 +261,12 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 					<div className="col-12 d-flex justify-content-between" style={{ padding: '0' }}>
 						<div id="buy-ieo-body-available" style={{ textAlign: 'right', width: '100%' }}>
 							<p className="buy-ieo-available-amount">
-								Available Amount : <span>{baseBalance}</span> {`${props.currencyID.toUpperCase()}`}
+								Available {props.currencyID.toUpperCase()}: <span>{baseBalance}</span>{' '}
+								{`${props.currencyID.toUpperCase()}`}
 							</p>
 							<p className="buy-ieo-available-amount">
-								Available Balance : <span>{handleGetBalance(selectedCurrencyState)}</span>{' '}
-								{`${selectedCurrencyState.toUpperCase()}`}
+								Available {selectedCurrencyState.toUpperCase()}:{' '}
+								<span>{handleGetBalance(selectedCurrencyState)}</span> {`${selectedCurrencyState.toUpperCase()}`}
 							</p>
 						</div>
 					</div>
@@ -309,7 +281,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 							type="number"
 							value={quantityState}
 							onChange={event => {
-								setQuantityState(Number(event.target.value));
+								if (Number(event.target.value) >= 0) setQuantityState(Number(event.target.value));
 							}}
 							id="buy-ieo-body-input"
 							name="quantityToBuy"
@@ -318,7 +290,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 					</div>
 
 					{props.minBuy > quantityState ? (
-						<span style={{ color: 'rgb(179 110 13)', fontWeight: 'bold' }}>
+						<span style={{ color: 'rgb(179 110 13)', fontWeight: 'bold', width: '100%' }}>
 							** Quantity must be larger {props.minBuy}
 						</span>
 					) : (
