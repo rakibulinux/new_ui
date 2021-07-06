@@ -71,7 +71,6 @@ import { ProfileState, rootProfileSaga } from './user/profile';
 import { rootUserActivitySaga, UserActivityState } from './user/userActivity';
 import { ChildCurrenciesState, rootWalletsSaga, WalletsState } from './user/wallets';
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
-import { DocumentationState, rootDocumentationSaga } from './user/documentation';
 
 export * from './airdrops/airdrop';
 export * from './airdrops/claim';
@@ -105,7 +104,6 @@ export * from './user/auth';
 export * from './user/beneficiaries';
 export * from './user/captcha';
 export * from './user/customization';
-export * from './user/documentation';
 export * from './user/emailVerification';
 export * from './user/history';
 export * from './user/kyc';
@@ -169,7 +167,6 @@ export interface RootState {
 		beneficiaries: BeneficiariesState;
 		captchaKeys: GeetestCaptchaState;
 		customizationUpdate: CustomizationUpdateState;
-		documentation: DocumentationState;
 		sendEmailVerification: EmailVerificationState;
 		history: HistoryState;
 		documents: DocumentsState;
@@ -229,7 +226,6 @@ export function* rootSaga() {
 		call(rootCurrenciesSaga),
 		call(rootCustomizationSaga),
 		call(rootCustomizationUpdateSaga),
-		call(rootDocumentationSaga),
 		call(rootEmailVerificationSaga),
 		call(rootGeetestCaptchaSaga),
 		call(rootHandleAlertSaga),

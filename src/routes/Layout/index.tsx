@@ -67,7 +67,6 @@ import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../.
 import {
 	ChangeForgottenPasswordScreen,
 	ConfirmScreen,
-	DocumentationScreen,
 	DepositScreen,
 	EmailVerificationScreen,
 	ForgotPasswordScreen,
@@ -458,7 +457,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/security/2fa"
 						component={ProfileTwoFactorAuthScreen}
 					/>
-					<Route path="/api" component={DocumentationScreen} />
 					<Route path="/airdrop" exact component={AirdropList} />
 					<PrivateRoute
 						loading={userLoading}

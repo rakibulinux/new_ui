@@ -8,7 +8,6 @@ export * from './Customization';
 export * from './Decimal';
 export * from './DepositCrypto';
 export * from './DepositFiat';
-export * from './Documentation';
 export * from './Dropdown';
 export * from './EmailForm';
 export * from './FilterInput';
