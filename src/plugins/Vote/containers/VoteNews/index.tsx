@@ -66,13 +66,26 @@ export const VoteNews: React.FC<VoteNewsProps> = ({}) => {
 					{constants.VOTE_CURRENCIE.toUpperCase()}. Minimum 10,000 votes required to be considered.
 				</p>
 				<p>
-					You can buy CX on <Link to="/trading/cxusdt">CX Exchange</Link> or <a href = "https://app.uniswap.org/#/swap?outputCurrency=0x3f4e02741b155f5ce8d6190d294d4f916125b896&use=V2" target="blank">Uniswap</a>
+					You can buy CX on <Link to="/trading/cxusdt">CX Exchange</Link> or{' '}
+					<a
+						href="https://app.uniswap.org/#/swap?outputCurrency=0x3f4e02741b155f5ce8d6190d294d4f916125b896&use=V2"
+						target="blank"
+					>
+						Uniswap
+					</a>
 				</p>
 			</div>
 			<CountDownVote />
 			<div className="pg-vote--border pg-vote__news__wrapper-table">
 				<div className="pg-vote__news__navbar">
-					<h2 className="pg-vote__news__navbar__title">New Coins</h2>
+					<div className="d-flex justify-space-between">
+						<h2 className="pg-vote__news__navbar__title flex-fill">New Coins</h2>
+						<a href="https://www.cx.finance" target="_blank">
+							<button type="button" className="pg-vote__news--radius btn btn-success">
+								Create new
+							</button>
+						</a>
+					</div>
 					<input
 						className="pg-vote__news__navbar__input-search mt-2"
 						placeholder="search"
