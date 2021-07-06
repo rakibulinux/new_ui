@@ -53,7 +53,7 @@ import {
 	unStakeHistoryReducer,
 	unStakeReducer,
 } from './plugins/staking';
-import { IEOItemReducer, IEOListReducer } from './plugins/ieo/';
+import { IEOItemReducer, IEOListReducer, totalIEOBuyersReducer, buyIEOReducer } from './plugins/ieo/';
 
 import { announcementReducer } from './info/announcement';
 
@@ -81,6 +81,8 @@ export const saleReducer = combineReducers({
 export const IEOReducer = combineReducers({
 	IEOItem: IEOItemReducer,
 	IEOList: IEOListReducer,
+	buyIEO: buyIEOReducer,
+	totalIEOBuyers: totalIEOBuyersReducer,
 });
 export const tradingCompetitionsReducer = combineReducers({
 	competitions: competitionsListReducer,

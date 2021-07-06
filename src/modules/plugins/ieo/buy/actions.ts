@@ -1,91 +1,90 @@
 import { CommonError } from '../../../../modules/types';
 import {
-	BUY_ERROR,
-	BUY_RESPONSE,
+	BUY_IEO_ERROR,
+	BUY_IEO_RESPONSE,
 	BUY_IEO_ITEM,
-	GET_TOTAL_BUYERS,
-	RESET_BUY_RESPONSE,
-	TOTAL_BUYERS_DATA,
-	TOTAL_BUYERS_ERROR,
+	GET_TOTAL_IEO_BUYERS,
+	RESET_BUY_IEO_RESPONSE,
+	TOTAL_IEO_BUYERS_DATA,
+	TOTAL_IEO_BUYERS_ERROR,
 } from './constants';
-import { Buy, BuyState, TotalBuyersState } from './types';
+import { BuyIEO, BuyIEOState, TotalIEOBuyersState } from './types';
 
 export interface BuyIEOItem {
 	type: typeof BUY_IEO_ITEM;
-	payload: Buy;
+	payload: BuyIEO;
 }
 
-export interface BuyResponse {
-	type: typeof BUY_RESPONSE;
-	payload: BuyState;
+export interface BuyIEOResponse {
+	type: typeof BUY_IEO_RESPONSE;
+	payload: BuyIEOState;
 }
 
-
-export interface BuyError {
-	type: typeof BUY_ERROR;
+export interface BuyIEOError {
+	type: typeof BUY_IEO_ERROR;
 	error: CommonError;
 }
 
-export interface GetTotalBuyers {
-	type: typeof GET_TOTAL_BUYERS;
+export interface GetIEOTotalBuyers {
+	type: typeof GET_TOTAL_IEO_BUYERS;
 	payload: {
 		ieo_id: string;
 	};
 }
 
-export interface TotalBuyersData {
-	type: typeof TOTAL_BUYERS_DATA;
-	payload: TotalBuyersState;
+export interface TotalIEOBuyersData {
+	type: typeof TOTAL_IEO_BUYERS_DATA;
+	payload: TotalIEOBuyersState;
 }
 
-export interface TotalBuyersError {
-	type: typeof TOTAL_BUYERS_ERROR;
+export interface TotalIEOBuyersError {
+	type: typeof TOTAL_IEO_BUYERS_ERROR;
 	error: CommonError;
 }
 
-export interface ResetBuyResponse {
-	type: typeof RESET_BUY_RESPONSE;
+export interface ResetIEOBuyResponse {
+	type: typeof RESET_BUY_IEO_RESPONSE;
 }
 
-export type BuyActions =
+export type BuyIEOActions =
 	| BuyIEOItem
-	| BuyResponse
-	| BuyError
-	| ResetBuyResponse
-	| GetTotalBuyers
-	| TotalBuyersData
-	| TotalBuyersError;
+	| BuyIEOResponse
+	| BuyIEOError
+	| ResetIEOBuyResponse
+	| GetIEOTotalBuyers
+	| TotalIEOBuyersData
+	| TotalIEOBuyersError;
 
 export const buyIEOItem = (payload: BuyIEOItem['payload']): BuyIEOItem => ({
 	type: BUY_IEO_ITEM,
 	payload,
 });
 
-export const buyResponse = (payload: BuyResponse['payload']): BuyResponse => ({
-	type: BUY_RESPONSE,
+export const buyIEOResponse = (payload: BuyIEOResponse['payload']): BuyIEOResponse => ({
+	type: BUY_IEO_RESPONSE,
 	payload,
 });
 
-export const buyError = (error: BuyError['error']): BuyError => ({
-	type: BUY_ERROR,
+export const buyIEOError = (error: BuyIEOError['error']): BuyIEOError => ({
+	type: BUY_IEO_ERROR,
 	error,
 });
 
-export const resetBuyResponse = (): ResetBuyResponse => ({
-	type: RESET_BUY_RESPONSE,
+export const resetBuyIEOResponse = (): ResetIEOBuyResponse => ({
+	type: RESET_BUY_IEO_RESPONSE,
 });
 
-export const getTotalBuyers = (payload: GetTotalBuyers['payload']): GetTotalBuyers => ({
-	type: GET_TOTAL_BUYERS,
+export const getIEOTotalBuyers = (payload: GetIEOTotalBuyers['payload']): GetIEOTotalBuyers => ({
+	type: GET_TOTAL_IEO_BUYERS,
 	payload,
 });
 
-export const totalBuyersData = (payload: TotalBuyersData['payload']): TotalBuyersData => ({
-	type: TOTAL_BUYERS_DATA,
+export const totalIEOBuyersData = (payload: TotalIEOBuyersData['payload']): TotalIEOBuyersData => ({
+	type: TOTAL_IEO_BUYERS_DATA,
 	payload,
 });
 
-export const totalBuyersError = (error: TotalBuyersError['error']): TotalBuyersError => ({
-	type: TOTAL_BUYERS_ERROR,
+export const totalIEOBuyersError = (error: TotalIEOBuyersError['error']): TotalIEOBuyersError => ({
+	type: TOTAL_IEO_BUYERS_ERROR,
 	error,
 });

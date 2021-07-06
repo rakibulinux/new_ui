@@ -31,7 +31,7 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 		data: [],
 		pagination: {
 			current: 1,
-			pageSize: 4,
+			pageSize: 5,
 			total: 0,
 		},
 		loading: false,
@@ -114,7 +114,7 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 								if (numberPage > 1) {
 									handleTableChange({
 										current: numberPage - 1,
-										pageSize: 4,
+										pageSize: tableState.pagination.pageSize,
 									});
 									setNumberPage(numberPage - 1);
 								}
@@ -141,7 +141,7 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 									handleTableChange(
 										handleTableChange({
 											current: numberPage + 1,
-											pageSize: 4,
+											pageSize: tableState.pagination.pageSize,
 										}),
 									);
 									setNumberPage(numberPage + 1);

@@ -2,7 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { message } from 'antd';
 import { useHistory } from 'react-router';
-import { BuyConfirmModal } from './../BuyConfirmModal';
+import { BuyConfirmModal } from '../BuyConfirmModal';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import {
 	currenciesFetch,
@@ -11,13 +11,12 @@ import {
 	selectPrice,
 	getPrice,
 	walletsFetch,
-	Buy,
-	buySaleItem,
-	selectBuy,
-	resetBuyResponse,
-	getTotalBuyers,
-	findSalebyId,
-	// alertPush,
+	BuyIEO,
+	buyIEOItem,
+	selectBuyIEO,
+	resetBuyIEOResponse,
+	getIEOTotalBuyers,
+	findIEOById,
 } from '../../../../modules';
 import NP from 'number-precision';
 import { notification } from 'antd';
@@ -33,7 +32,7 @@ interface BuyIEOProps {
 	bonus: string;
 }
 
-export const BuyIEO: React.FC<BuyIEOProps> = props => {
+export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 	const history = useHistory();
 	const [selectedCurrencyState, setSelectedCurrencyState] = React.useState(props.coins[0] || '');
 	const [coinActive, setCoinActive] = React.useState(0);
@@ -46,7 +45,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 	const currencies = useSelector(selectCurrencies);
 	const wallets = useSelector(selectWallets);
 	const priceSelector = useSelector(selectPrice);
-	const buyResponse = useSelector(selectBuy, shallowEqual);
+	const buyResponse = useSelector(selectBuyIEO, shallowEqual);
 
 	const filteredWallets = wallets.filter(wallet => props.coins.includes(wallet.currency));
 	const baseWallet = wallets.find(wallet => wallet.currency === props.currencyID);
@@ -56,22 +55,22 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 	}, [props.coins[0]]);
 
 	const dispatch = useDispatch();
-	const dispatchBuy = React.useCallback((buyInfo: Buy) => dispatch(buySaleItem(buyInfo)), [dispatch]);
+	const dispatchBuy = React.useCallback((buyInfo: BuyIEO) => dispatch(buyIEOItem(buyInfo)), [dispatch]);
 
 	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
 	const dispatchGetPrice = React.useCallback((priceConfig: any) => dispatch(getPrice(priceConfig)), [dispatch]);
 	const dispatchWalletsFetch = React.useCallback(() => dispatch(walletsFetch()), [dispatch]);
-	const dispatchResetBuyResponse = () => dispatch(resetBuyResponse());
+	const dispatchResetBuyResponse = () => dispatch(resetBuyIEOResponse());
 
 	const dispatchGetTotalBuyers = (ieoID: string) =>
 		dispatch(
-			getTotalBuyers({
+			getIEOTotalBuyers({
 				ieo_id: ieoID,
 			}),
 		);
 	const dispatchFetchSaleItemByID = (ieoID: string) =>
 		dispatch(
-			findSalebyId({
+			findIEOById({
 				id: ieoID,
 			}),
 		);
@@ -113,7 +112,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 					message: `Buy ${props.currencyID.toUpperCase()} successfully`,
 				});
 				dispatchResetBuyResponse();
-				dispatchGetTotalBuyers(props.id); // update Total Buyers in IEO Info
+				dispatchGetTotalBuyers(props.id); // update Total Buyers in  Info
 				setTimeout(() => {
 					dispatchFetchSaleItemByID(props.id);
 				}, 3000);
@@ -177,7 +176,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 			totalPriceState > 0 &&
 			selectedCurrencyState
 		) {
-			const buyInfo: Buy = {
+			const buyInfo: BuyIEO = {
 				ieo_id: props.id,
 				uid: uid,
 				quantity: quantityState,

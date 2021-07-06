@@ -1,17 +1,16 @@
-// import { sliceArray } from '../../../../helpers';
-import { BuyActions } from './actions';
+import { BuyIEOActions } from './actions';
 import {
-	BUY_ERROR,
-	BUY_RESPONSE,
+	BUY_IEO_ERROR,
+	BUY_IEO_RESPONSE,
 	BUY_IEO_ITEM,
-	GET_TOTAL_BUYERS,
-	RESET_BUY_RESPONSE,
-	TOTAL_BUYERS_DATA,
-	TOTAL_BUYERS_ERROR,
+	GET_TOTAL_IEO_BUYERS,
+	RESET_BUY_IEO_RESPONSE,
+	TOTAL_IEO_BUYERS_DATA,
+	TOTAL_IEO_BUYERS_ERROR,
 } from './constants';
-import { BuyState, TotalBuyersState } from './types';
+import { BuyIEOState, TotalIEOBuyersState } from './types';
 
-export const initialBuy: BuyState = {
+export const initialBuyIEO: BuyIEOState = {
 	payload: {
 		ieo_id: '',
 		uid: '',
@@ -22,15 +21,15 @@ export const initialBuy: BuyState = {
 	loading: false,
 };
 
-export const buyReducer = (state = initialBuy, action: BuyActions): BuyState => {
+export const buyIEOReducer = (state = initialBuyIEO, action: BuyIEOActions): BuyIEOState => {
 	switch (action.type) {
-		case BUY_SALE_ITEM:
+		case BUY_IEO_ITEM:
 			return {
 				...state,
 				loading: true,
 				error: undefined,
 			};
-		case BUY_RESPONSE:
+		case BUY_IEO_RESPONSE:
 			const { payload } = action.payload;
 
 			return {
@@ -39,13 +38,13 @@ export const buyReducer = (state = initialBuy, action: BuyActions): BuyState => 
 				loading: false,
 				error: undefined,
 			};
-		case BUY_ERROR:
+		case BUY_IEO_ERROR:
 			return {
 				...state,
 				loading: false,
 				error: action.error,
 			};
-		case RESET_BUY_RESPONSE:
+		case RESET_BUY_IEO_RESPONSE:
 			return {
 				...state,
 				loading: false,
@@ -55,22 +54,22 @@ export const buyReducer = (state = initialBuy, action: BuyActions): BuyState => 
 	}
 };
 
-export const initialTotalBuyers: TotalBuyersState = {
+export const initialTotalBuyersIEO: TotalIEOBuyersState = {
 	payload: {
 		totalBuyers: 0,
 	},
 	loading: false,
 };
 
-export const totalBuyersReducer = (state = initialTotalBuyers, action: BuyActions): TotalBuyersState => {
+export const totalIEOBuyersReducer = (state = initialTotalBuyersIEO, action: BuyIEOActions): TotalIEOBuyersState => {
 	switch (action.type) {
-		case GET_TOTAL_BUYERS:
+		case GET_TOTAL_IEO_BUYERS:
 			return {
 				...state,
 				loading: true,
 				error: undefined,
 			};
-		case TOTAL_BUYERS_DATA:
+		case TOTAL_IEO_BUYERS_DATA:
 			const { payload } = action.payload;
 
 			return {
@@ -79,7 +78,7 @@ export const totalBuyersReducer = (state = initialTotalBuyers, action: BuyAction
 				loading: false,
 				error: undefined,
 			};
-		case TOTAL_BUYERS_ERROR:
+		case TOTAL_IEO_BUYERS_ERROR:
 			return {
 				...state,
 				loading: false,

@@ -1,23 +1,22 @@
 import { put } from 'redux-saga/effects';
-import { Buy } from '..';
-// import { API, RequestOptions } from '../../../../../api';
+import { BuyIEO } from '..';
 import axios from '../../../../../plugins/api/index';
 
-import { buyError, buyResponse, BuyIEOItem, GetTotalBuyers, totalBuyersData, totalBuyersError } from '../actions';
-import { TotalBuyers } from '../types';
+import { buyIEOError, buyIEOResponse, BuyIEOItem, GetIEOTotalBuyers, totalIEOBuyersData, totalIEOBuyersError } from '../actions';
+import { TotalIEOBuyers } from '../types';
 
 export function* buyIEOItemSaga(action: BuyIEOItem) {
 	try {
-		const response = yield axios.post<Buy>(`ieo/buy`, action.payload);
+		const response = yield axios.post<BuyIEO>(`private/ieo/buy`, action.payload);
 		yield put(
-			buyResponse({
+			buyIEOResponse({
 				payload: response.data,
 				loading: false,
 			}),
 		);
 	} catch (error) {
 		yield put(
-			buyError({
+			buyIEOError({
 				code: error.response.code,
 				message: error.response.data.msg,
 			}),
@@ -27,7 +26,7 @@ export function* buyIEOItemSaga(action: BuyIEOItem) {
 
 export function* resetBuyResponseSaga() {
 	yield put(
-		buyResponse({
+		buyIEOResponse({
 			payload: {
 				ieo_id: '',
 				uid: '',
@@ -41,16 +40,16 @@ export function* resetBuyResponseSaga() {
 	);
 }
 
-export function* getTotalBuyersSaga(action: GetTotalBuyers) {
+export function* getTotalBuyersSaga(action: GetIEOTotalBuyers) {
 	try {
-		const totalBuyers = yield axios.get<TotalBuyers>(`ieo/total-buyers/ieo_id=${action.payload.ieo_id}`);
+		const totalBuyers = yield axios.get<TotalIEOBuyers>(`public/ieo/total-buyers/${action.payload.ieo_id}`);
 		yield put(
-			totalBuyersData({
+			totalIEOBuyersData({
 				payload: totalBuyers.data,
 				loading: false,
 			}),
 		);
 	} catch (error) {
-		yield put(totalBuyersError(error));
+		yield put(totalIEOBuyersError(error));
 	}
 }

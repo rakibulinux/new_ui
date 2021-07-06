@@ -1,6 +1,6 @@
 import { CommonState } from '../../../../modules/types';
 
-export interface Buy {
+export interface BuyIEO {
 	ieo_id: string;
 	uid: string;
 	quantity: number;
@@ -9,16 +9,16 @@ export interface Buy {
 	success?: boolean;
 }
 
-export interface BuyState extends CommonState {
-	payload: Buy;
+export interface BuyIEOState extends CommonState {
+	payload: BuyIEO;
 	loading: boolean;
 }
 
-export interface TotalBuyers {
+export interface TotalIEOBuyers {
 	totalBuyers: number;
 }
 
-export interface TotalBuyersState extends CommonState {
-	payload: TotalBuyers;
+export interface TotalIEOBuyersState extends CommonState {
+	payload: TotalIEOBuyers;
 	loading: boolean;
 }

@@ -1,5 +1,5 @@
 import { RootState } from '../../../index';
-import { BuyState, TotalBuyersState } from './types';
+import { BuyIEOState, TotalIEOBuyersState } from './types';
 
-export const selectBuy = (state: RootState): BuyState => state.IEO.buy;
-export const selectTotalBuyers = (state: RootState): TotalBuyersState => state.IEO.totalBuyers;
+export const selectBuyIEO = (state: RootState): BuyIEOState => state.IEO.buyIEO;
+export const selectTotalIEOBuyers = (state: RootState): TotalIEOBuyersState => state.IEO.totalIEOBuyers;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { message } from 'antd';
-import { IEODetail, BuyIEO, CautionsDetail, InformationIEO, BuyersHistory, BuyHistory } from './../../containers';
+import { IEODetail, BuyIEOComponent, CautionsDetail, InformationIEO, BuyersHistory, BuyHistory } from './../../containers';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -87,7 +87,7 @@ export const IEODetailScreen = () => {
 						</div>
 
 						<div className="col-md-6" style={{ backgroundColor: '#434A56' }}>
-							<BuyIEO
+							<BuyIEOComponent
 								coins={IEOItem.payload.currency_available.length ? IEOItem.payload.currency_available : ['']}
 								currencyID={IEOItem.payload.currency_id}
 								priceIEO={Number(IEOItem.payload.price)}

@@ -31,7 +31,7 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 		data: [],
 		pagination: {
 			current: 1,
-			pageSize: 4,
+			pageSize: 5,
 			total: 0,
 		},
 		loading: false,
@@ -107,7 +107,10 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 							aria-label="Previous"
 							onClick={() => {
 								if (numberPage > 1) {
-									handleTableChange(numberPage - 1);
+									handleTableChange({
+										current: numberPage - 1,
+										pageSize: tableState.pagination.pageSize,
+									});
 									setNumberPage(numberPage - 1);
 								}
 							}}
@@ -130,7 +133,10 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 							aria-label="Next"
 							onClick={() => {
 								if (numberPage * tableState.pagination.pageSize < tableState.pagination.total) {
-									handleTableChange(numberPage + 1);
+									handleTableChange({
+										current: numberPage + 1,
+										pageSize: tableState.pagination.pageSize,
+									});
 									setNumberPage(numberPage + 1);
 								}
 							}}
@@ -145,7 +151,7 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 	};
 	React.useEffect(() => {
 		const { pagination } = tableState;
-		fetch({ pagination });
+		fetchHistory({ pagination });
 	}, []);
 
 	return (

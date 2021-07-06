@@ -32,11 +32,12 @@ import { MemberLevelsState, rootMemberLevelsSaga } from './public/memberLevels';
 import { DepthIncrementState, DepthState, OrderBookState, rootOrderBookSaga } from './public/orderBook';
 import { RangerState } from './public/ranger/reducer';
 import { RecentTradesState, rootRecentTradesSaga } from './public/recentTrades';
-// import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
+import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
+import { BuyIEOState, rootBuyIEOSaga, TotalIEOBuyersState } from './plugins/ieo';
 import { PriceState, rootPriceSaga } from './sale/price';
 import { IEOItemState, rootIEOItemSaga } from './plugins/ieo/item';
 import { IEOListState, rootIEOListSaga } from './plugins/ieo/list';
-import { BuyState,rootBuySaga,TotalBuyersState } from './plugins/ieo/buy';
+
 import { rootSaleItemSaga, SaleItemState } from './sale/sale-item';
 import { rootSaleListSaga, SaleListState } from './sale/sale-list';
 import { CompetitionItemState, rootcompetitionItemSaga } from './trading_competitions/competition_item';
@@ -113,6 +114,7 @@ export * from './sale/buy';
 export * from './sale/price';
 export * from './plugins/ieo/item';
 export * from './plugins/ieo/list';
+export * from './plugins/ieo/buy';
 export * from './trading_competitions/competitions';
 export * from './trading_competitions/competition_item';
 export * from './trading_competitions/rankings';
@@ -129,8 +131,8 @@ export interface RootState {
 	IEO: {
 		IEOItem: IEOItemState;
 		IEOList: IEOListState;
-		buy: BuyState;
-		totalBuyers: TotalBuyersState;
+		buyIEO: BuyIEOState;
+		totalIEOBuyers: TotalIEOBuyersState;
 	};
 	sale: {
 		saleList: SaleListState;
@@ -263,6 +265,7 @@ export function* rootSaga() {
 		call(rootSaleItemSaga),
 		call(rootIEOItemSaga),
 		call(rootIEOListSaga),
+		call(rootBuyIEOSaga),
 		call(rootBuySaga),
 		call(rootPriceSaga),
 		call(rootCompetionsListSaga),
