@@ -63,7 +63,6 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 	const dispatchWalletsFetch = React.useCallback(() => dispatch(walletsFetch()), [dispatch]);
 	const dispatchResetBuyResponse = () => dispatch(resetBuyResponse());
 
-	// dispatch(alertPush({ message: ['Create announcement success'], type: 'success' }));
 	const dispatchGetTotalBuyers = (ieoID: string) =>
 		dispatch(
 			getTotalBuyers({
@@ -114,7 +113,7 @@ export const BuyIEO: React.FC<BuyIEOProps> = props => {
 					message: `Buy ${props.currencyID.toUpperCase()} successfully`,
 				});
 				dispatchResetBuyResponse();
-				dispatchGetTotalBuyers(props.id); // update Total Buyers in Sale Info
+				dispatchGetTotalBuyers(props.id); // update Total Buyers in IEO Info
 				setTimeout(() => {
 					dispatchFetchSaleItemByID(props.id);
 				}, 3000);

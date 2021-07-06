@@ -36,6 +36,7 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 		},
 		loading: false,
 	});
+	
 	const EmptyComponent = () => {
 		return (
 			<div className="col-12 d-flex justify-content-center mb-3">
