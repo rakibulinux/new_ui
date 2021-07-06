@@ -3,10 +3,10 @@ import { Buy } from '..';
 // import { API, RequestOptions } from '../../../../../api';
 import axios from '../../../../../plugins/api/index';
 
-import { buyError, buyResponse, BuySaleItem, GetTotalBuyers, totalBuyersData, totalBuyersError } from '../actions';
+import { buyError, buyResponse, BuyIEOItem, GetTotalBuyers, totalBuyersData, totalBuyersError } from '../actions';
 import { TotalBuyers } from '../types';
 
-export function* buySaleItemSaga(action: BuySaleItem) {
+export function* buyIEOItemSaga(action: BuyIEOItem) {
 	try {
 		const response = yield axios.post<Buy>(`ieo/buy`, action.payload);
 		yield put(

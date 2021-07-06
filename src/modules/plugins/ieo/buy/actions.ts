@@ -2,7 +2,7 @@ import { CommonError } from '../../../../modules/types';
 import {
 	BUY_ERROR,
 	BUY_RESPONSE,
-	BUY_SALE_ITEM,
+	BUY_IEO_ITEM,
 	GET_TOTAL_BUYERS,
 	RESET_BUY_RESPONSE,
 	TOTAL_BUYERS_DATA,
@@ -10,15 +10,16 @@ import {
 } from './constants';
 import { Buy, BuyState, TotalBuyersState } from './types';
 
-export interface BuySaleItem {
-	type: typeof BUY_SALE_ITEM;
+export interface BuyIEOItem {
+	type: typeof BUY_IEO_ITEM;
 	payload: Buy;
 }
 
-export interface BuyRespone {
+export interface BuyResponse {
 	type: typeof BUY_RESPONSE;
 	payload: BuyState;
 }
+
 
 export interface BuyError {
 	type: typeof BUY_ERROR;
@@ -47,20 +48,20 @@ export interface ResetBuyResponse {
 }
 
 export type BuyActions =
-	| BuySaleItem
-	| BuyRespone
+	| BuyIEOItem
+	| BuyResponse
 	| BuyError
 	| ResetBuyResponse
 	| GetTotalBuyers
 	| TotalBuyersData
 	| TotalBuyersError;
 
-export const buySaleItem = (payload: BuySaleItem['payload']): BuySaleItem => ({
-	type: BUY_SALE_ITEM,
+export const buyIEOItem = (payload: BuyIEOItem['payload']): BuyIEOItem => ({
+	type: BUY_IEO_ITEM,
 	payload,
 });
 
-export const buyResponse = (payload: BuyRespone['payload']): BuyRespone => ({
+export const buyResponse = (payload: BuyResponse['payload']): BuyResponse => ({
 	type: BUY_RESPONSE,
 	payload,
 });

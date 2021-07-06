@@ -1,4 +1,4 @@
-export const BUY_SALE_ITEM = 'buy/SALE_ITEM';
+export const BUY_IEO_ITEM = 'buy/SALE_ITEM';
 export const BUY_RESPONSE = 'buy/RESPONSE';
 export const BUY_ERROR = 'buy/ERROR';
 export const RESET_BUY_RESPONSE = 'buy/RESET_BUY_RESPONSE';

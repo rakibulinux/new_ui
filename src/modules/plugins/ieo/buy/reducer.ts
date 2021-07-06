@@ -3,7 +3,7 @@ import { BuyActions } from './actions';
 import {
 	BUY_ERROR,
 	BUY_RESPONSE,
-	BUY_SALE_ITEM,
+	BUY_IEO_ITEM,
 	GET_TOTAL_BUYERS,
 	RESET_BUY_RESPONSE,
 	TOTAL_BUYERS_DATA,

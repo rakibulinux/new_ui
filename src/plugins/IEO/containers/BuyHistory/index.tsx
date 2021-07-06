@@ -48,9 +48,8 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 			</div>
 		);
 	};
-	const fetch = (params: any) => {
+	const fetchHistory = (params: any) => {
 		setTableState({ ...tableState, loading: true });
-		console.log({ params });
 		api.get(
 			`private/ieo/buy_history/uid=${props.uid}/ieo_id=${props.ieoID}&page=${params.pagination.current - 1}&pageSize=${
 				params.pagination.pageSize
@@ -90,7 +89,7 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 	const handleTableChange = React.useCallback(
 		(paginationParam: any) => {
 			if (paginationParam) {
-				fetch({
+				fetchHistory({
 					pagination: paginationParam,
 				});
 			}

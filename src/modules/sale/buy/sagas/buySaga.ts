@@ -8,7 +8,7 @@ import { TotalBuyers } from '../types';
 
 export function* buySaleItemSaga(action: BuySaleItem) {
 	try {
-		const response = yield axios.post<Buy>(`private/ieo/buy`, action.payload);
+		const response = yield axios.post<Buy>(`ieo/buy`, action.payload);
 		console.log(response.data);
 		yield put(
 			buyResponse({
