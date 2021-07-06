@@ -31,12 +31,12 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 		data: [],
 		pagination: {
 			current: 1,
-			pageSize: 10,
+			pageSize: 4,
 			total: 0,
 		},
 		loading: false,
 	});
-	
+
 	const EmptyComponent = () => {
 		return (
 			<div className="col-12 d-flex justify-content-center mb-3">
@@ -50,15 +50,16 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 	};
 	const fetch = (params: any) => {
 		setTableState({ ...tableState, loading: true });
+		console.log({ params });
 		api.get(
-			`/ieo/fetch/buy/uid=${props.uid}/ieo_id=${props.ieoID}&page=${params.pagination.current - 1}&size=${
+			`private/ieo/buy_history/uid=${props.uid}/ieo_id=${props.ieoID}&page=${params.pagination.current - 1}&pageSize=${
 				params.pagination.pageSize
 			}`,
 		)
 			.then(response => {
 				const data = [...response.data.payload] as BuyHistoryModel[];
 				const newData = data.map((buy: BuyHistoryModel) => {
-					const newdata = {
+					const newData = {
 						...buy,
 						key: buy.id,
 						base_currency: buy.base_currency.toUpperCase(),
@@ -68,7 +69,7 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 						created_at: format(new Date(buy.created_at), 'HH:mm:ss dd/MM/yyyy'),
 					};
 
-					return newdata;
+					return newData;
 				});
 
 				setTableState({
@@ -86,16 +87,21 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 			});
 	};
 
-	const handleTableChange = (pagination: any) => {
-		fetch({
-			pagination,
-		});
-	};
+	const handleTableChange = React.useCallback(
+		(paginationParam: any) => {
+			if (paginationParam) {
+				fetch({
+					pagination: paginationParam,
+				});
+			}
+		},
+		[numberPage],
+	);
 	const disabledForwardClass = classnames('disable-forward');
 	const renderPagination = () => {
 		return (
-			<nav aria-label="Page navigation" >
-				<ul className="pagination" style ={{justifyContent: "flex-end"}}>
+			<nav aria-label="Page navigation">
+				<ul className="pagination" style={{ justifyContent: 'flex-end' }}>
 					<li className="page-item">
 						<a
 							className={`page-link ${numberPage === 1 ? disabledForwardClass : ''}`}
@@ -118,11 +124,13 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 					<li className="page-item">
 						<a
 							className={`page-link ${
-								numberPage * tableState.pagination.pageSize >= tableState.data.length ? disabledForwardClass : ''
+								numberPage * tableState.pagination.pageSize >= tableState.pagination.total
+									? disabledForwardClass
+									: ''
 							}`}
 							aria-label="Next"
 							onClick={() => {
-								if (numberPage * tableState.pagination.pageSize < tableState.data.length) {
+								if (numberPage * tableState.pagination.pageSize < tableState.pagination.total) {
 									handleTableChange(numberPage + 1);
 									setNumberPage(numberPage + 1);
 								}
@@ -160,7 +168,6 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 								<th>Quantity</th>
 								<th>Currency</th>
 								<th>Total Purchase</th>
-								<th>Purchase Currency</th>
 								<th>Buy Date</th>
 							</tr>
 							<tr></tr>
@@ -172,8 +179,8 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 										<tr className="text-center" style={{ color: '#ffff', border: '1px solid #848e9' }}>
 											<td>{item.quantity}</td>
 											<td>{item.base_currency}</td>
-											<td>{item.total}</td>
 											<td>{item.quote_currency}</td>
+											<td>{item.total}</td>
 											<td>{item.created_at}</td>
 										</tr>
 									</>
