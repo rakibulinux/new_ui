@@ -168,7 +168,7 @@ export const Header: React.FC = () => {
 									to="/trading-competition"
 									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
 								>
-									Trade Competition
+									Competition
 								</Link>
 							</div>
 						</div>
@@ -182,16 +182,16 @@ export const Header: React.FC = () => {
 								</Link>
 							</div>
 						</div>
-						{/* <div className="header__left-menu__dropdown flex-shrink-0  ">
+						<div className="header__left-menu__dropdown flex-shrink-0  ">
 							<div className="header__left-menu__dropdown__wrap">
 								<Link
 									to="/vote"
 									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
 								>
-									Vote
+									Vote Listing
 								</Link>
 							</div>
-						</div> */}
+						</div>
 					</div>
 
 					<div className="header__right-menu d-flex align-items-center flex-row">
