@@ -7,7 +7,7 @@ import { IEOListData, IEOListError, IEOListDataFetch } from '../actions';
 
 export function* IEOListSaga(action: IEOListDataFetch) {
 	try {
-		const IEOList = yield axios.get<IEOItem[]>('ieo/list');
+		const IEOList = yield axios.get<IEOItem[]>('public/ieo/list');
 		yield put(IEOListData(IEOList.data));
 	} catch (error) {
 		yield put(IEOListError(error));

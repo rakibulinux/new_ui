@@ -7,7 +7,7 @@ import { findIEOById, IEOItemData, IEOItemError } from '../actions';
 
 export function* findIEOItemByIdSaga(action: findIEOById) {
 	try {
-		const IEOItem = yield axios.get<IEOItem[]>(`ieo/${action.payload.id}`);
+		const IEOItem = yield axios.get<IEOItem[]>(`public/ieo/${action.payload.id}`);
 		yield put(IEOItemData(IEOItem.data));
 	} catch (error) {
 		yield put(IEOItemError(error));

@@ -1,15 +1,14 @@
 import { put } from 'redux-saga/effects';
 import { Buy } from '..';
 // import { API, RequestOptions } from '../../../../../api';
-import axios from '../../../../plugins/api/index';
+import axios from '../../../../../plugins/api/index';
 
 import { buyError, buyResponse, BuySaleItem, GetTotalBuyers, totalBuyersData, totalBuyersError } from '../actions';
 import { TotalBuyers } from '../types';
 
 export function* buySaleItemSaga(action: BuySaleItem) {
 	try {
-		const response = yield axios.post<Buy>(`private/ieo/buy`, action.payload);
-		console.log(response.data);
+		const response = yield axios.post<Buy>(`ieo/buy`, action.payload);
 		yield put(
 			buyResponse({
 				payload: response.data,
@@ -44,7 +43,7 @@ export function* resetBuyResponseSaga() {
 
 export function* getTotalBuyersSaga(action: GetTotalBuyers) {
 	try {
-		const totalBuyers = yield axios.get<TotalBuyers>(`public/ieo/total-buyers/${action.payload.ieo_id}`);
+		const totalBuyers = yield axios.get<TotalBuyers>(`ieo/total-buyers/ieo_id=${action.payload.ieo_id}`);
 		yield put(
 			totalBuyersData({
 				payload: totalBuyers.data,

@@ -1,5 +1,4 @@
 import React from 'react';
-import './IEOItem.pcss';
 import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { currenciesFetch, selectCurrencies } from '../../../../modules';
