@@ -10,7 +10,14 @@ export const IEODetailScreen = () => {
 	const history = useHistory();
 	const { ieoID } = useParams<{ ieoID: string }>();
 	const IEOItem = useSelector(selectIEOItem);
+	const [resetFetchHistoryIEO, setResetFetchHistoryIEO] = React.useState<boolean>(false);
 
+	const disableResetFetchHistory = () => {
+		setResetFetchHistoryIEO(false);
+	};
+	// const enableResetFetchHistory = () => {
+	// 	setResetFetchHistoryIEO(true);
+	// };
 	const user = useSelector(selectUserInfo);
 	const dispatch = useDispatch();
 	const dispatchFetchIEOItemByID = (ieoIdParam: string) =>
@@ -41,10 +48,19 @@ export const IEODetailScreen = () => {
 						<h3>Buy History</h3>
 					</div>
 					<div className="col-md-12 col-xl-6" style={{ paddingRight: '15px', marginTop: '36px' }}>
-						<BuyHistory uid={user.uid} ieoID={Number(ieoID)} />
+						<BuyHistory
+							disableResetFetchHistory={disableResetFetchHistory}
+							reset={resetFetchHistoryIEO}
+							uid={user.uid}
+							ieoID={Number(ieoID)}
+						/>
 					</div>
 					<div className="col-md-12 col-xl-6" style={{ paddingLeft: '0px', marginTop: '36px' }}>
-						<BuyersHistory ieoID={Number(ieoID)} />
+						<BuyersHistory
+							disableResetFetchHistory={disableResetFetchHistory}
+							reset={resetFetchHistoryIEO}
+							ieoID={Number(ieoID)}
+						/>
 					</div>
 				</div>
 			);
@@ -55,7 +71,11 @@ export const IEODetailScreen = () => {
 					<h3>Buy History</h3>
 				</div>
 				<div className="col-md-10" style={{ paddingLeft: '0px', marginTop: '36px' }}>
-					<BuyersHistory ieoID={Number(ieoID)} />
+					<BuyersHistory
+						disableResetFetchHistory={disableResetFetchHistory}
+						reset={resetFetchHistoryIEO}
+						ieoID={Number(ieoID)}
+					/>
 				</div>
 			</div>
 		);

@@ -4,6 +4,8 @@ import api from '../../../api';
 import classnames from 'classnames';
 interface BuyersHistoryProps {
 	ieoID: number;
+	reset: boolean;
+	disableResetFetchHistory: () => void;
 }
 
 interface BuyersHistoryModel {
@@ -34,45 +36,55 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 			pageSize: 5,
 			total: 0,
 		},
-		loading: false,
+		loading: true,
 	});
-
+	const loadingHistory = () => {
+		return (
+			<div className="loading d-flex -justify-content-center">
+				<div className="spinner-border text-primary m-auto" role="status">
+					<span className="sr-only">Loading...</span>
+				</div>
+			</div>
+		);
+	};
 	const fetch = (params: any) => {
 		setTableState({ ...tableState, loading: true });
-		api.get(
-			`public/ieo/buyers/ieo_id=${props.ieoID}&page=${params.pagination.current - 1}&pageSize=${
-				params.pagination.pageSize
-			}`,
-		)
-			.then(response => {
-				const data = [...response.data.payload] as BuyersHistoryModel[];
-				const newData = data.map((buyer: BuyersHistoryModel) => {
-					const newData = {
-						...buyer,
-						key: buyer.id,
-						base_currency: buyer.base_currency.toUpperCase(),
-						quote_currency: buyer.quote_currency.toUpperCase(),
-						quantity: Number(buyer.quantity).toFixed(4),
-						total: Number(buyer.total).toFixed(4),
-						created_at: format(new Date(buyer.created_at), 'HH:mm:ss dd/MM/yyyy'),
-					};
+		setTimeout(() => {
+			api.get(
+				`public/ieo/buyers/ieo_id=${props.ieoID}&page=${params.pagination.current - 1}&pageSize=${
+					params.pagination.pageSize
+				}`,
+			)
+				.then(response => {
+					const data = [...response.data.payload] as BuyersHistoryModel[];
+					const newData = data.map((buyer: BuyersHistoryModel) => {
+						const newData = {
+							...buyer,
+							key: buyer.id,
+							base_currency: buyer.base_currency.toUpperCase(),
+							quote_currency: buyer.quote_currency.toUpperCase(),
+							quantity: Number(buyer.quantity).toFixed(4),
+							total: Number(buyer.total).toFixed(4),
+							created_at: format(new Date(buyer.created_at), 'HH:mm:ss dd/MM/yyyy'),
+						};
 
-					return newData;
-				});
+						return newData;
+					});
 
-				setTableState({
-					loading: false,
-					data: newData,
-					pagination: {
-						...params.pagination,
-						pageSize: params.pagination.pageSize,
-						total: response.data.total,
-					},
+					setTableState({
+						loading: false,
+						data: newData,
+						pagination: {
+							...params.pagination,
+							pageSize: params.pagination.pageSize,
+							total: response.data.total,
+						},
+					});
+				})
+				.catch(err => {
+					//console.log(err);
 				});
-			})
-			.catch(err => {
-				//console.log(err);
-			});
+		}, 1000);
 	};
 	const handleTableChange = React.useCallback(
 		(paginationParam: any) => {
@@ -101,6 +113,22 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 				/>
 			</div>
 		);
+	};
+	const renderBuyersHistory = () => {
+		return tableState.data.map(item => {
+			return (
+				<>
+					<tr className="text-center" style={{ color: '#ffff', border: '1px solid #848e9' }}>
+						<td>{item.uid}</td>
+						<td>{item.quantity}</td>
+						<td>{item.base_currency}</td>
+						<td>{item.total}</td>
+						<td>{item.quote_currency}</td>
+						<td>{item.created_at}</td>
+					</tr>
+				</>
+			);
+		});
 	};
 	const renderPagination = () => {
 		return (
@@ -181,24 +209,9 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 							</tr>
 							<tr></tr>
 						</thead>
-						<tbody>
-							{tableState.data.map(item => {
-								return (
-									<>
-										<tr className="text-center" style={{ color: '#ffff', border: '1px solid #848e9' }}>
-											<td>{item.uid}</td>
-											<td>{item.quantity}</td>
-											<td>{item.base_currency}</td>
-											<td>{item.total}</td>
-											<td>{item.quote_currency}</td>
-											<td>{item.created_at}</td>
-										</tr>
-									</>
-								);
-							})}
-						</tbody>
+						<tbody>{tableState.loading ? <></> : renderBuyersHistory()}</tbody>
 					</table>
-					{!tableState.data.length ? EmptyComponent() : <></>}
+					{tableState.loading ? loadingHistory() : !tableState.data.length ? EmptyComponent() : <></>}
 				</div>
 				{renderPagination()}
 			</div>

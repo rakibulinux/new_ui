@@ -2,9 +2,12 @@ import format from 'date-fns/format';
 import * as React from 'react';
 import api from '../../../api';
 import classnames from 'classnames';
+import { setTimeout } from 'timers';
 interface BuyHistoryProps {
 	uid: string;
 	ieoID: number;
+	reset: boolean;
+	disableResetFetchHistory: () => void;
 }
 
 interface BuyHistoryModel {
@@ -34,7 +37,7 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 			pageSize: 5,
 			total: 0,
 		},
-		loading: false,
+		loading: true,
 	});
 
 	const EmptyComponent = () => {
@@ -50,42 +53,52 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 	};
 	const fetchHistory = (params: any) => {
 		setTableState({ ...tableState, loading: true });
-		api.get(
-			`private/ieo/buy_history/uid=${props.uid}/ieo_id=${props.ieoID}&page=${params.pagination.current - 1}&pageSize=${
-				params.pagination.pageSize
-			}`,
-		)
-			.then(response => {
-				const data = [...response.data.payload] as BuyHistoryModel[];
-				const newData = data.map((buy: BuyHistoryModel) => {
-					const newData = {
-						...buy,
-						key: buy.id,
-						base_currency: buy.base_currency.toUpperCase(),
-						quote_currency: buy.quote_currency.toUpperCase(),
-						quantity: Number(buy.quantity).toFixed(4),
-						total: Number(buy.total).toFixed(4),
-						created_at: format(new Date(buy.created_at), 'HH:mm:ss dd/MM/yyyy'),
-					};
+		setTimeout(() => {
+			api.get(
+				`private/ieo/buy_history/uid=${props.uid}/ieo_id=${props.ieoID}&page=${params.pagination.current - 1}&pageSize=${
+					params.pagination.pageSize
+				}`,
+			)
+				.then(response => {
+					const data = [...response.data.payload] as BuyHistoryModel[];
+					const newData = data.map((buy: BuyHistoryModel) => {
+						const newData = {
+							...buy,
+							key: buy.id,
+							base_currency: buy.base_currency.toUpperCase(),
+							quote_currency: buy.quote_currency.toUpperCase(),
+							quantity: Number(buy.quantity).toFixed(4),
+							total: Number(buy.total).toFixed(4),
+							created_at: format(new Date(buy.created_at), 'HH:mm:ss dd/MM/yyyy'),
+						};
 
-					return newData;
-				});
+						return newData;
+					});
 
-				setTableState({
-					loading: false,
-					data: newData,
-					pagination: {
-						...params.pagination,
-						pageSize: params.pagination.pageSize,
-						total: response.data.total,
-					},
+					setTableState({
+						loading: false,
+						data: newData,
+						pagination: {
+							...params.pagination,
+							pageSize: params.pagination.pageSize,
+							total: response.data.total,
+						},
+					});
+				})
+				.catch(err => {
+					//console.log(err);
 				});
-			})
-			.catch(err => {
-				//console.log(err);
-			});
+		}, 1000);
 	};
-
+	const loadingHistory = () => {
+		return (
+			<div className="loading d-flex -justify-content-center">
+				<div className="spinner-border text-primary m-auto" role="status">
+					<span className="sr-only">Loading...</span>
+				</div>
+			</div>
+		);
+	};
 	const handleTableChange = React.useCallback(
 		(paginationParam: any) => {
 			if (paginationParam) {
@@ -149,55 +162,55 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 			</nav>
 		);
 	};
+	const renderHistory = () => {
+		return tableState.data.map(item => {
+			return (
+				<>
+					<tr className="text-center" style={{ color: '#ffff', border: '1px solid #848e9' }}>
+						<td>{item.quantity}</td>
+						<td>{item.base_currency}</td>
+						<td>{item.quote_currency}</td>
+						<td>{item.total}</td>
+						<td>{item.created_at}</td>
+					</tr>
+				</>
+			);
+		});
+	};
 	React.useEffect(() => {
 		const { pagination } = tableState;
 		fetchHistory({ pagination });
-	}, []);
+		console.log('run');
+	}, [props.reset]);
 
 	return (
-		<React.Fragment>
-			<div id="buy-history">
-				<h2 className="text-center text-white">Your Purchase</h2>
-				<div className="table-responsive-xl mb-4">
-					<table className="table">
-						<thead
-							style={{
-								background: 'rgba(0, 0, 0, 0.08)',
-								borderRadius: '3px',
-								boxSizing: 'border-box',
-								color: '#ffff',
-							}}
-						>
-							<tr className="text-center">
-								<th>Uid</th>
-								<th>Quantity</th>
-								<th>Currency</th>
-								<th>Total Purchase</th>
-								<th>Buy Date</th>
-							</tr>
-							<tr></tr>
-						</thead>
-						<tbody>
-							{tableState.data.map(item => {
-								return (
-									<>
-										<tr className="text-center" style={{ color: '#ffff', border: '1px solid #848e9' }}>
-											<td>{item.quantity}</td>
-											<td>{item.base_currency}</td>
-											<td>{item.quote_currency}</td>
-											<td>{item.total}</td>
-											<td>{item.created_at}</td>
-										</tr>
-									</>
-								);
-							})}
-						</tbody>
-					</table>
-					{!tableState.data.length ? EmptyComponent() : <></>}
-				</div>
-
-				{renderPagination()}
+		<div id="buy-history">
+			<h2 className="text-center text-white">Your Purchase</h2>
+			<div className="table-responsive-xl mb-4">
+				<table className="table">
+					<thead
+						style={{
+							background: 'rgba(0, 0, 0, 0.08)',
+							borderRadius: '3px',
+							boxSizing: 'border-box',
+							color: '#ffff',
+						}}
+					>
+						<tr className="text-center">
+							<th>Uid</th>
+							<th>Quantity</th>
+							<th>Currency</th>
+							<th>Total Purchase</th>
+							<th>Buy Date</th>
+						</tr>
+						<tr></tr>
+					</thead>
+					<tbody>{tableState.loading ? <></> : renderHistory()}</tbody>
+				</table>
+				{tableState.loading ? loadingHistory() : !tableState.data.length ? EmptyComponent() : <></>}
 			</div>
-		</React.Fragment>
+
+			{renderPagination()}
+		</div>
 	);
 };
