@@ -105,6 +105,22 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 		}
 	}, [valueSearch]);
 
+	const onChangeFavorite = () => {
+		if (tab === 'Favorite') {
+			const favoritemMarketsLocalTmp = JSON.parse(localStorage.getItem('favourites_markets') || '[]');
+
+			let listMarketTamp = markets.filter(e => {
+				return favoritemMarketsLocalTmp.includes(e.id);
+			});
+			listMarketTamp = sortForAZ(listMarketTamp, false);
+			setPageIndex(DEFAULT_PAGEINDEX);
+			setMaxPage(Math.ceil(listMarketTamp.length / MAX_ELEMENT));
+			listMarketTamp = listMarketTamp.slice(0, MAX_ELEMENT);
+			setListMarket(listMarketTamp);
+			setIsSort(DEFAULT_SORT);
+		}
+	};
+
 	const onChangeTab = (nameTab: string) => {
 		if (tab !== nameTab) {
 			setTab(nameTab);
@@ -280,7 +296,13 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 		};
 
 		return (
-			<MarketList listMarket={listMarket} isShowTHead={true} childOfTBody={child()} childOfTHead={renderHeaderTable()} />
+			<MarketList
+				listMarket={listMarket}
+				isShowTHead={true}
+				childOfTBody={child()}
+				childOfTHead={renderHeaderTable()}
+				onchangeFavorite={onChangeFavorite}
+			/>
 		);
 	};
 

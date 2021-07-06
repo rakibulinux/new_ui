@@ -1,5 +1,5 @@
 import { Market } from 'modules';
-import React from 'react';
+import React, { useState } from 'react';
 import { RowTable } from './RowTable';
 
 interface ListMarket {
@@ -7,11 +7,26 @@ interface ListMarket {
 	childOfTBody?: React.ReactNode;
 	childOfTHead?: React.ReactNode;
 	isShowTHead: Boolean;
+	onchangeFavorite?: () => void;
 }
 
-export const MarketList: React.FC<ListMarket> = ({ listMarket, childOfTHead, childOfTBody, isShowTHead }) => {
+export const MarketList: React.FC<ListMarket> = ({ listMarket, childOfTHead, childOfTBody, isShowTHead, onchangeFavorite }) => {
+	const favoritemMarketsLocal = JSON.parse(localStorage.getItem('favourites_markets') || '[]');
+	const [listFavorite, setListFavorite] = useState(favoritemMarketsLocal);
+
+	const changeFavorite = () => {
+		if (onchangeFavorite) {
+			onchangeFavorite();
+		}
+
+		const favoritemMarketsLocalTmp = JSON.parse(localStorage.getItem('favourites_markets') || '[]');
+		setListFavorite(favoritemMarketsLocalTmp);
+	};
+
 	const renderRowTable = () => {
-		return listMarket.map((e, index) => <RowTable key={index} market={e} />);
+		return listMarket.map((e, index) => (
+			<RowTable key={index} market={e} onchangeFavorite={changeFavorite} favorites={listFavorite.find(f => f === e.id)} />
+		));
 	};
 
 	return (
