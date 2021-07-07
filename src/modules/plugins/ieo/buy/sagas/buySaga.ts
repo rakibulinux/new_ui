@@ -9,13 +9,19 @@ import { fetchBuyHistory, fetchBuyersHistory } from './../../history';
 
 export function* buyIEOItemSaga(action: BuyIEOItem) {
 	try {
-		yield axios.post<BuyIEO>(`private/ieo/buy`, action.payload);
+		const response = yield axios.post<BuyIEO>(`private/ieo/buy`, action.payload);
 		yield put(
 			fetchBuyHistory({
 				ieo_id: Number(action.payload.ieo_id),
 				uid: action.payload.uid,
 				page: 0,
 				pageSize: 5,
+			}),
+		);
+		yield put(
+			buyIEOResponse({
+				...response,
+				loading: true,
 			}),
 		);
 		yield put(

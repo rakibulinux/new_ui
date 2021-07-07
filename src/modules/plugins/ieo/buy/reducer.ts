@@ -31,7 +31,6 @@ export const buyIEOReducer = (state = initialBuyIEO, action: BuyIEOActions): Buy
 			};
 		case BUY_IEO_RESPONSE:
 			const { payload } = action.payload;
-
 			return {
 				...state,
 				payload: payload,

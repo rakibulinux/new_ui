@@ -13,6 +13,7 @@ import {
 	BuyIEO,
 	buyIEOItem,
 	selectBuyIEO,
+	resetBuyResponse,
 } from '../../../../modules';
 import NP from 'number-precision';
 import { notification } from 'antd';
@@ -133,9 +134,12 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 		setIsShowBuyConfirmModalState(false);
 	};
 	React.useEffect(() => {
-		console.log('run - effect');
-		if (buyResponse.payload.success) {
+		if (!buyResponse.loading) {
 			setIsLoadingState(false);
+			dispatch(resetBuyResponse());
+			setQuantityState(Number(props.minBuy));
+			setIsCitizenState(false);
+			setCheckRegulationSate(false);
 		}
 	}, [buyResponse.payload, buyResponse.loading, buyResponse.error]);
 	const handleBuy = () => {
@@ -351,6 +355,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 								name="regulations-view-items"
 								id="regulations-view-items"
 								className="regulations-law"
+								checked={checkedRegulationState}
 								onClick={() => {
 									setCheckRegulationSate(!checkedRegulationState);
 								}}
@@ -365,6 +370,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 								type="checkbox"
 								className="regulations-law"
 								name="check-citizen-ban"
+								checked={isCitizenState}
 								onClick={() => {
 									setIsCitizenState(!isCitizenState);
 								}}
