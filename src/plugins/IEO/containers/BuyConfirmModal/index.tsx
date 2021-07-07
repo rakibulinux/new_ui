@@ -48,13 +48,13 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
 	const bonusQuantity = NP.times(quantity, bonus);
 	const totalQuantity = NP.plus(baseBalance, quantity, bonusQuantity);
 	const baseTitle = (
-		<div className="base-title-content">
+		<div className="base-title-content w-100 d-flex flex-wrap justify-content-center">
 			<img style={{ width: '3rem', height: '3rem' }} src={findIcon(baseCurrency)} alt={baseCurrency} />
 			<span style={{ fontSize: '1.6rem', marginLeft: '5px' }}>{baseCurrency}</span>
 		</div>
 	);
 	const quoteTitle = (
-		<div className="base-title-content">
+		<div className="base-title-content w-100 d-flex  flex-wrap justify-content-center">
 			<img style={{ width: '3rem', height: '3rem' }} src={findIcon(quoteCurrency)} alt={quoteCurrency} />
 			<span style={{ fontSize: '1.6rem', marginLeft: '5px' }}>{quoteCurrency}</span>
 		</div>
@@ -91,11 +91,11 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
 					</div>
 					<div id="buy-confirm-modal-body">
 						<div className="d-flex flex-wrap justify-content-between col-12">
-							<div className="col-5 infor-price">
+							<div className="col-5 infor-price d-flex flex-wrap justify-content-center">
 								{baseTitle}
 								{informationBuy(totalQuantity, <ArrowUpOutlined />, 'up')}
 							</div>
-							<div className="col-5 infor-price">
+							<div className="col-5 infor-price d-flex flex-wrap justify-content-center">
 								{quoteTitle}
 								{informationBuy(NP.minus(quoteBalance, Number(quoteTotal)), <ArrowDownOutlined />, 'down')}
 							</div>
