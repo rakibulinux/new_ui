@@ -1,45 +1,31 @@
 import format from 'date-fns/format';
 import * as React from 'react';
-import api from '../../../api';
 import classnames from 'classnames';
-import { setTimeout } from 'timers';
+
+import { fetchBuyHistory, selectBuyHistoryList } from './../../../../modules';
+import { useDispatch, useSelector } from 'react-redux';
 interface BuyHistoryProps {
-	uid: string;
 	ieoID: number;
 	reset: boolean;
 	disableResetFetchHistory: () => void;
-}
-
-interface BuyHistoryModel {
-	id: number;
 	uid: string;
-	quantity: string;
-	base_currency: string;
-	total: string;
-	quote_currency: string;
-	created_at: string;
 }
 
 export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) => {
 	const [numberPage, setNumberPage] = React.useState<number>(1);
-	const [tableState, setTableState] = React.useState<{
-		data: BuyHistoryModel[];
-		pagination: {
-			current: number;
-			pageSize: number;
-			total: number;
-		};
-		loading: boolean;
-	}>({
-		data: [],
-		pagination: {
-			current: 1,
-			pageSize: 5,
-			total: 0,
-		},
-		loading: true,
-	});
-
+	const listHistory = useSelector(selectBuyHistoryList);
+	const pageSize = 5;
+	const dispatch = useDispatch();
+	React.useEffect(() => {
+		dispatch(
+			fetchBuyHistory({
+				uid: props.uid,
+				ieo_id: props.ieoID,
+				page: numberPage - 1,
+				pageSize: pageSize,
+			}),
+		);
+	}, [numberPage]);
 	const EmptyComponent = () => {
 		return (
 			<div className="col-12 d-flex justify-content-center mb-3">
@@ -51,45 +37,6 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 			</div>
 		);
 	};
-	const fetchHistory = (params: any) => {
-		setTableState({ ...tableState, loading: true });
-		setTimeout(() => {
-			api.get(
-				`private/ieo/buy_history/uid=${props.uid}/ieo_id=${props.ieoID}&page=${params.pagination.current - 1}&pageSize=${
-					params.pagination.pageSize
-				}`,
-			)
-				.then(response => {
-					const data = [...response.data.payload] as BuyHistoryModel[];
-					const newData = data.map((buy: BuyHistoryModel) => {
-						const newData = {
-							...buy,
-							key: buy.id,
-							base_currency: buy.base_currency.toUpperCase(),
-							quote_currency: buy.quote_currency.toUpperCase(),
-							quantity: Number(buy.quantity).toFixed(4),
-							total: Number(buy.total).toFixed(4),
-							created_at: format(new Date(buy.created_at), 'HH:mm:ss dd/MM/yyyy'),
-						};
-
-						return newData;
-					});
-
-					setTableState({
-						loading: false,
-						data: newData,
-						pagination: {
-							...params.pagination,
-							pageSize: params.pagination.pageSize,
-							total: response.data.total,
-						},
-					});
-				})
-				.catch(err => {
-					//console.log(err);
-				});
-		}, 1000);
-	};
 	const loadingHistory = () => {
 		return (
 			<div className="loading d-flex -justify-content-center">
@@ -99,16 +46,6 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 			</div>
 		);
 	};
-	const handleTableChange = React.useCallback(
-		(paginationParam: any) => {
-			if (paginationParam) {
-				fetchHistory({
-					pagination: paginationParam,
-				});
-			}
-		},
-		[numberPage],
-	);
 	const disabledForwardClass = classnames('disable-forward');
 	const renderPagination = () => {
 		return (
@@ -120,10 +57,6 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 							aria-label="Previous"
 							onClick={() => {
 								if (numberPage > 1) {
-									handleTableChange({
-										current: numberPage - 1,
-										pageSize: tableState.pagination.pageSize,
-									});
 									setNumberPage(numberPage - 1);
 								}
 							}}
@@ -138,18 +71,10 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 
 					<li className="page-item">
 						<a
-							className={`page-link ${
-								numberPage * tableState.pagination.pageSize >= tableState.pagination.total
-									? disabledForwardClass
-									: ''
-							}`}
+							className={`page-link ${numberPage * pageSize >= listHistory.total ? disabledForwardClass : ''}`}
 							aria-label="Next"
 							onClick={() => {
-								if (numberPage * tableState.pagination.pageSize < tableState.pagination.total) {
-									handleTableChange({
-										current: numberPage + 1,
-										pageSize: tableState.pagination.pageSize,
-									});
+								if (numberPage * pageSize < listHistory.total) {
 									setNumberPage(numberPage + 1);
 								}
 							}}
@@ -163,25 +88,20 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 		);
 	};
 	const renderHistory = () => {
-		return tableState.data.map(item => {
+		return listHistory.payload.map(item => {
 			return (
 				<>
 					<tr className="text-center" style={{ color: '#ffff', border: '1px solid #848e9' }}>
-						<td>{item.quantity}</td>
+						<td>{Number(item.quantity)}</td>
 						<td>{item.base_currency}</td>
+						<td>{Number(item.total)}</td>
 						<td>{item.quote_currency}</td>
-						<td>{item.total}</td>
-						<td>{item.created_at}</td>
+						<td>{format(new Date(item.created_at), 'HH:mm:ss dd/MM/yyyy')}</td>
 					</tr>
 				</>
 			);
 		});
 	};
-	React.useEffect(() => {
-		const { pagination } = tableState;
-		fetchHistory({ pagination });
-		console.log('run');
-	}, [props.reset]);
 
 	return (
 		<div id="buy-history">
@@ -197,19 +117,18 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 						}}
 					>
 						<tr className="text-center">
-							<th>Uid</th>
 							<th>Quantity</th>
 							<th>Currency</th>
 							<th>Total Purchase</th>
+							<th>Purchase Currency</th>
 							<th>Buy Date</th>
 						</tr>
 						<tr></tr>
 					</thead>
-					<tbody>{tableState.loading ? <></> : renderHistory()}</tbody>
+					<tbody>{listHistory.loading ? <></> : renderHistory()}</tbody>
 				</table>
-				{tableState.loading ? loadingHistory() : !tableState.data.length ? EmptyComponent() : <></>}
+				{listHistory.loading ? loadingHistory() : !listHistory.payload.length ? EmptyComponent() : <></>}
 			</div>
-
 			{renderPagination()}
 		</div>
 	);

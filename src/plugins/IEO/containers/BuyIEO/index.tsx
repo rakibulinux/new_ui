@@ -2,7 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { useHistory } from 'react-router';
 import { BuyConfirmModal } from '../BuyConfirmModal';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import {
 	currenciesFetch,
 	selectCurrencies,
@@ -12,6 +12,7 @@ import {
 	walletsFetch,
 	BuyIEO,
 	buyIEOItem,
+	selectBuyIEO,
 } from '../../../../modules';
 import NP from 'number-precision';
 import { notification } from 'antd';
@@ -31,7 +32,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 	const history = useHistory();
 	const [selectedCurrencyState, setSelectedCurrencyState] = React.useState(props.coins[0] || '');
 	const [coinActive, setCoinActive] = React.useState(0);
-	const [quantityState, setQuantityState] = React.useState(props.minBuy);
+	const [quantityState, setQuantityState] = React.useState<number>(Number(props.minBuy));
 	const [priceState, setPriceState] = React.useState(0);
 	const [totalPriceState, setTotalPriceState] = React.useState<number>(0);
 	const [isShowBuyConfirmModalState, setIsShowBuyConfirmModalState] = React.useState<boolean>(false);
@@ -66,6 +67,8 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 			tsyms: props.coins,
 		});
 	}, []);
+
+	const buyResponse = useSelector(selectBuyIEO, shallowEqual);
 	const handleGetBalance = React.useCallback(
 		currency => {
 			const foundedWallet = filteredWallets.find(wallet => wallet.currency === currency);
@@ -129,9 +132,14 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 	const hiddenBuyConfirmModal = () => {
 		setIsShowBuyConfirmModalState(false);
 	};
+	React.useEffect(() => {
+		console.log('run - effect');
+		if (buyResponse.payload.success) {
+			setIsLoadingState(false);
+		}
+	}, [buyResponse.payload, buyResponse.loading, buyResponse.error]);
 	const handleBuy = () => {
 		setIsLoadingState(true);
-
 		const uid = props.uid;
 		if (
 			priceState &&
@@ -155,9 +163,6 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 				message: 'Something went wrong.',
 			});
 		}
-		setTimeout(() => {
-			setIsLoadingState(false);
-		}, 2500);
 	};
 	const showBuyConfirmModalView = () => {
 		const check =

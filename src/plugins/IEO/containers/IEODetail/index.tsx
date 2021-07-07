@@ -43,7 +43,7 @@ export const IEODetail: React.FC<IEODetailProps> = props => {
 				</div>
 				<hr></hr>
 				<div id="ieo-detail-footer">
-					<p>{`${props.bonus}% Bonus ${props.currencyID.toUpperCase()}`}</p>
+					<p>{`${props.bonus ? props.bonus : 0}% Bonus ${props.currencyID.toUpperCase()}`}</p>
 				</div>
 			</div>
 		</div>

@@ -37,7 +37,7 @@ import { BuyIEOState, rootBuyIEOSaga, TotalIEOBuyersState } from './plugins/ieo'
 import { PriceState, rootPriceSaga } from './sale/price';
 import { IEOItemState, rootIEOItemSaga } from './plugins/ieo/item';
 import { IEOListState, rootIEOListSaga } from './plugins/ieo/list';
-
+import { BuyersHistoryState, BuyHistoryListState, rootHistoryBuySaga } from './plugins/ieo/history';
 import { rootSaleItemSaga, SaleItemState } from './sale/sale-item';
 import { rootSaleListSaga, SaleListState } from './sale/sale-list';
 import { CompetitionItemState, rootcompetitionItemSaga } from './trading_competitions/competition_item';
@@ -115,6 +115,7 @@ export * from './sale/price';
 export * from './plugins/ieo/item';
 export * from './plugins/ieo/list';
 export * from './plugins/ieo/buy';
+export * from './plugins/ieo/history';
 export * from './trading_competitions/competitions';
 export * from './trading_competitions/competition_item';
 export * from './trading_competitions/rankings';
@@ -133,6 +134,8 @@ export interface RootState {
 		IEOList: IEOListState;
 		buyIEO: BuyIEOState;
 		totalIEOBuyers: TotalIEOBuyersState;
+		buyersHistory: BuyersHistoryState;
+		buyHistory: BuyHistoryListState;
 	};
 	sale: {
 		saleList: SaleListState;
@@ -266,6 +269,7 @@ export function* rootSaga() {
 		call(rootIEOItemSaga),
 		call(rootIEOListSaga),
 		call(rootBuyIEOSaga),
+		call(rootHistoryBuySaga),
 		call(rootBuySaga),
 		call(rootPriceSaga),
 		call(rootCompetionsListSaga),

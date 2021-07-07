@@ -1,43 +1,29 @@
 import format from 'date-fns/format';
 import * as React from 'react';
-import api from '../../../api';
 import classnames from 'classnames';
+import { fetchBuyersHistory, selectBuyersHistory } from './../../../../modules';
+import { useDispatch, useSelector } from 'react-redux';
 interface BuyersHistoryProps {
 	ieoID: number;
 	reset: boolean;
 	disableResetFetchHistory: () => void;
 }
 
-interface BuyersHistoryModel {
-	id: number;
-	uid: string;
-	quantity: string;
-	base_currency: string;
-	total: string;
-	quote_currency: string;
-	created_at: string;
-}
-
 export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistoryProps) => {
 	const [numberPage, setNumberPage] = React.useState<number>(1);
+	const pageSize = 5;
+	const dispatch = useDispatch();
+	React.useEffect(() => {
+		dispatch(
+			fetchBuyersHistory({
+				ieo_id: Number(props.ieoID),
+				page: numberPage - 1,
+				pageSize: pageSize,
+			}),
+		);
+	}, [numberPage]);
+	const listHistory = useSelector(selectBuyersHistory);
 
-	const [tableState, setTableState] = React.useState<{
-		data: BuyersHistoryModel[];
-		pagination: {
-			current: number;
-			pageSize: number;
-			total: number;
-		};
-		loading: boolean;
-	}>({
-		data: [],
-		pagination: {
-			current: 1,
-			pageSize: 5,
-			total: 0,
-		},
-		loading: true,
-	});
 	const loadingHistory = () => {
 		return (
 			<div className="loading d-flex -justify-content-center">
@@ -47,61 +33,7 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 			</div>
 		);
 	};
-	const fetch = (params: any) => {
-		setTableState({ ...tableState, loading: true });
-		setTimeout(() => {
-			api.get(
-				`public/ieo/buyers/ieo_id=${props.ieoID}&page=${params.pagination.current - 1}&pageSize=${
-					params.pagination.pageSize
-				}`,
-			)
-				.then(response => {
-					const data = [...response.data.payload] as BuyersHistoryModel[];
-					const newData = data.map((buyer: BuyersHistoryModel) => {
-						const newData = {
-							...buyer,
-							key: buyer.id,
-							base_currency: buyer.base_currency.toUpperCase(),
-							quote_currency: buyer.quote_currency.toUpperCase(),
-							quantity: Number(buyer.quantity).toFixed(4),
-							total: Number(buyer.total).toFixed(4),
-							created_at: format(new Date(buyer.created_at), 'HH:mm:ss dd/MM/yyyy'),
-						};
 
-						return newData;
-					});
-
-					setTableState({
-						loading: false,
-						data: newData,
-						pagination: {
-							...params.pagination,
-							pageSize: params.pagination.pageSize,
-							total: response.data.total,
-						},
-					});
-				})
-				.catch(err => {
-					//console.log(err);
-				});
-		}, 1000);
-	};
-	const handleTableChange = React.useCallback(
-		(paginationParam: any) => {
-			if (paginationParam) {
-				fetch({
-					pagination: paginationParam,
-				});
-			}
-		},
-		[numberPage],
-	);
-
-	React.useEffect(() => {
-		const { pagination } = tableState;
-
-		fetch({ pagination });
-	}, []);
 	const disabledForwardClass = classnames('disable-forward');
 	const EmptyComponent = () => {
 		return (
@@ -115,16 +47,16 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 		);
 	};
 	const renderBuyersHistory = () => {
-		return tableState.data.map(item => {
+		return listHistory.payload.map(item => {
 			return (
 				<>
 					<tr className="text-center" style={{ color: '#ffff', border: '1px solid #848e9' }}>
 						<td>{item.uid}</td>
-						<td>{item.quantity}</td>
+						<td>{Number(item.quantity)}</td>
 						<td>{item.base_currency}</td>
-						<td>{item.total}</td>
+						<td>{Number(item.total)}</td>
 						<td>{item.quote_currency}</td>
-						<td>{item.created_at}</td>
+						<td>{format(new Date(item.created_at), 'HH:mm:ss dd/MM/yyyy')}</td>
 					</tr>
 				</>
 			);
@@ -140,10 +72,6 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 							aria-label="Previous"
 							onClick={() => {
 								if (numberPage > 1) {
-									handleTableChange({
-										current: numberPage - 1,
-										pageSize: tableState.pagination.pageSize,
-									});
 									setNumberPage(numberPage - 1);
 								}
 							}}
@@ -158,20 +86,10 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 
 					<li className="page-item">
 						<a
-							className={`page-link ${
-								numberPage * tableState.pagination.pageSize >= tableState.pagination.total
-									? disabledForwardClass
-									: ''
-							}`}
+							className={`page-link ${numberPage * pageSize >= listHistory.total ? disabledForwardClass : ''}`}
 							aria-label="Next"
 							onClick={() => {
-								if (numberPage * tableState.pagination.pageSize < tableState.pagination.total) {
-									handleTableChange(
-										handleTableChange({
-											current: numberPage + 1,
-											pageSize: tableState.pagination.pageSize,
-										}),
-									);
+								if (numberPage * pageSize < listHistory.total) {
 									setNumberPage(numberPage + 1);
 								}
 							}}
@@ -209,9 +127,9 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 							</tr>
 							<tr></tr>
 						</thead>
-						<tbody>{tableState.loading ? <></> : renderBuyersHistory()}</tbody>
+						<tbody>{listHistory.loading ? <></> : renderBuyersHistory()}</tbody>
 					</table>
-					{tableState.loading ? loadingHistory() : !tableState.data.length ? EmptyComponent() : <></>}
+					{listHistory.loading ? loadingHistory() : !listHistory.payload.length ? EmptyComponent() : <></>}
 				</div>
 				{renderPagination()}
 			</div>

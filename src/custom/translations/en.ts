@@ -32,4 +32,6 @@ export const en = {
 	'page.body.trading.header.orderBook.header.title.price': 'Price',
 	'page.body.trading.header.orderBook.header.title.amount': 'Amount',
 	'page.body.trading.header.orderBook.header.title.sum': 'Sum',
+
+	'page.ieo.buy.history.success': 'updated buy history successfully',
 };

@@ -51,8 +51,8 @@ export const IEODetailScreen = () => {
 						<BuyHistory
 							disableResetFetchHistory={disableResetFetchHistory}
 							reset={resetFetchHistoryIEO}
-							uid={user.uid}
 							ieoID={Number(ieoID)}
+							uid={user.uid}
 						/>
 					</div>
 					<div className="col-md-12 col-xl-6" style={{ paddingLeft: '0px', marginTop: '36px' }}>
@@ -60,6 +60,7 @@ export const IEODetailScreen = () => {
 							disableResetFetchHistory={disableResetFetchHistory}
 							reset={resetFetchHistoryIEO}
 							ieoID={Number(ieoID)}
+							// uid={user.uid}
 						/>
 					</div>
 				</div>
