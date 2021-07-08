@@ -5,8 +5,6 @@ import { fetchBuyersHistory, selectBuyersHistory } from './../../../../modules';
 import { useDispatch, useSelector } from 'react-redux';
 interface BuyersHistoryProps {
 	ieoID: number;
-	reset: boolean;
-	disableResetFetchHistory: () => void;
 }
 
 export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistoryProps) => {

@@ -6,8 +6,6 @@ import { fetchBuyHistory, selectBuyHistoryList } from './../../../../modules';
 import { useDispatch, useSelector } from 'react-redux';
 interface BuyHistoryProps {
 	ieoID: number;
-	reset: boolean;
-	disableResetFetchHistory: () => void;
 	uid: string;
 }
 
