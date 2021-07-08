@@ -4,7 +4,7 @@ import { findIEOById, IEOItemData, IEOItemError } from '../actions';
 import { API, RequestOptions } from 'api';
 
 const createOptions = (csrfToken?: string): RequestOptions => {
-	return { apiVersion: 'ieoAPIUrl', headers: { 'X-CSRF-Token': csrfToken } };
+	return { apiVersion: 'ieo', headers: { 'X-CSRF-Token': csrfToken } };
 };
 
 export function* findIEOItemByIdSaga(action: findIEOById) {

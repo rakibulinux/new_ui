@@ -9,7 +9,7 @@ export interface JsonBody {
 }
 
 export interface RequestOptions {
-	apiVersion: 'applogic' | 'peatio' | 'barong' | 'finex' | 'ieoAPIUrl';
+	apiVersion: 'applogic' | 'peatio' | 'barong' | 'finex' | 'ieo';
 	withHeaders?: boolean;
 	headers?: Object;
 }
@@ -31,7 +31,7 @@ const getAPI = () => ({
 	applogic: applogicUrl(),
 	peatio: tradeUrl(),
 	finex: finexUrl(),
-	ieoAPIUrl: ieoAPIUrl(),
+	ieo: ieoAPIUrl(),
 });
 
 const buildRequest = (request: Request, configData: RequestOptions) => {

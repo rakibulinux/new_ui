@@ -3,7 +3,7 @@ import { put, call } from 'redux-saga/effects';
 import { API, RequestOptions } from 'api';
 import { getCsrfToken } from 'helpers';
 const createOptions = (csrfToken?: string): RequestOptions => {
-	return { apiVersion: 'ieoAPIUrl', headers: { 'X-CSRF-Token': csrfToken } };
+	return { apiVersion: 'ieo', headers: { 'X-CSRF-Token': csrfToken } };
 };
 
 export function* IEOListSaga(action: IEOListDataFetch) {
