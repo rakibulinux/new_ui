@@ -75,7 +75,7 @@ export const IEODetailScreen = () => {
 					loadingDetailIEO()
 				) : (
 					<div id="ieo-detail-screen_container" className="d-flex flex-wrap justify-content-center">
-						<div className="col-md-6">
+						<div className="col-md-6" style={{ paddingLeft: '0px' }}>
 							<IEODetail
 								endDate={IEOItem.payload.end_date}
 								startDate={IEOItem.payload.start_date}
@@ -84,7 +84,7 @@ export const IEODetailScreen = () => {
 							/>
 						</div>
 
-						<div className="col-md-6" style={{ backgroundColor: '#434A56' }}>
+						<div className="col-md-6" style={{ backgroundColor: '#434A56', paddingRight: '0px' }}>
 							<BuyIEOComponent
 								coins={IEOItem.payload.currency_available.length ? IEOItem.payload.currency_available : ['']}
 								currencyID={IEOItem.payload.currency_id}
@@ -96,7 +96,7 @@ export const IEODetailScreen = () => {
 								bonus={IEOItem.payload.bonus}
 							/>
 						</div>
-						<div className="container-fluid col-12" style={{ paddingRight: '0px', marginTop: '36px' }}>
+						<div className="container-fluid col-12" style={{ padding: '0px', marginTop: '36px' }}>
 							{renderBuyHistoryView()}
 							<CautionsDetail />
 							<InformationIEO />

@@ -28,11 +28,10 @@ export const IEOListingScreen = () => {
 			<div className="ieo-listing-screen__header" style={{ paddingLeft: '5px' }}>
 				<h3 style={{ marginBottom: '50px' }}>IEO</h3>
 				<div className="ieo-listing-function flex-wrap">
-					<div className="input-list-function-search" style={{ width: '190px', height: '46px' }}>
+					<div className="input-list-function-search" style={{ width: '200px', height: '45px' }}>
 						<input
 							name="function-search"
 							type="text"
-							placeholder="search IEO"
 							value={searchInputState}
 							onChange={e => {
 								setSearchInputState(e.target.value);
