@@ -1,4 +1,4 @@
-import { CommonState } from '../../../modules/types';
+import { CommonState } from '../../../../modules/types';
 
 export interface PriceState extends CommonState {
 	payload: any;

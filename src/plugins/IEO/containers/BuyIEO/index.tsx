@@ -134,7 +134,6 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 		setIsShowBuyConfirmModalState(false);
 	};
 	React.useEffect(() => {
-		console.log(buyResponse);
 		if (!buyResponse.loading) {
 			setIsLoadingState(false);
 			if (buyResponse.success) {

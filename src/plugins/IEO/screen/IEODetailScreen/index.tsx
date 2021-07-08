@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { message } from 'antd';
 import { IEODetail, BuyIEOComponent, CautionsDetail, InformationIEO, BuyersHistory, BuyHistory } from './../../containers';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router';
@@ -26,20 +25,20 @@ export const IEODetailScreen = () => {
 				id: ieoIdParam,
 			}),
 		);
-	React.useEffect(() => {
-		if (IEOItem.loading) {
-			message.loading('Waiting a seconds...', 0);
-		} else {
-			message.destroy();
-		}
-		return () => {
-			message.destroy();
-		};
-	}, [IEOItem.loading]);
+
 	React.useEffect(() => {
 		dispatchFetchIEOItemByID(ieoID);
 	}, []);
 
+	const loadingDetailIEO = () => {
+		return (
+			<div className="loading-detail-ieo w-100 d-flex justify-content-center">
+				<div className="spinner-border text-primary" role="status">
+					<span className="sr-only">Loading...</span>
+				</div>
+			</div>
+		);
+	};
 	const renderBuyHistoryView = () => {
 		if (user.uid) {
 			return (
@@ -95,7 +94,7 @@ export const IEODetailScreen = () => {
 					{`< Return To List`}
 				</button>
 				{IEOItem.loading ? (
-					<></>
+					loadingDetailIEO()
 				) : (
 					<div id="ieo-detail-screen_container" className="d-flex flex-wrap justify-content-center">
 						<div className="col-md-6">

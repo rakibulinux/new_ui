@@ -1,4 +1,4 @@
-import { CommonError } from '../../../modules/types';
+import { CommonError } from '../../../../modules/types';
 import { GET_PRICE, PRICE_DATA, PRICE_ERROR } from './constants';
 import { PriceState } from './types';
 
