@@ -15,7 +15,8 @@ import {
 	ChangeForgottenPasswordMobileScreen,
 	ConfirmMobileScreen,
 	EmailVerificationMobileScreen,
-	ForgotPasswordMobileScreen,
+	// ForgotPasswordMobileScreen,
+	NewForgotPasswordScreen,
 	HomePageScreenMobile,
 	NewMarketsScreenMobile,
 	NewWalletsMobileScreen,
@@ -257,11 +258,12 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							path="/signup"
 							component={NewSignUpMobileScreen}
 						/>
+
 						<PublicRoute
 							loading={userLoading}
 							isLogged={isLoggedIn}
 							path="/forgot_password"
-							component={ForgotPasswordMobileScreen}
+							component={NewForgotPasswordScreen}
 						/>
 						<PublicRoute
 							loading={userLoading}

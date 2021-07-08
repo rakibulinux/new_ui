@@ -2,27 +2,53 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import { isEmail, isValidPassword } from 'helpers';
 import { useDocumentTitle } from 'hooks';
 import { GoBackIcon } from 'mobile/assets/icons';
+import { selectCurrentLanguage, signUp } from 'modules';
 import React, { FC, useState } from 'react';
+import { ReCAPTCHA } from 'react-google-recaptcha';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
+
+const DEFAULT_SITE_KEY = '6Le3nn0bAAAAAOB3AsqWxjSh-WsGfbqB5GRPcecg';
 
 export const NewSignUpMobileScreen: FC = () => {
 	useDocumentTitle('Sign Up');
 	const history = useHistory();
-
-	const onSubmit = (value: any) => {
-		// tslint:disable-next-line: no-console
-		console.log(value);
-	};
+	const dispatch = useDispatch();
+	const i18n = useSelector(selectCurrentLanguage);
 
 	const [email, setEmail] = useState<string | null>(null);
 	const [pass, setPass] = useState<string | null>(null);
 	const [confirm, setConfirm] = useState<string | null>(null);
 	const [isCheckTerms, setIsCheckTerms] = useState<boolean>(false);
+	const [statusCapcha, setStatusCapcha] = useState<boolean>(false);
 
 	const canSubmit = () => {
-		return email !== null && isEmail(email) && pass !== null && isValidPassword(pass) && pass === confirm && isCheckTerms;
+		return (
+			email !== null &&
+			isEmail(email) &&
+			pass !== null &&
+			isValidPassword(pass) &&
+			pass === confirm &&
+			isCheckTerms &&
+			statusCapcha
+		);
 	};
 
+	const onCapcha = value => {
+		if (value === null) {
+			setStatusCapcha(true);
+		}
+	};
+	const onSubmit = (value: any) => {
+		const dataSignUp = {
+			email: email || '',
+			password: pass || '',
+			data: JSON.stringify({
+				language: i18n,
+			}),
+		};
+		dispatch(signUp(dataSignUp));
+	};
 	const renderForm = () => {
 		return (
 			<Form className="td-mobile-pg-signup__body__form w-100" layout="vertical" onFinish={onSubmit}>
@@ -89,6 +115,10 @@ export const NewSignUpMobileScreen: FC = () => {
 						I have read and agree to the Terms of service{' '}
 					</Checkbox>
 				</Form.Item>
+
+				<div>
+					<ReCAPTCHA sitekey={DEFAULT_SITE_KEY} theme="light" onChange={onCapcha} />
+				</div>
 
 				<Form.Item className="td-mobile-pg-signup__body__form__submit">
 					<Button
