@@ -1,14 +1,16 @@
-import { put } from 'redux-saga/effects';
-import { IEOItem } from '..';
-// import { API, RequestOptions } from '../../../../../api';
-import axios from '../../../../../plugins/api/index';
+import { put, call } from 'redux-saga/effects';
 
 import { findIEOById, IEOItemData, IEOItemError } from '../actions';
+import { API, RequestOptions } from 'api';
+
+const createOptions = (csrfToken?: string): RequestOptions => {
+	return { apiVersion: 'ieoAPIUrl', headers: { 'X-CSRF-Token': csrfToken } };
+};
 
 export function* findIEOItemByIdSaga(action: findIEOById) {
 	try {
-		const IEOItem = yield axios.get<IEOItem[]>(`public/ieo/${action.payload.id}`);
-		yield put(IEOItemData(IEOItem.data));
+		const response = yield call(API.get(createOptions()), `public/ieo/${action.payload.id}`);
+		yield put(IEOItemData(response));
 	} catch (error) {
 		yield put(IEOItemError(error));
 	}

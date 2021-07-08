@@ -1,39 +1,47 @@
-import { put } from 'redux-saga/effects';
-import axios from '../../../../../plugins/api/index';
+import { FetchBuyHistory, FetchBuyersHistory, fetchBuyersHistoryData, fetchBuyHistoryData, fetchHistoryError } from '../actions';
+import { put, call } from 'redux-saga/effects';
+import { API, RequestOptions } from 'api';
+import { BuyHistory } from '../types';
 
-import { FetchBuyHistory, FetchBuyersHistory, fetchBuyersHistoryData, fetchBuyHistoryData } from '../actions';
-import { BuyHistory, BuyersHistory } from '../types';
+const createOptions = (csrfToken?: string): RequestOptions => {
+	return { apiVersion: 'ieoAPIUrl', headers: { 'X-CSRF-Token': csrfToken } };
+};
 
 export function* fetchBuyHistorySaga(action: FetchBuyHistory) {
 	try {
-		const { ieo_id, uid, page, pageSize } = action.payload;
-		const listHistory = yield axios.get<BuyHistory[]>(
-			`private/ieo/buy_history/uid=${uid}/ieo_id=${ieo_id}&page=${page}&pageSize=${pageSize}`,
+		const { ieo_id, page, pageSize } = action.payload;
+		const listHistory = yield call(
+			API.get(createOptions()),
+			`private/ieo/buy_history/ieo_id=${ieo_id}?page=${page}&pageSize=${pageSize}`,
 		);
+
 		yield put(
 			fetchBuyHistoryData({
-				payload: listHistory.data.payload,
+				payload: listHistory.payload as BuyHistory[],
 				loading: true,
-				total: listHistory.data.total,
+				total: Number(listHistory.total),
 			}),
 		);
 	} catch (error) {
-		// yield put(alertPush({ message: ['page.ieo.buy.error'], type: 'error' }));
+		yield put(fetchHistoryError(JSON.stringify(error.message)));
 	}
 }
 
 export function* fetchBuyersHistorySaga(action: FetchBuyersHistory) {
 	try {
 		const { ieo_id, page, pageSize } = action.payload;
-		const buyers = yield axios.get<BuyersHistory>(`public/ieo/buyers/ieo_id=${ieo_id}&page=${page}&pageSize=${pageSize}`);
+		const buyers = yield call(
+			API.get(createOptions()),
+			`private/ieo/buy_history/ieo_id=${ieo_id}?page=${page}&pageSize=${pageSize}`,
+		);
 		yield put(
 			fetchBuyersHistoryData({
-				payload: buyers.data.payload,
-				total: buyers.data.total,
+				payload: buyers.payload,
+				total: buyers.total,
 				loading: true,
 			}),
 		);
 	} catch (error) {
-		// yield put(totalIEOBuyersError(error));
+		yield put(fetchHistoryError(JSON.stringify(error.message)));
 	}
 }

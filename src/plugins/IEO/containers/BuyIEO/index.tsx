@@ -134,14 +134,17 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 		setIsShowBuyConfirmModalState(false);
 	};
 	React.useEffect(() => {
+		console.log(buyResponse);
 		if (!buyResponse.loading) {
 			setIsLoadingState(false);
-			dispatch(resetBuyResponse());
-			setQuantityState(Number(props.minBuy));
-			setIsCitizenState(false);
-			setCheckRegulationSate(false);
+			if (buyResponse.success) {
+				dispatch(resetBuyResponse());
+				setQuantityState(Number(props.minBuy));
+				setIsCitizenState(false);
+				setCheckRegulationSate(false);
+			}
 		}
-	}, [buyResponse.payload, buyResponse.loading, buyResponse.error]);
+	}, [buyResponse.loading]);
 	const handleBuy = () => {
 		setIsLoadingState(true);
 		const uid = props.uid;
@@ -299,8 +302,8 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 					</div>
 
 					{props.minBuy > quantityState ? (
-						<span style={{ color: 'rgb(179 110 13)', fontWeight: 'bold', width: '100%' }}>
-							** Quantity must be larger {props.minBuy}
+						<span style={{ color: '#8e0209', fontWeight: 'bold', width: '100%' }}>
+							** Quantity must be larger {`${Number(props.minBuy)} ${selectedCurrencyState.toUpperCase()}`}
 						</span>
 					) : (
 						''

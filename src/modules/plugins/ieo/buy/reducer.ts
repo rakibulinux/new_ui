@@ -1,27 +1,21 @@
 import { BuyIEOActions } from './actions';
 import {
 	BUY_IEO_ERROR,
-	BUY_IEO_RESPONSE,
+	BUY_IEO_LOADING,
 	BUY_IEO_ITEM,
 	GET_TOTAL_IEO_BUYERS,
 	RESET_BUY_IEO_RESPONSE,
 	TOTAL_IEO_BUYERS_DATA,
 	TOTAL_IEO_BUYERS_ERROR,
 } from './constants';
-import { BuyIEOState, TotalIEOBuyersState } from './types';
+import { BuyIEOLoadingState, TotalIEOBuyersState } from './types';
 
-export const initialBuyIEO: BuyIEOState = {
-	payload: {
-		ieo_id: '',
-		uid: '',
-		quantity: 0,
-		total_purchase: 0,
-		quote_currency: '',
-	},
+export const initialBuyIEO: BuyIEOLoadingState = {
 	loading: false,
+	success: false,
 };
 
-export const buyIEOReducer = (state = initialBuyIEO, action: BuyIEOActions): BuyIEOState => {
+export const buyIEOReducer = (state = initialBuyIEO, action: BuyIEOActions): BuyIEOLoadingState => {
 	switch (action.type) {
 		case BUY_IEO_ITEM:
 			return {
@@ -29,12 +23,12 @@ export const buyIEOReducer = (state = initialBuyIEO, action: BuyIEOActions): Buy
 				loading: true,
 				error: undefined,
 			};
-		case BUY_IEO_RESPONSE:
-			const { payload } = action.payload;
+		case BUY_IEO_LOADING:
+			const { success } = action.payload;
 			return {
 				...state,
-				payload: payload,
 				loading: false,
+				success: success,
 				error: undefined,
 			};
 		case BUY_IEO_ERROR:
@@ -47,6 +41,7 @@ export const buyIEOReducer = (state = initialBuyIEO, action: BuyIEOActions): Buy
 			return {
 				...state,
 				loading: false,
+				success: false,
 			};
 		default:
 			return state;

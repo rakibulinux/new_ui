@@ -1,5 +1,5 @@
 export const BUY_IEO_ITEM = 'buy/IEO_ITEM';
-export const BUY_IEO_RESPONSE = 'buy/IEO_RESPONSE';
+export const BUY_IEO_LOADING = 'buy/LOADING';
 export const BUY_IEO_ERROR = 'buy/IEO_ERROR';
 export const RESET_BUY_IEO_RESPONSE = 'buy/RESET_BUY_IEO_RESPONSE';
 

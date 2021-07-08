@@ -1,23 +1,23 @@
 import { CommonError } from '../../../../modules/types';
 import {
 	BUY_IEO_ERROR,
-	BUY_IEO_RESPONSE,
+	BUY_IEO_LOADING,
 	BUY_IEO_ITEM,
 	GET_TOTAL_IEO_BUYERS,
 	RESET_BUY_IEO_RESPONSE,
 	TOTAL_IEO_BUYERS_DATA,
 	TOTAL_IEO_BUYERS_ERROR,
 } from './constants';
-import { BuyIEO, BuyIEOState, TotalIEOBuyersState } from './types';
+import { BuyIEO, BuyIEOLoadingState, TotalIEOBuyersState } from './types';
 
 export interface BuyIEOItem {
 	type: typeof BUY_IEO_ITEM;
 	payload: BuyIEO;
 }
 
-export interface BuyIEOResponse {
-	type: typeof BUY_IEO_RESPONSE;
-	payload: BuyIEOState;
+export interface BuyIEOLoading {
+	type: typeof BUY_IEO_LOADING;
+	payload: BuyIEOLoadingState;
 }
 
 export interface BuyIEOError {
@@ -48,7 +48,7 @@ export interface ResetIEOBuyResponse {
 
 export type BuyIEOActions =
 	| BuyIEOItem
-	| BuyIEOResponse
+	| BuyIEOLoading
 	| BuyIEOError
 	| ResetIEOBuyResponse
 	| GetIEOTotalBuyers
@@ -60,8 +60,8 @@ export const buyIEOItem = (payload: BuyIEOItem['payload']): BuyIEOItem => ({
 	payload,
 });
 
-export const buyIEOResponse = (payload: BuyIEOResponse['payload']): BuyIEOResponse => ({
-	type: BUY_IEO_RESPONSE,
+export const buyIEOLoading = (payload: BuyIEOLoading['payload']): BuyIEOLoading => ({
+	type: BUY_IEO_LOADING,
 	payload,
 });
 

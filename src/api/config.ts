@@ -9,7 +9,7 @@ export const defaultConfig: Config = {
 		rangerUrl: '',
 		arkeUrl: '',
 		finexUrl: '',
-		ieoUrl: '',
+		ieoAPIUrl: '',
 	},
 	minutesUntilAutoLogout: '30',
 	rangerReconnectPeriod: '1',
@@ -42,6 +42,7 @@ declare global {
 
 window.env = window.env || defaultConfig;
 Cryptobase.config = { ...window.env };
+
 Cryptobase.config.storage = Cryptobase.config.storage || {};
 
 export const tradeUrl = () => Cryptobase.config.api.tradeUrl;
@@ -50,6 +51,7 @@ export const applogicUrl = () => Cryptobase.config.api.applogicUrl;
 export const rangerUrl = () => Cryptobase.config.api.rangerUrl;
 export const arkeUrl = () => Cryptobase.config.api.arkeUrl || tradeUrl();
 export const finexUrl = () => Cryptobase.config.api.finexUrl || tradeUrl();
+export const ieoAPIUrl = () => Cryptobase.config.api.ieoAPIUrl || process.env.ieoAPIUrl;
 export const minutesUntilAutoLogout = (): string => Cryptobase.config.minutesUntilAutoLogout || '5';
 export const withCredentials = () => Cryptobase.config.withCredentials;
 export const defaultStorageLimit = () => Cryptobase.config.storage.defaultStorageLimit || STORAGE_DEFAULT_LIMIT;

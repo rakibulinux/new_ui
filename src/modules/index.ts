@@ -33,7 +33,7 @@ import { DepthIncrementState, DepthState, OrderBookState, rootOrderBookSaga } fr
 import { RangerState } from './public/ranger/reducer';
 import { RecentTradesState, rootRecentTradesSaga } from './public/recentTrades';
 import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
-import { BuyIEOState, rootBuyIEOSaga, TotalIEOBuyersState } from './plugins/ieo';
+import { BuyIEOLoadingState, rootBuyIEOSaga, TotalIEOBuyersState } from './plugins/ieo';
 import { PriceState, rootPriceSaga } from './sale/price';
 import { IEOItemState, rootIEOItemSaga } from './plugins/ieo/item';
 import { IEOListState, rootIEOListSaga } from './plugins/ieo/list';
@@ -132,7 +132,7 @@ export interface RootState {
 	IEO: {
 		IEOItem: IEOItemState;
 		IEOList: IEOListState;
-		buyIEO: BuyIEOState;
+		buyIEO: BuyIEOLoadingState;
 		totalIEOBuyers: TotalIEOBuyersState;
 		buyersHistory: BuyersHistoryState;
 		buyHistory: BuyHistoryListState;

@@ -9,9 +9,9 @@ export interface BuyIEO {
 	success?: boolean;
 }
 
-export interface BuyIEOState extends CommonState {
-	payload: BuyIEO;
+export interface BuyIEOLoadingState extends CommonState {
 	loading: boolean;
+	success: boolean;
 }
 
 export interface TotalIEOBuyers {

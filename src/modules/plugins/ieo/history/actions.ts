@@ -1,4 +1,3 @@
-import { CommonError } from '../../../../modules/types';
 import * as Constants from './constanst';
 import { BuyHistoryListState, BuyersHistoryState } from './types';
 export interface FetchBuyHistory {
@@ -29,7 +28,7 @@ export interface FetchBuyersHistoryData {
 }
 export interface FetchHistoryError {
 	type: typeof Constants.FETCH_HISTORY_ERROR;
-	error: CommonError;
+	error: string;
 }
 
 export type HistoryBuyActions =
