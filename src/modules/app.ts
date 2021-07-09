@@ -75,7 +75,14 @@ export const saleReducer = combineReducers({
 	price: priceReducer,
 	totalBuyers: totalBuyersReducer,
 });
-
+export const IEOReducer = combineReducers({
+	IEOItem: IEOItemReducer,
+	IEOList: IEOListReducer,
+	buyIEO: buyIEOReducer,
+	buyHistory: BuyHistoryReducer,
+	buyersHistory: BuyersHistoryReducer,
+	totalIEOBuyers: totalIEOBuyersReducer,
+});
 export const tradingCompetitionsReducer = combineReducers({
 	competitions: competitionsListReducer,
 	competition_item: competitionItemReducer,

@@ -108,7 +108,7 @@ export const IEOItem: React.FC<SaleItemProps> = (props: SaleItemProps) => {
 	};
 	const handleDetailClick = () => {
 		const location = {
-			pathname: `/ieo/detail/${props.sale.id}`,
+			pathname: `/sale/${props.sale.id}`,
 		};
 		history.push(location);
 	};

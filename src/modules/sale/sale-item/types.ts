@@ -2,6 +2,7 @@ import { CommonState } from '../../../modules/types';
 
 export interface SaleItem {
 	id: string;
+	host_uid?: string;
 	currency_id: string;
 	description?: string;
 	image_link: string;

@@ -1,5 +1,4 @@
 import { put } from 'redux-saga/effects';
-// import { API, RequestOptions } from '../../../../../api';
 import axios from '../../../../plugins/api/index';
 
 import { stakingListData, stakingListError, StakingListFetch } from '../actions';
