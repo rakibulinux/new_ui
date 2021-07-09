@@ -5,13 +5,14 @@ import { depthFetch, marketsFetch, selectCurrentMarket, selectMarkets, selectUse
 import { rangerConnectFetch } from 'modules/public/ranger';
 import { selectRanger } from 'modules/public/ranger/selectors';
 import * as React from 'react';
+import isEqual from 'react-fast-compare';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderToolbar } from './HeaderToolbar';
 
 // tslint:disable-next-line: no-empty-interface
 interface TradingScreenProps {}
 
-export const TradingScreen: React.FC<TradingScreenProps> = ({}) => {
+const TradingComponent: React.FC<TradingScreenProps> = ({}) => {
 	const dispatch = useDispatch();
 	const currentMarket = useSelector(selectCurrentMarket);
 	const markets = useSelector(selectMarkets);
@@ -64,3 +65,5 @@ export const TradingScreen: React.FC<TradingScreenProps> = ({}) => {
 		</div>
 	);
 };
+
+export const TradingScreen = React.memo(TradingComponent, isEqual);

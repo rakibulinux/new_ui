@@ -1,0 +1,50 @@
+.td-mobile-current-market-info {
+	background: #313445;
+	padding: 1em 0.5em;
+
+	&__header {
+		img {
+			cursor: pointer;
+			margin: 0;
+		}
+
+		&__option {
+			position: relative;
+
+			.list-group {
+				bottom: 100;
+				display: none;
+				position: absolute;
+				right: 0;
+				width: max-content;
+				z-index: 1;
+
+				&-item {
+					align-items: center;
+					background-color: var(--main-background-color);
+					color: #fff;
+					display: flex;
+					font-size: 0.9em;
+					padding: 0.2em 0.4em;
+
+					svg {
+						margin-right: 0.5em;
+					}
+
+					&:hover {
+						background-color: #000;
+					}
+				}
+			}
+		}
+	}
+
+	&__content {
+		padding-bottom: 1em;
+		padding-top: 1em;
+
+		.pg-trading-chart {
+			height: 364px;
+		}
+	}
+}

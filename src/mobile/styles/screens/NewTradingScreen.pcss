@@ -1,0 +1,51 @@
+.td-trading-screen-mobile {
+	margin-bottom: calc(70px + 10px);
+	min-height: 100vh;
+
+	&__main-content {
+		.td-tabs {
+			&-nav {
+				background: #313445;
+				box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+
+				&-wrap {
+					justify-content: center;
+					padding-bottom: 1em;
+					padding-top: 1em;
+				}
+
+				&-list {
+					.td-tabs-tab {
+						.td-tabs-tab-btn {
+							border-radius: 100px;
+							color: #fff;
+							font-size: 0.7em;
+							padding: 0 1.5em;
+						}
+					}
+
+					.td-tabs-tab-disabled {
+						.td-tabs-tab-btn {
+							color: #fff9;
+						}
+					}
+
+					.td-tabs-tab-active {
+						.td-tabs-tab-btn {
+							background-color: #2fb67e;
+							box-shadow: 0 8px 8px rgba(0, 0, 0, 0.15);
+						}
+					}
+				}
+			}
+
+			&-content-holder {
+				padding: 0.6em 0.7em;
+			}
+		}
+	}
+
+	&__main-history {
+		padding: 0.6em 0.7em;
+	}
+}

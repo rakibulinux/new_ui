@@ -29,3 +29,6 @@ export * from './Pagination';
 export * from './NewBottomNavbar';
 export * from './NewMarketsList';
 export * from './NewAllMarketList';
+export * from './NewCurrentMarketInfo';
+export * from './NewOpenOrders';
+export * from './NewOrders';
