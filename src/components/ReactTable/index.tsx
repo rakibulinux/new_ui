@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useTable, usePagination } from 'react-table';
+import { usePagination, useTable } from 'react-table';
 import EmptySVG from './empty.svg';
 
 interface ReacTableProps {
@@ -15,10 +15,10 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 		getTableBodyProps,
 		headerGroups,
 		prepareRow,
-		page, // Instead of using 'rows', we'll use page,
+		page, // instead of using 'rows', we'll use page,
 		// which has only the rows for the active page
 
-		// The rest of these things are super handy, too ;)
+		// the rest of these things are super handy, too ;)
 		canPreviousPage,
 		canNextPage,
 		pageOptions,
@@ -32,12 +32,13 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 		{
 			columns,
 			data,
-			initialState: { pageIndex: 0 },
+			initialState: { pageIndex: 0, pageSize: 20 },
+			autoResetPage: false,
 		},
 		usePagination,
 	);
 
-	// Render the UI for your table
+	// render the UI for your table
 	return (
 		<div id="react-table">
 			<table {...getTableProps()} style={{ position: 'relative' }}>
@@ -45,7 +46,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 					{headerGroups.map(headerGroup => (
 						<tr {...headerGroup.getHeaderGroupProps()}>
 							{headerGroup.headers.map(column => (
-								<th width="25%" {...column.getHeaderProps()}>
+								<th {...column.getHeaderProps()}>
 									<span style={{ fontWeight: 'normal' }}>{column.render('Header')}</span>
 								</th>
 							))}
@@ -54,7 +55,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 				</thead>
 				{[...page].length === 0 ? (
 					<div className="text-center empty">
-						<img className="text-center" width="100px" src={EmptySVG} />
+						<img className="text-center" width="100px" src={EmptySVG} alt="empty" />
 						<br />
 						<p>No Data</p>
 					</div>
@@ -62,14 +63,11 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 					<tbody {...getTableBodyProps()}>
 						{page.map(row => {
 							prepareRow(row);
+
 							return (
 								<tr {...row.getRowProps()}>
 									{row.cells.map(cell => {
-										return (
-											<td width="25%" {...cell.getCellProps()}>
-												{cell.render('Cell')}
-											</td>
-										);
+										return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
 									})}
 								</tr>
 							);
@@ -102,11 +100,11 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 					<button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
 						{'<<'}
 					</button>{' '}
-					<button onClick={() => previousPage()} disabled={!canPreviousPage}>
+					<button onClick={previousPage} disabled={!canPreviousPage}>
 						{'<'}
 					</button>{' '}
 					<button style={{ backgroundColor: '#8093C4' }}>{pageIndex + 1}</button>{' '}
-					<button onClick={() => nextPage()} disabled={!canNextPage}>
+					<button onClick={nextPage} disabled={!canNextPage}>
 						{'>'}
 					</button>{' '}
 					<button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
@@ -120,7 +118,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 							setPageSize(Number(e.target.value));
 						}}
 					>
-						{[20, 40, 60].map(pageSize => (
+						{[20, 30, 40, 50].map(pageSize => (
 							<option key={pageSize} value={pageSize}>
 								Show {pageSize}
 							</option>

@@ -6,16 +6,7 @@ import styled from 'styled-components';
 import { Decimal } from '../../components';
 import Slider from 'react-slick';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
-import {
-	currenciesFetch,
-	selectCurrencies,
-	selectMarkets,
-	selectMarketTickers,
-	Market,
-	// selectCurrentMarket,
-	// Ticker,
-	setCurrentMarket,
-} from '../../modules';
+import { currenciesFetch, selectCurrencies, selectMarkets, selectMarketTickers, Market, setCurrentMarket } from '../../modules';
 
 const ChartWrap = styled.div`
 	width: 100%;
@@ -64,6 +55,8 @@ const MarketChartItem = styled.div`
 	}
 `;
 
+const BASE_MARKET_URL = 'https://www.cx.finance/api/v2/peatio/public/markets';
+
 export const NewMarketList: React.FC<any> = () => {
 	const defaultTicker = {
 		amount: '0.0',
@@ -93,7 +86,7 @@ export const NewMarketList: React.FC<any> = () => {
 
 	React.useEffect(() => {
 		dispatch(currenciesFetch());
-	}, []);
+	}, [dispatch]);
 
 	React.useEffect(() => {
 		if (markets.length) {
@@ -128,9 +121,8 @@ export const NewMarketList: React.FC<any> = () => {
 				setMarketNames(marketNames);
 			}
 		}
-	}, [marketTickers, markets]);
+	}, [marketTickers, markets, dispatch, defaultTicker, marketNames.length]);
 
-	const BASE_MARKET_URL = 'https://www.cx.finance/api/v2/peatio/public/markets';
 	const fetchMarketsKlines = async (marketId: string, from: number, to: number) => {
 		try {
 			const klines = await axios.get(
@@ -153,9 +145,7 @@ export const NewMarketList: React.FC<any> = () => {
 						const klines = await fetchMarketsKlines(marketNames[i], from, to);
 						setKlinesState(prev => [...prev, klines]);
 					}
-				} catch (error) {
-					// console.log(JSON.stringify(error));
-				}
+				} catch (error) {}
 				return;
 			};
 			drawMarketLines();
@@ -183,7 +173,11 @@ export const NewMarketList: React.FC<any> = () => {
 	};
 
 	const MarketChart = (data: any, marketID: string) => {
-		const market = markets.find(market => market.base_unit.toLowerCase() === marketID.split('/')[0].toLowerCase());
+		const market = markets.find(
+			market =>
+				market.quote_unit.toLowerCase() === marketID.split('/')[1].toLowerCase() &&
+				market.base_unit.toLowerCase() === marketID.split('/')[0].toLowerCase(),
+		);
 
 		if (market) {
 			const marketID = market.name.toUpperCase();

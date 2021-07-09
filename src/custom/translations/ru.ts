@@ -2,6 +2,9 @@ import { LangType } from '../../translations';
 import { nationalitiesNames } from '../../translations/nationalities';
 
 export const ru: LangType = {
+	/**Vote */
+	'page.body.vote.msg.success': 'Vote success',
+	'page.body.vote.msg.fail': 'Vote fail',
 	/**OrderBook */
 	'page.body.trading.header.orderBook.header.title.price': 'цена',
 	'page.body.trading.header.orderBook.header.title.amount': 'количество',

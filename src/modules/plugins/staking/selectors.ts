@@ -1,5 +1,5 @@
 import { RootState } from '../../index';
-import { StakingListState, StakeWalletState, StakeHistoryState, UnStakeHistoryState } from './types';
+import { StakeHistoryState, StakeWalletState, StakingListState, UnStakeHistoryState } from './types';
 
 export const selectCreateStakeLoading = (state: RootState): boolean => state.plugins.create_stake.loading;
 

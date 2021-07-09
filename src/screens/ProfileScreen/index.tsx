@@ -20,7 +20,7 @@ export const ProfileQuickContainer: React.FC = () => {
 			<Container fluid>
 				<div className="td-pg-profile__quick__inner d-flex align-items-center">
 					<div className="td-pg-profile__quick__logo">
-						<img src={require('assets/images/profile/avatar.svg')} />
+						<img src={require('assets/images/profile/avatar.svg')} alt="" />
 						{user.email && <div className="td-pg-profile__quick__logo__name">{user.email[0]}</div>}
 					</div>
 					<div className="td-pg-profile__quick__info d-flex flex-column align-items-start">

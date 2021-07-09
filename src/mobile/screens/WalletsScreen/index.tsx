@@ -16,11 +16,11 @@ const WalletsMobileScreen: React.FC = () => {
 	useDocumentTitle('Wallets');
 	const dispatch = useDispatch();
 
-	const dispatchcFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
+	const dispatchcFetchAllChildCurrencies = React.useCallback(() => dispatch(allChildCurrenciesFetch()), [dispatch]);
 	// side effect
 	React.useEffect(() => {
 		dispatchcFetchAllChildCurrencies();
-	}, []);
+	}, [dispatchcFetchAllChildCurrencies]);
 
 	return (
 		<div>

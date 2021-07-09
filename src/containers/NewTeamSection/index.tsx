@@ -129,7 +129,7 @@ export const NewTeamSection = () => {
 			<div className="row">
 				<div className="col-4 d-flex flex-column justify-content-end">
 					<img style={{ borderRadius: '5px', width: '100%' }} src={teams[teamImageIndexState].large} alt="" />
-					<div className="d-flex flex-row justify-content-between" style={{marginTop: '4rem'}}>
+					<div className="d-flex flex-row justify-content-between" style={{ marginTop: '4rem' }}>
 						<button
 							style={{
 								width: '60px',
@@ -201,9 +201,9 @@ export const NewTeamSection = () => {
 						</button>
 					</div>
 				</div>
-				<div className="col-8" style={{ paddingLeft: '50px'}}>
+				<div className="col-8" style={{ paddingLeft: '50px' }}>
 					<div>
-						<h2 style={{ fontSize: '3rem', fontWeight: 'bold'  }}>Our Team</h2>
+						<h2 style={{ fontSize: '3rem', fontWeight: 'bold' }}>Our Team</h2>
 						<p style={{ fontSize: '1.3rem' }}>
 							CX Exchange, developed by ZoziTech, is a product of ZoziTech Software company.
 						</p>

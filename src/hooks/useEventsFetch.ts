@@ -1,11 +1,14 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
-import { eventFetch } from '../modules/info/events';
+import { useDispatch, useSelector } from 'react-redux';
+import { eventFetch, selectEvents } from '../modules/info/events';
 
 export const useEventsFetch = () => {
 	const dispatch = useDispatch();
+	const events = useSelector(selectEvents);
 
 	React.useEffect(() => {
-		dispatch(eventFetch());
+		if (!events.payload.length) {
+			dispatch(eventFetch());
+		}
 	}, [dispatch]);
 };

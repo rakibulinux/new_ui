@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosPromise, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { applogicUrl, authUrl, finexUrl, tradeUrl, withCredentials, ieoAPIUrl } from './config';
+import { applogicUrl, authUrl, finexUrl, sunshineUrl, tradeUrl, withCredentials, ieoAPIUrl } from './config';
 
 export type HTTPMethod = 'get' | 'post' | 'delete' | 'put' | 'patch';
 
@@ -9,7 +9,8 @@ export interface JsonBody {
 }
 
 export interface RequestOptions {
-	apiVersion: 'applogic' | 'peatio' | 'barong' | 'finex' | 'ieo';
+	apiVersion: 'applogic' | 'peatio' | 'barong' | 'finex';
+	apiVersion: 'applogic' | 'peatio' | 'barong' | 'finex' | 'sunshine' | 'ieo';
 	withHeaders?: boolean;
 	headers?: Object;
 }
@@ -23,6 +24,7 @@ export interface Request {
 export interface ApiVariety {
 	barong: string;
 	applogic: string;
+	sunshine: string;
 	peatio: string;
 }
 
@@ -32,6 +34,7 @@ const getAPI = () => ({
 	peatio: tradeUrl(),
 	finex: finexUrl(),
 	ieo: ieoAPIUrl(),
+	sunshine: sunshineUrl(),
 });
 
 const buildRequest = (request: Request, configData: RequestOptions) => {

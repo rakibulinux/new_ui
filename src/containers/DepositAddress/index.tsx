@@ -23,8 +23,14 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 	const dispatch = useDispatch();
 	const wallets = useSelector(selectWallets) || [];
 	const currencies = useSelector(selectCurrencies) || [];
-	const mainCurrency = currencies.find(cur => cur.id.toLowerCase() === currency_id.toLowerCase()) || { blockchain_key: '', deposit_enabled: false };
-	const selectedCurrency = currencies.find(cur => cur.id.toLowerCase() === selectedCurrencyID.toLowerCase()) || { blockchain_key: '', deposit_enabled: false };
+	const mainCurrency = currencies.find(cur => cur.id.toLowerCase() === currency_id.toLowerCase()) || {
+		blockchain_key: '',
+		deposit_enabled: false,
+	};
+	const selectedCurrency = currencies.find(cur => cur.id.toLowerCase() === selectedCurrencyID.toLowerCase()) || {
+		blockchain_key: '',
+		deposit_enabled: false,
+	};
 
 	const mainWallet = wallets.find(item => item.currency === currency_id.toLowerCase()) || {
 		name: '',
@@ -51,59 +57,58 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 
 	React.useEffect(() => {
 		dispatch(walletsAddressFetch({ currency: currency_id }));
-	}, [currency_id]);
+	}, [currency_id, dispatch]);
 
 	React.useEffect(() => {
 		dispatch(walletsAddressFetch({ currency: selectedCurrencyID }));
-	}, [selectedCurrencyID]);
+	}, [selectedCurrencyID, dispatch]);
 
 	React.useEffect(() => {
 		dispatch(walletsAddressFetch({ currency: selectedCurrencyID }));
 	}, [dispatch, selectedCurrencyID]);
 
 	const renderChildWallets = () => {
-		if (childWallets.length <= 0) { return ''; }
+		if (childWallets.length <= 0) {
+			return '';
+		}
 
-		return (
-			childWallets.map((childWallet, index) => (
-				<TabPane
-					tab={getTabName(childWallet.blockchain_key)}
-					key={childWallet.id}
-				>
-					<div style={{ position: 'relative', width: '100%', height: '100%' }}>
-						{childWallet.wallet ? (
-							<DepositBody
-								wallet_index={index + 1}
-								wallet={childWallet.wallet}
-								isAccountActivated={isAccountActivated}
-								handleGenerateAddress={() => {
-									if (childWallet.wallet) {
-										handleGenerateAddress({
-											address: childWallet.wallet.address,
-											type: childWallet.wallet.type,
-											currency: childWallet.wallet.currency,
-										});
-									}
-
+		return childWallets.map((childWallet, index) => (
+			<TabPane tab={getTabName(childWallet.blockchain_key)} key={childWallet.id}>
+				<div style={{ position: 'relative', width: '100%', height: '100%' }}>
+					{childWallet.wallet ? (
+						<DepositBody
+							wallet_index={index + 1}
+							wallet={childWallet.wallet}
+							isAccountActivated={isAccountActivated}
+							handleGenerateAddress={() => {
+								if (childWallet.wallet) {
+									handleGenerateAddress({
+										address: childWallet.wallet.address,
+										type: childWallet.wallet.type,
+										currency: childWallet.wallet.currency,
+									});
 								}
-								}
-								generateAddressTriggered={generateAddressTriggered}
-							/>
-						) : ('')}
-						<div hidden={childWallet.deposit_enabled} className="blur-disabled">
-							<LockIcon className="pg-blur__content__icon" />
-							{intl.formatMessage({
-								id: 'page.body.wallets.tabs.deposit.disabled.message',
-							})}
-						</div>
+							}}
+							generateAddressTriggered={generateAddressTriggered}
+						/>
+					) : (
+						''
+					)}
+					<div hidden={childWallet.deposit_enabled} className="blur-disabled">
+						<LockIcon className="pg-blur__content__icon" />
+						{intl.formatMessage({
+							id: 'page.body.wallets.tabs.deposit.disabled.message',
+						})}
 					</div>
-				</TabPane>
-			))
-		);
+				</div>
+			</TabPane>
+		));
 	};
 
 	const renderParentWallet = () => {
-		if (!mainWallet) { return ''; }
+		if (!mainWallet) {
+			return '';
+		}
 
 		return (
 			<TabPane tab={getTabName(mainCurrency.blockchain_key || '')} key={currency_id}>
@@ -161,8 +166,8 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 						<p className="pr-5">
 							<strong>Send only {selectedCurrencyID.toUpperCase()} to this deposit address.</strong>
 							<br />
-							Sending coin or token other than {selectedCurrencyID.toUpperCase()} to this address may result in the loss of
-							your deposit.
+							Sending coin or token other than {selectedCurrencyID.toUpperCase()} to this address may result in the
+							loss of your deposit.
 						</p>
 					</div>
 				</div>

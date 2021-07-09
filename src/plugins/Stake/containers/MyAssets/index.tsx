@@ -31,10 +31,11 @@ export const MyAssets = (props: MyAssetsProps) => {
 	const stakedAmount: number =
 		histories.length > 0
 			? histories
-					.map(history => history.amount)
-					.reduce((accumulator, currentValue, currentIndex, array) => accumulator + currentValue)
+				.map(history => history.amount)
+				.reduce((accumulator, currentValue, currentIndex, array) => accumulator + currentValue)
 			: 0;
 	const isLoadingStakeWallet = useSelector(selectStakeWalletLoading);
+
 	return (
 		<div id="my-assets">
 			<div style={{ position: 'relative' }}>

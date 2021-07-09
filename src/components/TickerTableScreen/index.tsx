@@ -55,17 +55,17 @@ export const TickerTableScreen = (props: Props) => {
 				total: markets.length,
 			}));
 		}
-	}, [markets.length]);
+	}, [markets.length, markets]);
 
-	React.useEffect(() => {
-		handleGetStartPointPagination();
-	}, [paginationState]);
-
-	const handleGetStartPointPagination = (): number => {
+	const handleGetStartPointPagination = React.useCallback((): number => {
 		const start = paginationState.pageSize * paginationState.current - paginationState.pageSize;
 
 		return start;
-	};
+	}, [paginationState]);
+
+	React.useEffect(() => {
+		handleGetStartPointPagination();
+	}, [paginationState, handleGetStartPointPagination]);
 
 	const renderPagination = () => {
 		const { current, pageSize, total } = paginationState;
@@ -99,8 +99,7 @@ export const TickerTableScreen = (props: Props) => {
 			current: value,
 		}));
 	};
-	
-	
+
 	const renderItem = (market, index: number) => {
 		const marketChangeColor = +(market.change || 0) < 0 ? 'negative' : 'positive';
 		const decima = 4;

@@ -1,17 +1,10 @@
 import { put } from 'redux-saga/effects';
-import { alertPush } from '../../..';
 import axios from '../../../../plugins/api/index';
 
 import { unStakeHistoryData, UnStakeHistoryFetch } from '../actions';
 import { StakeHistory } from '../types';
 
 export function* fetchUnStakeHistory(action: UnStakeHistoryFetch) {
-	yield put(
-		unStakeHistoryData({
-			payload: [],
-			loading: true,
-		}),
-	);
 	try {
 		const { uid, currency_id } = action.payload;
 		if (uid && currency_id) {
@@ -32,6 +25,5 @@ export function* fetchUnStakeHistory(action: UnStakeHistoryFetch) {
 				loading: false,
 			}),
 		);
-		yield put(alertPush({ message: error.message, code: error.code, type: 'error' }));
 	}
 }

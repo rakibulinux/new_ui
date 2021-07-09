@@ -1,11 +1,12 @@
 import * as React from 'react';
+// import { Button } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Select from 'react-select';
 import { CurrencyInfo } from '../../components/CurrencyInfo';
 import { TradeList } from '../../components/TradeList';
-import { Wallet, selectCurrencies, selectAllChildCurrencies } from '../../modules';
+import { selectAllChildCurrencies, selectCurrencies, Wallet } from '../../modules';
 
 const SelectStyles = {
 	option: (provided, state) => ({
@@ -70,31 +71,39 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
 		try {
 			return require(`../../../node_modules/cryptocurrency-icons/128/color/${code.toLowerCase()}.png`);
 		} catch (err) {
-			if (currency) return currency.icon_url;
+			if (currency) {
+				return currency.icon_url;
+			}
+
 			return require('../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
 		}
 	};
 
-	// Select
 	const options = currencies.map(currency => {
 		const newCurrency = {
 			value: currency.id,
 			label: (
 				<span>
-					<img style={{ width: '2rem' }} src={findIcon(currency.id)} alt={currency.id} /> {currency.name.toUpperCase()}
+					<img style={{ width: '2rem' }} src={findIcon(currency.id)} alt={currency.id} /> {currency.id.toUpperCase()} |{' '}
+					{currency.name.toUpperCase()}
 				</span>
 			),
 		};
+
 		return newCurrency;
 	});
 
 	const handleChange = (selectedOption: any) => {
 		const currency_id = String(selectedOption.value);
-		const location = {
-			pathname: `/wallets/withdraw/${currency_id.toUpperCase()}`,
-		};
-		history.push(location);
+		if (currency_id) {
+			const location = {
+				pathname: `/wallets/withdraw/${currency_id.toUpperCase()}`,
+			};
+			history.push(location);
+		}
 	};
+
+	// const [isOpen, setIsOpen] = React.useState(false);
 
 	return (
 		<div id="withdraw-info">
@@ -111,10 +120,17 @@ export const WithdrawInfo: React.FC<WithdrawInfoProps> = (props: WithdrawInfoPro
 					</div>
 					<div className="col-6">
 						<Select
-							styles={SelectStyles}
-							value={options.filter(option => option.value == currency_id.toLowerCase())}
+							autoFocus
+							backspaceRemovesValue={false}
+							controlShouldRenderValue={false}
+							hideSelectedOptions={false}
+							isClearable={false}
 							onChange={handleChange}
 							options={options.filter(option => !all_child_currencies.map(cur => cur.id).includes(option.value))}
+							placeholder="Search Coin/Token Name"
+							styles={SelectStyles}
+							tabSelectsValue={false}
+							value={options.filter(option => option.value.toLowerCase() === currency_id.toLowerCase())}
 						/>
 					</div>
 				</div>

@@ -21,7 +21,7 @@ export function* getPrice(action: GetPrice) {
 		// const kobePrice = yield axios.get('https://www.cx.finance/api/v2/peatio/public/markets/kobeusdt/tickers');
 		// const escPrice = yield axios.get('https://www.cx.finance/api/v2/peatio/public/markets/escusdt/tickers');
 		// const swpPrice = yield axios.get('https://www.cx.finance/api/v2/peatio/public/markets/swpusdt/tickers');
-		const cxPrice = yield axios.get('https://demo.zozitech.com/api/v2/peatio/public/markets/cxusdt/tickers');
+		const cxPrice = yield axios.get('https://www.cx.finance/api/v2/peatio/public/markets/cxusdt/tickers');
 
 		newPrice = {
 			...newPrice,

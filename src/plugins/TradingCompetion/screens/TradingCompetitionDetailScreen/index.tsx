@@ -105,6 +105,36 @@ const prizeList: Prizes[] = [
 			},
 		],
 	},
+
+	{
+		competition_id: 2,
+		prizes: [
+			{
+				rank: '1',
+				award: '500$ in Ecoin',
+			},
+			{
+				rank: '2',
+				award: '250$ in Ecoin',
+			},
+			{
+				rank: '3',
+				award: '100$ in Ecoin',
+			},
+			{
+				rank: '4',
+				award: '50$ in Ecoin',
+			},
+			{
+				rank: '5',
+				award: '50$ in Ecoin',
+			},
+			{
+				rank: '6',
+				award: '50$ in Ecoin',
+			},
+		],
+	},
 ];
 
 export const TradingCompetitionDetailScreen: React.FC = () => {
@@ -116,12 +146,15 @@ export const TradingCompetitionDetailScreen: React.FC = () => {
 	const user = useSelector(selectUserInfo);
 
 	const dispatch = useDispatch();
-	const dispatchFetchCompetitionItemByID = ieoID =>
-		dispatch(
-			findCompetitionbyId({
-				id: ieoID,
-			}),
-		);
+	const dispatchFetchCompetitionItemByID = React.useCallback(
+		ieoID =>
+			dispatch(
+				findCompetitionbyId({
+					id: ieoID,
+				}),
+			),
+		[dispatch],
+	);
 
 	React.useEffect(() => {
 		if (competition.loading) {
@@ -137,7 +170,7 @@ export const TradingCompetitionDetailScreen: React.FC = () => {
 
 	React.useEffect(() => {
 		dispatchFetchCompetitionItemByID(competition_id);
-	}, []);
+	}, [competition_id, dispatchFetchCompetitionItemByID]);
 
 	React.useEffect(() => {
 		if (user.uid !== '') {
@@ -153,7 +186,7 @@ export const TradingCompetitionDetailScreen: React.FC = () => {
 				// tslint:disable-next-line: no-empty
 				.catch(err => {});
 		}
-	}, [user.uid]);
+	}, [user.uid, competition_id]);
 
 	const prizeOfCompetition = prizeList.find(prize => `${prize.competition_id}` === competition_id);
 

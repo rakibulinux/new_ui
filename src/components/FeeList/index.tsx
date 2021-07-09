@@ -9,10 +9,10 @@ interface Props {
 export const FeeList: React.FC<Props> = (props: Props) => {
 	const { currencies } = props;
 	const dispatch = useDispatch();
-	const dispatchGetEthFee = () => dispatch(ethFeeFetch());
+	const dispatchGetEthFee = React.useCallback(() => dispatch(ethFeeFetch()), [dispatch]);
 	React.useEffect(() => {
 		dispatchGetEthFee();
-	}, []);
+	}, [dispatchGetEthFee]);
 
 	const ethFee = useSelector(selectETHFee);
 

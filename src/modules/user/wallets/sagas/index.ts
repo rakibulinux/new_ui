@@ -6,7 +6,7 @@ import {
 	WALLETS_FETCH,
 	WALLETS_WITHDRAW_CCY_FETCH,
 } from '../constants';
-import { childCurrenciesSaga, allChildCurrenciesSaga } from './childCurrenciesSaga';
+import { allChildCurrenciesSaga, childCurrenciesSaga } from './childCurrenciesSaga';
 import { walletsAddressSaga } from './walletsAddressSaga';
 import { walletsSaga } from './walletsSaga';
 import { walletsWithdrawCcySaga } from './walletsWithdrawSaga';

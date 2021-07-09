@@ -56,11 +56,11 @@ export const IEOItem: React.FC<SaleItemProps> = (props: SaleItemProps) => {
 	const history = useHistory();
 
 	const dispatch = useDispatch();
-	const dispatchcFetchCurrencies = () => dispatch(currenciesFetch());
+	const dispatchcFetchCurrencies = React.useCallback(() => dispatch(currenciesFetch()), [dispatch]);
 
 	React.useEffect(() => {
 		dispatchcFetchCurrencies();
-	}, []);
+	}, [dispatchcFetchCurrencies]);
 	const currencies = useSelector(selectCurrencies);
 	let saleBadgeColor = '#0C9D58ff';
 	switch (props.type) {
@@ -127,7 +127,18 @@ export const IEOItem: React.FC<SaleItemProps> = (props: SaleItemProps) => {
 					<img className="img-fluid" src={props.sale.image_link} alt="" />
 				</div>
 			</div>
-			<hr />
+			<br />
+			<div className="row">
+				<div className="col-12 text-center">
+					<h4 className="text-bold">{countdownTitle}</h4>
+				</div>
+			</div>
+			<div className="row">
+				<div className="col-12 d-flex justify-content-center">
+					<Countdown date={countdownTime} renderer={renderer} />
+				</div>
+			</div>
+			<br />
 			<div className="row">
 				<div className="col-12 text-center" style={{ padding: '0 5rem' }}>
 					<Statistic title="Remain Tokens" value={`${props.sale.remains}/${props.sale.total_ieo}`} />
@@ -142,18 +153,7 @@ export const IEOItem: React.FC<SaleItemProps> = (props: SaleItemProps) => {
 					/>
 				</div>
 			</div>
-			<hr />
-			<div className="row">
-				<div className="col-12 text-center">
-					<h4 className="text-bold">{countdownTitle}</h4>
-				</div>
-			</div>
-			<div className="row">
-				<div className="col-12 d-flex justify-content-center">
-					<Countdown date={countdownTime} renderer={renderer} />
-				</div>
-			</div>
-			<hr />
+			<br />
 			<div className="row">
 				<div className="col-6 d-flex align-items-center justify-content-center">
 					<Statistic title="STARTING PRICE:" value={`$${props.sale.price} USD`} />

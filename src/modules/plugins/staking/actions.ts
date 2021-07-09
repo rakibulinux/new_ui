@@ -4,7 +4,6 @@ import {
 	CREATE_STAKE_DATA,
 	STAKE_HISTORY_DATA,
 	STAKE_HISTORY_FETCH,
-	UNSTAKE_POST,
 	STAKE_WALLET_DATA,
 	STAKE_WALLET_FETCH,
 	STAKING_LIST_DATA,
@@ -13,6 +12,7 @@ import {
 	UNSTAKE_DATA,
 	UNSTAKE_HISTORY_DATA,
 	UNSTAKE_HISTORY_FETCH,
+	UNSTAKE_POST,
 } from './constants';
 import {
 	CreateStakeState,
@@ -31,6 +31,7 @@ export interface CreateStake {
 	type: typeof CREATE_STAKE;
 	payload: {
 		uid: string;
+		stake_id: string;
 		reward_id: string;
 		amount: string;
 		lockup_date: string;

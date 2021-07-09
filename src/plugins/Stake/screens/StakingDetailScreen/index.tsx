@@ -1,26 +1,28 @@
-import * as React from 'react';
-import { MyAssets, RegisterStake, StakeHistory, StakingInfo, UnStake, UnStakeHistory } from '../../containers';
+import { useCurrenciesFetch } from 'hooks';
+import millify from 'millify';
 import Tabs, { TabPane } from 'rc-tabs';
-import { useParams } from 'react-router';
+import * as React from 'react';
+import { ProgressBar } from 'react-bootstrap';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 import {
 	selectStakingList,
 	selectUserInfo,
+	selectUserLoggedIn,
 	Stake,
 	stakeHistoryFetch,
 	stakeWalletFetch,
 	stakingListFetch,
 	unStakeHistoryFetch,
 } from '../../../../modules';
-import { useIntl } from 'react-intl';
-import { ProgressBar } from 'react-bootstrap';
-import millify from 'millify';
+import { MyAssets, RegisterStake, StakeHistory, StakingInfo, UnStake, UnStakeHistory } from '../../containers';
+
 
 const initialStakingItem: Stake = {
 	stake_id: '',
 	currency_id: '',
 	staking_name: '',
-	icon_url: '',
 	description: '',
 	start_time: '',
 	end_time: '',
@@ -28,11 +30,17 @@ const initialStakingItem: Stake = {
 	rewards: [],
 	status: '',
 	ref_link: '',
+	total_amount: '0',
+	cap_amount: '0',
+	cap_amount_per_user: '0',
+	min_amount: '0',
 };
 
 export const StakingDetailScreen = () => {
 	const intl = useIntl();
 	const user = useSelector(selectUserInfo);
+
+	useCurrenciesFetch();
 
 	// dispatch
 	const dispatch = useDispatch();
@@ -45,29 +53,38 @@ export const StakingDetailScreen = () => {
 	const { stake_id } = useParams<{ stake_id: string }>();
 	const stakingList = useSelector(selectStakingList);
 
+	const isLogin = useSelector(selectUserLoggedIn);
+
 	React.useEffect(() => {
-		const staking_item =
+		const stakingItem =
 			stakingList.find(staking => staking.stake_id.toString() === stake_id.toString()) || initialStakingItem;
-		setStakingItemState(staking_item);
+		setStakingItemState(stakingItem);
 	}, [stake_id, stakingList]);
 
 	React.useEffect(() => {
 		if (stakingItemState.rewards.length) {
-			const totalAmount: number = stakingItemState.rewards
-				.map(reward => Number(reward.total_amount))
-				.reduce((a, b) => a + b, 0);
-			const totalCap: number = stakingItemState.rewards.map(reward => Number(reward.cap_amount)).reduce((a, b) => a + b, 0);
+			const totalAmount: number = Number(stakingItemState.total_amount);
+			const totalCap: number = Number(stakingItemState.cap_amount);
 			const percent = ((totalCap / totalAmount) * 100).toFixed(2);
 			setProgressState(percent);
+
 			setTotalAmountState(
-				millify(totalAmount, {
-					precision: 2,
-				}),
+				Number(totalAmount) > 100000000
+					? String(
+							millify(Number(totalAmount), {
+								precision: 2,
+							}),
+					  )
+					: String(totalAmount),
 			);
 			setTotalCapState(
-				millify(totalCap, {
-					precision: 2,
-				}),
+				Number(totalCap) > 100000000
+					? String(
+							millify(Number(totalCap), {
+								precision: 2,
+							}),
+					  )
+					: String(totalCap),
 			);
 		}
 	}, [stakingItemState]);
@@ -96,7 +113,6 @@ export const StakingDetailScreen = () => {
 						<StakingInfo
 							currency_id={stakingItemState.currency_id}
 							staking_name={stakingItemState.staking_name}
-							logo_image={stakingItemState.icon_url}
 							description={stakingItemState.description}
 							ref_link={stakingItemState.ref_link}
 						/>
@@ -104,7 +120,7 @@ export const StakingDetailScreen = () => {
 				</div>
 				<div className="row mt-5">
 					<div className="col-6">
-						<div style={{ position: 'relative' }} hidden={Number(totalAmountState) <= 0}>
+						<div style={{ position: 'relative' }}>
 							<ProgressBar
 								style={{ height: '75px', background: 'rgba(132, 142, 156, 0.35)', fontSize: '30px' }}
 								animated
@@ -120,7 +136,7 @@ export const StakingDetailScreen = () => {
 									fontSize: '2rem',
 								}}
 							>
-								{totalCapState}/{totalAmountState}
+								{totalCapState} <span hidden={Number(totalAmountState) <= 0}>/{totalAmountState}</span>
 							</span>
 						</div>
 						<hr />
@@ -145,6 +161,10 @@ export const StakingDetailScreen = () => {
 										rewards={stakingItemState.rewards}
 										status={stakingItemState.status}
 										active={stakingItemState.active}
+										total_amount={stakingItemState.total_amount}
+										cap_amount={stakingItemState.cap_amount}
+										cap_amount_per_user={stakingItemState.cap_amount_per_user}
+										min_amount={stakingItemState.min_amount}
 									/>
 								</TabPane>
 								<TabPane tab="UNSTAKE" key="unstake">
@@ -165,6 +185,9 @@ export const StakingDetailScreen = () => {
 						<UnStakeHistory currency_id={stakingItemState.currency_id} />
 					</div>
 				</div>
+			</div>
+			<div className="detail__disabled" hidden={isLogin}>
+				<span>Please login before</span>
 			</div>
 		</div>
 	);

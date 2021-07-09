@@ -41,6 +41,7 @@ const WalletDeposit: React.FC = () => {
 		currency: '',
 		address: '',
 		balance: '',
+		name: '',
 		type: 'fiat',
 	};
 	const parentWallet = {
@@ -49,11 +50,16 @@ const WalletDeposit: React.FC = () => {
 	};
 	const isParentAccountActivated = parentWallet.type === 'fiat' || parentWallet.balance;
 	const isChildAccountActivated = selectedWallet.type === 'fiat' || selectedWallet.balance;
-	const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency }));
+	const dispatchFetchChildCurrencies = React.useCallback(() => dispatch(walletsChildCurrenciesFetch({ currency: currency })), [
+		dispatch,
+		currency,
+	]);
 	const childCurrencies = useSelector(selectChildCurrencies);
 	React.useEffect(() => {
 		dispatchFetchChildCurrencies();
-	}, [currency]);
+	}, [currency, dispatchFetchChildCurrencies]);
+
+    const founded_currency = currencies.find(c => c.id.toLowerCase() === currency.toLowerCase()) || { icon_url: '' };
 
 	const childWallets = childCurrencies.map(childCurrency => {
 		// tslint:disable-next-line:no-shadowed-variable
@@ -86,7 +92,7 @@ const WalletDeposit: React.FC = () => {
 
 	React.useEffect(() => {
 		dispatch(walletsAddressFetch({ currency }));
-	}, []);
+	}, [currency, dispatch]);
 
 	// tslint:disable-next-line:no-shadowed-variable
 	const changeSelectTab = (currency: string) => {
@@ -172,11 +178,8 @@ const WalletDeposit: React.FC = () => {
 				backTitle={intl.formatMessage({ id: 'page.body.wallets.balance' })}
 				onGoBack={() => history.push(`/wallets/${currency}/history`)}
 			/>
-			<WalletHeader
-				currency={selectedWallet.currency !== '' ? selectedWallet.currency : parentWallet.currency}
-				name={selectedWallet.name !== '' ? selectedWallet.name : parentWallet.name}
-			/>
-			<WalletBanner wallet={selectedWallet.currency !== '' ? selectedWallet : parentWallet} />
+			<WalletHeader currency={wallet.currency} name={wallet.name} iconUrl={founded_currency.icon_url} />
+            <WalletBanner wallet={wallet} />
 			<div className="react-tabs">
 				<Tabs defaultActiveKey={currency} onChange={changeSelectTab}>
 					{renderParentCurrencyTab()}

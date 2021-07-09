@@ -45,6 +45,11 @@ const TableComponent: React.FC<TableProps> = ({ headers, markets }) => {
 	const intl = useIntl();
 	const tickers = useSelector(selectMarketTickers);
 
+	const actionFilterPage = React.useCallback(() => {
+		const start = tablePagination.pageSize * tablePagination.current - tablePagination.pageSize;
+		setTableFilterPagination(markets.slice(start, start + tablePagination.pageSize));
+	}, [markets]);
+
 	React.useEffect(() => {
 		if (markets) {
 			actionFilterPage();
@@ -53,16 +58,11 @@ const TableComponent: React.FC<TableProps> = ({ headers, markets }) => {
 				total: markets.length,
 			}));
 		}
-	}, [markets]);
+	}, [markets, actionFilterPage]);
 
 	React.useEffect(() => {
 		actionFilterPage();
-	}, [tablePagination]);
-
-	const actionFilterPage = () => {
-		const start = tablePagination.pageSize * tablePagination.current - tablePagination.pageSize;
-		setTableFilterPagination(markets.slice(start, start + tablePagination.pageSize));
-	};
+	}, [tablePagination, actionFilterPage]);
 
 	const redirectToTrading = (paramMarket: Market) => {
 		dispatch(setCurrentMarket(paramMarket));

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import { useTable, usePagination } from 'react-table';
+import { usePagination, useTable } from 'react-table';
 import { LoadingSpinner } from '../LoadingSpinner';
 import EmptySVG from './empty.svg';
 
@@ -17,10 +17,10 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 		getTableBodyProps,
 		headerGroups,
 		prepareRow,
-		page, // Instead of using 'rows', we'll use page,
+		page, // instead of using 'rows', we'll use page,
 		// which has only the rows for the active page
 
-		// The rest of these things are super handy, too ;)
+		// the rest of these things are super handy, too ;)
 		canPreviousPage,
 		canNextPage,
 		pageCount,
@@ -37,7 +37,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 		usePagination,
 	);
 
-	// Render the UI for your table
+	// render the UI for your table
 	return (
 		<div id="react-table-mobile">
 			<table {...getTableProps()} style={{ position: 'relative' }}>
@@ -67,6 +67,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 					<tbody {...getTableBodyProps()}>
 						{page.map(row => {
 							prepareRow(row);
+
 							return (
 								<tr {...row.getRowProps()}>
 									{row.cells.map(cell => {
@@ -89,17 +90,13 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 					</button>{' '}
 					<button
 						className={classNames(!canPreviousPage ? 'disabled' : '')}
-						onClick={() => previousPage()}
+						onClick={previousPage}
 						disabled={!canPreviousPage}
 					>
 						{'<'}
 					</button>{' '}
 					<button style={{ backgroundColor: '#8093C4' }}>{pageIndex + 1}</button>{' '}
-					<button
-						className={classNames(!canNextPage ? 'disabled' : '')}
-						onClick={() => nextPage()}
-						disabled={!canNextPage}
-					>
+					<button className={classNames(!canNextPage ? 'disabled' : '')} onClick={nextPage} disabled={!canNextPage}>
 						{'>'}
 					</button>{' '}
 					<button

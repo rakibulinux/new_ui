@@ -1,9 +1,11 @@
-import axios from 'axios';
+import { API, RequestOptions } from 'api';
 import { Decimal } from 'components';
 import isNaN from 'lodash/isNaN';
 import * as React from 'react';
 
-const HOST_CONVERT = 'https://zozitech.herokuapp.com';
+const createOptions = (): RequestOptions => {
+	return { apiVersion: 'sunshine' };
+};
 
 export const useConvertToUSD = (value = 0, symbol?: string, precision = 6, defaultValue = '0.00') => {
 	const [exchangeRate, setExchangeRate] = React.useState<number>(0);
@@ -16,12 +18,12 @@ export const useConvertToUSD = (value = 0, symbol?: string, precision = 6, defau
 			try {
 				if (symbol && (symbol !== prevSymbol || !exchangeRate) && !refLoading.current) {
 					refLoading.current = true;
-					const response = await axios.get<{
-						price: number;
-					}>(`${HOST_CONVERT}/api/convert/to-usd?amount=1&convert=USD&symbol=${symbol.toUpperCase()}`);
+					const data = await API.get(createOptions())(
+						`/public/convert/to-usd?amount=1&convert=USD&symbol=${symbol.toUpperCase()}`,
+					);
 					refLoading.current = false;
 					SetPrevSymbol(symbol);
-					setExchangeRate(response.data.price);
+					setExchangeRate(data.price);
 				}
 				// tslint:disable-next-line: no-empty
 			} catch (error) {
@@ -30,7 +32,7 @@ export const useConvertToUSD = (value = 0, symbol?: string, precision = 6, defau
 				refLoading.current = false;
 			}
 		})();
-	}, [value, symbol]);
+	}, [value, symbol, exchangeRate, prevSymbol]);
 
 	const price = value * exchangeRate;
 

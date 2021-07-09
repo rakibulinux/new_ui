@@ -1,8 +1,8 @@
+import { format } from 'date-fns';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { selectStakeHistories, selectStakeHistoriesLoading } from '../../../../modules';
 import { ReactTable } from '../../components';
-import { format } from 'date-fns';
 interface StakeHistoryProps {
 	currency_id: string;
 }
@@ -66,6 +66,7 @@ export const StakeHistory = (props: StakeHistoryProps) => {
 	}, []);
 	const stakeHistoryLoading = useSelector(selectStakeHistoriesLoading);
 	const stakedAmount: number = histories.length > 0 ? histories.map(history => history.amount).reduce((a, b) => a + b, 0) : 0;
+
 	return (
 		<div>
 			<div>

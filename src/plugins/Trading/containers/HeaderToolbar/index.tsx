@@ -58,13 +58,13 @@ const HeaderToolbarContainer: React.FC = () => {
 				<div className="td-header__toolbar-item">
 					<p className="td-header__toolbar-item-text">{translate('page.body.trade.toolBar.lowest')}</p>
 					<p className="td-header__toolbar-item-value td-header__toolbar-item-value-data">
-						{Decimal.formatRemoveZero(Number(getTickerValue('low')), 6)}
+						{Decimal.formatRemoveZero(Number(getTickerValue('low')), pricePrecision)}
 					</p>
 				</div>
 				<div className="td-header__toolbar-item">
 					<p className="td-header__toolbar-item-text">{translate('page.body.trade.toolBar.highest')}</p>
 					<p className="td-header__toolbar-item-value td-header__toolbar-item-value-data">
-						{Decimal.formatRemoveZero(Number(getTickerValue('high')), 6)}
+						{Decimal.formatRemoveZero(Number(getTickerValue('high')), pricePrecision)}
 					</p>
 				</div>
 

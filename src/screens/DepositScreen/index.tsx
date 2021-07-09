@@ -28,13 +28,19 @@ export const DepositScreen = () => {
 	const wallets = useSelector(selectWallets) || [];
 	const childCurrencies = useSelector(selectChildCurrencies);
 	const dispatch = useDispatch();
-	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
-	const dispatchFetchWallets = () => dispatch(walletsFetch());
-	const dispatchFetchChildCurrencies = () => dispatch(walletsChildCurrenciesFetch({ currency: currency_id }));
-	const dispatchFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
-	const dispatchFetchMarkets = () => dispatch(marketsFetch());
-	const dispatchFetchHistories = () => dispatch(fetchHistory({ currency: currency_id, type: 'deposits', page: 0, limit: 6 }));
-	const dispatchFetchBeneficiaries = () => dispatch(beneficiariesFetch());
+	const dispatchFetchCurrencies = React.useCallback(() => dispatch(currenciesFetch()), [dispatch]);
+	const dispatchFetchWallets = React.useCallback(() => dispatch(walletsFetch()), [dispatch]);
+	const dispatchFetchChildCurrencies = React.useCallback(
+		() => dispatch(walletsChildCurrenciesFetch({ currency: currency_id })),
+		[dispatch, currency_id],
+	);
+	const dispatchFetchAllChildCurrencies = React.useCallback(() => dispatch(allChildCurrenciesFetch()), [dispatch]);
+	const dispatchFetchMarkets = React.useCallback(() => dispatch(marketsFetch()), [dispatch]);
+	const dispatchFetchHistories = React.useCallback(
+		() => dispatch(fetchHistory({ currency: currency_id, type: 'deposits', page: 0, limit: 6 })),
+		[dispatch, currency_id],
+	);
+	const dispatchFetchBeneficiaries = React.useCallback(() => dispatch(beneficiariesFetch()), [dispatch]);
 
 	const history = useHistory();
 
@@ -45,7 +51,9 @@ export const DepositScreen = () => {
 		try {
 			return require(`../../../node_modules/cryptocurrency-icons/128/color/${currencyID.toLowerCase()}.png`);
 		} catch (err) {
-			if (currency) { return currency.icon_url; }
+			if (currency) {
+				return currency.icon_url;
+			}
 
 			return require('../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
 		}
@@ -61,7 +69,16 @@ export const DepositScreen = () => {
 		dispatchFetchAllChildCurrencies();
 		dispatchFetchHistories();
 		dispatchFetchBeneficiaries();
-	}, [currency_id]);
+	}, [
+		currency_id,
+		dispatchFetchMarkets,
+		dispatchFetchCurrencies,
+		dispatchFetchWallets,
+		dispatchFetchChildCurrencies,
+		dispatchFetchAllChildCurrencies,
+		dispatchFetchHistories,
+		dispatchFetchBeneficiaries,
+	]);
 
 	return (
 		<div

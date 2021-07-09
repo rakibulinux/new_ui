@@ -1,18 +1,18 @@
 import { Col, Row, Statistic } from 'antd';
 import * as React from 'react';
-export const LKTInfo = () => {
+export const UDONInfo = () => {
 	const statistics = [
 		{
 			title: 'Ticker',
-			subTitle: 'CX',
+			subTitle: 'UDON',
 		},
 		{
 			title: 'STARTING PRICE',
-			subTitle: '$0.025 USD',
+			subTitle: '$0.0005 USD',
 		},
 		{
 			title: 'TOTAL SUPPLY',
-			subTitle: '100,000,000 CX',
+			subTitle: '1,000,000,000 UDON',
 		},
 		{
 			title: 'KYC',
@@ -20,11 +20,11 @@ export const LKTInfo = () => {
 		},
 		{
 			title: 'CURRENCIES',
-			subTitle: 'BTC, ETH, USDT, ESC, KOBE',
+			subTitle: 'BTC, ETH, USDT, BUSD, CX',
 		},
 		{
 			title: 'AVAILABLE FOR IEO',
-			subTitle: '30,000,000 CX',
+			subTitle: '150,000,000 UDON',
 		},
 		{
 			title: 'RESTRICTED COUNTRIES',
@@ -32,11 +32,11 @@ export const LKTInfo = () => {
 		},
 		{
 			title: 'TOKEN TYPE',
-			subTitle: 'ERC-20',
+			subTitle: 'BEP-20',
 		},
 		{
 			title: 'SOFT CAP',
-			subTitle: '$ 200,000 USD',
+			subTitle: '$ 75,000 USD',
 		},
 	];
 
@@ -57,10 +57,10 @@ export const LKTInfo = () => {
 						Tokensale Information:
 					</h2>
 					<p style={{ fontSize: '1.6rem' }}>
-						CircleEx Token<strong style={{ color: '#fff' }}> (CX)</strong> IEO sale starts on 10th of January!
+						Udonex Token<strong style={{ color: '#fff' }}> (UDON)</strong> IEO sale starts on 18th of June!
 					</p>
 					<p style={{ fontSize: '1.6rem' }}>
-						Pre-Launch: 10/01/2021, 9:00am, UTC - 25/01/2021, 9:00am, UTC | $0.025 USD |{' '}
+						Pre-Launch: 18/06/2021, 9:00am, UTC - 04/07/2021, 9:00am, UTC | $0.0005 USD |{' '}
 						<strong style={{ color: '#fff' }}> Pre-Launch!</strong>
 					</p>
 				</div>

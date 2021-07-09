@@ -7,5 +7,5 @@ export const useEthFeeFetch = () => {
 
 	React.useEffect(() => {
 		dispatch(ethFeeFetch());
-	}, []);
+	}, [dispatch]);
 };

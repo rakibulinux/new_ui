@@ -71,7 +71,7 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
 				accessor: 'amount',
 			},
 		];
-	}, []);
+	}, [intl]);
 
 	const main_list = list
 		.filter((history: any) => history.currency === currency_id.toLowerCase())
@@ -110,7 +110,7 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
 				status: history.state,
 				amount: history.amount,
 				txid: (
-					<a target="_blank" href={blockchainTxidAddress}>
+					<a rel="noopener noreferrer" target="_blank" href={blockchainTxidAddress}>
 						{history.blockchain_txid}
 					</a>
 				),

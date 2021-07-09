@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const OrderStyle = styled.div`
 	height: 100%;
 	background-color: #313445;
-	padding: 18px;
+	padding: 10px;
 	.rc-tabs {
 		display: flex;
 		flex-direction: column;

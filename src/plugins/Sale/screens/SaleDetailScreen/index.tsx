@@ -12,12 +12,15 @@ export const SaleDetailScreen: React.FC = () => {
 	const saleItem = useSelector(selectSaleItem);
 	const user = useSelector(selectUserInfo);
 	const dispatch = useDispatch();
-	const dispatchFetchSaleItemByID = (ieoIdParam: string) =>
-		dispatch(
-			findSalebyId({
-				id: ieoIdParam,
-			}),
-		);
+	const dispatchFetchSaleItemByID = React.useCallback(
+		(ieoIdParam: string) =>
+			dispatch(
+				findSalebyId({
+					id: ieoIdParam,
+				}),
+			),
+		[dispatch],
+	);
 
 	React.useEffect(() => {
 		if (saleItem.loading) {
@@ -33,7 +36,7 @@ export const SaleDetailScreen: React.FC = () => {
 
 	React.useEffect(() => {
 		dispatchFetchSaleItemByID(ieoID);
-	}, []);
+	}, [dispatchFetchSaleItemByID, ieoID]);
 
 	let saleInfoView: JSX.Element;
 	let saleBuyView: JSX.Element;

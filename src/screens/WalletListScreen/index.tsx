@@ -1,4 +1,3 @@
-import NP from 'number-precision';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +15,8 @@ import {
 	selectCurrencies,
 	selectAllChildCurrencies,
 } from '../../modules';
+import NP from 'number-precision';
+NP.enableBoundaryChecking(false); // default param is true
 
 export interface WalletItem {
 	key: string;
@@ -47,10 +48,10 @@ export const WalletListScreen = () => {
 
 	// dispatch
 	const dispatch = useDispatch();
-	const dispatchFetchWallets = () => dispatch(walletsFetch());
-	const dispatchcFetchCurrencies = () => dispatch(currenciesFetch());
-	const dispatchcFetchAllChildCurrencies = () => dispatch(allChildCurrenciesFetch());
-	const dispatchFetchBeneficiaries = () => dispatch(beneficiariesFetch());
+	const dispatchFetchWallets = React.useCallback(() => dispatch(walletsFetch()), [dispatch]);
+	const dispatchcFetchCurrencies = React.useCallback(() => dispatch(currenciesFetch()), [dispatch]);
+	const dispatchcFetchAllChildCurrencies = React.useCallback(() => dispatch(allChildCurrenciesFetch()), [dispatch]);
+	const dispatchFetchBeneficiaries = React.useCallback(() => dispatch(beneficiariesFetch()), [dispatch]);
 
 	// side effect
 	React.useEffect(() => {
@@ -58,7 +59,7 @@ export const WalletListScreen = () => {
 		dispatchcFetchCurrencies();
 		dispatchcFetchAllChildCurrencies();
 		dispatchFetchBeneficiaries();
-	}, []);
+	}, [dispatchFetchBeneficiaries, dispatchFetchWallets, dispatchcFetchCurrencies, dispatchcFetchAllChildCurrencies]);
 
 	// selector
 	const wallets = useSelector(selectWallets);
@@ -136,7 +137,7 @@ export const WalletListScreen = () => {
 
 			return {
 				coin: (
-					<span>
+					<span className="text-left">
 						{' '}
 						{currency_icon} {wallet.currency.toUpperCase()} <span className="text-secondary">{wallet.name}</span>
 					</span>
@@ -161,7 +162,7 @@ export const WalletListScreen = () => {
 					</span>
 				),
 				action: (
-					<div className="d-flex justify-content-between">
+					<div className="text-center">
 						<button
 							className="deposit-button"
 							onClick={() =>
@@ -200,8 +201,7 @@ export const WalletListScreen = () => {
 					backgroundColor: '#2D2E3D',
 					borderRadius: '5px',
 					minHeight: '100vh',
-					marginTop: '-10px',
-					padding: '20px 10% 0 10%',
+					padding: '20px 10%',
 				}}
 			>
 				<div className="row">

@@ -82,7 +82,7 @@ export const OrderBook = props => {
 				</React.Fragment>
 			);
 		}
-	}, [currentMarket, formatMessage, getTickerValue, isMobileDevice, marketTickers]);
+	}, [currentMarket, getTickerValue, isMobileDevice, marketTickers]);
 
 	const renderHeaders = React.useCallback(() => {
 		const formattedBaseUnit = currentMarket && currentMarket.base_unit ? `(${currentMarket.base_unit.toUpperCase()})` : '';

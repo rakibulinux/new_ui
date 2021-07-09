@@ -35,7 +35,7 @@ export const ProfileApiKeys: React.FC<ProfileApiKeysProps> = () => {
 
 	React.useEffect(() => {
 		dispatch(apiKeysFetch());
-	}, []);
+	}, [dispatch]);
 
 	const translate = (id: string) => {
 		return intl.formatMessage({ id });

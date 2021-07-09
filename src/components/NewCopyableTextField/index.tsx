@@ -41,7 +41,7 @@ export const NewCopyableTextField: React.FC<NewCopyableTextFieldProps> = props =
 		if (!fieldId) {
 			throw new Error('CopyableTextField must contain `fieldId` prop');
 		}
-	}, []);
+	}, [fieldId]);
 
 	const doCopy = () => copy(fieldId);
 	const cx = classnames('td-copyable-text-field', className);

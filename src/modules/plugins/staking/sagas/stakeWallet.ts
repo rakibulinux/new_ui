@@ -1,17 +1,10 @@
 import { put } from 'redux-saga/effects';
-import { alertPush } from '../../..';
 import axios from '../../../../plugins/api/index';
 
 import { stakeWalletData, StakeWalletFetch } from '../actions';
 import { StakeWallet } from '../types';
 
 export function* fetchStakeWallet(action: StakeWalletFetch) {
-	yield put(
-		stakeWalletData({
-			payload: [],
-			loading: true,
-		}),
-	);
 	try {
 		const { uid, currency_id } = action.payload;
 		if (uid && currency_id) {
@@ -37,6 +30,5 @@ export function* fetchStakeWallet(action: StakeWalletFetch) {
 				loading: false,
 			}),
 		);
-		yield put(alertPush({ message: [error.message], code: error.code, type: 'error' }));
 	}
 }

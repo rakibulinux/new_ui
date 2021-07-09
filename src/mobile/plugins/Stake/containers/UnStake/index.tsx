@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectStakeWallet, selectUserInfo, stakeWalletFetch, unStakeHistoryFetch, unStakePost } from '../../../../../modules';
+import { selectStakeWallet, selectUserInfo, unStakePost } from '../../../../../modules';
 
 interface UnStakeProps {
 	currency_id: string;
@@ -28,13 +28,6 @@ export const UnStake: React.FC<UnStakeProps> = (props: UnStakeProps) => {
 				amount: amountState,
 			}),
 		);
-		dispatch(unStakeHistoryFetch({ uid: user.uid, currency_id: currency_id }));
-		dispatch(
-			stakeWalletFetch({
-				uid: user.uid,
-				currency_id: currency_id,
-			}),
-		);
 	};
 
 	return (
@@ -53,7 +46,9 @@ export const UnStake: React.FC<UnStakeProps> = (props: UnStakeProps) => {
 								placeholder="0"
 								onChange={e => {
 									const amount = e.target.value;
-									if (Number(amount) >= 0) setAmountState(amount);
+									if (Number(amount) >= 0) {
+										setAmountState(amount);
+									}
 								}}
 							/>
 							<span>{currency_id.toUpperCase()}</span>
@@ -63,8 +58,8 @@ export const UnStake: React.FC<UnStakeProps> = (props: UnStakeProps) => {
 				<div className="row mt-5">
 					<div className="col-12">
 						<label className="agree">
-							<input type="checkbox" onChange={e => setAgreeState(e.target.checked)} />I have read and agree with
-							the cautions.
+							<input type="checkbox" checked={agreeState} onChange={e => setAgreeState(e.target.checked)} />I have
+							read and agree with the cautions.
 						</label>
 					</div>
 				</div>

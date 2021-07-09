@@ -14,17 +14,17 @@ import './SaleListTables.css';
 export const SaleListTables: React.FC = () => {
 	// dispatch Fetch Wallets Of User Action
 	const dispatch = useDispatch();
-	const dispatchActiveSaleListFetch = () => dispatch(activeSaleListFetch());
-	const dispatchUpcomingSaleListFetch = () => dispatch(upComingSaleListFetch());
-	const dispatchOnGoingSaleListFetch = () => dispatch(onGoingSaleListFetch());
-	const dispatchEndedSaleListFetch = () => dispatch(endedSaleListFetch());
+	const dispatchActiveSaleListFetch = React.useCallback(() => dispatch(activeSaleListFetch()), [dispatch]);
+	const dispatchUpcomingSaleListFetch = React.useCallback(() => dispatch(upComingSaleListFetch()), [dispatch]);
+	const dispatchOnGoingSaleListFetch = React.useCallback(() => dispatch(onGoingSaleListFetch()), [dispatch]);
+	const dispatchEndedSaleListFetch = React.useCallback(() => dispatch(endedSaleListFetch()), [dispatch]);
 
 	const saleList = useSelector(selectSaleList);
 
 	React.useEffect(() => {
 		// dispatch Active Sale List Fetch in one time
 		dispatchActiveSaleListFetch();
-	}, []);
+	}, [dispatchActiveSaleListFetch]);
 
 	const handleSelectMenuItem = ({ key, domEvent }) => {
 		switch (key) {

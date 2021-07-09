@@ -1,0 +1,45 @@
+.pg-vote {
+	color: white;
+	font-size: 12px;
+	min-height: inherit;
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5 {
+		color: white;
+		font-weight: 600;
+	}
+
+	&--border {
+		border-radius: 10px;
+		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+	}
+
+	&__data__inner--loading {
+		background-color: rgba(42, 45, 63, 0.5);
+		bottom: 0;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+		z-index: 9999;
+
+		.ant-spin {
+			left: 50%;
+			position: absolute;
+			top: 50%;
+			transform: translate(-50%, -50%);
+		}
+	}
+
+	.container {
+		padding-bottom: 5vw;
+		padding-top: 4vw;
+	}
+
+	&__news {
+		margin-bottom: 4vw;
+	}
+}
