@@ -1,13 +1,11 @@
+import { incrementalOrderBook } from 'api';
+import { MarketTradingSvg } from 'assets/images/trading/MarketTradingSvg';
+import searchSvg from 'assets/images/trading/search.svg';
 import classnames from 'classnames';
+import { Decimal } from 'components';
+import { getUrlPart, setDocumentTitle } from 'helpers';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
-import * as React from 'react';
-import isEqual from 'react-fast-compare';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { incrementalOrderBook } from '../../../../api';
-import { Decimal } from '../../../../components';
-import { getUrlPart, setDocumentTitle } from '../../../../helpers';
 import {
 	depthFetch,
 	Market,
@@ -18,13 +16,16 @@ import {
 	selectUserLoggedIn,
 	setCurrentMarket,
 	setCurrentPrice,
-} from '../../../../modules';
-import { rangerConnectFetch } from '../../../../modules/public/ranger';
-import { selectRanger } from '../../../../modules/public/ranger/selectors';
-import searchSvg from '../../assets/search.svg';
-import { MarketTradingSvg } from '../../components/Icon/MarketTradingSvg';
+} from 'modules';
+import { rangerConnectFetch } from 'modules/public/ranger';
+import { selectRanger } from 'modules/public/ranger/selectors';
+import * as React from 'react';
+import isEqual from 'react-fast-compare';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { MarketsListTrading } from './MarketsListTrading';
 import { MarketTradingStyle, SearchBlockStyle, StarBlockStyle } from './styles';
+
 interface ObjDropdownState {
 	childActiveKey: string;
 }
@@ -282,13 +283,13 @@ const MarketTradingContainer: React.FC = () => {
 											</svg>
 											{key}
 										</div>
-										{item.listKeyDropDown.map((keyDropdown, i) => (
+										{item.listKeyDropDown.map((keyDropdown, j) => (
 											<div
 												className="td-markets-trading-list-dropdown__item"
 												onClick={() => {
 													handleCheckDropdown(key, keyDropdown);
 												}}
-												key={i}
+												key={j}
 											>
 												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
 													<path fill="currentColor" d="M4 11h16v2H4z"></path>

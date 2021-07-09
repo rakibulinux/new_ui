@@ -1,11 +1,7 @@
 import classNames from 'classnames';
+import { Decimal, TableTrading } from 'components';
+import { localeDate } from 'helpers';
 import get from 'lodash/get';
-import * as React from 'react';
-import isEqual from 'react-fast-compare';
-import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { Decimal } from '../../../../components';
-import { localeDate } from '../../../../helpers';
 import {
 	fetchHistory,
 	selectCurrentMarket,
@@ -13,8 +9,11 @@ import {
 	selectHistory,
 	setCurrentPrice,
 	WalletHistoryElement,
-} from '../../../../modules';
-import { Table } from '../../components/Table';
+} from 'modules';
+import * as React from 'react';
+import isEqual from 'react-fast-compare';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 import { handleHighlightValue } from './Market';
 
 const timeFrom = String(Math.floor((Date.now() - 1000 * 60 * 60 * 24) / 1000));
@@ -85,7 +84,7 @@ const RecentTradesYoursContainer: React.FC = () => {
 
 	return (
 		<div className="td-recent-trades__yours">
-			<Table header={getHeaders()} data={retrieveData()} onSelect={handleOnSelect} />
+			<TableTrading header={getHeaders()} data={retrieveData()} onSelect={handleOnSelect} />
 		</div>
 	);
 };

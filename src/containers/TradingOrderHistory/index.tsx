@@ -1,9 +1,9 @@
+import { CloseIcon } from 'assets/images/CloseIcon';
+import { ordersCancelAllFetch, selectCurrentMarket } from 'modules';
 import Tabs, { TabPane, TabsProps } from 'rc-tabs';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { CloseIcon } from '../../../../assets/images/CloseIcon';
-import { ordersCancelAllFetch, selectCurrentMarket } from '../../../../modules';
 import { OpenOrders } from './OpenOrders';
 import { OrderHistoryList } from './OrderHistoryList';
 import { OrderHistoryStyle } from './styles';
@@ -11,7 +11,7 @@ import { OrderHistoryStyle } from './styles';
 // tslint:disable-next-line: no-empty-interface
 interface OrderHistoryProps {}
 
-export const OrderHistory: React.FC<OrderHistoryProps> = ({}) => {
+export const TradingOrderHistory: React.FC<OrderHistoryProps> = ({}) => {
 	const dispatch = useDispatch();
 	const intl = useIntl();
 

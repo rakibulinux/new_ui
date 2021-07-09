@@ -1,9 +1,6 @@
+import { CloseIcon } from 'assets/images/CloseIcon';
 import { Decimal } from 'components';
-import * as React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { CloseIcon } from '../../../../assets/images/CloseIcon';
-import { localeDate, setTradeColor } from '../../../../helpers';
+import { localeDate, setTradeColor } from 'helpers';
 import {
 	ordersHistoryCancelFetch,
 	resetOrdersHistory,
@@ -13,8 +10,11 @@ import {
 	selectOrdersHistory,
 	selectUserLoggedIn,
 	userOrdersHistoryFetch,
-} from '../../../../modules';
-import { OrderCommon } from '../../../../modules/types';
+} from 'modules';
+import { OrderCommon } from 'modules/types';
+import * as React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 import { OrderHistoryListStyle } from './styles';
 import { TableOrder } from './TableOrder';
 

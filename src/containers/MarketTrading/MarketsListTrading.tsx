@@ -1,23 +1,15 @@
+import { incrementalOrderBook } from 'api';
+import { SortAsc, SortDefault, SortDesc } from 'assets/images/SortIcons';
+import { MarketTradingSvg } from 'assets/images/trading/MarketTradingSvg';
 import classnames from 'classnames';
+import { Decimal, TableTrading } from 'components';
 import find from 'lodash/find';
+import { depthFetch, Market, selectCurrentMarket, selectMarketTickers, setCurrentMarket, setCurrentPrice } from 'modules';
 import * as React from 'react';
 import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { incrementalOrderBook } from '../../../../api';
-import { SortAsc, SortDefault, SortDesc } from '../../../../assets/images/SortIcons';
-import { Decimal } from '../../../../components';
-import {
-	depthFetch,
-	Market,
-	selectCurrentMarket,
-	selectMarketTickers,
-	setCurrentMarket,
-	setCurrentPrice,
-} from '../../../../modules';
-import { MarketTradingSvg } from '../../components/Icon/MarketTradingSvg';
-import { Table } from '../../components/Table';
 import { MarketsListTradingStyle } from './styles';
 
 interface MarketsListTradingComponentProps {
@@ -172,7 +164,7 @@ const MarketsListTradingComponent: React.FC<MarketsListTradingComponentProps> = 
 	return (
 		<MarketsListTradingStyle>
 			<div className="td-markets-trading-list-container">
-				<Table
+				<TableTrading
 					data={dataTable.length > 0 ? dataTable : [[]]}
 					header={getHeaders()}
 					onSelect={isHoverFavorite ? undefined : currencyPairSelectHandler}

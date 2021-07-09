@@ -4,26 +4,11 @@ import flattenDeepnLd from 'lodash/flattenDeep';
 import * as React from 'react';
 import { TableBlockStyle } from './styles';
 
-export type CellData = string | number | React.ReactNode | undefined;
+type CellData = string | number | React.ReactNode | undefined;
 
-export interface Filter {
+interface Filter {
 	name: string;
 	filter: (cell: CellData[]) => boolean;
-}
-
-export interface TableState {
-	/**
-	 * Selected filter
-	 */
-	activeFilter?: string;
-	/**
-	 * Filtered data
-	 */
-	resultData?: CellData[][];
-	/**
-	 * Key of selected row
-	 */
-	selectedRowKey?: string;
 }
 
 interface TableProps {
@@ -81,7 +66,7 @@ interface TableProps {
 /**
  * Cryptobase Table overrides default table
  */
-const Table: React.FC<TableProps> = props => {
+export const TableTrading: React.FC<TableProps> = props => {
 	const [activeFilter, setActiveFilter] = React.useState<string | undefined>(undefined);
 	const [resultData, setResultData] = React.useState<CellData[][] | undefined>(undefined);
 	const [selectedRowKey, setSelectedRowKey] = React.useState<string | undefined>(props.selectedKey);
@@ -277,5 +262,3 @@ const Table: React.FC<TableProps> = props => {
 		</TableBlockStyle>
 	);
 };
-
-export { Table };

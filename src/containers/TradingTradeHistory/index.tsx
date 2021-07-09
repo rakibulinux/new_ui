@@ -1,14 +1,14 @@
+import { resetHistory, selectUserLoggedIn } from 'modules';
 import Tabs, { TabPane, TabsProps } from 'rc-tabs';
 import * as React from 'react';
 import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetHistory, selectUserLoggedIn } from '../../../../modules';
 import { RecentTradesMarket } from './Market';
 import { MarketHistory } from './styles';
 import { RecentTradesYours } from './Yours';
 
-const RecentTradesComponent: React.FC = () => {
+const TradingTradeHistoryContainer: React.FC = () => {
 	const intl = useIntl();
 	const dispatch = useDispatch();
 	const userLoggedIn = useSelector(selectUserLoggedIn, isEqual);
@@ -72,4 +72,4 @@ const RecentTradesComponent: React.FC = () => {
 	return <MarketHistory className="td-markets-history-list-container">{renderTabs(getTabListInfo())}</MarketHistory>;
 };
 
-export const RecentTrades = RecentTradesComponent;
+export const TradingTradeHistory = TradingTradeHistoryContainer;

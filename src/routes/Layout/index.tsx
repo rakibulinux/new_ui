@@ -67,7 +67,6 @@ import { AirdropDetail, AirdropList } from '../../plugins/Airdrop';
 import { SaleListScreen } from '../../plugins/Sale';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
 import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
-import { TradingScreen } from '../../plugins/Trading/screens/TradingScreen';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
 import {
 	AnnouncementScreen,
@@ -91,6 +90,7 @@ import {
 	VerificationScreen,
 	WalletListScreen,
 	WithdrawScreen,
+	TradingScreen,
 } from '../../screens';
 
 interface ReduxProps {

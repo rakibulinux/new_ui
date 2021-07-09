@@ -1,16 +1,16 @@
+import { CloseIcon } from 'assets/images/CloseIcon';
 import { Decimal } from 'components';
-import * as React from 'react';
-import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { CloseIcon } from '../../../../assets/images/CloseIcon';
-import { localeDate, setTradeColor } from '../../../../helpers';
+import { localeDate, setTradeColor } from 'helpers';
 import {
 	openOrdersCancelFetch,
 	selectCurrentMarket,
 	selectOpenOrdersList,
 	selectUserLoggedIn,
 	userOpenOrdersFetch,
-} from '../../../../modules';
+} from 'modules';
+import * as React from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 import { OpenOrdersStyle } from './styles';
 import { TableOrder } from './TableOrder';
 

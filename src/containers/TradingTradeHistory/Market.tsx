@@ -1,13 +1,12 @@
 import classNames from 'classnames';
+import { Decimal, TableTrading } from 'components';
+import { localeDate } from 'helpers';
+import { PublicTrade, selectCurrentMarket, selectCurrentPrice, setCurrentPrice } from 'modules';
+import { recentTradesFetch, selectRecentTradesOfCurrentMarket } from 'modules/public/recentTrades';
 import * as React from 'react';
 import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { Decimal } from '../../../../components';
-import { localeDate } from '../../../../helpers';
-import { PublicTrade, selectCurrentMarket, selectCurrentPrice, setCurrentPrice } from '../../../../modules';
-import { recentTradesFetch, selectRecentTradesOfCurrentMarket } from '../../../../modules/public/recentTrades';
-import { Table } from '../../components/Table';
 
 const handleHighlightValue = (prevValue: string, curValue: string) => {
 	let highlighted = '';
@@ -94,7 +93,7 @@ const RecentTradesMarketContainer: React.FC = () => {
 
 	return (
 		<div className="td-recent-trades__markets">
-			<Table data={getTrades(recentTrades)} header={getHeaders()} onSelect={handleOnSelect} />
+			<TableTrading data={getTrades(recentTrades)} header={getHeaders()} onSelect={handleOnSelect} />
 		</div>
 	);
 };

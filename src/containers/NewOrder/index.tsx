@@ -1,15 +1,9 @@
 import { Slider } from 'antd';
+import moneySvg from 'assets/images/trading/money.svg';
+import { Decimal, FormType, WalletItemProps } from 'components';
+import { cleanPositiveFloatInput, precisionRegExp } from 'helpers';
 import floor from 'lodash/floor';
 import get from 'lodash/get';
-import Tabs, { TabPane, TabsProps } from 'rc-tabs';
-import * as React from 'react';
-import { Spinner } from 'react-bootstrap';
-import isEqual from 'react-fast-compare';
-import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Decimal, FormType, WalletItemProps } from '../../../../components';
-import { cleanPositiveFloatInput, precisionRegExp } from '../../../../helpers';
 import {
 	alertPush,
 	orderExecuteFetch,
@@ -25,8 +19,14 @@ import {
 	setCurrentPrice,
 	Wallet,
 	walletsFetch,
-} from '../../../../modules';
-import moneySvg from '../../assets/money.svg';
+} from 'modules';
+import Tabs, { TabPane, TabsProps } from 'rc-tabs';
+import * as React from 'react';
+import { Spinner } from 'react-bootstrap';
+import isEqual from 'react-fast-compare';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { OrderStyle } from './styles';
 
 // tslint:disable-next-line: no-empty-interface
@@ -46,7 +46,7 @@ const defaultFormState = {
 
 const defaultTicker = { amount: 0, low: 0, last: 0, high: 0, volume: 0, price_change_percent: '+0.00%' };
 
-export const Order: React.FC<OrderProps> = ({}) => {
+export const NewOrder: React.FC<OrderProps> = ({}) => {
 	const intl = useIntl();
 	const dispatch = useDispatch();
 

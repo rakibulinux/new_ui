@@ -1,13 +1,11 @@
+import downSvg from 'assets/images/trading/down.svg';
+import { OrderBookBuySvg, OrderBookSellSvg, OrderBookSvg } from 'assets/images/trading/OrderBookSvg';
+import upSvg from 'assets/images/trading/up.svg';
+import { ConvertUsd, Decimal } from 'components';
 import { accumulateVolume } from 'helpers';
+import { useOrderBookFetch } from 'hooks';
 import get from 'lodash/get';
 import millify from 'millify';
-import * as React from 'react';
-import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
-import isEqual from 'react-fast-compare';
-import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { ConvertUsd, Decimal } from 'components';
-import { useOrderBookFetch } from 'hooks';
 import {
 	Market,
 	selectCurrentMarket,
@@ -20,14 +18,16 @@ import {
 	setOrderType,
 	Ticker,
 } from 'modules';
-import downSvg from '../../assets/down.svg';
-import upSvg from '../../assets/up.svg';
-import { OrderBookBuySvg, OrderBookSellSvg, OrderBookSvg } from '../../components/Icon/OrderBookSvg';
+import * as React from 'react';
+import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import isEqual from 'react-fast-compare';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 import { OrderBookStyle, TrStyle } from './styles';
 
 const defaultTicker = { amount: 0, low: 0, last: 0, high: 0, volume: 0, price_change_percent: '+0.00%' };
 
-export const OrderBookContainer = props => {
+const OrderBookContainer = props => {
 	useOrderBookFetch();
 	const { formatMessage } = useIntl();
 	const dispatch = useDispatch();
@@ -284,4 +284,4 @@ export const OrderBookContainer = props => {
 	);
 };
 
-export const OrderBook = OrderBookContainer;
+export const NewOrderBook = OrderBookContainer;

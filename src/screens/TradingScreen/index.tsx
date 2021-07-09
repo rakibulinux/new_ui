@@ -1,18 +1,12 @@
+import { incrementalOrderBook } from 'api';
+import { MarketTrading, NewOrder, NewOrderBook, TradingChart, TradingOrderHistory, TradingTradeHistory } from 'containers';
+import { setDocumentTitle } from 'helpers';
+import { depthFetch, marketsFetch, selectCurrentMarket, selectMarkets, selectUserLoggedIn } from 'modules';
+import { rangerConnectFetch } from 'modules/public/ranger';
+import { selectRanger } from 'modules/public/ranger/selectors';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { incrementalOrderBook } from '../../../../api';
-import { TradingChart } from '../../../../containers';
-import { setDocumentTitle } from '../../../../helpers';
-import { depthFetch, marketsFetch, selectCurrentMarket, selectMarkets, selectUserLoggedIn } from '../../../../modules';
-import { rangerConnectFetch } from '../../../../modules/public/ranger';
-import { selectRanger } from '../../../../modules/public/ranger/selectors';
-import { HeaderToolbar } from '../../containers/HeaderToolbar';
-import { MarketTrading } from '../../containers/MarketTrading';
-import { Order } from '../../containers/Order';
-import { OrderBook } from '../../containers/OrderBook';
-import { OrderHistory } from '../../containers/OrderHistory';
-import { RecentTrades } from '../../containers/TradeHistory';
-import { TradingScreenStyle } from './styles';
+import { HeaderToolbar } from './HeaderToolbar';
 
 // tslint:disable-next-line: no-empty-interface
 interface TradingScreenProps {}
@@ -45,7 +39,7 @@ export const TradingScreen: React.FC<TradingScreenProps> = ({}) => {
 	}, []);
 
 	return (
-		<TradingScreenStyle className="td-pg-trading">
+		<div className="td-pg-trading">
 			<div className="td-pg-trading--bg td-pg-trading__item td-pg-trading--bg td-pg-trading__header-toolbar">
 				<HeaderToolbar />
 			</div>
@@ -53,20 +47,20 @@ export const TradingScreen: React.FC<TradingScreenProps> = ({}) => {
 				<MarketTrading />
 			</div>
 			<div className="td-pg-trading--bg td-pg-trading__item td-pg-trading--bg td-pg-trading__order-book">
-				<OrderBook />
+				<NewOrderBook />
 			</div>
 			<div className="td-pg-trading--bg td-pg-trading__item td-pg-trading--bg td-pg-trading__trading-chart">
 				<TradingChart hideHeaderContent />
 			</div>
 			<div className="td-pg-trading--bg td-pg-trading__item td-pg-trading--bg td-pg-trading__order">
-				<Order />
+				<NewOrder />
 			</div>
 			<div className="td-pg-trading--bg td-pg-trading__item td-pg-trading--bg td-pg-trading__recent-trade">
-				<RecentTrades />
+				<TradingTradeHistory />
 			</div>
 			<div className="td-pg-trading--bg td-pg-trading__item td-pg-trading--bg td-pg-trading__order-history">
-				<OrderHistory />
+				<TradingOrderHistory />
 			</div>
-		</TradingScreenStyle>
+		</div>
 	);
 };
