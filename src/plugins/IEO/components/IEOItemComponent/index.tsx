@@ -16,10 +16,10 @@ interface IEOItemProps {
 }
 export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 	const dispatch = useDispatch();
-	const dispatchcFetchCurrencies = () => dispatch(currenciesFetch());
+	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
 	const history = useHistory();
 	React.useEffect(() => {
-		dispatchcFetchCurrencies();
+		dispatchFetchCurrencies();
 	}, []);
 	const status = (color, type: string, date: Date) => {
 		return (
