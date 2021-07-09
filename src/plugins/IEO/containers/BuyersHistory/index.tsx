@@ -45,9 +45,9 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 		);
 	};
 	const renderBuyersHistory = () => {
-		return listHistory.payload.map(item => {
+		return listHistory.payload.map((item, index) => {
 			return (
-				<>
+				<React.Fragment key={index}>
 					<tr className="text-center" style={{ color: '#ffff', border: '1px solid #848e9' }}>
 						<td>{item.uid}</td>
 						<td>{Number(item.quantity)}</td>
@@ -56,7 +56,7 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 						<td>{item.quote_currency}</td>
 						<td>{format(new Date(item.created_at), 'HH:mm:ss dd/MM/yyyy')}</td>
 					</tr>
-				</>
+				</React.Fragment>
 			);
 		});
 	};
@@ -101,7 +101,7 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 		);
 	};
 	return (
-		<React.Fragment>
+		<>
 			<div id="buyers-history">
 				<h2 className="text-center text-white">All Purchase Transaction</h2>
 
@@ -131,6 +131,6 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 				</div>
 				{renderPagination()}
 			</div>
-		</React.Fragment>
+		</>
 	);
 };

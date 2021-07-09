@@ -86,48 +86,53 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 		);
 	};
 	const renderHistory = () => {
-		return listHistory.payload.map(item => {
+		if (listHistory.loading && !listHistory.payload.length) {
+			return null;
+		}
+		return listHistory.payload.map((item, index) => {
 			return (
-				<>
-					<tr className="text-center" style={{ color: '#ffff', border: '1px solid #848e9' }}>
+				<React.Fragment key={index}>
+					<tr className="text-center" style={{ color: '#ffff' }}>
 						<td>{Number(item.quantity)}</td>
 						<td>{item.base_currency}</td>
 						<td>{Number(item.total)}</td>
 						<td>{item.quote_currency}</td>
 						<td>{format(new Date(item.created_at), 'HH:mm:ss dd/MM/yyyy')}</td>
 					</tr>
-				</>
+				</React.Fragment>
 			);
 		});
 	};
 
 	return (
-		<div id="buy-history">
-			<h2 className="text-center text-white">Your Purchase</h2>
-			<div className="table-responsive-xl mb-4">
-				<table className="table">
-					<thead
-						style={{
-							background: 'rgba(0, 0, 0, 0.08)',
-							borderRadius: '3px',
-							boxSizing: 'border-box',
-							color: '#ffff',
-						}}
-					>
-						<tr className="text-center">
-							<th>Quantity</th>
-							<th>Currency</th>
-							<th>Total Purchase</th>
-							<th>Purchase Currency</th>
-							<th>Buy Date</th>
-						</tr>
-						<tr></tr>
-					</thead>
-					<tbody>{listHistory.loading ? <></> : renderHistory()}</tbody>
-				</table>
-				{listHistory.loading ? loadingHistory() : !listHistory.payload.length ? EmptyComponent() : <></>}
+		<React.Fragment>
+			<div id="buy-history">
+				<h2 className="text-center text-white">Your Purchase</h2>
+				<div className="table-responsive-xl mb-4">
+					<table className="table">
+						<thead
+							style={{
+								background: 'rgba(0, 0, 0, 0.08)',
+								borderRadius: '3px',
+								boxSizing: 'border-box',
+								color: '#ffff',
+							}}
+						>
+							<tr className="text-center">
+								<th>Quantity</th>
+								<th>Currency</th>
+								<th>Total Purchase</th>
+								<th>Purchase Currency</th>
+								<th>Buy Date</th>
+							</tr>
+							<tr></tr>
+						</thead>
+						<tbody>{renderHistory()}</tbody>
+					</table>
+					{listHistory.loading ? loadingHistory() : !listHistory.payload.length ? EmptyComponent() : <></>}
+				</div>
+				{renderPagination()}
 			</div>
-			{renderPagination()}
-		</div>
+		</React.Fragment>
 	);
 };

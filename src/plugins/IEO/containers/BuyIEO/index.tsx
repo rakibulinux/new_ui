@@ -302,7 +302,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 					</div>
 
 					{props.minBuy > quantityState ? (
-						<span style={{ color: 'rgb(218 50 58), fontWeight: 'bold', width: '100%' }}>
+						<span style={{ color: 'rgb(218 50 58)', fontWeight: 'bold', width: '100%' }}>
 							** Quantity must be larger {`${Number(props.minBuy)} ${selectedCurrencyState.toUpperCase()}`}
 						</span>
 					) : (
@@ -358,7 +358,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 								name="regulations-view-items"
 								id="regulations-view-items"
 								className="regulations-law"
-								checked={checkedRegulationState}
+								defaultChecked={checkedRegulationState}
 								onClick={() => {
 									setCheckRegulationSate(!checkedRegulationState);
 								}}
@@ -373,7 +373,8 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 								type="checkbox"
 								className="regulations-law"
 								name="check-citizen-ban"
-								checked={isCitizenState}
+								id="isCitizenState"
+								defaultChecked={isCitizenState}
 								onClick={() => {
 									setIsCitizenState(!isCitizenState);
 								}}

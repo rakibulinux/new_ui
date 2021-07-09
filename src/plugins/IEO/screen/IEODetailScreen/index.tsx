@@ -38,10 +38,10 @@ export const IEODetailScreen = () => {
 					<div className="buy-history-title col-12 text-center">
 						<h3>Buy History</h3>
 					</div>
-					<div className="col-md-12 col-xl-6" style={{ paddingRight: '15px', marginTop: '36px' }}>
+					<div className="col-md-12 col-xl-6" style={{ marginTop: '36px' }}>
 						<BuyHistory ieoID={Number(ieoID)} uid={user.uid} />
 					</div>
-					<div className="col-md-12 col-xl-6" style={{ paddingLeft: '0px', marginTop: '36px' }}>
+					<div className="col-md-12 col-xl-6" style={{ marginTop: '36px' }}>
 						<BuyersHistory ieoID={Number(ieoID)} />
 					</div>
 				</div>
@@ -52,58 +52,56 @@ export const IEODetailScreen = () => {
 				<div className="buy-history-title col-12 text-center">
 					<h3>Buy History</h3>
 				</div>
-				<div className="col-md-10" style={{ paddingLeft: '0px', marginTop: '36px' }}>
+				<div className="col-md-10" style={{ marginTop: '36px' }}>
 					<BuyersHistory ieoID={Number(ieoID)} />
 				</div>
 			</div>
 		);
 	};
 	return (
-		<React.Fragment>
-			<div id="ieo-detail-screen">
-				<h3 className="ieo-title">IEO</h3>
-				<button
-					id="ioe-detail-screen__return-list"
-					className="col-12"
-					onClick={() => {
-						history.goBack();
-					}}
-				>
-					{`< Return To List`}
-				</button>
-				{IEOItem.loading ? (
-					loadingDetailIEO()
-				) : (
-					<div id="ieo-detail-screen_container" className="d-flex flex-wrap justify-content-center">
-						<div className="col-md-6" style={{ paddingLeft: '0px' }}>
-							<IEODetail
-								endDate={IEOItem.payload.end_date}
-								startDate={IEOItem.payload.start_date}
-								bonus={IEOItem.payload.bonus}
-								currencyID={IEOItem.payload.currency_id}
-							/>
-						</div>
-
-						<div className="col-md-6" style={{ backgroundColor: '#434A56', paddingRight: '0px' }}>
-							<BuyIEOComponent
-								coins={IEOItem.payload.currency_available.length ? IEOItem.payload.currency_available : ['']}
-								currencyID={IEOItem.payload.currency_id}
-								priceIEO={Number(IEOItem.payload.price)}
-								type={IEOItem.payload.type}
-								minBuy={IEOItem.payload.min_buy}
-								uid={user.uid}
-								id={ieoID}
-								bonus={IEOItem.payload.bonus}
-							/>
-						</div>
-						<div className="container-fluid col-12" style={{ padding: '0px', marginTop: '36px' }}>
-							{renderBuyHistoryView()}
-							<CautionsDetail />
-							<InformationIEO />
-						</div>
+		<div id="ieo-detail-screen">
+			<h3 className="ieo-title">IEO</h3>
+			<button
+				id="ioe-detail-screen__return-list"
+				className="col-12"
+				onClick={() => {
+					history.goBack();
+				}}
+			>
+				{`< Return To List`}
+			</button>
+			{IEOItem.loading ? (
+				loadingDetailIEO()
+			) : (
+				<div id="ieo-detail-screen_container" className="d-flex flex-wrap justify-content-center">
+					<div className="col-md-6" style={{ paddingLeft: '0px' }}>
+						<IEODetail
+							endDate={IEOItem.payload.end_date}
+							startDate={IEOItem.payload.start_date}
+							bonus={IEOItem.payload.bonus}
+							currencyID={IEOItem.payload.currency_id}
+						/>
 					</div>
-				)}
-			</div>
-		</React.Fragment>
+
+					<div className="col-md-6" style={{ backgroundColor: '#434A56', paddingRight: '0px' }}>
+						<BuyIEOComponent
+							coins={IEOItem.payload.currency_available.length ? IEOItem.payload.currency_available : ['']}
+							currencyID={IEOItem.payload.currency_id}
+							priceIEO={Number(IEOItem.payload.price)}
+							type={IEOItem.payload.type}
+							minBuy={IEOItem.payload.min_buy}
+							uid={user.uid}
+							id={ieoID}
+							bonus={IEOItem.payload.bonus}
+						/>
+					</div>
+					<div className="container-fluid col-12" style={{ padding: '0px', marginTop: '36px' }}>
+						{renderBuyHistoryView()}
+						<CautionsDetail />
+						<InformationIEO />
+					</div>
+				</div>
+			)}
+		</div>
 	);
 };

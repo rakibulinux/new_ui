@@ -24,7 +24,7 @@ export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 				? EmptyComponent()
 				: IEOList.map((item, index) => {
 						return (
-							<div className="col-md-6 col-lg-4 col-xl-3" style={{ padding: '10px 10px' }}>
+							<div key={index} className="col-md-6 col-lg-4 col-xl-3" style={{ padding: '10px 10px' }}>
 								<IEOItemComponent
 									type={item.type}
 									currencyId={item.currency_id}
@@ -34,6 +34,7 @@ export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 									description={item.description}
 									bonus={item.bonus}
 									id={item.id}
+									key={index}
 								/>
 							</div>
 						);
