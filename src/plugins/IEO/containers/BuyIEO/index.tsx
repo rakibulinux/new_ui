@@ -111,6 +111,8 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 		);
 	};
 	const buyIEOButton = () => {
+		console.log(checkedRegulationState, ' ', isCitizenState);
+
 		const checkSatisfy =
 			checkedRegulationState &&
 			isCitizenState &&
@@ -259,7 +261,9 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 								setCoinActive(index);
 								setSelectedCurrencyState(coin);
 								setQuoteBalanceState(handleGetBalance(coin));
-								setQuantityState(props.minBuy);
+								setQuantityState(Number(props.minBuy));
+								setIsCitizenState(false);
+								setCheckRegulationSate(false);
 								if (priceSelector.payload[coin.toUpperCase()]) {
 									setTotalPriceState(calculatePrice(props.priceIEO, priceSelector.payload[coin.toUpperCase()]));
 								}
@@ -358,8 +362,8 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 								name="regulations-view-items"
 								id="regulations-view-items"
 								className="regulations-law"
-								defaultChecked={checkedRegulationState}
-								onClick={() => {
+								checked={checkedRegulationState}
+								onChange={() => {
 									setCheckRegulationSate(!checkedRegulationState);
 								}}
 							></input>
@@ -374,8 +378,8 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 								className="regulations-law"
 								name="check-citizen-ban"
 								id="isCitizenState"
-								defaultChecked={isCitizenState}
-								onClick={() => {
+								checked={isCitizenState}
+								onChange={() => {
 									setIsCitizenState(!isCitizenState);
 								}}
 							></input>
