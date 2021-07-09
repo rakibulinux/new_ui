@@ -1,9 +1,12 @@
-.td-mobile-orders {
+.td-mobile-cpn-orders {
 	background-color: #313445;
+	box-shadow: 0px 4px 8px -2px rgba(0, 0, 0, 0.15);
+	border-radius: 3px;
 	padding: 0 0.5em;
 
 	.td-tabs {
 		&-nav {
+			align-items: center;
 			border-bottom: 1px solid #848e9c;
 			box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
 
@@ -23,6 +26,34 @@
 						color: #fff;
 					}
 				}
+			}
+		}
+	}
+
+	&__optional-head {
+		align-items: center;
+		display: flex;
+		flex-direction: row;
+		height: 32px;
+		justify-content: flex-end;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+
+		span {
+			align-items: center;
+			color: var(--primary-cta-color);
+			display: flex;
+			font-size: 14px;
+			font-weight: normal;
+			height: 32px;
+			letter-spacing: 0.1px;
+			padding-right: 8px;
+		}
+
+		svg {
+			path {
+				fill: var(--primary-cta-color);
 			}
 		}
 	}

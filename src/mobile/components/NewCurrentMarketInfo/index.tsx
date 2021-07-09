@@ -45,7 +45,7 @@ const OptionList: React.FC = () => {
 	});
 
 	return (
-		<div className="d-inline-block td-mobile-current-market-info__header__option">
+		<div className="d-inline-block td-mobile-cpn-current-market-info__header__option">
 			<img src={threeDotSvg} alt="" onClick={() => setIsShow(prev => !prev)} />
 			<ListGroup className={className}>
 				<ListGroup.Item onClick={handleSelectFavorite}>
@@ -81,19 +81,19 @@ export const CurrentMarketInfoComponent: React.FC = () => {
 	};
 
 	return (
-		<div className="td-mobile-current-market-info">
-			<div className="td-mobile-current-market-info__header d-flex">
-				<div className="td-mobile-current-market-info__header__left d-flex flex-fill align-items-center">
+		<div className="td-mobile-cpn-current-market-info">
+			<div className="td-mobile-cpn-current-market-info__header d-flex">
+				<div className="td-mobile-cpn-current-market-info__header__left d-flex flex-fill align-items-center">
 					<Link to="/markets">
 						<img className="mr-3" src={toListSvg} alt="" />
 					</Link>
-					<h6 className="td-mobile-current-market-info__header__name m-0">
+					<h6 className="td-mobile-cpn-current-market-info__header__name m-0">
 						{currentMarket && currentMarket.name.toUpperCase()}
 					</h6>
 				</div>
-				<div className="td-mobile-current-market-info__header__right d-flex justify-content-end flex-fill align-items-center">
+				<div className="td-mobile-cpn-current-market-info__header__right d-flex justify-content-end flex-fill align-items-center">
 					<img
-						className="td-mobile-current-market-info__header__change-tab mr-1 pr-2 pl-2"
+						className="td-mobile-cpn-current-market-info__header__change-tab mr-1 pr-2 pl-2"
 						src={toChartSvg}
 						alt=""
 						onClick={onChangeTab}
@@ -101,7 +101,7 @@ export const CurrentMarketInfoComponent: React.FC = () => {
 					<OptionList />
 				</div>
 			</div>
-			<div className="td-mobile-current-market-info__content">{renderContent()}</div>
+			<div className="td-mobile-cpn-current-market-info__content">{renderContent()}</div>
 		</div>
 	);
 };

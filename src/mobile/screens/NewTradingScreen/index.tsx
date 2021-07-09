@@ -36,8 +36,8 @@ const TradingComponent: React.FC = () => {
 	};
 
 	return (
-		<div className="td-trading-screen-mobile">
-			<div className="td-trading-screen-mobile__main-content">
+		<div className="td-mobile-screen-trading">
+			<div className="td-mobile-screen-trading__main-content">
 				<NewTabPanel onChange={onChangeTabKey}>
 					{TAB_LIST_INFO.map(tabInfo => (
 						<TabPane key={tabInfo.label} tab={tabInfo.label} disabled={tabInfo.disabled}>
@@ -46,7 +46,7 @@ const TradingComponent: React.FC = () => {
 					))}
 				</NewTabPanel>
 			</div>
-			<div className="td-trading-screen-mobile__main-history">
+			<div className="td-mobile-screen-trading__main-history">
 				<HistoryOrder />
 			</div>
 		</div>

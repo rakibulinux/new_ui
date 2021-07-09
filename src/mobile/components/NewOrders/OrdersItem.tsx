@@ -31,38 +31,38 @@ const OrdersItemComponent = props => {
 	const [orderDate, orderTime] = localeDate(order.updated_at ? order.updated_at : order.created_at, 'fullDate').split(' ');
 
 	return (
-		<div key={order.id} className="td-mobile-orders-item">
-			<div className="td-mobile-orders-item__row">
-				<div className="td-mobile-orders-item__row__block">
+		<div key={order.id} className="td-mobile-cpn-orders-item">
+			<div className="td-mobile-cpn-orders-item__row">
+				<div className="td-mobile-cpn-orders-item__row__block">
 					<span style={{ color: setTradeColor(order.side).color }}>{orderType}</span>
 					<span>{marketName}</span>
 				</div>
-				<div className="td-mobile-orders-item__row__block">
+				<div className="td-mobile-cpn-orders-item__row__block">
 					<span>{orderDate}</span>
 					<span>{orderTime}</span>
 				</div>
 			</div>
-			<div className="td-mobile-orders-item__row">
-				<div className="td-mobile-orders-item__row__block">
+			<div className="td-mobile-cpn-orders-item__row">
+				<div className="td-mobile-cpn-orders-item__row__block">
 					<span>{intl.formatMessage({ id: 'page.mobile.orders.header.amount' })}</span>
-					<span className="td-mobile-orders-item__row__block__value">
+					<span className="td-mobile-cpn-orders-item__row__block__value">
 						<Decimal fixed={currentMarket.amount_precision}>{order.origin_volume}</Decimal>
 					</span>
 				</div>
-				<div className="td-mobile-orders-item__row__block">
+				<div className="td-mobile-cpn-orders-item__row__block">
 					<span>{intl.formatMessage({ id: 'page.mobile.orders.header.price' })}</span>
-					<span className="td-mobile-orders-item__row__block__value">
+					<span className="td-mobile-cpn-orders-item__row__block__value">
 						<Decimal fixed={currentMarket.price_precision}>{actualPrice}</Decimal>
 					</span>
 				</div>
-				<div className="td-mobile-orders-item__row__block">
+				<div className="td-mobile-cpn-orders-item__row__block">
 					<span>{intl.formatMessage({ id: 'page.mobile.orders.header.filled' })}</span>
-					<div className="td-mobile-orders-item__row__block__value">
+					<div className="td-mobile-cpn-orders-item__row__block__value">
 						<span>{filled}%</span>
 					</div>
 				</div>
 				{order.state === 'wait' ? (
-					<div className="td-mobile-orders-item__row__button" onClick={props.handleCancel(order.id)}>
+					<div className="td-mobile-cpn-orders-item__row__button" onClick={props.handleCancel(order.id)}>
 						<span>{intl.formatMessage({ id: 'page.mobile.orders.header.cancel' })}</span>
 						<CloseIcon />
 					</div>

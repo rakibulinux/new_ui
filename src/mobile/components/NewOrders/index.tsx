@@ -45,14 +45,14 @@ const OrdersComponent: React.FC = () => {
 	};
 
 	const renderOptionalHead = () => (
-		<div className="td-mobile-orders__optional-head" onClick={handleCancelAllOrders}>
+		<div className="td-mobile-cpn-orders__optional-head" onClick={handleCancelAllOrders}>
 			<span>{intl.formatMessage({ id: 'page.mobile.orders.cancelAll' })}</span>
 			<CloseIcon />
 		</div>
 	);
 
 	const renderTab = (tabIndex: number) => (
-		<div key={tabIndex} className="td-mobile-orders__content">
+		<div key={tabIndex} className="td-mobile-cpn-orders__content">
 			{filteredOrders.length ? (
 				filteredOrders.map((order, index) => (
 					<OrdersItem key={index} order={order} handleCancel={handleCancelSingleOrder} />
@@ -75,8 +75,12 @@ const OrdersComponent: React.FC = () => {
 	];
 
 	return (
-		<div className="td-mobile-orders">
-			<NewTabPanel defaultActiveKey="0" onChange={key => setCurrentTabIndex(Number(key))}>
+		<div className="td-mobile-cpn-orders">
+			<NewTabPanel
+				tabBarExtraContent={renderOptionalHead()}
+				defaultActiveKey="0"
+				onChange={key => setCurrentTabIndex(Number(key))}
+			>
 				{TAB_LIST_INFO.map((tabInfo, i) => (
 					<TabPane key={i.toString()} tab={tabInfo.label}>
 						{tabInfo.content}
