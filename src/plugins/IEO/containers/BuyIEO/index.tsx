@@ -302,7 +302,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 					</div>
 
 					{props.minBuy > quantityState ? (
-						<span style={{ color: '#8e0209', fontWeight: 'bold', width: '100%' }}>
+						<span style={{ color: 'rgb(218 50 58), fontWeight: 'bold', width: '100%' }}>
 							** Quantity must be larger {`${Number(props.minBuy)} ${selectedCurrencyState.toUpperCase()}`}
 						</span>
 					) : (
