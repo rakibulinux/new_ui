@@ -121,7 +121,7 @@ export * from './user/profile';
 export * from './user/userActivity';
 export * from './user/wallets';
 export * from './user/withdrawLimit';
-
+export * from './plugins/ieo';
 export interface RootState {
 	airdrops: {
 		airdrops: AirdropState;

@@ -75,7 +75,8 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 			const foundedWallet = filteredWallets.find(wallet => wallet.currency === currency);
 
 			if (foundedWallet) {
-				return Number(foundedWallet.balance);
+				if (foundedWallet.balance) return Number(foundedWallet.balance);
+				return 0;
 			}
 
 			return 0;
