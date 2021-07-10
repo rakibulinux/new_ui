@@ -4,7 +4,8 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Blur } from '../../../components/Blur';
-import { ModalWithdrawConfirmation, ModalWithdrawSubmit, Withdraw } from '../../../containers';
+import { ModalWithdrawSubmit } from '../../../containers';
+import { WithdrawComponent } from '../../containers';
 import { useBeneficiariesFetch, useCurrenciesFetch, useWalletsAddressFetch } from '../../../hooks';
 import { ethFeeFetch, selectETHFee } from '../../../modules';
 import { selectCurrencies } from '../../../modules/public/currencies';
@@ -16,6 +17,7 @@ import {
 	selectWithdrawSuccess,
 	walletsWithdrawCcyFetch,
 } from '../../../modules/user/wallets';
+import { ModalWithdrawConfirm } from '../ModalWithdrawConfirm';
 
 const defaultBeneficiary: Beneficiary = {
 	id: 0,
@@ -65,6 +67,7 @@ const WalletWithdrawBodyComponent = props => {
 		[intl],
 	);
 	const currencyItem = (currencies && currencies.find(item => item.id === currency)) || {
+		id: '',
 		withdraw_limit_24h: undefined,
 		min_withdraw_amount: undefined,
 		withdrawal_enabled: false,
@@ -164,40 +167,41 @@ const WalletWithdrawBodyComponent = props => {
 	const parentCurrency = currencies.find(cur => cur.id === parentCurrencyId) || { id: '', withdraw_limit_24h: undefined };
 	const limitWitdraw24h = parentCurrency ? parentCurrency.withdraw_limit_24h : undefined;
 
+	const parentWalletBalance = wallets.find(wallet => wallet.currency === props.parent_currency);
+
 	return (
 		<div className={className}>
-			{currencyItem && !currencyItem.withdrawal_enabled ? (
-				<Blur
-					className="pg-blur-withdraw"
-					text={intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
-				/>
-			) : (
-				<Withdraw
-					isMobileDevice
-					ethFee={feeCurrency ? feeCurrency.fee : undefined}
-					fee={fee}
-					ethBallance={ethBallance}
-					minWithdrawAmount={minWithdrawAmount}
-					type={type}
-					fixed={fixed}
-					currency={currency}
-					onClick={toggleConfirmModal}
-					withdrawAmountLabel={withdrawAmountLabel}
-					withdraw2faLabel={withdraw2faLabel}
-					withdrawFeeLabel={withdrawFeeLabel}
-					withdrawTotalLabel={withdrawTotalLabel}
-					withdrawDone={withdrawData.withdrawDone}
-					withdrawButtonLabel={withdrawButtonLabel}
-					twoFactorAuthRequired={isTwoFactorAuthRequired(user.level, user.otp)}
-					limitWitdraw24h={currencyItem.withdraw_limit_24h ? currencyItem.withdraw_limit_24h : limitWitdraw24h}
-					limitWitdraw24hLabel={parentCurrencyId ? parentCurrencyId.toUpperCase() : currencyItem.id.toUpperCase()}
-				/>
-			)}
+			<WithdrawComponent
+				isMobileDevice
+				ethFee={feeCurrency ? feeCurrency.fee : undefined}
+				fee={fee}
+				ethBallance={ethBallance}
+				minWithdrawAmount={minWithdrawAmount}
+				type={type}
+				fixed={fixed}
+				currency={currency}
+				onClick={toggleConfirmModal}
+				withdrawAmountLabel={withdrawAmountLabel}
+				withdraw2faLabel={withdraw2faLabel}
+				withdrawFeeLabel={withdrawFeeLabel}
+				withdrawTotalLabel={withdrawTotalLabel}
+				withdrawDone={withdrawData.withdrawDone}
+				withdrawButtonLabel={withdrawButtonLabel}
+				twoFactorAuthRequired={isTwoFactorAuthRequired(user.level, user.otp)}
+				limitWitdraw24h={currencyItem.withdraw_limit_24h ? currencyItem.withdraw_limit_24h : limitWitdraw24h}
+				limitWitdraw24hLabel={parentCurrencyId ? parentCurrencyId.toUpperCase() : currencyItem.id.toUpperCase()}
+				parentWalletBalance={parentWalletBalance?.balance}
+				parentCurrency={props.parent_currency}
+			/>
+			<div hidden={currencyItem.withdrawal_enabled} className="withdraw-disabled">
+				<Blur text={intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })} />
+			</div>
+
 			<div className="cr-mobile-wallet-withdraw-body__submit">
 				<ModalWithdrawSubmit isMobileDevice show={withdrawSubmitModal} currency={currency} onSubmit={toggleSubmitModal} />
 			</div>
 			<div className="cr-mobile-wallet-withdraw-body__confirmation">
-				<ModalWithdrawConfirmation
+				<ModalWithdrawConfirm
 					ethBallance={ethBallance}
 					selectedWalletFee={selectedWalletFee}
 					ethFee={feeCurrency ? feeCurrency.fee : undefined}

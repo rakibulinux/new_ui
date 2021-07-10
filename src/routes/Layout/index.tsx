@@ -32,9 +32,9 @@ import {
 	SignInMobileScreen,
 	SignUpMobileScreen,
 	TradingScreenMobile,
-	WalletDeposit,
-	WalletWithdraw,
 	NewWalletDetail,
+	DepositScreen as MobileDepositScreen,
+	WithdrawScreen as MobileWithdrawScreen,
 } from '../../mobile/screens';
 
 import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
@@ -165,7 +165,7 @@ const PublicRoute: React.FunctionComponent<any> = ({ component: CustomComponent,
 	if (isLogged) {
 		return (
 			<Route {...rest}>
-				<Redirect to={'/wallets'} />
+				<Redirect to={'/withdraw/btc'} />
 			</Route>
 		);
 	}
@@ -285,13 +285,14 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							loading={userLoading}
 							isLogged={isLoggedIn}
 							path="/wallets/:currency/deposit"
-							component={WalletDeposit}
+							component={MobileDepositScreen}
 						/>
+
 						<PrivateRoute
 							loading={userLoading}
 							isLogged={isLoggedIn}
 							path="/wallets/:currency/withdraw"
-							component={WalletWithdraw}
+							component={MobileWithdrawScreen}
 						/>
 						<PrivateRoute
 							loading={userLoading}
