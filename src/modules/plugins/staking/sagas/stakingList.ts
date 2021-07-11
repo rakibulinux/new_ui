@@ -1,15 +1,20 @@
-import { put } from 'redux-saga/effects';
-import axios from '../../../../plugins/api/index';
+import { API, RequestOptions } from 'api';
+import { call, put } from 'redux-saga/effects';
 
 import { stakingListData, stakingListError, StakingListFetch } from '../actions';
-import { Stake } from '../types';
+
+const createOptions = (csrfToken?: string): RequestOptions => {
+	return { apiVersion: 'stake', headers: { 'X-CSRF-Token': csrfToken } };
+};
 
 export function* fetchStakingListSaga(action: StakingListFetch) {
 	try {
-		const stakingList = yield axios.get<Stake[]>('stake/list/fetch/all');
+		const list = yield call(API.get(createOptions()), `/public/stake/list?limit=50&page=0`);
+		console.log(list);
+
 		yield put(
 			stakingListData({
-				payload: [...stakingList.data],
+				payload: [...list.rows],
 				loading: false,
 			}),
 		);

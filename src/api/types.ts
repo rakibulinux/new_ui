@@ -8,6 +8,7 @@ export interface Config {
 		finexUrl: string;
 		ieoAPIUrl: string;
 		sunshineUrl: string;
+		stakeUrl: string;
 	};
 	minutesUntilAutoLogout?: string;
 	rangerReconnectPeriod?: string;

@@ -17,6 +17,7 @@ const mockConfig: Config = {
 		finexUrl: '/api/v2/finex',
 		ieoAPIUrl: '/api/v2/ieo',
 		sunshineUrl: '/api/v2/sunshine',
+		stakeUrl: '/api/v2/stake',
 	},
 	minutesUntilAutoLogout: '30',
 	rangerReconnectPeriod: '1',
