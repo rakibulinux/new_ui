@@ -96,7 +96,7 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 					<tr className="text-center" style={{ color: '#ffff' }}>
 						<td>{formatNumber(Number(item.quantity).toString())}</td>
 						<td>{item.base_currency.toUpperCase()}</td>
-						<td>{formatNumber(Number(item.total).toString())}</td>
+						<td>{Number(item.total)}</td>
 						<td>{item.quote_currency.toUpperCase()}</td>
 						<td>{format(new Date(item.created_at), 'HH:mm:ss dd/MM/yyyy')}</td>
 					</tr>
