@@ -18,6 +18,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 	const dispatch = useDispatch();
 	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
 	const history = useHistory();
+	console.log(props.currencyId);
 	React.useEffect(() => {
 		dispatchFetchCurrencies();
 	}, []);
@@ -53,32 +54,31 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 		}
 	};
 	const currencies = useSelector(selectCurrencies);
-	const findIcon = (code: string): string => {
-		const currency = currencies.find(currencyParam => currencyParam.id === code);
+	const getCryptoIcon = (currencyID: string): string => {
+		const currency = currencies.find((cur: any) => cur.id === currencyID);
 		try {
-			return require(`../../../../../node_modules/cryptocurrency-icons/128/color/${code.toLowerCase()}.png`);
+			return require(`../../../../../node_modules/cryptocurrency-icons/128/color/${currencyID.toLowerCase()}.png`);
 		} catch (err) {
 			if (currency) {
 				return currency.icon_url;
 			}
-
 			return require('../../../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
 		}
 	};
 	return (
 		<div id="ieo-item">
-			<div className="ioe-item-header">
+			<div
+				className="ioe-item-header"
+				onClick={() => {
+					const location = {
+						pathname: `/ieo/detail/${props.id}`,
+					};
+					history.push(location);
+				}}
+			>
 				{renderStatus(props.type)}
-				<div
-					className="ieo-item-coin-img"
-					onClick={() => {
-						const location = {
-							pathname: `/ieo/detail/${props.id}`,
-						};
-						history.push(location);
-					}}
-				>
-					<img src={findIcon(props.currencyId)} />
+				<div className="ieo-item-coin-img">
+					<img src={getCryptoIcon(props.currencyId.toUpperCase())} alt={`${props.currencyId}-icon`} />
 				</div>
 			</div>
 

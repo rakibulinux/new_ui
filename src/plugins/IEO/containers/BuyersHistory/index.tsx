@@ -3,6 +3,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import { fetchBuyersHistory, selectBuyersHistory } from './../../../../modules';
 import { useDispatch, useSelector } from 'react-redux';
+import { formatNumber } from './../../../../helpers';
 interface BuyersHistoryProps {
 	ieoID: number;
 }
@@ -50,10 +51,10 @@ export const BuyersHistory: React.FC<BuyersHistoryProps> = (props: BuyersHistory
 				<React.Fragment key={index}>
 					<tr className="text-center" style={{ color: '#ffff', border: '1px solid #848e9' }}>
 						<td>{item.uid}</td>
-						<td>{Number(item.quantity)}</td>
-						<td>{item.base_currency}</td>
+						<td>{formatNumber(Number(item.quantity).toString())}</td>
+						<td>{item.base_currency.toUpperCase()}</td>
 						<td>{Number(item.total)}</td>
-						<td>{item.quote_currency}</td>
+						<td>{item.quote_currency.toUpperCase()}</td>
 						<td>{format(new Date(item.created_at), 'HH:mm:ss dd/MM/yyyy')}</td>
 					</tr>
 				</React.Fragment>

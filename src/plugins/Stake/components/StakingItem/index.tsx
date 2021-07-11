@@ -56,10 +56,10 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 		status === 'upcoming'
 			? 'stacking-item__label-upcoming'
 			: status === 'running'
-				? 'stacking-item__label-running'
-				: status === 'ended'
-					? 'stacking-item__label-ended'
-					: '',
+			? 'stacking-item__label-running'
+			: status === 'ended'
+			? 'stacking-item__label-ended'
+			: '',
 	);
 
 	const renderStakeLabel = () => {
@@ -156,16 +156,16 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 								(Staked){' '}
 								{Number(totalCapState) > 100000000
 									? millify(Number(totalCapState), {
-										precision: 2,
-									})
+											precision: 2,
+									  })
 									: Number(totalCapState)}
 							</span>
 							<span hidden={Number(totalAmountState) <= 0}> / </span>
 							<span hidden={Number(totalAmountState) <= 0}>
 								{Number(totalAmountState) > 100000000
 									? millify(Number(totalAmountState), {
-										precision: 2,
-									})
+											precision: 2,
+									  })
 									: Number(totalAmountState)}{' '}
 								(Total)
 							</span>

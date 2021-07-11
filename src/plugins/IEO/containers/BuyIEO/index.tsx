@@ -111,7 +111,6 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 		);
 	};
 	const buyIEOButton = () => {
-
 		const checkSatisfy =
 			checkedRegulationState &&
 			isCitizenState &&
@@ -290,7 +289,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 					</label>
 					<div id="buy-ieo-body-payment" style={{ padding: '0' }} className="d-flex flex-wrap input-group-body">
 						<div id="buy-ieo-body-coin-avt">
-							<img src={findIcon(props.currencyID)} alt="iconCoin"></img>
+							<img src={findIcon(props.currencyID)} alt={`${props.currencyID.toUpperCase()}-icon`}></img>
 						</div>
 						<input
 							type="number"
@@ -306,7 +305,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 
 					{props.minBuy > quantityState ? (
 						<span style={{ color: 'rgb(218 50 58)', fontWeight: 'bold', width: '100%' }}>
-							** Quantity must be larger {`${Number(props.minBuy)} ${selectedCurrencyState.toUpperCase()}`}
+							** Quantity must be larger {`${Number(props.minBuy)} ${props.currencyID.toUpperCase()}`}
 						</span>
 					) : (
 						''
@@ -316,7 +315,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 					</label>
 					<div id="buy-ieo-body-price" style={{ padding: '0' }} className="d-flex flex-wrap input-group-body">
 						<div id="buy-ieo-body-coin-avt">
-							<img src={findIcon(selectedCurrencyState)} alt="iconCoin"></img>
+							<img src={findIcon(selectedCurrencyState)} alt={`${selectedCurrencyState.toUpperCase()}-icon`}></img>
 						</div>
 						<input
 							type="number"
@@ -337,7 +336,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 					</label>
 					<div id="buy-ieo-body-total" style={{ padding: '0' }} className="d-flex flex-wrap input-group-body">
 						<div id="buy-ieo-body-coin-avt">
-							<img src={findIcon(selectedCurrencyState)} alt="iconCoin"></img>
+							<img src={findIcon(selectedCurrencyState)} alt={`${selectedCurrencyState.toUpperCase()}-icon`}></img>
 						</div>
 						<input
 							type="number"
