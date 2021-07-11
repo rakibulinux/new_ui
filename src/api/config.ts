@@ -47,6 +47,7 @@ Cryptobase.config = { ...window.env };
 //hot custome env
 Cryptobase.config.api.sunshineUrl = Cryptobase.config.api.sunshineUrl || '/api/v2/sunshine';
 Cryptobase.config.api.stakeUrl = Cryptobase.config.api.stakeUrl || '/api/v2/stake';
+Cryptobase.config.api.ieoAPIUrl = Cryptobase.config.api.ieoAPIUrl || '/api/v2/ieo';
 //end custome env
 Cryptobase.config.storage = Cryptobase.config.storage || {};
 
@@ -54,11 +55,11 @@ export const tradeUrl = () => Cryptobase.config.api.tradeUrl;
 export const authUrl = () => Cryptobase.config.api.authUrl;
 export const applogicUrl = () => Cryptobase.config.api.applogicUrl;
 export const sunshineUrl = () => Cryptobase.config.api.sunshineUrl;
+export const ieoAPIUrl = () => Cryptobase.config.api.ieoAPIUrl;
 export const stakeUrl = () => Cryptobase.config.api.stakeUrl;
 export const rangerUrl = () => Cryptobase.config.api.rangerUrl;
 export const arkeUrl = () => Cryptobase.config.api.arkeUrl || tradeUrl();
 export const finexUrl = () => Cryptobase.config.api.finexUrl || tradeUrl();
-export const ieoAPIUrl = () => Cryptobase.config.api.ieoAPIUrl || process.env.ieoAPIUrl;
 export const minutesUntilAutoLogout = (): string => Cryptobase.config.minutesUntilAutoLogout || '5';
 export const withCredentials = () => Cryptobase.config.withCredentials;
 export const defaultStorageLimit = () => Cryptobase.config.storage.defaultStorageLimit || STORAGE_DEFAULT_LIMIT;
