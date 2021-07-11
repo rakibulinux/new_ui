@@ -33,7 +33,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 	const history = useHistory();
 	const [selectedCurrencyState, setSelectedCurrencyState] = React.useState(props.coins[0] || '');
 	const [coinActive, setCoinActive] = React.useState(0);
-	const [quantityState, setQuantityState] = React.useState<number>(Number(props.minBuy));
+	const [quantityState, setQuantityState] = React.useState<string>(Number(props.minBuy).toString());
 	const [priceState, setPriceState] = React.useState(0);
 	const [totalPriceState, setTotalPriceState] = React.useState<number>(0);
 	const [isShowBuyConfirmModalState, setIsShowBuyConfirmModalState] = React.useState<boolean>(false);
@@ -114,8 +114,8 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 		const checkSatisfy =
 			checkedRegulationState &&
 			isCitizenState &&
-			quantityState !== 0 &&
-			props.minBuy <= quantityState &&
+			Number(quantityState) !== 0 &&
+			props.minBuy <= Number(quantityState) &&
 			handleGetBalance(selectedCurrencyState) !== 0 &&
 			props.type === 'ongoing';
 		return (
@@ -139,7 +139,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 			setIsLoadingState(false);
 			if (buyResponse.success) {
 				dispatch(resetBuyResponse());
-				setQuantityState(Number(props.minBuy));
+				setQuantityState(Number(props.minBuy).toString());
 				setIsCitizenState(false);
 				setCheckRegulationSate(false);
 			}
@@ -151,7 +151,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 		if (
 			priceState &&
 			priceState > 0 &&
-			quantityState > 0 &&
+			Number(quantityState) > 0 &&
 			totalPriceState &&
 			totalPriceState > 0 &&
 			selectedCurrencyState
@@ -159,7 +159,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 			const buyInfo: BuyIEO = {
 				ieo_id: props.id,
 				uid: uid,
-				quantity: quantityState,
+				quantity: Number(quantityState),
 				total_purchase: totalPriceState,
 				quote_currency: selectedCurrencyState.toLowerCase(),
 			};
@@ -176,7 +176,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 			isShowBuyConfirmModalState &&
 			totalPriceState &&
 			selectedCurrencyState &&
-			quantityState >= props.minBuy &&
+			Number(quantityState) >= props.minBuy &&
 			priceState &&
 			priceState > 0;
 
@@ -185,7 +185,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 				visible={isShowBuyConfirmModalState}
 				onHiddenModal={hiddenBuyConfirmModal}
 				onBuy={handleBuy}
-				quantity={quantityState}
+				quantity={Number(quantityState)}
 				ieoID={props.id.toString()}
 				baseBalance={baseBalance}
 				baseCurrency={String(props.currencyID).toUpperCase()}
@@ -259,7 +259,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 								setCoinActive(index);
 								setSelectedCurrencyState(coin);
 								setQuoteBalanceState(handleGetBalance(coin));
-								setQuantityState(Number(props.minBuy));
+								setQuantityState(Number(props.minBuy).toString());
 								setIsCitizenState(false);
 								setCheckRegulationSate(false);
 								if (priceSelector.payload[coin.toUpperCase()]) {
@@ -292,10 +292,11 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 							<img src={findIcon(props.currencyID)} alt={`${props.currencyID.toUpperCase()}-icon`}></img>
 						</div>
 						<input
-							type="text"
+							type="number"
+							placeholder="0"
 							value={quantityState}
 							onChange={event => {
-								if (Number(event.target.value) >= 0) setQuantityState(Number(event.target.value));
+								if (Number(event.target.value) >= 0) setQuantityState(event.target.value);
 							}}
 							id="buy-ieo-body-input"
 							name="quantityToBuy"
@@ -303,7 +304,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 						<span id="denominations-coin">{props.currencyID}</span>
 					</div>
 
-					{props.minBuy > quantityState ? (
+					{props.minBuy > Number(quantityState) ? (
 						<span style={{ color: 'rgb(218 50 58)', fontWeight: 'bold', width: '100%' }}>
 							** Quantity must be larger {`${Number(props.minBuy)} ${props.currencyID.toUpperCase()}`}
 						</span>
