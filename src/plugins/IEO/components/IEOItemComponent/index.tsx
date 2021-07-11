@@ -18,7 +18,6 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 	const dispatch = useDispatch();
 	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
 	const history = useHistory();
-	console.log(props.currencyId);
 	React.useEffect(() => {
 		dispatchFetchCurrencies();
 	}, []);
@@ -78,7 +77,11 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 			>
 				{renderStatus(props.type)}
 				<div className="ieo-item-coin-img">
-					<img src={getCryptoIcon(props.currencyId.toUpperCase())} alt={`${props.currencyId}-icon`} />
+					<img
+						src={getCryptoIcon(props.currencyId.toUpperCase())}
+						alt={`${props.currencyId}-icon`}
+						style={{ width: '100px', height: '100px' }}
+					/>
 				</div>
 			</div>
 
