@@ -11,7 +11,7 @@ export function* fetchBuyHistorySaga(action: FetchBuyHistory) {
 		const { ieo_id, page, pageSize } = action.payload;
 		const listHistory = yield call(
 			API.get(createOptions(getCsrfToken())),
-			`private/ieo/buy_history/ieo_id=${ieo_id}?page=${page}&pageSize=${pageSize}`,
+			`/private/ieo/buy_history/ieo_id=${ieo_id}?page=${page}&pageSize=${pageSize}`,
 		);
 
 		yield put(
@@ -31,7 +31,7 @@ export function* fetchBuyersHistorySaga(action: FetchBuyersHistory) {
 		const { ieo_id, page, pageSize } = action.payload;
 		const buyers = yield call(
 			API.get(createOptions(getCsrfToken())),
-			`public/ieo/buyers/ieo_id=${ieo_id}?page=${page}&pageSize=${pageSize}`,
+			`/public/ieo/buyers/ieo_id=${ieo_id}?page=${page}&pageSize=${pageSize}`,
 		);
 		yield put(
 			fetchBuyersHistoryData({

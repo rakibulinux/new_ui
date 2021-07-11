@@ -9,8 +9,7 @@ const createOptions = (csrfToken?: string): RequestOptions => {
 
 export function* fetchStakingListSaga(action: StakingListFetch) {
 	try {
-		const list = yield call(API.get(createOptions()), `/public/stake/list?limit=50&page=0`);
-		console.log(list);
+		const list = yield call(API.get(createOptions()), `/public/stake/list?limit=100&page=0`);
 
 		yield put(
 			stakingListData({

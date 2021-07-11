@@ -18,7 +18,7 @@ export function* unstakeSaga(action: UnstakePost) {
 			currency_id,
 			amount,
 		};
-		const result = yield call(API.post(createOptions(getCsrfToken())), `private/stake/unstake`, unstake_data);
+		const result = yield call(API.post(createOptions(getCsrfToken())), `/private/stake/unstake`, unstake_data);
 		if (result.error) {
 			throw new Error(result.error);
 		}

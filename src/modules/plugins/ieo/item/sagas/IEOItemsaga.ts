@@ -9,7 +9,7 @@ const createOptions = (csrfToken?: string): RequestOptions => {
 
 export function* findIEOItemByIdSaga(action: findIEOById) {
 	try {
-		const response = yield call(API.get(createOptions()), `public/ieo/${action.payload.id}`);
+		const response = yield call(API.get(createOptions()), `/public/ieo/${action.payload.id}`);
 		yield put(IEOItemData(response));
 	} catch (error) {
 		yield put(IEOItemError(error));

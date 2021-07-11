@@ -13,7 +13,7 @@ const createOptions = (csrfToken?: string): RequestOptions => {
 export function* createStakeSaga(action: CreateStake) {
 	try {
 		const { uid, stake_id } = action.payload;
-		const result = yield call(API.post(createOptions(getCsrfToken())), `private/stake/register`, action.payload);
+		const result = yield call(API.post(createOptions(getCsrfToken())), `/private/stake/register`, action.payload);
 		if (result.error) {
 			throw new Error(result.error);
 		}

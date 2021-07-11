@@ -11,7 +11,7 @@ const createOptions = (csrfToken?: string): RequestOptions => {
 
 export function* buyIEOItemSaga(action: BuyIEOItem) {
 	try {
-		yield call(API.post(createOptions(getCsrfToken())), `private/ieo/buy`, action.payload);
+		yield call(API.post(createOptions(getCsrfToken())), `/private/ieo/buy`, action.payload);
 		yield put(
 			fetchBuyHistory({
 				ieo_id: Number(action.payload.ieo_id),

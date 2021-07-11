@@ -111,7 +111,6 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 		);
 	};
 	const buyIEOButton = () => {
-		console.log(checkedRegulationState, ' ', isCitizenState);
 
 		const checkSatisfy =
 			checkedRegulationState &&
