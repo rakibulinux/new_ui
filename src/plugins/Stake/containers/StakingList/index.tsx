@@ -9,7 +9,7 @@ interface StakingListProps {
 	stakes: Stake[];
 }
 
-const NUMBER_ITEM_DISPLAY = 3;
+const NUMBER_ITEM_DISPLAY = 6;
 
 export const StakingList: React.FC<StakingListProps> = (props: StakingListProps) => {
 	const { stakes } = props;
