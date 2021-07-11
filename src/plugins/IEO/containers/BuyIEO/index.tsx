@@ -292,7 +292,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 							<img src={findIcon(props.currencyID)} alt={`${props.currencyID.toUpperCase()}-icon`}></img>
 						</div>
 						<input
-							type="number"
+							type="text"
 							value={quantityState}
 							onChange={event => {
 								if (Number(event.target.value) >= 0) setQuantityState(Number(event.target.value));
