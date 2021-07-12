@@ -1,0 +1,88 @@
+.td-mobile-cpn-order-book {
+	background: transparent;
+
+	&__header {
+		color: #848e9c;
+		display: flex;
+		font-size: 0.9em;
+		padding-bottom: 0.3em;
+
+		&__item {
+			flex: 1;
+		}
+	}
+
+	&__market {
+		color: #e84946;
+		display: flex;
+		flex-direction: column;
+		margin: 0.4em;
+
+		&__convert-usd {
+			font-size: 0.9em;
+		}
+	}
+
+	&__combined--reverse {
+		display: flex;
+		flex-direction: column-reverse;
+	}
+
+	&__combined {
+		color: #848e9c;
+		height: calc(1.65em * 6);
+		overflow-y: scroll;
+
+		&--ask-color {
+			color: #e84946;
+		}
+
+		&--bid-color {
+			color: #2fb67e;
+		}
+
+		table {
+			width: 100%;
+
+			tbody {
+				tr {
+					cursor: pointer;
+					display: flex;
+					justify-content: space-between;
+					position: relative;
+
+					td {
+						font-size: 0.9em;
+						height: 1.6em;
+						line-height: 1.6em;
+						vertical-align: middle;
+
+						&:first-child {
+							padding-left: 0.4em;
+						}
+
+						&:last-child {
+							padding-right: 0.4em;
+						}
+
+						.td-mobile-cpn-order-book__combined--bg-bid-row,
+						.td-mobile-cpn-order-book__combined--bg-ask-row {
+							bottom: 0;
+							left: 0;
+							position: absolute;
+							top: 0;
+						}
+
+						.td-mobile-cpn-order-book__combined--bg-ask-row {
+							background: rgba(232, 73, 70, 0.16);
+						}
+
+						.td-mobile-cpn-order-book__combined--bg-bid-row {
+							background: rgba(47, 182, 126, 0.15);
+						}
+					}
+				}
+			}
+		}
+	}
+}

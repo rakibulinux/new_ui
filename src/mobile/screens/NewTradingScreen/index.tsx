@@ -1,16 +1,8 @@
 import { NewTabPanel } from 'components';
-import { selectUserLoggedIn } from 'modules';
 import { TabPane, TabsProps } from 'rc-tabs';
 import * as React from 'react';
-import { useSelector } from 'react-redux';
 import { useDepthFetch, useMarketsFetch, useMarketsTickersFetch, useRangerConnectFetch } from '../../../hooks';
-import { NewCurrentMarketInfo, NewOrders } from '../../components';
-
-const HistoryOrder: React.FC = () => {
-	const userLoggedIn = useSelector(selectUserLoggedIn);
-
-	return userLoggedIn ? <NewOrders /> : null;
-};
+import { NewCurrentMarketInfo } from '../../components';
 
 const TradingComponent: React.FC = () => {
 	useMarketsFetch();
@@ -45,9 +37,6 @@ const TradingComponent: React.FC = () => {
 						</TabPane>
 					))}
 				</NewTabPanel>
-			</div>
-			<div className="td-mobile-screen-trading__main-history">
-				<HistoryOrder />
 			</div>
 		</div>
 	);

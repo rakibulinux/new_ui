@@ -4,13 +4,21 @@ import { OrderComponent, TradingChart } from 'containers';
 import threeDotSvg from 'mobile/assets/icons/Trading/threeDot.svg';
 import toChartSvg from 'mobile/assets/icons/Trading/toChart.svg';
 import toListSvg from 'mobile/assets/icons/Trading/toList.svg';
-import { selectCurrentMarket } from 'modules';
+import { selectCurrentMarket, selectUserLoggedIn } from 'modules';
 import React from 'react';
 import { ListGroup } from 'react-bootstrap';
 import isEqual from 'react-fast-compare';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { NewCreateOrder } from '../NewCreateOrder';
+import { NewOrders } from '../NewOrders';
 import { OrderBook } from '../OrderBook';
+
+const HistoryOrder: React.FC = () => {
+	const userLoggedIn = useSelector(selectUserLoggedIn);
+
+	return userLoggedIn ? <NewOrders /> : null;
+};
 
 const OptionList: React.FC = () => {
 	const [isShow, setIsShow] = React.useState(false);
@@ -46,7 +54,16 @@ const OptionList: React.FC = () => {
 
 	return (
 		<div className="d-inline-block td-mobile-cpn-current-market-info__header__option">
-			<img src={threeDotSvg} alt="" onClick={() => setIsShow(prev => !prev)} />
+			<img
+				src={threeDotSvg}
+				alt=""
+				onClick={() => setIsShow(prev => !prev)}
+				onMouseOut={() => {
+					setTimeout(() => {
+						setIsShow(false);
+					}, 0);
+				}}
+			/>
 			<ListGroup className={className}>
 				<ListGroup.Item onClick={handleSelectFavorite}>
 					<MarketTradingSvg active={currentMarket && favoriteKeyState.includes(currentMarket.id)} />
@@ -67,15 +84,20 @@ export const CurrentMarketInfoComponent: React.FC = () => {
 
 	const renderContent = () => {
 		if (tabKey === 'chart') {
-			return <TradingChart hideHeaderContent />;
+			return true ? <NewCreateOrder /> : <TradingChart hideHeaderContent />;
 		} else {
 			return (
-				<div className="pg-mobile-create-order">
-					<div className="pg-mobile-create-order__row-double">
-						<OrderBook />
-						<OrderComponent defaultTabIndex={0} />
+				<React.Fragment>
+					<div className="pg-mobile-create-order">
+						<div className="pg-mobile-create-order__row-double">
+							<OrderBook />
+							<OrderComponent defaultTabIndex={0} />
+						</div>
 					</div>
-				</div>
+					<div className="td-mobile-cpn-current-market-info__history mt-3">
+						<HistoryOrder />
+					</div>
+				</React.Fragment>
 			);
 		}
 	};

@@ -32,3 +32,6 @@ export * from './NewAllMarketList';
 export * from './NewCurrentMarketInfo';
 export * from './NewOpenOrders';
 export * from './NewOrders';
+export * from './NewCreateOrder';
+export * from './NewOrderBook';
+export * from './NewOrder';
