@@ -85,6 +85,7 @@ import {
 	NewHomePage,
 	AnnouncementScreen,
 	AssetsFeeScreen,
+	Referral,
 } from '../../screens';
 import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
 import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
@@ -405,6 +406,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route exact={false} path="/fee" component={AssetsFeeScreen} />
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />
+					<Route path="/referral"  component={Referral} />
 
 					<PrivateRoute
 						loading={userLoading}

@@ -24,3 +24,5 @@ export * from './WithdrawScreen';
 export * from './NewHomePage';
 export * from './AnnouncementScreen';
 export * from './AssetsFeeScreen';
+export * from './Referral';
+

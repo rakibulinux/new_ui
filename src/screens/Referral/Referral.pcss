@@ -1,0 +1,164 @@
+#referral {
+	.referral-banner {
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 56vh;
+	}
+	.referral-rank {
+		padding: 50px 0;
+
+		.container {
+			width: 1040px;
+			max-width: 100%;
+
+			.referral-row {
+				display: flex;
+				justify-content: space-between;
+
+				&__box {
+					background: #313445;
+					box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.2);
+					padding: 20px;
+
+					&__row {
+						display: flex;
+						justify-content: space-between;
+
+						&__rank {
+							display: flex;
+							justify-content: center;
+
+							.top-rank {
+								display: flex;
+								flex-direction: column;
+								align-items: start;
+								margin-top: 6px;
+								margin-left: 10px;
+
+								&__top {
+									padding: 4px 12px;
+									background: #2FB67E;
+									color: #FFF;
+									border-radius: 6px;
+								}
+								&__mail {
+									color: #FFF;
+									font-size: 14px;
+								}
+							}
+						}
+						&__commission {
+							display: flex;
+							flex-direction: column;
+							justify-content: center;
+							align-items: flex-end;
+							margin-bottom: -8px;
+
+							&__title {
+								font-size: 13px;
+								line-height: 19px;
+								color: #FFFFFF;
+								margin-bottom: 6px;
+							}
+
+							&__coin-name {
+								font-size: 14px;
+								line-height: 21px;
+								color: #2FB67E;
+							}
+						}
+					}
+
+					
+				}
+			}
+		}
+	}
+	.referral-loggedIn {
+		padding: 25px 0 125px 0;
+
+		.container {
+			width: 1040px;
+			max-width: 100%;
+
+			.referral-loggedIn-userLogIn {
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
+				height: 20vh;
+				/* background-color: #0000;
+				opacity: .5; */
+				position: relative;
+
+				&__wrapper{
+					position: absolute;
+					top: 30%;
+					right: 30%;
+
+					&__desription {
+						font-size: 14px;
+						line-height: 21px;
+						color: #FFFFFF;
+						margin-bottom: 20px;
+					}
+					&__login {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+
+						button {
+							text-transform: uppercase;
+							background-color: #2FB67E;
+							color: #FFF;
+							border-radius: 5px;
+							border: none;
+							padding: 6px 20px;
+						}
+						p {
+							font-size: 13px;
+							line-height: 19px;
+							color: #FFFFFF;
+							margin-left: 10px;
+							margin-bottom: 0;
+							margin-top: 0;
+
+							span {
+								font-size: 13px;
+								line-height: 19px;
+								color: #00bbf9;
+								margin-left: 10px;
+								cursor: pointer;
+
+								&:hover {
+									border-bottom: 1px solid #FFF;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	.referral-detail {
+		background: #262938;
+		padding: 50px 0;
+
+		.container{
+			width: 1040px;
+			max-width: 100%;
+
+			h2 {
+				text-align: center;
+				margin-bottom: 50px;
+	
+			}
+			.notice {
+				background: #0085FF;
+				padding: 26px 60px;
+			}
+		}
+
+		
+	}
+}
