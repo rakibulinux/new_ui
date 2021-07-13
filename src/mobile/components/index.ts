@@ -33,3 +33,4 @@ export * from './NewAllMarketList';
 export * from './Beneficiaries';
 export * from './SummaryField';
 export * from './Decimal';
+export * from './NewModal';

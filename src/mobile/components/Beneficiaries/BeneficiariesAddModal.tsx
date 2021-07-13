@@ -1,12 +1,10 @@
 import classnames from 'classnames';
 import * as React from 'react';
-import { Button } from 'react-bootstrap';
 import { injectIntl } from 'react-intl';
 import { connect, MapDispatchToProps } from 'react-redux';
 import { CustomInput } from '../../components';
 import { checkValidBitcoinAddress, checkValidErc20Address } from '../../../helpers';
 import { IntlProps } from '../../../index';
-import { Modal } from 'react-bootstrap';
 import {
 	beneficiariesCreate,
 	BeneficiaryBank,
@@ -16,6 +14,7 @@ import {
 	selectMobileDeviceState,
 } from '../../../modules';
 import { CommonError } from '../../../modules/types';
+import { NewModal } from '../NewModal';
 
 interface ReduxProps {
 	beneficiariesAddError?: CommonError;
@@ -134,20 +133,9 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 
 		const isFiatButtonDisabled = !fiatName || !fiatFullName || !fiatAccountNumber || !fiatBankName;
 		return (
-			<Modal
-				show
-				onHide={this.props.handleToggleAddAddressModal}
-				className="withdraw-confirm__modal"
-				animation={true}
-				aria-labelledby="contained-modal-title-vcenter"
-				centered
-			>
-				<Modal.Header closeButton>
-					<Modal.Title>
-						{this.props.intl.formatMessage({ id: 'page.body.wallets.beneficiaries.addAddressModal.header' })}
-					</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
+			<NewModal show onClose={this.props.handleToggleAddAddressModal}>
+				<h5>{this.props.intl.formatMessage({ id: 'page.body.wallets.beneficiaries.addAddressModal.header' })}</h5>
+				<div className="modal-main__body">
 					<div className={addModalClass} hidden={type !== 'coin'} style={{ fontSize: '12px' }}>
 						{isInvalidAddress ? (
 							<p style={{ fontSize: '12px', color: 'red' }}>
@@ -157,6 +145,13 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 						{this.renderEnterCoinAddressInput('coinAddress')}
 						{this.renderAddAddressModalBodyItem('coinBeneficiaryName')}
 						{this.renderAddAddressModalBodyItem('coinDescription', true)}
+						<button
+							disabled={isCoinButtonDisabled}
+							className="w-100 green-btn"
+							onClick={this.handleSubmitAddAddressCoinModal}
+						>
+							{this.translate('page.body.wallets.beneficiaries.addAddressModal.body.button')}
+						</button>
 					</div>
 					<div hidden={type === 'coin'}>
 						{this.renderAddAddressModalBodyItem('fiatName')}
@@ -166,31 +161,17 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 						{this.renderAddAddressModalBodyItem('fiatBankSwiftCode', true)}
 						{this.renderAddAddressModalBodyItem('fiatIntermediaryBankName', true)}
 						{this.renderAddAddressModalBodyItem('fiatIntermediaryBankSwiftCode', true)}
+						<button
+							disabled={isFiatButtonDisabled}
+							hidden={type === 'coin'}
+							onClick={this.handleSubmitAddAddressFiatModal}
+							className="w-100 green-btn"
+						>
+							{this.translate('page.body.wallets.beneficiaries.addAddressModal.body.button')}
+						</button>
 					</div>
-				</Modal.Body>
-				<Modal.Footer>
-					<Button
-						hidden={type !== 'coin'}
-						disabled={isCoinButtonDisabled}
-						className="w-100"
-						onClick={this.handleSubmitAddAddressCoinModal}
-						size="sm"
-						variant="primary"
-					>
-						{this.translate('page.body.wallets.beneficiaries.addAddressModal.body.button')}
-					</Button>
-					<Button
-						disabled={isFiatButtonDisabled}
-						hidden={type === 'coin'}
-						onClick={this.handleSubmitAddAddressFiatModal}
-						size="sm"
-						className="w-100"
-						variant="primary"
-					>
-						{this.translate('page.body.wallets.beneficiaries.addAddressModal.body.button')}
-					</Button>
-				</Modal.Footer>
-			</Modal>
+				</div>
+			</NewModal>
 		);
 	}
 
