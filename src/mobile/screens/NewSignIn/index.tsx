@@ -2,21 +2,18 @@ import { Button, Form, Input } from 'antd';
 import { isEmail } from 'helpers';
 import { useDocumentTitle } from 'hooks';
 import { GoBackIcon } from 'mobile/assets/icons';
-import { selectConfigs, signIn } from 'modules';
+import { signIn } from 'modules';
 import React, { FC, useState } from 'react';
-import { ReCAPTCHA } from 'react-google-recaptcha';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
 export const NewSignInMobileScreen: FC = () => {
 	useDocumentTitle('Sign In');
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const configs = useSelector(selectConfigs);
 
 	const [email, setEmail] = useState<string | null>(null);
 	const [pass, setPass] = useState<string | null>(null);
-	const [statusCapcha, setStatusCapcha] = useState<boolean>(false);
 
 	const onSubmit = (value: any) => {
 		const dataFormLogin = {
@@ -27,22 +24,18 @@ export const NewSignInMobileScreen: FC = () => {
 	};
 
 	const canSubmit = (): boolean => {
-		return email !== null && pass !== null && pass !== '' && isEmail(email) && statusCapcha;
-	};
-
-	const onCapcha = value => {
-		setStatusCapcha(true);
+		return email !== null && pass !== null && pass !== '' && isEmail(email);
 	};
 
 	const renderForm = () => {
 		return (
-			<Form className="td-mobile-pg-signin__body__form w-100" layout="vertical" onFinish={onSubmit}>
-				<h4 className="td-mobile-pg-signin__body__form__title">Log In</h4>
-				<span className="td-mobile-pg-signin__body__form__description">
+			<Form className="td-mobile-screen-signin__body__form w-100" layout="vertical" onFinish={onSubmit}>
+				<h4 className="td-mobile-screen-signin__body__form__title">Log In</h4>
+				<span className="td-mobile-screen-signin__body__form__description">
 					Please check that you are visiting the correct URL
 				</span>
-				<div className="td-mobile-pg-signin__body__form__site">
-					<div className="td-mobile-pg-signin__body__form__site__lock">
+				<div className="td-mobile-screen-signin__body__form__site">
+					<div className="td-mobile-screen-signin__body__form__site__lock">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className="css-1mb79dz">
 							<path
 								d="M16.27 10.5V8.07C16.27 5.82 14.45 4 12.2 4S8.13 5.82 8.13 8.07v2.43H6v8.94h12.43V10.5h-2.16zm-3.07 6.46h-2v-4h2v4zm1.07-6.46h-4.14V8.07c0-1.14.93-2.07 2.07-2.07 1.14 0 2.07.93 2.07 2.07v2.43z"
@@ -50,13 +43,13 @@ export const NewSignInMobileScreen: FC = () => {
 							></path>
 						</svg>
 					</div>
-					<div className="td-mobile-pg-signin__body__form__site__name">
+					<div className="td-mobile-screen-signin__body__form__site__name">
 						<span>https://</span>
 						www.cx.finance
 					</div>
 				</div>
 				<Form.Item
-					className="td-mobile-pg-signin__body__form__label"
+					className="td-mobile-screen-signin__body__form__label"
 					label="Email"
 					name="email"
 					hasFeedback
@@ -64,7 +57,7 @@ export const NewSignInMobileScreen: FC = () => {
 					validateStatus={email === null ? '' : isEmail(email) ? 'success' : 'error'}
 				>
 					<Input
-						className="td-mobile-pg-signin__body__form__label__input"
+						className="td-mobile-screen-signin__body__form__label__input"
 						value={email || ''}
 						placeholder="Enter your email"
 						onChange={e => setEmail(e.target.value)}
@@ -72,7 +65,7 @@ export const NewSignInMobileScreen: FC = () => {
 				</Form.Item>
 
 				<Form.Item
-					className="td-mobile-pg-signin__body__form__label mb-4"
+					className="td-mobile-screen-signin__body__form__label mb-4"
 					label="Password"
 					name="password"
 					hasFeedback
@@ -80,20 +73,16 @@ export const NewSignInMobileScreen: FC = () => {
 					validateStatus={pass === '' ? 'error' : ''}
 				>
 					<Input.Password
-						className="td-mobile-pg-signin__body__form__label__input"
+						className="td-mobile-screen-signin__body__form__label__input"
 						value={pass || ''}
 						placeholder="Enter your password"
 						onChange={e => setPass(e.target.value)}
 					/>
 				</Form.Item>
 
-				<div>
-					<ReCAPTCHA sitekey={configs.captcha_id} theme="light" onChange={onCapcha} />
-				</div>
-
-				<Form.Item className="td-mobile-pg-signup__body__form__submit">
+				<Form.Item className="td-mobile-screen-signin__body__form__submit">
 					<Button
-						className="td-mobile-pg-signup__body__form__submit__btn"
+						className="td-mobile-screen-signin__body__form__submit__btn"
 						htmlType="submit"
 						type="primary"
 						disabled={!canSubmit()}
@@ -102,7 +91,7 @@ export const NewSignInMobileScreen: FC = () => {
 					</Button>
 				</Form.Item>
 
-				<div className="td-mobile-pg-signin__body__form__links">
+				<div className="td-mobile-screen-signin__body__form__links">
 					<Link to="/forgot_password">Forgot Password</Link>
 					<Link to="/signup">Free registration</Link>
 				</div>
@@ -112,12 +101,12 @@ export const NewSignInMobileScreen: FC = () => {
 
 	return (
 		<div>
-			<div className="td-mobile-pg-signin">
-				<div className="td-mobile-pg-signin__header">
+			<div className="td-mobile-screen-signin">
+				<div className="td-mobile-screen-signin__header">
 					<GoBackIcon onClick={() => history.goBack()} />
 				</div>
-				<div className="td-mobile-pg-signin__body">{renderForm()}</div>
-				<div className="td-mobile-pg-signin__footer">© 2020 - 2021 CiRCLEEX.com. All rights reserved</div>
+				<div className="td-mobile-screen-signin__body">{renderForm()}</div>
+				<div className="td-mobile-screen-signin__footer">© 2020 - 2021 CiRCLEEX.com. All rights reserved</div>
 			</div>
 		</div>
 	);
