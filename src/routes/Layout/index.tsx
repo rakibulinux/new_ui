@@ -19,6 +19,7 @@ import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen 
 import {
 	ChangeForgottenPasswordMobileScreen,
 	ConfirmMobileScreen,
+	DepositMobileScreen,
 	EmailVerificationMobileScreen,
 	HomePageScreenMobile,
 	NewForgotPasswordScreen,
@@ -38,14 +39,7 @@ import {
 	ProfileThemeMobileScreen,
 	ProfileVerificationMobileScreen,
 	SelectedWalletMobileScreen,
-	SignInMobileScreen,
-	SignUpMobileScreen,
-	TradingScreenMobile,
-	NewWalletDetail,
-	DepositScreen as MobileDepositScreen,
-	WithdrawScreen as MobileWithdrawScreen,
-	WalletDeposit,
-	WalletWithdraw,
+	WithdrawMobileScreen,
 } from '../../mobile/screens';
 import {
 	configsFetch,
@@ -299,14 +293,14 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							loading={userLoading}
 							isLogged={isLoggedIn}
 							path="/wallets/:currency/deposit"
-							component={MobileDepositScreen}
+							component={DepositMobileScreen}
 						/>
 
 						<PrivateRoute
 							loading={userLoading}
 							isLogged={isLoggedIn}
 							path="/wallets/:currency/withdraw"
-							component={MobileWithdrawScreen}
+							component={WithdrawMobileScreen}
 						/>
 						<PrivateRoute
 							loading={userLoading}

@@ -1,6 +1,5 @@
-import React from 'react';
-import Tabs, { TabPane } from 'rc-tabs';
-import { useDispatch, useSelector } from 'react-redux';
+import { Blur, QRCode } from 'components';
+import { copy, formatCCYAddress, getTabName } from 'helpers';
 import {
 	alertPush,
 	currenciesFetch,
@@ -12,8 +11,9 @@ import {
 	walletsChildCurrenciesFetch,
 	walletsFetch,
 } from 'modules';
-import { copy, formatCCYAddress, getTabName } from 'helpers';
-import { Blur, QRCode } from 'components';
+import Tabs, { TabPane } from 'rc-tabs';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -34,6 +34,7 @@ const HistorySVG = (
 const DepositSubHeader = props => {
 	const history = useHistory();
 	const { currency } = props;
+
 	return (
 		<div className="td-mobile-wallet-detail__header">
 			<div onClick={() => history.goBack()}>{BackSVG}</div>{' '}
@@ -57,6 +58,7 @@ const DepositBody = props => {
 	const listCurrencies = currencies.filter(cur => childIDs.includes(cur.id) || cur.id === currency);
 	const listCurrenciesWallets = listCurrencies.map(list => {
 		const wallet = wallets.find(wallet => wallet.currency === list.id);
+
 		return {
 			id: list.id,
 			name: list.name,
@@ -166,7 +168,7 @@ const DepositNotes = props => {
 	);
 };
 
-export const DepositScreen = () => {
+export const DepositMobileScreen = () => {
 	const { currency = '' } = useParams<{ currency: string }>();
 	const dispatch = useDispatch();
 
@@ -181,8 +183,9 @@ export const DepositScreen = () => {
 	React.useEffect(() => {
 		dispatch(walletsChildCurrenciesFetch({ currency: currency }));
 	}, [currency, dispatch]);
+
 	return (
-		<div id="mobile-deposit-screen">
+		<div id="td-mobile-screen-deposit">
 			<DepositSubHeader currency={currency} />
 			<DepositBody currency={currency} />
 			<DepositNotes currency={currency} />

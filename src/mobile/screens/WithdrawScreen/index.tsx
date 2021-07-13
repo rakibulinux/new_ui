@@ -1,6 +1,5 @@
-import React from 'react';
-import Tabs, { TabPane } from 'rc-tabs';
-import { useDispatch, useSelector } from 'react-redux';
+import { getTabName } from 'helpers';
+import { WalletWithdrawBody } from 'mobile/components';
 import {
 	currenciesFetch,
 	selectChildCurrencies,
@@ -10,9 +9,10 @@ import {
 	walletsChildCurrenciesFetch,
 	walletsFetch,
 } from 'modules';
+import Tabs, { TabPane } from 'rc-tabs';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
-import { getTabName } from 'helpers';
-import { WalletWithdrawBody } from 'mobile/components';
 import { Link } from 'react-router-dom';
 
 const BackSVG = (
@@ -32,6 +32,7 @@ const HistorySVG = (
 const WithdrawSubHeader = props => {
 	const history = useHistory();
 	const { currency } = props;
+
 	return (
 		<div className="td-mobile-wallet-detail__header">
 			<div onClick={() => history.goBack()}>{BackSVG}</div>
@@ -75,10 +76,11 @@ const WithdrawBody = props => {
 	const childs = useSelector(selectChildCurrencies);
 	const childIDs = childs.map(child => child.id);
 	const listCurrencies = currencies.filter(cur => childIDs.includes(cur.id) || cur.id === currency);
-	console.log(childs, childIDs, listCurrencies, currencies);
+	// console.log(childs, childIDs, listCurrencies, currencies);
 
 	const listCurrenciesWallets = listCurrencies.map(list => {
 		const wallet = wallets.find(wallet => wallet.currency === list.id);
+
 		return {
 			id: list.id,
 			currency: list.id,
@@ -123,7 +125,7 @@ const WithdrawBody = props => {
 	);
 };
 
-export const WithdrawScreen = () => {
+export const WithdrawMobileScreen = () => {
 	const { currency = '' } = useParams<{ currency: string }>();
 	const dispatch = useDispatch();
 
@@ -136,7 +138,7 @@ export const WithdrawScreen = () => {
 	}, [currency, dispatch]);
 
 	return (
-		<div id="mobile-withdraw-screen">
+		<div id="td-mobile-screen-withdraw">
 			<WithdrawSubHeader currency={currency} />
 			<WithdrawBar />
 			<WithdrawBody currency={currency} />
