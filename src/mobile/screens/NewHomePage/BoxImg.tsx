@@ -27,7 +27,7 @@ const SlideImg: React.FC = () => {
 
 	if (!eventsData.length) {
 		return (
-			<div className="td-mobile-new-home-page__box-img__loading">
+			<div className="td-mobile-screen-home__box-img__loading">
 				<div className="spinner-border" role="status"></div>
 			</div>
 		);

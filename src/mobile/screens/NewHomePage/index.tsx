@@ -28,23 +28,23 @@ const NewHomePage = () => {
 	const renderDirectionals = () => {
 		return (
 			<React.Fragment>
-				<div className="td-mobile-new-home-page__direction__list-item">
-					<Link to="/wallets" className="td-mobile-new-home-page__direction__list-item__item">
+				<div className="td-mobile-screen-home__direction__list-item">
+					<Link to="/wallets" className="td-mobile-screen-home__direction__list-item__item">
 						<WalletOutlined />
 						<span>Deposit</span>
 					</Link>
 
-					<Link to="/ieo" className="td-mobile-new-home-page__direction__list-item__item">
+					<Link to="/ieo" className="td-mobile-screen-home__direction__list-item__item">
 						<ExperimentOutlined />
 						<span>IEO</span>
 					</Link>
 
-					<Link to="/airdrop" className="td-mobile-new-home-page__direction__list-item__item">
+					<Link to="/airdrop" className="td-mobile-screen-home__direction__list-item__item">
 						<GiftOutlined />
 						<span>Airdrop</span>
 					</Link>
 
-					<Link to="/trading-competition" className="td-mobile-new-home-page__direction__list-item__item">
+					<Link to="/trading-competition" className="td-mobile-screen-home__direction__list-item__item">
 						<CrownOutlined />
 						<span>Competition</span>
 					</Link>
@@ -54,25 +54,25 @@ const NewHomePage = () => {
 	};
 
 	return (
-		<div className="td-mobile-new-home-page">
-			<div className="td-mobile-new-home-page__header">
-				<div className="td-mobile-new-home-page__header__info">
+		<div className="td-mobile-screen-home">
+			<div className="td-mobile-screen-home__header">
+				<div className="td-mobile-screen-home__header__info">
 					<Link to={linkToProfile}>
 						<Avatar />
 					</Link>
-					<div className="td-mobile-new-home-page__header__info__desc"></div>
+					<div className="td-mobile-screen-home__header__info__desc"></div>
 				</div>
 			</div>
 
-			<div className="td-mobile-new-home-page__box-img">
+			<div className="td-mobile-screen-home__box-img">
 				<BoxImg />
 			</div>
 
 			<MarketsTop />
 
-			<div className="td-mobile-new-home-page__direction">{renderDirectionals()}</div>
+			<div className="td-mobile-screen-home__direction">{renderDirectionals()}</div>
 
-			<div className="td-mobile-new-home-page__market-main">
+			<div className="td-mobile-screen-home__market-main">
 				<NewAllMarketList />
 			</div>
 		</div>
