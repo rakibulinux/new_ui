@@ -237,6 +237,13 @@ export const ru: LangType = {
 
 	'page.body.wallets.tabs.withdraw.disabled.message': 'Вывод средств был отключен администрацией',
 
+	'page.body.wallets.tabs.withdraw.amount.larger': 'Amount should be larger',
+	'page.body.wallets.tabs.withdraw.2FA.missing': '2FA is missing',
+	'page.body.wallets.tabs.withdraw.beneficiary.pending': 'Beneficiary is pending',
+	'page.body.wallets.tabs.withdraw.beneficiary.incorrect': 'Beneficiary is incorrect',
+	'page.body.wallets.tabs.withdraw.limit24': 'Withdraw has been limited 24h',
+	'page.body.wallets.tabs.withdraw.waiting': `Please wait. Don't close window ...`,
+
 	'page.body.wallets.tabs.withdraw.modal.confirmation': 'Подтверждение',
 	'page.body.wallets.tabs.withdraw.modal.message1': 'Вы получите ',
 	'page.body.wallets.tabs.withdraw.modal.message2': ' на кошелек',

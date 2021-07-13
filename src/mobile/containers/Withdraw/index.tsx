@@ -2,12 +2,15 @@ import { Modal } from 'antd';
 import classnames from 'classnames';
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
-import { Beneficiaries, CustomInput, SummaryField } from '../../components';
 import { Decimal } from '../../components/Decimal';
-import { cleanPositiveFloatInput, precisionRegExp } from '../../helpers';
-import { Beneficiary } from '../../modules';
+import { FormControl, InputGroup } from 'react-bootstrap';
 
 import { FrownOutlined } from '@ant-design/icons';
+import { Beneficiaries } from 'mobile/components';
+import { cleanPositiveFloatInput, precisionRegExp } from 'helpers';
+import { alertPush, Beneficiary } from 'modules';
+import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
 export interface WithdrawProps {
 	currency: string;
 	fee: number;
@@ -28,6 +31,8 @@ export interface WithdrawProps {
 	minWithdrawAmount?: string;
 	limitWitdraw24h?: string;
 	limitWitdraw24hLabel?: string;
+	parentWalletBalance?: string;
+	parentCurrency: string;
 }
 
 const defaultBeneficiary: Beneficiary = {
@@ -49,7 +54,11 @@ interface WithdrawState {
 	total: string;
 }
 
-export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
+interface DispatchProps {
+	pushAlert: typeof alertPush;
+}
+
+class Withdraw extends React.Component<DispatchProps & WithdrawProps, WithdrawState> {
 	public state = {
 		amount: '',
 		beneficiary: defaultBeneficiary,
@@ -74,7 +83,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 	}
 
 	public render() {
-		const { amount, beneficiary, total, withdrawAmountFocused, otpCode } = this.state;
+		const { amount, withdrawAmountFocused } = this.state;
 		const {
 			className,
 			currency,
@@ -82,7 +91,6 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 			twoFactorAuthRequired,
 			withdrawAmountLabel,
 			withdrawFeeLabel,
-			withdrawTotalLabel,
 			withdrawButtonLabel,
 			isMobileDevice,
 		} = this.props;
@@ -104,7 +112,13 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 						<Beneficiaries currency={currency} type={type} onChangeValue={this.handleChangeBeneficiary} />
 					</div>
 					<div className="cr-withdraw__divider cr-withdraw__divider-one" />
-					<div className={withdrawAmountClass} style={{ position: 'relative', marginTop: '2rem' }}>
+					<div className={withdrawAmountClass} style={{ position: 'relative', marginTop: '1rem' }}>
+						<div className="d-flex flex-row justify-content-between mb-2">
+							<span className="text-white">Withdraw Amount</span>
+							<span className="text-white">
+								Balance: {this.props.parentWalletBalance} {this.props.parentCurrency.toUpperCase()}
+							</span>
+						</div>
 						<CustomInput
 							type="number"
 							label={withdrawAmountLabel || 'Withdrawal Amount'}
@@ -119,74 +133,29 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 							classNameInput="cr-withdraw__input"
 							handleChangeInput={this.handleChangeInputAmount}
 						/>
+						<button
+							onClick={() => this.handleChangeInputAmount(this.props.parentWalletBalance ?? '')}
+							className="cr-withdraw__group__amount__all-btn"
+						>
+							All
+						</button>
+					</div>
+					<div className="my-2">
+						{withdrawFeeLabel} {this.renderFee()}
 					</div>
 					<div className={lastDividerClassName} />
-					{!isMobileDevice && twoFactorAuthRequired && this.renderOtpCodeInput()}
 				</div>
 				<div className="cr-withdraw-column">
-					<div>
-						<SummaryField
-							className="cr-withdraw__summary-field"
-							message={withdrawFeeLabel ? withdrawFeeLabel : 'Fee'}
-							content={this.renderFee()}
-						/>
-						<SummaryField
-							className="cr-withdraw__summary-field"
-							message={withdrawTotalLabel ? withdrawTotalLabel : 'Total Withdraw Amount'}
-							content={this.renderTotal()}
-						/>
-					</div>
 					{isMobileDevice && twoFactorAuthRequired && this.renderOtpCodeInput()}
 					<div className="cr-withdraw__deep d-flex justify-content-end">
-						<Button
-							variant="primary"
-							size="lg"
-							onClick={this.handleClick}
-							disabled={this.handleCheckButtonDisabled(total, beneficiary, otpCode)}
-						>
+						<Button variant="primary" style={{ backgroundColor: '#2FB67E' }} size="lg" onClick={this.handleClick}>
 							{withdrawButtonLabel ? withdrawButtonLabel : 'Withdraw'}
 						</Button>
-					</div>
-				</div>
-
-				<div className="withdrawNote">
-					<div className="withdrawNote__right">
-						<p>
-							<span>1. Min Withdraw: </span>
-							<span>{this.props.minWithdrawAmount + ' ' + currency.toUpperCase()}</span>
-						</p>
-						<p>
-							<span>2. Withdraw Limit Daily: </span>
-							<span>{this.props.limitWitdraw24h + ' ' + this.props.limitWitdraw24hLabel}</span>
-						</p>
-						<p>
-							<span>
-								3. Please withdrawal to your personal wallet address directly. Remember not to withdrawal to ICO's
-								address, smart contract address, otherwise it may result the loss of assets.
-							</span>
-						</p>
 					</div>
 				</div>
 			</div>
 		);
 	}
-
-	private handleCheckButtonDisabled = (total: string, beneficiary: Beneficiary, otpCode: string) => {
-		const { amount } = this.state;
-		const { minWithdrawAmount, limitWitdraw24h } = this.props;
-
-		const isPending = beneficiary.state && beneficiary.state.toLowerCase() === 'pending';
-		const isLimitWithdraw24h = Number(limitWitdraw24h) === 0 ? false : Number(amount) > Number(limitWitdraw24h);
-
-		return (
-			Number(total) <= 0 ||
-			!Boolean(beneficiary.id) ||
-			isPending ||
-			!Boolean(otpCode) ||
-			Number(amount) < Number(minWithdrawAmount) ||
-			isLimitWithdraw24h
-		);
-	};
 
 	private renderFee = () => {
 		const { fee, fixed, currency, ethFee } = this.props;
@@ -205,19 +174,6 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 		);
 	};
 
-	private renderTotal = () => {
-		const total = this.state.total;
-		const { fixed, currency } = this.props;
-
-		return total ? (
-			<span>
-				<Decimal fixed={fixed}>{total.toString()}</Decimal> {currency.toUpperCase()}
-			</span>
-		) : (
-			<span>0 {currency.toUpperCase()}</span>
-		);
-	};
-
 	private renderOtpCodeInput = () => {
 		const { otpCode, withdrawCodeFocused } = this.state;
 		const { withdraw2faLabel } = this.props;
@@ -227,7 +183,8 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 		return (
 			<React.Fragment>
-				<div className={withdrawCodeClass} style={{ position: 'relative', marginTop: '2rem' }}>
+				<div className={withdrawCodeClass} style={{ position: 'relative', marginTop: '1rem' }}>
+					<div className="text-white mb-2">2FA code</div>
 					<CustomInput
 						type="number"
 						label={withdraw2faLabel || '2FA code'}
@@ -248,6 +205,33 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 	private handleClick = () => {
 		const { ethBallance, ethFee, fee } = this.props;
+		const { amount, beneficiary, otpCode } = this.state;
+		const { minWithdrawAmount, limitWitdraw24h } = this.props;
+		const isPending = beneficiary.state && beneficiary.state.toLowerCase() === 'pending';
+		const isLimitWithdraw24h = Number(limitWitdraw24h) === 0 ? false : Number(amount) > Number(limitWitdraw24h);
+
+		if (Number(amount) < Number(minWithdrawAmount)) {
+			this.props.pushAlert({ message: ['page.body.wallets.tabs.withdraw.amount.larger'], type: 'error' });
+			return;
+		}
+		if (!beneficiary) {
+			this.props.pushAlert({ message: ['page.body.wallets.tabs.withdraw.beneficiary.incorrect'], type: 'error' });
+			return;
+		}
+
+		if (!Boolean(otpCode)) {
+			this.props.pushAlert({ message: ['page.body.wallets.tabs.withdraw.2FA.missing'], type: 'error' });
+			return;
+		}
+		if (isPending) {
+			this.props.pushAlert({ message: ['page.body.wallets.tabs.withdraw.beneficiary.pending'], type: 'error' });
+			return;
+		}
+		if (isLimitWithdraw24h) {
+			this.props.pushAlert({ message: ['page.body.wallets.tabs.withdraw.limit24'], type: 'error' });
+			return;
+		}
+
 		if (fee === 0) {
 			// fee is zero, let use eth fee
 			if (!ethBallance) {
@@ -311,7 +295,9 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 	private handleChangeInputAmount = (value: string) => {
 		const { fixed } = this.props;
 		const convertedValue = cleanPositiveFloatInput(String(value));
-
+		this.setState({
+			amount: value,
+		});
 		if (convertedValue.match(precisionRegExp(fixed))) {
 			const amount = convertedValue !== '' ? Number(parseFloat(convertedValue).toFixed(fixed)) : '';
 			const total = amount !== '' ? (amount - this.props.fee).toFixed(fixed) : '';
@@ -340,5 +326,87 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 
 	private handleChangeInputOtpCode = (otpCode: string) => {
 		this.setState({ otpCode });
+	};
+}
+
+export interface CustomInputProps {
+	type: string;
+	label: string;
+	defaultLabel: string;
+	handleChangeInput?: (value: string) => void;
+	inputValue: string | number;
+	handleFocusInput?: () => void;
+	placeholder: string;
+	classNameLabel?: string;
+	classNameInput?: string;
+	autoFocus?: boolean;
+	onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+	readOnly?: boolean;
+	id?: string;
+	handleClick?: (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
+	isDisabled?: boolean;
+	labelVisible?: boolean;
+	isInvalid?: boolean;
+}
+
+const mapDispatchToProps = dispatch => ({
+	pushAlert: payload => dispatch(alertPush(payload)),
+});
+
+// tslint:disable-next-line no-any
+const WithdrawComponent = injectIntl(connect(null, mapDispatchToProps)(Withdraw as any)) as any;
+
+export { WithdrawComponent };
+
+interface OnChangeEvent {
+	target: {
+		value: string;
+	};
+}
+type Props = CustomInputProps;
+
+class CustomInput extends React.Component<Props> {
+	public render() {
+		const {
+			placeholder,
+			inputValue,
+			type,
+			autoFocus,
+			readOnly,
+			id,
+			handleClick,
+			isDisabled,
+			onKeyPress,
+			isInvalid,
+		} = this.props;
+
+		return (
+			<React.Fragment>
+				<div className="custom-input">
+					<InputGroup size="lg">
+						<FormControl
+							size="lg"
+							type={type}
+							value={inputValue.toString()}
+							placeholder={placeholder}
+							autoFocus={autoFocus}
+							onFocus={this.props.handleFocusInput}
+							onBlur={this.props.handleFocusInput}
+							onChange={e => this.handleChangeValue(e)}
+							readOnly={readOnly}
+							id={id}
+							onClick={handleClick}
+							disabled={isDisabled}
+							onKeyPress={onKeyPress}
+							isInvalid={isInvalid}
+						/>
+					</InputGroup>
+				</div>
+			</React.Fragment>
+		);
+	}
+
+	private handleChangeValue = (e: OnChangeEvent) => {
+		this.props.handleChangeInput && this.props.handleChangeInput(e.target.value);
 	};
 }

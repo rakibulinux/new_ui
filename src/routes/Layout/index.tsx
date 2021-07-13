@@ -38,6 +38,12 @@ import {
 	ProfileThemeMobileScreen,
 	ProfileVerificationMobileScreen,
 	SelectedWalletMobileScreen,
+	SignInMobileScreen,
+	SignUpMobileScreen,
+	TradingScreenMobile,
+	NewWalletDetail,
+	DepositScreen as MobileDepositScreen,
+	WithdrawScreen as MobileWithdrawScreen,
 	WalletDeposit,
 	WalletWithdraw,
 } from '../../mobile/screens';
@@ -293,13 +299,14 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							loading={userLoading}
 							isLogged={isLoggedIn}
 							path="/wallets/:currency/deposit"
-							component={WalletDeposit}
+							component={MobileDepositScreen}
 						/>
+
 						<PrivateRoute
 							loading={userLoading}
 							isLogged={isLoggedIn}
 							path="/wallets/:currency/withdraw"
-							component={WalletWithdraw}
+							component={MobileWithdrawScreen}
 						/>
 						<PrivateRoute
 							loading={userLoading}

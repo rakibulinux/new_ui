@@ -1,12 +1,16 @@
-.td-custom-input {
+.mobile-custom-input {
+	padding: '1rem 0';
+
 	input {
-		border-color: 0.5px solid #848e9c;
+		border-color: var(--input-border-color);
+		font-size: 12px !important;
 	}
 
 	label {
-		background: var(--input-background-color);
-		font-size: calc(var(--gap) * 2);
-		left: 5%;
+		background: #313445 !important;
+		color: #fff;
+		font-size: 12px;
+		left: 2%;
 		margin-top: -8px;
 		padding: 0 calc(var(--gap) * 0.7);
 		position: absolute;
@@ -18,14 +22,15 @@
 	input:focus {
 		background-color: rgba(196, 196, 196, 0.28) !important;
 		box-shadow: none;
-		color: var(--input-text-color);
+		color: #fff !important;
 	}
 
 	input:focus-within {
 		border-color: var(--input-border-color-active);
 
 		label {
-			color: var(--input-label-color-active);
+			background-color: #313445 !important;
+			color: #fff;
 		}
 	}
 
@@ -36,5 +41,17 @@
 		-webkit-box-shadow: 0 0 0 1000px var(--input-background-color) inset;
 		-webkit-text-fill-color: var(--input-text-color);
 		transition: background-color 5000s ease-in-out 0s;
+	}
+}
+
+.pg-mobile-app .custom-input {
+	font-size: 12px;
+
+	input {
+		font-size: 12px;
+
+		&::placeholder {
+			font-size: 12px;
+		}
 	}
 }
