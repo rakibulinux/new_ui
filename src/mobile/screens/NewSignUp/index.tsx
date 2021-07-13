@@ -2,19 +2,18 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import { isEmail, isValidPassword } from 'helpers';
 import { useDocumentTitle } from 'hooks';
 import { GoBackIcon } from 'mobile/assets/icons';
-import { selectCurrentLanguage, signUp } from 'modules';
+import { selectConfigs, selectCurrentLanguage, signUp } from 'modules';
 import React, { FC, useState } from 'react';
 import { ReCAPTCHA } from 'react-google-recaptcha';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-
-const DEFAULT_SITE_KEY = '6Le3nn0bAAAAAOB3AsqWxjSh-WsGfbqB5GRPcecg';
 
 export const NewSignUpMobileScreen: FC = () => {
 	useDocumentTitle('Sign Up');
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const i18n = useSelector(selectCurrentLanguage);
+	const configs = useSelector(selectConfigs);
 
 	const [email, setEmail] = useState<string | null>(null);
 	const [pass, setPass] = useState<string | null>(null);
@@ -35,9 +34,7 @@ export const NewSignUpMobileScreen: FC = () => {
 	};
 
 	const onCapcha = value => {
-		if (value === null) {
-			setStatusCapcha(true);
-		}
+		setStatusCapcha(true);
 	};
 	const onSubmit = (value: any) => {
 		const dataSignUp = {
@@ -117,7 +114,7 @@ export const NewSignUpMobileScreen: FC = () => {
 				</Form.Item>
 
 				<div>
-					<ReCAPTCHA sitekey={DEFAULT_SITE_KEY} theme="light" onChange={onCapcha} />
+					<ReCAPTCHA sitekey={configs.captcha_id} theme="light" onChange={onCapcha} />
 				</div>
 
 				<Form.Item className="td-mobile-pg-signup__body__form__submit">

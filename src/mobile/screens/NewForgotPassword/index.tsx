@@ -1,18 +1,22 @@
 import { Button, Form, Input } from 'antd';
+import { isEmail } from 'helpers';
 import { GoBackIcon } from 'mobile/assets/icons';
+import { forgotPassword } from 'modules';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 export const NewForgotPasswordScreen = () => {
 	const history = useHistory();
-	const [code, setCode] = useState('');
+	const dispatch = useDispatch();
+	const [email, setEmail] = useState('');
 
 	const canSubmit = (): boolean => {
-		return /^\d+$/.test(code);
+		return isEmail(email);
 	};
 
 	const onSubmit = () => {
-		// do something <3
+		dispatch(forgotPassword({ email }));
 	};
 
 	const renderForm = () => {
@@ -34,16 +38,17 @@ export const NewForgotPasswordScreen = () => {
 
 				<Form.Item
 					className="td-mobile-pg-forgot-password__body__form__label"
-					name="number"
+					label="Email"
+					name="email"
 					hasFeedback
-					validateStatus={code ? (/^\d+$/.test(code) ? 'success' : 'error') : ''}
+					help={email !== '' && !isEmail(email) ? 'Email invalid!' : undefined}
+					validateStatus={email === '' ? '' : isEmail(email) ? 'success' : 'error'}
 				>
 					<Input
 						className="td-mobile-pg-forgot-password__body__form__label__input"
-						type="number"
-						pattern="\d*"
-						placeholder="Enter your code"
-						onChange={e => setCode(e.target.value)}
+						value={email || ''}
+						placeholder="Enter your email"
+						onChange={e => setEmail(e.target.value)}
 					/>
 				</Form.Item>
 
