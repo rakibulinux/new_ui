@@ -151,9 +151,13 @@
 		text-decoration: none;
 
 		&__list-item {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
+			a,
+			a:hover,
+			a:focus,
+			a:active {
+				color: #fff;
+				text-decoration: none;
+			}
 
 			&__item {
 				align-items: center;
@@ -168,6 +172,15 @@
 					font-size: 2.857142857142857em;
 					padding-bottom: 15px;
 				}
+			}
+
+			.slick-dots li button::before {
+				color: #c4c4c4;
+				opacity: unset;
+			}
+
+			.slick-dots li.slick-active button::before {
+				color: #2fb67e;
 			}
 		}
 	}

@@ -1,7 +1,9 @@
 import { CrownOutlined, ExperimentOutlined, GiftOutlined, WalletOutlined } from '@ant-design/icons';
+import { VoteIcon } from 'mobile/assets/icons/NewHomePage/Vote';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
 import { useDepthFetch, useEventsFetch, useMarketsFetch, useMarketsTickersFetch, useRangerConnectFetch } from '../../../hooks';
 import { selectUserLoggedIn } from '../../../modules';
 import { Avatar } from './../../assets/icons';
@@ -26,29 +28,52 @@ const NewHomePage = () => {
 	}, [userLoggedIn]);
 
 	const renderDirectionals = () => {
+		const settings = {
+			dots: true,
+			infinite: false,
+			speed: 500,
+			slidesToShow: 4,
+			slidesToScroll: 1,
+		};
+
 		return (
 			<React.Fragment>
-				<div className="td-mobile-screen-home__direction__list-item">
-					<Link to="/wallets" className="td-mobile-screen-home__direction__list-item__item">
-						<WalletOutlined />
-						<span>Deposit</span>
-					</Link>
+				<Slider className="td-mobile-screen-home__direction__list-item" {...settings}>
+					<div>
+						<Link to="/wallets" className="td-mobile-screen-home__direction__list-item__item">
+							<WalletOutlined />
+							<span>Deposit</span>
+						</Link>
+					</div>
 
-					<Link to="/ieo" className="td-mobile-screen-home__direction__list-item__item">
-						<ExperimentOutlined />
-						<span>IEO</span>
-					</Link>
+					<div>
+						<Link to="/ieo" className="td-mobile-screen-home__direction__list-item__item">
+							<ExperimentOutlined />
+							<span>IEO</span>
+						</Link>
+					</div>
 
-					<Link to="/airdrop" className="td-mobile-screen-home__direction__list-item__item">
-						<GiftOutlined />
-						<span>Airdrop</span>
-					</Link>
+					<div>
+						<Link to="/airdrop" className="td-mobile-screen-home__direction__list-item__item">
+							<GiftOutlined />
+							<span>Airdrop</span>
+						</Link>
+					</div>
 
-					<Link to="/trading-competition" className="td-mobile-screen-home__direction__list-item__item">
-						<CrownOutlined />
-						<span>Competition</span>
-					</Link>
-				</div>
+					<div>
+						<Link to="/trading-competition" className="td-mobile-screen-home__direction__list-item__item">
+							<CrownOutlined />
+							<span>Competition</span>
+						</Link>
+					</div>
+
+					<div>
+						<Link to="/vote" className="td-mobile-screen-home__direction__list-item__item">
+							<VoteIcon />
+							<span>Vote</span>
+						</Link>
+					</div>
+				</Slider>
 			</React.Fragment>
 		);
 	};

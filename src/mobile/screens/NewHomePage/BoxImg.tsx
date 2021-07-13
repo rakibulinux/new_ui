@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick.css';
 import { EventItem, selectEvents } from '../../../modules';
 
 const settings: Settings = {
-	dots: true,
+	dots: false,
 	infinite: true,
 	speed: 500,
 	slidesToShow: 1,

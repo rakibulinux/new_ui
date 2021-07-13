@@ -376,6 +376,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						/>
 						<Route path="/stake" exact component={StakingListMobileScreen} />
 						<Route path="/stake/detail/:stake_id" exact component={StakingDetailMobileScreen} />
+						<Route path="/vote" exact component={VoteScreen} />
 						<Route path="**">
 							<Redirect to="/trading/" />
 						</Route>
