@@ -14,7 +14,7 @@ export const Markets = () => {
 	};
 
 	return (
-		<div className="td-mobile-new-market">
+		<div className="td-mobile-screen-market">
 			<HeaderSearch onSearch={onSearch} backToAll={backToAllList} />
 
 			<NewAllMarketList valueSearch={valueSearch} setValueSearch={setValueSearch} />
