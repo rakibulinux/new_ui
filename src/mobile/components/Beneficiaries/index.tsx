@@ -141,11 +141,11 @@ class BeneficiariesComponent extends React.Component<Props, State> {
 
 		return (
 			<div className="pg-beneficiaries">
-				<span className="pg-beneficiaries__title">
+				<div className="text-white mb-2">
 					{type === 'coin'
 						? this.translate('page.body.wallets.beneficiaries.title')
 						: this.translate('page.body.wallets.beneficiaries.fiat.title')}
-				</span>
+				</div>
 				{filtredBeneficiaries.length
 					? this.renderAddressDropdown(filtredBeneficiaries, currentWithdrawalBeneficiary, type)
 					: this.renderAddAddress()}

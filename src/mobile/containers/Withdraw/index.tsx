@@ -6,7 +6,7 @@ import { Decimal } from '../../components/Decimal';
 import { FormControl, InputGroup } from 'react-bootstrap';
 
 import { FrownOutlined } from '@ant-design/icons';
-import { Beneficiaries, SummaryField } from 'mobile/components';
+import { Beneficiaries } from 'mobile/components';
 import { cleanPositiveFloatInput, precisionRegExp } from 'helpers';
 import { alertPush, Beneficiary } from 'modules';
 import { injectIntl } from 'react-intl';
@@ -91,7 +91,6 @@ class Withdraw extends React.Component<DispatchProps & WithdrawProps, WithdrawSt
 			twoFactorAuthRequired,
 			withdrawAmountLabel,
 			withdrawFeeLabel,
-			withdrawTotalLabel,
 			withdrawButtonLabel,
 			isMobileDevice,
 		} = this.props;
@@ -114,7 +113,7 @@ class Withdraw extends React.Component<DispatchProps & WithdrawProps, WithdrawSt
 					</div>
 					<div className="cr-withdraw__divider cr-withdraw__divider-one" />
 					<div className={withdrawAmountClass} style={{ position: 'relative', marginTop: '1rem' }}>
-						<div className="d-flex flex-row justify-content-between">
+						<div className="d-flex flex-row justify-content-between mb-2">
 							<span className="text-white">Withdraw Amount</span>
 							<span className="text-white">
 								Balance: {this.props.parentWalletBalance} {this.props.parentCurrency.toUpperCase()}
@@ -141,23 +140,13 @@ class Withdraw extends React.Component<DispatchProps & WithdrawProps, WithdrawSt
 							All
 						</button>
 					</div>
+					<div className="my-2">
+						{withdrawFeeLabel} {this.renderFee()}
+					</div>
 					<div className={lastDividerClassName} />
-					{!isMobileDevice && twoFactorAuthRequired && this.renderOtpCodeInput()}
 				</div>
 				<div className="cr-withdraw-column">
 					{isMobileDevice && twoFactorAuthRequired && this.renderOtpCodeInput()}
-					<div>
-						<SummaryField
-							className="cr-withdraw__summary-field"
-							message={withdrawFeeLabel ? withdrawFeeLabel : 'Fee'}
-							content={this.renderFee()}
-						/>
-						<SummaryField
-							className="cr-withdraw__summary-field"
-							message={withdrawTotalLabel ? withdrawTotalLabel : 'Total Withdraw Amount'}
-							content={this.renderTotal()}
-						/>
-					</div>
 					<div className="cr-withdraw__deep d-flex justify-content-end">
 						<Button variant="primary" style={{ backgroundColor: '#2FB67E' }} size="lg" onClick={this.handleClick}>
 							{withdrawButtonLabel ? withdrawButtonLabel : 'Withdraw'}
@@ -185,19 +174,6 @@ class Withdraw extends React.Component<DispatchProps & WithdrawProps, WithdrawSt
 		);
 	};
 
-	private renderTotal = () => {
-		const total = this.state.total;
-		const { fixed, currency } = this.props;
-
-		return total ? (
-			<span>
-				<Decimal fixed={fixed}>{total.toString()}</Decimal> {currency.toUpperCase()}
-			</span>
-		) : (
-			<span>0 {currency.toUpperCase()}</span>
-		);
-	};
-
 	private renderOtpCodeInput = () => {
 		const { otpCode, withdrawCodeFocused } = this.state;
 		const { withdraw2faLabel } = this.props;
@@ -208,7 +184,7 @@ class Withdraw extends React.Component<DispatchProps & WithdrawProps, WithdrawSt
 		return (
 			<React.Fragment>
 				<div className={withdrawCodeClass} style={{ position: 'relative', marginTop: '1rem' }}>
-					<span className="text-white">2FA code</span>
+					<div className="text-white mb-2">2FA code</div>
 					<CustomInput
 						type="number"
 						label={withdraw2faLabel || '2FA code'}
