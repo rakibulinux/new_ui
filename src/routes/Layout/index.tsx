@@ -1,3 +1,4 @@
+import { VoteScreen } from 'plugins/Vote';
 import * as React from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 import { injectIntl } from 'react-intl';
@@ -8,17 +9,24 @@ import { compose } from 'redux';
 import { minutesUntilAutoLogout, sessionCheckInterval /* showLanding */ } from '../../api';
 import { AnnouncementDetail, NewModal } from '../../components';
 import { AdminAnnouncement, AnnouncementEdit, WalletsFetch } from '../../containers';
+import { MarketsList } from '../../containers/MarketsList';
 import { toggleColorTheme } from '../../helpers';
 import { IntlProps } from '../../index';
+import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
+import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
+import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
 /* import { isMobile } from "react-device-detect"; */
 import {
 	ChangeForgottenPasswordMobileScreen,
 	ConfirmMobileScreen,
 	EmailVerificationMobileScreen,
-	// ForgotPasswordMobileScreen,
-	NewForgotPasswordScreen,
 	HomePageScreenMobile,
+	NewForgotPasswordScreen,
 	NewMarketsScreenMobile,
+	NewSignInMobileScreen,
+	NewSignUpMobileScreen,
+	NewTradingScreenMobile,
+	NewWalletDetail,
 	NewWalletsMobileScreen,
 	OrdersMobileScreen,
 	ProfileAccountActivityMobileScreen,
@@ -30,22 +38,9 @@ import {
 	ProfileThemeMobileScreen,
 	ProfileVerificationMobileScreen,
 	SelectedWalletMobileScreen,
-	// SignInMobileScreen,
-	NewSignUpMobileScreen,
-	// SignUpMobileScreen,
-	TradingScreenMobile,
 	WalletDeposit,
 	WalletWithdraw,
-	NewWalletDetail,
-	NewSignInMobileScreen,
 } from '../../mobile/screens';
-
-import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
-
-import { VoteScreen } from 'plugins/Vote';
-import { MarketsList } from '../../containers/MarketsList';
-import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
-import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
 import {
 	configsFetch,
 	logoutFetch,
@@ -70,7 +65,6 @@ import { AirdropDetail, AirdropList } from '../../plugins/Airdrop';
 import { SaleListScreen } from '../../plugins/Sale';
 import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
 import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
-import { TradingScreen } from '../../plugins/Trading/screens/TradingScreen';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
 import {
 	AnnouncementScreen,
@@ -90,7 +84,7 @@ import {
 	ProfileTwoFactorAuthScreen,
 	RegisterScreen,
 	RestrictedScreen,
-	// tslint:disable-next-line: ordered-imports
+	TradingScreen,
 	VerificationScreen,
 	WalletListScreen,
 	WithdrawScreen,
@@ -369,7 +363,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							component={ProfileMobileScreen}
 						/>
 
-						<Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
+						<Route exact={false} path="/trading/:market?" component={NewTradingScreenMobile} />
 						<Route exact={true} path="/" component={HomePageScreenMobile} />
 						<Route exact={true} path="/markets" component={NewMarketsScreenMobile} />
 						<Route path="/ieo" exact component={IEOListMobileScreen} />
