@@ -1,24 +1,20 @@
 import { MarketTradingSvg } from 'assets/images/trading/MarketTradingSvg';
 import classnames from 'classnames';
-import { OrderComponent, TradingChart } from 'containers';
+import { NewTabPanel } from 'components';
+import { TradingChart, TradingTradeHistory } from 'containers';
 import threeDotSvg from 'mobile/assets/icons/Trading/threeDot.svg';
 import toChartSvg from 'mobile/assets/icons/Trading/toChart.svg';
 import toListSvg from 'mobile/assets/icons/Trading/toList.svg';
-import { selectCurrentMarket, selectUserLoggedIn } from 'modules';
+import { selectCurrentMarket } from 'modules';
+import { TabPane, TabsProps } from 'rc-tabs';
 import React from 'react';
 import { ListGroup } from 'react-bootstrap';
 import isEqual from 'react-fast-compare';
+import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { NewCreateOrder } from '../NewCreateOrder';
-import { NewOrders } from '../NewOrders';
-import { OrderBook } from '../OrderBook';
-
-const HistoryOrder: React.FC = () => {
-	const userLoggedIn = useSelector(selectUserLoggedIn);
-
-	return userLoggedIn ? <NewOrders /> : null;
-};
+import { NewOrderBook } from '../NewOrderBook';
 
 const OptionList: React.FC = () => {
 	const [isShow, setIsShow] = React.useState(false);
@@ -74,31 +70,57 @@ const OptionList: React.FC = () => {
 	);
 };
 
+const ChartTab: React.FC = () => {
+	const intl = useIntl();
+	const [tabIndex, setTabIndex] = React.useState(0);
+
+	const TAB_LIST_INFO = [
+		{
+			content: tabIndex === 0 ? <NewOrderBook horizontal /> : null,
+			label: intl.formatMessage({ id: 'page.mobile.charts.label.orderBook' }),
+		},
+		{
+			content: tabIndex === 1 ? <TradingTradeHistory /> : null,
+			label: intl.formatMessage({ id: 'page.mobile.charts.label.trades' }),
+		},
+	];
+
+	const onChangeTabIndex: TabsProps['onChange'] = index => {
+		setTabIndex(Number(index));
+	};
+
+	return (
+		<React.Fragment>
+			<div className="td-mobile-cpn-current-market-info__chart mb-3">
+				<TradingChart hideHeaderContent />
+			</div>
+
+			<div className="td-mobile-cpn-current-market-info__history">
+				<NewTabPanel onChange={onChangeTabIndex}>
+					{TAB_LIST_INFO.map((tabInfo, i) => (
+						<TabPane key={i.toString()} tab={tabInfo.label}>
+							{tabInfo.content}
+						</TabPane>
+					))}
+				</NewTabPanel>
+			</div>
+		</React.Fragment>
+	);
+};
+
 export const CurrentMarketInfoComponent: React.FC = () => {
-	const [tabKey, setTabKey] = React.useState<'chart' | 'order'>('order');
+	const [modeKey, setModeKey] = React.useState<'chart' | 'order'>('order');
 	const currentMarket = useSelector(selectCurrentMarket, isEqual);
 
-	const onChangeTab = () => {
-		tabKey === 'order' ? setTabKey('chart') : setTabKey('order');
+	const onChangeMode = () => {
+		modeKey === 'order' ? setModeKey('chart') : setModeKey('order');
 	};
 
 	const renderContent = () => {
-		if (tabKey === 'chart') {
-			return true ? <NewCreateOrder /> : <TradingChart hideHeaderContent />;
+		if (modeKey === 'chart') {
+			return <ChartTab />;
 		} else {
-			return (
-				<React.Fragment>
-					<div className="pg-mobile-create-order">
-						<div className="pg-mobile-create-order__row-double">
-							<OrderBook />
-							<OrderComponent defaultTabIndex={0} />
-						</div>
-					</div>
-					<div className="td-mobile-cpn-current-market-info__history mt-3">
-						<HistoryOrder />
-					</div>
-				</React.Fragment>
-			);
+			return <NewCreateOrder />;
 		}
 	};
 
@@ -118,7 +140,7 @@ export const CurrentMarketInfoComponent: React.FC = () => {
 						className="td-mobile-cpn-current-market-info__header__change-tab mr-1 pr-2 pl-2"
 						src={toChartSvg}
 						alt=""
-						onClick={onChangeTab}
+						onClick={onChangeMode}
 					/>
 					<OptionList />
 				</div>

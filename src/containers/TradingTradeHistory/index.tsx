@@ -1,5 +1,6 @@
+import { NewTabPanel } from 'components';
 import { resetHistory, selectUserLoggedIn } from 'modules';
-import Tabs, { TabPane, TabsProps } from 'rc-tabs';
+import { TabPane, TabsProps } from 'rc-tabs';
 import * as React from 'react';
 import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
@@ -59,13 +60,13 @@ const TradingTradeHistoryContainer: React.FC = () => {
 
 	const renderTabs = (tabsInfo: ReturnType<typeof getTabListInfo>) => {
 		return (
-			<Tabs defaultActiveKey="1" onChange={handleOnchangeTab}>
+			<NewTabPanel defaultActiveKey="1" onChange={handleOnchangeTab}>
 				{tabsInfo.map(item => (
 					<TabPane tab={item.label} key={item.label}>
 						{item.content}
 					</TabPane>
 				))}
-			</Tabs>
+			</NewTabPanel>
 		);
 	};
 

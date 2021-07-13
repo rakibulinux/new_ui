@@ -87,12 +87,6 @@ const OrdersComponent: React.FC = () => {
 					</TabPane>
 				))}
 			</NewTabPanel>
-			{/* <TabPanel
-				panels={renderTabs()}
-				currentTabIndex={currentTabIndex}
-				onCurrentTabChange={setCurrentTabIndex}
-				optionalHead={filteredOrders.length ? renderOptionalHead() : null}
-			/> */}
 		</div>
 	);
 };

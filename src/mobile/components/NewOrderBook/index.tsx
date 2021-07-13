@@ -12,15 +12,18 @@ import {
 	setCurrentPrice,
 } from 'modules';
 import * as React from 'react';
+import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 // tslint:disable-next-line: no-empty-interface
-interface OrderBookProps {}
+interface OrderBookProps {
+	horizontal?: boolean;
+}
 
-const DEFAULT_TICKER = { amount: 0, low: 0, last: 0, high: 0, volume: 0, price_change_percent: '+0.00%' };
+const DEFAULT_TICKER = { amount: 0, low: 0, last: '0.00', high: 0, volume: 0, price_change_percent: '+0.00%' };
 
-const OrderBookComponent: React.FC<OrderBookProps> = ({}) => {
+const OrderBookComponent: React.FC<OrderBookProps> = props => {
 	const intl = useIntl();
 	const dispatch = useDispatch();
 	const currentMarket = useSelector(selectCurrentMarket);
@@ -39,7 +42,7 @@ const OrderBookComponent: React.FC<OrderBookProps> = ({}) => {
 
 					switch (side) {
 						case 'asks':
-							total = accumulateVolume(array.slice(0).reverse()).slice(0).reverse();
+							total = accumulateVolume(array).slice(0).reverse();
 							const volumnCustom =
 								total[i] > 10000000
 									? millify(total[i], {
@@ -80,7 +83,7 @@ const OrderBookComponent: React.FC<OrderBookProps> = ({}) => {
 	};
 
 	const handleOnSelectAsks = (index: string) => {
-		const asksData = asks.slice(0).reverse();
+		const asksData = props.horizontal ? asks : asks.slice(0).reverse();
 		const priceToSet = asksData[Number(index)] && Number(asksData[Number(index)][0]);
 		if (currentPrice !== priceToSet) {
 			dispatch(setCurrentPrice(priceToSet));
@@ -92,15 +95,18 @@ const OrderBookComponent: React.FC<OrderBookProps> = ({}) => {
 	};
 
 	const header = renderHeader();
-	const dataAsks = React.useMemo(
-		() => renderOrderBook(asks.slice(0).reverse(), 'asks', intl.formatMessage({ id: 'page.noDataToShow' })),
-		[asks],
-	);
+	const dataAsks = React.useMemo(() => {
+		const data = renderOrderBook(asks.slice(0).reverse(), 'asks', intl.formatMessage({ id: 'page.noDataToShow' }));
+
+		return props.horizontal ? data.slice(0).reverse() : data;
+	}, [asks, props.horizontal]);
 	const dataBids = React.useMemo(() => renderOrderBook(bids, 'bids', intl.formatMessage({ id: 'page.noDataToShow' })), [bids]);
 	const maxVolume = calcMaxVolume(bids, asks);
-	const orderBookEntryAsks = accumulateVolume(asks).slice(0).reverse();
+	const orderBookEntryAsks = accumulateVolume(asks);
 	const orderBookEntryBids = accumulateVolume(bids);
-	const bgDataAsks = mapValues(maxVolume, orderBookEntryAsks);
+	const bgDataAsks = props.horizontal
+		? mapValues(maxVolume, orderBookEntryAsks)
+		: mapValues(maxVolume, orderBookEntryAsks).slice(0).reverse();
 	const bgDataBids = mapValues(maxVolume, orderBookEntryBids);
 
 	const getRowWidth = (side: 'bid' | 'ask', index: number) => {
@@ -117,13 +123,30 @@ const OrderBookComponent: React.FC<OrderBookProps> = ({}) => {
 		};
 	};
 
+	const headerElm = (num: number) => (
+		<div
+			className={classNames('td-mobile-cpn-order-book__header', {
+				[`td-mobile-cpn-order-book__header--grid-item-${num}`]: props.horizontal,
+			})}
+		>
+			<div className="td-mobile-cpn-order-book__header__item">{header[0]}</div>
+			<div className="td-mobile-cpn-order-book__header__item text-right">{header[1]}</div>
+		</div>
+	);
+
 	return (
-		<div className="td-mobile-cpn-order-book">
-			<div className="td-mobile-cpn-order-book__header">
-				<div className="td-mobile-cpn-order-book__header__item">{header[0]}</div>
-				<div className="td-mobile-cpn-order-book__header__item text-right">{header[1]}</div>
-			</div>
-			<div className="td-mobile-cpn-order-book__combined td-mobile-cpn-order-book__combined--reverse">
+		<div
+			className={classNames('td-mobile-cpn-order-book', {
+				'td-mobile-cpn-order-book--horizontal': props.horizontal,
+			})}
+		>
+			{headerElm(1)}
+			<div
+				className={classNames('td-mobile-cpn-order-book__combined', {
+					'td-mobile-cpn-order-book__combined--reverse': !props.horizontal,
+					'td-mobile-cpn-order-book__combined--grid-item-1': props.horizontal,
+				})}
+			>
 				<table>
 					<tbody>
 						{dataAsks.map((data, i) => (
@@ -151,12 +174,19 @@ const OrderBookComponent: React.FC<OrderBookProps> = ({}) => {
 				</table>
 			</div>
 			<div className="td-mobile-cpn-order-book__market">
-				<span className="td-mobile-cpn-order-book__market__last-price">36789.98</span>
+				<span className="td-mobile-cpn-order-book__market__last-price">
+					{Decimal.formatRemoveZero(getTickerValue('last'), get(currentMarket, 'price_precision', 6))}
+				</span>
 				<span className="td-mobile-cpn-order-book__market__convert-usd">
 					≈ $ <ConvertUsd value={Number(getTickerValue('last'))} symbol={get(currentMarket, 'quote_unit', '')} />
 				</span>
 			</div>
-			<div className="td-mobile-cpn-order-book__combined">
+			{props.horizontal && headerElm(2)}
+			<div
+				className={classNames('td-mobile-cpn-order-book__combined', {
+					'td-mobile-cpn-order-book__combined--grid-item-2': props.horizontal,
+				})}
+			>
 				<table>
 					<tbody>
 						{dataBids.map((data, i) => (
@@ -187,4 +217,4 @@ const OrderBookComponent: React.FC<OrderBookProps> = ({}) => {
 	);
 };
 
-export const NewOrderBook = OrderBookComponent;
+export const NewOrderBook = React.memo(OrderBookComponent, isEqual);

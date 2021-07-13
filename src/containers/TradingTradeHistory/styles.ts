@@ -12,20 +12,20 @@ export const MarketHistory = styled.div`
 	right: 0;
 	height: calc(100% - 6px);
 
-	.rc-tabs {
+	.td-tabs {
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		.rc-tabs-tabpane {
+		.td-tabs-tabpane {
 			outline: none;
 		}
-		.rc-tabs-nav-list {
+		.td-tabs-nav-list {
 			display: flex;
-			.rc-tabs-tab {
+			.td-tabs-tab {
 				font-weight: 500;
-				&.rc-tabs-tab-active {
+				&.td-tabs-tab-active {
 					font-weight: 600;
-					.rc-tabs-tab-btn {
+					.td-tabs-tab-btn {
 						color: #fff;
 						border-bottom: 2px solid #2fb67e;
 					}
@@ -33,7 +33,7 @@ export const MarketHistory = styled.div`
 				:not(:last-child) {
 					margin-right: 24px;
 				}
-				.rc-tabs-tab-btn {
+				.td-tabs-tab-btn {
 					color: #848e9c;
 					font-size: 14px;
 					padding: 5px 0;
@@ -42,17 +42,17 @@ export const MarketHistory = styled.div`
 				}
 			}
 		}
-		.rc-tabs-content-holder {
+		.td-tabs-content-holder {
 			flex: 1;
-			.rc-tabs-content {
+			.td-tabs-content {
 				height: 100%;
-				.rc-tabs-tabpane {
+				.td-tabs-tabpane {
 					height: 100%;
 				}
 			}
 		}
-		.rc-tabs-ink-bar,
-		.rc-tabs-nav-operations {
+		.td-tabs-ink-bar,
+		.td-tabs-nav-operations {
 			display: none;
 		}
 	}

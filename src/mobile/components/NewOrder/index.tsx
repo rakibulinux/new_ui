@@ -2,6 +2,7 @@ import Slider from 'antd/lib/slider';
 import { Decimal, FormType, NewDropdown, NewTabPanel } from 'components';
 import { cleanPositiveFloatInput, getAmount, getTotalPrice, precisionRegExp } from 'helpers';
 import { useMarketsTickersFetch, useWalletsFetch } from 'hooks';
+import get from 'lodash/get';
 import {
 	alertPush,
 	orderExecuteFetch,
@@ -18,6 +19,7 @@ import {
 import { TabPane } from 'rc-tabs';
 import * as React from 'react';
 import { Button, FormControl, FormControlProps, InputGroup } from 'react-bootstrap';
+import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { DEFAULT_ORDER_TYPES } from '../../../constants';
@@ -96,7 +98,7 @@ interface OrderFormState {
 	priceFocused: boolean;
 }
 
-const OrderForm: React.FC<OrderFormProps> = props => {
+const OrderForm = React.memo<OrderFormProps>(props => {
 	const intl = useIntl();
 	const [orderType, setOrderType] = React.useState<OrderFormState['orderType']>(DEFAULT_ORDER_TYPES[0] as string);
 	const [price, setPrice] = React.useState<OrderFormState['price']>('');
@@ -133,6 +135,24 @@ const OrderForm: React.FC<OrderFormProps> = props => {
 		props.amount,
 		props.priceMarket,
 	]);
+
+	const handleSubmit = React.useCallback<React.FormEventHandler<HTMLFormElement>>(
+		e => {
+			e.preventDefault();
+			const order = {
+				type,
+				orderType,
+				amount: props.amount,
+				price: orderType === 'Market' ? Decimal.formatRemoveZero(priceMarket, props.currentMarketBidPrecision) : price,
+				available: available || 0,
+			};
+
+			props.onSubmit(order);
+			setPrice('');
+			props.handleAmountChange('');
+		},
+		[props.amount, available, price, priceMarket, type, orderType, props.onSubmit, props.handleAmountChange],
+	);
 
 	const checkButtonIsDisabled = React.useCallback((): boolean => {
 		const invalidAmount = Number(props.amount) <= 0;
@@ -177,7 +197,7 @@ const OrderForm: React.FC<OrderFormProps> = props => {
 	};
 
 	return (
-		<form className="td-mobile-cpn-order-item">
+		<form className="td-mobile-cpn-order-item" onSubmit={handleSubmit}>
 			<NewDropdown
 				list={orderTypes}
 				onSelect={index => setOrderType(DEFAULT_ORDER_TYPES[index] as string)}
@@ -240,7 +260,7 @@ const OrderForm: React.FC<OrderFormProps> = props => {
 			</div>
 		</form>
 	);
-};
+}, isEqual);
 
 // tslint:disable-next-line: no-empty-interface
 interface OrderComponentProps {}
@@ -268,10 +288,6 @@ const OrderComponent: React.FC<OrderComponentProps> = ({}) => {
 			setPriceLimit(currentPrice);
 		}
 	}, [currentPrice]);
-
-	if (!currentMarket) {
-		return null;
-	}
 
 	const handleAmountChange = (amount: string) => {
 		if (isTypeSell) {
@@ -388,18 +404,20 @@ const OrderComponent: React.FC<OrderComponentProps> = ({}) => {
 
 		const proposals = isTypeSell ? bids : asks;
 		const defaultCurrentTicker = { last: '0' };
-		const currentTicker = marketTickers[currentMarket.id];
+		const currentTicker = marketTickers[get(currentMarket, 'id', '')];
 		const disabledData = isTypeSell ? {} : { disabled: executeLoading };
-		const walletBase = getWallet(currentMarket.base_unit);
-		const walletQuote = getWallet(currentMarket.quote_unit);
+		const from = get(currentMarket, 'quote_unit', '');
+		const to = get(currentMarket, 'base_unit', '');
+		const walletBase = getWallet(to);
+		const walletQuote = getWallet(from);
 		const priceMarketBuy = Number((currentTicker || defaultCurrentTicker).last);
 		const priceMarketSell = Number((currentTicker || defaultCurrentTicker).last);
 		const availableBase = getAvailableValue(walletBase);
 		const availableQuote = getAvailableValue(walletQuote);
 		const priceMarket = isTypeSell ? priceMarketSell : priceMarketBuy;
 		const amount = isTypeSell ? amountSell : amountBuy;
-		const currentMarketAskPrecision = currentMarket.amount_precision;
-		const currentMarketBidPrecision = currentMarket.price_precision;
+		const currentMarketAskPrecision = get(currentMarket, 'amount_precision', 6);
+		const currentMarketBidPrecision = get(currentMarket, 'price_precision', 6);
 
 		const handleChangeAmountBySlider = (value: number, orderType: OrderProps['orderType'], price: string) => {
 			const available = isTypeSell ? availableBase : availableQuote;
@@ -439,9 +457,9 @@ const OrderComponent: React.FC<OrderComponentProps> = ({}) => {
 		return (
 			<OrderForm
 				type={orderSide}
-				from={currentMarket.quote_unit}
+				from={from}
+				to={to}
 				{...disabledData}
-				to={currentMarket.base_unit}
 				availableBase={availableBase}
 				availableQuote={availableQuote}
 				priceMarket={priceMarket}
@@ -485,4 +503,4 @@ const OrderComponent: React.FC<OrderComponentProps> = ({}) => {
 	);
 };
 
-export const NewOrder = OrderComponent;
+export const NewOrder = React.memo(OrderComponent, isEqual);

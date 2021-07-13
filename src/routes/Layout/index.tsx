@@ -18,6 +18,8 @@ import {
 	ForgotPasswordMobileScreen,
 	HomePageScreenMobile,
 	NewMarketsScreenMobile,
+	NewTradingScreenMobile,
+	NewWalletDetail,
 	NewWalletsMobileScreen,
 	OrdersMobileScreen,
 	ProfileAccountActivityMobileScreen,
@@ -31,10 +33,8 @@ import {
 	SelectedWalletMobileScreen,
 	SignInMobileScreen,
 	SignUpMobileScreen,
-	TradingScreenMobile,
 	WalletDeposit,
 	WalletWithdraw,
-	NewWalletDetail,
 } from '../../mobile/screens';
 
 import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
@@ -86,11 +86,10 @@ import {
 	ProfileTwoFactorAuthScreen,
 	RegisterScreen,
 	RestrictedScreen,
-	// tslint:disable-next-line: ordered-imports
+	TradingScreen,
 	VerificationScreen,
 	WalletListScreen,
 	WithdrawScreen,
-	TradingScreen,
 } from '../../screens';
 
 interface ReduxProps {
@@ -355,7 +354,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							component={ProfileMobileScreen}
 						/>
 
-						<Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
+						<Route exact={false} path="/trading/:market?" component={NewTradingScreenMobile} />
 						<Route exact={true} path="/" component={HomePageScreenMobile} />
 						<Route exact={true} path="/markets" component={NewMarketsScreenMobile} />
 						<Route path="/ieo" exact component={IEOListMobileScreen} />
