@@ -12,11 +12,15 @@ export const HeaderSearch: React.FC<SearchProps> = ({ onSearch, backToAll }) => 
 	const [isOpenInput, setIsOpenInput] = useState(true);
 	const [valueSearch, setValueSearch] = useState('');
 
-	const nonSearch = classNames('td-mobile-new-market__header', { 'd-none': !isOpenInput }, { 'td-mobile-new-market__header--show': isOpenInput });
+	const nonSearch = classNames(
+		'td-mobile-screen-market__header',
+		{ 'd-none': !isOpenInput },
+		{ 'td-mobile-screen-market__header--show': isOpenInput },
+	);
 	const search = classNames(
-		'td-mobile-new-market__header-search ',
+		'td-mobile-screen-market__header-search ',
 		{ 'd-none': isOpenInput },
-		{ 'td-mobile-new-market__header-search--show': !isOpenInput },
+		{ 'td-mobile-screen-market__header-search--show': !isOpenInput },
 	);
 
 	const openForm = value => {
@@ -40,14 +44,14 @@ export const HeaderSearch: React.FC<SearchProps> = ({ onSearch, backToAll }) => 
 	return (
 		<div>
 			<div className={nonSearch}>
-				<div className="td-mobile-new-market__header__title">Market</div>
+				<div className="td-mobile-screen-market__header__title">Market</div>
 
-				<div className="td-mobile-new-market__header__search " onClick={() => openForm(true)}>
+				<div className="td-mobile-screen-market__header__search " onClick={() => openForm(true)}>
 					<FaSearch />
 				</div>
 			</div>
 			<div className={search}>
-				<div className="td-mobile-new-market__header-search__input input-group">
+				<div className="td-mobile-screen-market__header-search__input input-group">
 					<span>
 						<FaSearch />
 					</span>
@@ -61,7 +65,7 @@ export const HeaderSearch: React.FC<SearchProps> = ({ onSearch, backToAll }) => 
 						onChange={onChangeInput}
 					/>
 				</div>
-				<div className="td-mobile-new-market__header-search__desc" onClick={() => openForm(false)}>
+				<div className="td-mobile-screen-market__header-search__desc" onClick={() => openForm(false)}>
 					Hủy
 				</div>
 			</div>

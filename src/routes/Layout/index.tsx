@@ -1,3 +1,4 @@
+import { VoteScreen } from 'plugins/Vote';
 import * as React from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 import { injectIntl } from 'react-intl';
@@ -8,16 +9,22 @@ import { compose } from 'redux';
 import { minutesUntilAutoLogout, sessionCheckInterval /* showLanding */ } from '../../api';
 import { AnnouncementDetail, NewModal } from '../../components';
 import { AdminAnnouncement, AnnouncementEdit, WalletsFetch } from '../../containers';
+import { MarketsList } from '../../containers/MarketsList';
 import { toggleColorTheme } from '../../helpers';
 import { IntlProps } from '../../index';
+import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
+import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
+import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
 /* import { isMobile } from "react-device-detect"; */
 import {
 	ChangeForgottenPasswordMobileScreen,
 	ConfirmMobileScreen,
 	EmailVerificationMobileScreen,
-	ForgotPasswordMobileScreen,
 	HomePageScreenMobile,
+	NewForgotPasswordScreen,
 	NewMarketsScreenMobile,
+	NewSignInMobileScreen,
+	NewSignUpMobileScreen,
 	NewTradingScreenMobile,
 	NewWalletDetail,
 	NewWalletsMobileScreen,
@@ -31,18 +38,9 @@ import {
 	ProfileThemeMobileScreen,
 	ProfileVerificationMobileScreen,
 	SelectedWalletMobileScreen,
-	SignInMobileScreen,
-	SignUpMobileScreen,
 	WalletDeposit,
 	WalletWithdraw,
 } from '../../mobile/screens';
-
-import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
-
-import { VoteScreen } from 'plugins/Vote';
-import { MarketsList } from '../../containers/MarketsList';
-import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
-import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
 import {
 	configsFetch,
 	logoutFetch,
@@ -242,13 +240,24 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 			return (
 				<div className={'container-fluid pg-layout pg-layout--mobile'}>
 					<Switch>
-						<PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/signin" component={SignInMobileScreen} />
-						<PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/signup" component={SignUpMobileScreen} />
+						<PublicRoute
+							loading={userLoading}
+							isLogged={isLoggedIn}
+							path="/signin"
+							component={NewSignInMobileScreen}
+						/>
+						<PublicRoute
+							loading={userLoading}
+							isLogged={isLoggedIn}
+							path="/signup"
+							component={NewSignUpMobileScreen}
+						/>
+
 						<PublicRoute
 							loading={userLoading}
 							isLogged={isLoggedIn}
 							path="/forgot_password"
-							component={ForgotPasswordMobileScreen}
+							component={NewForgotPasswordScreen}
 						/>
 						<PublicRoute
 							loading={userLoading}

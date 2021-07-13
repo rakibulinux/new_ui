@@ -1,0 +1,130 @@
+.td-mobile-screen-signin {
+	display: flex;
+	flex-direction: column;
+	font-size: 0.875rem;
+	min-height: calc(100vh - 60px);
+	padding-bottom: 2.5rem;
+	padding-top: 4rem;
+
+	&__header {
+		padding: 1.5rem 1rem;
+		position: fixed;
+		top: 0;
+		width: 100%;
+		z-index: 9999;
+	}
+
+	&__body {
+		align-items: center;
+		display: flex;
+		flex-grow: 1;
+		padding: 1rem;
+
+		&__form {
+			background: #313445;
+			border-radius: 10px;
+			display: flex;
+			flex-direction: column;
+			padding: 2em 0.5em;
+
+			&__title {
+				color: #c4c4c4;
+				margin-bottom: 1rem;
+				text-align: center;
+			}
+
+			&__description {
+				color: #dadada;
+				font-size: 0.75rem;
+				margin-bottom: 1rem;
+				text-align: center;
+			}
+
+			&__site {
+				align-items: center;
+				background: rgba(132, 142, 156, 0.03);
+				border: 1px solid rgba(47, 182, 126, 0.33);
+				border-radius: 100px;
+				display: inline-flex;
+				font-size: 0.8em;
+				justify-content: center;
+				margin: 0 auto;
+				padding: 0.6em 1em;
+				width: fit-content;
+
+				&__lock {
+					svg {
+						box-sizing: border-box;
+						color: rgb(14, 203, 129);
+						fill: rgb(14, 203, 129);
+						font-size: 18px;
+						height: 1em;
+						margin: 0 4px 0 0;
+						min-width: 0;
+						width: 1em;
+					}
+				}
+
+				&__name {
+					color: #dadada;
+
+					span {
+						color: #2fb67e;
+					}
+				}
+			}
+
+			&__submit {
+				margin-bottom: 0.9em;
+
+				&__btn {
+					background: #2fb67e;
+					border: none;
+					border-radius: 5px;
+					font-size: 1rem;
+					height: max-content;
+					padding: 0.8em;
+					width: 100%;
+
+					&:hover {
+						background-color: rgba(#2fb67e, 0.8);
+					}
+				}
+			}
+
+			&__label {
+				color: #c4c4c4;
+				letter-spacing: 0.5px;
+				margin-bottom: 0.8em;
+
+				&__input {
+					background: transparent;
+					border: 1px solid rgba(47, 182, 126, 0.33);
+					border-radius: 5px;
+					height: 2.5rem;
+					padding: 0.7em 1em;
+				}
+			}
+
+			&__links {
+				display: flex;
+				font-size: 0.75rem;
+				gap: 0.5em;
+
+				& > * {
+					color: #2fb67e;
+
+					&:first-child {
+						color: #848e9c;
+						flex-grow: 1;
+					}
+				}
+			}
+		}
+	}
+
+	&__footer {
+		font-size: 0.75rem;
+		text-align: center;
+	}
+}
