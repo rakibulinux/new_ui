@@ -36,20 +36,20 @@ const MarketsTopComponent: React.FC = () => {
 
 		return (
 			<div
-				className="td-mobile-new-home-page__market-top__list-item__item"
+				className="td-mobile-screen-home__market-top__list-item__item"
 				key={key}
 				onClick={() => redirectToTrading(market)}
 			>
-				<span className="td-mobile-new-home-page__market-top__list-item__item__first">
+				<span className="td-mobile-screen-home__market-top__list-item__item__first">
 					{market.name.split('/')[0]}/{market.name.split('/')[1]}{' '}
-					<span className={`td-mobile-new-home-page__market-top__list-item__item__first__persen ${marketChangeClass} `}>
+					<span className={`td-mobile-screen-home__market-top__list-item__item__first__persen ${marketChangeClass} `}>
 						{ticker.price_change_percent}
 					</span>
 				</span>
-				<span className={`td-mobile-new-home-page__market-top__list-item__item__second ${marketChangeClass}`}>
+				<span className={`td-mobile-screen-home__market-top__list-item__item__second ${marketChangeClass}`}>
 					{Decimal.format(ticker.last, market.price_precision, ',')}
 				</span>
-				<span className="td-mobile-new-home-page__market-top__list-item__item__third">
+				<span className="td-mobile-screen-home__market-top__list-item__item__third">
 					&asymp;{Decimal.format(ticker.last, 4, ',')}
 				</span>
 			</div>
@@ -63,8 +63,8 @@ const MarketsTopComponent: React.FC = () => {
 	});
 
 	return (
-		<div className="td-mobile-new-home-page__market-top">
-			<div className="td-mobile-new-home-page__market-top__list-item">{renderListElm}</div>
+		<div className="td-mobile-screen-home__market-top">
+			<div className="td-mobile-screen-home__market-top__list-item">{renderListElm}</div>
 		</div>
 	);
 };
