@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Button } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
-import { CopyableTextField } from '../../../components';
+import { CopyableTextField } from '../CopyableTextField';
 import { copy } from '../../../helpers';
 import { WarningIcon } from '../../assets/images/WarningIcon';
-import { Modal } from '../../components/Modal';
+import { NewModal } from '../NewModal';
 
 export const CreatedApiKeyModalComponent = props => {
 	const [apiKey, setApiKey] = React.useState({ kid: '', secret: '' });
@@ -62,23 +61,22 @@ export const CreatedApiKeyModalComponent = props => {
 	const renderModalFooter = () => {
 		return (
 			<div className="cr-mobile-modal__footer">
-				<Button block={true} onClick={props.closeCreatedApiKeyModal} size="lg" variant="primary">
+				<button className="w-100 green-btn" onClick={props.closeCreatedApiKeyModal}>
 					{intl.formatMessage({ id: 'page.mobile.createdApiKeyModal.confirm' })}
-				</Button>
+				</button>
 			</div>
 		);
 	};
 
 	return (
 		<div className="pg-mobile-created-api-key-modal">
-			<Modal
-				isOpen={props.showModal}
-				onClose={props.closeCreatedApiKeyModal}
-				title={intl.formatMessage({ id: 'page.mobile.createdApiKeyModal.title' })}
-			>
-				{renderModalBody()}
-				{renderModalFooter()}
-			</Modal>
+			<NewModal show={props.showModal} onClose={props.closeCreatedApiKeyModal}>
+				<h5>{intl.formatMessage({ id: 'page.mobile.createdApiKeyModal.title' })}</h5>
+				<div className="modal-main__body">
+					{renderModalBody()}
+					{renderModalFooter()}
+				</div>
+			</NewModal>
 		</div>
 	);
 };

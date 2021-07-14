@@ -1,8 +1,7 @@
 import cr from 'classnames';
 import * as React from 'react';
-import { Button } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
-import { CustomInput } from '../../../components/CustomInput';
+import { CustomInput } from '../../components';
 import { PASSWORD_REGEX } from '../../../helpers';
 
 export const ChangePasswordComponent = props => {
@@ -43,7 +42,7 @@ export const ChangePasswordComponent = props => {
 		});
 
 		return (
-			<div className="pg-mobile-change-password__body">
+			<div className="pg-mobile-change-password__body mt-5">
 				<div className={oldPasswordClass}>
 					<CustomInput
 						type="password"
@@ -100,9 +99,9 @@ export const ChangePasswordComponent = props => {
 
 		return (
 			<div className="pg-mobile-change-password__footer">
-				<Button block={true} disabled={!isValidForm} onClick={handleChangePassword} size="lg" variant="primary">
+				<button className="w-100" disabled={!isValidForm} onClick={handleChangePassword}>
 					{intl.formatMessage({ id: 'page.body.profile.header.account.content.password.button.change' })}
-				</Button>
+				</button>
 			</div>
 		);
 	};

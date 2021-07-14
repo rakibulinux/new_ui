@@ -1,9 +1,8 @@
 import cr from 'classnames';
 import * as React from 'react';
-import { Button } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 import { CustomInput } from '../../../components/CustomInput';
-import { Modal } from '../../components/Modal';
+import { NewModal } from '../NewModal';
 
 export const TwoFactorModalComponent = props => {
 	const [code2FA, setCode2FA] = React.useState('');
@@ -22,9 +21,11 @@ export const TwoFactorModalComponent = props => {
 
 		return (
 			<div className="pg-exchange-modal-submit-body pg-exchange-modal-submit-body-2fa">
-				<span className="pg-exchange-modal-submit-body-2fa__subtitle">
-					{intl.formatMessage({ id: 'page.mobile.twoFactorModal.subtitle' })}
-				</span>
+				<div className="mb-2">
+					<span className="pg-exchange-modal-submit-body-2fa__subtitle text-white">
+						{intl.formatMessage({ id: 'page.mobile.twoFactorModal.subtitle' })}
+					</span>
+				</div>
 				<div className={code2FAClass}>
 					<CustomInput
 						type="text"
@@ -48,23 +49,22 @@ export const TwoFactorModalComponent = props => {
 
 		return (
 			<div className="pg-exchange-modal-submit-footer">
-				<Button block={true} disabled={!isValid2FA} onClick={() => handleToggle2FA(true)} size="lg" variant="primary">
+				<button className="w-100 green-btn" disabled={!isValid2FA} onClick={() => handleToggle2FA(true)}>
 					{intl.formatMessage({ id: 'page.mobile.twoFactorModal.send' })}
-				</Button>
+				</button>
 			</div>
 		);
 	};
 
 	return (
 		<div className="cr-mobile-two-fa-modal">
-			<Modal
-				isOpen={props.showModal}
-				onClose={() => handleToggle2FA(false)}
-				title={intl.formatMessage({ id: 'page.mobile.twoFactorModal.title' })}
-			>
-				{renderModalBody()}
-				{renderModalFooter()}
-			</Modal>
+			<NewModal show={props.showModal} onClose={() => handleToggle2FA(false)}>
+				<h5>{intl.formatMessage({ id: 'page.mobile.twoFactorModal.title' })}</h5>
+				<div className="modal-main__body">
+					{renderModalBody()}
+					{renderModalFooter()}
+				</div>
+			</NewModal>
 		</div>
 	);
 };
