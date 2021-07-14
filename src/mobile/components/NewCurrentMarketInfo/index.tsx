@@ -5,7 +5,7 @@ import { TradingChart, TradingTradeHistory } from 'containers';
 import threeDotSvg from 'mobile/assets/icons/Trading/threeDot.svg';
 import toChartSvg from 'mobile/assets/icons/Trading/toChart.svg';
 import toListSvg from 'mobile/assets/icons/Trading/toList.svg';
-import { selectCurrentMarket } from 'modules';
+import { selectCurrentMarket, selectMarketTickers } from 'modules';
 import { TabPane, TabsProps } from 'rc-tabs';
 import React from 'react';
 import { ListGroup } from 'react-bootstrap';
@@ -108,9 +108,16 @@ const ChartTab: React.FC = () => {
 	);
 };
 
+const defaultTicker = { amount: 0, low: 0, last: 0, high: 0, volume: 0, price_change_percent: '+0.00%' };
+
 export const CurrentMarketInfoComponent: React.FC = () => {
 	const [modeKey, setModeKey] = React.useState<'chart' | 'order'>('order');
 	const currentMarket = useSelector(selectCurrentMarket, isEqual);
+	const marketTickers = useSelector(selectMarketTickers);
+
+	const getTickerValue = (value: string) => {
+		return currentMarket && (marketTickers[currentMarket.id] || defaultTicker)[value];
+	};
 
 	const onChangeMode = () => {
 		modeKey === 'order' ? setModeKey('chart') : setModeKey('order');
@@ -124,6 +131,9 @@ export const CurrentMarketInfoComponent: React.FC = () => {
 		}
 	};
 
+	const isPositive = currentMarket && /\+/.test(getTickerValue('price_change_percent'));
+	const cls = isPositive ? 'positive' : 'negative';
+
 	return (
 		<div className="td-mobile-cpn-current-market-info">
 			<div className="td-mobile-cpn-current-market-info__header d-flex">
@@ -131,8 +141,13 @@ export const CurrentMarketInfoComponent: React.FC = () => {
 					<Link to="/markets">
 						<img className="mr-3" src={toListSvg} alt="" />
 					</Link>
-					<span className="td-mobile-cpn-current-market-info__header__name m-0">
+					<span className="td-mobile-cpn-current-market-info__header__name mr-2">
 						{currentMarket && currentMarket.name.toUpperCase()}
+					</span>
+					<span
+						className={`td-mobile-cpn-current-market-info__header__percent td-mobile-cpn-current-market-info__header__percent--${cls}`}
+					>
+						{getTickerValue('price_change_percent')}
 					</span>
 				</div>
 				<div className="td-mobile-cpn-current-market-info__header__right d-flex justify-content-end flex-fill align-items-center">
