@@ -2,9 +2,9 @@
 	background-color: #313445;
 	border-top: 1px solid #848e9c;
 	bottom: 0;
-	height: 70px;
+	height: 4.375em;
 	left: 0;
-	padding: 10px 0;
+	padding: 0.625em 0;
 	position: fixed;
 	width: 100%;
 	z-index: 99999;
@@ -25,8 +25,12 @@
 		color: #fff;
 		display: flex;
 		flex-direction: column;
-		height: 44px;
+		height: 2.75em;
 		text-decoration: none;
+
+		&--active {
+			color: #848e9c;
+		}
 
 		&:hover {
 			color: #848e9c;
@@ -34,11 +38,12 @@
 		}
 
 		&__icon {
-			margin-bottom: 8px;
+			margin-bottom: 0.5em;
 		}
 
 		&__text {
-			font-size: 10px;
+			font-size: 0.625em;
+			font-weight: 300;
 		}
 
 		&--middle {
@@ -48,13 +53,13 @@
 				border-radius: 999px;
 				border-top: 1px solid #848e9c;
 				content: '';
-				height: 60px;
+				height: 3.75em;
 				left: 0;
 				margin: auto;
 				position: absolute;
 				right: 0;
-				top: -14px;
-				width: 60px;
+				top: -0.875em;
+				width: 3.75em;
 			}
 
 			&::after {
@@ -66,17 +71,17 @@
 				position: absolute;
 				right: 0;
 				top: 1px;
-				width: 60px;
+				width: 3.75em;
 			}
 
 			&__icon {
 				background-color: #fff;
 				border-radius: 9999px;
-				box-shadow: 0 0 0 9px #313445;
-				height: 40px;
+				box-shadow: 0 0 0 0.5625em #313445;
+				height: 2.5em;
 				padding: 0.5em;
 				position: relative;
-				width: 40px;
+				width: 2.5em;
 				z-index: 1;
 			}
 		}

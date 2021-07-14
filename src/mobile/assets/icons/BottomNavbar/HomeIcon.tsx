@@ -1,10 +1,17 @@
 import React from 'react';
 
-export const HomeIcon = ({ className = '' }) => {
+interface IconProps {
+	className?: string;
+	active?: boolean;
+}
+
+export const HomeIcon: React.FC<IconProps> = ({ className, active }) => {
+	const color = active ? '#848E9C' : '#fff';
+
 	return (
 		<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="none" viewBox="0 0 19 19" className={className}>
 			<path
-				fill="#fff"
+				fill={color}
 				d="M18.38 12.875a6.061 6.061 0 01-.2.617c0 .002-.002.002-.002.002a9.681 9.681 0 01-2.493 3.15 9.848 9.848 0 01-3.073 1.741c-.002.002-.004 0-.004 0-.007.005-.016.005-.023.007-.27.073-.537.134-.807.18h-.002c-.064.011-.126.023-.192.027-.11.018-.222.034-.331.046l-.007.002c-3.457.376-6.688-1.37-7.64-4.315-.387-1.186-.35-2.422.029-3.583l.002-.014c.03-.097.064-.234.098-.375.003-.01.005-.014.005-.023a2.32 2.32 0 01.107-.35v.004c.01.241.042.658.085.897.512 2.904 3.368 4.827 6.38 4.302 1.967-.344 3.513-1.648 4.204-3.321l3.863 1.006z"
 			></path>
 			<path

@@ -131,9 +131,9 @@ export const CurrentMarketInfoComponent: React.FC = () => {
 					<Link to="/markets">
 						<img className="mr-3" src={toListSvg} alt="" />
 					</Link>
-					<h6 className="td-mobile-cpn-current-market-info__header__name m-0">
+					<span className="td-mobile-cpn-current-market-info__header__name m-0">
 						{currentMarket && currentMarket.name.toUpperCase()}
-					</h6>
+					</span>
 				</div>
 				<div className="td-mobile-cpn-current-market-info__header__right d-flex justify-content-end flex-fill align-items-center">
 					<img

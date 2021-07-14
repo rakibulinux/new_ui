@@ -65,7 +65,7 @@
 	&__header {
 		color: #848e9c;
 		display: flex;
-		font-size: 0.9em;
+		font-size: 0.75em;
 		padding-bottom: 0.3em;
 
 		&__item {
@@ -79,8 +79,14 @@
 		flex-direction: column;
 		margin: 0.4em;
 
+		&__last-price {
+			font-size: 1em;
+			font-weight: 500;
+		}
+
 		&__convert-usd {
-			font-size: 0.9em;
+			font-size: 0.75em;
+			font-weight: 400;
 		}
 	}
 
@@ -91,7 +97,7 @@
 
 	&__combined {
 		color: #848e9c;
-		height: calc(1.65em * 6);
+		height: calc(1.375em * 6);
 		overflow-y: scroll;
 
 		&--ask-color {
@@ -113,10 +119,10 @@
 					position: relative;
 
 					td {
-						font-size: 0.9em;
-						height: 1.6em;
-						line-height: 1.6em;
-						vertical-align: middle;
+						font-size: 0.75em;
+						line-height: 1.84em;
+						padding-bottom: unset;
+						padding-top: unset;
 
 						&:first-child {
 							padding-left: 0.4em;
