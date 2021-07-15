@@ -1,31 +1,34 @@
-#mobile-modal {
-	.modal {
+.td-mobile-new-modal {
+	&__blur {
 		background: rgba(0, 0, 0, 0.6);
 		height: 100%;
 		left: 0;
 		position: fixed;
 		top: 0;
 		width: 100%;
+		z-index: 999;
 	}
 
-	.modal-main {
+	&__header {
+		font-weight: bold;
+		text-align: center;
+	}
+
+	&__main {
 		background: #313445;
 		border-radius: 0.2rem;
 		height: auto;
 		left: 50%;
-		padding: 2rem 0.5rem;
+		padding: 1rem 0.5rem 2rem 0.5rem;
 		position: fixed;
 		top: 50%;
 		transform: translate(-50%, -50%);
 		width: 90%;
 
-		h5 {
-			font-weight: bold;
-			text-align: center;
-		}
-
 		&__body {
+			color: #fff;
 			margin-top: 2rem;
+			text-align: center;
 
 			.green-btn {
 				background-color: #2fb67e;
@@ -37,6 +40,32 @@
 				outline: none;
 			}
 		}
+
+		&__close-btn {
+			background-color: #fff;
+			border: none;
+			border-radius: 50%;
+			height: 1.5rem;
+			outline: none;
+			position: absolute;
+			right: 0;
+			top: 0;
+			-webkit-transform: translate(40%, -40%);
+			transform: translate(40%, -40%);
+			width: 1.5rem;
+
+			.sr-only {
+				border: 0;
+				clip: rect(0, 0, 0, 0);
+				height: 1px;
+				margin: -1px;
+				overflow: hidden;
+				padding: 0;
+				position: absolute;
+				white-space: nowrap;
+				width: 1px;
+			}
+		}
 	}
 
 	.display-block {
@@ -45,29 +74,5 @@
 
 	.display-none {
 		display: none;
-	}
-
-	.close {
-		background-color: #fff;
-		border-radius: 50%;
-		height: 1.5rem;
-		position: absolute;
-		right: 0;
-		top: 0;
-		-webkit-transform: translate(40%, -40%);
-		transform: translate(40%, -40%);
-		width: 1.5rem;
-
-		.sr-only {
-			border: 0;
-			clip: rect(0, 0, 0, 0);
-			height: 1px;
-			margin: -1px;
-			overflow: hidden;
-			padding: 0;
-			position: absolute;
-			white-space: nowrap;
-			width: 1px;
-		}
 	}
 }

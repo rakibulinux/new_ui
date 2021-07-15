@@ -68,37 +68,38 @@ class BeneficiariesActivateModalComponent extends React.Component<Props, State> 
 		const isDisabled = !confirmationModalCode;
 
 		return (
-			<NewModal show onClose={this.props.handleToggleConfirmationModal}>
-				<h5>{this.translate('page.body.wallets.beneficiaries.confirmationModal.header')}</h5>
-				<div className="modal-main__body">
-					<div className="mb-4">
-						<div className="d-flex justify-content-center">
-							<LetterIcon />
-						</div>
-						<div className="text-white text-center mt-3">
-							{this.translate('page.body.wallets.beneficiaries.confirmationModal.body.text')}
-						</div>
+			<NewModal
+				show
+				onClose={this.props.handleToggleConfirmationModal}
+				title={this.translate('page.body.wallets.beneficiaries.confirmationModal.header')}
+			>
+				<div className="mb-4">
+					<div className="d-flex justify-content-center">
+						<LetterIcon />
 					</div>
-					<div className="mb-4">
-						<NewCustomInput
-							type="text"
-							label={''}
-							placeholder={this.translate(
-								`page.body.wallets.beneficiaries.confirmationModal.body.confirmationModalCode`,
-							)}
-							defaultLabel={''}
-							handleChangeInput={value => this.handleChangeFieldValue('confirmationModalCode', value)}
-							inputValue={this.state.confirmationModalCode}
-							handleFocusInput={() => this.handleChangeFieldFocus(`confirmationModalCodeFocused`)}
-							classNameLabel="cr-email-form__label"
-							classNameInput="cr-email-form__input"
-							autoFocus={true}
-						/>
+					<div className="text-white text-center mt-3">
+						{this.translate('page.body.wallets.beneficiaries.confirmationModal.body.text')}
 					</div>
-					<button disabled={isDisabled} onClick={this.handleSubmitConfirmationModal} className="w-100 green-btn">
-						{this.translate('page.body.wallets.beneficiaries.confirmationModal.body.button')}
-					</button>
 				</div>
+				<div className="mb-4">
+					<NewCustomInput
+						type="text"
+						label={''}
+						placeholder={this.translate(
+							`page.body.wallets.beneficiaries.confirmationModal.body.confirmationModalCode`,
+						)}
+						defaultLabel={''}
+						handleChangeInput={value => this.handleChangeFieldValue('confirmationModalCode', value)}
+						inputValue={this.state.confirmationModalCode}
+						handleFocusInput={() => this.handleChangeFieldFocus(`confirmationModalCodeFocused`)}
+						classNameLabel="cr-email-form__label"
+						classNameInput="cr-email-form__input"
+						autoFocus={true}
+					/>
+				</div>
+				<button disabled={isDisabled} onClick={this.handleSubmitConfirmationModal} className="w-100 green-btn">
+					{this.translate('page.body.wallets.beneficiaries.confirmationModal.body.button')}
+				</button>
 			</NewModal>
 		);
 	}

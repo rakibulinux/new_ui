@@ -27,34 +27,30 @@ export const ModalWithdrawConfirm = (props: ModalWithdrawConfirmProps) => {
 	const formattedCurrency = currency.toUpperCase();
 	const newETHBalance = balance && ethFee ? NP.minus(Number(balance), Number(ethFee)) : undefined;
 	return (
-		<div id="mobile-withdraw-confirm-modal">
-			<NewModal show={show} onClose={onDismiss}>
-				<h5>Confirmation</h5>
-				<div className="modal-main__body">
-					<div className="confirm-content">
-						<p>
-							{intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.modal.message1' })}
-							{amount} <strong>{formattedCurrency}</strong>
-							{intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.modal.message2' })}
-						</p>
-						<p>
-							<code>{rid}</code>
-						</p>
-						<p hidden={Number(selectedWalletFee) === 0}>
-							Your <strong>ETH</strong> will remain <br />${balance ?? 'Unavailable'} - ${ethFee ?? 'Unavailable'} =
-							${newETHBalance?.toFixed(5) ?? 'Unavailable'} ETH
-						</p>
-					</div>
-					<div className="d-flex justify-content-center mt-3">
-						<button className="close-btn" onClick={onDismiss}>
-							Close
-						</button>
-						<button className="withdraw-btn" onClick={onSubmit}>
-							Withdraw
-						</button>
-					</div>
+		<NewModal show={show} onClose={onDismiss} title="Confirmation">
+			<div className="modal-mobile-withdraw-confirm">
+				<p>
+					{intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.modal.message1' })}
+					{amount} <strong>{formattedCurrency}</strong>
+					{intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.modal.message2' })}
+				</p>
+				<p>
+					<code>{rid}</code>
+				</p>
+				<p hidden={Number(selectedWalletFee) === 0}>
+					Your <strong>ETH</strong> will remain <br />${balance ?? 'Unavailable'} - ${ethFee ?? 'Unavailable'} = $
+					{newETHBalance?.toFixed(5) ?? 'Unavailable'} ETH
+				</p>
+
+				<div className="d-flex justify-content-center mt-3 modal-mobile-withdraw-confirm__buttons">
+					<button className="close-btn" onClick={onDismiss}>
+						Close
+					</button>
+					<button className="withdraw-btn" onClick={onSubmit}>
+						Withdraw
+					</button>
 				</div>
-			</NewModal>
-		</div>
+			</div>
+		</NewModal>
 	);
 };

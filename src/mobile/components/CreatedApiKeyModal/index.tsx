@@ -70,12 +70,13 @@ export const CreatedApiKeyModalComponent = props => {
 
 	return (
 		<div className="pg-mobile-created-api-key-modal">
-			<NewModal show={props.showModal} onClose={props.closeCreatedApiKeyModal}>
-				<h5>{intl.formatMessage({ id: 'page.mobile.createdApiKeyModal.title' })}</h5>
-				<div className="modal-main__body">
-					{renderModalBody()}
-					{renderModalFooter()}
-				</div>
+			<NewModal
+				show={props.showModal}
+				onClose={props.closeCreatedApiKeyModal}
+				title={intl.formatMessage({ id: 'page.mobile.createdApiKeyModal.title' })}
+			>
+				{renderModalBody()}
+				{renderModalFooter()}
 			</NewModal>
 		</div>
 	);
