@@ -49,30 +49,36 @@
 			}
 
 			&__checkbox {
-				background-color: #fff;
+				background-color: var(--main-background-color);
+				border: #fff 1px solid;
 				border-radius: 999px;
 				height: calc(1em + 3px);
 				margin: 0;
 				position: relative;
 				width: calc(2em + 3px);
 
+				&--checked {
+					background-color: #fff !important;
+				}
+
 				&__input {
 					display: none;
 				}
 
 				&__dot {
-					background-color: #2d2e3d;
+					background-color: #848e9c;
 					border-radius: 999px;
 					height: 1em;
 					left: 1.5px;
+					top: 50%;
+					transform: translateY(-50%);
 					position: absolute;
-					top: 1.5px;
 					transition: 0.3s ease-in-out;
 					width: 1em;
 				}
 
 				&__input:checked + &__dot {
-					left: calc(1.5px + 1em);
+					left: calc(100% - 1em - 1.5px);
 				}
 			}
 		}
