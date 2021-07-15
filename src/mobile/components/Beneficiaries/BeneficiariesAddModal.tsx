@@ -133,43 +133,44 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 
 		const isFiatButtonDisabled = !fiatName || !fiatFullName || !fiatAccountNumber || !fiatBankName;
 		return (
-			<NewModal show onClose={this.props.handleToggleAddAddressModal}>
-				<h5>{this.props.intl.formatMessage({ id: 'page.body.wallets.beneficiaries.addAddressModal.header' })}</h5>
-				<div className="modal-main__body">
-					<div className={addModalClass} hidden={type !== 'coin'} style={{ fontSize: '12px' }}>
-						{isInvalidAddress ? (
-							<p style={{ fontSize: '12px', color: 'red' }}>
-								** Please enter <strong>{String(this.props.blockchainType).toUpperCase()}</strong> address
-							</p>
-						) : null}
-						{this.renderEnterCoinAddressInput('coinAddress')}
-						{this.renderAddAddressModalBodyItem('coinBeneficiaryName')}
-						{this.renderAddAddressModalBodyItem('coinDescription', true)}
-						<button
-							disabled={isCoinButtonDisabled}
-							className="w-100 green-btn"
-							onClick={this.handleSubmitAddAddressCoinModal}
-						>
-							{this.translate('page.body.wallets.beneficiaries.addAddressModal.body.button')}
-						</button>
-					</div>
-					<div hidden={type === 'coin'}>
-						{this.renderAddAddressModalBodyItem('fiatName')}
-						{this.renderAddAddressModalBodyItem('fiatFullName')}
-						{this.renderAddAddressModalBodyItem('fiatAccountNumber')}
-						{this.renderAddAddressModalBodyItem('fiatBankName')}
-						{this.renderAddAddressModalBodyItem('fiatBankSwiftCode', true)}
-						{this.renderAddAddressModalBodyItem('fiatIntermediaryBankName', true)}
-						{this.renderAddAddressModalBodyItem('fiatIntermediaryBankSwiftCode', true)}
-						<button
-							disabled={isFiatButtonDisabled}
-							hidden={type === 'coin'}
-							onClick={this.handleSubmitAddAddressFiatModal}
-							className="w-100 green-btn"
-						>
-							{this.translate('page.body.wallets.beneficiaries.addAddressModal.body.button')}
-						</button>
-					</div>
+			<NewModal
+				show
+				onClose={this.props.handleToggleAddAddressModal}
+				title={this.props.intl.formatMessage({ id: 'page.body.wallets.beneficiaries.addAddressModal.header' })}
+			>
+				<div className={addModalClass} hidden={type !== 'coin'} style={{ fontSize: '12px' }}>
+					{isInvalidAddress ? (
+						<p style={{ fontSize: '12px', color: 'red' }}>
+							** Please enter <strong>{String(this.props.blockchainType).toUpperCase()}</strong> address
+						</p>
+					) : null}
+					{this.renderEnterCoinAddressInput('coinAddress')}
+					{this.renderAddAddressModalBodyItem('coinBeneficiaryName')}
+					{this.renderAddAddressModalBodyItem('coinDescription', true)}
+					<button
+						disabled={isCoinButtonDisabled}
+						className="w-100 green-btn"
+						onClick={this.handleSubmitAddAddressCoinModal}
+					>
+						{this.translate('page.body.wallets.beneficiaries.addAddressModal.body.button')}
+					</button>
+				</div>
+				<div hidden={type === 'coin'}>
+					{this.renderAddAddressModalBodyItem('fiatName')}
+					{this.renderAddAddressModalBodyItem('fiatFullName')}
+					{this.renderAddAddressModalBodyItem('fiatAccountNumber')}
+					{this.renderAddAddressModalBodyItem('fiatBankName')}
+					{this.renderAddAddressModalBodyItem('fiatBankSwiftCode', true)}
+					{this.renderAddAddressModalBodyItem('fiatIntermediaryBankName', true)}
+					{this.renderAddAddressModalBodyItem('fiatIntermediaryBankSwiftCode', true)}
+					<button
+						disabled={isFiatButtonDisabled}
+						hidden={type === 'coin'}
+						onClick={this.handleSubmitAddAddressFiatModal}
+						className="w-100 green-btn"
+					>
+						{this.translate('page.body.wallets.beneficiaries.addAddressModal.body.button')}
+					</button>
 				</div>
 			</NewModal>
 		);

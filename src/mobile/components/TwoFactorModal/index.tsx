@@ -58,12 +58,13 @@ export const TwoFactorModalComponent = props => {
 
 	return (
 		<div className="cr-mobile-two-fa-modal">
-			<NewModal show={props.showModal} onClose={() => handleToggle2FA(false)}>
-				<h5>{intl.formatMessage({ id: 'page.mobile.twoFactorModal.title' })}</h5>
-				<div className="modal-main__body">
-					{renderModalBody()}
-					{renderModalFooter()}
-				</div>
+			<NewModal
+				show={props.showModal}
+				onClose={() => handleToggle2FA(false)}
+				title={intl.formatMessage({ id: 'page.mobile.twoFactorModal.title' })}
+			>
+				{renderModalBody()}
+				{renderModalFooter()}
 			</NewModal>
 		</div>
 	);
