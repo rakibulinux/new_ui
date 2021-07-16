@@ -6,7 +6,7 @@ interface IconProps {
 }
 
 export const HomeIcon: React.FC<IconProps> = ({ className, active }) => {
-	const color = active ? '#848E9C' : '#fff';
+	const color = active ? '#2DAE79' : '#fff';
 
 	return (
 		<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="none" viewBox="0 0 19 19" className={className}>

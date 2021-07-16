@@ -1,4 +1,5 @@
 import { Empty } from 'antd';
+import classnames from 'classnames';
 import { ConvertUsd } from 'components';
 import { calcWalletsData } from 'helpers';
 import { useAllChildCurrenciesFetch, useDocumentTitle, useWalletsFetch } from 'hooks';
@@ -74,14 +75,25 @@ export const NewWalletsMobileScreen = () => {
 
 				<div className="td-mobile-wallets__header__toggle">
 					<span className="td-mobile-wallets__header__toggle__text">Hide small balance</span>
-					<label className="td-mobile-wallets__header__toggle__checkbox" htmlFor="td-mobile-wallet-hide-small-balance">
+					<label
+						className={classnames('td-mobile-wallets__header__toggle__checkbox', {
+							'td-mobile-wallets__header__toggle__checkbox--checked': hideSmallBalance,
+						})}
+						htmlFor="td-mobile-wallet-hide-small-balance"
+					>
 						<input
 							id="td-mobile-wallet-hide-small-balance"
-							className="td-mobile-wallets__header__toggle__checkbox__input"
+							className={classnames('td-mobile-wallets__header__toggle__checkbox__input', {
+								'td-mobile-wallets__header__toggle__checkbox--checked__input': hideSmallBalance,
+							})}
 							type="checkbox"
 							onChange={e => setHideSmallBalance(e.target.checked)}
 						/>
-						<div className="td-mobile-wallets__header__toggle__checkbox__dot" />
+						<div
+							className={classnames('td-mobile-wallets__header__toggle__checkbox__dot', {
+								'td-mobile-wallets__header__toggle__checkbox--checked__dot': hideSmallBalance,
+							})}
+						/>
 					</label>
 				</div>
 			</div>
