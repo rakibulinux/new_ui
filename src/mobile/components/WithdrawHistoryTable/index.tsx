@@ -72,13 +72,13 @@ const WithdrawHistoryTable = (props: any) => {
 		return histories.length > 0 ? histories : [[]];
 	};
 	const mapRows = row => {
-		return <div className="cr-mobile-history-table__row">{row}</div>;
+		return <div className="td-mobile-history-table__row">{row}</div>;
 	};
 
 	const tableData = retrieveData().map(row => row.map(mapRows));
 
 	return (
-		<div className="cr-mobile-history-table">
+		<div className="td-mobile-history-table">
 			<Table data={tableData} />
 		</div>
 	);

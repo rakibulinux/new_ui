@@ -47,7 +47,7 @@ interface OrderFormProps {
 	 */
 	type: FormType;
 	/**
-	 * Additional class name. By default element receives `cr-order` class
+	 * Additional class name. By default element receives `td-order` class
 	 * @default empty
 	 */
 	className?: string;

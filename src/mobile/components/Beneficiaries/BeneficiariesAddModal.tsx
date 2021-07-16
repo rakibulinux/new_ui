@@ -123,7 +123,7 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 		const addModalClass = classnames('beneficiaries-add-address-modal', {
 			'beneficiaries-add-address-modal--coin': type === 'coin',
 			'beneficiaries-add-address-modal--fiat': type === 'fiat',
-			'cr-modal': !isMobileDevice,
+			'td-modal': !isMobileDevice,
 		});
 		const { coinAddress, coinBeneficiaryName, isInvalidAddress } = this.state;
 
@@ -133,52 +133,53 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 
 		const isFiatButtonDisabled = !fiatName || !fiatFullName || !fiatAccountNumber || !fiatBankName;
 		return (
-			<NewModal show onClose={this.props.handleToggleAddAddressModal}>
-				<h5>{this.props.intl.formatMessage({ id: 'page.body.wallets.beneficiaries.addAddressModal.header' })}</h5>
-				<div className="modal-main__body">
-					<div className={addModalClass} hidden={type !== 'coin'} style={{ fontSize: '12px' }}>
-						{isInvalidAddress ? (
-							<p style={{ fontSize: '12px', color: 'red' }}>
-								** Please enter <strong>{String(this.props.blockchainType).toUpperCase()}</strong> address
-							</p>
-						) : null}
-						{this.renderEnterCoinAddressInput('coinAddress')}
-						{this.renderAddAddressModalBodyItem('coinBeneficiaryName')}
-						{this.renderAddAddressModalBodyItem('coinDescription', true)}
-						<button
-							disabled={isCoinButtonDisabled}
-							className="w-100 green-btn"
-							onClick={this.handleSubmitAddAddressCoinModal}
-						>
-							{this.translate('page.body.wallets.beneficiaries.addAddressModal.body.button')}
-						</button>
-					</div>
-					<div hidden={type === 'coin'}>
-						{this.renderAddAddressModalBodyItem('fiatName')}
-						{this.renderAddAddressModalBodyItem('fiatFullName')}
-						{this.renderAddAddressModalBodyItem('fiatAccountNumber')}
-						{this.renderAddAddressModalBodyItem('fiatBankName')}
-						{this.renderAddAddressModalBodyItem('fiatBankSwiftCode', true)}
-						{this.renderAddAddressModalBodyItem('fiatIntermediaryBankName', true)}
-						{this.renderAddAddressModalBodyItem('fiatIntermediaryBankSwiftCode', true)}
-						<button
-							disabled={isFiatButtonDisabled}
-							hidden={type === 'coin'}
-							onClick={this.handleSubmitAddAddressFiatModal}
-							className="w-100 green-btn"
-						>
-							{this.translate('page.body.wallets.beneficiaries.addAddressModal.body.button')}
-						</button>
-					</div>
+			<NewModal
+				show
+				onClose={this.props.handleToggleAddAddressModal}
+				title={this.props.intl.formatMessage({ id: 'page.body.wallets.beneficiaries.addAddressModal.header' })}
+			>
+				<div className={addModalClass} hidden={type !== 'coin'} style={{ fontSize: '12px' }}>
+					{isInvalidAddress ? (
+						<p style={{ fontSize: '12px', color: 'red' }}>
+							** Please enter <strong>{String(this.props.blockchainType).toUpperCase()}</strong> address
+						</p>
+					) : null}
+					{this.renderEnterCoinAddressInput('coinAddress')}
+					{this.renderAddAddressModalBodyItem('coinBeneficiaryName')}
+					{this.renderAddAddressModalBodyItem('coinDescription', true)}
+					<button
+						disabled={isCoinButtonDisabled}
+						className="w-100 green-btn"
+						onClick={this.handleSubmitAddAddressCoinModal}
+					>
+						{this.translate('page.body.wallets.beneficiaries.addAddressModal.body.button')}
+					</button>
+				</div>
+				<div hidden={type === 'coin'}>
+					{this.renderAddAddressModalBodyItem('fiatName')}
+					{this.renderAddAddressModalBodyItem('fiatFullName')}
+					{this.renderAddAddressModalBodyItem('fiatAccountNumber')}
+					{this.renderAddAddressModalBodyItem('fiatBankName')}
+					{this.renderAddAddressModalBodyItem('fiatBankSwiftCode', true)}
+					{this.renderAddAddressModalBodyItem('fiatIntermediaryBankName', true)}
+					{this.renderAddAddressModalBodyItem('fiatIntermediaryBankSwiftCode', true)}
+					<button
+						disabled={isFiatButtonDisabled}
+						hidden={type === 'coin'}
+						onClick={this.handleSubmitAddAddressFiatModal}
+						className="w-100 green-btn"
+					>
+						{this.translate('page.body.wallets.beneficiaries.addAddressModal.body.button')}
+					</button>
 				</div>
 			</NewModal>
 		);
 	}
 
 	private renderAddAddressModalBodyItem = (field: string, optional?: boolean) => {
-		const focusedClass = classnames('cr-email-form__group', {
-			'cr-email-form__group--focused': this.state[`${field}Focused`],
-			'cr-email-form__group--optional': optional,
+		const focusedClass = classnames('td-email-form__group', {
+			'td-email-form__group--focused': this.state[`${field}Focused`],
+			'td-email-form__group--optional': optional,
 		});
 
 		return (
@@ -191,8 +192,8 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 					handleChangeInput={value => this.handleChangeFieldValue(field, value)}
 					inputValue={this.state[field]}
 					handleFocusInput={() => this.handleChangeFieldFocus(`${field}Focused`)}
-					classNameLabel="cr-email-form__label"
-					classNameInput="cr-email-form__input"
+					classNameLabel="td-email-form__label"
+					classNameInput="td-email-form__input"
 					autoFocus={true}
 					isInvalid={false}
 				/>
@@ -201,9 +202,9 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 	};
 
 	private renderEnterCoinAddressInput = (field: string, optional?: boolean) => {
-		const focusedClass = classnames('cr-email-form__group', {
-			'cr-email-form__group--focused': this.state[`${field}Focused`],
-			'cr-email-form__group--optional': optional,
+		const focusedClass = classnames('td-email-form__group', {
+			'td-email-form__group--focused': this.state[`${field}Focused`],
+			'td-email-form__group--optional': optional,
 		});
 
 		const { isInvalidAddress } = this.state;
@@ -218,8 +219,8 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 					handleChangeInput={value => this.handleChangeAddAddressFieldValue(field, value)}
 					inputValue={this.state[field]}
 					handleFocusInput={() => this.handleChangeFieldFocus(`${field}Focused`)}
-					classNameLabel="cr-email-form__label"
-					classNameInput="cr-email-form__input"
+					classNameLabel="td-email-form__label"
+					classNameInput="td-email-form__input"
 					autoFocus={true}
 					isInvalid={isInvalidAddress}
 				/>

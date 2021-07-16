@@ -8,7 +8,7 @@ const WalletsButtonsComponent = props => {
 	const history = useHistory();
 
 	return (
-		<div className="cr-mobile-wallets-buttons">
+		<div className="td-mobile-wallets-buttons">
 			<Button onClick={() => history.push(`/wallets/${props.currency}/deposit`)} size="lg" variant="success">
 				{intl.formatMessage({ id: 'page.body.wallets.tabs.deposit' })}
 			</Button>

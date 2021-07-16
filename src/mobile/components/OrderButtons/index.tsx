@@ -9,7 +9,7 @@ const OrderButtonsComponent = props => {
 	const currentMarket = useSelector(selectCurrentMarket);
 
 	return (
-		<div className="cr-mobile-order-buttons">
+		<div className="td-mobile-order-buttons">
 			<Button onClick={e => props.redirectToCreateOrder(0)} size="lg" variant="success">
 				{intl.formatMessage(
 					{ id: 'page.mobile.orderButtons.buy' },

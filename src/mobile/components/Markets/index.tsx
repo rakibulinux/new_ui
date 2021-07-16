@@ -52,7 +52,7 @@ const MarketsComponent: React.FC<MarketsProps> = ({ headers }) => {
 	};
 
 	return (
-		<div className="cr-mobile-market">
+		<div className="td-mobile-market">
 			{markets ? (
 				<TabPanel panels={renderTabs()} currentTabIndex={currentTabIndex} onCurrentTabChange={setCurrentTabIndex} />
 			) : null}

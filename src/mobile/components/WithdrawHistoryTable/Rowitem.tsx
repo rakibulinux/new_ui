@@ -4,14 +4,14 @@ import { localeDate } from '../../../helpers';
 
 const RowItemComponent = props => {
 	return (
-		<div className="cr-mobile-table-row">
-			<div className="cr-mobile-table-row__amount">
-				<div className="cr-mobile-table-row__amount-value">
+		<div className="td-mobile-table-row">
+			<div className="td-mobile-table-row__amount">
+				<div className="td-mobile-table-row__amount-value">
 					<Decimal fixed={props.fixed}>{props.amount}</Decimal>
 				</div>
-				<span className="cr-mobile-table-row__amount-currency">{props.currency}</span>
+				<span className="td-mobile-table-row__amount-currency">{props.currency}</span>
 			</div>
-			<div className="cr-mobile-table-row__date">{localeDate(props.createdAt, 'fullDate')}</div>
+			<div className="td-mobile-table-row__date">{localeDate(props.createdAt, 'fullDate')}</div>
 		</div>
 	);
 };

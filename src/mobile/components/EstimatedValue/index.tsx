@@ -28,18 +28,18 @@ const EstimatedValueMobile = React.memo(() => {
 	useMarketsTickersFetch();
 
 	return (
-		<div className="cr-mobile-wallets-banner">
-			<div className="cr-mobile-wallets-banner__title">
+		<div className="td-mobile-wallets-banner">
+			<div className="td-mobile-wallets-banner__title">
 				{intl.formatMessage({ id: 'page.body.wallets.estimated_value' })}
 			</div>
-			<div className="cr-mobile-wallets-banner__body">
-				<div className="cr-mobile-wallets-banner__body-wrap">
-					<span className="cr-mobile-wallets-banner__body-number">{estimatedValue}</span>
-					<span className="cr-mobile-wallets-banner__body-currency">{VALUATION_PRIMARY_CURRENCY.toUpperCase()}</span>
+			<div className="td-mobile-wallets-banner__body">
+				<div className="td-mobile-wallets-banner__body-wrap">
+					<span className="td-mobile-wallets-banner__body-number">{estimatedValue}</span>
+					<span className="td-mobile-wallets-banner__body-currency">{VALUATION_PRIMARY_CURRENCY.toUpperCase()}</span>
 				</div>
-				<div className="cr-mobile-wallets-banner__body-wrap">
-					<span className="cr-mobile-wallets-banner__body-number">{estimatedSecondaryValue}</span>
-					<span className="cr-mobile-wallets-banner__body-currency">{VALUATION_SECONDARY_CURRENCY.toUpperCase()}</span>
+				<div className="td-mobile-wallets-banner__body-wrap">
+					<span className="td-mobile-wallets-banner__body-number">{estimatedSecondaryValue}</span>
+					<span className="td-mobile-wallets-banner__body-currency">{VALUATION_SECONDARY_CURRENCY.toUpperCase()}</span>
 				</div>
 			</div>
 		</div>

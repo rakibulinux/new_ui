@@ -72,13 +72,13 @@ const DepositHistoryTable = (props: any) => {
 		return histories.length ? histories : [[]];
 	};
 	const mapRows = row => {
-		return <div className="cr-mobile-history-table__row">{row}</div>;
+		return <div className="td-mobile-history-table__row">{row}</div>;
 	};
 
 	const tableData = retrieveData().map(row => row.map(mapRows));
 
 	return (
-		<div className="cr-mobile-history-table" hidden={tableData.length <= 0}>
+		<div className="td-mobile-history-table" hidden={tableData.length <= 0}>
 			<Table data={tableData} />
 		</div>
 	);

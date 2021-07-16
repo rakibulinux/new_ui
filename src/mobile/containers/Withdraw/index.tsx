@@ -95,23 +95,23 @@ class Withdraw extends React.Component<DispatchProps & WithdrawProps, WithdrawSt
 			isMobileDevice,
 		} = this.props;
 
-		const cx = classnames('cr-withdraw', className);
-		const lastDividerClassName = classnames('cr-withdraw__divider', {
-			'cr-withdraw__divider-one': twoFactorAuthRequired,
-			'cr-withdraw__divider-two': !twoFactorAuthRequired,
+		const cx = classnames('td-withdraw', className);
+		const lastDividerClassName = classnames('td-withdraw__divider', {
+			'td-withdraw__divider-one': twoFactorAuthRequired,
+			'td-withdraw__divider-two': !twoFactorAuthRequired,
 		});
 
-		const withdrawAmountClass = classnames('cr-withdraw__group__amount', {
-			'cr-withdraw__group__amount--focused': withdrawAmountFocused,
+		const withdrawAmountClass = classnames('td-withdraw__group__amount', {
+			'td-withdraw__group__amount--focused': withdrawAmountFocused,
 		});
 
 		return (
 			<div className={cx}>
-				<div className="cr-withdraw-column">
-					<div className="cr-withdraw__group__address">
+				<div className="td-withdraw-column">
+					<div className="td-withdraw__group__address">
 						<Beneficiaries currency={currency} type={type} onChangeValue={this.handleChangeBeneficiary} />
 					</div>
-					<div className="cr-withdraw__divider cr-withdraw__divider-one" />
+					<div className="td-withdraw__divider td-withdraw__divider-one" />
 					<div className={withdrawAmountClass} style={{ position: 'relative', marginTop: '1rem' }}>
 						<div className="d-flex flex-row justify-content-between mb-2">
 							<span className="text-white">Withdraw Amount</span>
@@ -130,12 +130,12 @@ class Withdraw extends React.Component<DispatchProps & WithdrawProps, WithdrawSt
 									? withdrawAmountLabel || 'Amount'
 									: 'Min Amount: ' + this.props.minWithdrawAmount + ' ' + currency.toUpperCase()
 							}
-							classNameInput="cr-withdraw__input"
+							classNameInput="td-withdraw__input"
 							handleChangeInput={this.handleChangeInputAmount}
 						/>
 						<button
 							onClick={() => this.handleChangeInputAmount(this.props.parentWalletBalance ?? '')}
-							className="cr-withdraw__group__amount__all-btn"
+							className="td-withdraw__group__amount__all-btn"
 						>
 							All
 						</button>
@@ -145,9 +145,9 @@ class Withdraw extends React.Component<DispatchProps & WithdrawProps, WithdrawSt
 					</div>
 					<div className={lastDividerClassName} />
 				</div>
-				<div className="cr-withdraw-column">
+				<div className="td-withdraw-column">
 					{isMobileDevice && twoFactorAuthRequired && this.renderOtpCodeInput()}
-					<div className="cr-withdraw__deep d-flex justify-content-end">
+					<div className="td-withdraw__deep d-flex justify-content-end">
 						<Button variant="primary" style={{ backgroundColor: '#2FB67E' }} size="lg" onClick={this.handleClick}>
 							{withdrawButtonLabel ? withdrawButtonLabel : 'Withdraw'}
 						</Button>
@@ -177,8 +177,8 @@ class Withdraw extends React.Component<DispatchProps & WithdrawProps, WithdrawSt
 	private renderOtpCodeInput = () => {
 		const { otpCode, withdrawCodeFocused } = this.state;
 		const { withdraw2faLabel } = this.props;
-		const withdrawCodeClass = classnames('cr-withdraw__group__code', {
-			'cr-withdraw__group__code--focused': withdrawCodeFocused,
+		const withdrawCodeClass = classnames('td-withdraw__group__code', {
+			'td-withdraw__group__code--focused': withdrawCodeFocused,
 		});
 
 		return (
@@ -193,12 +193,12 @@ class Withdraw extends React.Component<DispatchProps & WithdrawProps, WithdrawSt
 						handleChangeInput={this.handleChangeInputOtpCode}
 						inputValue={otpCode}
 						handleFocusInput={() => this.handleFieldFocus('code')}
-						classNameLabel="cr-withdraw__label"
-						classNameInput="cr-withdraw__input"
+						classNameLabel="td-withdraw__label"
+						classNameInput="td-withdraw__input"
 						autoFocus={false}
 					/>
 				</div>
-				<div className="cr-withdraw__divider cr-withdraw__divider-two" />
+				<div className="td-withdraw__divider td-withdraw__divider-two" />
 			</React.Fragment>
 		);
 	};

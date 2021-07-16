@@ -26,22 +26,22 @@ const MarketsTopItemComponent: React.FC<MarketsTopItemProps> = ({ market, ticker
 	});
 
 	return (
-		<div className="cr-mobile-market-top-info" onClick={() => redirectToTrading(market)}>
-			<div className="cr-mobile-market-top-info-head">
-				<div className="cr-mobile-market-top-info-head__title">
+		<div className="td-mobile-market-top-info" onClick={() => redirectToTrading(market)}>
+			<div className="td-mobile-market-top-info-head">
+				<div className="td-mobile-market-top-info-head__title">
 					<h6>{market.name.split('/')[0]}</h6> <span>/ {market.name.split('/')[1]}</span>
 				</div>
-				<div className="cr-mobile-market-top-info-head__change">
+				<div className="td-mobile-market-top-info-head__change">
 					<span className={marketChangeClass}>{ticker.price_change_percent}</span>
 				</div>
 			</div>
-			<div className="cr-mobile-market-top-info-content">
-				<div className="cr-mobile-market-top-info-content__price">
+			<div className="td-mobile-market-top-info-content">
+				<div className="td-mobile-market-top-info-content__price">
 					<h6 className={marketChangeClass}>{Decimal.format(ticker.last, market.price_precision, ',')}</h6>
 				</div>
 			</div>
-			<div className="cr-mobile-market-top-info-foot">
-				<div className="cr-mobile-market-top-info-foot__about-eq-price">
+			<div className="td-mobile-market-top-info-foot">
+				<div className="td-mobile-market-top-info-foot__about-eq-price">
 					<span>&asymp;{Decimal.format(ticker.last, 4, ',')}</span>
 				</div>
 			</div>

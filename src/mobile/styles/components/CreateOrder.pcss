@@ -34,18 +34,18 @@
 	}
 
 	.pg-combined-order-book--no-data-first {
-		.cr-order-book:first-child {
-			.cr-table-container {
+		.td-order-book:first-child {
+			.td-table-container {
 				height: 100%;
 
-				.cr-table__body tr td {
+				.td-table__body tr td {
 					top: 61px;
 				}
 			}
 		}
 	}
 
-	.pg-combined-order-book .cr-combined-order-book {
+	.pg-combined-order-book .td-combined-order-book {
 		width: 100%;
 
 		&__market {
@@ -74,16 +74,16 @@
 			}
 		}
 
-		&__small .cr-order-book {
+		&__small .td-order-book {
 			border: none;
 			height: calc(50% - 5px) !important;
 			position: sticky;
 
-			.cr-table {
+			.td-table {
 				min-height: 149px;
 			}
 
-			.cr-table thead {
+			.td-table thead {
 				display: flex;
 				height: 100%;
 				position: sticky;
@@ -120,7 +120,7 @@
 				}
 			}
 
-			.cr-table__body tr {
+			.td-table__body tr {
 				align-items: center;
 				display: flex;
 				flex-direction: row;
@@ -153,7 +153,7 @@
 				}
 			}
 
-			.cr-table-background {
+			.td-table-background {
 				align-items: flex-end;
 				display: flex;
 				flex-direction: column;
@@ -175,7 +175,7 @@
 					height: 0;
 				}
 
-				.cr-table__body tr td:first-child {
+				.td-table__body tr td:first-child {
 					color: var(--asks);
 				}
 			}
@@ -184,7 +184,7 @@
 				height: calc(50% - 30px) !important;
 				top: calc(50% + 25px);
 
-				.cr-table {
+				.td-table {
 					min-height: 0;
 
 					&__body {
@@ -196,18 +196,18 @@
 					height: 0;
 				}
 
-				.cr-table__body tr td:first-child {
+				.td-table__body tr td:first-child {
 					color: var(--bids);
 				}
 
-				.cr-table-background {
+				.td-table-background {
 					justify-content: flex-start;
 				}
 			}
 		}
 	}
 
-	.pg-order .cr-order {
+	.pg-order .td-order {
 		align-items: flex-start;
 		display: flex;
 		flex-direction: column;
@@ -215,7 +215,7 @@
 		justify-content: center;
 		width: 100%;
 
-		.cr-tab-panel__navigation-container {
+		.td-tab-panel__navigation-container {
 			background: var(--body-background-color);
 			box-shadow: none;
 			padding: 0;
@@ -227,7 +227,7 @@
 				border-radius: 3px;
 				height: 28px;
 
-				.cr-tab {
+				.td-tab {
 					align-items: center;
 					border: none;
 					border-radius: 3px;
@@ -255,21 +255,21 @@
 			}
 		}
 
-		.cr-tab-panel .cr-tab-content {
+		.td-tab-panel .td-tab-content {
 			padding: 0;
 
-			.cr-order-form {
+			.td-order-form {
 				background: var(--body-background-color);
 
-				.cr-order-item {
+				.td-order-item {
 					margin-bottom: 12px;
 
 					&:nth-child(1) {
-						.cr-order-item__dropdown__label {
+						.td-order-item__dropdown__label {
 							display: none;
 						}
 
-						.cr-dropdown {
+						.td-dropdown {
 							height: 34px;
 
 							button {
@@ -310,8 +310,8 @@
 						justify-content: space-between;
 						width: 100%;
 
-						.cr-order-input__fieldset,
-						.cr-order-input__crypto-icon {
+						.td-order-input__fieldset,
+						.td-order-input__crypto-icon {
 							align-items: center;
 							border: 1px solid var(--divider-color-level-2);
 							display: flex;
@@ -322,7 +322,7 @@
 							padding: 0 14px;
 						}
 
-						.cr-order-input__fieldset {
+						.td-order-input__fieldset {
 							border-right: none;
 							width: 70%;
 
@@ -332,7 +332,7 @@
 							}
 
 							input,
-							.cr-order-input__fieldset__input {
+							.td-order-input__fieldset__input {
 								align-items: center;
 								color: var(--primary-text-color);
 								display: flex;
@@ -349,7 +349,7 @@
 							}
 						}
 
-						.cr-order-input__crypto-icon {
+						.td-order-input__crypto-icon {
 							width: 30%;
 						}
 
@@ -360,10 +360,10 @@
 					}
 
 					&:nth-child(4) {
-						.cr-order-item__percentage-buttons {
+						.td-order-item__percentage-buttons {
 							margin: 0;
 
-							.cr-percentage-button {
+							.td-percentage-button {
 								background: var(--dropdown-background-color-level-5);
 								border-radius: 4px;
 								color: var(--primary-text-color-level-4);
@@ -373,7 +373,7 @@
 						}
 					}
 
-					&:nth-child(5) .cr-order-item__total {
+					&:nth-child(5) .td-order-item__total {
 						align-items: center;
 						display: flex;
 						flex-direction: row;
@@ -400,7 +400,7 @@
 						}
 					}
 
-					&:nth-child(6) .cr-order-item__available {
+					&:nth-child(6) .td-order-item__available {
 						align-items: center;
 						display: flex;
 						flex-direction: row;

@@ -11,9 +11,9 @@
 	}
 
 	&--no-data-first {
-		.cr-order-book {
+		.td-order-book {
 			&:first-child {
-				.cr-table {
+				.td-table {
 					&__body {
 						tr {
 							td:nth-child(2) {
@@ -35,9 +35,9 @@
 	}
 
 	&--no-data-second {
-		.cr-order-book {
+		.td-order-book {
 			&:last-child {
-				.cr-table {
+				.td-table {
 					&__body {
 						tr {
 							td:nth-child(2) {
@@ -57,7 +57,7 @@
 		}
 	}
 
-	.cr-table {
+	.td-table {
 		&__head {
 			th {
 				width: 33% !important;
@@ -69,15 +69,15 @@
 				color: var(--table-text-color);
 				width: 33% !important;
 
-				span:first-child.cr-decimal__opacity {
+				span:first-child.td-decimal__opacity {
 					opacity: 0.6;
 				}
 			}
 		}
 	}
 
-	.cr-combined-order-book {
-		.cr-table {
+	.td-combined-order-book {
+		.td-table {
 			&__head {
 				th:first-child {
 					text-align: right;
@@ -116,7 +116,7 @@
 			height: 100%;
 			position: relative;
 
-			.cr-combined-order-book__market {
+			.td-combined-order-book__market {
 				left: 0;
 				margin-top: 0;
 				position: absolute;
@@ -124,13 +124,13 @@
 				top: calc(50% - 10px) !important;
 			}
 
-			.cr-order-book {
+			.td-order-book {
 				border-bottom: 1px solid var(--order-book-last-market-price-border-color);
 				display: flex;
 				height: calc(50% - 25px) !important;
 				position: absolute;
 
-				.cr-table {
+				.td-table {
 					thead {
 						display: table;
 						position: fixed;
@@ -157,7 +157,7 @@
 					right: 0;
 					top: 0;
 
-					.cr-table {
+					.td-table {
 						td {
 							width: 33% !important;
 						}
@@ -187,7 +187,7 @@
 					right: 0;
 					top: calc(50% + 35px);
 
-					.cr-table {
+					.td-table {
 						&-container {
 							width: 100%;
 						}
@@ -201,7 +201,7 @@
 				}
 			}
 
-			.cr-table-background {
+			.td-table-background {
 				&__row {
 					padding-bottom: calc(var(--gap) * 1.5);
 				}
@@ -212,11 +212,11 @@
 			height: calc(100% - 85px);
 			overflow-y: scroll;
 
-			.cr-order-book {
+			.td-order-book {
 				padding-right: 0;
 			}
 
-			.cr-table {
+			.td-table {
 				&__head {
 					display: table;
 					position: fixed;
@@ -246,7 +246,7 @@
 				position: fixed;
 			}
 
-			.cr-table-background {
+			.td-table-background {
 				top: 36px;
 
 				&__row {

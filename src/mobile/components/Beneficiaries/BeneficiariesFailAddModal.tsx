@@ -31,9 +31,9 @@ class BeneficiariesFailAddModalComponent extends React.Component<Props> {
 	}
 
 	public ModalHeader = () => (
-		<div className="cr-email-form__options-group">
-			<div className="cr-email-form__option">
-				<div className="cr-email-form__option-inner">
+		<div className="td-email-form__options-group">
+			<div className="td-email-form__option">
+				<div className="td-email-form__option-inner">
 					{this.translate('page.body.wallets.beneficiaries.failAddModal.header')}
 					<span
 						className="pg-profile-page__close pg-profile-page__pull-right"
@@ -45,13 +45,13 @@ class BeneficiariesFailAddModalComponent extends React.Component<Props> {
 	);
 
 	public ModalBody = () => (
-		<div className="cr-email-form__form-content">
-			<span className="cr-email-form__form-content__info">
+		<div className="td-email-form__form-content">
+			<span className="td-email-form__form-content__info">
 				{this.translate('page.body.wallets.beneficiaries.failAddModal.content')}
 			</span>
-			<div className="cr-email-form__button-wrapper">
+			<div className="td-email-form__button-wrapper">
 				<Link to="/confirm">
-					<Button size="lg" variant="primary" className="cr-email-form__button-wrapper__btn">
+					<Button size="lg" variant="primary" className="td-email-form__button-wrapper__btn">
 						{this.translate('page.body.wallets.beneficiaries.failAddModal.button')}
 					</Button>
 				</Link>
@@ -61,12 +61,12 @@ class BeneficiariesFailAddModalComponent extends React.Component<Props> {
 
 	private renderContent = () => {
 		const className = classnames('beneficiaries-fail-modal', {
-			'cr-modal': !this.props.isMobileDevice,
+			'td-modal': !this.props.isMobileDevice,
 		});
 
 		return (
 			<div className={className}>
-				<div className="cr-email-form">
+				<div className="td-email-form">
 					<this.ModalHeader />
 					<this.ModalBody />
 				</div>

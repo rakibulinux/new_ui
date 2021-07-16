@@ -1,8 +1,7 @@
-import cr from 'classnames';
+import td from 'classnames';
 import * as React from 'react';
-import { Button } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
-import { CustomInput } from '../../../components/CustomInput';
+import { CustomInput } from '../../components';
 import { PASSWORD_REGEX } from '../../../helpers';
 
 export const ChangePasswordComponent = props => {
@@ -30,20 +29,20 @@ export const ChangePasswordComponent = props => {
 	};
 
 	const renderBody = () => {
-		const oldPasswordClass = cr('cr-email-form__group', {
-			'cr-email-form__group--focused': oldPasswordFocus,
+		const oldPasswordClass = td('td-email-form__group mt-3', {
+			'td-email-form__group--focused': oldPasswordFocus,
 		});
 
-		const newPasswordClass = cr('cr-email-form__group', {
-			'cr-email-form__group--focused': newPasswordFocus,
+		const newPasswordClass = td('td-email-form__group mt-3', {
+			'td-email-form__group--focused': newPasswordFocus,
 		});
 
-		const confirmPasswordClass = cr('cr-email-form__group', {
-			'cr-email-form__group--focused': confirmPasswordFocus,
+		const confirmPasswordClass = td('td-email-form__group mt-3', {
+			'td-email-form__group--focused': confirmPasswordFocus,
 		});
 
 		return (
-			<div className="pg-mobile-change-password__body">
+			<div className="pg-mobile-change-password__body mt-5">
 				<div className={oldPasswordClass}>
 					<CustomInput
 						type="password"
@@ -53,8 +52,8 @@ export const ChangePasswordComponent = props => {
 						handleChangeInput={setOldPassword}
 						inputValue={oldPassword}
 						handleFocusInput={() => setOldPasswordFocus(true)}
-						classNameLabel="cr-email-form__label"
-						classNameInput="cr-email-form__input"
+						classNameLabel="td-email-form__label"
+						classNameInput="td-email-form__input"
 						autoFocus={true}
 					/>
 				</div>
@@ -67,8 +66,8 @@ export const ChangePasswordComponent = props => {
 						handleChangeInput={setNewPassword}
 						inputValue={newPassword}
 						handleFocusInput={() => setNewPasswordFocus(true)}
-						classNameLabel="cr-email-form__label"
-						classNameInput="cr-email-form__input"
+						classNameLabel="td-email-form__label"
+						classNameInput="td-email-form__input"
 						autoFocus={false}
 					/>
 				</div>
@@ -81,8 +80,8 @@ export const ChangePasswordComponent = props => {
 						handleChangeInput={setConfirmationPassword}
 						inputValue={confirmationPassword}
 						handleFocusInput={() => setConfirmPasswordFocus(true)}
-						classNameLabel="cr-email-form__label"
-						classNameInput="cr-email-form__input"
+						classNameLabel="td-email-form__label"
+						classNameInput="td-email-form__input"
 						autoFocus={false}
 					/>
 				</div>
@@ -99,10 +98,10 @@ export const ChangePasswordComponent = props => {
 		};
 
 		return (
-			<div className="pg-mobile-change-password__footer">
-				<Button block={true} disabled={!isValidForm} onClick={handleChangePassword} size="lg" variant="primary">
+			<div className="pg-mobile-change-password__footer mt-3">
+				<button className="w-100" disabled={!isValidForm} onClick={handleChangePassword}>
 					{intl.formatMessage({ id: 'page.body.profile.header.account.content.password.button.change' })}
-				</Button>
+				</button>
 			</div>
 		);
 	};
