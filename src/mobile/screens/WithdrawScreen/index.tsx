@@ -34,35 +34,12 @@ const WithdrawSubHeader = props => {
 	const { currency } = props;
 
 	return (
-		<div className="td-mobile-wallet-detail__header">
+		<div className="td-mobile-screen-withdraw__header">
 			<div onClick={() => history.goBack()}>{BackSVG}</div>
 			<h3 className="td-mobile-wallet-detail__header__title">Withdraw</h3>
 			<Link className="td-mobile-wallet-detail__header__history" to={`/wallets/${currency}/history`}>
 				{HistorySVG}
 			</Link>
-		</div>
-	);
-};
-
-const WithdrawBar = () => {
-	return (
-		<div className="withdraw-bar w-100 pt-3 d-flex flex-row justify-content-between align-items-center">
-			<div className="d-flex flex-row justify-content-around align-items-center">
-				<div>
-					<img width="20px" height="20px" src="https://s2.coinmarketcap.com/static/img/coins/200x200/1.png" alt="" />
-				</div>
-				<div>
-					<span className="text-white" style={{ fontSize: '20px' }}>
-						JOB
-					</span>
-				</div>
-				<div>
-					<span>(Jobchain)</span>
-				</div>
-			</div>
-			<div>
-				<span>Select type of assets</span>
-			</div>
 		</div>
 	);
 };
@@ -109,8 +86,8 @@ const WithdrawBody = props => {
 	}, [currency, dispatch]);
 
 	return (
-		<div className="withdraw-body">
-			<div className="withdraw-body__tabs">
+		<div className="td-mobile-screen-withdraw__body">
+			<div className="td-mobile-screen-withdraw__body__tabs">
 				<div className="react-tabs">
 					<Tabs defaultActiveKey={listCurrenciesWallets[0]?.id} onChange={handleChangeTab}>
 						{listCurrenciesWallets.map(wallet => (
@@ -138,9 +115,8 @@ export const WithdrawMobileScreen = () => {
 	}, [currency, dispatch]);
 
 	return (
-		<div id="td-mobile-screen-withdraw">
+		<div className="td-mobile-screen-withdraw">
 			<WithdrawSubHeader currency={currency} />
-			<WithdrawBar />
 			<WithdrawBody currency={currency} />
 		</div>
 	);

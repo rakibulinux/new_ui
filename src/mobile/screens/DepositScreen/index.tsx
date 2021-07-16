@@ -38,7 +38,7 @@ const DepositSubHeader = props => {
 	const { currency } = props;
 
 	return (
-		<div className="td-mobile-wallet-detail__header">
+		<div className="td-mobile-screen-deposit__header">
 			<div onClick={() => history.goBack()}>{BackSVG}</div>{' '}
 			<h3 className="td-mobile-wallet-detail__header__title">Deposit</h3>
 			<Link className="td-mobile-wallet-detail__header__history" to={`/wallets/${currency}/history`}>
@@ -147,7 +147,7 @@ const DepositBody = props => {
 			}
 		} else {
 			return (
-				<div className="tab-body" hidden={!walletAddress}>
+				<div className="react-tabs__body" hidden={!walletAddress}>
 					<div className="py-4 deposit-address">
 						<button onClick={handleGenerateAddress} className="deposit-address__copy-btn mt-3">
 							Generate deposit address
@@ -159,8 +159,8 @@ const DepositBody = props => {
 	};
 
 	return (
-		<div className="deposit-body">
-			<div className="deposit-body__tabs">
+		<div className="td-mobile-screen-deposit__body">
+			<div className="td-mobile-screen-deposit__body__tabs">
 				<div className="react-tabs">
 					<Tabs defaultActiveKey={listCurrenciesWallets[0]?.id} onChange={handleChangeTab}>
 						{listCurrenciesWallets.map(wallet => (
@@ -189,10 +189,10 @@ const DepositNotes = props => {
 	);
 
 	return (
-		<div className="depost-notes">
+		<div className="td-mobile-screen-deposit__notes">
 			<hr style={{ border: '1px solid #848E9C' }} />
 
-			<div className="depost-notes__header">
+			<div className="td-mobile-screen-deposit__notes__header">
 				<p className="text-white">{cartSVG} No Tokens, Go buy</p>
 			</div>
 			<div className="depost-notes__body">
@@ -225,7 +225,7 @@ export const DepositMobileScreen = () => {
 	}, [currency, dispatch]);
 
 	return (
-		<div id="td-mobile-screen-deposit">
+		<div className="td-mobile-screen-deposit">
 			<DepositSubHeader currency={currency} />
 			<DepositBody currency={currency} />
 			<DepositNotes currency={currency} />
