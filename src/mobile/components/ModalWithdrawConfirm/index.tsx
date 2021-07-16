@@ -28,7 +28,7 @@ export const ModalWithdrawConfirm = (props: ModalWithdrawConfirmProps) => {
 	const newETHBalance = balance && ethFee ? NP.minus(Number(balance), Number(ethFee)) : undefined;
 	return (
 		<NewModal show={show} onClose={onDismiss} title="Confirmation">
-			<div className="modal-mobile-withdraw-confirm">
+			<div className="td-modal-mobile-withdraw-confirm">
 				<p>
 					{intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.modal.message1' })}
 					{amount} <strong>{formattedCurrency}</strong>
@@ -42,11 +42,11 @@ export const ModalWithdrawConfirm = (props: ModalWithdrawConfirmProps) => {
 					{newETHBalance?.toFixed(5) ?? 'Unavailable'} ETH
 				</p>
 
-				<div className="d-flex justify-content-center mt-3 modal-mobile-withdraw-confirm__buttons">
-					<button className="close-btn" onClick={onDismiss}>
+				<div className="d-flex justify-content-center mt-3 td-modal-mobile-withdraw-confirm__buttons">
+					<button className="td-modal-mobile-withdraw-confirm__buttons__close-btn" onClick={onDismiss}>
 						Close
 					</button>
-					<button className="withdraw-btn" onClick={onSubmit}>
+					<button className="td-modal-mobile-withdraw-confirm__buttons__withdraw-btn" onClick={onSubmit}>
 						Withdraw
 					</button>
 				</div>

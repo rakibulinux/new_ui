@@ -9,13 +9,13 @@ interface Props {
 
 const SubheaderComponent = (props: Props) => {
 	return (
-		<div className="cr-mobile-subheader">
-			<div className="cr-mobile-subheader__back" onClick={props.onGoBack}>
+		<div className="td-mobile-subheader">
+			<div className="td-mobile-subheader__back" onClick={props.onGoBack}>
 				<ArrowIcon />
-				<span className="cr-mobile-subheader__back-item">{props.backTitle}</span>
+				<span className="td-mobile-subheader__back-item">{props.backTitle}</span>
 			</div>
-			<div className="cr-mobile-subheader__title">{props.title}</div>
-			<div className="cr-mobile-subheader__close" />
+			<div className="td-mobile-subheader__title">{props.title}</div>
+			<div className="td-mobile-subheader__close" />
 		</div>
 	);
 };

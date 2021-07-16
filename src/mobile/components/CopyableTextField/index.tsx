@@ -11,7 +11,7 @@ export interface CopyableTextFieldProps {
 	 */
 	value: string;
 	/**
-	 * Additional class name for styling. By default element receives `cr-button` class
+	 * Additional class name for styling. By default element receives `td-button` class
 	 * @default empty
 	 */
 	className?: string;

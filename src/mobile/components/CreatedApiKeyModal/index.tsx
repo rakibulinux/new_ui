@@ -17,8 +17,8 @@ export const CreatedApiKeyModalComponent = props => {
 
 	const renderModalBody = () => {
 		return (
-			<div className="cr-mobile-modal__body">
-				<div className="cr-mobile-modal__body__fieldset">
+			<div className="td-mobile-modal__body">
+				<div className="td-mobile-modal__body__fieldset">
 					<fieldset onClick={() => copy('access-key-id')}>
 						<CopyableTextField
 							className="pg-copyable-text-field__input"
@@ -29,7 +29,7 @@ export const CreatedApiKeyModalComponent = props => {
 						/>
 					</fieldset>
 				</div>
-				<div className="cr-mobile-modal__body__fieldset">
+				<div className="td-mobile-modal__body__fieldset">
 					<fieldset onClick={() => copy('secret-key-id')}>
 						<CopyableTextField
 							className="pg-copyable-text-field__input"
@@ -40,11 +40,11 @@ export const CreatedApiKeyModalComponent = props => {
 						/>
 					</fieldset>
 				</div>
-				<div className="cr-mobile-modal__body__title">
+				<div className="td-mobile-modal__body__title">
 					<WarningIcon />
 					<span>{intl.formatMessage({ id: 'page.body.profile.apiKeys.modal.secret_key' })}</span>
 				</div>
-				<div className="cr-mobile-modal__body__note">
+				<div className="td-mobile-modal__body__note">
 					<p>
 						{intl.formatMessage({ id: 'page.body.profile.apiKeys.modal.secret_key_info' })}&nbsp;
 						{intl.formatMessage({ id: 'page.body.profile.apiKeys.modal.secret_key_store' })}
@@ -60,7 +60,7 @@ export const CreatedApiKeyModalComponent = props => {
 
 	const renderModalFooter = () => {
 		return (
-			<div className="cr-mobile-modal__footer">
+			<div className="td-mobile-modal__footer">
 				<button className="w-100 green-btn" onClick={props.closeCreatedApiKeyModal}>
 					{intl.formatMessage({ id: 'page.mobile.createdApiKeyModal.confirm' })}
 				</button>

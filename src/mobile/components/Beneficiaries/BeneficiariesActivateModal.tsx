@@ -92,8 +92,8 @@ class BeneficiariesActivateModalComponent extends React.Component<Props, State> 
 						handleChangeInput={value => this.handleChangeFieldValue('confirmationModalCode', value)}
 						inputValue={this.state.confirmationModalCode}
 						handleFocusInput={() => this.handleChangeFieldFocus(`confirmationModalCodeFocused`)}
-						classNameLabel="cr-email-form__label"
-						classNameInput="cr-email-form__input"
+						classNameLabel="td-email-form__label"
+						classNameInput="td-email-form__input"
 						autoFocus={true}
 					/>
 				</div>

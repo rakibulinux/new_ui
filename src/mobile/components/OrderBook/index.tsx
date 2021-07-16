@@ -100,14 +100,14 @@ class OrderBookContainer extends React.Component<Props, State> {
 		const isLarge = forceLarge || this.state.width > breakpoint;
 
 		const cn = classNames('pg-combined-order-book ', {
-			'cr-combined-order-book--data-loading': orderBookLoading,
+			'td-combined-order-book--data-loading': orderBookLoading,
 			'pg-combined-order-book--no-data-first': (!asks.length && !isLarge) || (!bids.length && isLarge),
 			'pg-combined-order-book--no-data-second': (!bids.length && !isLarge) || (!asks.length && isLarge),
 		});
 
 		return (
 			<div className={cn} ref={this.orderRef}>
-				<div className={'cr-table-header__content'}>
+				<div className={'td-table-header__content'}>
 					{this.props.intl.formatMessage({ id: 'page.body.trade.orderbook' })}
 				</div>
 				{orderBookLoading ? (
@@ -161,8 +161,8 @@ class OrderBookContainer extends React.Component<Props, State> {
 
 		if (currentMarket && currentTicker) {
 			const cn = classNames('', {
-				'cr-combined-order-book__market-negative': currentTicker.price_change_percent.includes('-'),
-				'cr-combined-order-book__market-positive': currentTicker.price_change_percent.includes('+'),
+				'td-combined-order-book__market-negative': currentTicker.price_change_percent.includes('-'),
+				'td-combined-order-book__market-positive': currentTicker.price_change_percent.includes('+'),
 			});
 
 			return (
@@ -177,7 +177,7 @@ class OrderBookContainer extends React.Component<Props, State> {
 		} else {
 			return (
 				<React.Fragment>
-					<span className={'cr-combined-order-book__market-negative'}>0</span>
+					<span className={'td-combined-order-book__market-negative'}>0</span>
 					<span>{this.props.intl.formatMessage({ id: 'page.body.trade.orderbook.lastMarket' })}</span>
 				</React.Fragment>
 			);

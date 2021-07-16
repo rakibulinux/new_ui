@@ -16,8 +16,8 @@ const ConfirmMobileScreen: React.FC = () => {
 
 	if (step === 'phone') {
 		return (
-			<div className="cr-mobile-confirm">
-				<div className="cr-mobile-confirm__phone">
+			<div className="td-mobile-confirm">
+				<div className="td-mobile-confirm__phone">
 					<Modal
 						isOpen
 						onClose={() => history.goBack()}
@@ -31,8 +31,8 @@ const ConfirmMobileScreen: React.FC = () => {
 	}
 
 	return (
-		<div className="cr-mobile-confirm">
-			<div className="cr-mobile-confirm__identity">
+		<div className="td-mobile-confirm">
+			<div className="td-mobile-confirm__identity">
 				<Subheader
 					title={intl.formatMessage({ id: `page.mobile.confirm.${step}` })}
 					backTitle={intl.formatMessage({ id: 'page.mobile.confirm.back' })}

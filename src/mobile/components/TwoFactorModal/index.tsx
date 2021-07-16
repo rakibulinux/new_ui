@@ -1,4 +1,4 @@
-import cr from 'classnames';
+import td from 'classnames';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { CustomInput } from '../../../components/CustomInput';
@@ -15,8 +15,8 @@ export const TwoFactorModalComponent = props => {
 	};
 
 	const renderModalBody = () => {
-		const code2FAClass = cr('cr-email-form__group', {
-			'cr-email-form__group--focused': code2FAFocus,
+		const code2FAClass = td('td-email-form__group', {
+			'td-email-form__group--focused': code2FAFocus,
 		});
 
 		return (
@@ -35,8 +35,8 @@ export const TwoFactorModalComponent = props => {
 						handleFocusInput={() => setCode2FAFocus(true)}
 						handleChangeInput={setCode2FA}
 						inputValue={code2FA}
-						classNameLabel="cr-email-form__label"
-						classNameInput="cr-email-form__input"
+						classNameLabel="td-email-form__label"
+						classNameInput="td-email-form__input"
 						autoFocus={true}
 					/>
 				</div>
@@ -48,7 +48,7 @@ export const TwoFactorModalComponent = props => {
 		const isValid2FA = code2FA.match('^[0-9]{6}$');
 
 		return (
-			<div className="pg-exchange-modal-submit-footer">
+			<div className="pg-exchange-modal-submit-footer mt-3">
 				<button className="w-100 green-btn" disabled={!isValid2FA} onClick={() => handleToggle2FA(true)}>
 					{intl.formatMessage({ id: 'page.mobile.twoFactorModal.send' })}
 				</button>
@@ -57,7 +57,7 @@ export const TwoFactorModalComponent = props => {
 	};
 
 	return (
-		<div className="cr-mobile-two-fa-modal">
+		<div className="td-mobile-two-fa-modal">
 			<NewModal
 				show={props.showModal}
 				onClose={() => handleToggle2FA(false)}

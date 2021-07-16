@@ -151,8 +151,8 @@ const WalletWithdrawBodyComponent = props => {
 
 	const minWithdrawAmount = currencyItem && currencyItem.min_withdraw_amount ? currencyItem.min_withdraw_amount : undefined;
 
-	const className = classnames('cr-mobile-wallet-withdraw-body', {
-		'cr-mobile-wallet-withdraw-body--disabled': currencyItem && !currencyItem.withdrawal_enabled,
+	const className = classnames('td-mobile-wallet-withdraw-body', {
+		'td-mobile-wallet-withdraw-body--disabled': currencyItem && !currencyItem.withdrawal_enabled,
 	});
 
 	const ethWallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
@@ -197,10 +197,10 @@ const WalletWithdrawBodyComponent = props => {
 				<Blur text={intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })} />
 			</div>
 
-			<div className="cr-mobile-wallet-withdraw-body__submit">
+			<div className="td-mobile-wallet-withdraw-body__submit">
 				<ModalWithdrawSubmit isMobileDevice show={withdrawSubmitModal} currency={currency} onSubmit={toggleSubmitModal} />
 			</div>
-			<div className="cr-mobile-wallet-withdraw-body__confirmation">
+			<div className="td-mobile-wallet-withdraw-body__confirmation">
 				<ModalWithdrawConfirm
 					ethBallance={ethBallance}
 					selectedWalletFee={selectedWalletFee}

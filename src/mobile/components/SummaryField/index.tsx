@@ -3,7 +3,7 @@ import * as React from 'react';
 
 export interface SummaryFieldProps {
 	/**
-	 * Additional class name for styling. By default element receives `cr-input` class
+	 * Additional class name for styling. By default element receives `td-input` class
 	 * @default empty
 	 */
 	className?: string;
@@ -22,12 +22,12 @@ export interface SummaryFieldProps {
  */
 export const SummaryField: React.FunctionComponent<SummaryFieldProps> = props => {
 	const { message, className, content } = props;
-	const cx = classnames('cr-summary-field', className);
+	const cx = classnames('td-summary-field', className);
 
 	return (
 		<div className={cx}>
-			<span className="cr-summary-field-message">{message}</span>
-			<span className="cr-summary-field-content">{content}</span>
+			<span className="td-summary-field-message">{message}</span>
+			<span className="td-summary-field-content">{content}</span>
 		</div>
 	);
 };
