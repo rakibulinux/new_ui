@@ -1,10 +1,11 @@
-import { Blur, QRCode } from 'components';
+import { Blur, DepositFiat, QRCode } from 'components';
 import { copy, formatCCYAddress, getTabName } from 'helpers';
 import {
 	alertPush,
 	currenciesFetch,
 	selectChildCurrencies,
 	selectCurrencies,
+	selectUserInfo,
 	selectWalletAddress,
 	selectWallets,
 	walletsAddressFetch,
@@ -13,6 +14,7 @@ import {
 } from 'modules';
 import Tabs, { TabPane } from 'rc-tabs';
 import React from 'react';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -48,6 +50,8 @@ const DepositSubHeader = props => {
 
 const DepositBody = props => {
 	const dispatch = useDispatch();
+	const intl = useIntl();
+	const user = useSelector(selectUserInfo);
 	const { currency } = props;
 
 	const selectedWalletAddress = useSelector(selectWalletAddress);
@@ -83,6 +87,13 @@ const DepositBody = props => {
 	const renderTabBody = (currency: string) => {
 		const QR_SIZE = 200;
 		const walletAddress = formatCCYAddress(currency, selectedWalletAddress);
+		const wallet = wallets.find(wallet => wallet.currency === currency) || {
+			type: 'fiat',
+			balance: undefined,
+			address: undefined,
+		};
+		const isAccountActivated = wallet.type === 'fiat' || wallet.balance;
+
 		const size = QR_SIZE;
 		const doCopy = () => {
 			copy(`copy_deposit_${currency}`);
@@ -95,27 +106,56 @@ const DepositBody = props => {
 				);
 			}
 		};
-
+		const title = intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.fiat.message1' });
+		const description = intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.fiat.message2' });
 		const currencyItem = currencies.find(cur => cur.id === currency);
 
-		return (
-			<div className="tab-body" hidden={!walletAddress}>
-				<div className="py-4 text-center">
-					<QRCode dimensions={size} data={walletAddress} />
-				</div>
-				<div className="py-4 deposit-address">
-					<div className="deposit-address__title">Deposit address</div>
-					<input readOnly id={`copy_deposit_${currency}`} className="deposit-address__text" value={walletAddress} />
+		const handleGenerateAddress = () => {
+			if (!wallet.address && wallets.length && wallet.type !== 'fiat') {
+				dispatch(walletsAddressFetch({ currency: currency }));
+				dispatch(walletsFetch());
+			}
+		};
 
-					<button onClick={doCopy} className="deposit-address__copy-btn mt-3">
-						Copy address
-					</button>
+		if (isAccountActivated) {
+			if (wallet && wallet.type === 'coin') {
+				return (
+					<div className="tab-body" hidden={!walletAddress}>
+						<div className="py-4 text-center">
+							<QRCode dimensions={size} data={walletAddress} />
+						</div>
+						<div className="py-4 deposit-address">
+							<div className="deposit-address__title">Deposit address</div>
+							<input
+								readOnly
+								id={`copy_deposit_${currency}`}
+								className="deposit-address__text"
+								value={walletAddress}
+							/>
+
+							<button onClick={doCopy} className="deposit-address__copy-btn mt-3">
+								Copy address
+							</button>
+						</div>
+						<div hidden={currencyItem && currencyItem.deposit_enabled} className="deposit-disabled">
+							<Blur text="Deposit is disabled" />
+						</div>
+					</div>
+				);
+			} else {
+				return <DepositFiat title={title} description={description} uid={user ? user.uid : ''} />;
+			}
+		} else {
+			return (
+				<div className="tab-body" hidden={!walletAddress}>
+					<div className="py-4 deposit-address">
+						<button onClick={handleGenerateAddress} className="deposit-address__copy-btn mt-3">
+							Generate deposit address
+						</button>
+					</div>
 				</div>
-				<div hidden={currencyItem && currencyItem.deposit_enabled} className="deposit-disabled">
-					<Blur text="Deposit is disabled" />
-				</div>
-			</div>
-		);
+			);
+		}
 	};
 
 	return (

@@ -45,7 +45,7 @@ class CopyableTextField extends React.Component<CopyableTextFieldProps> {
 	public render() {
 		const { value, className, disabled, fieldId, copyButtonText, label } = this.props;
 		const doCopy = () => copy(fieldId);
-		const cx = classnames('cr-copyable-text-field', className);
+		const cx = classnames('td-mobile-copyable-text-field', className);
 
 		return (
 			<div className={cx}>
