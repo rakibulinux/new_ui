@@ -66,7 +66,7 @@ export const HeaderSearch: React.FC<SearchProps> = ({ onSearch, backToAll }) => 
 					/>
 				</div>
 				<div className="td-mobile-screen-market__header-search__desc" onClick={() => openForm(false)}>
-					Hủy
+					Cancle
 				</div>
 			</div>
 		</div>

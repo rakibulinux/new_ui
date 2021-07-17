@@ -285,21 +285,10 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 	};
 
 	const renderTable = () => {
-		const child = () => {
-			return (
-				<tr>
-					<td className="td-mobile-screen-market__body__markets__desc">Main</td>
-					<td></td>
-					<td></td>
-				</tr>
-			);
-		};
-
 		return (
 			<MarketList
 				listMarket={listMarket}
 				isShowTHead={true}
-				childOfTBody={child()}
 				childOfTHead={renderHeaderTable()}
 				onchangeFavorite={onChangeFavorite}
 			/>

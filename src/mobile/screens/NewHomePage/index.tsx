@@ -1,12 +1,9 @@
-import { CrownOutlined, ExperimentOutlined, GiftOutlined, WalletOutlined } from '@ant-design/icons';
+import { CrownOutlined, ExperimentOutlined, GiftOutlined } from '@ant-design/icons';
 import { VoteIcon } from 'mobile/assets/icons/NewHomePage/Vote';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import { useDepthFetch, useEventsFetch, useMarketsFetch, useMarketsTickersFetch, useRangerConnectFetch } from '../../../hooks';
-import { selectUserLoggedIn } from '../../../modules';
-import { Avatar } from './../../assets/icons';
 import { NewAllMarketList } from './../../components';
 import { BoxImg } from './BoxImg';
 import { MarketsTop } from './MarketTop';
@@ -17,15 +14,6 @@ const NewHomePage = () => {
 	useRangerConnectFetch();
 	useDepthFetch();
 	useEventsFetch();
-	const userLoggedIn = useSelector(selectUserLoggedIn);
-	const [linkToProfile, setLinkToProfile] = useState('/signin');
-	useEffect(() => {
-		if (userLoggedIn) {
-			setLinkToProfile('/profile');
-		} else {
-			setLinkToProfile('/signin');
-		}
-	}, [userLoggedIn]);
 
 	const renderDirectionals = () => {
 		const settings = {
@@ -39,13 +27,6 @@ const NewHomePage = () => {
 		return (
 			<React.Fragment>
 				<Slider className="td-mobile-screen-home__direction__list-item" {...settings}>
-					<div>
-						<Link to="/wallets" className="td-mobile-screen-home__direction__list-item__item">
-							<WalletOutlined />
-							<span>Deposit</span>
-						</Link>
-					</div>
-
 					<div>
 						<Link to="/ieo" className="td-mobile-screen-home__direction__list-item__item">
 							<ExperimentOutlined />
@@ -80,15 +61,6 @@ const NewHomePage = () => {
 
 	return (
 		<div className="td-mobile-screen-home">
-			<div className="td-mobile-screen-home__header">
-				<div className="td-mobile-screen-home__header__info">
-					<Link to={linkToProfile}>
-						<Avatar />
-					</Link>
-					<div className="td-mobile-screen-home__header__info__desc"></div>
-				</div>
-			</div>
-
 			<div className="td-mobile-screen-home__box-img">
 				<BoxImg />
 			</div>
