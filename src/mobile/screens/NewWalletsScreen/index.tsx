@@ -4,6 +4,7 @@ import { ConvertUsd } from 'components';
 import { calcWalletsData } from 'helpers';
 import { useAllChildCurrenciesFetch, useDocumentTitle, useWalletsFetch } from 'hooks';
 import { SearchIcon } from 'mobile/assets/icons';
+import { EstimatedValue } from 'mobile/components/EstimatedValue';
 import React, { useState } from 'react';
 import { DebounceInput } from 'react-debounce-input';
 import { useSelector } from 'react-redux';
@@ -62,6 +63,7 @@ export const NewWalletsMobileScreen = () => {
 
 	return (
 		<div className="td-mobile-wallets">
+			<EstimatedValue />
 			<div className="td-mobile-wallets__header">
 				<label className="td-mobile-wallets__header__search-box" htmlFor="td-mobile-wallets-search-box">
 					<SearchIcon className="td-mobile-wallets__header__search-box__icon" />

@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 import { ConvertUsd, Decimal, mapValues } from 'components';
-import { accumulateVolume, calcMaxVolume } from 'helpers';
+import { newAccumulateVolume } from 'helpers';
 import get from 'lodash/get';
+import max from 'lodash/max';
 import millify from 'millify';
 import {
 	selectCurrentMarket,
@@ -32,7 +33,7 @@ const OrderBookComponent: React.FC<OrderBookProps> = props => {
 	const currentPrice = useSelector(selectCurrentPrice);
 	const marketTickers = useSelector(selectMarketTickers);
 	const renderOrderBook = (array: string[][], side: string, message: string): Array<[string, string]> => {
-		let total = accumulateVolume(array);
+		let total = newAccumulateVolume(array);
 		const priceFixed = currentMarket ? currentMarket.price_precision : 0;
 		const amountFixed = currentMarket ? currentMarket.amount_precision : 0;
 
@@ -42,7 +43,7 @@ const OrderBookComponent: React.FC<OrderBookProps> = props => {
 
 					switch (side) {
 						case 'asks':
-							total = accumulateVolume(array).slice(0).reverse();
+							total = newAccumulateVolume(array).slice(0).reverse();
 							const volumnCustom =
 								total[i] > 10000000
 									? millify(total[i], {
@@ -101,13 +102,14 @@ const OrderBookComponent: React.FC<OrderBookProps> = props => {
 		return props.horizontal ? data.slice(0).reverse() : data;
 	}, [asks, props.horizontal]);
 	const dataBids = React.useMemo(() => renderOrderBook(bids, 'bids', intl.formatMessage({ id: 'page.noDataToShow' })), [bids]);
-	const maxVolume = calcMaxVolume(bids, asks);
-	const orderBookEntryAsks = accumulateVolume(asks);
-	const orderBookEntryBids = accumulateVolume(bids);
+	const maxVolumeAsk = max(asks.map(a => Number(a[1])));
+	const maxVolumeBid = max(bids.map(a => Number(a[1])));
+	const orderBookEntryAsks = newAccumulateVolume(asks);
+	const orderBookEntryBids = newAccumulateVolume(bids);
 	const bgDataAsks = props.horizontal
-		? mapValues(maxVolume, orderBookEntryAsks)
-		: mapValues(maxVolume, orderBookEntryAsks).slice(0).reverse();
-	const bgDataBids = mapValues(maxVolume, orderBookEntryBids);
+		? mapValues(maxVolumeAsk, orderBookEntryAsks)
+		: mapValues(maxVolumeAsk, orderBookEntryAsks).slice(0).reverse();
+	const bgDataBids = mapValues(maxVolumeBid, orderBookEntryBids);
 
 	const getRowWidth = (side: 'bid' | 'ask', index: number) => {
 		const resultData = side === 'bid' ? bgDataBids : bgDataAsks;

@@ -22,7 +22,7 @@ const SelectedWalletMobileScreen = () => {
 			<Subheader
 				title={intl.formatMessage({ id: 'page.body.wallets.balance' })}
 				backTitle={intl.formatMessage({ id: 'page.mobile.wallets.title' })}
-				onGoBack={() => history.push('/wallets')}
+				onGoBack={() => history.goBack()}
 			/>
 			<WalletHeader currency={wallet.currency} name={wallet.name} iconUrl={wallet.iconUrl} />
 			<WalletBanner wallet={wallet} />

@@ -28,9 +28,23 @@
 		}
 
 		&__history {
-			color: #848e9c;
+			align-items: center;
+			display: flex;
 			font-size: 0.75em;
+			justify-content: flex-end;
 			text-align: right;
+
+			&,
+			&:hover,
+			&:focus,
+			&:active {
+				color: #848e9c;
+				text-decoration: none;
+			}
+
+			svg {
+				margin-left: 0.5em;
+			}
 		}
 	}
 

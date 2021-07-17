@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useCurrenciesFetch, useDocumentTitle, useWalletsFetch } from '../../../hooks';
 import { allChildCurrenciesFetch, selectAllChildCurrencies, selectWallets } from '../../../modules/user/wallets';
-import { EstimatedValueMobile, WalletItem } from '../../components';
+import { EstimatedValue, WalletItem } from '../../components';
 
 const WalletsMobileScreen: React.FC = () => {
 	const wallets = useSelector(selectWallets) || [];
@@ -24,7 +24,7 @@ const WalletsMobileScreen: React.FC = () => {
 
 	return (
 		<div>
-			<EstimatedValueMobile />
+			<EstimatedValue />
 			{wallets
 				.filter(wallet => !all_child_currencies.map(cur => cur.id).includes(wallet.currency))
 				.map((wallet, index) => (

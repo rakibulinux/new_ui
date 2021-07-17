@@ -1,5 +1,5 @@
+import { GoBackIcon } from 'mobile/assets/icons';
 import * as React from 'react';
-import { ArrowIcon } from '../../../containers/ToolBar/icons/ArrowIcon';
 
 interface Props {
 	backTitle?: string;
@@ -11,8 +11,9 @@ const SubheaderComponent = (props: Props) => {
 	return (
 		<div className="td-mobile-subheader">
 			<div className="td-mobile-subheader__back" onClick={props.onGoBack}>
-				<ArrowIcon />
-				<span className="td-mobile-subheader__back-item">{props.backTitle}</span>
+				<GoBackIcon />
+				{/* temporarily closed */}
+				<span className="td-mobile-subheader__back-item d-none">{props.backTitle}</span>
 			</div>
 			<div className="td-mobile-subheader__title">{props.title}</div>
 			<div className="td-mobile-subheader__close" />
