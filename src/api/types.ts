@@ -6,7 +6,9 @@ export interface Config {
 		rangerUrl: string;
 		arkeUrl: string;
 		finexUrl: string;
+		ieoAPIUrl: string;
 		sunshineUrl: string;
+		stakeUrl: string;
 	};
 	minutesUntilAutoLogout?: string;
 	rangerReconnectPeriod?: string;

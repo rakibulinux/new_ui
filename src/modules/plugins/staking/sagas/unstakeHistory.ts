@@ -1,19 +1,25 @@
-import { put } from 'redux-saga/effects';
-import axios from '../../../../plugins/api/index';
+import { API, RequestOptions } from 'api';
+import { stringify } from 'querystring';
+import { call, put } from 'redux-saga/effects';
 
 import { unStakeHistoryData, UnStakeHistoryFetch } from '../actions';
-import { StakeHistory } from '../types';
+
+const createOptions = (csrfToken?: string): RequestOptions => {
+	return { apiVersion: 'stake', headers: { 'X-CSRF-Token': csrfToken } };
+};
 
 export function* fetchUnStakeHistory(action: UnStakeHistoryFetch) {
 	try {
 		const { uid, currency_id } = action.payload;
 		if (uid && currency_id) {
-			const histories = yield axios.get<StakeHistory[]>(
-				`stake/history/unstake/fetch/uid=${uid}/currency_id=${currency_id}`,
+			const histories = yield call(
+				API.get(createOptions()),
+				`/private/stake/history/unstaked?${stringify(action.payload)}`,
 			);
+
 			yield put(
 				unStakeHistoryData({
-					payload: [...histories.data],
+					payload: [...histories],
 					loading: false,
 				}),
 			);

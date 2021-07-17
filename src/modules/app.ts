@@ -53,7 +53,14 @@ import { profileReducer } from './user/profile';
 import { userActivityReducer } from './user/userActivity';
 import { allChildCurrenciesReducer, childCurrenciesReducer, walletsReducer } from './user/wallets';
 import { withdrawLimitReducer } from './user/withdrawLimit';
-
+import {
+	IEOItemReducer,
+	IEOListReducer,
+	buyIEOReducer,
+	BuyHistoryReducer,
+	BuyersHistoryReducer,
+	totalIEOBuyersReducer,
+} from './plugins/ieo';
 export const eventsReducer = combineReducers({
 	lunar: lunarReducer,
 });
@@ -75,7 +82,14 @@ export const saleReducer = combineReducers({
 	price: priceReducer,
 	totalBuyers: totalBuyersReducer,
 });
-
+export const IEOReducer = combineReducers({
+	IEOItem: IEOItemReducer,
+	IEOList: IEOListReducer,
+	buyIEO: buyIEOReducer,
+	buyHistory: BuyHistoryReducer,
+	buyersHistory: BuyersHistoryReducer,
+	totalIEOBuyers: totalIEOBuyersReducer,
+});
 export const tradingCompetitionsReducer = combineReducers({
 	competitions: competitionsListReducer,
 	competition_item: competitionItemReducer,

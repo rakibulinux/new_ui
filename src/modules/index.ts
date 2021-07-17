@@ -10,6 +10,7 @@ import {
 	pluginsReducer,
 	publicReducer,
 	saleReducer,
+	IEOReducer,
 	tradingCompetitionsReducer,
 	userReducer,
 } from './app';
@@ -43,7 +44,11 @@ import { DepthIncrementState, DepthState, OrderBookState, rootOrderBookSaga } fr
 import { RangerState } from './public/ranger/reducer';
 import { RecentTradesState, rootRecentTradesSaga } from './public/recentTrades';
 import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
+import { BuyIEOLoadingState, rootBuyIEOSaga, TotalIEOBuyersState } from './plugins/ieo';
 import { PriceState, rootPriceSaga } from './sale/price';
+import { IEOItemState, rootIEOItemSaga } from './plugins/ieo/item';
+import { IEOListState, rootIEOListSaga } from './plugins/ieo/list';
+import { BuyersHistoryState, BuyHistoryListState, rootHistoryBuySaga } from './plugins/ieo/history';
 import { rootSaleItemSaga, SaleItemState } from './sale/sale-item';
 import { rootSaleListSaga, SaleListState } from './sale/sale-list';
 import { CompetitionItemState, rootcompetitionItemSaga } from './trading_competitions/competition_item';
@@ -116,11 +121,19 @@ export * from './user/profile';
 export * from './user/userActivity';
 export * from './user/wallets';
 export * from './user/withdrawLimit';
-
+export * from './plugins/ieo';
 export interface RootState {
 	airdrops: {
 		airdrops: AirdropState;
 		claims: ClaimState;
+	};
+	IEO: {
+		IEOItem: IEOItemState;
+		IEOList: IEOListState;
+		buyIEO: BuyIEOLoadingState;
+		totalIEOBuyers: TotalIEOBuyersState;
+		buyersHistory: BuyersHistoryState;
+		buyHistory: BuyHistoryListState;
 	};
 	sale: {
 		saleList: SaleListState;
@@ -210,6 +223,7 @@ export const rootReducer = combineReducers({
 	airdrops: airdropsReducer,
 	ethFee: ethFeesReducer,
 	sale: saleReducer,
+	IEO: IEOReducer,
 	trading_competitions: tradingCompetitionsReducer,
 	info: infoReducer,
 	events: eventsReducer,
@@ -255,6 +269,10 @@ export function* rootSaga() {
 		call(rootETHFeeWithdrawSaga),
 		call(rootSaleListSaga),
 		call(rootSaleItemSaga),
+		call(rootIEOItemSaga),
+		call(rootIEOListSaga),
+		call(rootBuyIEOSaga),
+		call(rootHistoryBuySaga),
 		call(rootBuySaga),
 		call(rootPriceSaga),
 		call(rootCompetionsListSaga),

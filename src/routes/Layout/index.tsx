@@ -60,8 +60,8 @@ import {
 } from '../../modules';
 import { CustomizationDataInterface, customizationFetch, selectCustomizationData } from '../../modules/public/customization';
 import { AirdropDetail, AirdropList } from '../../plugins/Airdrop';
-import { SaleListScreen } from '../../plugins/Sale';
-import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
+import { IEOListingScreen } from '../../plugins/IEO/screen/IEOListingScreen';
+import { IEODetailScreen } from '../../plugins/IEO/screen/IEODetailScreen';
 import { TradingScreen } from '../../plugins/Trading/screens/TradingScreen';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
 import {
@@ -379,6 +379,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/accounts/confirmation"
 						component={VerificationScreen}
 					/>
+
 					<PublicRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}
@@ -397,7 +398,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/email-verification"
 						component={EmailVerificationScreen}
 					/>
-
 					<Route path="/404" component={RestrictedScreen} />
 					<Route path="/500" component={MaintenanceScreen} />
 					<Route exact={false} path="/trading/:market?" component={TradingScreen} />
@@ -405,7 +405,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route exact={false} path="/fee" component={AssetsFeeScreen} />
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />
-
 					<PrivateRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}
@@ -450,7 +449,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						exact
 						component={WithdrawScreen}
 					/>
-
 					<PrivateRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}
@@ -464,9 +462,9 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/airdrop/detail/:airdropID"
 						component={AirdropDetail}
 					/>
+					<Route path="/ieo" exact component={IEOListingScreen} />
+					<Route path="/ieo/detail/:ieoID" exact component={IEODetailScreen} />
 					<Route path="/vote" exact component={VoteScreen} />
-					<Route path="/ieo" exact component={SaleListScreen} />
-					<Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
 					<Route path="/trading-competition" exact component={TradingCompetionListScreen} />
 					<Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
 					<Route path="/stake" exact component={StakingListScreen} />

@@ -9,7 +9,9 @@ export const defaultConfig: Config = {
 		rangerUrl: '',
 		arkeUrl: '',
 		finexUrl: '',
+		ieoAPIUrl: '',
 		sunshineUrl: '',
+		stakeUrl: '',
 	},
 	minutesUntilAutoLogout: '30',
 	rangerReconnectPeriod: '1',
@@ -44,6 +46,8 @@ window.env = window.env || defaultConfig;
 Cryptobase.config = { ...window.env };
 //hot custome env
 Cryptobase.config.api.sunshineUrl = Cryptobase.config.api.sunshineUrl || '/api/v2/sunshine';
+Cryptobase.config.api.stakeUrl = Cryptobase.config.api.stakeUrl || '/api/v2/stake';
+Cryptobase.config.api.ieoAPIUrl = Cryptobase.config.api.ieoAPIUrl || '/api/v2/ieo';
 //end custome env
 Cryptobase.config.storage = Cryptobase.config.storage || {};
 
@@ -51,6 +55,8 @@ export const tradeUrl = () => Cryptobase.config.api.tradeUrl;
 export const authUrl = () => Cryptobase.config.api.authUrl;
 export const applogicUrl = () => Cryptobase.config.api.applogicUrl;
 export const sunshineUrl = () => Cryptobase.config.api.sunshineUrl;
+export const ieoAPIUrl = () => Cryptobase.config.api.ieoAPIUrl;
+export const stakeUrl = () => Cryptobase.config.api.stakeUrl;
 export const rangerUrl = () => Cryptobase.config.api.rangerUrl;
 export const arkeUrl = () => Cryptobase.config.api.arkeUrl || tradeUrl();
 export const finexUrl = () => Cryptobase.config.api.finexUrl || tradeUrl();

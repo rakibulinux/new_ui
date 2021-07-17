@@ -58,7 +58,6 @@ export interface StakeWalletFetch {
 	type: typeof STAKE_WALLET_FETCH;
 	payload: {
 		uid: string;
-		currency_id: string;
 	};
 }
 

@@ -1,0 +1,74 @@
+#buy-confirm-modal {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	left: 1%;
+	margin: auto;
+	position: absolute;
+	top: 25%;
+	width: 98%;
+	z-index: 1;
+
+	#buy-confirm-modal-header {
+		background-color: var(--subheader-background-color);
+		border-bottom: 1px solid #ffff;
+		height: 50px;
+		text-align: center;
+		width: 100%;
+
+		h2 {
+			font-size: 20px;
+		}
+	}
+
+	#buy-confirm-modal-body {
+		background-color: var(--body-background-color-level-8);
+		color: #fff;
+		height: 200px;
+		position: static;
+		width: 100%;
+
+		.infor-price {
+			background-color: rgb(18 17 19 / 26%);
+			height: 150px;
+			margin-top: 15px;
+
+			.base-title-content {
+				margin-top: 50px;
+			}
+
+			.information_to_Buy {
+				display: flex;
+				font-size: 20px;
+				padding-left: 4rem;
+
+				p {
+					color: #ffff;
+				}
+			}
+
+			.up {
+				color: green;
+			}
+
+			.down {
+				color: yellow;
+			}
+		}
+
+		.bonus {
+			margin-top: 5px;
+			text-align: center;
+		}
+	}
+
+	#buy-confirm-modal-footer {
+		background: #313445;
+		border-top: 1px solid #303030;
+		color: #fff;
+		display: flex;
+		height: 40px;
+		justify-content: space-around;
+		width: 100%;
+	}
+}
