@@ -39,10 +39,12 @@ const DepositSubHeader = props => {
 
 	return (
 		<div className="td-mobile-screen-deposit__header">
-			<div onClick={() => history.goBack()}>{BackSVG}</div>{' '}
+			<div className="td-mobile-screen-deposit__header__back" onClick={() => history.goBack()}>
+				{BackSVG}
+			</div>
 			<h3 className="td-mobile-wallet-detail__header__title">Deposit</h3>
 			<Link className="td-mobile-wallet-detail__header__history" to={`/wallets/${currency}/history`}>
-				{HistorySVG}
+				History {HistorySVG}
 			</Link>
 		</div>
 	);
@@ -85,7 +87,7 @@ const DepositBody = props => {
 	}, [currency, dispatch]);
 
 	const renderTabBody = (currency: string) => {
-		const QR_SIZE = 200;
+		const QR_SIZE = 118;
 		const walletAddress = formatCCYAddress(currency, selectedWalletAddress);
 		const wallet = wallets.find(wallet => wallet.currency === currency) || {
 			type: 'fiat',
@@ -121,10 +123,15 @@ const DepositBody = props => {
 			if (wallet && wallet.type === 'coin') {
 				return (
 					<div className="tab-body" hidden={!walletAddress}>
-						<div className="py-4 text-center">
-							<QRCode dimensions={size} data={walletAddress} />
+						<div className="py-3 d-flex flew-row justify-content-between align-items-center">
+							<div>
+								<DepositNotes currency={currency} />
+							</div>
+							<div>
+								<QRCode dimensions={size} data={walletAddress} />
+							</div>
 						</div>
-						<div className="py-4 deposit-address">
+						<div className="py-3 deposit-address">
 							<div className="deposit-address__title">Deposit address</div>
 							<input
 								readOnly
@@ -148,7 +155,7 @@ const DepositBody = props => {
 		} else {
 			return (
 				<div className="react-tabs__body" hidden={!walletAddress}>
-					<div className="py-4 deposit-address">
+					<div className="py-3 deposit-address">
 						<button onClick={handleGenerateAddress} className="deposit-address__copy-btn mt-3">
 							Generate deposit address
 						</button>
@@ -179,23 +186,9 @@ const DepositNotes = props => {
 	const { currency } = props;
 	const currencies = useSelector(selectCurrencies);
 	const { min_deposit_amount, deposit_fee } = currencies.find(cur => cur.id === currency) || { min_deposit_amount: null };
-	const cartSVG = (
-		<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<path
-				d="M4.8 12.8C3.92 12.8 3.208 13.52 3.208 14.4C3.208 15.28 3.92 16 4.8 16C5.68 16 6.4 15.28 6.4 14.4C6.4 13.52 5.68 12.8 4.8 12.8ZM0 0V1.6H1.6L4.48 7.672L3.4 9.632C3.272 9.856 3.2 10.12 3.2 10.4C3.2 11.28 3.92 12 4.8 12H14.4V10.4H5.136C5.024 10.4 4.936 10.312 4.936 10.2L4.96 10.104L5.68 8.8H11.64C12.24 8.8 12.768 8.472 13.04 7.976L15.904 2.784C15.968 2.672 16 2.536 16 2.4C16 1.96 15.64 1.6 15.2 1.6H3.368L2.616 0H0ZM12.8 12.8C11.92 12.8 11.208 13.52 11.208 14.4C11.208 15.28 11.92 16 12.8 16C13.68 16 14.4 15.28 14.4 14.4C14.4 13.52 13.68 12.8 12.8 12.8Z"
-				fill="white"
-			/>
-		</svg>
-	);
-
 	return (
 		<div className="td-mobile-screen-deposit__notes">
-			<hr style={{ border: '1px solid #848E9C' }} />
-
-			<div className="td-mobile-screen-deposit__notes__header">
-				<p className="text-white">{cartSVG} No Tokens, Go buy</p>
-			</div>
-			<div className="depost-notes__body">
+			<div className="td-mobile-screen-deposit__notes__body">
 				<p className="text-warning"> 1. Coins will be deposited after 1 network confirmations.</p>
 				<p>
 					2. Min Deposit: {min_deposit_amount ?? 'Unavailble'} {String(currency).toUpperCase()}
@@ -228,7 +221,6 @@ export const DepositMobileScreen = () => {
 		<div className="td-mobile-screen-deposit">
 			<DepositSubHeader currency={currency} />
 			<DepositBody currency={currency} />
-			<DepositNotes currency={currency} />
 		</div>
 	);
 };

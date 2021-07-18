@@ -35,10 +35,12 @@ const WithdrawSubHeader = props => {
 
 	return (
 		<div className="td-mobile-screen-withdraw__header">
-			<div onClick={() => history.goBack()}>{BackSVG}</div>
+			<div className="td-mobile-screen-withdraw__header__back" onClick={() => history.goBack()}>
+				{BackSVG}
+			</div>
 			<h3 className="td-mobile-wallet-detail__header__title">Withdraw</h3>
 			<Link className="td-mobile-wallet-detail__header__history" to={`/wallets/${currency}/history`}>
-				{HistorySVG}
+				History {HistorySVG}
 			</Link>
 		</div>
 	);
