@@ -284,7 +284,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 							</p>
 						</div>
 					</div>
-					<label htmlFor="quantityToBuy" className="mt-5">
+					<label htmlFor="quantityToBuy" className="mt-3">
 						Quantity to buy :
 					</label>
 					<div id="buy-ieo-body-payment" style={{ padding: '0' }} className="d-flex flex-wrap input-group-body">
@@ -311,7 +311,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 					) : (
 						''
 					)}
-					<label htmlFor="buy-ieo-body-input-price" className="mt-5">
+					<label htmlFor="buy-ieo-body-input-price" className="mt-3">
 						At The Price :
 					</label>
 					<div id="buy-ieo-body-price" style={{ padding: '0' }} className="d-flex flex-wrap input-group-body">
@@ -332,7 +332,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 						></input>
 						<span id="denominations-coin">{selectedCurrencyState}</span>
 					</div>
-					<label htmlFor="quantityToBuy" className="mt-5">
+					<label htmlFor="quantityToBuy" className="mt-3">
 						Total :
 					</label>
 					<div id="buy-ieo-body-total" style={{ padding: '0' }} className="d-flex flex-wrap input-group-body">

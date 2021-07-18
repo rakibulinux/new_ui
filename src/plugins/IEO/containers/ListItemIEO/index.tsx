@@ -19,7 +19,7 @@ export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 		);
 	};
 	return (
-		<div id="ioe-listing-screen-ieos" className="row mt-5">
+		<div id="ioe-listing-screen-ieos" className="row mt-3">
 			{!IEOList.length
 				? EmptyComponent()
 				: IEOList.map((item, index) => {
