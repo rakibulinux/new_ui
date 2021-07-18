@@ -37,6 +37,60 @@
 		}
 	}
 
+	&__announcment {
+		align-items: stretch;
+		border-bottom: 1px solid#848E9C;
+		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+		display: flex;
+		justify-content: space-between;
+		margin: 0 0.875em;
+		padding: 0.6em 0;
+
+		& > * {
+			line-height: 1.5em;
+		}
+
+		&__slider {
+			flex: 1;
+			height: 100%;
+			position: relative;
+
+			&__inner {
+				bottom: 0;
+				left: 0;
+				position: absolute;
+				right: 0;
+				top: 0;
+
+				.slick-slider {
+					width: 100%;
+
+					.slick-slide {
+						& > div {
+							align-items: center;
+							display: flex;
+							overflow: hidden;
+						}
+					}
+				}
+			}
+		}
+
+		&__to-post {
+			font-size: 0.75em;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+
+			&,
+			&:hover,
+			&:focus,
+			&:active {
+				color: #fff;
+			}
+		}
+	}
+
 	&__market-top {
 		padding: 0.875em;
 
