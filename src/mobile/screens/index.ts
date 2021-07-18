@@ -29,3 +29,4 @@ export * from './NewTradingScreen';
 export * from './NewSignUp';
 export * from './NewSignIn';
 export * from './NewForgotPassword';
+export * from './NewWalletHistory';

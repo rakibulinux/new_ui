@@ -1,5 +1,12 @@
 .td-mobile-wallet-detail {
-	padding: 0.625em 0.8em;
+	padding: 0.625em 0.875em;
+
+	a,
+	a:hover,
+	a:focus,
+	a:active {
+		text-decoration: none;
+	}
 
 	&__header {
 		align-items: center;
@@ -39,7 +46,6 @@
 			&:focus,
 			&:active {
 				color: #848e9c;
-				text-decoration: none;
 			}
 
 			svg {
@@ -96,6 +102,10 @@
 				padding: 0.5em 1.25em;
 				text-align: center;
 				width: 8em;
+
+				&:hover {
+					color: #fff;
+				}
 
 				&--green {
 					background: #2fb67e;

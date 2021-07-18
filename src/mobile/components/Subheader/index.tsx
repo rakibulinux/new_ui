@@ -10,8 +10,8 @@ interface Props {
 const SubheaderComponent = (props: Props) => {
 	return (
 		<div className="td-mobile-subheader">
-			<div className="td-mobile-subheader__back" onClick={props.onGoBack}>
-				<GoBackIcon />
+			<div className="td-mobile-subheader__back">
+				<GoBackIcon onClick={props.onGoBack} />
 				{/* temporarily closed */}
 				<span className="td-mobile-subheader__back-item d-none">{props.backTitle}</span>
 			</div>

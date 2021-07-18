@@ -81,13 +81,13 @@ const HistoryTable = (props: any) => {
 			});
 	};
 	const mapRows = row => {
-		return <div className="td-mobile-history-table__row">{row}</div>;
+		return <div className="td-mobile-cpn-history-table__row">{row}</div>;
 	};
 
 	const tableData = retrieveData().map(row => row.map(mapRows));
 
 	return (
-		<div className="td-mobile-history-table">
+		<div className="td-mobile-cpn-history-table">
 			<Table data={tableData} />
 			<Pagination
 				firstElemIndex={firstElemIndex}

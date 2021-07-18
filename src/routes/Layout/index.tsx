@@ -28,6 +28,7 @@ import {
 	NewSignUpMobileScreen,
 	NewTradingScreenMobile,
 	NewWalletDetail,
+	NewWalletHistoryMobileScreen,
 	NewWalletsMobileScreen,
 	OrdersMobileScreen,
 	ProfileAccountActivityMobileScreen,
@@ -38,7 +39,6 @@ import {
 	ProfileMobileScreen,
 	ProfileThemeMobileScreen,
 	ProfileVerificationMobileScreen,
-	SelectedWalletMobileScreen,
 	WithdrawMobileScreen,
 } from '../../mobile/screens';
 import {
@@ -287,7 +287,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							loading={userLoading}
 							isLogged={isLoggedIn}
 							path="/wallets/:currency/history"
-							component={SelectedWalletMobileScreen}
+							component={NewWalletHistoryMobileScreen}
 						/>
 						<PrivateRoute
 							loading={userLoading}

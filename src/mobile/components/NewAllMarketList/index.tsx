@@ -216,8 +216,8 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 
 	const renderTab = () => {
 		const classname = (nameTab: String) =>
-			classNames('td-mobile-screen-market__body__selection__box__item', {
-				'td-mobile-screen-market__body__selection__box__item--active': nameTab === tab,
+			classNames('td-mobile-cpn-all-market__body__selection__box__item', {
+				'td-mobile-cpn-all-market__body__selection__box__item--active': nameTab === tab,
 			});
 
 		return listTab.map((name, i) => {
@@ -232,33 +232,33 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 	const renderHeaderTable = () => {
 		const listHeader = ['Trading Pairs', 'Latest  Price', '24h Change'];
 		const renderUiHeader = listHeader.map((name, i) => {
-			let classActiveUpDown = 'd-flex flex-column justify-content-center td-mobile-screen-market__body__info__item__icon';
+			let classActiveUpDown = 'd-flex flex-column justify-content-center td-mobile-cpn-all-market__body__info__item__icon';
 
 			switch (name) {
 				case 'Trading Pairs':
 					if (isSort.pairs) {
 						classActiveUpDown = classNames(
-							'd-flex flex-column justify-content-center td-mobile-screen-market__body__info__item__icon',
-							{ 'td-mobile-screen-market__body__info__item__icon--active-up': sortBy.pairs },
-							{ 'td-mobile-screen-market__body__info__item__icon--active-down': !sortBy.pairs },
+							'd-flex flex-column justify-content-center td-mobile-cpn-all-market__body__info__item__icon',
+							{ 'td-mobile-cpn-all-market__body__info__item__icon--active-up': sortBy.pairs },
+							{ 'td-mobile-cpn-all-market__body__info__item__icon--active-down': !sortBy.pairs },
 						);
 					}
 					break;
 				case 'Latest  Price':
 					if (isSort.price) {
 						classActiveUpDown = classNames(
-							'd-flex flex-column justify-content-center td-mobile-screen-market__body__info__item__icon',
-							{ 'td-mobile-screen-market__body__info__item__icon--active-up': !sortBy.price },
-							{ 'td-mobile-screen-market__body__info__item__icon--active-down': sortBy.price },
+							'd-flex flex-column justify-content-center td-mobile-cpn-all-market__body__info__item__icon',
+							{ 'td-mobile-cpn-all-market__body__info__item__icon--active-up': !sortBy.price },
+							{ 'td-mobile-cpn-all-market__body__info__item__icon--active-down': sortBy.price },
 						);
 					}
 					break;
 				case '24h Change':
 					if (isSort.change) {
 						classActiveUpDown = classNames(
-							'd-flex flex-column justify-content-center td-mobile-screen-market__body__info__item__icon',
-							{ 'td-mobile-screen-market__body__info__item__icon--active-up': !sortBy.change },
-							{ 'td-mobile-screen-market__body__info__item__icon--active-down': sortBy.change },
+							'd-flex flex-column justify-content-center td-mobile-cpn-all-market__body__info__item__icon',
+							{ 'td-mobile-cpn-all-market__body__info__item__icon--active-up': !sortBy.change },
+							{ 'td-mobile-cpn-all-market__body__info__item__icon--active-down': sortBy.change },
 						);
 					}
 					break;
@@ -268,9 +268,11 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 
 			return (
 				<th key={i}>
-					<div className={classNames('td-mobile-screen-market__body__info d-flex', { 'justify-content-end': i !== 0 })}>
+					<div
+						className={classNames('td-mobile-cpn-all-market__body__info d-flex', { 'justify-content-end': i !== 0 })}
+					>
 						<div className="d-flex" onClick={() => onSort(name)}>
-							<div className="td-mobile-screen-market__body__info__item ">{name}</div>
+							<div className="td-mobile-cpn-all-market__body__info__item ">{name}</div>
 							<div className={classActiveUpDown}>
 								<FaSortUp />
 								<FaSortDown />
@@ -315,9 +317,9 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 	};
 
 	return (
-		<div className="td-mobile-screen-market__body ">
-			<div className="td-mobile-screen-market__body__selection ">
-				<div className="td-mobile-screen-market__body__selection__box">{renderTab()}</div>
+		<div className="td-mobile-cpn-all-market__body ">
+			<div className="td-mobile-cpn-all-market__body__selection ">
+				<div className="td-mobile-cpn-all-market__body__selection__box">{renderTab()}</div>
 			</div>
 
 			{renderTable()}

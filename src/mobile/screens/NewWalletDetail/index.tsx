@@ -22,34 +22,32 @@ export const NewWalletDetail: FC = () => {
 	useWalletsFetch();
 	useAllChildCurrenciesFetch();
 
-	const wallets = useSelector(selectWallets);
-	const allChildCurrencies = useSelector(selectAllChildCurrencies);
-
-	const { currency } = useParams<{ currency: string }>();
-	const wallet = calcWalletsData(wallets, allChildCurrencies).find(_wallet => _wallet.currency === currency);
-	const hasTotalCurrency: string[] = calcWalletsData(wallets, allChildCurrencies)
-		.filter(_wallet => Number(_wallet.total) > 0)
-		.map(_wallet => _wallet.currency);
-
-	const history = useHistory();
-
-	if (!wallet) {
-		history.goBack();
-	}
-
 	// TODO: List Market
 	useMarketsFetch();
 	useMarketsTickersFetch();
 	useRangerConnectFetch();
 
+	const { currency } = useParams<{ currency: string }>();
+	const history = useHistory();
+
+	const wallets = useSelector(selectWallets);
+	const allChildCurrencies = useSelector(selectAllChildCurrencies);
 	const markets = useSelector(selectMarkets);
 	const [listMarket, setListMarket] = useState(markets);
-
 	useEffect(() => {
 		if (markets.length > 0) {
 			setListMarket(markets.filter(_market => hasTotalCurrency.includes(_market.quote_unit)));
 		}
 	}, [markets]);
+
+	const wallet = calcWalletsData(wallets, allChildCurrencies).find(_wallet => _wallet.currency === currency);
+	const hasTotalCurrency: string[] = calcWalletsData(wallets, allChildCurrencies)
+		.filter(_wallet => Number(_wallet.total) > 0)
+		.map(_wallet => _wallet.currency);
+
+	if (!wallet) {
+		history.goBack();
+	}
 
 	return (
 		<div className="td-mobile-wallet-detail">
