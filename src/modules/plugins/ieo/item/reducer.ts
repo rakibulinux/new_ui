@@ -19,6 +19,7 @@ export const initialIEOItem: IEOItemState = {
 		bonus: '',
 		social: {},
 		type: 'upcoming',
+		progress: 0,
 	},
 	loading: false,
 };

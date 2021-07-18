@@ -33,8 +33,11 @@ export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 									currencyAvailable={item.currency_available}
 									description={item.description}
 									bonus={item.bonus}
+									remains={Number(item.remains)}
+									total={Number(item.total_ieo)}
 									id={item.id}
 									key={index}
+									progress={item.progress}
 								/>
 							</div>
 						);
