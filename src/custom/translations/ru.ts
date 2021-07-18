@@ -671,6 +671,9 @@ export const ru: LangType = {
 	'page.body.customization.themes.theme.purple.title': 'Purple',
 	'page.body.customization.themes.theme.green.title': 'Green',
 
+	// waiting messages
+	'waiting.withdraw.action': 'Waiting. Withdrawal is processing',
+
 	// success messages
 	'success.addresses.accepted': 'Ваш адрес успешно приняты',
 	'success.documents.accepted': 'Ваши документы успешно приняты',
