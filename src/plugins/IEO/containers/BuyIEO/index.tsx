@@ -37,8 +37,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 	const [priceState, setPriceState] = React.useState(0);
 	const [totalPriceState, setTotalPriceState] = React.useState<number>(0);
 	const [isShowBuyConfirmModalState, setIsShowBuyConfirmModalState] = React.useState<boolean>(false);
-	const [checkedRegulationState, setCheckRegulationSate] = React.useState<boolean>(false);
-	const [isCitizenState, setIsCitizenState] = React.useState<boolean>(false);
+
 	const currencies = useSelector(selectCurrencies);
 	const wallets = useSelector(selectWallets);
 	const priceSelector = useSelector(selectPrice);
@@ -112,8 +111,6 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 	};
 	const buyIEOButton = () => {
 		const checkSatisfy =
-			checkedRegulationState &&
-			isCitizenState &&
 			Number(quantityState) !== 0 &&
 			props.minBuy <= Number(quantityState) &&
 			handleGetBalance(selectedCurrencyState) !== 0 &&
@@ -140,8 +137,6 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 			if (buyResponse.success) {
 				dispatch(resetBuyResponse());
 				setQuantityState(Number(props.minBuy).toString());
-				setIsCitizenState(false);
-				setCheckRegulationSate(false);
 			}
 		}
 	}, [buyResponse.loading]);
@@ -260,8 +255,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 								setSelectedCurrencyState(coin);
 								setQuoteBalanceState(handleGetBalance(coin));
 								setQuantityState(Number(props.minBuy).toString());
-								setIsCitizenState(false);
-								setCheckRegulationSate(false);
+
 								if (priceSelector.payload[coin.toUpperCase()]) {
 									setTotalPriceState(calculatePrice(props.priceIEO, priceSelector.payload[coin.toUpperCase()]));
 								}
@@ -355,39 +349,6 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 						<span id="denominations-coin">{selectedCurrencyState}</span>
 					</div>
 
-					<div id="regulations">
-						<div className="input-group d-flex">
-							<input
-								type="checkbox"
-								name="regulations-view-items"
-								id="regulations-view-items"
-								className="regulations-law"
-								checked={checkedRegulationState}
-								onChange={() => {
-									setCheckRegulationSate(!checkedRegulationState);
-								}}
-							></input>
-							<label htmlFor="regulations-view-items" className="ml-2" style={{ color: ' #848e9c' }}>
-								I agree with the token purchasing terms .
-								<a style={{ textDecoration: 'underline', cursor: 'pointer' }}>View Terms</a>
-							</label>
-						</div>
-						<div className="input-group d-flex">
-							<input
-								type="checkbox"
-								className="regulations-law"
-								name="check-citizen-ban"
-								id="isCitizenState"
-								checked={isCitizenState}
-								onChange={() => {
-									setIsCitizenState(!isCitizenState);
-								}}
-							></input>
-							<label htmlFor="check-citizen-ban" className="ml-2" style={{ color: ' #848e9c' }}>
-								I'm not a citizen of one of the countries that bans ICO trading.
-							</label>
-						</div>
-					</div>
 					{props.uid ? buyIEOButton() : returnLoginScreen()}
 				</div>
 			</div>

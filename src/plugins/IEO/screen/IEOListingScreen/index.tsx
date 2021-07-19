@@ -53,6 +53,7 @@ export const IEOListingScreen = () => {
 							onClick={() => {
 								handleViewListIEO('upcoming');
 							}}
+							style={{ borderRadius: ' 5px 0px 0px 5px' }}
 						>
 							Upcoming
 						</button>
@@ -71,6 +72,7 @@ export const IEOListingScreen = () => {
 							onClick={() => {
 								handleViewListIEO('ended');
 							}}
+							style={{ borderRadius: ' 0px 5px 5px 0px' }}
 						>
 							Ended
 						</button>
