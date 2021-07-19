@@ -136,7 +136,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 								}}
 							>
 								<span>
-									( IEO Bought ){' '}
+									( IEO Remains ){' '}
 									{`${
 										Number(remainsState) > 100000000
 											? millify(Number(remainsState), {
@@ -145,8 +145,8 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 											: Number(remainsState)
 									} `}
 								</span>
-								<span hidden={Number(totalState) <= 0}>{`  /  `}</span>
-								<span hidden={Number(totalState) <= 0}>
+								<span hidden={Number(remainsState) <= 0}>{`  /  `}</span>
+								<span hidden={Number(remainsState) <= 0}>
 									{' '}
 									{Number(totalState) > 100000000
 										? millify(Number(totalState), {
