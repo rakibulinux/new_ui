@@ -1,5 +1,6 @@
 import { Blur, DepositFiat, QRCode } from 'components';
 import { copy, formatCCYAddress, getTabName } from 'helpers';
+import { toUpper } from 'lodash';
 import {
 	alertPush,
 	currenciesFetch,
@@ -132,7 +133,9 @@ const DepositBody = props => {
 							</div>
 						</div>
 						<div className="py-3 deposit-address">
-							<div className="deposit-address__title">Deposit address</div>
+							<div className="deposit-address__title">
+								{intl.formatMessage({ id: 'page.mobile.wallet.deposit.generate' })}
+							</div>
 							<input
 								readOnly
 								id={`copy_deposit_${currency}`}
@@ -141,7 +144,7 @@ const DepositBody = props => {
 							/>
 
 							<button onClick={doCopy} className="deposit-address__copy-btn mt-3">
-								Copy address
+								{intl.formatMessage({ id: 'page.mobile.copy.text' })}
 							</button>
 						</div>
 						<div hidden={currencyItem && currencyItem.deposit_enabled} className="deposit-disabled">
@@ -157,7 +160,7 @@ const DepositBody = props => {
 				<div className="react-tabs__body" hidden={!walletAddress}>
 					<div className="py-3 deposit-address">
 						<button onClick={handleGenerateAddress} className="deposit-address__copy-btn mt-3">
-							Generate deposit address
+							{intl.formatMessage({ id: 'page.mobile.wallet.deposit.generate' })}
 						</button>
 					</div>
 				</div>
@@ -183,18 +186,30 @@ const DepositBody = props => {
 };
 
 const DepositNotes = props => {
+	const intl = useIntl();
 	const { currency } = props;
 	const currencies = useSelector(selectCurrencies);
 	const { min_deposit_amount, deposit_fee } = currencies.find(cur => cur.id === currency) || { min_deposit_amount: null };
 	return (
 		<div className="td-mobile-screen-deposit__notes">
-			<div className="td-mobile-screen-deposit__notes__body">
-				<p className="text-warning"> 1. Coins will be deposited after 1 network confirmations.</p>
+			<div className="td-mobile-screen-deposit__notes__body text-white">
 				<p>
-					2. Min Deposit: {min_deposit_amount ?? 'Unavailble'} {String(currency).toUpperCase()}
+					{intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.confirmation' }, { confirmations: 1 })}
 				</p>
 				<p>
-					3. Deposit Fee: {deposit_fee ?? 'Unavailble'} {String(currency).toUpperCase()}
+					{intl.formatMessage(
+						{ id: 'page.body.wallets.tabs.deposit.ccy.message.mindeposit' },
+						{ min_deposit_amount: min_deposit_amount ?? 'Unavailble', currency: toUpper(currency) },
+					)}
+				</p>
+				<p>
+					{intl.formatMessage(
+						{ id: 'page.body.wallets.tabs.deposit.ccy.message.depositfee' },
+						{ deposit_fee: deposit_fee ?? 'Unavailble', currency: toUpper(currency) },
+					)}
+				</p>
+				<p>
+					<strong style={{ color: '#FF6400' }}>Note: </strong>Only Deposit {toUpper(currency)} to this wallet
 				</p>
 			</div>
 		</div>
