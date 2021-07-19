@@ -25,9 +25,9 @@ export const IEOListingScreen = () => {
 
 	return (
 		<div id="ieo-listing-screen">
-			<div className="ieo-listing-screen__header" style={{ paddingLeft: '5px' }}>
-				<h3 style={{ marginBottom: '50px' }}>IEO</h3>
-				<div className="ieo-listing-function flex-wrap">
+			<div className="container ieo-listing-screen__header" style={{ paddingLeft: '0px' }}>
+				<h3 className="col-12">IEO</h3>
+				<div className="ieo-listing-function flex-wrap col-12">
 					<div className="input-list-function-search" style={{ width: '200px', height: '45px' }}>
 						<input
 							name="function-search"
@@ -77,7 +77,7 @@ export const IEOListingScreen = () => {
 					</div>
 				</div>
 			</div>
-			<div className="container-full">
+			<div className="container" style={{ borderRadius: '10px', boxShadow: ' 0 4px 8px -2px rgb(0 0 0 / 15%)' }}>
 				{listIEO.loading ? (
 					<div className="loading">
 						<div className="spinner-border text-primary" role="status">

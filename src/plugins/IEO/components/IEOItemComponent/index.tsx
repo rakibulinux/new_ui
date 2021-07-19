@@ -34,7 +34,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 		setProgressState(newProgress);
 		setTotalState(props.total);
 		setRemainsState(props.remains);
-	}, [props.progress]);
+	}, [props.progress, props.total, props.remains]);
 	const status = (color, type: string, date: Date) => {
 		return (
 			<div className="ieo-item-coin-time" style={{ background: `${color}` }}>
@@ -55,10 +55,6 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 		);
 	};
 
-	// 	const renderProgress = () => {
-	// 		return
-
-	// 	}
 	const renderStatus = (type: string) => {
 		switch (type) {
 			case 'ongoing':
@@ -102,13 +98,19 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 						style={{ width: '7rem', height: '7rem' }}
 					/>
 				</div>
+			</div>
+
+			<div className="ieo-item-content">
+				<h3>{props.description}</h3>
 				<div
 					className="ieo-item-coin-remains col-12 d-flex flex-wrap justify-content-center text-center
             "
 				>
-					<p className="col-12 text-white h5">{`Remains Token : ${progressState}%`}</p>
+					<div className="col-11 text-white h5" style={{ background: 'rgb(67,74,87)', borderRadius: '.25rem' }}>
+						<p style={{ fontSize: '1rem', marginTop: '1.2rem' }}>{`Remains Token : ${progressState}%`}</p>
+					</div>
 
-					<div className="col-12" style={{ position: 'relative' }}>
+					<div className="col-12" style={{ position: 'relative', margin: '5px' }}>
 						<div
 							className="progress"
 							style={{ width: '100%', background: 'rgba(132, 142, 156, 0.35)', height: '25px' }}
@@ -157,10 +159,6 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 						</div>
 					</div>
 				</div>
-			</div>
-
-			<div className="ieo-item-content">
-				<h3>{props.description}</h3>
 				<div className="ieo-item-currencies d-flex flex-row flex-wrap">
 					{props.currencyAvailable.map(currency => (
 						<div key={currency} className="ieo-item-currency">

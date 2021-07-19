@@ -266,6 +266,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 									setTotalPriceState(calculatePrice(props.priceIEO, priceSelector.payload[coin.toUpperCase()]));
 								}
 							}}
+							style={{ margin: '0.2rem' }}
 						>
 							{coin}
 						</button>
