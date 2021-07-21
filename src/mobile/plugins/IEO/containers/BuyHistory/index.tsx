@@ -1,120 +1,142 @@
-import { Table } from 'antd';
 import format from 'date-fns/format';
 import * as React from 'react';
-import api from '../../api';
+import classnames from 'classnames';
 
+import { fetchBuyHistory, selectBuyHistoryList } from './../../../../../modules';
+import { useDispatch, useSelector } from 'react-redux';
+import { formatNumber } from 'helpers';
 interface BuyHistoryProps {
-	uid: string;
 	ieoID: number;
-}
-
-interface BuyHistoryModel {
-	id: number;
 	uid: string;
-	quantity: string;
-	base_currency: string;
-	total: string;
-	quote_currency: string;
-	created_at: string;
 }
 
 export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) => {
-	const columns = [
-		{
-			title: 'Quantity',
-			dataIndex: 'quantity',
-			key: 'quantity',
-		},
-		{
-			title: 'Total Purchase',
-			dataIndex: 'total',
-			key: 'total',
-		},
-		{
-			title: 'Purchase Currency',
-			dataIndex: 'quote_currency',
-			key: 'quote_currency',
-		},
-		{
-			title: 'Buy Date',
-			dataIndex: 'created_at',
-			key: 'created_at',
-		},
-	];
+	const [numberPage, setNumberPage] = React.useState<number>(1);
+	const listHistory = useSelector(selectBuyHistoryList);
+	const pageSize = 5;
+	const dispatch = useDispatch();
+	React.useEffect(() => {
+		dispatch(
+			fetchBuyHistory({
+				uid: props.uid,
+				ieo_id: props.ieoID,
+				page: numberPage - 1,
+				pageSize: pageSize,
+			}),
+		);
+	}, [numberPage]);
+	const EmptyComponent = () => {
+		return (
+			<div className="col-12">
+				<div className="d-flex justify-content-center mb-3">
+					<img
+						src="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+						style={{ marginTop: '3rem' }}
+						alt="empty"
+					/>
+				</div>
+				<p className="col-12 text-center text-white h6">Don't Have History</p>
+			</div>
+		);
+	};
+	const loadingHistory = () => {
+		return (
+			<div className="loading d-flex -justify-content-center">
+				<div className="spinner-border text-primary m-auto" role="status">
+					<span className="sr-only">Loading...</span>
+				</div>
+			</div>
+		);
+	};
+	const disabledForwardClass = classnames('disable-forward');
+	const renderPagination = () => {
+		return (
+			<nav aria-label="Page navigation">
+				<ul className="pagination" style={{ justifyContent: 'flex-end' }}>
+					<li className="page-item">
+						<a
+							className={`page-link ${numberPage === 1 ? disabledForwardClass : ''}`}
+							aria-label="Previous"
+							onClick={() => {
+								if (numberPage > 1) {
+									setNumberPage(numberPage - 1);
+								}
+							}}
+						>
+							<span aria-hidden="true">«</span>
+							<span className="sr-only">Previous</span>
+						</a>
+					</li>
+					<li className="page-item">
+						<a className="page-link">{numberPage}</a>
+					</li>
 
-	const [tableState, setTableState] = React.useState({
-		data: [],
-		pagination: {
-			current: 1,
-			pageSize: 10,
-			total: 0,
-		},
-		loading: false,
-	});
-
-	const fetch = React.useCallback(
-		(params: any) => {
-			setTableState({ ...tableState, loading: true });
-			api.get(
-				`/ieo/fetch/buy/uid=${props.uid}/ieo_id=${props.ieoID}&page=${params.pagination.current - 1}&size=${
-					params.pagination.pageSize
-				}`,
-			)
-				.then(response => {
-					const data: any = [...response.data.payload];
-					const newData = data.map((buy: BuyHistoryModel) => {
-						const newdata = {
-							...buy,
-							key: buy.id,
-							base_currency: buy.base_currency.toUpperCase(),
-							quote_currency: buy.quote_currency.toUpperCase(),
-							quantity: Number(buy.quantity).toFixed(4),
-							total: Number(buy.total).toFixed(4),
-							created_at: format(new Date(buy.created_at), 'HH:mm:ss dd/MM/yyyy'),
-						};
-
-						return newdata;
-					});
-
-					setTableState({
-						loading: false,
-						data: newData,
-						pagination: {
-							...params.pagination,
-							pageSize: params.pagination.pageSize,
-							total: response.data.total,
-						},
-					});
-				})
-				.catch(err => {
-					//console.log(err);
-				});
-		},
-		[props.ieoID, props.uid, tableState],
-	);
-
-	const handleTableChange = pagination => {
-		fetch({
-			pagination,
+					<li className="page-item">
+						<a
+							className={`page-link ${numberPage * pageSize >= listHistory.total ? disabledForwardClass : ''}`}
+							aria-label="Next"
+							onClick={() => {
+								if (numberPage * pageSize < listHistory.total) {
+									setNumberPage(numberPage + 1);
+								}
+							}}
+						>
+							<span aria-hidden="true">»</span>
+							<span className="sr-only">Next</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+		);
+	};
+	const renderHistory = () => {
+		if (listHistory.loading && !listHistory.payload.length) {
+			return null;
+		}
+		return listHistory.payload.map((item, index) => {
+			return (
+				<React.Fragment key={index}>
+					<tr className="text-center" style={{ color: '#ffff' }}>
+						<td>{formatNumber(Number(item.quantity).toString())}</td>
+						<td>{item.base_currency.toUpperCase()}</td>
+						<td>{Number(item.total)}</td>
+						<td>{item.quote_currency.toUpperCase()}</td>
+						<td>{format(new Date(item.created_at), 'HH:mm:ss dd/MM/yyyy')}</td>
+					</tr>
+				</React.Fragment>
+			);
 		});
 	};
 
-	React.useEffect(() => {
-		const { pagination } = tableState;
-		fetch({ pagination });
-	}, []);
-
 	return (
 		<React.Fragment>
-			<h5 className="text-center text-info">Your Purchase</h5>
-			<Table
-				size="small"
-				pagination={tableState.pagination}
-				dataSource={tableState.data}
-				loading={tableState.loading}
-				columns={columns}
-				onChange={handleTableChange}
-			/>
+			<div id="buy-history">
+				<h4 className="text-center text-white">Your Purchase</h4>
+				<div className="table-responsive-sm mb-4">
+					<table>
+						<thead
+							style={{
+								background: 'rgba(0, 0, 0, 0.08)',
+								borderRadius: '3px',
+								boxSizing: 'border-box',
+								color: '#ffff',
+							}}
+						>
+							<tr className="text-center">
+								<th>Quantity</th>
+								<th>Currency</th>
+								<th>Total Purchase</th>
+								<th>Purchase Currency</th>
+								<th>Buy Date</th>
+							</tr>
+							<tr></tr>
+						</thead>
+						<tbody>{listHistory.loading ? <></> : renderHistory()}</tbody>
+					</table>
+					{listHistory.loading ? loadingHistory() : !listHistory.payload.length ? EmptyComponent() : <></>}
+				</div>
+				{renderPagination()}
+			</div>
 		</React.Fragment>
 	);
 };

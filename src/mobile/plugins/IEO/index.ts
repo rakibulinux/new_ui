@@ -1,3 +1,3 @@
-export * from './screens';
+export * from './screen';
 export * from './containers';
 export * from './components';

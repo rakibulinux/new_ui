@@ -1,14 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
-import { currenciesFetch, selectCurrencies } from '../../../../modules';
+import { currenciesFetch, selectCurrencies } from '../../../../../modules';
 import Countdown from 'react-countdown';
-
 import NP from 'number-precision';
 import millify from 'millify';
 interface IEOItemProps {
 	id: String;
-	type: 'ended' | 'ongoing' | 'upcoming';
+	type: string;
 	currencyId: string;
 	startDate: string;
 	endDate: string;
@@ -36,38 +35,39 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 		setTotalState(props.total);
 		setRemainsState(props.remains);
 	}, [props.progress, props.total, props.remains]);
-
-	const rendererCountdown = () => {
+	const status = (color, type: string, date: Date) => {
 		return (
-			<div className="col-md-12 ">
-				<Countdown date={new Date()} renderer={renderer} />
-			</div>
-		);
-	};
-	const status = (color, type: string) => {
-		return (
-			<div className="ieo-item-coin-time" style={{ background: `${color}` }}>
-				<p>{type}</p>
+			<div className="w-100" style={{ position: 'relative', height: '1.5rem' }}>
+				<div
+					className="ieo-item-coin-time text-white"
+					style={{ background: `${color}`, fontSize: '12px', lineHeight: '14px', position: 'absolute', right: 0 }}
+				>
+					<p style={{ margin: 0, padding: '5px' }}>
+						{type}
+						<Countdown date={date} renderer={renderer} />
+					</p>
+				</div>
 			</div>
 		);
 	};
 	const renderer = ({ days, hours, minutes, seconds, completed }) => {
-		return completed ? (
-			<div className="col-md-4" style={{ background: 'rgb(67,74,87)', borderRadius: '.25rem' }}>
+		return !completed ? (
+			<span>
 				{days} d : {hours} h : {minutes} m : {seconds} s
-			</div>
+			</span>
 		) : (
-			<p>haha</p>
+			<></>
 		);
 	};
-	const renderStatus = (type: 'ended' | 'ongoing' | 'upcoming') => {
+
+	const renderStatus = (type: string) => {
 		switch (type) {
 			case 'ongoing':
-				return status(`linear-gradient(90deg, #0E33CA 0%, #FD0056 100%)`, 'Running');
+				return status(`linear-gradient(90deg, #0E33CA 0%, #FD0056 100%)`, `Ends in `, new Date(props.endDate));
 			case 'upcoming':
-				return status(`#FF6400`, `Ongoing`);
+				return status(`#FF6400`, `Start in `, new Date(props.startDate));
 			case 'ended':
-				return status(`#858E9D`, 'Ended');
+				return status(`#858E9D`, 'Ended ', new Date());
 			default:
 				return `#ffff`;
 		}
@@ -76,17 +76,18 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 	const getCryptoIcon = (currencyID: string): string => {
 		const currency = currencies.find((cur: any) => cur.id === currencyID);
 		try {
-			return require(`../../../../../node_modules/cryptocurrency-icons/128/color/${currencyID.toLowerCase()}.png`);
+			return require(`../../../../../../node_modules/cryptocurrency-icons/128/color/${currencyID.toLowerCase()}.png`);
 		} catch (err) {
 			if (currency) {
 				return currency.icon_url;
 			}
-			return require('../../../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
+			return require('../../../../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
 		}
 	};
 	return (
 		<div
-			id="ieo-item"
+			id="ieo-item-mobile"
+			className="row"
 			onClick={() => {
 				const location = {
 					pathname: `/ieo/detail/${props.id}`,
@@ -94,24 +95,27 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 				history.push(location);
 			}}
 		>
-			<div className="ioe-item-header">
-				{renderStatus(props.type)}
+			<div className="ioe-item-header" style={{ width: '30%' }}>
 				<div className="ieo-item-coin-img">
-					<img
-						src={getCryptoIcon(props.currencyId.toUpperCase())}
-						alt={`${props.currencyId}-icon`}
-						style={{ width: '7rem', height: '7rem' }}
-					/>
+					<img src={getCryptoIcon(props.currencyId.toUpperCase())} alt={`${props.currencyId}-icon`} />
 				</div>
 			</div>
 
-			<div className="ieo-item-content">
-				<h3>{props.description}</h3>
+			<div className="ieo-item-content" style={{ width: '70%' }}>
+				{renderStatus(props.type)}
+				<h3 className="text-center" style={{ padding: '0.5rem' }}>
+					{props.description}
+				</h3>
 				<div
 					className="ieo-item-coin-remains col-12 d-flex flex-wrap justify-content-center text-center
             "
 				>
-					<div className="col-12 text-white">{rendererCountdown()}</div>
+					<div className="col-11 text-white h5" style={{ background: 'rgb(67,74,87)', borderRadius: '.25rem' }}>
+						<p
+							style={{ fontSize: '0.75rem', marginTop: '1.2rem', margin: '0.25rem' }}
+						>{`Remains Token : ${progressState}%`}</p>
+						<p style={{ fontSize: '0.65rem', margin: '0.25rem' }}>(IEO Remains / Total)</p>
+					</div>
 
 					<div className="col-12" style={{ position: 'relative', margin: '5px' }}>
 						<div
@@ -135,11 +139,9 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 									width: '100%',
 									height: '100%',
 									padding: '0 1rem',
-									fontSize: '1rem',
 								}}
 							>
 								<span>
-									( IEO Remains ){' '}
 									{`${
 										Number(remainsState) > 100000000
 											? millify(Number(remainsState), {
@@ -156,24 +158,23 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 												precision: 2,
 										  })
 										: Number(totalState)}{' '}
-									( Total )
 								</span>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div className="ieo-item-currencies d-flex flex-row flex-wrap">
-					{props.currencyAvailable.map(currency => (
-						<div key={currency} className="ieo-item-currency">
+					{props.currencyAvailable.map((currency, index) => (
+						<div key={index} className="ieo-item-currency">
 							<p>{currency}</p>
 						</div>
 					))}
 				</div>
-			</div>
 
-			<div className="ioe-item-footer">
-				<p className="ioe-item-footer-status">{`Buy ${props.currencyId.toUpperCase()}`}</p> <span>|</span>
-				<p className="ioe-item-footer-bonus">{`Bonus ${!props.bonus ? 0 : props.bonus}%`}</p>
+				<div className="ioe-item-footer">
+					<p className="ioe-item-footer-status">{`Buy ${props.currencyId.toUpperCase()}`}</p> <span>|</span>
+					<p className="ioe-item-footer-bonus">{`Bonus ${!props.bonus ? 0 : props.bonus}%`}</p>
+				</div>
 			</div>
 		</div>
 	);
