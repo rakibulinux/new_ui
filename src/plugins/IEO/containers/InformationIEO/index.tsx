@@ -18,20 +18,54 @@ export const InformationIEO = () => {
 			}),
 		);
 	}, []);
-
+	const {
+		name,
+		date,
+		price,
+		homepage,
+		bonus,
+		bonus_lockup,
+		softcap,
+		hardcap,
+		usage,
+		whitepaper,
+		tech,
+		twitter,
+	} = ieoDetail.payload || {
+		name: '',
+		date: '',
+		price: '',
+		homepage: '',
+		bonus: '',
+		bonus_lockup: '',
+		softcap: '',
+		hardcap: '',
+		usage: '',
+		whitepaper: '',
+		tech: '',
+	};
 	const information = {
-		name: ieoDetail.payload.name || '',
-		date: ieoDetail.payload.date || '',
-		price: ieoDetail.payload.price || '',
-		homepage: ieoDetail.payload.homepage || '',
-		bonus: ieoDetail.payload.bonus || '',
-		bonusLookup: ieoDetail.payload.bonus_lockup || '',
-		softcap: ieoDetail.payload.softcap || '',
-		hardcap: ieoDetail.payload.hardcap || '',
-		usage: ieoDetail.payload.usage || '',
-		whitepaper: ieoDetail.payload.whitepaper || '',
-		tech: ieoDetail.payload.tech || '',
-		sns: ieoDetail.payload.twitter || '',
+		name: name,
+		date: date,
+		price: price,
+		homepage: homepage,
+		bonus: bonus,
+		bonusLookup: bonus_lockup,
+		softcap: softcap,
+		hardcap: hardcap,
+		usage: usage,
+		whitepaper: whitepaper,
+		tech: tech,
+		sns: twitter,
+	};
+	const loadingSpinner = () => {
+		return (
+			<div className="loading d-flex -justify-content-center w-100">
+				<div className="spinner-border text-primary m-auto" role="status">
+					<span className="sr-only">Loading...</span>
+				</div>
+			</div>
+		);
 	};
 	const showInformationComponent = () => {
 		let content: Array<JSX.Element> = [];
@@ -56,7 +90,7 @@ export const InformationIEO = () => {
 				<h3>DETAIL</h3>
 			</div>
 			<div className="col-11 content row" style={{ padding: '0px' }}>
-				{showInformationComponent()}
+				{ieoDetail.loading ? loadingSpinner() : showInformationComponent()}
 			</div>
 			<div className="information-ieo-image col-11 d-flex justify-content-center" style={{ padding: '0px' }}>
 				<img src={imgDetail}></img>
