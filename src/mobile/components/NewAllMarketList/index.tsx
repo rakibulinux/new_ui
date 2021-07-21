@@ -33,9 +33,15 @@ const DEFAULT_LIST_TAB = ['Favorite', 'ALL', 'USDT', 'BTC', 'ETH', 'ALTS'];
 interface SearchProp {
 	valueSearch?: string;
 	setValueSearch?: (value: string) => void;
+	showPagination?: boolean;
 }
 // tslint:disable-next-line: no-empty
-export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setValueSearch = () => {} }) => {
+export const NewAllMarketList: React.FC<SearchProp> = ({
+	valueSearch = '',
+	// tslint:disable-next-line: no-empty
+	setValueSearch = () => {},
+	showPagination = true,
+}) => {
 	const tabsRef = useRef<HTMLDivElement>(null);
 	const markets = useSelector(selectMarkets);
 	const tickers = useSelector(selectMarketTickers);
@@ -240,7 +246,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 
 	const renderMenuDropdown = () => {
 		return (
-			<Menu>
+			<Menu style={{ background: '#313445' }}>
 				{listTab.map(name => (
 					<Menu.Item key={name} onClick={() => onChangeTab(name)}>
 						{name}
@@ -352,7 +358,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 				) : undefined}
 			</div>
 			{renderTable()}
-			{renderPagination()}
+			{showPagination ? renderPagination() : undefined}
 		</div>
 	);
 };
