@@ -1,15 +1,14 @@
-#referral {
+#mobile-referral {
 	.referral-banner {
 		background-position: center;
 		background-repeat: no-repeat;
 		background-size: cover;
 		height: 56vh;
 	}
-	.referral-rank {
+	&-rank {
 		padding: 50px 0;
 
 		.container {
-			width: 1040px;
 			max-width: 100%;
 
 			.referral-row {
@@ -79,11 +78,10 @@
 			}
 		}
 	}
-	.referral-loggedIn {
+	&-loggedIn {
 		padding: 25px 0 125px 0;
 
 		.container {
-			width: 1040px;
 			max-width: 100%;
 
 			.referral-loggedIn-userLogIn {
@@ -144,12 +142,11 @@
 			}
 		}
 	}
-	.referral-detail {
+	&-detail {
 		background: #262938;
 		padding: 50px 0;
 
 		.container{
-			width: 1040px;
 			max-width: 100%;
 
 			h2 {
@@ -166,17 +163,4 @@
 		
 	}
 }
-@media screen and (max-width: 1024px) {
-	#referral {
-		.referral-banner {
-			height: 40vh;
-		}
-	}
-}
-@media screen and (max-width: 768px) {
-	#referral {
-		.referral-banner {
-			height: 32vh;
-		}
-	}
-}
+

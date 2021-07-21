@@ -1,7 +1,4 @@
 import * as React from 'react';
-import { copy } from '../../helpers';
-import { useDispatch } from 'react-redux';
-import { alertPush } from '../../modules';
 
 import FB from './Assets/fb.svg';
 import TELE from './Assets/tg.svg';
@@ -10,13 +7,6 @@ import TW from './Assets/tw.svg';
 import QRcode from './Assets/QR_code.svg';
 
 export const ReferralContent: React.FC = () => {
-
-	const dispatch = useDispatch();
-
-	const handleCopyText = () => {
-		copy('referral-link');
-		dispatch(alertPush({ message: ['page.profileLinks.link.referral.success'], type: 'success' }));
-	};
 
 	const renderReferralContent = () => {
 
@@ -44,7 +34,6 @@ export const ReferralContent: React.FC = () => {
 										style={{
 											marginTop: '16px'
 										}}
-										onClick={handleCopyText}
 									>
 										<p>Referral Link:</p>
 										<input className="text-white"
@@ -54,12 +43,8 @@ export const ReferralContent: React.FC = () => {
 												borderRadius: '5px',
 												border: "none",
 												padding: '6px',
-												outline: 'none'
 											}}
-											type="text"
-											id="referral-link"
-											defaultValue="coppy ở đây nè"
-											readOnly={true}
+											defaultValue="https://cx.finance/?ref=e5a28k2984ds"
 										>
 										</input>
 										<p className="ml-3 text-center"
@@ -139,7 +124,7 @@ export const ReferralContent: React.FC = () => {
 
 	}
 	return (
-		<div id="referral">
+		<div id="mobile-referral-content">
 			{renderReferralContent()}
 			{renderReferralTable()}
 		</div>

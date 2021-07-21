@@ -60,28 +60,12 @@ const ProfileMobileScreenComponent: React.FC = () => {
 		{ titleKey: 'page.mobile.profileLinks.main.apiKeys', route: '/profile/api-keys' },
 	];
 
-	/* const settingsLinks = [
+	const referral = [
         {
-            titleKey: 'page.mobile.profileLinks.settings.language',
-            route: '/profile/language',
-            children: (
-                <div>
-                    <span>{getLanguageName(currentLanguage)}</span>
-                    <ChevronIcon />
-                </div>
-            ),
-        },
-        {
-            titleKey: 'page.mobile.profileLinks.settings.theme',
-            route: '/profile/theme',
-            children: (
-                <div>
-                    <span className="text-capitalize">{currentTheme}</span>
-                    <ChevronIcon />
-                </div>
-            ),
-        },
-    ]; */
+            titleKey: 'page.mobile.profileLinks.main.referral',
+            route: '/profile/referral',
+		}
+    ];
 
 	const additionalLinks = [
 		{
@@ -101,12 +85,20 @@ const ProfileMobileScreenComponent: React.FC = () => {
 		},
 	];
 
+	// const renderReferral = () => {
+	// 	return (
+	// 		<div>
+	// 			<a href="/profile/referral">referral</a>
+	// 		</div>
+	// 	);
+	// }
 	return (
 		<div className="pg-mobile-profile-screen">
 			<UserInfo />
 			<ProfileLinks links={mainLinks} />
-			{/* <ProfileLinks links={settingsLinks} /> */}
+			<ProfileLinks links={referral} />
 			<ProfileLinks links={additionalLinks} />
+			{/* {renderReferral()} */}
 		</div>
 	);
 };

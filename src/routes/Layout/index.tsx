@@ -33,6 +33,7 @@ import {
 	WalletDeposit,
 	WalletsMobileScreen,
 	WalletWithdraw,
+	ReferralMobileScreen,
 } from '../../mobile/screens';
 
 import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
@@ -345,6 +346,12 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							isLogged={isLoggedIn}
 							path="/profile"
 							component={ProfileMobileScreen}
+						/>
+						<PrivateRoute
+							loading={userLoading}
+							isLogged={isLoggedIn}
+							path="/profile/referral"
+							component={ReferralMobileScreen}
 						/>
 						<Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
 						<Route exact={true} path="/" component={LandingScreenMobile} />

@@ -2,10 +2,10 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 
-import { ReferralContent } from 'containers';
+import { ReferralContent } from '../../components/ReferralContent';
 import { selectUserLoggedIn } from 'modules';
 
-export const Referral: React.FC = () => {
+export const ReferralMobileScreen: React.FC = () => {
 
 	const history = useHistory();
 	const isLoggedIn = useSelector(selectUserLoggedIn);
@@ -19,7 +19,7 @@ export const Referral: React.FC = () => {
 
 	const renderBannerReferral = () => {
 		return (
-			<div className="referral-banner" style={{
+			<div className="mobile-referral-banner" style={{
 				backgroundImage: 'url(' + Banner_Referral + ')',
 			}}
 			>
@@ -28,7 +28,7 @@ export const Referral: React.FC = () => {
 	}
 	const renderReferralRank = () => {
 		return (
-			<div className="referral-rank">
+			<div className="mobile-referral-rank">
 				<div className="container">
 					<div className="row referral-row">
 						<div className="col-lg-4 col-md-6 referral-row__box ">
@@ -89,7 +89,7 @@ export const Referral: React.FC = () => {
 
 		else {
 			return (
-				<div className="referral-loggedIn">
+				<div className="mobile-referral-loggedIn">
 					<div className="container">
 						<div className="referral-loggedIn-userLogIn" style={{
 							backgroundImage: 'url(' + LoginReferral + ')',
@@ -119,7 +119,7 @@ export const Referral: React.FC = () => {
 	}
 	const renderProgramDetail = () => {
 		return (
-			<div className="referral-detail">
+			<div className="mobile-referral-detail">
 				<div className="container">
 					<h2 className="text-white">Program Details</h2>
 					<div className="row">
@@ -165,7 +165,7 @@ export const Referral: React.FC = () => {
 		);
 	}
 	return (
-		<div id="referral">
+		<div id="mobile-referral">
 			{renderBannerReferral()}
 			{renderReferralRank()}
 			{renderUserisLoggedIn()}
