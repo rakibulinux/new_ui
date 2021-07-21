@@ -35,6 +35,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 		setTotalState(props.total);
 		setRemainsState(props.remains);
 	}, [props.progress, props.total, props.remains]);
+
 	const status = (color, type: string, date: Date) => {
 		return (
 			<div className="w-100" style={{ position: 'relative', height: '1.5rem' }}>
@@ -110,7 +111,10 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 					className="ieo-item-coin-remains col-12 d-flex flex-wrap justify-content-center text-center
             "
 				>
-					<div className="col-11 text-white h5" style={{ background: 'rgb(67,74,87)', borderRadius: '.25rem' }}>
+					<div
+						className="col-11 text-white h5"
+						style={{ background: 'rgb(67,74,87)', borderRadius: '.25rem', margin: '0.75rem', padding: '0.25rem' }}
+					>
 						<p
 							style={{ fontSize: '0.75rem', marginTop: '1.2rem', margin: '0.25rem' }}
 						>{`Remains Token : ${progressState}%`}</p>
@@ -128,7 +132,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 								aria-valuenow={remainsState}
 								aria-valuemin={0}
 								aria-valuemax={totalState}
-								style={{ width: `${progressState}%` }}
+								style={{ width: `${progressState}%`, backgroundColor: ' #2FB67E' }}
 							/>
 							<div
 								className="text-white d-flex justify-content-around align-items-center"

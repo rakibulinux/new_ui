@@ -39,7 +39,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 
 	const status = (color: string, type: string) => {
 		return (
-			<div className="ieo-item-coin-time" style={{ background: `${color}` }}>
+			<div className="ieo-item-coin-time" style={{ backgroundColor: `${color}` }}>
 				<p>{type}</p>
 			</div>
 		);
@@ -78,7 +78,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 	const renderStatus = (type: 'ended' | 'ongoing' | 'upcoming') => {
 		switch (type) {
 			case 'ongoing':
-				return status(`linear-gradient(90deg, #0E33CA 0%, #FD0056 100%)`, 'Running');
+				return status(`#2FB67E`, 'Running');
 			case 'upcoming':
 				return status(`#FF6400`, `Ongoing`);
 			case 'ended':
@@ -140,7 +140,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 								aria-valuenow={remainsState}
 								aria-valuemin={0}
 								aria-valuemax={totalState}
-								style={{ width: `${progressState}%` }}
+								style={{ width: `${progressState}%`, backgroundColor: '#2FB67E' }}
 							/>
 							<div
 								className="text-white d-flex justify-content-around align-items-center"
@@ -179,8 +179,8 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 					</div>
 				</div>
 				<div className="ieo-item-currencies d-flex flex-row flex-wrap">
-					{props.currencyAvailable.map(currency => (
-						<div key={currency} className="ieo-item-currency">
+					{props.currencyAvailable.map((currency, index) => (
+						<div key={index} className="ieo-item-currency">
 							<p>{currency}</p>
 						</div>
 					))}

@@ -25,7 +25,7 @@ export const IEOMobileListingScreen = () => {
 
 	return (
 		<div id="ieo-mobile-listing-screen">
-			<div className="container ieo-listing-screen__header" style={{ paddingLeft: '0px' }}>
+			<div className="container ieo-listing-screen__header">
 				<h3 className="col-12 text-center">IEO</h3>
 				<div className="ieo-listing-function flex-wrap col-12">
 					<div className="input-list-function-search" style={{ width: '100%', height: '45px' }}>
