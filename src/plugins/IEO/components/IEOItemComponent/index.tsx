@@ -37,14 +37,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 		setRemainsState(props.remains);
 	}, [props.progress, props.total, props.remains]);
 
-	const rendererCountdown = () => {
-		return (
-			<div className="col-md-12 ">
-				<Countdown date={new Date()} renderer={renderer} />
-			</div>
-		);
-	};
-	const status = (color, type: string) => {
+	const status = (color: string, type: string) => {
 		return (
 			<div className="ieo-item-coin-time" style={{ background: `${color}` }}>
 				<p>{type}</p>
@@ -52,12 +45,34 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 		);
 	};
 	const renderer = ({ days, hours, minutes, seconds, completed }) => {
-		return completed ? (
-			<div className="col-md-4" style={{ background: 'rgb(67,74,87)', borderRadius: '.25rem' }}>
-				{days} d : {hours} h : {minutes} m : {seconds} s
+		return !completed ? (
+			<div className="d-flex justify-content-center" id="countdown-renderer">
+				<div className="time">
+					<p className="w-100">
+						{days}
+						<br />
+						seconds
+					</p>
+				</div>
+				<div className="time">
+					<p>
+						{hours}
+						<br /> hours
+					</p>
+				</div>
+				<div className="time">
+					<p>
+						{minutes} <br /> minutes
+					</p>
+				</div>
+				<div className="time">
+					<p>
+						{seconds} <br /> seconds
+					</p>
+				</div>
 			</div>
 		) : (
-			<p>haha</p>
+			<></>
 		);
 	};
 	const renderStatus = (type: 'ended' | 'ongoing' | 'upcoming') => {
@@ -107,12 +122,13 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 
 			<div className="ieo-item-content">
 				<h3>{props.description}</h3>
+
+				<Countdown date={new Date(props.endDate)} renderer={renderer} />
+
 				<div
 					className="ieo-item-coin-remains col-12 d-flex flex-wrap justify-content-center text-center
             "
 				>
-					<div className="col-12 text-white">{rendererCountdown()}</div>
-
 					<div className="col-12" style={{ position: 'relative', margin: '5px' }}>
 						<div
 							className="progress"
