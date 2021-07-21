@@ -16,7 +16,7 @@ import {
 	stakingListFetch,
 	unStakeHistoryFetch,
 } from '../../../../modules';
-import { MyAssets, RegisterStake, StakeHistory, StakingInfo, UnStake, UnStakeHistory } from '../../containers';
+import { MyAssets, RegisterStake, StakeHistory, StakeRank, StakingInfo, UnStake, UnStakeHistory } from '../../containers';
 
 const initialStakingItem: Stake = {
 	stake_id: '',
@@ -100,7 +100,7 @@ export const StakingDetailScreen = () => {
 	}, [user.uid, dispatch, stakingItemState.currency_id, stake_id]);
 
 	return (
-		<div id="staking-detail-screen">
+		<div className="desktop-staking-detail-screen">
 			<div className="container">
 				<div className="row">
 					<div className="col-12">
@@ -115,6 +115,11 @@ export const StakingDetailScreen = () => {
 							description={stakingItemState.description}
 							ref_link={stakingItemState.ref_link}
 						/>
+					</div>
+				</div>
+				<div className="row mt-5">
+					<div className="col-12">
+						<StakeRank />
 					</div>
 				</div>
 				<div className="row mt-5">
@@ -139,7 +144,7 @@ export const StakingDetailScreen = () => {
 							</span>
 						</div>
 						<hr />
-						<ul className="staking-notes">
+						<ul className="desktop-staking-detail-screen__staking-notes">
 							<li>{intl.formatMessage({ id: `stake.detail.info.stakingNotes1` })}</li>
 							<li>{intl.formatMessage({ id: `stake.detail.info.stakingNotes2` })}</li>
 							<li>{intl.formatMessage({ id: `stake.detail.info.stakingNotes3` })}</li>
@@ -149,7 +154,7 @@ export const StakingDetailScreen = () => {
 						<MyAssets currency_id={stakingItemState.currency_id} />
 					</div>
 					<div className="col-6">
-						<div className="react-tabs">
+						<div className="desktop-staking-detail-screen__react-tabs">
 							<Tabs defaultActiveKey="stake">
 								<TabPane tab="STAKE" key="stake">
 									<RegisterStake
@@ -185,7 +190,7 @@ export const StakingDetailScreen = () => {
 					</div>
 				</div>
 			</div>
-			<div className="detail__disabled" hidden={isLogin}>
+			<div className="desktop-staking-detail-screen-disabled" hidden={isLogin}>
 				<span>Please login before</span>
 			</div>
 		</div>
