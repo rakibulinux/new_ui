@@ -31,6 +31,7 @@ interface BuyIEOProps {
 
 export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 	const history = useHistory();
+
 	const [selectedCurrencyState, setSelectedCurrencyState] = React.useState(props.coins[0] || '');
 	const [coinActive, setCoinActive] = React.useState(0);
 	const [quantityState, setQuantityState] = React.useState<string>(Number(props.minBuy).toString());

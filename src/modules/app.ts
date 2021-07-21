@@ -60,6 +60,7 @@ import {
 	BuyHistoryReducer,
 	BuyersHistoryReducer,
 	totalIEOBuyersReducer,
+	IEODetailReducer,
 } from './plugins/ieo';
 export const eventsReducer = combineReducers({
 	lunar: lunarReducer,
@@ -89,6 +90,7 @@ export const IEOReducer = combineReducers({
 	buyHistory: BuyHistoryReducer,
 	buyersHistory: BuyersHistoryReducer,
 	totalIEOBuyers: totalIEOBuyersReducer,
+	ieoDetail: IEODetailReducer,
 });
 export const tradingCompetitionsReducer = combineReducers({
 	competitions: competitionsListReducer,

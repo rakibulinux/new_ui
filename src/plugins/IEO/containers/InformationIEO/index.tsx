@@ -1,22 +1,37 @@
-import React from 'react';
+import * as React from 'react';
 import imgDetail from './assets/imgDetail.png';
+import { selectIEODetail, fetchIEODetail } from '../../../../modules';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
+
 export const InformationIEO = () => {
 	const toUpperCaseFirstChar = (str: string) => {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	};
+	const { ieoID } = useParams<{ ieoID: string }>();
+	const ieoDetail = useSelector(selectIEODetail);
+	const dispatch = useDispatch();
+	React.useEffect(() => {
+		dispatch(
+			fetchIEODetail({
+				ieo_id: Number(ieoID),
+			}),
+		);
+	}, []);
+
 	const information = {
-		name: 'oni Exchange (ONI)',
-		date: '2021-05-06 16:00 (GMT+7)',
-		price: '1 ONI = 5 USDT',
-		homepage: 'https://www.cx.finance/',
-		bonus: '2% Bonus for PROB',
-		bonusLookup: '2 Weeks',
-		softcap: '100,000 USDT',
-		hardcap: '5,000,000 USDT',
-		usage: 'Intelligent AMM and yield farm on Binance Smart Chain',
-		whitepaper: 'English',
-		tech: 'BEP-20',
-		sns: 'Twitter Telegram',
+		name: ieoDetail.payload.name,
+		date: ieoDetail.payload.date,
+		price: ieoDetail.payload.price,
+		homepage: ieoDetail.payload.homepage,
+		bonus: ieoDetail.payload.bonus,
+		bonusLookup: ieoDetail.payload.bonus_lockup,
+		softcap: ieoDetail.payload.softcap,
+		hardcap: ieoDetail.payload.hardcap,
+		usage: ieoDetail.payload.usage,
+		whitepaper: ieoDetail.payload.whitepaper,
+		tech: ieoDetail.payload.tech,
+		sns: ieoDetail.payload.twitter,
 	};
 	const showInformationComponent = () => {
 		let content: Array<JSX.Element> = [];

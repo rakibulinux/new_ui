@@ -131,7 +131,7 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 							</tr>
 							<tr></tr>
 						</thead>
-						<tbody>{renderHistory()}</tbody>
+						<tbody>{listHistory.loading ? <></> : renderHistory()}</tbody>
 					</table>
 					{listHistory.loading ? loadingHistory() : !listHistory.payload.length ? EmptyComponent() : <></>}
 				</div>

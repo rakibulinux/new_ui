@@ -30,6 +30,7 @@ import {
 } from './plugins/staking';
 import { rootVoteSaga, VoteDonateState, VoteHistoryState, VoteListState } from './plugins/vote';
 import { AlertState, rootHandleAlertSaga } from './public/alert';
+import { rootIEODetailSaga } from './plugins/ieo/detail';
 import { BlocklistAccessState, rootBlocklistAccessSaga } from './public/blocklistAccess';
 import { ConfigsState, rootConfigsSaga } from './public/configs';
 import { CurrenciesState, rootCurrenciesSaga } from './public/currencies';
@@ -76,6 +77,7 @@ import { ProfileState, rootProfileSaga } from './user/profile';
 import { rootUserActivitySaga, UserActivityState } from './user/userActivity';
 import { ChildCurrenciesState, rootWalletsSaga, WalletsState } from './user/wallets';
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
+import { DetailIEOState } from './plugins/ieo/detail';
 
 export * from './airdrops/airdrop';
 export * from './airdrops/claim';
@@ -134,6 +136,7 @@ export interface RootState {
 		totalIEOBuyers: TotalIEOBuyersState;
 		buyersHistory: BuyersHistoryState;
 		buyHistory: BuyHistoryListState;
+		ieoDetail: DetailIEOState;
 	};
 	sale: {
 		saleList: SaleListState;
@@ -273,6 +276,7 @@ export function* rootSaga() {
 		call(rootIEOListSaga),
 		call(rootBuyIEOSaga),
 		call(rootHistoryBuySaga),
+		call(rootIEODetailSaga),
 		call(rootBuySaga),
 		call(rootPriceSaga),
 		call(rootCompetionsListSaga),
