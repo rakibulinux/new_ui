@@ -630,7 +630,7 @@ export const en = {
 	'page.body.500.availableSoon': 'It will be available as soon as possible',
 
 	// waiting messages
-	'waiting.withdraw.action': 'Waiting. Withdrawal is processing',
+	'waiting.withdraw.action': 'Waiting. Withdrawal is processing ...',
 
 	// success messages
 	'success.addresses.accepted': 'Addresses upload was successful',
