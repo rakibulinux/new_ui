@@ -20,18 +20,18 @@ export const InformationIEO = () => {
 	}, []);
 
 	const information = {
-		name: ieoDetail.payload.name,
-		date: ieoDetail.payload.date,
-		price: ieoDetail.payload.price,
-		homepage: ieoDetail.payload.homepage,
-		bonus: ieoDetail.payload.bonus,
-		bonusLookup: ieoDetail.payload.bonus_lockup,
-		softcap: ieoDetail.payload.softcap,
-		hardcap: ieoDetail.payload.hardcap,
-		usage: ieoDetail.payload.usage,
-		whitepaper: ieoDetail.payload.whitepaper,
-		tech: ieoDetail.payload.tech,
-		sns: ieoDetail.payload.twitter,
+		name: ieoDetail.payload.name || '',
+		date: ieoDetail.payload.date || '',
+		price: ieoDetail.payload.price || '',
+		homepage: ieoDetail.payload.homepage || '',
+		bonus: ieoDetail.payload.bonus || '',
+		bonusLookup: ieoDetail.payload.bonus_lockup || '',
+		softcap: ieoDetail.payload.softcap || '',
+		hardcap: ieoDetail.payload.hardcap || '',
+		usage: ieoDetail.payload.usage || '',
+		whitepaper: ieoDetail.payload.whitepaper || '',
+		tech: ieoDetail.payload.tech || '',
+		sns: ieoDetail.payload.twitter || '',
 	};
 	const showInformationComponent = () => {
 		let content: Array<JSX.Element> = [];
