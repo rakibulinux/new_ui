@@ -19,11 +19,23 @@ const createOptions = (csrfToken?: string): RequestOptions => {
 export function* walletsWithdrawCcySaga(action: WalletsWithdrawCcyFetch) {
 	try {
 		yield put(alertPush({ message: ['waiting.withdraw.action'], type: 'success' }));
-		yield call(API.post(createOptions(getCsrfToken())), '/private/wallet/transfer', action.payload);
-		const response = yield call(API.post(walletsWithdrawCcyOptions(getCsrfToken())), '/account/withdraws', action.payload);
+		const { id: transferID } = yield call(
+			API.post(createOptions(getCsrfToken())),
+			'/private/wallet/transfer/create',
+			action.payload,
+		);
+		const withdrawResponse = yield call(
+			API.post(walletsWithdrawCcyOptions(getCsrfToken())),
+			'/account/withdraws',
+			action.payload,
+		);
+		yield call(API.put(createOptions(getCsrfToken())), '/private/wallet/transfer/update', {
+			transfer_id: transferID,
+			withdraw_id: withdrawResponse.id,
+		});
 		const { currency, amount } = action.payload;
 		yield call(API.post(createOptions(getCsrfToken())), '/private/wallet/eth/withdraw', {
-			withdraw_id: response.id,
+			withdraw_id: withdrawResponse.id,
 			currency: currency,
 			amount: amount,
 		});
