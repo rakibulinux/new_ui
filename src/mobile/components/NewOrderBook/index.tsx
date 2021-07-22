@@ -10,7 +10,7 @@ import {
 	selectDepthAsks,
 	selectDepthBids,
 	selectMarketTickers,
-	setAmount,
+	setCurrentAmount,
 	setCurrentPrice,
 } from 'modules';
 import * as React from 'react';
@@ -82,7 +82,7 @@ const OrderBookComponent: React.FC<OrderBookProps> = props => {
 		const priceToSet = bids[Number(index)] && Number(bids[Number(index)][0]);
 		if (currentPrice !== priceToSet) {
 			dispatch(setCurrentPrice(priceToSet));
-			dispatch(setAmount(Decimal.formatRemoveZero(total, get(currentMarket, 'amount_precision', 6))));
+			dispatch(setCurrentAmount(Decimal.formatRemoveZero(total, get(currentMarket, 'amount_precision', 6))));
 		}
 	};
 
@@ -91,7 +91,7 @@ const OrderBookComponent: React.FC<OrderBookProps> = props => {
 		const priceToSet = asksData[Number(index)] && Number(asksData[Number(index)][0]);
 		if (currentPrice !== priceToSet) {
 			dispatch(setCurrentPrice(priceToSet));
-			dispatch(setAmount(Decimal.formatRemoveZero(total, get(currentMarket, 'amount_precision', 6))));
+			dispatch(setCurrentAmount(Decimal.formatRemoveZero(total, get(currentMarket, 'amount_precision', 6))));
 		}
 	};
 

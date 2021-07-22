@@ -13,7 +13,7 @@ import {
 	selectDepthAsks,
 	selectDepthBids,
 	selectMarketTickers,
-	setAmount,
+	setCurrentAmount,
 	setCurrentPrice,
 	setOrderType,
 	Ticker,
@@ -87,7 +87,7 @@ const OrderBookContainer = props => {
 			const priceToSet = bids[Number(index)] && Number(bids[Number(index)][0]);
 			if (currentPrice !== priceToSet && currentMarket) {
 				dispatch(setCurrentPrice(priceToSet));
-				dispatch(setAmount(Decimal.formatRemoveZero(total, currentMarket.amount_precision)));
+				dispatch(setCurrentAmount(Decimal.formatRemoveZero(total, currentMarket.amount_precision)));
 				dispatch(setOrderType('buy'));
 			}
 		},
@@ -99,7 +99,7 @@ const OrderBookContainer = props => {
 			const priceToSet = asks[Number(index)] && Number(asks[Number(index)][0]);
 			if (currentPrice !== priceToSet && currentMarket) {
 				dispatch(setCurrentPrice(priceToSet));
-				dispatch(setAmount(Decimal.formatRemoveZero(total, currentMarket.amount_precision)));
+				dispatch(setCurrentAmount(Decimal.formatRemoveZero(total, currentMarket.amount_precision)));
 				dispatch(setOrderType('sell'));
 			}
 		},

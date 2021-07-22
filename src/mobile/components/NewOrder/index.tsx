@@ -14,7 +14,7 @@ import {
 	selectMarketTickers,
 	selectOrderExecuteLoading,
 	selectWallets,
-	setAmount,
+	setCurrentAmount,
 	setCurrentPrice,
 	Wallet,
 } from 'modules';
@@ -106,6 +106,11 @@ const OrderForm = React.memo<OrderFormProps>(props => {
 	const [price, setPrice] = React.useState<OrderFormState['price']>('');
 	const [priceMarket, setPriceMarket] = React.useState<OrderFormState['priceMarket']>(props.priceMarket);
 	const [percent, setPercent] = React.useState<number>(0);
+
+	React.useEffect(() => {
+		const nextPriceLimitTruncated = Decimal.formatRemoveZero(props.priceMarket, props.currentMarketBidPrecision);
+		setPrice(nextPriceLimitTruncated);
+	}, []);
 
 	React.useEffect(() => {
 		const nextPriceLimitTruncated = Decimal.formatRemoveZero(props.priceLimit, props.currentMarketBidPrecision);
@@ -288,6 +293,13 @@ const OrderComponent: React.FC<OrderComponentProps> = ({}) => {
 	const isTypeSell = orderSide === 'sell';
 
 	React.useEffect(() => {
+		return () => {
+			dispatch(setCurrentPrice(0));
+			dispatch(setCurrentAmount(''));
+		};
+	}, []);
+
+	React.useEffect(() => {
 		if (currentPrice && currentPrice !== priceLimit) {
 			setPriceLimit(currentPrice);
 		}
@@ -313,7 +325,7 @@ const OrderComponent: React.FC<OrderComponentProps> = ({}) => {
 		const { amount, available, orderType, price, type } = value;
 
 		dispatch(setCurrentPrice(0));
-		dispatch(setAmount(0));
+		dispatch(setCurrentAmount(''));
 
 		const resultData = {
 			market: currentMarket.id,

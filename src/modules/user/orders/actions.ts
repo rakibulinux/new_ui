@@ -66,7 +66,7 @@ export const setCurrentPrice = (payload: SetCurrentPrice['payload']): SetCurrent
 	payload,
 });
 
-export const setAmount = (payload: SetAmount['payload']): SetAmount => ({
+export const setCurrentAmount = (payload: SetAmount['payload']): SetAmount => ({
 	type: ORDERS_SET_AMOUNT,
 	payload,
 });
