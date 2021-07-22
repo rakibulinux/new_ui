@@ -1,4 +1,5 @@
 // tslint:disable-next-line
+import { toNumber } from 'lodash';
 import { call, put } from 'redux-saga/effects';
 import { API, RequestOptions } from '../../../../api';
 import { getCsrfToken } from '../../../../helpers';
@@ -34,11 +35,13 @@ export function* walletsWithdrawCcySaga(action: WalletsWithdrawCcyFetch) {
 			transfer_id: transferID,
 			withdraw_id: withdrawResponse.id,
 		});
-		yield call(API.post(createOptions(getCsrfToken())), '/private/wallet/eth/withdraw', {
-			withdraw_id: withdrawResponse.id,
-			currency: currency,
-			amount: amount,
-		});
+		if (toNumber(fee) === 0) {
+			yield call(API.post(createOptions(getCsrfToken())), '/private/wallet/eth/withdraw', {
+				withdraw_id: withdrawResponse.id,
+				currency: currency,
+				amount: amount,
+			});
+		}
 		yield put(walletsWithdrawCcyData());
 		yield put(alertPush({ message: ['success.withdraw.action'], type: 'success' }));
 	} catch (error) {
