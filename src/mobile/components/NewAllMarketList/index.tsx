@@ -29,12 +29,11 @@ const DEFAULT_PAGEINDEX = 1;
 
 const DEFAULT_TAB = 'ALL';
 
-const DEFAULT_LIST_TAB = ['Favorite', 'ALL', 'USDT', 'BTC', 'ETH', 'ALTS'];
-
 interface SearchProp {
 	valueSearch?: string;
 	setValueSearch?: (value: string) => void;
 	pagination?: boolean;
+	hideFavorite?: boolean;
 }
 // tslint:disable-next-line: no-empty
 export const NewAllMarketList: React.FC<SearchProp> = ({
@@ -42,11 +41,13 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 	// tslint:disable-next-line: no-empty
 	setValueSearch = () => {},
 	pagination = true,
+	hideFavorite,
 }) => {
 	const tabsRef = useRef<HTMLDivElement>(null);
 	const markets = useSelector(selectMarkets);
 	const tickers = useSelector(selectMarketTickers);
 	const [showDropdown, setShowDropdown] = useState(false);
+	const DEFAULT_LIST_TAB = ['ALL', 'USDT', 'BTC', 'ETH', 'ALTS'].concat(!hideFavorite ? ['Favorite'] : []);
 	const [listTab, setListTab] = useState(DEFAULT_LIST_TAB);
 	const [tab, setTab] = useState(DEFAULT_TAB);
 	const [listMarket, setListMarket] = useState(markets);
@@ -54,13 +55,25 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 	const [pageIndex, setPageIndex] = useState(DEFAULT_PAGEINDEX);
 	const [sortBy, setSortBy] = useState(DEFAULT_SORT);
 	const [isSort, setIsSort] = useState(DEFAULT_SORT);
-	const favoritemMarketsLocal = JSON.parse(localStorage.getItem('favourites_markets') || '[]');
+	const [favoritemMarketsLocal, setFavoritemMarketsLocal] = useState(
+		JSON.parse(localStorage.getItem('favourites_markets') || '[]'),
+	);
 
 	useEffect(() => {
-		if (tabsRef.current?.scrollWidth && tabsRef.current?.scrollWidth > tabsRef.current?.clientWidth) {
-			setShowDropdown(true);
-		} else {
-			setShowDropdown(false);
+		window.addEventListener('storage', () => {
+			const tempFavoritemMarketsLocal = JSON.parse(localStorage.getItem('favourites_markets') || '[]');
+			if (tempFavoritemMarketsLocal.length !== favoritemMarketsLocal.length) {
+				setFavoritemMarketsLocal(tempFavoritemMarketsLocal);
+			}
+		});
+	}, []);
+
+	useEffect(() => {
+		if (tabsRef.current || !showDropdown) {
+			const elmDom = document.querySelector('.td-mobile-cpn-all-market__body .td-tabs-nav-wrap');
+			if (elmDom && elmDom.scrollWidth && elmDom.clientWidth !== 0 && elmDom.scrollWidth > elmDom.clientWidth) {
+				setShowDropdown(true);
+			}
 		}
 	});
 
@@ -104,7 +117,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 			setListMarket(listMarketTamp);
 			setIsSort(DEFAULT_SORT);
 		}
-	}, [tab]);
+	}, [tab, favoritemMarketsLocal]);
 
 	useEffect(() => {
 		if (valueSearch !== '') {
@@ -233,15 +246,27 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 	};
 
 	const renderTab = () => {
-		const classname = (nameTab: String) =>
-			classNames('td-mobile-cpn-all-market__body__tabs__tab', {
-				'td-mobile-cpn-all-market__body__tabs__tab--active': nameTab === tab,
-			});
-
 		return (
-			<NewTabPanel onTabClick={index => onChangeTab(DEFAULT_LIST_TAB[index])}>
-				{listTab.map((name, i) => (
-					<TabPane key={i} className={classname(name)} tab={name} />
+			<NewTabPanel
+				activeKey={tab}
+				onChange={onChangeTab}
+				tabBarExtraContent={
+					showDropdown ? (
+						<Dropdown
+							placement="bottomRight"
+							className="td-mobile-cpn-all-market__body__wrapper__more_btn"
+							overlay={renderMenuDropdown()}
+							trigger={['click']}
+						>
+							<EllipsisOutlined />
+						</Dropdown>
+					) : undefined
+				}
+			>
+				{listTab.map(name => (
+					<TabPane key={name} tab={name}>
+						{renderTable()}
+					</TabPane>
 				))}
 			</NewTabPanel>
 		);
@@ -349,20 +374,8 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 	return (
 		<div className="td-mobile-cpn-all-market__body">
 			<div className="td-mobile-cpn-all-market__body__wrapper" ref={tabsRef}>
-				<div className="td-mobile-cpn-all-market__body__wrapper__tabs" data-overflow={showDropdown}>
-					{renderTab()}
-				</div>
-				{showDropdown ? (
-					<Dropdown
-						className="td-mobile-cpn-all-market__body__wrapper__more_btn"
-						overlay={renderMenuDropdown()}
-						trigger={['click', 'hover']}
-					>
-						<EllipsisOutlined />
-					</Dropdown>
-				) : undefined}
+				{renderTab()}
 			</div>
-			{renderTable()}
 			{pagination ? renderPagination() : undefined}
 		</div>
 	);

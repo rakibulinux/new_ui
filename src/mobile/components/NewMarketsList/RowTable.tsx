@@ -23,9 +23,10 @@ interface MarketItem {
 	market: Market;
 	favorites?: any;
 	onchangeFavorite: () => void;
+	hideFavorite?: boolean;
 }
 
-export const RowTable: React.FC<MarketItem> = ({ market, favorites, onchangeFavorite }) => {
+export const RowTable: React.FC<MarketItem> = ({ market, favorites, onchangeFavorite, hideFavorite }) => {
 	const intl = useIntl();
 	const history = useHistory();
 	const tickers = useSelector(selectMarketTickers);
@@ -45,6 +46,7 @@ export const RowTable: React.FC<MarketItem> = ({ market, favorites, onchangeFavo
 
 	const classOfFavorites = classNames('pr-2', {
 		'td-mobile-cpn-market-list__body__markets__item__start-favorites': favorites,
+		'd-none': hideFavorite,
 	});
 
 	const setListFavorites = (id: string) => {

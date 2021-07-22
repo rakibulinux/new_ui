@@ -139,19 +139,16 @@ export const CurrentMarketInfoComponent: React.FC = () => {
 	return (
 		<div className="td-mobile-cpn-current-market-info">
 			<Drawer
-				bodyStyle={{
-					padding: 0,
-					background: '#313445',
-					zIndex: 999999,
-				}}
 				className="td-mobile-cpn-current-market-info__drawer"
 				visible={showDrawer}
-				closable={false}
 				onClose={() => setShowDrawer(false)}
 				placement="left"
 				width="85%"
 			>
-				<NewAllMarketList pagination={false} />
+				<div className="mt-5 mb-2 td-mobile-cpn-current-market-info__drawer__header">
+					<h4>Markets</h4>
+				</div>
+				<NewAllMarketList pagination={false} hideFavorite />
 			</Drawer>
 			<div className="td-mobile-cpn-current-market-info__header d-flex">
 				<div className="td-mobile-cpn-current-market-info__header__left d-flex flex-fill align-items-center">

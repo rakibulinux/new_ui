@@ -8,6 +8,7 @@ interface ListMarket {
 	childOfTHead?: React.ReactNode;
 	isShowTHead: Boolean;
 	onchangeFavorite?: () => void;
+	hideFavorite?: boolean;
 }
 
 export const MarketList: React.FC<ListMarket> = ({ listMarket, childOfTHead, childOfTBody, isShowTHead, onchangeFavorite }) => {
@@ -25,7 +26,13 @@ export const MarketList: React.FC<ListMarket> = ({ listMarket, childOfTHead, chi
 
 	const renderRowTable = () => {
 		return listMarket.map((e, index) => (
-			<RowTable key={index} market={e} onchangeFavorite={changeFavorite} favorites={listFavorite.find(f => f === e.id)} />
+			<RowTable
+				hideFavorite
+				key={index}
+				market={e}
+				onchangeFavorite={changeFavorite}
+				favorites={listFavorite.find(f => f === e.id)}
+			/>
 		));
 	};
 

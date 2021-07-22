@@ -8,53 +8,53 @@
 		padding-bottom: 0.3125em;
 		position: relative;
 
-		&__wrapper {
-			-ms-overflow-style: none;
-			overflow-x: scroll;
-			scrollbar-width: none;
-
-			&::-webkit-scrollbar {
-				display: none;
+		.td-tabs {
+			&-ink-bar {
+				background-color: #2fb67e;
+				bottom: 0;
+				box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+				height: 2px;
+				left: unset;
 			}
 
-			&__tabs {
-				width: max-content;
+			&-nav {
+				align-items: center;
+				border-bottom: 1px solid #848e9c;
+				box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
 
-				&[data-overflow='true'] {
-					padding-right: 2.063rem;
+				&-wrap {
+					&::before,
+					&::after {
+						content: unset;
+					}
 				}
 
-				.td-tabs {
-					border-bottom: 1px solid #848e9c;
-					display: flex;
-					flex-direction: row;
-					max-width: 100%;
-					overflow-x: scroll;
-
-					&[data-overflow='true'] {
-						padding-right: 2rem;
+				&-list {
+					&::-webkit-scrollbar {
+						display: none;
 					}
 
-					&-ink-bar {
-						background-color: #2fb67e;
-						bottom: 0;
-						height: 2px;
+					.td-tabs-tab {
+						margin-right: 2em !important;
+
+						.td-tabs-tab-btn {
+							color: #848e9c;
+							font-size: 0.875em;
+							padding: 0.7em 0 !important;
+						}
 					}
 
-					&-tab {
-						cursor: pointer;
-						font-size: 0.875rem;
-						padding: 0 1em;
-
-						&-active {
+					.td-tabs-tab-active {
+						.td-tabs-tab-btn {
 							color: #fff;
-							font-weight: 500;
-							position: relative;
+							font-weight: 400;
 						}
 					}
 				}
 			}
+		}
 
+		&__wrapper {
 			&__more_btn {
 				align-items: center;
 				background-color: #313445;
@@ -62,9 +62,6 @@
 				display: flex;
 				height: 2.063rem;
 				justify-content: center;
-				position: absolute;
-				right: 0.625em;
-				top: 1rem;
 				width: 2.063rem;
 			}
 		}
