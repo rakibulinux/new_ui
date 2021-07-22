@@ -78,6 +78,7 @@ import { rootUserActivitySaga, UserActivityState } from './user/userActivity';
 import { ChildCurrenciesState, rootWalletsSaga, WalletsState } from './user/wallets';
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
 import { DetailIEOState } from './plugins/ieo/detail';
+import { IEOCautionState, rootIEOCautionSaga } from './plugins/ieo/caution';
 
 export * from './airdrops/airdrop';
 export * from './airdrops/claim';
@@ -137,6 +138,7 @@ export interface RootState {
 		buyersHistory: BuyersHistoryState;
 		buyHistory: BuyHistoryListState;
 		ieoDetail: DetailIEOState;
+		ieoCaution: IEOCautionState;
 	};
 	sale: {
 		saleList: SaleListState;
@@ -277,6 +279,7 @@ export function* rootSaga() {
 		call(rootBuyIEOSaga),
 		call(rootHistoryBuySaga),
 		call(rootIEODetailSaga),
+		call(rootIEOCautionSaga),
 		call(rootBuySaga),
 		call(rootPriceSaga),
 		call(rootCompetionsListSaga),

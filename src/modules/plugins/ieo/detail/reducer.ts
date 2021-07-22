@@ -16,6 +16,7 @@ export const initialDetailIEO: DetailIEOState = {
 		bonus_lockup: '',
 		whitepaper: '',
 		twitter: '',
+		telegram: '',
 		image: '',
 		hardcap: '',
 	},

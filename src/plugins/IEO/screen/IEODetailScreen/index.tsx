@@ -117,7 +117,7 @@ export const IEODetailScreen = () => {
 				<div className="row">
 					<div className="col-12 p-0 mt-3">
 						{renderBuyHistoryView()}
-						<CautionsDetail />
+						<CautionsDetail ieoID={Number(ieoID)} />
 						<InformationIEO />
 					</div>
 				</div>

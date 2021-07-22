@@ -18,6 +18,7 @@ export const InformationIEO = () => {
 			}),
 		);
 	}, []);
+
 	const {
 		name,
 		date,
@@ -31,6 +32,7 @@ export const InformationIEO = () => {
 		whitepaper,
 		tech,
 		twitter,
+		telegram,
 	} = ieoDetail.payload || {
 		name: '',
 		date: '',
@@ -43,6 +45,7 @@ export const InformationIEO = () => {
 		usage: '',
 		whitepaper: '',
 		tech: '',
+		twitter: '',
 	};
 	const information = {
 		name: name,
@@ -56,8 +59,34 @@ export const InformationIEO = () => {
 		usage: usage,
 		whitepaper: whitepaper,
 		tech: tech,
-		sns: twitter,
+		sns: {
+			twitter: twitter || '#',
+			telegram: telegram || '#',
+		},
 	};
+	const renderValueOfKey = (key: string) => {
+		if (key == 'sns') {
+			const urlTwitter = information[key].twitter;
+			const urlTelegram = information[key].telegram;
+			return (
+				<div className="d-flex">
+					<a className="text-white" href={`${urlTwitter}`} style={{ paddingRight: '0.5rem' }}>
+						Twitter
+					</a>
+					<a className="text-white" href={`${urlTelegram}`}>
+						Telegram
+					</a>
+				</div>
+			);
+		}
+
+		return (
+			<>
+				<p>{information[key]}</p>
+			</>
+		);
+	};
+
 	const loadingSpinner = () => {
 		return (
 			<div className="loading d-flex -justify-content-center w-100">
@@ -75,9 +104,7 @@ export const InformationIEO = () => {
 					<div className="content-key col-md-5 col-xl-3">
 						<p>{toUpperCaseFirstChar(key)}</p>
 					</div>
-					<div className="content-value col-md-7 co-xl-9">
-						<p>{information[key]}</p>
-					</div>
+					<div className="content-value col-md-7 co-xl-9">{renderValueOfKey(key)}</div>
 				</div>
 			);
 			content.push(jsx);
@@ -93,7 +120,7 @@ export const InformationIEO = () => {
 				{ieoDetail.loading ? loadingSpinner() : showInformationComponent()}
 			</div>
 			<div className="information-ieo-image col-11 d-flex justify-content-center" style={{ padding: '0px' }}>
-				<img src={imgDetail}></img>
+				<img src={imgDetail} alt="img-description"></img>
 			</div>
 		</div>
 	);

@@ -13,6 +13,7 @@ export interface DetailIEO {
 	bonus_lockup: string;
 	whitepaper: string;
 	twitter: string;
+	telegram: string;
 	image: string;
 	hardcap: string;
 }
