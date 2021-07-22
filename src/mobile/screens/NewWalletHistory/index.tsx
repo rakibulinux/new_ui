@@ -1,7 +1,6 @@
 import { NewTabPanel } from 'components';
-import { DepositHistoryTable } from 'mobile/components/DepositHistoryTable';
+import { HistoryTable } from 'mobile/components/HistoryTable';
 import { Subheader } from 'mobile/components/Subheader';
-import { WithdrawHistoryTable } from 'mobile/components/WithdrawHistoryTable';
 import { selectWallets } from 'modules';
 import { TabPane, TabsProps } from 'rc-tabs';
 import * as React from 'react';
@@ -28,11 +27,11 @@ export const NewWalletHistoryMobileScreen: React.FC<WalletHistoryProps> = ({}) =
 
 	const TAB_LIST_INFO = [
 		{
-			content: currentTabIndex === 0 ? <DepositHistoryTable currency={currency} type="deposits" /> : null,
+			content: currentTabIndex === 0 ? <HistoryTable currency={currency} type="deposits" /> : null,
 			label: intl.formatMessage({ id: 'page.mobile.wallets.deposit.history' }),
 		},
 		{
-			content: currentTabIndex === 1 ? <WithdrawHistoryTable currency={currency} type="withdraws" /> : null,
+			content: currentTabIndex === 1 ? <HistoryTable currency={currency} type="withdraws" /> : null,
 			label: intl.formatMessage({ id: 'page.mobile.wallets.withdraw.history' }),
 		},
 	];

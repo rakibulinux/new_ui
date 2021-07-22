@@ -144,6 +144,7 @@ export const CurrentMarketInfoComponent: React.FC = () => {
 					background: '#313445',
 					zIndex: 999999,
 				}}
+				className="td-mobile-cpn-current-market-info__drawer"
 				visible={showDrawer}
 				closable={false}
 				onClose={() => setShowDrawer(false)}
