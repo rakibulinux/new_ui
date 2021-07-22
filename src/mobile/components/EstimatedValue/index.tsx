@@ -2,12 +2,10 @@ import { estimateUnitValue, estimateValue } from 'helpers/estimateValue';
 import { useCurrenciesFetch, useMarketsFetch, useMarketsTickersFetch, useWalletsFetch } from 'hooks';
 import { selectCurrencies, selectMarkets, selectMarketTickers, selectWallets } from 'modules';
 import * as React from 'react';
-import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { VALUATION_PRIMARY_CURRENCY, VALUATION_SECONDARY_CURRENCY } from '../../../constants';
 
 const EstimatedValue = React.memo(() => {
-	const intl = useIntl();
 	const wallets = useSelector(selectWallets);
 	const markets = useSelector(selectMarkets);
 	const currencies = useSelector(selectCurrencies);
@@ -29,9 +27,6 @@ const EstimatedValue = React.memo(() => {
 
 	return (
 		<div className="td-mobile-cpn-estimated-value">
-			<div className="td-mobile-cpn-estimated-value__title">
-				{intl.formatMessage({ id: 'page.body.wallets.estimated_value' })}
-			</div>
 			<div className="td-mobile-cpn-estimated-value__body">
 				<div className="td-mobile-cpn-estimated-value__body-wrap">
 					<span className="td-mobile-cpn-estimated-value__body-number">{estimatedValue}</span>
