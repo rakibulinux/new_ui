@@ -1,3 +1,4 @@
+import { Drawer } from 'antd';
 import { MarketTradingSvg } from 'assets/images/trading/MarketTradingSvg';
 import classnames from 'classnames';
 import { NewTabPanel } from 'components';
@@ -12,7 +13,7 @@ import { ListGroup } from 'react-bootstrap';
 import isEqual from 'react-fast-compare';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NewAllMarketList } from '../NewAllMarketList';
 import { NewCreateOrder } from '../NewCreateOrder';
 import { NewOrderBook } from '../NewOrderBook';
 
@@ -111,6 +112,7 @@ const ChartTab: React.FC = () => {
 const defaultTicker = { amount: 0, low: 0, last: 0, high: 0, volume: 0, price_change_percent: '+0.00%' };
 
 export const CurrentMarketInfoComponent: React.FC = () => {
+	const [showDrawer, setShowDrawer] = React.useState(false);
 	const [modeKey, setModeKey] = React.useState<'chart' | 'order'>('order');
 	const currentMarket = useSelector(selectCurrentMarket, isEqual);
 	const marketTickers = useSelector(selectMarketTickers);
@@ -136,11 +138,25 @@ export const CurrentMarketInfoComponent: React.FC = () => {
 
 	return (
 		<div className="td-mobile-cpn-current-market-info">
+			<Drawer
+				bodyStyle={{
+					padding: 0,
+					background: '#313445',
+					zIndex: 999999,
+				}}
+				visible={showDrawer}
+				closable={false}
+				onClose={() => setShowDrawer(false)}
+				placement="left"
+				width="85%"
+			>
+				<NewAllMarketList showPagination={false} />
+			</Drawer>
 			<div className="td-mobile-cpn-current-market-info__header d-flex">
 				<div className="td-mobile-cpn-current-market-info__header__left d-flex flex-fill align-items-center">
-					<Link to="/markets">
+					<div onClick={() => setShowDrawer(true)}>
 						<img className="mr-3" src={toListSvg} alt="" />
-					</Link>
+					</div>
 					<span className="td-mobile-cpn-current-market-info__header__name mr-2">
 						{currentMarket && currentMarket.name.toUpperCase()}
 					</span>

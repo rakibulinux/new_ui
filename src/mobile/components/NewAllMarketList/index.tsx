@@ -1,7 +1,8 @@
-import { Empty } from 'antd';
+import { EllipsisOutlined } from '@ant-design/icons';
+import { Dropdown, Empty, Menu } from 'antd';
 import classNames from 'classnames';
 import { NewPagination } from 'components';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { Market, selectMarkets, selectMarketTickers, Ticker } from '../../../modules/public/markets';
@@ -32,11 +33,19 @@ const DEFAULT_LIST_TAB = ['Favorite', 'ALL', 'USDT', 'BTC', 'ETH', 'ALTS'];
 interface SearchProp {
 	valueSearch?: string;
 	setValueSearch?: (value: string) => void;
+	showPagination?: boolean;
 }
 // tslint:disable-next-line: no-empty
-export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setValueSearch = () => {} }) => {
+export const NewAllMarketList: React.FC<SearchProp> = ({
+	valueSearch = '',
+	// tslint:disable-next-line: no-empty
+	setValueSearch = () => {},
+	showPagination = true,
+}) => {
+	const tabsRef = useRef<HTMLDivElement>(null);
 	const markets = useSelector(selectMarkets);
 	const tickers = useSelector(selectMarketTickers);
+	const [showDropdown, setShowDropdown] = useState(false);
 	const [listTab, setListTab] = useState(DEFAULT_LIST_TAB);
 	const [tab, setTab] = useState(DEFAULT_TAB);
 	const [listMarket, setListMarket] = useState(markets);
@@ -45,6 +54,14 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 	const [sortBy, setSortBy] = useState(DEFAULT_SORT);
 	const [isSort, setIsSort] = useState(DEFAULT_SORT);
 	const favoritemMarketsLocal = JSON.parse(localStorage.getItem('favourites_markets') || '[]');
+
+	useEffect(() => {
+		if (tabsRef.current?.scrollWidth && tabsRef.current?.scrollWidth > tabsRef.current?.clientWidth) {
+			setShowDropdown(true);
+		} else {
+			setShowDropdown(false);
+		}
+	});
 
 	useEffect(() => {
 		if (markets.length > 0) {
@@ -216,17 +233,27 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 
 	const renderTab = () => {
 		const classname = (nameTab: String) =>
-			classNames('td-mobile-cpn-all-market__body__selection__box__item', {
-				'td-mobile-cpn-all-market__body__selection__box__item--active': nameTab === tab,
+			classNames('td-mobile-cpn-all-market__body__tabs__tab', {
+				'td-mobile-cpn-all-market__body__tabs__tab--active': nameTab === tab,
 			});
 
-		return listTab.map((name, i) => {
-			return (
-				<div key={i} className={classname(name)} onClick={() => onChangeTab(name)}>
-					{name}
-				</div>
-			);
-		});
+		return listTab.map((name, i) => (
+			<div onClick={() => onChangeTab(name)} key={i} className={classname(name)}>
+				{name}
+			</div>
+		));
+	};
+
+	const renderMenuDropdown = () => {
+		return (
+			<Menu style={{ background: '#313445' }}>
+				{listTab.map(name => (
+					<Menu.Item key={name} onClick={() => onChangeTab(name)}>
+						{name}
+					</Menu.Item>
+				))}
+			</Menu>
+		);
 	};
 
 	const renderHeaderTable = () => {
@@ -317,14 +344,21 @@ export const NewAllMarketList: React.FC<SearchProp> = ({ valueSearch = '', setVa
 	};
 
 	return (
-		<div className="td-mobile-cpn-all-market__body ">
-			<div className="td-mobile-cpn-all-market__body__selection ">
-				<div className="td-mobile-cpn-all-market__body__selection__box">{renderTab()}</div>
+		<div className="td-mobile-cpn-all-market__body">
+			<div className="td-mobile-cpn-all-market__body__tabs" ref={tabsRef} data-overflow={showDropdown}>
+				{renderTab()}
+				{showDropdown ? (
+					<Dropdown
+						className="td-mobile-cpn-all-market__body__tabs__more_btn"
+						overlay={renderMenuDropdown()}
+						trigger={['click', 'hover']}
+					>
+						<EllipsisOutlined />
+					</Dropdown>
+				) : undefined}
 			</div>
-
 			{renderTable()}
-
-			{renderPagination()}
+			{showPagination ? renderPagination() : undefined}
 		</div>
 	);
 };
