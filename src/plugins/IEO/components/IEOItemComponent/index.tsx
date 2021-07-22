@@ -51,7 +51,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 					<p className="w-100">
 						{days}
 						<br />
-						seconds
+						days
 					</p>
 				</div>
 				<div className="time">
