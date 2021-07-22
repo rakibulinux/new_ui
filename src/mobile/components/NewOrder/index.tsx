@@ -14,6 +14,7 @@ import {
 	selectMarketTickers,
 	selectOrderExecuteLoading,
 	selectWallets,
+	setAmount,
 	setCurrentPrice,
 	Wallet,
 } from 'modules';
@@ -312,6 +313,7 @@ const OrderComponent: React.FC<OrderComponentProps> = ({}) => {
 		const { amount, available, orderType, price, type } = value;
 
 		dispatch(setCurrentPrice(0));
+		dispatch(setAmount(0));
 
 		const resultData = {
 			market: currentMarket.id,
