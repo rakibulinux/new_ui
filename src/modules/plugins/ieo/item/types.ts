@@ -15,6 +15,7 @@ export interface IEOItem {
 	end_date: string;
 	bonus: any;
 	progress: number;
+	allBonus: Array<any>;
 	social: {
 		website?: string;
 		whitepaper?: string;

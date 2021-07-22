@@ -26,7 +26,7 @@ interface BuyIEOProps {
 	minBuy: number;
 	uid: string;
 	id: string;
-	bonus: string;
+	allBonus: Array<any>;
 }
 
 export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
@@ -46,7 +46,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 
 	const filteredWallets = wallets.filter(wallet => props.coins.includes(wallet.currency));
 	const baseWallet = wallets.find(wallet => wallet.currency === props.currencyID);
-	const baseBalance = baseWallet ? Number(baseWallet.balance) : 0;
+	const baseBalance = baseWallet ? Number(baseWallet.balance) || 0 : 0;
 	React.useEffect(() => {
 		setSelectedCurrencyState(props.coins[0]);
 	}, [props.coins[0]]);
@@ -70,6 +70,13 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 	}, []);
 
 	const buyResponse = useSelector(selectBuyIEO, shallowEqual);
+	const getBonus = (listBonus: Array<any>, quantity: number): number => {
+		const { bonus } = listBonus.find(bonus => {
+			const { from } = bonus;
+			return quantity >= from;
+		}) || { bonus: 0 };
+		return bonus;
+	};
 	const handleGetBalance = React.useCallback(
 		currency => {
 			const foundedWallet = filteredWallets.find(wallet => wallet.currency === currency);
@@ -188,7 +195,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 				quoteBalance={quoteBalanceState}
 				quoteCurrency={String(selectedCurrencyState).toUpperCase()}
 				quoteTotal={totalPriceState}
-				bonus={Number(props.bonus)}
+				bonus={getBonus(props.allBonus, Number(quantityState))}
 			/>
 		) : (
 			<></>
@@ -258,7 +265,14 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 								setQuantityState(Number(props.minBuy).toString());
 
 								if (priceSelector.payload[coin.toUpperCase()]) {
-									setTotalPriceState(calculatePrice(props.priceIEO, priceSelector.payload[coin.toUpperCase()]));
+									setTotalPriceState(
+										NP.strip(
+											NP.times(
+												quantityState,
+												calculatePrice(props.priceIEO, priceSelector.payload[coin.toUpperCase()]),
+											),
+										),
+									);
 								}
 							}}
 							style={{ margin: '0.2rem' }}

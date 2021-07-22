@@ -46,7 +46,9 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
 	};
 
 	const bonusQuantity = NP.times(quantity, bonus);
+
 	const totalQuantity = NP.plus(baseBalance, quantity, bonusQuantity);
+
 	const baseTitle = (
 		<div className="base-title-content w-100 d-flex flex-wrap justify-content-center">
 			<img style={{ width: '3rem', height: '3rem' }} src={findIcon(baseCurrency)} alt={baseCurrency} />

@@ -189,7 +189,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 
 			<div className="ioe-item-footer">
 				<p className="ioe-item-footer-status">{`Buy ${props.currencyId.toUpperCase()}`}</p> <span>|</span>
-				<p className="ioe-item-footer-bonus">{`Bonus ${!props.bonus ? 0 : props.bonus}%`}</p>
+				<p className="ioe-item-footer-bonus">{`Bonus ${!props.bonus ? '0%' : props.bonus}`}</p>
 			</div>
 		</div>
 	);

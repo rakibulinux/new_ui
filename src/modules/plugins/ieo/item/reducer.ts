@@ -18,6 +18,7 @@ export const initialIEOItem: IEOItemState = {
 		end_date: '',
 		bonus: '',
 		social: {},
+		allBonus: [],
 		type: 'upcoming',
 		progress: 0,
 	},

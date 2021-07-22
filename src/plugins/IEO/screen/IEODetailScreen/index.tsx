@@ -106,7 +106,7 @@ export const IEODetailScreen = () => {
 									minBuy={IEOItem.min_buy}
 									uid={user.uid}
 									id={ieoID}
-									bonus={IEOItem.bonus}
+									allBonus={IEOItem.allBonus}
 								/>
 							</div>
 						</div>
