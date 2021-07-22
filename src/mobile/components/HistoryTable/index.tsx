@@ -69,7 +69,10 @@ const HistoryTable = (props: any) => {
 				const minConfirmations = itemCurrency && itemCurrency.min_confirmations;
 				const state = 'state' in item ? formatTxState(item.state, confirmations, minConfirmations) : '';
 
-				return [<RowItem amount={amount} fixed={fixed} currency={currency} createdAt={item.created_at} />, state];
+				return [
+					<RowItem amount={amount} fixed={fixed} currency={currency || item.currency} createdAt={item.created_at} />,
+					state,
+				];
 			});
 
 		return histories.length ? histories : [[<Empty />]];

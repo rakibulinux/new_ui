@@ -28,7 +28,7 @@ const WalletsMobileScreen: React.FC = () => {
 			{wallets
 				.filter(wallet => !all_child_currencies.map(cur => cur.id).includes(wallet.currency))
 				.map((wallet, index) => (
-					<WalletItem onClick={c => history.push(`/wallets/${c}/history`)} wallet={wallet} key={index} />
+					<WalletItem onClick={c => history.push(`/wallets/history`)} wallet={wallet} key={index} />
 				))}
 		</div>
 	);

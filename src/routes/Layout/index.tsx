@@ -286,7 +286,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						<PrivateRoute
 							loading={userLoading}
 							isLogged={isLoggedIn}
-							path="/wallets/:currency/history"
+							path="/wallets/history"
 							component={NewWalletHistoryMobileScreen}
 						/>
 						<PrivateRoute

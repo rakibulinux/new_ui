@@ -54,7 +54,7 @@ export const NewWalletDetail: FC = () => {
 			<div className="td-mobile-wallet-detail__header">
 				<GoBackIcon className="td-mobile-wallet-detail__header__goback" onClick={() => history.goBack()} />
 				<h3 className="td-mobile-wallet-detail__header__title">Wallet Detail</h3>
-				<Link className="td-mobile-wallet-detail__header__history" to={`/wallets/${wallet?.currency}/history`}>
+				<Link className="td-mobile-wallet-detail__header__history" to={`/wallets/history`}>
 					History
 					<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path

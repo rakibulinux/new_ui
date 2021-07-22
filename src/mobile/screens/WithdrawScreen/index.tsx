@@ -31,7 +31,6 @@ const HistorySVG = (
 
 const WithdrawSubHeader = props => {
 	const history = useHistory();
-	const { currency } = props;
 
 	return (
 		<div className="td-mobile-screen-withdraw__header">
@@ -39,7 +38,7 @@ const WithdrawSubHeader = props => {
 				{BackSVG}
 			</div>
 			<h3 className="td-mobile-wallet-detail__header__title">Withdraw</h3>
-			<Link className="td-mobile-wallet-detail__header__history" to={`/wallets/${currency}/history`}>
+			<Link className="td-mobile-wallet-detail__header__history" to={`/wallets/history`}>
 				History {HistorySVG}
 			</Link>
 		</div>
