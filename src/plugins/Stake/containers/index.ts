@@ -5,4 +5,3 @@ export * from './UnStake';
 export * from './MyAssets';
 export * from './StakeHistory';
 export * from './UnStakeHistory';
-export * from './StakeRank';

@@ -80,9 +80,12 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 			// render a completed state
 			// window.location.reload(false);
 			return (
-				<span>
-					{0}:{0}:{0}:{0}
-				</span>
+				<div className="desktop-stacking-item__timer__countdown w-100 d-flex flex-row justify-content-around">
+					<div className="desktop-stacking-item__timer__countdown__item">0</div>
+					<div className="desktop-stacking-item__timer__countdown__item">0</div>
+					<div className="desktop-stacking-item__timer__countdown__item">0</div>
+					<div className="desktop-stacking-item__timer__countdown__item">0</div>
+				</div>
 			);
 		} else {
 			// render a countdown
@@ -128,11 +131,14 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 						))}
 					</div>
 				</section>
-				<div className="desktop-stacking-item__timer" hidden={status === 'ended'}>
+				<div className="desktop-stacking-item__timer">
 					<div hidden={status !== 'upcoming'}>
 						<Countdown date={new Date(start_time)} renderer={renderer} />
 					</div>
 					<div hidden={status !== 'running'}>
+						<Countdown date={new Date(end_time)} renderer={renderer} />
+					</div>
+					<div hidden={status !== 'ended'}>
 						<Countdown date={new Date(end_time)} renderer={renderer} />
 					</div>
 				</div>

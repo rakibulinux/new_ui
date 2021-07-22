@@ -38,7 +38,20 @@ export const StakingListScreen = () => {
 		dispatchFetchStakingList();
 	}, []);
 
+	const [searchState, setSearchState] = React.useState('');
+
+	React.useEffect(() => {
+		setFilterStackingState('all');
+	}, [searchState]);
+
 	const renderStakingList = () => {
+		if (searchState !== '') {
+			return (
+				<StakingList
+					stakes={[...stakingList].filter(stake => stake.currency_id.toLowerCase().includes(searchState.toLowerCase()))}
+				/>
+			);
+		}
 		return filterStackingState === 'upcoming' ? (
 			<StakingList stakes={[...upcomingList]} />
 		) : filterStackingState === 'running' ? (
@@ -59,7 +72,12 @@ export const StakingListScreen = () => {
 					</div>
 					<div className="d-flex flex-row justify-content-between mt-3">
 						<div className="desktop-staking-list-screen__header__search">
-							<input type="text" />
+							<input
+								placeholder="Search currency"
+								type="text"
+								value={searchState}
+								onChange={e => setSearchState(e.target.value)}
+							/>
 							<div className="icon-search">
 								<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path

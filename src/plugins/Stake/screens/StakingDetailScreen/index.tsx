@@ -16,7 +16,7 @@ import {
 	stakingListFetch,
 	unStakeHistoryFetch,
 } from '../../../../modules';
-import { MyAssets, RegisterStake, StakeHistory, StakeRank, StakingInfo, UnStake, UnStakeHistory } from '../../containers';
+import { MyAssets, RegisterStake, StakeHistory, StakingInfo, UnStake, UnStakeHistory } from '../../containers';
 
 const initialStakingItem: Stake = {
 	stake_id: '',
@@ -118,11 +118,6 @@ export const StakingDetailScreen = () => {
 					</div>
 				</div>
 				<div className="row mt-5">
-					<div className="col-12">
-						<StakeRank />
-					</div>
-				</div>
-				<div className="row mt-5">
 					<div className="col-6">
 						<div style={{ position: 'relative' }}>
 							<ProgressBar
@@ -144,7 +139,7 @@ export const StakingDetailScreen = () => {
 							</span>
 						</div>
 						<hr />
-						<ul className="desktop-staking-detail-screen__staking-notes">
+						<ul className="desktop-staking-detail-screen__notes">
 							<li>{intl.formatMessage({ id: `stake.detail.info.stakingNotes1` })}</li>
 							<li>{intl.formatMessage({ id: `stake.detail.info.stakingNotes2` })}</li>
 							<li>{intl.formatMessage({ id: `stake.detail.info.stakingNotes3` })}</li>
