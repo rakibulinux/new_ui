@@ -151,7 +151,7 @@ export const CurrentMarketInfoComponent: React.FC = () => {
 				placement="left"
 				width="85%"
 			>
-				<NewAllMarketList showPagination={false} />
+				<NewAllMarketList pagination={false} />
 			</Drawer>
 			<div className="td-mobile-cpn-current-market-info__header d-flex">
 				<div className="td-mobile-cpn-current-market-info__header__left d-flex flex-fill align-items-center">

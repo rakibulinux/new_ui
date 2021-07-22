@@ -1,7 +1,8 @@
 import { EllipsisOutlined } from '@ant-design/icons';
 import { Dropdown, Empty, Menu } from 'antd';
 import classNames from 'classnames';
-import { NewPagination } from 'components';
+import { NewPagination, NewTabPanel } from 'components';
+import { TabPane } from 'rc-tabs';
 import React, { useEffect, useRef, useState } from 'react';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
@@ -33,14 +34,14 @@ const DEFAULT_LIST_TAB = ['Favorite', 'ALL', 'USDT', 'BTC', 'ETH', 'ALTS'];
 interface SearchProp {
 	valueSearch?: string;
 	setValueSearch?: (value: string) => void;
-	showPagination?: boolean;
+	pagination?: boolean;
 }
 // tslint:disable-next-line: no-empty
 export const NewAllMarketList: React.FC<SearchProp> = ({
 	valueSearch = '',
 	// tslint:disable-next-line: no-empty
 	setValueSearch = () => {},
-	showPagination = true,
+	pagination = true,
 }) => {
 	const tabsRef = useRef<HTMLDivElement>(null);
 	const markets = useSelector(selectMarkets);
@@ -66,7 +67,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 	useEffect(() => {
 		if (markets.length > 0) {
 			setListTab(DEFAULT_LIST_TAB);
-			let listMarketTamp = markets.slice(0, MAX_ELEMENT);
+			let listMarketTamp = pagination ? markets.slice(0, MAX_ELEMENT) : markets;
 			listMarketTamp = sortForAZ(listMarketTamp, false);
 			listMarketTamp = listMarketTamp.filter(e => true);
 			setListMarket(listMarketTamp);
@@ -99,7 +100,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 			listMarketTamp = sortForAZ(listMarketTamp, false);
 			setPageIndex(DEFAULT_PAGEINDEX);
 			setMaxPage(Math.ceil(listMarketTamp.length / MAX_ELEMENT));
-			listMarketTamp = listMarketTamp.slice(0, MAX_ELEMENT);
+			listMarketTamp = pagination ? listMarketTamp.slice(0, MAX_ELEMENT) : listMarketTamp;
 			setListMarket(listMarketTamp);
 			setIsSort(DEFAULT_SORT);
 		}
@@ -132,7 +133,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 			listMarketTamp = sortForAZ(listMarketTamp, false);
 			setPageIndex(DEFAULT_PAGEINDEX);
 			setMaxPage(Math.ceil(listMarketTamp.length / MAX_ELEMENT));
-			listMarketTamp = listMarketTamp.slice(0, MAX_ELEMENT);
+			listMarketTamp = pagination ? listMarketTamp.slice(0, MAX_ELEMENT) : listMarketTamp;
 			setListMarket(listMarketTamp);
 			setIsSort(DEFAULT_SORT);
 		}
@@ -237,11 +238,13 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 				'td-mobile-cpn-all-market__body__tabs__tab--active': nameTab === tab,
 			});
 
-		return listTab.map((name, i) => (
-			<div onClick={() => onChangeTab(name)} key={i} className={classname(name)}>
-				{name}
-			</div>
-		));
+		return (
+			<NewTabPanel onTabClick={index => onChangeTab(DEFAULT_LIST_TAB[index])}>
+				{listTab.map((name, i) => (
+					<TabPane key={i} className={classname(name)} tab={name} />
+				))}
+			</NewTabPanel>
+		);
 	};
 
 	const renderMenuDropdown = () => {
@@ -329,7 +332,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 			if (index <= maxPage && index >= 1) {
 				const indexElemStart = (index - 1) * MAX_ELEMENT;
 				const indexElemStop = (index - 1) * MAX_ELEMENT + MAX_ELEMENT;
-				const listMarketTamp = markets.slice(indexElemStart, indexElemStop);
+				const listMarketTamp = pagination ? markets.slice(indexElemStart, indexElemStop) : markets;
 				setListMarket(listMarketTamp);
 				setPageIndex(index);
 				setIsSort(DEFAULT_SORT);
@@ -345,11 +348,13 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 
 	return (
 		<div className="td-mobile-cpn-all-market__body">
-			<div className="td-mobile-cpn-all-market__body__tabs" ref={tabsRef} data-overflow={showDropdown}>
-				{renderTab()}
+			<div className="td-mobile-cpn-all-market__body__wrapper" ref={tabsRef}>
+				<div className="td-mobile-cpn-all-market__body__wrapper__tabs" data-overflow={showDropdown}>
+					{renderTab()}
+				</div>
 				{showDropdown ? (
 					<Dropdown
-						className="td-mobile-cpn-all-market__body__tabs__more_btn"
+						className="td-mobile-cpn-all-market__body__wrapper__more_btn"
 						overlay={renderMenuDropdown()}
 						trigger={['click', 'hover']}
 					>
@@ -358,7 +363,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 				) : undefined}
 			</div>
 			{renderTable()}
-			{showPagination ? renderPagination() : undefined}
+			{pagination ? renderPagination() : undefined}
 		</div>
 	);
 };
