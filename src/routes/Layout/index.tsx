@@ -38,7 +38,7 @@ import {
 import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
 
 import { MarketsList } from '../../containers/MarketsList';
-import { IEOMobileDetailScreen, IEOMobileListingScreen } from '../../mobile/plugins/IEO';
+import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
 import {
 	configsFetch,
 	logoutFetch,
@@ -347,8 +347,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						/>
 						<Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
 						<Route exact={true} path="/" component={LandingScreenMobile} />
-						<Route path="/ieo" exact component={IEOMobileListingScreen} />
-						<Route path="/ieo/detail/:ieoID" exact component={IEOMobileDetailScreen} />
+						<Route path="/ieo" exact component={IEOListMobileScreen} />
+						<Route path="/ieo/detail/:ieoID" exact component={IEODetailMobileScreen} />
 						<Route path="/trading-competition" exact component={TradingCompetionListMobileScreen} />
 						<Route
 							path="/trading-competition/:competition_id"

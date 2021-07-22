@@ -1,0 +1,25 @@
+#sale-list-mobile {
+	background-color: #2b3139;
+	padding-top: 1rem;
+	margin-bottom: 50px;
+	padding-bottom: 30vh;
+}
+
+.sale-list-mobile__title,
+.sale-list-mobile__subtitle {
+	font-size: 16px;
+	padding-top: 0.5rem;
+	line-height: 21px;
+}
+
+.sale-list-mobile__title {
+	color: #ffffff;
+	font-weight: 700;
+	font-size: 20px;
+	text-align: center;
+}
+
+.sale-list-mobile__subtitle {
+	color: #a4acb6;
+	line-height: 21px;
+}
