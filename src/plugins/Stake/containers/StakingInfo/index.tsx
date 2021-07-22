@@ -28,7 +28,9 @@ export const StakingInfo: React.FC<StakingInfoProps> = (props: StakingInfoProps)
 		try {
 			return require(`../../../../../node_modules/cryptocurrency-icons/128/color/${currencyID.toLowerCase()}.png`);
 		} catch (err) {
-			if (currency) { return currency.icon_url; }
+			if (currency) {
+				return currency.icon_url;
+			}
 
 			return require('../../../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
 		}
@@ -45,7 +47,7 @@ export const StakingInfo: React.FC<StakingInfoProps> = (props: StakingInfoProps)
 		const currentMarket: Market | undefined = markets.find(item => item.base_unit === id);
 		if (currentMarket) {
 			dispatch(setCurrentMarket(currentMarket));
-			history.push({ pathname: `/trading/${currentMarket.id}` });
+			history.push({ pathname: `/market/${currentMarket.id}` });
 		}
 	};
 
