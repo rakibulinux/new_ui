@@ -81,25 +81,43 @@
 	}
 
 	.td-withdraw__group__amount {
-		position: relative;
 		margin-top: 32px;
-
-		&__all-btn {
-			position: absolute;
-			bottom: 0;
-			right: 0;
-			outline: none;
-			border: none;
-			background-color: transparent;
-			transform: translate(-50%, -50%);
-			color: #fff;
-			z-index: 2;
+		&-box {
+			position: relative;
+			&__all-btn {
+				position: absolute;
+				top: 50%;
+				right: 0;
+				outline: none;
+				border: none;
+				background-color: transparent;
+				transform: translate(-50%, -50%);
+				color: #fff;
+				z-index: 2;
+				font-weight: bold;
+			}
 		}
 	}
 	.td-withdraw__deep {
 		margin-top: 18px;
-		button {
-			width: 100%;
+		display: flex;
+		justify-content: center;
+		&__withdraw-btn {
+			position: absolute;
+			bottom: -3.5rem;
+			background-color: #2fb67e;
+			border: none;
+			outline: none;
+			color: #fff;
+			border-radius: 3px;
+			padding: 0.5rem 2rem;
+			font-size: 1rem;
+			font-weight: 500;
+			transition: all 0.3s;
+			&-disabled {
+				background-color: rgba(196, 196, 196, 0.28) !important;
+				cursor: not-allowed;
+			}
 		}
 	}
 	.td-withdraw-column {

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Blur } from '../../../components/Blur';
-import { ModalWithdrawSubmit } from '../../../containers';
+import { ModalWithdrawSubmit } from '../../containers';
 import { WithdrawComponent } from '../../containers';
 import { useBeneficiariesFetch, useCurrenciesFetch, useWalletsAddressFetch } from '../../../hooks';
 import { ethFeeFetch, selectETHFee } from '../../../modules';
@@ -18,6 +18,7 @@ import {
 	walletsWithdrawCcyFetch,
 } from '../../../modules/user/wallets';
 import { ModalWithdrawConfirm } from '../ModalWithdrawConfirm';
+import { toLower, toNumber } from 'lodash';
 
 const defaultBeneficiary: Beneficiary = {
 	id: 0,
@@ -115,14 +116,14 @@ const WalletWithdrawBodyComponent = props => {
 			return;
 		}
 
-		if (+fee === 0) {
+		if (toNumber(fee) === 0) {
 			if (!(feeCurrency && feeCurrency.fee)) {
-				message.error('Something wrong with ETH fee.');
+				message.error('Eth fee is unvailable now.');
 
 				return;
 			}
 			if (!(ethBallance && Number(ethBallance) >= Number(feeCurrency.fee))) {
-				message.error('ETH balance isn`\t enough to pay.');
+				message.error(`ETH balance isn't enough to pay.`);
 
 				return;
 			}
@@ -131,7 +132,7 @@ const WalletWithdrawBodyComponent = props => {
 			uid: user.uid,
 			fee: fee,
 			amount,
-			currency: currency.toLowerCase(),
+			currency: toLower(currency),
 			otp: otpCode,
 			beneficiary_id: String(beneficiary.id),
 		};

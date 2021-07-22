@@ -15,7 +15,7 @@
 
 		&__back,
 		&__close {
-			flex: 1;
+			cursor: pointer;
 		}
 
 		&__title {
@@ -24,23 +24,13 @@
 			font-size: 20px;
 			text-align: center;
 		}
-
-		&__back {
-			align-items: center;
-			display: flex;
-
-			svg {
-				margin-right: 5px;
-				transform: rotate(90deg);
-			}
-		}
 	}
 
 	&__body {
 		background-color: #313445;
 		border-radius: 5px;
 		box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
-		margin: 0.375em 1em;
+		margin: 1rem;
 		padding: 1.25em 0.5em;
 
 		&__tabs {
@@ -82,18 +72,10 @@
 				}
 
 				.tab-body {
-					.save-qrcode-btn {
-						background: rgba(47, 182, 126, 0.15);
-						border: 0.5px solid #2fb67e;
-						border-radius: 3px;
-						box-sizing: border-box;
-						color: #fff;
-						padding: 0.5rem 1rem;
-					}
-
 					.deposit-address {
 						&__title {
 							color: #848e9c;
+							font-size: 14px;
 						}
 
 						&__text {
@@ -102,6 +84,7 @@
 							-webkit-box-orient: vertical;
 							color: #fff;
 							display: -webkit-box;
+							font-size: 14px;
 							-webkit-line-clamp: 1;
 							outline: none;
 							overflow: hidden;
@@ -143,8 +126,6 @@
 	}
 
 	&__notes {
-		padding: 1rem;
-
 		&__header {
 			font-size: 14px;
 		}
