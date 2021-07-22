@@ -1,10 +1,10 @@
 import { Empty } from 'antd';
 import classnames from 'classnames';
+import { NewPagination } from 'components';
 import { localeDate } from 'helpers';
 import { useCurrenciesFetch, useHistoryFetch, useWalletsFetch } from 'hooks';
-import { selectCurrencies, selectHistory, selectWallets } from 'modules';
+import { selectCurrencies, selectHistory, selectNextPageExists, selectWallets } from 'modules';
 import * as React from 'react';
-import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { DEFAULT_CCY_PRECISION } from '../../../constants';
 import { RowItem } from './Rowitem';
@@ -14,14 +14,15 @@ type CellData = string | number | React.ReactNode | undefined;
 const DEFAULT_LIMIT = 6;
 
 const HistoryTable = (props: any) => {
-	const intl = useIntl();
+	const [pageIndex, setPageIndex] = React.useState(1);
 	const list = useSelector(selectHistory);
 	const wallets = useSelector(selectWallets);
 	const currencies = useSelector(selectCurrencies);
+	const nextPageExists = useSelector(state => selectNextPageExists(state as any, props.limit || DEFAULT_LIMIT));
 
 	useWalletsFetch();
 	useCurrenciesFetch();
-	useHistoryFetch({ type: props.type, currency: props.currency, limit: DEFAULT_LIMIT, page: 0 });
+	useHistoryFetch({ type: props.type, currency: props.currency, limit: props.limit || DEFAULT_LIMIT, page: pageIndex - 1 });
 
 	const formatTxState = (tx: string, confirmations?: number, minConfirmations?: number) => {
 		const process = require('assets/status/wait.svg');
@@ -50,17 +51,18 @@ const HistoryTable = (props: any) => {
 	};
 	const retrieveData = () => {
 		const { currency, type } = props;
-		const { fixed } = wallets.find(w => w.currency === currency) || { fixed: DEFAULT_CCY_PRECISION };
 		if (list.length === 0) {
-			return [[intl.formatMessage({ id: 'page.noDataToShow' }), '', '']];
+			return [[<Empty />]];
 		}
 
 		const histories = list
-			.filter((history: any) => history.currency === currency)
+			.filter((history: any) => (currency ? history.currency === currency : true))
 			.sort((a, b) => {
 				return localeDate(a.created_at, 'fullDate') > localeDate(b.created_at, 'fullDate') ? -1 : 1;
 			})
-			.map((item: any, index) => {
+			.map((item: any) => {
+				const { fixed } = wallets.find(w => w.currency === item.currency) || { fixed: DEFAULT_CCY_PRECISION };
+
 				const amount = 'amount' in item ? Number(item.amount) : Number(item.price) * Number(item.volume);
 				const confirmations = type === 'deposits' && item.confirmations;
 				const itemCurrency = currencies && currencies.find(cur => cur.id === currency);
@@ -100,6 +102,7 @@ const HistoryTable = (props: any) => {
 	return (
 		<div className="td-mobile-cpn-history-table" hidden={tableData.length <= 0}>
 			<table className="td-mobile-cpn-history-table__table">{renderBody(tableData)}</table>
+			<NewPagination toPage={setPageIndex} page={pageIndex} nextPageExists={nextPageExists} hideTotal />
 		</div>
 	);
 };

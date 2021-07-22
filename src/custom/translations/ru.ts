@@ -2,6 +2,7 @@ import { LangType } from '../../translations';
 import { nationalitiesNames } from '../../translations/nationalities';
 
 export const ru: LangType = {
+	'page.body.wallet.history.header': 'Wallet history',
 	/**Vote */
 	'page.body.vote.msg.success': 'Vote success',
 	'page.body.vote.msg.fail': 'Vote fail',
