@@ -7,3 +7,5 @@ export * from './WalletScreen/Search';
 export * from './GoBackIcon';
 export * from './NewHomePage/Avatar';
 export * from './NewHomePage/Notification';
+export * from './NewHomePage/Speak';
+export * from './NewHomePage/ListIcon';

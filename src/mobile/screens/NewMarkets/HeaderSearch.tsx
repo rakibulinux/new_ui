@@ -42,7 +42,7 @@ export const HeaderSearch: React.FC<SearchProps> = ({ onSearch, backToAll }) => 
 	};
 
 	return (
-		<div>
+		<div className="td-mobile-screen-market__header__wrapper">
 			<div className={nonSearch}>
 				<div className="td-mobile-screen-market__header__title">Market</div>
 

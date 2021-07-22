@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import { useDepthFetch, useEventsFetch, useMarketsFetch, useMarketsTickersFetch, useRangerConnectFetch } from '../../../hooks';
 import { NewAllMarketList } from './../../components';
+import { Announcment } from './Announcment';
 import { BoxImg } from './BoxImg';
 import { MarketsTop } from './MarketTop';
 
@@ -64,6 +65,7 @@ const NewHomePage = () => {
 			<div className="td-mobile-screen-home__box-img">
 				<BoxImg />
 			</div>
+			<Announcment />
 
 			<MarketsTop />
 

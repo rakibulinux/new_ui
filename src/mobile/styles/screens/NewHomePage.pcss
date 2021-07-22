@@ -2,7 +2,8 @@
 	&__box-img {
 		height: 45vw;
 		max-height: 27.5em;
-		padding-top: 0.94em;
+		padding-bottom: 0.875em;
+		padding-top: 0.875em;
 		position: relative;
 		width: 100vw;
 
@@ -36,11 +37,62 @@
 		}
 	}
 
+	&__announcment {
+		align-items: stretch;
+		border-bottom: 1px solid#848E9C;
+		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+		display: flex;
+		justify-content: space-between;
+		margin: 0 0.875em;
+		padding: 0.6em 0;
+
+		& > * {
+			line-height: 1.5em;
+		}
+
+		&__slider {
+			flex: 1;
+			height: 100%;
+			position: relative;
+
+			&__inner {
+				bottom: 0;
+				left: 0;
+				position: absolute;
+				right: 0;
+				top: 0;
+
+				.slick-slider {
+					width: 100%;
+
+					.slick-slide {
+						& > div {
+							align-items: center;
+							display: flex;
+							overflow: hidden;
+						}
+					}
+				}
+			}
+		}
+
+		&__to-post {
+			font-size: 0.75em;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+
+			&,
+			&:hover,
+			&:focus,
+			&:active {
+				color: #fff;
+			}
+		}
+	}
+
 	&__market-top {
-		padding-bottom: 0.625em;
-		padding-left: 0.94em;
-		padding-right: 0.94em;
-		padding-top: 1.25em;
+		padding: 0.875em;
 
 		&__list-item {
 			display: flex;
@@ -58,7 +110,7 @@
 			&__item {
 				background-color: #313445;
 				border-radius: 5%;
-				box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+				box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
 				display: flex;
 				flex-direction: column;
 				margin-right: 0.5em;
@@ -109,10 +161,7 @@
 	}
 
 	&__direction {
-		padding-bottom: 1.375em;
-		padding-left: 0.94em;
-		padding-right: 0.94em;
-		padding-top: 1.125em;
+		padding: 0.875em;
 		text-decoration: none;
 
 		&__list-item {

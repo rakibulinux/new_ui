@@ -1,3 +1,5 @@
+import { Empty } from 'antd';
+import classnames from 'classnames';
 import { localeDate } from 'helpers';
 import { useCurrenciesFetch, useHistoryFetch, useWalletsFetch } from 'hooks';
 import { selectCurrencies, selectHistory, selectWallets } from 'modules';
@@ -68,17 +70,26 @@ const WithdrawHistoryTable = (props: any) => {
 				return [<RowItem amount={amount} fixed={fixed} currency={currency} createdAt={item.created_at} />, state];
 			});
 
-		return histories.length > 0 ? histories : [[]];
+		return histories.length > 0 ? histories : [[<Empty />]];
 	};
 
 	const tableData = retrieveData().map(row => row.map(a => a));
 
 	const renderBody = (rows: CellData[][]) => {
 		const rowElements = rows.map((row, i) => {
+			const isEmpty = rows.length === 1 && row.length === 1;
+
 			return (
 				<tr key={i}>
 					{row.map((c, j) => (
-						<td key={j}>{c}</td>
+						<td
+							className={classnames({
+								'w-100': isEmpty,
+							})}
+							key={j}
+						>
+							{c}
+						</td>
 					))}
 				</tr>
 			);

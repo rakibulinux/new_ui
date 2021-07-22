@@ -6,6 +6,7 @@ import get from 'lodash/get';
 import {
 	alertPush,
 	orderExecuteFetch,
+	selectAmount,
 	selectCurrentMarket,
 	selectCurrentPrice,
 	selectDepthAsks,
@@ -270,13 +271,15 @@ const OrderComponent: React.FC<OrderComponentProps> = ({}) => {
 	useMarketsTickersFetch();
 	const intl = useIntl();
 	const dispatch = useDispatch();
-	const currentPrice = useSelector(selectCurrentPrice);
+	const currentPrice = useSelector(selectCurrentPrice, isEqual);
+	const currentAmount = useSelector(selectAmount, isEqual);
 	const bids = useSelector(selectDepthBids);
 	const asks = useSelector(selectDepthAsks);
-	const currentMarket = useSelector(selectCurrentMarket);
-	const executeLoading = useSelector(selectOrderExecuteLoading);
-	const wallets = useSelector(selectWallets);
-	const marketTickers = useSelector(selectMarketTickers);
+	const currentMarket = useSelector(selectCurrentMarket, isEqual);
+	const executeLoading = useSelector(selectOrderExecuteLoading, isEqual);
+	const wallets = useSelector(selectWallets, isEqual);
+	const marketTickers = useSelector(selectMarketTickers, isEqual);
+
 	const [orderSide, setOrderSide] = React.useState<FormType>('buy');
 	const [priceLimit, setPriceLimit] = React.useState<number | undefined>(undefined);
 	const [amountSell, setAmountSell] = React.useState('');
@@ -287,7 +290,11 @@ const OrderComponent: React.FC<OrderComponentProps> = ({}) => {
 		if (currentPrice && currentPrice !== priceLimit) {
 			setPriceLimit(currentPrice);
 		}
-	}, [currentPrice]);
+		const amount = isTypeSell ? amountSell : amountBuy;
+		if (currentAmount && currentAmount !== amount) {
+			handleAmountChange(currentAmount);
+		}
+	}, [currentPrice, currentAmount]);
 
 	const handleAmountChange = (amount: string) => {
 		if (isTypeSell) {

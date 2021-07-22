@@ -221,6 +221,7 @@ export const MarketsListTradingStyle = styled.div`
 				height: 100%;
 				overflow-y: scroll;
 				background-color: transparent;
+				padding-bottom: 50px;
 				tr {
 					position: relative;
 					&.td-table__row--selected {

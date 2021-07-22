@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { ConvertUsd, Decimal, mapValues } from 'components';
-import { newAccumulateVolume } from 'helpers';
+import { accumulateVolume, newAccumulateVolume } from 'helpers';
 import get from 'lodash/get';
 import max from 'lodash/max';
 import millify from 'millify';
@@ -10,6 +10,7 @@ import {
 	selectDepthAsks,
 	selectDepthBids,
 	selectMarketTickers,
+	setAmount,
 	setCurrentPrice,
 } from 'modules';
 import * as React from 'react';
@@ -32,6 +33,7 @@ const OrderBookComponent: React.FC<OrderBookProps> = props => {
 	const asks = useSelector(selectDepthAsks);
 	const currentPrice = useSelector(selectCurrentPrice);
 	const marketTickers = useSelector(selectMarketTickers);
+
 	const renderOrderBook = (array: string[][], side: string, message: string): Array<[string, string]> => {
 		let total = newAccumulateVolume(array);
 		const priceFixed = currentMarket ? currentMarket.price_precision : 0;
@@ -43,7 +45,7 @@ const OrderBookComponent: React.FC<OrderBookProps> = props => {
 
 					switch (side) {
 						case 'asks':
-							total = newAccumulateVolume(array).slice(0).reverse();
+							total = props.horizontal ? total.slice(0).reverse() : total;
 							const volumnCustom =
 								total[i] > 10000000
 									? millify(total[i], {
@@ -76,18 +78,20 @@ const OrderBookComponent: React.FC<OrderBookProps> = props => {
 		];
 	};
 
-	const handleOnSelectBids = (index: string) => {
+	const handleOnSelectBids = (index: string, total: number) => {
 		const priceToSet = bids[Number(index)] && Number(bids[Number(index)][0]);
 		if (currentPrice !== priceToSet) {
 			dispatch(setCurrentPrice(priceToSet));
+			dispatch(setAmount(Decimal.formatRemoveZero(total, get(currentMarket, 'amount_precision', 6))));
 		}
 	};
 
-	const handleOnSelectAsks = (index: string) => {
+	const handleOnSelectAsks = (index: string, total: number) => {
 		const asksData = props.horizontal ? asks : asks.slice(0).reverse();
 		const priceToSet = asksData[Number(index)] && Number(asksData[Number(index)][0]);
 		if (currentPrice !== priceToSet) {
 			dispatch(setCurrentPrice(priceToSet));
+			dispatch(setAmount(Decimal.formatRemoveZero(total, get(currentMarket, 'amount_precision', 6))));
 		}
 	};
 
@@ -107,8 +111,8 @@ const OrderBookComponent: React.FC<OrderBookProps> = props => {
 	const orderBookEntryAsks = newAccumulateVolume(asks);
 	const orderBookEntryBids = newAccumulateVolume(bids);
 	const bgDataAsks = props.horizontal
-		? mapValues(maxVolumeAsk, orderBookEntryAsks)
-		: mapValues(maxVolumeAsk, orderBookEntryAsks).slice(0).reverse();
+		? mapValues(maxVolumeAsk, orderBookEntryAsks).slice(0).reverse()
+		: mapValues(maxVolumeAsk, orderBookEntryAsks);
 	const bgDataBids = mapValues(maxVolumeBid, orderBookEntryBids);
 
 	const getRowWidth = (side: 'bid' | 'ask', index: number) => {
@@ -136,6 +140,9 @@ const OrderBookComponent: React.FC<OrderBookProps> = props => {
 		</div>
 	);
 
+	const totalAdmountBids = accumulateVolume(bids);
+	const totalAdmountAsks = props.horizontal ? accumulateVolume(asks) : accumulateVolume(asks).slice(0).reverse();
+
 	return (
 		<div
 			className={classNames('td-mobile-cpn-order-book', {
@@ -152,7 +159,7 @@ const OrderBookComponent: React.FC<OrderBookProps> = props => {
 				<table>
 					<tbody>
 						{dataAsks.map((data, i) => (
-							<tr key={i} onClick={() => handleOnSelectAsks(i.toString())}>
+							<tr key={i} onClick={() => handleOnSelectAsks(i.toString(), totalAdmountAsks[i])}>
 								{data.map((elm, j) => {
 									const classnames = classNames({
 										'td-mobile-cpn-order-book__combined--ask-color': data[1] && j === 0,
@@ -192,7 +199,7 @@ const OrderBookComponent: React.FC<OrderBookProps> = props => {
 				<table>
 					<tbody>
 						{dataBids.map((data, i) => (
-							<tr key={i} onClick={() => handleOnSelectBids(i.toString())}>
+							<tr key={i} onClick={() => handleOnSelectBids(i.toString(), totalAdmountBids[i])}>
 								{data.map((elm, j) => {
 									const classnames = classNames({
 										'td-mobile-cpn-order-book__combined--bid-color': data[1] && j === 0,
