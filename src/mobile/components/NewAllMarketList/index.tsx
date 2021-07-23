@@ -1,9 +1,8 @@
-import { EllipsisOutlined } from '@ant-design/icons';
 import { Dropdown, Empty, Menu } from 'antd';
 import classNames from 'classnames';
 import { NewPagination, NewTabPanel } from 'components';
 import { TabPane } from 'rc-tabs';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { Market, selectMarkets, selectMarketTickers, Ticker } from '../../../modules/public/markets';
@@ -35,6 +34,9 @@ interface SearchProp {
 	pagination?: boolean;
 	hideFavorite?: boolean;
 }
+
+const otherKeyName = 'OTHER';
+
 // tslint:disable-next-line: no-empty
 export const NewAllMarketList: React.FC<SearchProp> = ({
 	valueSearch = '',
@@ -43,11 +45,9 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 	pagination = true,
 	hideFavorite,
 }) => {
-	const tabsRef = useRef<HTMLDivElement>(null);
 	const markets = useSelector(selectMarkets);
 	const tickers = useSelector(selectMarketTickers);
-	const [showDropdown, setShowDropdown] = useState(false);
-	const DEFAULT_LIST_TAB = (!hideFavorite ? ['Favorite'] : []).concat(['ALL', 'USDT', 'BTC', 'ETH', 'ALTS']);
+	const DEFAULT_LIST_TAB = (!hideFavorite ? ['Favorite'] : []).concat(['ALL', 'BTC', 'ETH', 'BNB', 'USDT']);
 	const [listTab, setListTab] = useState(DEFAULT_LIST_TAB);
 	const [tab, setTab] = useState(DEFAULT_TAB);
 	const [listMarket, setListMarket] = useState(markets);
@@ -55,27 +55,11 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 	const [pageIndex, setPageIndex] = useState(DEFAULT_PAGEINDEX);
 	const [sortBy, setSortBy] = useState(DEFAULT_SORT);
 	const [isSort, setIsSort] = useState(DEFAULT_SORT);
-	const [favoritemMarketsLocal, setFavoritemMarketsLocal] = useState(
-		JSON.parse(localStorage.getItem('favourites_markets') || '[]'),
-	);
+	const favoritemMarketsLocal = JSON.parse(localStorage.getItem('favourites_markets') || '[]');
+	const [otherActiveKey, setOtherActiveKey] = useState(otherKeyName);
 
-	useEffect(() => {
-		window.addEventListener('storage', () => {
-			const tempFavoritemMarketsLocal = JSON.parse(localStorage.getItem('favourites_markets') || '[]');
-			if (tempFavoritemMarketsLocal.length !== favoritemMarketsLocal.length) {
-				setFavoritemMarketsLocal(tempFavoritemMarketsLocal);
-			}
-		});
-	}, []);
-
-	useEffect(() => {
-		if (tabsRef.current || !showDropdown) {
-			const elmDom = document.querySelector('.td-mobile-cpn-all-market__body .td-tabs-nav-wrap');
-			if (elmDom && elmDom.scrollWidth && elmDom.clientWidth !== 0 && elmDom.scrollWidth > elmDom.clientWidth) {
-				setShowDropdown(true);
-			}
-		}
-	});
+	const listTabNormal = listTab.slice(0, 4);
+	const listTabOther = listTab.slice(4);
 
 	useEffect(() => {
 		if (markets.length > 0) {
@@ -101,6 +85,8 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 					return favoritemMarketsLocal.includes(e.id);
 				case 'ALL':
 					return true;
+				case otherKeyName:
+					return e.quote_unit === otherActiveKey.toLowerCase();
 				default:
 					return e.quote_unit === tab.toLowerCase();
 			}
@@ -120,7 +106,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 			setListMarket(listMarketTamp);
 			setIsSort(DEFAULT_SORT);
 		}
-	}, [tab, favoritemMarketsLocal]);
+	}, [tab]);
 
 	useEffect(() => {
 		let listMarketTamp;
@@ -155,7 +141,12 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 
 	const onChangeTab = (nameTab: string) => {
 		if (tab !== nameTab) {
-			setTab(nameTab);
+			if (nameTab !== otherKeyName) {
+				setTab(nameTab);
+				if (otherActiveKey !== otherKeyName) {
+					setOtherActiveKey(otherKeyName);
+				}
+			}
 		}
 	};
 
@@ -174,7 +165,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 	const onSort = (typeSort: string) => {
 		let listMarketTamp = listMarket;
 		switch (typeSort) {
-			case 'Trading Pairs':
+			case 'Pairs':
 				if (!isSort.pairs) {
 					setIsSort({ pairs: true, price: false, change: false });
 				}
@@ -188,7 +179,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 				setSortBy({ ...DEFAULT_SORT, pairs: !sortBy.pairs });
 
 				break;
-			case 'Latest  Price':
+			case 'Last  Price':
 				if (!isSort.price) {
 					setIsSort({ pairs: false, price: true, change: false });
 				}
@@ -211,7 +202,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 				setSortBy({ ...DEFAULT_SORT, price: !sortBy.price });
 
 				break;
-			case '24h Change':
+			case 'Change':
 				if (!isSort.change) {
 					setIsSort({ pairs: false, price: false, change: true });
 				}
@@ -247,51 +238,64 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 	};
 
 	const renderTab = () => {
-		return (
-			<NewTabPanel
-				activeKey={tab}
-				onChange={onChangeTab}
-				tabBarExtraContent={
-					showDropdown ? (
-						<Dropdown
-							placement="bottomRight"
-							className="td-mobile-cpn-all-market__body__wrapper__more_btn"
-							overlay={renderMenuDropdown()}
-							trigger={['click']}
-						>
-							<EllipsisOutlined />
-						</Dropdown>
-					) : null
-				}
-			>
-				{listTab.map(name => (
-					<TabPane key={name} tab={name}>
-						{renderTable()}
-					</TabPane>
-				))}
-			</NewTabPanel>
-		);
-	};
-
-	const renderMenuDropdown = () => {
-		return (
+		const dropdownTab = (
 			<Menu style={{ background: 'var(--mobile-body-background-color)' }}>
-				{listTab.map(name => (
-					<Menu.Item key={name} onClick={() => onChangeTab(name)}>
+				{listTabOther.map(name => (
+					<Menu.Item
+						style={{
+							backgroundColor: tab === otherKeyName ? 'rgba(255, 255, 255, 0.08)' : undefined,
+						}}
+						key={name}
+						onClick={() => {
+							setTab(otherKeyName);
+							setOtherActiveKey(name);
+						}}
+					>
 						{name}
 					</Menu.Item>
 				))}
 			</Menu>
 		);
+
+		return (
+			<NewTabPanel activeKey={tab} onChange={onChangeTab}>
+				{listTabNormal.map(name => (
+					<TabPane key={name} tab={name}>
+						{renderTable()}
+					</TabPane>
+				))}
+				<TabPane
+					key={otherKeyName}
+					tab={
+						<Dropdown placement="bottomRight" overlay={dropdownTab} trigger={['click']}>
+							<span>
+								{otherActiveKey}{' '}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill={tab === otherKeyName ? '#FFF' : '#848e9c'}
+									width="22"
+									height="22"
+									viewBox="0 0 24 24"
+								>
+									<path d="M16 9v1.2L12 15l-4-4.8V9h8z"></path>
+								</svg>
+							</span>
+						</Dropdown>
+					}
+				>
+					{renderTable()}
+				</TabPane>
+			</NewTabPanel>
+		);
 	};
 
 	const renderHeaderTable = () => {
-		const listHeader = ['Trading Pairs', 'Latest  Price', '24h Change'];
+		const listHeader = ['Pairs', 'Last  Price', 'Change'];
 		const renderUiHeader = listHeader.map((name, i) => {
 			let classActiveUpDown = 'd-flex flex-column justify-content-center td-mobile-cpn-all-market__body__info__item__icon';
 
 			switch (name) {
-				case 'Trading Pairs':
+				case 'Pairs':
 					if (isSort.pairs) {
 						classActiveUpDown = classNames(
 							'd-flex flex-column justify-content-center td-mobile-cpn-all-market__body__info__item__icon',
@@ -300,7 +304,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 						);
 					}
 					break;
-				case 'Latest  Price':
+				case 'Last  Price':
 					if (isSort.price) {
 						classActiveUpDown = classNames(
 							'd-flex flex-column justify-content-center td-mobile-cpn-all-market__body__info__item__icon',
@@ -309,7 +313,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 						);
 					}
 					break;
-				case '24h Change':
+				case 'Change':
 					if (isSort.change) {
 						classActiveUpDown = classNames(
 							'd-flex flex-column justify-content-center td-mobile-cpn-all-market__body__info__item__icon',
@@ -374,9 +378,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 
 	return (
 		<div className="td-mobile-cpn-all-market__body">
-			<div className="td-mobile-cpn-all-market__body__wrapper" ref={tabsRef}>
-				{renderTab()}
-			</div>
+			<div className="td-mobile-cpn-all-market__body__wrapper">{renderTab()}</div>
 			{pagination ? renderPagination() : undefined}
 		</div>
 	);

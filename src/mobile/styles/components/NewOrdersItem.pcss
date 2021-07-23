@@ -1,11 +1,14 @@
 .td-mobile-cpn-orders-item {
 	align-items: center;
-	box-shadow: inset 0 -1px 0 var(--divider-color-level-1);
 	display: flex;
 	flex-direction: column;
 	height: 92px;
 	justify-content: flex-start;
 	width: 100%;
+
+	&:not(:last-child) {
+		border-bottom: 1px solid #848e9c8c;
+	}
 
 	&__row {
 		align-items: flex-start;

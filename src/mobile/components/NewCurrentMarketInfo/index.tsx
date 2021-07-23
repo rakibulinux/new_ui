@@ -117,6 +117,12 @@ export const CurrentMarketInfoComponent: React.FC = () => {
 	const currentMarket = useSelector(selectCurrentMarket, isEqual);
 	const marketTickers = useSelector(selectMarketTickers);
 
+	React.useEffect(() => {
+		if (showDrawer) {
+			setShowDrawer(false);
+		}
+	}, [currentMarket]);
+
 	const getTickerValue = (value: string) => {
 		return currentMarket && (marketTickers[currentMarket.id] || defaultTicker)[value];
 	};
