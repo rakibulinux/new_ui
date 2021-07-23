@@ -1,4 +1,4 @@
-import { Empty } from 'antd';
+﻿import { Empty } from 'antd';
 import classnames from 'classnames';
 import { ConvertUsd } from 'components';
 import { calcWalletsData } from 'helpers';
@@ -23,10 +23,11 @@ export const NewWalletsMobileScreen = () => {
 	const [searchString, setSearchString] = useState<string>('');
 	const [hideSmallBalance, setHideSmallBalance] = useState<boolean>(false);
 
-	const data = calcWalletsData(wallets, allChildCurrencies).filter(
-		({ currency, total }) =>
-			currency.includes(searchString.toLowerCase().trim()) && (hideSmallBalance ? Number(total) > 0 : true),
-	);
+	const data = calcWalletsData(wallets, allChildCurrencies).filter(({ currency, total }) => {
+		if (!currency.includes(searchString.toLowerCase().trim())) return false;
+		if (hideSmallBalance && Number(total) <= 0) return false;
+		return !allChildCurrencies.map(_e => _e.id).includes(currency);
+	});
 
 	const renderWalletList = (walletsParam: Wallet[]) => {
 		return walletsParam.map(wallet => (
