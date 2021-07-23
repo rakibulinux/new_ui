@@ -88,28 +88,31 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 		}
 	}, [markets]);
 
+	const filterTab = () =>
+		markets.filter(e => {
+			switch (tab) {
+				case 'ALTS':
+					return (
+						e.quote_unit !== DEFAULT_LIST_TAB[1].toLowerCase() &&
+						e.quote_unit !== DEFAULT_LIST_TAB[2].toLowerCase() &&
+						e.quote_unit !== DEFAULT_LIST_TAB[3].toLowerCase()
+					);
+				case 'Favorite':
+					return favoritemMarketsLocal.includes(e.id);
+				case 'ALL':
+					return true;
+				default:
+					return e.quote_unit === tab.toLowerCase();
+			}
+		});
+
 	useEffect(() => {
 		if (tab !== '') {
 			if (valueSearch !== '') {
 				setValueSearch('');
 			}
 
-			let listMarketTamp = markets.filter(e => {
-				switch (tab) {
-					case 'ALTS':
-						return (
-							e.quote_unit !== DEFAULT_LIST_TAB[1].toLowerCase() &&
-							e.quote_unit !== DEFAULT_LIST_TAB[2].toLowerCase() &&
-							e.quote_unit !== DEFAULT_LIST_TAB[3].toLowerCase()
-						);
-					case 'Favorite':
-						return favoritemMarketsLocal.includes(e.id);
-					case 'ALL':
-						return true;
-					default:
-						return e.quote_unit === tab.toLowerCase();
-				}
-			});
+			let listMarketTamp = filterTab();
 			listMarketTamp = sortForAZ(listMarketTamp, false);
 			setPageIndex(DEFAULT_PAGEINDEX);
 			setMaxPage(Math.ceil(listMarketTamp.length / MAX_ELEMENT));
@@ -120,20 +123,18 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 	}, [tab, favoritemMarketsLocal]);
 
 	useEffect(() => {
+		let listMarketTamp;
+		listMarketTamp = filterTab();
 		if (valueSearch !== '') {
-			setTab('');
-			let listMarketTamp;
 			// tslint:disable-next-line: prefer-conditional-expression
 			if (valueSearch.search('/') > 0) {
-				listMarketTamp = markets.filter(e => e.name === valueSearch.toUpperCase());
+				listMarketTamp = listMarketTamp.filter(e => e.name.includes(valueSearch.toUpperCase()));
 			} else {
-				listMarketTamp = markets.filter(e => e.name.split('/')[0] === valueSearch.toUpperCase());
+				listMarketTamp = listMarketTamp.filter(e => e.name.split('/')[0].includes(valueSearch.toUpperCase()));
 			}
 			setIsSort(DEFAULT_SORT);
-			setListMarket(listMarketTamp);
-		} else {
-			setTab(DEFAULT_TAB);
 		}
+		setListMarket(listMarketTamp);
 	}, [valueSearch]);
 
 	const onChangeFavorite = () => {
