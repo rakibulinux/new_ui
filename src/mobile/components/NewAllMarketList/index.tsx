@@ -261,7 +261,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 						>
 							<EllipsisOutlined />
 						</Dropdown>
-					) : undefined
+					) : null
 				}
 			>
 				{listTab.map(name => (
@@ -275,7 +275,7 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 
 	const renderMenuDropdown = () => {
 		return (
-			<Menu style={{ background: '#313445' }}>
+			<Menu style={{ background: 'var(--mobile-body-background-color)' }}>
 				{listTab.map(name => (
 					<Menu.Item key={name} onClick={() => onChangeTab(name)}>
 						{name}

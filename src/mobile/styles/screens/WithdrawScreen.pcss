@@ -1,7 +1,7 @@
 .td-mobile-screen-withdraw {
 	&__header {
 		align-items: center;
-		background-color: #313445;
+		background-color: var(--mobile-body-background-color);
 		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 		display: grid;
 		grid-template-columns: 1fr 2fr 1fr;
@@ -27,10 +27,10 @@
 	}
 
 	&__body {
-		background-color: #313445;
+		background-color: var(--mobile-body-background-color);
 		border-radius: 5px;
 		box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
-		margin: 1rem;
+		margin: var(--mobile-main-margin-size);
 		padding: 1.25em 0.5em;
 		position: relative;
 
@@ -95,7 +95,7 @@
 						&__copy-btn {
 							background: #2fb67e;
 							border: none;
-							border-radius: 3px;
+							border-radius: var(--mobile-border-radius-small-size);
 							color: #fff;
 							outline: none;
 							padding: 0.5rem;

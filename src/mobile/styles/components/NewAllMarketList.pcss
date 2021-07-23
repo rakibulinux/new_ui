@@ -1,9 +1,9 @@
 .td-mobile-cpn-all-market {
 	&__body {
-		background-color: #313445;
-		border-radius: 3px;
+		background-color: var(--mobile-body-background-color);
+		border-radius: var(--mobile-border-radius-small-size);
 		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
-		margin: 0.875em;
+		margin: var(--mobile-main-margin-size);
 		padding: 1em 0.625em;
 		padding-bottom: 0.3125em;
 		position: relative;
@@ -21,6 +21,10 @@
 				align-items: center;
 				border-bottom: 1px solid #848e9c;
 				box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+
+				&-more {
+					display: none;
+				}
 
 				&-wrap {
 					&::before,
@@ -57,8 +61,9 @@
 		&__wrapper {
 			&__more_btn {
 				align-items: center;
-				background-color: #313445;
+				background-color: var(--mobile-body-background-color);
 				border: 1px solid #848e9c;
+				border-radius: 1vw;
 				display: flex;
 				height: 2.063rem;
 				justify-content: center;

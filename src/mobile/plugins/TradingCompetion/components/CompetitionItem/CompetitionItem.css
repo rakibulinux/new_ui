@@ -10,7 +10,7 @@
 
 .competition-item-mobile__badge {
 	padding: 0.5rem 1rem;
-	border-radius: 3px;
+	border-radius: var(--mobile-border-radius-small-size);
 	font-size: 10px;
 	font-weight: bold;
 	text-transform: uppercase;
@@ -41,7 +41,7 @@
 	padding: 0.7rem 0;
 	color: #fff;
 	background-color: #f5a623;
-	border-radius: 3px;
+	border-radius: var(--mobile-border-radius-small-size);
 	font-weight: 800;
 	font-size: 1.2rem;
 	transition: all 0.3s;
@@ -58,7 +58,7 @@
 	color: #737f92;
 	border: 1px solid #737f92;
 	font-size: 1.2rem;
-	border-radius: 3px;
+	border-radius: var(--mobile-border-radius-small-size);
 	font-weight: 800;
 }
 
