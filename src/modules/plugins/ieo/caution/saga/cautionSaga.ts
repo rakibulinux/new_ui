@@ -9,11 +9,13 @@ const createOptions = (csrfToken?: string): RequestOptions => {
 export function* fetchIEOCautionSaga(action: FetchIEOCaution) {
 	try {
 		const { ieo_id } = action.payload;
+		console.log(ieo_id);
+
 		const response = yield call(API.get(createOptions(getCsrfToken())), `public/ieo/caution/${ieo_id}`);
 		yield put(
 			fetchIEOCautionData({
 				payload: response,
-				loading: true,
+				loading: false,
 			}),
 		);
 	} catch (error) {

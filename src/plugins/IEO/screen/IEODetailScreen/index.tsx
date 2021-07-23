@@ -31,6 +31,7 @@ export const IEODetailScreen = () => {
 			</div>
 		);
 	};
+	console.log(IEOItem);
 	const renderBuyHistoryView = () => {
 		if (user.uid) {
 			return (
@@ -79,6 +80,7 @@ export const IEODetailScreen = () => {
 					</div>
 				</div>
 			</div>
+
 			<div className="container ieo-detail-screen__body">
 				<div className="row">
 					{loading ? (
@@ -91,6 +93,9 @@ export const IEODetailScreen = () => {
 									startDate={IEOItem.start_date}
 									bonus={IEOItem.bonus}
 									currencyID={IEOItem.currency_id}
+									remains={Number(IEOItem.remains)}
+									total={Number(IEOItem.total_ieo)}
+									progress={IEOItem.progress}
 								/>
 							</div>
 

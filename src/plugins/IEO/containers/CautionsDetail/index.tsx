@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 export const CautionsDetail = (props: { ieoID: number }) => {
 	const caution = useSelector(selectIEOCaution);
 	const dispatch = useDispatch();
-	React.useEffect(() => {
-		dispatch(fetchIEOCaution({ ieo_id: props.ieoID }));
-	}, []);
+	const { ieoID } = props;
 
+	React.useEffect(() => {
+		dispatch(fetchIEOCaution({ ieo_id: ieoID }));
+	}, []);
 	const loadingSpinner = () => {
 		return (
 			<div className="loading d-flex -justify-content-center w-100">
@@ -18,6 +19,7 @@ export const CautionsDetail = (props: { ieoID: number }) => {
 			</div>
 		);
 	};
+
 	return (
 		<div id="cautions-detail">
 			<div className="cautions-detail-title">
@@ -42,9 +44,11 @@ export const CautionsDetail = (props: { ieoID: number }) => {
 					<div className="noticeForRate">
 						<h3> Notice For Rates</h3>
 						<ul>
-							{caution.payload.notices.map((notice, index) => (
-								<li key={index}>{notice}</li>
-							))}
+							{!caution.error ? (
+								caution.payload.notices.map((notice, index) => <li key={index}>{notice}</li>)
+							) : (
+								<></>
+							)}
 						</ul>
 					</div>
 				</div>
