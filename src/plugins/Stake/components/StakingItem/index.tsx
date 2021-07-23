@@ -52,31 +52,18 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 	};
 
 	const statusClassnames = classNames(
-		'stacking-item__label',
+		'desktop-stacking-item__label',
 		status === 'upcoming'
-			? 'stacking-item__label-upcoming'
+			? 'desktop-stacking-item__label-upcoming'
 			: status === 'running'
-			? 'stacking-item__label-running'
+			? 'desktop-stacking-item__label-running'
 			: status === 'ended'
-			? 'stacking-item__label-ended'
+			? 'desktop-stacking-item__label-ended'
 			: '',
 	);
 
 	const renderStakeLabel = () => {
 		return <div className={statusClassnames}>{status.toUpperCase()}</div>;
-	};
-
-	const renderProgressBar = () => {
-		return (
-			<div className="timer" hidden={status === 'ended'}>
-				<span className="text-warning" hidden={status !== 'upcoming'}>
-					Start in: <Countdown date={new Date(start_time)} renderer={renderer} />
-				</span>
-				<span className="text-danger" hidden={status !== 'running'}>
-					Close in: <Countdown date={new Date(end_time)} renderer={renderer} />
-				</span>
-			</div>
-		);
 	};
 
 	React.useEffect(() => {
@@ -93,48 +80,69 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 			// render a completed state
 			// window.location.reload(false);
 			return (
-				<span>
-					{0}:{0}:{0}:{0}
-				</span>
+				<div className="desktop-stacking-item__timer__countdown w-100 d-flex flex-row justify-content-around">
+					<div className="desktop-stacking-item__timer__countdown__item">0</div>
+					<div className="desktop-stacking-item__timer__countdown__item">0</div>
+					<div className="desktop-stacking-item__timer__countdown__item">0</div>
+					<div className="desktop-stacking-item__timer__countdown__item">0</div>
+				</div>
 			);
 		} else {
 			// render a countdown
 			return (
-				<span>
-					{days}d {hours}h {minutes}m {seconds}s
-				</span>
+				<div className="desktop-stacking-item__timer__countdown w-100 d-flex flex-row justify-content-around">
+					<div className="desktop-stacking-item__timer__countdown__item">{days}</div>
+					<div className="desktop-stacking-item__timer__countdown__item">{hours}</div>
+					<div className="desktop-stacking-item__timer__countdown__item">{minutes}</div>
+					<div className="desktop-stacking-item__timer__countdown__item">{seconds}</div>
+				</div>
 			);
 		}
 	};
 
 	return (
-		<div id="stacking-item">
+		<div className="desktop-stacking-item">
 			<div className={statusClassnames}>
 				<span>{status.toUpperCase()}</span>
 			</div>
-			<div className="staking-item-container d-flex flex-column">
-				<section className="image">
-					<div className="logo-image">
-						<img src={getCryptoIcon(currency_id)} alt="" />
+			<div className="desktop-stacking-item__container d-flex flex-column">
+				<section className="desktop-stacking-item__container__image">
+					<div className="desktop-stacking-item__container__image__logo-image">
+						<img src={getCryptoIcon(currency_id)} alt={currency_id} />
 					</div>
 				</section>
-				<section className="text">
-					<h3 className="title">{staking_name}</h3>
-					<div className="reward-container d-flex flex-row flex-wrap align-items-center">
+				<section className="desktop-stacking-item__container__text">
+					<h3 className="desktop-stacking-item__container__text__title">{staking_name}</h3>
+					<div className="desktop-stacking-item__container__text__reward-container d-flex flex-row flex-wrap align-items-center">
 						{rewards.map((reward, index) => (
-							<div className="reward">
-								<div className="reward-box" key={index}>
-									<div className="reward-box__rate">{Number(reward.annual_rate) * 100}%</div>
-									<div className="reward-box__period text-white">{Number(reward.period)} days</div>
+							<div className="desktop-stacking-item__container__text__reward-container__reward">
+								<div
+									className="desktop-stacking-item__container__text__reward-container__reward__box"
+									key={index}
+								>
+									<div className="desktop-stacking-item__container__text__reward-container__reward__box__rate">
+										{Number(reward.annual_rate) * 100}%
+									</div>
+									<div className="desktop-stacking-item__container__text__reward-container__reward__box__period text-white">
+										{Number(reward.period)} days
+									</div>
 								</div>
 							</div>
 						))}
 					</div>
 				</section>
-				<section className="stake-item__time d-flex flex-row justify-content-between align-items-end">
-					{renderProgressBar()}
-				</section>
-				<section className="stake-item__progress d-flex flex-row justify-content-between align-items-end">
+				<div className="desktop-stacking-item__timer">
+					<div hidden={status !== 'upcoming'}>
+						<Countdown date={new Date(start_time)} renderer={renderer} />
+					</div>
+					<div hidden={status !== 'running'}>
+						<Countdown date={new Date(end_time)} renderer={renderer} />
+					</div>
+					<div hidden={status !== 'ended'}>
+						<Countdown date={new Date(end_time)} renderer={renderer} />
+					</div>
+				</div>
+				<section className="desktop-stacking-item__container__progress d-flex flex-row justify-content-between align-items-end">
 					<div style={{ position: 'relative', width: '100%' }}>
 						<ProgressBar
 							style={{ width: '100%', background: 'rgba(132, 142, 156, 0.35)', height: '30px' }}
@@ -172,18 +180,23 @@ export const StakingItem: React.FC<Props> = (props: Props) => {
 						</div>
 					</div>
 				</section>
-				<section className="buttons d-flex flex-row justify-content-between align-items-end">
-					<button onClick={handleGoStacking} className="go-stack-btn">
+				<section className="desktop-stacking-item__container__buttons d-flex flex-row justify-content-between align-items-end">
+					<button onClick={handleGoStacking} className="desktop-stacking-item__container__buttons__go-stake">
 						{status === 'ended' || status === 'upcoming'
 							? intl.formatMessage({ id: `stake.list.item.button.view` })
 							: intl.formatMessage({ id: `stake.list.item.button.goStake` })}
 					</button>
-					<a rel="noopener noreferrer" target="_blank" href={ref_link} className="btn learn-more-btn">
+					<a
+						rel="noopener noreferrer"
+						target="_blank"
+						href={ref_link}
+						className="btn desktop-stacking-item__container__buttons__learn-more"
+					>
 						{intl.formatMessage({ id: `stake.list.item.button.learnMore` })}
 					</a>
 				</section>
 			</div>
-			<div hidden={active} className="stacking-item__disabled">
+			<div hidden={active} className="desktop-stacking-item__disabled">
 				<span>Stake is disabled</span>
 			</div>
 			{renderStakeLabel()}
