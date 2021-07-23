@@ -9,6 +9,7 @@ export interface Config {
 		ieoAPIUrl: string;
 		sunshineUrl: string;
 		stakeUrl: string;
+		walletUrl: string;
 	};
 	minutesUntilAutoLogout?: string;
 	rangerReconnectPeriod?: string;

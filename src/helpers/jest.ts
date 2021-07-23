@@ -18,6 +18,7 @@ const mockConfig: Config = {
 		ieoAPIUrl: '/api/v2/ieo',
 		sunshineUrl: '/api/v2/sunshine',
 		stakeUrl: '/api/v2/stake',
+		walletUrl: '/api/v2/wallet',
 	},
 	minutesUntilAutoLogout: '30',
 	rangerReconnectPeriod: '1',

@@ -1,14 +1,15 @@
-import { put } from 'redux-saga/effects';
-// import { API, RequestOptions } from '../../../../../api';
-import axios from '../../../../plugins/api/index';
+import { API, RequestOptions } from 'api';
+import { getCsrfToken } from 'helpers';
+import { call, put } from 'redux-saga/effects';
 
 import { ethFeeData, ethFeeError, ETHFeeFetch } from '../actions';
-import { ETHFeeState } from '../types';
-
+const createOptions = (csrfToken?: string): RequestOptions => {
+	return { apiVersion: 'wallet', headers: { 'X-CSRF-Token': csrfToken } };
+};
 export function* ethFeeSaga(action: ETHFeeFetch) {
 	try {
-		const ethFee = yield axios.get<ETHFeeState>('eth-withdraw/get/eth_fee');
-		yield put(ethFeeData(ethFee.data.payload));
+		const list = yield call(API.get(createOptions(getCsrfToken())), '/private/wallet/fee/eth');
+		yield put(ethFeeData(list));
 	} catch (error) {
 		yield put(ethFeeError(error));
 	}

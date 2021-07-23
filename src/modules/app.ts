@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import { airdropReducer } from './airdrops/airdrop';
 import { claimReducer } from './airdrops/claim';
 import { ethFeeReducer } from './eth-withdraw/fee';
-import { ethFeeWithdrawReducer } from './eth-withdraw/withdraw';
 import { lunarReducer } from './events/lunar';
 import { announcementReducer } from './info/announcement';
 import { eventReducer } from './info/events';
@@ -74,7 +73,6 @@ export const airdropsReducer = combineReducers({
 
 export const ethFeesReducer = combineReducers({
 	ethFee: ethFeeReducer,
-	withdraw: ethFeeWithdrawReducer,
 });
 
 export const saleReducer = combineReducers({

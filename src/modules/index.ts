@@ -15,7 +15,6 @@ import {
 	userReducer,
 } from './app';
 import { ETHFeeState, rootETHFeeSaga } from './eth-withdraw/fee';
-import { ETHFeeWithdrawState, rootETHFeeWithdrawSaga } from './eth-withdraw/withdraw';
 import { LunarsState, rootLunarSaga } from './events/lunar';
 import { AnnouncementState, rootAnnouncementSaga } from './info/announcement';
 import { EventsState, rootEventSaga } from './info/events';
@@ -83,7 +82,6 @@ import { IEOCautionState, rootIEOCautionSaga } from './plugins/ieo/caution';
 export * from './airdrops/airdrop';
 export * from './airdrops/claim';
 export * from './eth-withdraw/fee';
-export * from './eth-withdraw/withdraw';
 export * from './events/lunar';
 export * from './info/announcement';
 export * from './info/events';
@@ -154,7 +152,6 @@ export interface RootState {
 	};
 	ethFee: {
 		ethFee: ETHFeeState;
-		withdraw: ETHFeeWithdrawState;
 	};
 	info: {
 		events: EventsState;
@@ -271,7 +268,6 @@ export function* rootSaga() {
 		call(rootAirdropSaga),
 		call(rootClaimSaga),
 		call(rootETHFeeSaga),
-		call(rootETHFeeWithdrawSaga),
 		call(rootSaleListSaga),
 		call(rootSaleItemSaga),
 		call(rootIEOItemSaga),
