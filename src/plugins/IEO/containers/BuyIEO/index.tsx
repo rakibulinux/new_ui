@@ -122,6 +122,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 			Number(quantityState) !== 0 &&
 			props.minBuy <= Number(quantityState) &&
 			handleGetBalance(selectedCurrencyState) !== 0 &&
+			handleGetBalance(selectedCurrencyState) >= Number(totalPriceState) &&
 			props.type === 'ongoing';
 		return (
 			<button
@@ -150,7 +151,6 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 	}, [buyResponse.loading]);
 	const handleBuy = () => {
 		setIsLoadingState(true);
-		const uid = props.uid;
 		if (
 			priceState &&
 			priceState > 0 &&
@@ -161,9 +161,7 @@ export const BuyIEOComponent: React.FC<BuyIEOProps> = props => {
 		) {
 			const buyInfo: BuyIEO = {
 				ieo_id: props.id,
-				uid: uid,
 				quantity: Number(quantityState),
-				total_purchase: totalPriceState,
 				quote_currency: selectedCurrencyState.toLowerCase(),
 			};
 			dispatchBuy(buyInfo);

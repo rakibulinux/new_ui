@@ -3,7 +3,6 @@ import { BuyHistoryListState, BuyersHistoryState } from './types';
 export interface FetchBuyHistory {
 	type: typeof Constants.FETCH_BUY_HISTORY;
 	payload: {
-		uid: string;
 		ieo_id: number;
 		page: number;
 		pageSize: number;

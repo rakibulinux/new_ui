@@ -15,7 +15,6 @@ export function* buyIEOItemSaga(action: BuyIEOItem) {
 		yield put(
 			fetchBuyHistory({
 				ieo_id: Number(action.payload.ieo_id),
-				uid: action.payload.uid,
 				page: 0,
 				pageSize: 5,
 			}),

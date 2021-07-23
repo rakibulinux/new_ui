@@ -2,9 +2,7 @@ import { CommonState } from '../../../../modules/types';
 
 export interface BuyIEO {
 	ieo_id: string;
-	uid: string;
 	quantity: number;
-	total_purchase: number;
 	quote_currency: string;
 	success?: boolean;
 }

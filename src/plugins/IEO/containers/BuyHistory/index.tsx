@@ -18,7 +18,6 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 	React.useEffect(() => {
 		dispatch(
 			fetchBuyHistory({
-				uid: props.uid,
 				ieo_id: props.ieoID,
 				page: numberPage - 1,
 				pageSize: pageSize,
