@@ -123,7 +123,9 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 		try {
 			return require(`../../../node_modules/cryptocurrency-icons/128/color/${code.toLowerCase()}.png`);
 		} catch (err) {
-			if (currency) { return currency.icon_url; }
+			if (currency) {
+				return currency.icon_url;
+			}
 
 			return require('../../../node_modules/cryptocurrency-icons/svg/color/generic.svg');
 		}
@@ -135,7 +137,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 
 		if (currentMarket) {
 			dispatch(setCurrentMarket(currentMarket));
-			history.push(`/trading/${currentMarket.id}`);
+			history.push(`/market/${currentMarket.id}`);
 		}
 	};
 

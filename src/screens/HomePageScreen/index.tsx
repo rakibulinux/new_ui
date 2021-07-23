@@ -197,7 +197,7 @@ export const HomePageScreen = () => {
 					<MarketChartItem>
 						<div
 							className="container"
-							onClick={() => history.push(`/trading/${baseCurrency.toLowerCase() + quoteCurrency.toLowerCase()}`)}
+							onClick={() => history.push(`/market/${baseCurrency.toLowerCase() + quoteCurrency.toLowerCase()}`)}
 						>
 							<div className="row">
 								<div className="col-12 d-flex justify-content-between">

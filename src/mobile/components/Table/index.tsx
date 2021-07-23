@@ -66,7 +66,7 @@ const TableComponent: React.FC<TableProps> = ({ headers, markets }) => {
 
 	const redirectToTrading = (paramMarket: Market) => {
 		dispatch(setCurrentMarket(paramMarket));
-		history.push(`/trading/${paramMarket.id}`);
+		history.push(`/market/${paramMarket.id}`);
 	};
 
 	const renderHead = (row: string[]) => {

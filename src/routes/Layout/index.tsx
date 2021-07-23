@@ -199,8 +199,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 
 		if (!isLoggedIn && prevProps.isLoggedIn && !userLoading) {
 			this.props.walletsReset();
-			if (!history.location.pathname.includes('/trading')) {
-				history.push('/trading/');
+			if (!history.location.pathname.includes('/market')) {
+				history.push('/market/');
 			}
 		}
 
@@ -229,7 +229,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 			configsLoading,
 			platformAccessStatus,
 		} = this.props;
-		const tradingCls = location.pathname.includes('/trading') ? 'trading-layout' : '';
+		const tradingCls = location.pathname.includes('/market') ? 'trading-layout' : '';
 		toggleColorTheme(colorTheme);
 
 		if (configsLoading && !platformAccessStatus.length) {
@@ -345,7 +345,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							path="/profile"
 							component={ProfileMobileScreen}
 						/>
-						<Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
+						<Route exact={false} path="/market/:market?" component={TradingScreenMobile} />
 						<Route exact={true} path="/" component={LandingScreenMobile} />
 						<Route path="/ieo" exact component={IEOListMobileScreen} />
 						<Route path="/ieo/detail/:ieoID" exact component={IEODetailMobileScreen} />
@@ -358,7 +358,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						<Route path="/stake" exact component={StakingListMobileScreen} />
 						<Route path="/stake/detail/:stake_id" exact component={StakingDetailMobileScreen} />
 						<Route path="**">
-							<Redirect to="/trading/" />
+							<Redirect to="/market/" />
 						</Route>
 					</Switch>
 					{isLoggedIn && <WalletsFetch />}
@@ -400,7 +400,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					/>
 					<Route path="/404" component={RestrictedScreen} />
 					<Route path="/500" component={MaintenanceScreen} />
-					<Route exact={false} path="/trading/:market?" component={TradingScreen} />
+					<Route exact={false} path="/market/:market?" component={TradingScreen} />
 					<Route exact={true} path="/" component={NewHomePage} />
 					<Route exact={false} path="/fee" component={AssetsFeeScreen} />
 					<Route exact path="/markets" component={MarketsList} />
@@ -470,7 +470,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route path="/stake" exact component={StakingListScreen} />
 					<Route path="/stake/detail/:stake_id" exact component={StakingDetailScreen} />
 					<Route path="**">
-						<Redirect to="/trading/" />
+						<Redirect to="/market/" />
 					</Route>
 				</Switch>
 				{isLoggedIn && <WalletsFetch />}

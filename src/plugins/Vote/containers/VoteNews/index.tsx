@@ -66,7 +66,7 @@ export const VoteNews: React.FC<VoteNewsProps> = ({}) => {
 					{constants.VOTE_CURRENCIE.toUpperCase()}. Minimum 10,000 votes required to be considered.
 				</p>
 				<p>
-					You can buy CX on <Link to="/trading/cxusdt">CX Exchange</Link> or{' '}
+					You can buy CX on <Link to="/market/cxusdt">CX Exchange</Link> or{' '}
 					<a
 						href="https://app.uniswap.org/#/swap?outputCurrency=0x3f4e02741b155f5ce8d6190d294d4f916125b896&use=V2"
 						target="blank"

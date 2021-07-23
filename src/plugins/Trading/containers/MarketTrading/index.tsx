@@ -131,7 +131,7 @@ const MarketTradingContainer: React.FC = () => {
 			const marketFromUrl = history.location.pathname.split('/');
 			const marketNotMatched = currentMarket.id !== marketFromUrl[marketFromUrl.length - 1];
 			if (marketNotMatched) {
-				history.replace(`/trading/${currentMarket.id}`);
+				history.replace(`/market/${currentMarket.id}`);
 
 				if (!incrementalOrderBook()) {
 					dispatch(depthFetch(currentMarket));

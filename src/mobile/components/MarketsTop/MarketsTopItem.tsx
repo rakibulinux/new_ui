@@ -16,7 +16,7 @@ const MarketsTopItemComponent: React.FC<MarketsTopItemProps> = ({ market, ticker
 
 	const redirectToTrading = (paramMarket: Market) => {
 		dispatch(setCurrentMarket(paramMarket));
-		history.push(`/trading/${paramMarket.id}`);
+		history.push(`/market/${paramMarket.id}`);
 	};
 
 	const marketTickerChange = +(+ticker.last - +ticker.open).toFixed(market.price_precision);
