@@ -46,22 +46,24 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
 	};
 
 	const bonusQuantity = NP.times(quantity, bonus);
+
 	const totalQuantity = NP.plus(baseBalance, quantity, bonusQuantity);
+
 	const baseTitle = (
 		<div className="base-title-content w-100 d-flex flex-wrap justify-content-center">
 			<img style={{ width: '3rem', height: '3rem' }} src={findIcon(baseCurrency)} alt={baseCurrency} />
-			<span style={{ fontSize: '1.6rem', marginLeft: '5px' }}>{baseCurrency}</span>
+			<span style={{ fontSize: '1.4rem', marginLeft: '5px' }}>{baseCurrency}</span>
 		</div>
 	);
 	const quoteTitle = (
 		<div className="base-title-content w-100 d-flex  flex-wrap justify-content-center">
 			<img style={{ width: '3rem', height: '3rem' }} src={findIcon(quoteCurrency)} alt={quoteCurrency} />
-			<span style={{ fontSize: '1.6rem', marginLeft: '5px' }}>{quoteCurrency}</span>
+			<span style={{ fontSize: '1.4rem', marginLeft: '5px' }}>{quoteCurrency}</span>
 		</div>
 	);
 	const informationBuy = (balance: number, Status: JSX.Element, type: string) => {
 		return (
-			<div className={`information_to_Buy ${type}`}>
+			<div className={`information_to_Buy mt-3 ${type}`}>
 				<p>{balance}</p>
 				{Status}
 			</div>
@@ -72,7 +74,7 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
 			return null;
 		}
 		return (
-			<div className="bonus">
+			<div className="bonus" style={{ margin: '3px' }}>
 				<p>
 					{`🥳 You will receive ${bonus * 100}% bonus of ${quantity} ${baseCurrency.toUpperCase()}
 					(+${bonusQuantity} ${baseCurrency.toUpperCase()}) = ${NP.plus(quantity, bonusQuantity)} 
@@ -91,13 +93,23 @@ export const BuyConfirmModal: React.FC<BuyConfirmModalProps> = (props: BuyConfir
 					</div>
 					<div id="buy-confirm-modal-body">
 						<div className="d-flex flex-wrap justify-content-between col-12">
-							<div className="col-5 infor-price d-flex flex-wrap justify-content-center">
-								{baseTitle}
-								{informationBuy(totalQuantity, <ArrowUpOutlined />, 'up')}
+							<div className="col-6 infor-price">
+								<div
+									className="w-100 d-flex flex-wrap justify-content-center"
+									style={{ backgroundColor: 'rgb(18 17 19 / 26%)', marginTop: '15px', padding: '1.8rem' }}
+								>
+									{baseTitle}
+									{informationBuy(totalQuantity, <ArrowUpOutlined />, 'up')}
+								</div>
 							</div>
-							<div className="col-5 infor-price d-flex flex-wrap justify-content-center">
-								{quoteTitle}
-								{informationBuy(NP.minus(quoteBalance, Number(quoteTotal)), <ArrowDownOutlined />, 'down')}
+							<div className="col-6 infor-price">
+								<div
+									className="w-100 d-flex flex-wrap justify-content-center"
+									style={{ backgroundColor: 'rgb(18 17 19 / 26%)', marginTop: '15px', padding: '1.8rem' }}
+								>
+									{quoteTitle}
+									{informationBuy(NP.minus(quoteBalance, Number(quoteTotal)), <ArrowDownOutlined />, 'down')}
+								</div>
 							</div>
 						</div>
 						{bonusComponent()}

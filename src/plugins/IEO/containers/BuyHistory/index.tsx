@@ -18,7 +18,6 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 	React.useEffect(() => {
 		dispatch(
 			fetchBuyHistory({
-				uid: props.uid,
 				ieo_id: props.ieoID,
 				page: numberPage - 1,
 				pageSize: pageSize,
@@ -27,12 +26,15 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 	}, [numberPage]);
 	const EmptyComponent = () => {
 		return (
-			<div className="col-12 d-flex justify-content-center mb-3">
-				<img
-					src="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-					style={{ marginTop: '3rem' }}
-					alt="empty"
-				/>
+			<div className="col-12">
+				<div className="d-flex justify-content-center mb-3">
+					<img
+						src="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+						style={{ marginTop: '3rem' }}
+						alt="empty"
+					/>
+				</div>
+				<p className="col-12 text-center text-white h6">Don't Have History</p>
 			</div>
 		);
 	};
@@ -128,7 +130,7 @@ export const BuyHistory: React.FC<BuyHistoryProps> = (props: BuyHistoryProps) =>
 							</tr>
 							<tr></tr>
 						</thead>
-						<tbody>{renderHistory()}</tbody>
+						<tbody>{listHistory.loading ? <></> : renderHistory()}</tbody>
 					</table>
 					{listHistory.loading ? loadingHistory() : !listHistory.payload.length ? EmptyComponent() : <></>}
 				</div>

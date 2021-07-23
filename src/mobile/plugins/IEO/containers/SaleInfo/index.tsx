@@ -56,24 +56,21 @@ export const SaleInfo: React.FC<SaleInfoProps> = (props: SaleInfoProps) => {
 	const countdownTime = props.sale.type === 'upcoming' ? new Date(props.sale.start_date) : new Date(props.sale.end_date);
 
 	const dispatch = useDispatch();
-	const dispatchGetTotalBuyers = React.useCallback(
-		ieoID =>
-			dispatch(
-				getTotalBuyers({
-					ieo_id: ieoID,
-				}),
-			),
-		[dispatch],
-	);
+	const dispatchGetTotalBuyers = ieoID =>
+		dispatch(
+			getTotalBuyers({
+				ieo_id: ieoID,
+			}),
+		);
 
 	const totalBuyersSelector = useSelector(selectTotalBuyers);
 
 	React.useEffect(() => {
 		dispatchGetTotalBuyers(props.ieoID);
-	}, [dispatchGetTotalBuyers, props.ieoID]);
+	}, []);
 
 	return (
-		<div id="ieo-info-mobile" style={{ backgroundColor: '#2D3040', padding: '3vw', height: '100%' }}>
+		<div id="ieo-info-mobile" style={{ backgroundColor: '#1c3049', padding: '3vw', height: '100%' }}>
 			<div className="row">
 				<div className="col-12">
 					<img className="w-50" src={props.sale.image_link} alt="sale-logo" />

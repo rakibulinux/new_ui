@@ -1,4 +1,4 @@
-import { alertPush } from 'modules';
+import { alertPush, findIEOById } from 'modules';
 import { fetchBuyHistory, fetchBuyersHistory } from './../../history';
 import { buyIEOLoading, BuyIEOItem, GetIEOTotalBuyers, totalIEOBuyersData, totalIEOBuyersError } from '../actions';
 
@@ -13,9 +13,13 @@ export function* buyIEOItemSaga(action: BuyIEOItem) {
 	try {
 		yield call(API.post(createOptions(getCsrfToken())), `/private/ieo/buy`, action.payload);
 		yield put(
+			findIEOById({
+				id: String(action.payload.ieo_id),
+			}),
+		);
+		yield put(
 			fetchBuyHistory({
 				ieo_id: Number(action.payload.ieo_id),
-				uid: action.payload.uid,
 				page: 0,
 				pageSize: 5,
 			}),
