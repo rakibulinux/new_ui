@@ -5,3 +5,4 @@ export * from './CautionsDetail';
 export * from './InformationIEO';
 export * from './BuyersHistory';
 export * from './BuyHistory';
+export * from './BuyConfirmModal';
