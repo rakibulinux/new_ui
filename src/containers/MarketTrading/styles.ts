@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const MarketTradingStyle = styled.div`
 	background-color: #313445;
 	height: 100%;
+	font-size: 11px;
 	padding: 15px 0;
 	overflow: hidden;
 	display: flex;
@@ -10,7 +11,7 @@ export const MarketTradingStyle = styled.div`
 `;
 
 export const SearchBlockStyle = styled.div`
-	padding: 10px 18px 15px 18px;
+	padding: 10px 10px 15px 10px;
 	.search-wrapper {
 		display: flex;
 		justify-content: center;
@@ -69,7 +70,7 @@ export const SearchBlockStyle = styled.div`
 `;
 
 export const StarBlockStyle = styled.div`
-	padding: 0 18px;
+	padding: 0 10px;
 	display: flex;
 	align-items: center;
 	button {
@@ -192,23 +193,24 @@ export const MarketsListTradingStyle = styled.div`
 						background-color: transparent;
 						padding: 0 !important;
 						text-align: left;
-						width: 35%;
 						height: 1.7em;
+						width: 30%;
 						span {
 							height: 100%;
 							display: inline-block;
 							line-height: 1.7em;
 						}
 						&:first-child {
+							width: 40%;
 							> span {
-								padding-left: 18px;
+								padding-left: 10px;
 							}
 						}
 						&:nth-child(3) {
 							text-align: right;
 							width: 30%;
 							> span {
-								padding-right: 18px;
+								padding-right: 10px;
 							}
 						}
 						&:last-child {
@@ -234,7 +236,7 @@ export const MarketsListTradingStyle = styled.div`
 					}
 					td {
 						background-color: transparent;
-						width: 35%;
+						width: 30%;
 						text-align: left;
 						padding: unset !important;
 						> span {
@@ -242,12 +244,13 @@ export const MarketsListTradingStyle = styled.div`
 						}
 						&:first-child {
 							color: #fff;
+							width: 40%;
 							> span {
 								.favorite {
 									cursor: pointer;
 								}
 								display: flex;
-								padding-left: 18px;
+								padding-left: 10px;
 								align-items: center;
 								> span {
 									margin-right: 5px;
@@ -258,7 +261,7 @@ export const MarketsListTradingStyle = styled.div`
 							text-align: right;
 							width: 30%;
 							> span {
-								padding-right: 18px;
+								padding-right: 10px;
 							}
 						}
 						&:last-child {

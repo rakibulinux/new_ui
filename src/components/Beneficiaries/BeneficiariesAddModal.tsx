@@ -158,9 +158,11 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 					<div className="cr-email-form__option-inner">
 						{this.translate('page.body.wallets.beneficiaries.addAddressModal.header')}
 						<span
-							className="pg-profile-page__close pg-profile-page__pull-right"
+							className="cr-email-form__option-inner__close"
 							onClick={this.handleClickToggleAddAddressModal(true)}
-						/>
+						>
+							✖
+						</span>
 					</div>
 				</div>
 			</div>
@@ -236,7 +238,7 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 				{this.renderEnterCoinAddressInput('coinAddress')}
 				{this.renderAddAddressModalBodyItem('coinBeneficiaryName')}
 				{this.renderAddAddressModalBodyItem('coinDescription', true)}
-				<div className="cr-email-form__button-wrapper">
+				<div className="cr-email-form__submit-button-wrapper">
 					<Button disabled={isDisabled} onClick={this.handleSubmitAddAddressCoinModal} size="lg" variant="primary">
 						{this.translate('page.body.wallets.beneficiaries.addAddressModal.body.button')}
 					</Button>

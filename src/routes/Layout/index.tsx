@@ -62,17 +62,17 @@ import {
 } from '../../modules';
 import { CustomizationDataInterface, customizationFetch, selectCustomizationData } from '../../modules/public/customization';
 import { AirdropDetail, AirdropList } from '../../plugins/Airdrop';
-import { SaleListScreen } from '../../plugins/Sale';
-import { SaleDetailScreen } from '../../plugins/Sale/screens/SaleDetailScreen';
+import { IEODetailScreen } from '../../plugins/IEO/screen/IEODetailScreen';
+import { IEOListingScreen } from '../../plugins/IEO/screen/IEOListingScreen';
 import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
 import {
 	AnnouncementScreen,
+	AssetsFeeScreen,
 	ChangeForgottenPasswordScreen,
 	ConfirmScreen,
 	DepositScreen,
 	EmailVerificationScreen,
-	FeeScreen,
 	ForgotPasswordScreen,
 	HistoryScreen,
 	LogInScreen,
@@ -199,8 +199,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 
 		if (!isLoggedIn && prevProps.isLoggedIn && !userLoading) {
 			this.props.walletsReset();
-			if (!history.location.pathname.includes('/trading')) {
-				history.push('/trading/');
+			if (!history.location.pathname.includes('/market')) {
+				history.push('/market/');
 			}
 		}
 
@@ -229,7 +229,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 			configsLoading,
 			platformAccessStatus,
 		} = this.props;
-		const tradingCls = location.pathname.includes('/trading') ? 'trading-layout' : '';
+		const tradingCls = location.pathname.includes('/market') ? 'trading-layout' : '';
 		toggleColorTheme(colorTheme);
 
 		if (configsLoading && !platformAccessStatus.length) {
@@ -363,7 +363,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							path="/profile"
 							component={ProfileMobileScreen}
 						/>
-
 						<Route exact={false} path="/trading/:market?" component={NewTradingScreenMobile} />
 						<Route exact={true} path="/" component={HomePageScreenMobile} />
 						<Route exact={true} path="/markets" component={NewMarketsScreenMobile} />
@@ -400,6 +399,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/accounts/confirmation"
 						component={VerificationScreen}
 					/>
+
 					<PublicRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}
@@ -418,15 +418,13 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/email-verification"
 						component={EmailVerificationScreen}
 					/>
-
 					<Route path="/404" component={RestrictedScreen} />
 					<Route path="/500" component={MaintenanceScreen} />
-					<Route exact={false} path="/trading/:market?" component={TradingScreen} />
+					<Route exact={false} path="/market/:market?" component={TradingScreen} />
 					<Route exact={true} path="/" component={NewHomePage} />
-					<Route exact={false} path="/fee" component={FeeScreen} />
+					<Route exact={false} path="/fee" component={AssetsFeeScreen} />
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />
-
 					<PrivateRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}
@@ -471,7 +469,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						exact
 						component={WithdrawScreen}
 					/>
-
 					<PrivateRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}
@@ -485,15 +482,15 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/airdrop/detail/:airdropID"
 						component={AirdropDetail}
 					/>
+					<Route path="/ieo" exact component={IEOListingScreen} />
+					<Route path="/ieo/detail/:ieoID" exact component={IEODetailScreen} />
 					<Route path="/vote" exact component={VoteScreen} />
-					<Route path="/ieo" exact component={SaleListScreen} />
-					<Route path="/ieo/detail/:ieoID" exact component={SaleDetailScreen} />
 					<Route path="/trading-competition" exact component={TradingCompetionListScreen} />
 					<Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
 					<Route path="/stake" exact component={StakingListScreen} />
 					<Route path="/stake/detail/:stake_id" exact component={StakingDetailScreen} />
 					<Route path="**">
-						<Redirect to="/trading/" />
+						<Redirect to="/market/" />
 					</Route>
 				</Switch>
 				{isLoggedIn && <WalletsFetch />}

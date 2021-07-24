@@ -44,3 +44,4 @@ export * from './checkBlockchainAddress';
 export * from './getWalletTabName';
 export * from './calcWalletsData';
 export * from './validate';
+export * from './formatNumber';

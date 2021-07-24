@@ -637,6 +637,9 @@ export const en = {
 	'page.body.500.maintenance': 'The platform is under maintenance',
 	'page.body.500.availableSoon': 'It will be available as soon as possible',
 
+	// waiting messages
+	'waiting.withdraw.action': 'Waiting. Withdrawal is processing ...',
+
 	// success messages
 	'success.addresses.accepted': 'Addresses upload was successful',
 	'success.documents.accepted': 'Documents upload was successful',
@@ -932,6 +935,10 @@ export const en = {
 		'1. If you have deposited, please pay attention to the text messages, site letters and emails we send to you.',
 	'page.body.plugins.wallet.deposit.info.notice2':
 		'2. Until 2 confirmations are made, an equivalent amount of your assets will be temporarily unavailable for withdrawals.',
+
+	'page.ieo.buy.history.success': 'updated buy history successfully',
+	'page.ieo.buy.success': 'Buy success',
+	'page.ieo.buy.error': 'Buy fail',
 
 	...nationalitiesNames,
 	...customTranslations,

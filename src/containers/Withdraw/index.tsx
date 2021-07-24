@@ -156,7 +156,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 							<span>{this.props.minWithdrawAmount + ' ' + currency.toUpperCase()}</span>
 						</p>
 						<p>
-							<span>2. Withdraw Limit Daily: </span>
+							<span>2. Withdraw Limit: </span>
 							<span>{this.props.limitWitdraw24h + ' ' + this.props.limitWitdraw24hLabel}</span>
 						</p>
 						<p>

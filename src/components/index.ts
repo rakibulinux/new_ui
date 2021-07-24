@@ -44,7 +44,6 @@ export * from './UploadFile';
 export * from './WalletItem';
 export * from './WalletList';
 export * from './QRCode';
-export * from './FeeList';
 export * from './TickerTableScreen';
 export * from './Pagination';
 export * from './MarketTable';

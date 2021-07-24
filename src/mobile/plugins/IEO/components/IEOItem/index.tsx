@@ -30,11 +30,11 @@ export const IEOItem: React.FC<SaleItemProps> = (props: SaleItemProps) => {
 	const history = useHistory();
 
 	const dispatch = useDispatch();
-	const dispatchcFetchCurrencies = React.useCallback(() => dispatch(currenciesFetch()), [dispatch]);
+	const dispatchcFetchCurrencies = () => dispatch(currenciesFetch());
 
 	React.useEffect(() => {
 		dispatchcFetchCurrencies();
-	}, [dispatchcFetchCurrencies]);
+	}, []);
 	const currencies = useSelector(selectCurrencies);
 	let saleBadgeColor = '#0C9D58ff';
 	switch (props.type) {

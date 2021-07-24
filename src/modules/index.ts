@@ -10,11 +10,11 @@ import {
 	pluginsReducer,
 	publicReducer,
 	saleReducer,
+	IEOReducer,
 	tradingCompetitionsReducer,
 	userReducer,
 } from './app';
 import { ETHFeeState, rootETHFeeSaga } from './eth-withdraw/fee';
-import { ETHFeeWithdrawState, rootETHFeeWithdrawSaga } from './eth-withdraw/withdraw';
 import { LunarsState, rootLunarSaga } from './events/lunar';
 import { AnnouncementState, rootAnnouncementSaga } from './info/announcement';
 import { EventsState, rootEventSaga } from './info/events';
@@ -29,6 +29,7 @@ import {
 } from './plugins/staking';
 import { rootVoteSaga, VoteDonateState, VoteHistoryState, VoteListState } from './plugins/vote';
 import { AlertState, rootHandleAlertSaga } from './public/alert';
+import { rootIEODetailSaga } from './plugins/ieo/detail';
 import { BlocklistAccessState, rootBlocklistAccessSaga } from './public/blocklistAccess';
 import { ConfigsState, rootConfigsSaga } from './public/configs';
 import { CurrenciesState, rootCurrenciesSaga } from './public/currencies';
@@ -43,7 +44,11 @@ import { DepthIncrementState, DepthState, OrderBookState, rootOrderBookSaga } fr
 import { RangerState } from './public/ranger/reducer';
 import { RecentTradesState, rootRecentTradesSaga } from './public/recentTrades';
 import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
+import { BuyIEOLoadingState, rootBuyIEOSaga, TotalIEOBuyersState } from './plugins/ieo';
 import { PriceState, rootPriceSaga } from './sale/price';
+import { IEOItemState, rootIEOItemSaga } from './plugins/ieo/item';
+import { IEOListState, rootIEOListSaga } from './plugins/ieo/list';
+import { BuyersHistoryState, BuyHistoryListState, rootHistoryBuySaga } from './plugins/ieo/history';
 import { rootSaleItemSaga, SaleItemState } from './sale/sale-item';
 import { rootSaleListSaga, SaleListState } from './sale/sale-list';
 import { CompetitionItemState, rootcompetitionItemSaga } from './trading_competitions/competition_item';
@@ -71,11 +76,12 @@ import { ProfileState, rootProfileSaga } from './user/profile';
 import { rootUserActivitySaga, UserActivityState } from './user/userActivity';
 import { ChildCurrenciesState, rootWalletsSaga, WalletsState } from './user/wallets';
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
+import { DetailIEOState } from './plugins/ieo/detail';
+import { IEOCautionState, rootIEOCautionSaga } from './plugins/ieo/caution';
 
 export * from './airdrops/airdrop';
 export * from './airdrops/claim';
 export * from './eth-withdraw/fee';
-export * from './eth-withdraw/withdraw';
 export * from './events/lunar';
 export * from './info/announcement';
 export * from './info/events';
@@ -116,11 +122,21 @@ export * from './user/profile';
 export * from './user/userActivity';
 export * from './user/wallets';
 export * from './user/withdrawLimit';
-
+export * from './plugins/ieo';
 export interface RootState {
 	airdrops: {
 		airdrops: AirdropState;
 		claims: ClaimState;
+	};
+	IEO: {
+		IEOItem: IEOItemState;
+		IEOList: IEOListState;
+		buyIEO: BuyIEOLoadingState;
+		totalIEOBuyers: TotalIEOBuyersState;
+		buyersHistory: BuyersHistoryState;
+		buyHistory: BuyHistoryListState;
+		ieoDetail: DetailIEOState;
+		ieoCaution: IEOCautionState;
 	};
 	sale: {
 		saleList: SaleListState;
@@ -136,7 +152,6 @@ export interface RootState {
 	};
 	ethFee: {
 		ethFee: ETHFeeState;
-		withdraw: ETHFeeWithdrawState;
 	};
 	info: {
 		events: EventsState;
@@ -210,6 +225,7 @@ export const rootReducer = combineReducers({
 	airdrops: airdropsReducer,
 	ethFee: ethFeesReducer,
 	sale: saleReducer,
+	IEO: IEOReducer,
 	trading_competitions: tradingCompetitionsReducer,
 	info: infoReducer,
 	events: eventsReducer,
@@ -252,9 +268,14 @@ export function* rootSaga() {
 		call(rootAirdropSaga),
 		call(rootClaimSaga),
 		call(rootETHFeeSaga),
-		call(rootETHFeeWithdrawSaga),
 		call(rootSaleListSaga),
 		call(rootSaleItemSaga),
+		call(rootIEOItemSaga),
+		call(rootIEOListSaga),
+		call(rootBuyIEOSaga),
+		call(rootHistoryBuySaga),
+		call(rootIEODetailSaga),
+		call(rootIEOCautionSaga),
 		call(rootBuySaga),
 		call(rootPriceSaga),
 		call(rootCompetionsListSaga),

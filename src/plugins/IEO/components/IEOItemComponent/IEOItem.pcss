@@ -1,0 +1,125 @@
+#ieo-item {
+	background: #313445;
+	border-radius: 5px;
+	box-shadow: 0 70px 100px rgba(0, 0, 0, 0.08);
+	cursor: pointer;
+	height: 425px;
+	position: relative;
+
+	.ioe-item-header {
+		background: rgba(171, 200, 188, 0.15);
+		height: 40%;
+		position: relative;
+
+		.ieo-item-coin-time {
+			color: #ffff;
+			height: 30px;
+			padding: 5px 10px 0 10px;
+			position: absolute;
+			right: 0;
+			text-align: center;
+		}
+
+		.ieo-item-coin-img {
+			display: flex;
+			height: 100%;
+			justify-content: center;
+
+			img {
+				position: absolute;
+				top: 30%;
+				width: 100px;
+			}
+		}
+
+		.ieo-item-coin-remains {
+			bottom: 2rem;
+			position: absolute;
+		}
+	}
+
+	.ieo-item-content {
+		position: relative;
+		text-align: center;
+		width: 100%;
+
+		h3 {
+			font-size: 20px;
+			font-weight: 500;
+			line-height: 23px;
+			margin: 20px auto 10px auto;
+		}
+
+		.ieo-item-currencies {
+			display: flex;
+			justify-content: center;
+			text-align: center;
+
+			.ieo-item-currency {
+				border: 1px solid #848e9c;
+				border-radius: 2px;
+				box-sizing: border-box;
+				color: #ffff;
+				height: 20px;
+				margin: 10px;
+				margin-left: 0.2rem;
+				margin-right: 0.2rem;
+				margin-top: 10px;
+				text-transform: uppercase;
+				width: 45px;
+			}
+		}
+	}
+
+	.ioe-item-footer {
+		bottom: 1rem;
+		display: flex;
+		justify-content: center;
+		position: absolute;
+		width: 100%;
+
+		.ioe-item-footer-status {
+			color: #f30072;
+			font-size: 14px;
+			font-style: normal;
+			font-weight: bold;
+			line-height: 16px;
+		}
+
+		span {
+			color: #c4c4c4;
+			margin: 0 10px 0 10px;
+		}
+
+		.ioe-item-footer-bonus {
+			color: #ffd600;
+			font-size: 14px;
+			font-style: normal;
+			font-weight: bold;
+			line-height: 16px;
+		}
+	}
+
+	#countdown-renderer {
+		margin: auto;
+		width: 86.5%;
+
+		.time {
+			flex: 0 0 25%;
+			font-size: 20px;
+			max-width: 25%;
+			padding: 0 5px;
+
+			p {
+				background-color: #434a57;
+				border-radius: 5px;
+				box-sizing: border-box;
+				color: #fff;
+				font-size: 12px;
+				margin-bottom: 1rem;
+				padding: 5px 0;
+				text-align: center;
+			}
+		}
+	}
+}

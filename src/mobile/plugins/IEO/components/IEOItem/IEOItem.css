@@ -1,9 +1,9 @@
 .ieo-item-mobile {
 	position: relative;
 	height: 100%;
-	border: 2px solid #262936;
+	border: 4px solid #4b5d6c;
 	padding: 2rem 2rem;
-	background-color: #3c4055;
+	background: #1a2b41;
 	border-radius: 10px;
 	cursor: pointer;
 	transition: all 0.3s;
@@ -27,7 +27,7 @@
 }
 
 .ieo-item-mobile:hover {
-	background: var(--mobile-body-background-color);
+	background: #233957;
 }
 
 .ieo-item-mobile__title {

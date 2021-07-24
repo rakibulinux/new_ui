@@ -32,7 +32,7 @@ export const BottomNavbar: React.FC = () => {
 					<span className="bottom-nav__item__text">Market</span>
 				</Link>
 				<Link
-					to="/tradding"
+					to="/trading"
 					className={classnames('bottom-nav__item--middle', handleGetActiveItemClass(pathname, '/trading'))}
 				>
 					<TradeIcon

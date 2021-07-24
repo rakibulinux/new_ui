@@ -29,7 +29,6 @@ export * from './ToolBar';
 export * from './TradingChart';
 export * from './WalletsFetch';
 export * from './Withdraw';
-export * from './FeeTable';
 export * from './TeamSection';
 export * from './MarketsList';
 export * from './DepositInfo';

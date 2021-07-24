@@ -39,7 +39,7 @@ interface StarItem {
 	listKeyDropDown?: string[];
 }
 
-const LIST_KEY_FIAT_DROPDOWN = ['BUSD'];
+const LIST_KEY_FIAT_DROPDOWN = ['BUSD', 'USDC', 'TUSD'];
 
 const MarketTradingContainer: React.FC = () => {
 	const history = useHistory();
@@ -132,7 +132,7 @@ const MarketTradingContainer: React.FC = () => {
 			const marketFromUrl = history.location.pathname.split('/');
 			const marketNotMatched = currentMarket.id !== marketFromUrl[marketFromUrl.length - 1];
 			if (marketNotMatched) {
-				history.replace(`/trading/${currentMarket.id}`);
+				history.replace(`/market/${currentMarket.id}`);
 
 				if (!incrementalOrderBook()) {
 					dispatch(depthFetch(currentMarket));

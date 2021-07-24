@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import { airdropReducer } from './airdrops/airdrop';
 import { claimReducer } from './airdrops/claim';
 import { ethFeeReducer } from './eth-withdraw/fee';
-import { ethFeeWithdrawReducer } from './eth-withdraw/withdraw';
 import { lunarReducer } from './events/lunar';
 import { announcementReducer } from './info/announcement';
 import { eventReducer } from './info/events';
@@ -53,7 +52,16 @@ import { profileReducer } from './user/profile';
 import { userActivityReducer } from './user/userActivity';
 import { allChildCurrenciesReducer, childCurrenciesReducer, walletsReducer } from './user/wallets';
 import { withdrawLimitReducer } from './user/withdrawLimit';
-
+import {
+	IEOItemReducer,
+	IEOListReducer,
+	buyIEOReducer,
+	BuyHistoryReducer,
+	BuyersHistoryReducer,
+	totalIEOBuyersReducer,
+	IEODetailReducer,
+} from './plugins/ieo';
+import { IEOCautionReducer } from './plugins/ieo/caution';
 export const eventsReducer = combineReducers({
 	lunar: lunarReducer,
 });
@@ -65,7 +73,6 @@ export const airdropsReducer = combineReducers({
 
 export const ethFeesReducer = combineReducers({
 	ethFee: ethFeeReducer,
-	withdraw: ethFeeWithdrawReducer,
 });
 
 export const saleReducer = combineReducers({
@@ -75,7 +82,16 @@ export const saleReducer = combineReducers({
 	price: priceReducer,
 	totalBuyers: totalBuyersReducer,
 });
-
+export const IEOReducer = combineReducers({
+	IEOItem: IEOItemReducer,
+	IEOList: IEOListReducer,
+	buyIEO: buyIEOReducer,
+	buyHistory: BuyHistoryReducer,
+	buyersHistory: BuyersHistoryReducer,
+	totalIEOBuyers: totalIEOBuyersReducer,
+	ieoDetail: IEODetailReducer,
+	ieoCaution: IEOCautionReducer,
+});
 export const tradingCompetitionsReducer = combineReducers({
 	competitions: competitionsListReducer,
 	competition_item: competitionItemReducer,
