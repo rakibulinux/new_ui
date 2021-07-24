@@ -3,6 +3,7 @@ import * as React from 'react';
 import { ListItemIEO } from './../../containers';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIEOList, IEOListDataFetch } from './../../../../modules';
+import Pagination from 'react-bootstrap/Pagination';
 export type typeIEO = 'ended' | 'ongoing' | 'upcoming';
 export const IEOListingScreen = () => {
 	const [typeIEO, setTypeIEO] = React.useState<typeIEO>('ongoing');
@@ -88,15 +89,26 @@ export const IEOListingScreen = () => {
 						</div>
 					</div>
 				) : (
-					<ListItemIEO
-						IEOList={[
-							...listIEO.payload.filter(
-								item =>
-									item.currency_id.toLowerCase().includes(searchInputState.toLowerCase().trim()) &&
-									item.type === typeIEO,
-							),
-						]}
-					/>
+					<React.Fragment>
+						<ListItemIEO
+							IEOList={[
+								...listIEO.payload.filter(
+									item =>
+										item.currency_id.toLowerCase().includes(searchInputState.toLowerCase().trim()) &&
+										item.type === typeIEO,
+								),
+							]}
+						/>
+						<Pagination className="d-flex justify-content-end" style={{ padding: '10px' }}>
+							<Pagination.Prev disabled />
+							<Pagination.Item>{1}</Pagination.Item>
+							{/* <Pagination.Item>{2}</Pagination.Item>
+							<Pagination.Item>{3}</Pagination.Item>
+							<Pagination.Ellipsis />
+							<Pagination.Item>{23}</Pagination.Item> */}
+							<Pagination.Next disabled />
+						</Pagination>
+					</React.Fragment>
 				)}
 			</div>
 		</div>

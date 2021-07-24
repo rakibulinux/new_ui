@@ -160,7 +160,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 								}}
 							>
 								<span>
-									( IEO Remains ){' '}
+									(IEO Remains){' '}
 									{`${
 										Number(remainsState) > 100000000
 											? millify(Number(remainsState), {
@@ -177,7 +177,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 												precision: 2,
 										  })
 										: Number(totalState)}{' '}
-									( Total )
+									(Total)
 								</span>
 							</div>
 						</div>
