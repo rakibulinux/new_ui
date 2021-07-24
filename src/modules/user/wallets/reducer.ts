@@ -106,22 +106,24 @@ const walletsListReducer = (state: WalletsState['wallets'], action: WalletsActio
 			};
 		}
 		case WALLETS_ADDRESS_DATA: {
-			const walletIndex = state.list.findIndex(
-				wallet => wallet.currency.toLowerCase() === action.payload.currency.toLowerCase(),
-			);
+			// const walletIndex = state.list.findIndex(
+			// 	wallet => wallet.currency.toLowerCase() === action.payload.currency.toLowerCase(),
+			// );
 
-			if (walletIndex !== -1) {
-				return {
-					...state,
-					loading: false,
-					selectedWalletCurrency: action.payload.currency,
-					selectedWalletAddress: action.payload.address,
-				};
-			}
+			// if (walletIndex !== -1) {
+			// 	return {
+			// 		...state,
+			// 		loading: false,
+			// 		selectedWalletCurrency: action.payload.currency,
+			// 		selectedWalletAddress: action.payload.address,
+			// 	};
+			// }
 
 			return {
 				...state,
 				loading: false,
+				selectedWalletCurrency: action.payload.currency,
+				selectedWalletAddress: action.payload.address,
 			};
 		}
 		case WALLETS_WITHDRAW_CCY_DATA:

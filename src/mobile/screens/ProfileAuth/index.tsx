@@ -41,9 +41,9 @@ export const ProfileAuthMobileScreen: React.FC = React.memo(() => {
 				backTitle={intl.formatMessage({ id: 'page.body.profile.header.account' })}
 				onGoBack={() => history.push('/profile')}
 			/>
-			<div className="cr-mobile-profile-auth">
-				<div className="cr-mobile-profile-auth__enable">
-					<div className="cr-mobile-profile-auth__enable-label">
+			<div className="td-mobile-profile-auth">
+				<div className="td-mobile-profile-auth__enable">
+					<div className="td-mobile-profile-auth__enable-label">
 						<ProfileTwoFactorAuth is2faEnabled={user.otp} navigateTo2fa={handleNavigateTo2fa} />
 					</div>
 					{!user.otp ? <ProfileTwoFactorAuthScreen /> : null}

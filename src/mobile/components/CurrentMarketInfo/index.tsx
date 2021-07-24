@@ -40,8 +40,8 @@ const CurrentMarketInfoComponent: React.FC = () => {
 	};
 
 	const renderModalHeader = (
-		<div className="cr-mobile-modal__header">
-			<div className="cr-mobile-modal__header-search">
+		<div className="td-mobile-modal__header">
+			<div className="td-mobile-modal__header-search">
 				<FilterInput
 					data={markets}
 					onFilter={handleFilter}
@@ -49,7 +49,7 @@ const CurrentMarketInfoComponent: React.FC = () => {
 					placeholder={intl.formatMessage({ id: 'page.mobile.currentMarketInfo.search.placeholder' })}
 				/>
 			</div>
-			<div className="cr-mobile-modal__header-close" onClick={() => setOpenMarketSelector(false)}>
+			<div className="td-mobile-modal__header-close" onClick={() => setOpenMarketSelector(false)}>
 				<CloseIcon />
 			</div>
 		</div>

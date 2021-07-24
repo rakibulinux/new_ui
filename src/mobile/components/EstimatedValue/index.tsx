@@ -1,13 +1,11 @@
+import { estimateUnitValue, estimateValue } from 'helpers/estimateValue';
+import { useCurrenciesFetch, useMarketsFetch, useMarketsTickersFetch, useWalletsFetch } from 'hooks';
+import { selectCurrencies, selectMarkets, selectMarketTickers, selectWallets } from 'modules';
 import * as React from 'react';
-import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { VALUATION_PRIMARY_CURRENCY, VALUATION_SECONDARY_CURRENCY } from '../../../constants';
-import { estimateUnitValue, estimateValue } from '../../../helpers/estimateValue';
-import { useCurrenciesFetch, useMarketsFetch, useMarketsTickersFetch, useWalletsFetch } from '../../../hooks';
-import { selectCurrencies, selectMarkets, selectMarketTickers, selectWallets } from '../../../modules';
 
-const EstimatedValueMobile = React.memo(() => {
-	const intl = useIntl();
+const EstimatedValue = React.memo(() => {
 	const wallets = useSelector(selectWallets);
 	const markets = useSelector(selectMarkets);
 	const currencies = useSelector(selectCurrencies);
@@ -28,22 +26,23 @@ const EstimatedValueMobile = React.memo(() => {
 	useMarketsTickersFetch();
 
 	return (
-		<div className="cr-mobile-wallets-banner">
-			<div className="cr-mobile-wallets-banner__title">
-				{intl.formatMessage({ id: 'page.body.wallets.estimated_value' })}
-			</div>
-			<div className="cr-mobile-wallets-banner__body">
-				<div className="cr-mobile-wallets-banner__body-wrap">
-					<span className="cr-mobile-wallets-banner__body-number">{estimatedValue}</span>
-					<span className="cr-mobile-wallets-banner__body-currency">{VALUATION_PRIMARY_CURRENCY.toUpperCase()}</span>
+		<div className="td-mobile-cpn-estimated-value">
+			<div className="td-mobile-cpn-estimated-value__body">
+				<div className="td-mobile-cpn-estimated-value__body-wrap">
+					<span className="td-mobile-cpn-estimated-value__body-number">{estimatedValue}</span>
+					<span className="td-mobile-cpn-estimated-value__body-currency">
+						{VALUATION_PRIMARY_CURRENCY.toUpperCase()}
+					</span>
 				</div>
-				<div className="cr-mobile-wallets-banner__body-wrap">
-					<span className="cr-mobile-wallets-banner__body-number">{estimatedSecondaryValue}</span>
-					<span className="cr-mobile-wallets-banner__body-currency">{VALUATION_SECONDARY_CURRENCY.toUpperCase()}</span>
+				<div className="td-mobile-cpn-estimated-value__body-wrap">
+					<span className="td-mobile-cpn-estimated-value__body-number">{estimatedSecondaryValue}</span>
+					<span className="td-mobile-cpn-estimated-value__body-currency">
+						{VALUATION_SECONDARY_CURRENCY.toUpperCase()}
+					</span>
 				</div>
 			</div>
 		</div>
 	);
 });
 
-export { EstimatedValueMobile };
+export { EstimatedValue };

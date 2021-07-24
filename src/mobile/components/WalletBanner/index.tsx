@@ -33,7 +33,7 @@ const WalletBannerComponent = (props: Props) => {
 		.reduce((x, y) => x + y, 0);
 
 	return (
-		<div className="cr-wallet-banner-mobile">
+		<div className="td-wallet-banner-mobile">
 			<div className="info-grid">
 				<div className="available">{intl.formatMessage({ id: 'page.mobile.wallets.banner.available' })}</div>
 				<div className="lock">{intl.formatMessage({ id: 'page.mobile.wallets.banner.lock' })}</div>

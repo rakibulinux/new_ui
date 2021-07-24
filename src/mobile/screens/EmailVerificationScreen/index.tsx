@@ -9,7 +9,7 @@ export const EmailVerificationMobileScreen: React.FC = () => {
 	const intl = useIntl();
 
 	return (
-		<div className="cr-mobile-email-verification">
+		<div className="td-mobile-email-verification">
 			<Modal
 				isOpen={true}
 				onClose={() => history.push('/trading')}

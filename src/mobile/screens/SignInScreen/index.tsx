@@ -13,8 +13,8 @@ const SignInMobileScreen: React.FC = () => {
 	const intl = useIntl();
 	const title = require2FA ? { id: 'page.mobile.signin.kyc.header' } : { id: 'page.body.landing.header.button2' };
 	const className = classnames({
-		'cr-mobile-signin': !require2FA,
-		'cr-mobile-kyc': require2FA,
+		'td-mobile-signin': !require2FA,
+		'td-mobile-kyc': require2FA,
 	});
 
 	return (

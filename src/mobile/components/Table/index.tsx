@@ -66,15 +66,15 @@ const TableComponent: React.FC<TableProps> = ({ headers, markets }) => {
 
 	const redirectToTrading = (paramMarket: Market) => {
 		dispatch(setCurrentMarket(paramMarket));
-		history.push(`/market/${paramMarket.id}`);
+		history.push(`/trading/${paramMarket.id}`);
 	};
 
 	const renderHead = (row: string[]) => {
 		const cells = row.map((c, index) => <th key={index}>{c}</th>);
 
 		return (
-			<thead className={'cr-mobile-table__head'}>
-				<tr className={'cr-mobile-table__head-row'}>{cells}</tr>
+			<thead className={'td-mobile-table__head'}>
+				<tr className={'td-mobile-table__head-row'}>{cells}</tr>
 			</thead>
 		);
 	};
@@ -127,8 +127,8 @@ const TableComponent: React.FC<TableProps> = ({ headers, markets }) => {
 			});
 
 			return (
-				<tr className="cr-mobile-table-info" key={i} onClick={() => redirectToTrading(market)}>
-					<td className="cr-mobile-table-info__name">
+				<tr className="td-mobile-table-info" key={i} onClick={() => redirectToTrading(market)}>
+					<td className="td-mobile-table-info__name">
 						<div>
 							<h6>{market.name.split('/')[0]}</h6> <span>/ {market.name.split('/')[1]}</span>
 						</div>
@@ -137,27 +137,27 @@ const TableComponent: React.FC<TableProps> = ({ headers, markets }) => {
 							{Decimal.format(ticker.volume, 6, ',')}
 						</span>
 					</td>
-					<td className="cr-mobile-table-info__current">
+					<td className="td-mobile-table-info__current">
 						<h6 className={marketChangeClass}>{Decimal.format(ticker.last, market.price_precision, ',')}</h6>
 						<span>&asymp;{Decimal.format(ticker.last, 4, ',')}</span>
 					</td>
-					<td className="cr-mobile-table-info__change">
+					<td className="td-mobile-table-info__change">
 						<button className={marketChangeBtnClass}>{ticker.price_change_percent}</button>
 					</td>
 				</tr>
 			);
 		});
 
-		return <tbody className={'cr-mobile-table__body'}>{rowElements}</tbody>;
+		return <tbody className={'td-mobile-table__body'}>{rowElements}</tbody>;
 	};
 
 	return (
-		<div className="cr-mobile-table-container">
-			<table className="cr-mobile-table">
+		<div className="td-mobile-table-container">
+			<table className="td-mobile-table">
 				{headers && headers.length && renderHead(headers)}
 				{renderBody()}
 			</table>
-			<div className="cr-mobile-table__pagination">{renderFoot()}</div>
+			<div className="td-mobile-table__pagination">{renderFoot()}</div>
 		</div>
 	);
 };
