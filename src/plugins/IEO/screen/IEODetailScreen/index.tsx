@@ -31,7 +31,6 @@ export const IEODetailScreen = () => {
 			</div>
 		);
 	};
-	console.log(IEOItem);
 	const renderBuyHistoryView = () => {
 		if (user.uid) {
 			return (

@@ -40,7 +40,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 	const status = (color: string, type: string) => {
 		return (
 			<div className="ieo-item-coin-time" style={{ backgroundColor: `${color}` }}>
-				<p>{type}</p>
+				<p style={{ textTransform: 'uppercase', fontSize: '14px', lineHeight: '16px', margin: 0 }}>{type}</p>
 			</div>
 		);
 	};
@@ -115,7 +115,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 					<img
 						src={getCryptoIcon(props.currencyId.toUpperCase())}
 						alt={`${props.currencyId}-icon`}
-						style={{ width: '7rem', height: '7rem' }}
+						style={{ width: '57.87px', height: '57.87px' }}
 					/>
 				</div>
 			</div>
@@ -129,10 +129,15 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 					className="ieo-item-coin-remains col-12 d-flex flex-wrap justify-content-center text-center
             "
 				>
-					<div className="col-12" style={{ position: 'relative', margin: '5px' }}>
+					<div className="w-100" style={{ position: 'relative', margin: '5px' }}>
 						<div
 							className="progress"
-							style={{ width: '100%', background: 'rgba(132, 142, 156, 0.35)', height: '25px' }}
+							style={{
+								width: '100%',
+								background: 'rgba(132, 142, 156, 0.35)',
+								height: '32px',
+								borderRadius: '3px',
+							}}
 						>
 							<div
 								className="progress-bar progress-bar-striped progress-bar-animated"
@@ -188,7 +193,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 			</div>
 
 			<div className="ioe-item-footer">
-				<p className="ioe-item-footer-status">{`Buy ${props.currencyId.toUpperCase()}`}</p> <span>|</span>
+				<button className="ioe-item-footer-status col-4">{`Buy ${props.currencyId.toUpperCase()}`}</button>
 				<p className="ioe-item-footer-bonus">{`Bonus ${!props.bonus ? '0%' : props.bonus}`}</p>
 			</div>
 		</div>

@@ -5,19 +5,21 @@
 		background-color: #313445;
 		border-radius: 10px;
 		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
-		padding: 1rem 2.7rem;
-
+		padding-left: 15px;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		margin-top: 42px;
 		&__search {
-			background: rgba(132, 142, 156, 0.35);
-			border: 1px solid #a3a3a3;
-			border-radius: 5px;
+			background: rgba(196, 196, 196, 0.28);
+			border: 0.5px solid #848e9c;
+			border-radius: 3px;
 			box-sizing: border-box;
 			display: flex;
 			position: relative;
 			width: 20rem;
 
 			input {
-				background: rgba(132, 142, 156, 0.35);
+				background: rgba(196, 196, 196, 0.28);
 				border: none;
 				color: #fff;
 				font-size: 16px;
@@ -26,7 +28,13 @@
 				padding-left: 2rem;
 				width: 80%;
 			}
-
+			.icon-search {
+				background: rgba(196, 196, 196, 0.28);
+				width: 20%;
+			}
+			::placeholder {
+				color: rgba(196, 196, 196, 0.28);
+			}
 			svg {
 				position: absolute;
 				right: 4%;
@@ -41,7 +49,7 @@
 			display: flex;
 			flex-direction: row;
 			width: 50%;
-
+			border-radius: 3px;
 			&-btn {
 				align-items: center;
 				background-color: transparent;
@@ -50,9 +58,9 @@
 				color: #fff;
 				display: flex;
 				font-size: 17px;
-				font-weight: 700;
+				font-weight: normal;
 				justify-content: center;
-				line-height: 18px;
+				line-height: 20px;
 				margin: 0;
 				min-height: 45px;
 				outline: none;
@@ -64,15 +72,15 @@
 			}
 
 			&__all {
-				background-color: #2a9d8f;
+				background: #2fb67e;
 			}
 
 			&__upcoming {
-				background-color: #e9c46a;
+				background: #2fb67e;
 			}
 
 			&__running {
-				background-color: #2fb67e;
+				background: #2fb67e;
 			}
 
 			&__ended {
