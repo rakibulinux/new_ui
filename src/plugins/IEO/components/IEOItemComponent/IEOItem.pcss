@@ -3,21 +3,21 @@
 	border-radius: 5px;
 	box-shadow: 0 70px 100px rgba(0, 0, 0, 0.08);
 	cursor: pointer;
-	height: 425px;
+	height: 418px;
 	position: relative;
 
 	.ioe-item-header {
 		background: rgba(171, 200, 188, 0.15);
-		height: 40%;
+		height: 27.75%;
 		position: relative;
 
 		.ieo-item-coin-time {
 			color: #ffff;
-			height: 30px;
-			padding: 5px 10px 0 10px;
+			padding: 7px 17px 7px 17px;
 			position: absolute;
 			right: 0;
 			text-align: center;
+			border-radius: 0px 0px 0px 3px;
 		}
 
 		.ieo-item-coin-img {
@@ -27,7 +27,7 @@
 			img {
 				position: absolute;
 				top: 30%;
-				width: 100px;
+				width: 57.87px;
 			}
 		}
 
@@ -39,14 +39,15 @@
 
 	.ieo-item-content {
 		position: relative;
-		text-align: center;
+		text-align: left;
 		width: 100%;
 
 		h3 {
-			font-size: 20px;
 			font-weight: 500;
+			font-size: 20px;
 			line-height: 23px;
-			margin: 20px auto 10px auto;
+			color: #ffffff;
+			margin: 30px 22px 20px;
 		}
 
 		.ieo-item-currencies {
@@ -78,11 +79,23 @@
 		width: 100%;
 
 		.ioe-item-footer-status {
-			color: #f30072;
-			font-size: 14px;
-			font-style: normal;
-			font-weight: bold;
-			line-height: 16px;
+			background-color: #30b57e;
+			border: none;
+			border-radius: 5px;
+			color: #fff;
+			-webkit-flex: 1 1 0%;
+			flex: 1 1;
+			font-size: 16px;
+			line-height: 21px;
+			font-weight: 500;
+			margin: 5px;
+			margin-bottom: 0;
+			outline: none;
+			padding: 8px;
+			text-align: center;
+			transition: background-color 0.2s;
+			white-space: nowrap;
+			will-change: background-color;
 		}
 
 		span {
@@ -91,16 +104,23 @@
 		}
 
 		.ioe-item-footer-bonus {
-			color: #ffd600;
-			font-size: 14px;
+			color: #ffffff;
+			margin: 0;
+			font-size: 16px;
 			font-style: normal;
-			font-weight: bold;
-			line-height: 16px;
+			font-weight: 500;
+			line-height: 21px;
+			border: 1px solid #848e9c;
+			box-sizing: border-box;
+			margin: 5px;
+			margin-bottom: 0;
+			padding: 7px;
+			border-radius: 4px;
 		}
 	}
 	#countdown-renderer {
 		margin: auto;
-		width: 86.5%;
+		width: 91.5%;
 		.time {
 			flex: 0 0 25%;
 			max-width: 25%;
@@ -108,9 +128,11 @@
 			padding: 0 5px;
 			p {
 				background-color: #434a57;
-				border-radius: 5px;
+				border-radius: 3px;
+				height: 56px;
 				box-sizing: border-box;
-				font-size: 12px;
+				font-size: 14px;
+				line-height: 20px;
 				margin-bottom: 1rem;
 				padding: 5px 0;
 				text-align: center;
