@@ -36,7 +36,7 @@ const NewHomePage = () => {
 					</div>
 
 					<div>
-						<Link to="/airdrop" className="td-mobile-screen-home__direction__list-item__item">
+						<Link to="/airdrops" className="td-mobile-screen-home__direction__list-item__item">
 							<GiftOutlined />
 							<span>Airdrop</span>
 						</Link>

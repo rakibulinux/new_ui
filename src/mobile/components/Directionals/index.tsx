@@ -16,7 +16,7 @@ const DirectionalsComponent: React.FC = () => {
 					<span>IEO</span>
 				</Link>
 
-				<Link to="/airdrop" className="dropdown-content-show">
+				<Link to="/airdrops" className="dropdown-content-show">
 					<GiftOutlined style={{ color: 'wheat', fontSize: '20px' }} />
 					<span>Airdrop</span>
 				</Link>
