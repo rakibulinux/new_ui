@@ -1,3 +1,4 @@
+import { AirdropCoinListScreen } from 'plugins/AirdropCoin';
 import { VoteScreen } from 'plugins/Vote';
 import * as React from 'react';
 import { Button, Spinner } from 'react-bootstrap';
@@ -377,6 +378,9 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						<Route path="/stake" exact component={StakingListMobileScreen} />
 						<Route path="/stake/detail/:stake_id" exact component={StakingDetailMobileScreen} />
 						<Route path="/vote" exact component={VoteScreen} />
+						{/* new feature */}
+						<Route path="/airdrops" exact component={AirdropCoinListScreen} />
+						{/* new feature */}
 						<Route path="**">
 							<Redirect to="/trading/" />
 						</Route>
@@ -475,6 +479,10 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/security/2fa"
 						component={ProfileTwoFactorAuthScreen}
 					/>
+					{/* new feature */}
+					<Route path="/airdrops" exact component={AirdropCoinListScreen} />
+					{/* new feature */}
+					{/* old feature */}
 					<Route path="/airdrop" exact component={AirdropList} />
 					<PrivateRoute
 						loading={userLoading}
@@ -482,6 +490,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/airdrop/detail/:airdropID"
 						component={AirdropDetail}
 					/>
+					{/* old feature */}
 					<Route path="/ieo" exact component={IEOListingScreen} />
 					<Route path="/ieo/detail/:ieoID" exact component={IEODetailScreen} />
 					<Route path="/vote" exact component={VoteScreen} />
