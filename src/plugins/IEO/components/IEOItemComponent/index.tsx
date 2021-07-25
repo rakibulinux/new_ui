@@ -80,9 +80,9 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 			case 'ongoing':
 				return status(`#2FB67E`, 'Running');
 			case 'upcoming':
-				return status(`#FF6400`, `Ongoing`);
+				return status(` #E06211`, `Ongoing`);
 			case 'ended':
-				return status(`#858E9D`, 'Ended');
+				return status(`#BD3421`, 'Ended');
 			default:
 				return `#ffff`;
 		}

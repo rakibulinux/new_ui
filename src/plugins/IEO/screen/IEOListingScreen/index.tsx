@@ -14,10 +14,9 @@ export const IEOListingScreen = () => {
 		setSearchInputState('');
 	};
 	const dispatch = useDispatch();
-
-	const renderActiveButtonUpcomingClasses = classNames('upcoming', typeIEO === 'upcoming' ? 'button-active' : '');
-	const renderActiveButtonRunningClasses = classNames('running', typeIEO === 'ongoing' ? 'button-active' : '');
-	const renderActiveButtonEndedClasses = classNames('ended', typeIEO === 'ended' ? 'button-active' : '');
+	const renderActiveButtonUpcomingClasses = classNames('upcoming', typeIEO === 'upcoming' ? 'button--upcoming' : '');
+	const renderActiveButtonRunningClasses = classNames('running', typeIEO === 'ongoing' ? 'button--running' : '');
+	const renderActiveButtonEndedClasses = classNames('ended', typeIEO === 'ended' ? 'button--ended' : '');
 	const listIEO = useSelector(selectIEOList);
 
 	React.useEffect(() => {
