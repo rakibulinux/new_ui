@@ -45,7 +45,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 		);
 	};
 	const renderer = ({ days, hours, minutes, seconds, completed }) => {
-		return !completed ? (
+		return (
 			<div className="d-flex justify-content-center" id="countdown-renderer">
 				<div className="time">
 					<p className="w-100">
@@ -71,8 +71,6 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 					</p>
 				</div>
 			</div>
-		) : (
-			<></>
 		);
 	};
 	const renderStatus = (type: 'ended' | 'ongoing' | 'upcoming') => {
