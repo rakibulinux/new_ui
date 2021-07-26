@@ -1,4 +1,4 @@
-﻿import { Empty } from 'antd';
+import { Empty } from 'antd';
 import classnames from 'classnames';
 import { ConvertUsd } from 'components';
 import { calcWalletsData } from 'helpers';
@@ -23,40 +23,34 @@ export const NewWalletsMobileScreen = () => {
 	const [searchString, setSearchString] = useState<string>('');
 	const [hideSmallBalance, setHideSmallBalance] = useState<boolean>(false);
 
+	const allChildCurrencyName = allChildCurrencies.map(_e => _e.id);
+
 	const data = calcWalletsData(wallets, allChildCurrencies).filter(({ currency, total }) => {
-		if (!currency.includes(searchString.toLowerCase().trim())) return false;
-		if (hideSmallBalance && Number(total) <= 0) return false;
-		return !allChildCurrencies.map(_e => _e.id).includes(currency);
+		if (!currency.includes(searchString.toLowerCase().trim())) {
+			return false;
+		}
+		if (hideSmallBalance && Number(total) <= 0) {
+			return false;
+		}
+
+		return !allChildCurrencyName.includes(currency);
 	});
 
 	const renderWalletList = (walletsParam: Wallet[]) => {
-		return walletsParam.map(wallet => (
-			<Link to={`/wallets/${wallet.currency}/detail`} className="td-mobile-wallets__list__item" key={wallet.currency}>
+		return walletsParam.map(_w => (
+			<Link to={`/wallets/${_w.currency}/detail`} className="td-mobile-wallets__list__item" key={_w.currency}>
 				<div className="td-mobile-wallets__list__item__top">
-					<img className="td-mobile-wallets__list__item__top__icon" src={wallet.iconUrl} alt={wallet.name} />
-					<span className="td-mobile-wallets__list__item__top__symbol">{wallet.currency.toUpperCase()}</span>
+					<div className="td-mobile-wallets__list__item__top__icon">
+						<img src={_w.iconUrl} alt={_w.name} />
+					</div>
+					<span className="td-mobile-wallets__list__item__top__text">{_w.currency.toUpperCase()}</span>
+					<span className="td-mobile-wallets__list__item__top__number">{_w.total}</span>
 				</div>
 				<div className="td-mobile-wallets__list__item__bottom">
-					<div>
-						<span className="td-mobile-wallets__list__item__bottom__text">Estimation</span>
-						<span className="td-mobile-wallets__list__item__bottom__number">
-							≈${' '}
-							<ConvertUsd
-								value={Number(wallet.total)}
-								symbol={wallet.currency}
-								precision={4}
-								defaultValue={'0.00'}
-							/>
-						</span>
-					</div>
-					<div>
-						<span className="td-mobile-wallets__list__item__bottom__text">Total</span>
-						<span className="td-mobile-wallets__list__item__bottom__number">{wallet.total}</span>
-					</div>
-					<div>
-						<span className="td-mobile-wallets__list__item__bottom__text">Availible</span>
-						<span className="td-mobile-wallets__list__item__bottom__number">{wallet.balance}</span>
-					</div>
+					<span className="td-mobile-wallets__list__item__bottom__text">TetherUS</span>
+					<span className="td-mobile-wallets__list__item__bottom__number">
+						<ConvertUsd value={Number(_w.total)} symbol={_w.currency} precision={4} defaultValue="0.00" /> $
+					</span>
 				</div>
 			</Link>
 		));
