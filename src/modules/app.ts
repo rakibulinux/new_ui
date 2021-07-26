@@ -5,6 +5,17 @@ import { ethFeeReducer } from './eth-withdraw/fee';
 import { lunarReducer } from './events/lunar';
 import { announcementReducer } from './info/announcement';
 import { eventReducer } from './info/events';
+import { airdropCoinClaimReducer, airdropCoinListReducer } from './plugins/airdropCoin';
+import {
+	BuyersHistoryReducer,
+	BuyHistoryReducer,
+	buyIEOReducer,
+	IEODetailReducer,
+	IEOItemReducer,
+	IEOListReducer,
+	totalIEOBuyersReducer,
+} from './plugins/ieo';
+import { IEOCautionReducer } from './plugins/ieo/caution';
 import {
 	createStakeReducer,
 	stakeHistoryReducer,
@@ -32,8 +43,8 @@ import { buyReducer, totalBuyersReducer } from './sale/buy';
 import { priceReducer } from './sale/price';
 import { saleItemReducer } from './sale/sale-item';
 import { saleListReducer } from './sale/sale-list';
-import { competitionItemReducer } from './trading_competitions/competition_item';
 import { competitionsListReducer } from './trading_competitions/competitions';
+import { competitionItemReducer } from './trading_competitions/competition_item';
 import { rankingsReducer } from './trading_competitions/rankings';
 import { apiKeysReducer } from './user/apiKeys';
 import { authReducer } from './user/auth';
@@ -52,16 +63,6 @@ import { profileReducer } from './user/profile';
 import { userActivityReducer } from './user/userActivity';
 import { allChildCurrenciesReducer, childCurrenciesReducer, walletsReducer } from './user/wallets';
 import { withdrawLimitReducer } from './user/withdrawLimit';
-import {
-	IEOItemReducer,
-	IEOListReducer,
-	buyIEOReducer,
-	BuyHistoryReducer,
-	BuyersHistoryReducer,
-	totalIEOBuyersReducer,
-	IEODetailReducer,
-} from './plugins/ieo';
-import { IEOCautionReducer } from './plugins/ieo/caution';
 export const eventsReducer = combineReducers({
 	lunar: lunarReducer,
 });
@@ -153,6 +154,11 @@ const voteReducer = combineReducers({
 	donate: voteDonateReducer,
 });
 
+const airdropCoinReducer = combineReducers({
+	list: airdropCoinListReducer,
+	claims: airdropCoinClaimReducer,
+});
+
 export const pluginsReducer = combineReducers({
 	staking_list: stakingListReducer,
 	stake_wallet: stakeWalletReducer,
@@ -161,4 +167,5 @@ export const pluginsReducer = combineReducers({
 	unstake: unStakeReducer,
 	unstake_history: unStakeHistoryReducer,
 	vote: voteReducer,
+	airdropCoin: airdropCoinReducer,
 });

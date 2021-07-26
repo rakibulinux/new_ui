@@ -20,7 +20,7 @@ export const ProfileAnnouncement: React.FC<ProfileAnnouncementProps> = () => {
 					</svg>
 				</div>
 			</Link>
-			<div className="td-pg-profile__content__item__content d-flex flex-column">
+			<div className="td-pg-profile__content__item__content">
 				{announcements.slice(0, 2).map((_e, i) => (
 					<div className="td-pg-profile__announcement__item d-flex justify-content-between" key={i}>
 						<div className="td-pg-profile__announcement__item__title flex-fill">
