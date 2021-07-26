@@ -6,50 +6,58 @@
 		background: #313445;
 		border-radius: 10px;
 		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
-		margin-bottom: 2rem;
+		margin-bottom: 28px;
+		margin-top: 42px;
 		padding-bottom: 1rem;
 		padding-top: 1rem;
 
 		h3 {
 			color: #fff;
-			font-size: 2rem;
-			font-weight: 600;
-			margin-bottom: 0.5em;
+			font-size: 35px;
+			font-weight: 500;
+			line-height: 41px;
+			margin-bottom: 29px;
 		}
 
 		.ieo-listing-function {
 			display: flex;
-			justify-content: space-between;
+			justify-content: space-between !important;
 
 			.view-ioe-item-type {
 				border-radius: 5px;
 				box-sizing: border-box;
-
+				width: 50%;
 				button {
 					background: rgba(132, 142, 156, 0.35);
-					border: 1px solid #2fb67e;
+					border: 1px solid rgba(196, 196, 196, 0.28);
 					color: #ffff;
 					font-size: 17px;
+					font-weight: normal;
 					height: 46px;
+					line-height: 20px;
 					outline-color: rgba(255, 254, 253, 0.353);
-					width: 190px;
+					width: 33.33%;
 				}
 			}
-
-			.button-active {
+			.button--running {
 				background: #2fb67e !important;
 			}
-
+			.button--upcoming {
+				background: #e06211 !important;
+			}
+			.button--ended {
+				background: #d03d3c !important;
+			}
 			.input-list-function-search {
-				background: rgba(132, 142, 156, 0.35);
-				border: 1px solid #a3a3a3;
-				border-radius: 5px;
+				background: rgba(196, 196, 196, 0.28);
+				border: 0.5px solid #848e9c;
+				border-radius: 3px;
 				box-sizing: border-box;
 				display: flex;
 				position: relative;
 
 				input {
-					background: rgba(132, 142, 156, 0.35);
+					background: rgba(196, 196, 196, 0.28);
 					border: none;
 					color: #ffff;
 					font-size: 16px;
@@ -57,6 +65,15 @@
 					outline: none;
 					padding-left: 2rem;
 					width: 80%;
+				}
+
+				::placeholder {
+					color: rgba(196, 196, 196, 0.28);
+				}
+
+				.icon-search {
+					background: rgba(196, 196, 196, 0.28);
+					width: 20%;
 				}
 
 				svg {
@@ -76,6 +93,21 @@
 
 		.spinner-border {
 			margin: auto;
+		}
+	}
+	.pagination {
+		.page-item {
+			.page-link {
+				background-color: #272b3c;
+				color: #848e9c;
+				border: none;
+				font-size: 14px;
+				line-height: 16px;
+			}
+		}
+		.active {
+			background: rgba(132, 142, 156, 0.35) !important;
+			border-radius: 4px;
 		}
 	}
 }
