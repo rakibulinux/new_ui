@@ -17,6 +17,7 @@ const mockConfig: Config = {
 		finexUrl: '/api/v2/finex',
 		ieoAPIUrl: '/api/v2/ieo',
 		sunshineUrl: '/api/v2/sunshine',
+		airdropUrl: '/api/v2/airdrop',
 		stakeUrl: '/api/v2/stake',
 		walletUrl: '/api/v2/wallet',
 	},

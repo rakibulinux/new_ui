@@ -11,6 +11,7 @@ export const defaultConfig: Config = {
 		finexUrl: '',
 		ieoAPIUrl: '',
 		sunshineUrl: '',
+		airdropUrl: '',
 		stakeUrl: '',
 		walletUrl: '',
 	},
@@ -46,6 +47,7 @@ declare global {
 window.env = window.env || defaultConfig;
 Cryptobase.config = { ...window.env };
 //hot custome env
+Cryptobase.config.api.airdropUrl = Cryptobase.config.api.airdropUrl || '/api/v2/airdrop';
 Cryptobase.config.api.sunshineUrl = Cryptobase.config.api.sunshineUrl || '/api/v2/sunshine';
 Cryptobase.config.api.stakeUrl = Cryptobase.config.api.stakeUrl || '/api/v2/stake';
 Cryptobase.config.api.ieoAPIUrl = Cryptobase.config.api.ieoAPIUrl || '/api/v2/ieo';
@@ -57,6 +59,7 @@ export const tradeUrl = () => Cryptobase.config.api.tradeUrl;
 export const authUrl = () => Cryptobase.config.api.authUrl;
 export const applogicUrl = () => Cryptobase.config.api.applogicUrl;
 export const sunshineUrl = () => Cryptobase.config.api.sunshineUrl;
+export const airdropUrl = () => Cryptobase.config.api.airdropUrl;
 export const ieoAPIUrl = () => Cryptobase.config.api.ieoAPIUrl;
 export const stakeUrl = () => Cryptobase.config.api.stakeUrl;
 export const walletUrl = () => Cryptobase.config.api.walletUrl;
