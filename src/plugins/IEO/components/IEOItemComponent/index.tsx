@@ -85,6 +85,10 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 				return `#ffff`;
 		}
 	};
+	const rendererCountDown = (type: 'ended' | 'ongoing' | 'upcoming') => {
+		if (type !== 'upcoming') return <Countdown date={props.endDate} renderer={renderer} />;
+		return <Countdown date={props.startDate} renderer={renderer} />;
+	};
 	const currencies = useSelector(selectCurrencies);
 	const getCryptoIcon = (currencyID: string): string => {
 		const currency = currencies.find((cur: any) => cur.id === currencyID);
@@ -120,8 +124,7 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 
 			<div className="ieo-item-content">
 				<h3>{props.description}</h3>
-
-				<Countdown date={new Date(props.endDate)} renderer={renderer} />
+				{rendererCountDown(props.type)}
 
 				<div
 					className="ieo-item-coin-remains col-12 d-flex flex-wrap justify-content-center text-center
