@@ -1,6 +1,7 @@
 import { CommonState } from '../../types';
 
 export interface Wallet {
+	total?: string;
 	balance?: string;
 	currency: string;
 	name: string;

@@ -15,7 +15,7 @@ export const ProfileVerificationMobileScreen: React.FC = () => {
 				backTitle={intl.formatMessage({ id: 'page.body.profile.header.account' })}
 				onGoBack={() => history.push('/profile')}
 			/>
-			<div className="cr-mobile-profile-verification">
+			<div className="td-mobile-profile-verification">
 				<ProfileVerification />
 			</div>
 		</React.Fragment>

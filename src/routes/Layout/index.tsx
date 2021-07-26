@@ -1,3 +1,4 @@
+import { VoteScreen } from 'plugins/Vote';
 import * as React from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 import { injectIntl } from 'react-intl';
@@ -8,15 +9,27 @@ import { compose } from 'redux';
 import { minutesUntilAutoLogout, sessionCheckInterval /* showLanding */ } from '../../api';
 import { AnnouncementDetail, NewModal } from '../../components';
 import { AdminAnnouncement, AnnouncementEdit, WalletsFetch } from '../../containers';
+import { MarketsList } from '../../containers/MarketsList';
 import { toggleColorTheme } from '../../helpers';
 import { IntlProps } from '../../index';
+import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
+import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
+import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
 /* import { isMobile } from "react-device-detect"; */
 import {
 	ChangeForgottenPasswordMobileScreen,
 	ConfirmMobileScreen,
+	DepositMobileScreen,
 	EmailVerificationMobileScreen,
-	ForgotPasswordMobileScreen,
-	LandingScreenMobile,
+	HomePageScreenMobile,
+	NewForgotPasswordScreen,
+	NewMarketsScreenMobile,
+	NewSignInMobileScreen,
+	NewSignUpMobileScreen,
+	NewTradingScreenMobile,
+	NewWalletDetail,
+	NewWalletHistoryMobileScreen,
+	NewWalletsMobileScreen,
 	OrdersMobileScreen,
 	ProfileAccountActivityMobileScreen,
 	ProfileApiKeysMobileScreen,
@@ -26,19 +39,8 @@ import {
 	ProfileMobileScreen,
 	ProfileThemeMobileScreen,
 	ProfileVerificationMobileScreen,
-	SelectedWalletMobileScreen,
-	SignInMobileScreen,
-	SignUpMobileScreen,
-	TradingScreenMobile,
-	WalletDeposit,
-	WalletsMobileScreen,
-	WalletWithdraw,
+	WithdrawMobileScreen,
 } from '../../mobile/screens';
-
-import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
-
-import { MarketsList } from '../../containers/MarketsList';
-import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
 import {
 	configsFetch,
 	logoutFetch,
@@ -60,11 +62,13 @@ import {
 } from '../../modules';
 import { CustomizationDataInterface, customizationFetch, selectCustomizationData } from '../../modules/public/customization';
 import { AirdropDetail, AirdropList } from '../../plugins/Airdrop';
-import { IEOListingScreen } from '../../plugins/IEO/screen/IEOListingScreen';
 import { IEODetailScreen } from '../../plugins/IEO/screen/IEODetailScreen';
-import { TradingScreen } from '../../plugins/Trading/screens/TradingScreen';
+import { IEOListingScreen } from '../../plugins/IEO/screen/IEOListingScreen';
+import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
 import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
 import {
+	AnnouncementScreen,
+	AssetsFeeScreen,
 	ChangeForgottenPasswordScreen,
 	ConfirmScreen,
 	DepositScreen,
@@ -74,21 +78,17 @@ import {
 	LogInScreen,
 	MagicLink,
 	MaintenanceScreen,
+	NewHomePage,
 	OrdersTabScreen,
 	ProfileScreen,
 	ProfileTwoFactorAuthScreen,
 	RegisterScreen,
 	RestrictedScreen,
+	TradingScreen,
 	VerificationScreen,
 	WalletListScreen,
 	WithdrawScreen,
-	NewHomePage,
-	AnnouncementScreen,
-	AssetsFeeScreen,
 } from '../../screens';
-import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
-import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
-import { VoteScreen } from 'plugins/Vote';
 
 interface ReduxProps {
 	colorTheme: string;
@@ -240,13 +240,24 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 			return (
 				<div className={'container-fluid pg-layout pg-layout--mobile'}>
 					<Switch>
-						<PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/signin" component={SignInMobileScreen} />
-						<PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/signup" component={SignUpMobileScreen} />
+						<PublicRoute
+							loading={userLoading}
+							isLogged={isLoggedIn}
+							path="/signin"
+							component={NewSignInMobileScreen}
+						/>
+						<PublicRoute
+							loading={userLoading}
+							isLogged={isLoggedIn}
+							path="/signup"
+							component={NewSignUpMobileScreen}
+						/>
+
 						<PublicRoute
 							loading={userLoading}
 							isLogged={isLoggedIn}
 							path="/forgot_password"
-							component={ForgotPasswordMobileScreen}
+							component={NewForgotPasswordScreen}
 						/>
 						<PublicRoute
 							loading={userLoading}
@@ -269,20 +280,27 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						<PrivateRoute
 							loading={userLoading}
 							isLogged={isLoggedIn}
-							path="/wallets/:currency/history"
-							component={SelectedWalletMobileScreen}
+							path="/wallets/:currency/detail"
+							component={NewWalletDetail}
+						/>
+						<PrivateRoute
+							loading={userLoading}
+							isLogged={isLoggedIn}
+							path="/wallets/history"
+							component={NewWalletHistoryMobileScreen}
 						/>
 						<PrivateRoute
 							loading={userLoading}
 							isLogged={isLoggedIn}
 							path="/wallets/:currency/deposit"
-							component={WalletDeposit}
+							component={DepositMobileScreen}
 						/>
+
 						<PrivateRoute
 							loading={userLoading}
 							isLogged={isLoggedIn}
 							path="/wallets/:currency/withdraw"
-							component={WalletWithdraw}
+							component={WithdrawMobileScreen}
 						/>
 						<PrivateRoute
 							loading={userLoading}
@@ -294,7 +312,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							loading={userLoading}
 							isLogged={isLoggedIn}
 							path="/wallets"
-							component={WalletsMobileScreen}
+							component={NewWalletsMobileScreen}
 						/>
 						<PrivateRoute loading={userLoading} isLogged={isLoggedIn} path="/orders" component={OrdersMobileScreen} />
 						<PrivateRoute
@@ -345,8 +363,9 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							path="/profile"
 							component={ProfileMobileScreen}
 						/>
-						<Route exact={false} path="/market/:market?" component={TradingScreenMobile} />
-						<Route exact={true} path="/" component={LandingScreenMobile} />
+						<Route exact={false} path="/trading/:market?" component={NewTradingScreenMobile} />
+						<Route exact={true} path="/" component={HomePageScreenMobile} />
+						<Route exact={true} path="/markets" component={NewMarketsScreenMobile} />
 						<Route path="/ieo" exact component={IEOListMobileScreen} />
 						<Route path="/ieo/detail/:ieoID" exact component={IEODetailMobileScreen} />
 						<Route path="/trading-competition" exact component={TradingCompetionListMobileScreen} />
@@ -357,8 +376,9 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						/>
 						<Route path="/stake" exact component={StakingListMobileScreen} />
 						<Route path="/stake/detail/:stake_id" exact component={StakingDetailMobileScreen} />
+						<Route path="/vote" exact component={VoteScreen} />
 						<Route path="**">
-							<Redirect to="/market/" />
+							<Redirect to="/trading/" />
 						</Route>
 					</Switch>
 					{isLoggedIn && <WalletsFetch />}

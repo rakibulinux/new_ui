@@ -28,17 +28,17 @@ const WalletItemComponent = (props: Props) => {
 		.reduce((x, y) => x + y, 0);
 
 	return (
-		<div className="cr-mobile-wallet-item" onClick={() => props.onClick(currency)}>
+		<div className="td-mobile-wallet-item" onClick={() => props.onClick(currency)}>
 			<div>
 				{iconUrl ? (
 					<img alt="" src={iconUrl} />
 				) : (
-					<CryptoIcon className="cr-wallet-item__icon" code={currency.toUpperCase()} />
+					<CryptoIcon className="td-wallet-item__icon" code={currency.toUpperCase()} />
 				)}
-				<span className="cr-mobile-wallet-item__currency">{currency}</span>
-				<span className="cr-mobile-wallet-item__name">{name}</span>
+				<span className="td-mobile-wallet-item__currency">{currency}</span>
+				<span className="td-mobile-wallet-item__name">{name}</span>
 			</div>
-			<div className="cr-mobile-wallet-item__balance">
+			<div className="td-mobile-wallet-item__balance">
 				<span>
 					<Decimal fixed={fixed} children={Number(balance) + totalChildBalances || 0} />
 				</span>

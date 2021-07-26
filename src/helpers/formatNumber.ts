@@ -7,5 +7,6 @@ export const formatNumber = (value: string) => {
 	while (regex.test(x1)) {
 		x1 = x1.replace(regex, '$1,$2');
 	}
+
 	return x1 + x2;
 };

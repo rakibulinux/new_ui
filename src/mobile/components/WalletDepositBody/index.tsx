@@ -109,7 +109,7 @@ const WalletDepositBodyComponent = props => {
 		}
 	};
 
-	return <div className="cr-mobile-wallet-deposit-body">{renderDeposit(props.isAccountActivated)}</div>;
+	return <div className="td-mobile-wallet-deposit-body">{renderDeposit(props.isAccountActivated)}</div>;
 };
 
 const WalletDepositBody = React.memo(WalletDepositBodyComponent);

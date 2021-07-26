@@ -9,8 +9,8 @@ const walletsAddressOptions: RequestOptions = {
 };
 
 export function* walletsAddressSaga(action: WalletsAddressFetch) {
+	const currency = action.payload.currency.toLocaleLowerCase();
 	try {
-		const currency = action.payload.currency.toLocaleLowerCase();
 		const url = `/account/deposit_address/${currency}`;
 		const { address } = yield call(API.get(walletsAddressOptions), url);
 		yield put(
@@ -20,6 +20,12 @@ export function* walletsAddressSaga(action: WalletsAddressFetch) {
 			}),
 		);
 	} catch (error) {
+		yield put(
+			walletsAddressData({
+				address: '',
+				currency: currency,
+			}),
+		);
 		yield put(walletsAddressError(error));
 		yield put(alertPush({ message: error.message, code: error.code, type: 'error' }));
 	}

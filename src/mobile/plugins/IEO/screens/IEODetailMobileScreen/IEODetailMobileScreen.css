@@ -8,6 +8,7 @@
 	margin-bottom: 50px;
 	padding: 5vh 5vw;
 	width: 90%;
+	border-radius: var(--mobile-border-radius-large-size);
 	border: 4px solid #4b5d6c;
 	border-radius: 6px;
 }
@@ -18,7 +19,7 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	padding: 0.2rem 5rem;
-	border-radius: 3px;
+	border-radius: var(--mobile-border-radius-small-size);
 	font-size: 12px;
 	font-weight: bold;
 	text-transform: uppercase;

@@ -50,15 +50,17 @@ export const marketsReducer = (state = initialMarketsState, action: MarketsActio
 			let filters = {};
 
 			if (isFinexEnabled() && action.payload) {
-				filters = action.payload.reduce((result, market: Market) => {
-					result[market.id] = result[market.id] || [];
+				filters = action.payload
+					.sort((a, b) => (a.id > b.id ? 1 : -1))
+					.reduce((result, market: Market) => {
+						result[market.id] = result[market.id] || [];
 
-					if (market.filters) {
-						result[market.id] = market.filters.map(buildFilterPrice);
-					}
+						if (market.filters) {
+							result[market.id] = market.filters.map(buildFilterPrice);
+						}
 
-					return result;
-				}, {});
+						return result;
+					}, {});
 			}
 
 			return {

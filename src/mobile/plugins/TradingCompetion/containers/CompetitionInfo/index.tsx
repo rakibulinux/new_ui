@@ -66,7 +66,7 @@ export const CompetitionInfo: React.FC<CompetitionInfoProps> = (props: Competiti
 
 	const handleGoTrading = () => {
 		const location = {
-			pathname: `/market/${marketIDState}`,
+			pathname: `/trading/${marketIDState}`,
 		};
 		history.push(location);
 	};

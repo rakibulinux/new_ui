@@ -12,3 +12,9 @@ export const accumulateVolume = array => {
 
 	return total;
 };
+
+export const newAccumulateVolume = (array: string[][]) => {
+	return array.map(item => {
+		return Number(item[1]);
+	});
+};

@@ -41,8 +41,8 @@ const ModalComponent = props => {
 	};
 
 	const renderDefaultHeader = (
-		<div className="cr-mobile-modal__header">
-			<div className="cr-mobile-modal__header-back" onClick={handleOnBack}>
+		<div className="td-mobile-modal__header">
+			<div className="td-mobile-modal__header-back" onClick={handleOnBack}>
 				{props.backTitle ? (
 					<React.Fragment>
 						<ArrowIcon />
@@ -50,18 +50,18 @@ const ModalComponent = props => {
 					</React.Fragment>
 				) : null}
 			</div>
-			<div className="cr-mobile-modal__header-title">{props.title}</div>
-			<div className="cr-mobile-modal__header-close" onClick={handleOnClose}>
+			<div className="td-mobile-modal__header-title">{props.title}</div>
+			<div className="td-mobile-modal__header-close" onClick={handleOnClose}>
 				<CloseIcon />
 			</div>
 		</div>
 	);
 
-	const modalClassName = classnames('cr-mobile-modal', {
-		'cr-mobile-modal--open': shouldAnimate,
+	const modalClassName = classnames('td-mobile-modal', {
+		'td-mobile-modal--open': shouldAnimate,
 	});
-	const bodyClassName = classnames('cr-mobile-modal__block', {
-		'cr-mobile-modal__block--open': shouldAnimate,
+	const bodyClassName = classnames('td-mobile-modal__block', {
+		'td-mobile-modal__block--open': shouldAnimate,
 	});
 
 	return (

@@ -9,7 +9,7 @@
 		margin-bottom: 4px;
 	}
 
-	.cr-tab-panel__navigation-container-navigation {
+	.td-tab-panel__navigation-container-navigation {
 		width: 70% !important;
 	}
 
@@ -17,21 +17,21 @@
 		background: var(--body-background-color);
 		padding: 6px 20px;
 
-		&--no-data-first .cr-order-book:first-child {
-			.cr-table__body tr td {
+		&--no-data-first .td-order-book:first-child {
+			.td-table__body tr td {
 				height: 23px !important;
 				top: 50px;
 			}
 		}
 
-		&--no-data-second .cr-order-book:last-child {
-			.cr-table__body tr td {
+		&--no-data-second .td-order-book:last-child {
+			.td-table__body tr td {
 				height: 23px !important;
 				top: 50px;
 			}
 		}
 
-		&--no-data-first.pg-combined-order-book--no-data-second .cr-order-book {
+		&--no-data-first.pg-combined-order-book--no-data-second .td-order-book {
 			border: none !important;
 
 			&:last-child {
@@ -39,14 +39,14 @@
 				top: 23px;
 			}
 
-			.cr-table__body tr td {
+			.td-table__body tr td {
 				height: 23px !important;
 				top: 50px;
 			}
 		}
 
-		.cr-order-book {
-			.cr-table thead {
+		.td-order-book {
+			.td-table thead {
 				display: flex;
 				height: 100%;
 				position: sticky;
@@ -82,7 +82,7 @@
 				}
 			}
 
-			.cr-table__body {
+			.td-table__body {
 				&::before {
 					height: 0;
 				}
@@ -121,7 +121,7 @@
 				}
 			}
 
-			.cr-table-background {
+			.td-table-background {
 				display: flex;
 				flex-direction: column;
 				height: calc(100% - 23px);
@@ -138,31 +138,31 @@
 			}
 
 			&:first-child {
-				.cr-table__body tr td:last-child {
+				.td-table__body tr td:last-child {
 					color: var(--bids);
 				}
 			}
 
 			&:last-child {
-				.cr-table__body tr td:first-child {
+				.td-table__body tr td:first-child {
 					color: var(--asks);
 				}
 			}
 		}
 
-		.cr-combined-order-book__market {
+		.td-combined-order-book__market {
 			display: none;
 		}
 	}
 
 	.pg-recent-trades {
-		.cr-tab-panel__optinal-head {
+		.td-tab-panel__optinal-head {
 			display: none;
 		}
 
-		.cr-table__noData {
-			.cr-table td,
-			.cr-table th {
+		.td-table__noData {
+			.td-table td,
+			.td-table th {
 				text-align: right;
 
 				&:nth-child(2) {
@@ -172,7 +172,7 @@
 			}
 		}
 
-		.cr-table {
+		.td-table {
 			thead {
 				tr {
 					th {
