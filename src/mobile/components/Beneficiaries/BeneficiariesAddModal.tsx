@@ -251,6 +251,12 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 					isInvalidAddress: !isValid,
 				});
 				break;
+			case 'doge-main':
+				isValid = checkValidBitcoinAddress(value);
+				this.setState({
+					isInvalidAddress: !isValid,
+				});
+				break;
 			default:
 				break;
 		}

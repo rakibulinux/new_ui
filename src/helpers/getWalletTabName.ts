@@ -5,6 +5,10 @@ export const getTabName = (blockchainKey: string) => {
 			blockchain_key: 'btc-main',
 		},
 		{
+			name: 'Dogecoin',
+			blockchain_key: 'doge-main',
+		},
+		{
 			name: 'ERC20-T',
 			blockchain_key: 'eth-testnet',
 		},
