@@ -57,7 +57,9 @@ export const VoteHistory: React.FC<VoteHistoryProps> = ({}) => {
 		<div className="pg-vote__history">
 			<div className="pg-vote--border pg-vote__history__wrapper-table">
 				<div className="pg-vote__history__navbar">
-					<h2 className="pg-vote__history__navbar__title">Vote History</h2>
+					<div className="mb-2">
+						<h4 className="pg-vote__history__navbar__title m-0">Vote History</h4>
+					</div>
 				</div>
 				<div className="pg-vote__history__table__inner">
 					<table className="pg-vote__history__table pg-vote__history__table--fixed">

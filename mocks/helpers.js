@@ -59,7 +59,8 @@ const Helpers = {
 			busd1: [getBalanceValue('10.12', 8), getLockedValue('0.001', 8)],
 			btc: [getBalanceValue('0.21026373', 8), getLockedValue('0.0001', 8)],
 			busd: [getBalanceValue('5', 6), getLockedValue('0.0005', 6)],
-			eth: [getBalanceValue('5', 6), getLockedValue('0.0002', 6)],
+			eth: [getBalanceValue('1000', 6), getLockedValue('0.0002', 6)],
+			cx: [getBalanceValue('1000', 6), getLockedValue('0.0002', 6)],
 			usd: [getBalanceValue('1000', 2), getLockedValue('100', 2)],
 		};
 	},
