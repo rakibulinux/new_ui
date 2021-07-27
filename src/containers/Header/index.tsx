@@ -13,8 +13,14 @@ export const Header: React.FC = () => {
 	const intl = useIntl();
 	const isLoggedIn = useSelector(selectUserLoggedIn);
 	const [activeNow, setActiveNow] = React.useState('');
+	const [activeItemDrop, setActiveItemDrop] = React.useState('');
 
 	const dispatch = useDispatch();
+
+	const setStateActiveNow = (nameActive: string) => {
+		setActiveNow(nameActive);
+		setActiveItemDrop('');
+	};
 
 	const renderWalletLink = () => {
 		const classItemTitle = classNames('header__right-menu__item__title', {
@@ -24,7 +30,7 @@ export const Header: React.FC = () => {
 		return (
 			isLoggedIn && (
 				<div className="header__right-menu__item ">
-					<div className={classItemTitle} onClick={() => setActiveNow('Wallet')}>
+					<div className={classItemTitle} onClick={() => setStateActiveNow('Wallet')}>
 						<Link to="/wallets">Wallet</Link>
 					</div>
 				</div>
@@ -37,6 +43,11 @@ export const Header: React.FC = () => {
 			'header__right-menu__dropdown__wrap__dropbtn--active': activeNow === 'orders',
 		});
 
+		const classActiveItemDrop = (nameItem: string) =>
+			classNames('header__right-menu__dropdown__wrap__content__title d-flex align-items-center', {
+				'header__right-menu__dropdown__wrap__content__title--active': activeItemDrop === nameItem,
+			});
+
 		return (
 			isLoggedIn && (
 				<div className="header__right-menu__dropdown__wrap">
@@ -45,14 +56,26 @@ export const Header: React.FC = () => {
 						<div className="header__right-menu__dropdown__wrap__dropbtn__icon-drop-down"> </div>
 					</span>
 					<div className="header__right-menu__dropdown__wrap__content">
-						<Link to="/orders" onClick={() => setActiveNow('orders')}>
-							<div className="header__right-menu__dropdown__wrap__content__title d-flex align-items-center">
+						<Link
+							to="/orders"
+							onClick={() => {
+								setStateActiveNow('orders');
+								setActiveItemDrop('orders');
+							}}
+						>
+							<div className={classActiveItemDrop('orders')}>
 								<FaStar className="mr-2" />
 								{translate('page.body.landing.header.openOrder')}
 							</div>
 						</Link>
-						<Link to="/history" onClick={() => setActiveNow('orders')}>
-							<div className="header__right-menu__dropdown__wrap__content__title d-flex align-items-center">
+						<Link
+							to="/history"
+							onClick={() => {
+								setStateActiveNow('orders');
+								setActiveItemDrop('history');
+							}}
+						>
+							<div className={classActiveItemDrop('history')}>
 								<FaHistory className="header__right-menu__dropdown__wrap__content__title__icon mr-2" />
 								{translate('page.body.landing.header.history')}
 							</div>
@@ -73,7 +96,8 @@ export const Header: React.FC = () => {
 				to=" "
 				onClick={() => {
 					dispatch(logoutFetch());
-					setActiveNow('account');
+					setStateActiveNow('');
+					setActiveItemDrop('');
 				}}
 			>
 				<div className="header__right-menu__dropdown__wrap__content__title d-flex align-items-center">
@@ -85,10 +109,21 @@ export const Header: React.FC = () => {
 	};
 
 	const renderProfileLink = () => {
+		const classActiveItemDrop = (nameItem: string) =>
+			classNames('header__right-menu__dropdown__wrap__content__title d-flex align-items-center', {
+				'header__right-menu__dropdown__wrap__content__title--active': activeItemDrop === nameItem,
+			});
+
 		return (
 			isLoggedIn && (
-				<Link to="/profile" onClick={() => setActiveNow('account')}>
-					<div className="header__right-menu__dropdown__wrap__content__title d-flex align-items-center">
+				<Link
+					to="/profile"
+					onClick={() => {
+						setStateActiveNow('account');
+						setActiveItemDrop('profile');
+					}}
+				>
+					<div className={classActiveItemDrop('profile')}>
 						<FaUserCircle className="header__right-menu__dropdown__wrap__content__title__icon mr-2" />
 						<FormattedMessage id={'page.header.navbar.profile'} />
 					</div>
@@ -131,16 +166,33 @@ export const Header: React.FC = () => {
 	const translate = (key: string) => intl.formatMessage({ id: key });
 
 	const renderUnLogin = () => {
+		const classLinkActiveLogin = classNames('header__right-menu__item__title', {
+			'header__right-menu__item__title--active': activeNow === 'login',
+		});
+
+		const classLinkActiveRegister = classNames('header__right-menu__item__title header__right-menu__item__title--btn ', {
+			'header__right-menu__item__title--btn--active': activeNow === 'register',
+		});
+
 		return (
 			!isLoggedIn && (
 				<>
-					<div className="header__right-menu__item flex-shrink-0 custom-poiter" onClick={e => redirectSingIn()}>
-						<div className="header__right-menu__item__title">
+					<div
+						className="header__right-menu__item flex-shrink-0 custom-poiter"
+						onClick={e => {
+							redirectSingIn();
+							setStateActiveNow('login');
+						}}
+					>
+						<div className={classLinkActiveLogin}>
 							<span>{translate('page.body.landing.header.button2')}</span>
 						</div>
 					</div>
-					<div className="header__right-menu__item flex-shrink-0 custom-poiter" onClick={e => redirectSingUp()}>
-						<span className="header__right-menu__item__title header__right-menu__item__title--btn">
+					<div className="header__right-menu__item flex-shrink-0 custom-poiter" onClick={e => {
+							redirectSingUp();
+							setStateActiveNow('register');
+						}}>
+						<span className={classLinkActiveRegister}>
 							{translate('page.body.landing.header.button3')}
 						</span>
 					</div>
@@ -160,14 +212,14 @@ export const Header: React.FC = () => {
 			<div className="container-header">
 				<nav className="header d-flex flex-row justify-content-between align-items-center">
 					<div className="header__left-menu d-flex flex-row align-items-center">
-						<div className="header__left-menu__logo" onClick={() => setActiveNow('')}>
+						<div className="header__left-menu__logo" onClick={() => setStateActiveNow('')}>
 							<Link to="/">
 								<img src={Logo} alt="" />
 							</Link>
 						</div>
 
 						<div className="header__left-menu__dropdown flex-shrink-0">
-							<div className={classLinkActive('markets')} onClick={() => setActiveNow('markets')}>
+							<div className={classLinkActive('markets')} onClick={() => setStateActiveNow('markets')}>
 								<Link
 									to="/markets"
 									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
@@ -177,7 +229,7 @@ export const Header: React.FC = () => {
 							</div>
 						</div>
 						<div className="header__left-menu__dropdown flex-shrink-0 ">
-							<div className={classLinkActive('ieo')} onClick={() => setActiveNow('ieo')}>
+							<div className={classLinkActive('ieo')} onClick={() => setStateActiveNow('ieo')}>
 								<Link
 									to="/ieo"
 									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
@@ -189,7 +241,7 @@ export const Header: React.FC = () => {
 						<div className="header__left-menu__dropdown flex-shrink-0  ">
 							<div
 								className={classLinkActive('trading-competition')}
-								onClick={() => setActiveNow('trading-competition')}
+								onClick={() => setStateActiveNow('trading-competition')}
 							>
 								<Link
 									to="/trading-competition"
@@ -200,7 +252,7 @@ export const Header: React.FC = () => {
 							</div>
 						</div>
 						<div className="header__left-menu__dropdown flex-shrink-0 d-none d-lg-block d-xl-block ">
-							<div className={classLinkActive('stake')} onClick={() => setActiveNow('stake')}>
+							<div className={classLinkActive('stake')} onClick={() => setStateActiveNow('stake')}>
 								<Link
 									to="/stake"
 									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
@@ -210,7 +262,7 @@ export const Header: React.FC = () => {
 							</div>
 						</div>
 						<div className="header__left-menu__dropdown flex-shrink-0  ">
-							<div className={classLinkActive('airdrops')} onClick={() => setActiveNow('airdrops')}>
+							<div className={classLinkActive('airdrops')} onClick={() => setStateActiveNow('airdrops')}>
 								<Link
 									to="/airdrops"
 									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
@@ -220,7 +272,7 @@ export const Header: React.FC = () => {
 							</div>
 						</div>
 						<div className="header__left-menu__dropdown flex-shrink-0  ">
-							<div className={classLinkActive('vote')} onClick={() => setActiveNow('vote')}>
+							<div className={classLinkActive('vote')} onClick={() => setStateActiveNow('vote')}>
 								<Link
 									to="/vote"
 									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
