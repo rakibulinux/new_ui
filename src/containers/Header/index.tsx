@@ -160,7 +160,7 @@ export const Header: React.FC = () => {
 			<div className="container-header">
 				<nav className="header d-flex flex-row justify-content-between align-items-center">
 					<div className="header__left-menu d-flex flex-row align-items-center">
-						<div className="header__left-menu__logo">
+						<div className="header__left-menu__logo" onClick={() => setActiveNow('')}>
 							<Link to="/">
 								<img src={Logo} alt="" />
 							</Link>
