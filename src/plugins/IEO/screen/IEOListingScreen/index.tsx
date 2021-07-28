@@ -47,6 +47,7 @@ export const IEOListingScreen = () => {
 		for (let i = numberPageState; i < numberPageState + 3 && i * PAGE_SIZE < listIEOByType().length; i++) {
 			paginations.push(
 				<Pagination.Item
+					key={i}
 					id={`${numberPageState == i ? 'active' : 'non_active'}`}
 					onClick={() => {
 						setNumberPageState(i);
