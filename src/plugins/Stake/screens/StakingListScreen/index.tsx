@@ -26,7 +26,6 @@ export const StakingListScreen = () => {
 
 	const upcomingList = stakingList.filter(staking => staking.status === 'upcoming');
 	const runningList = stakingList.filter(staking => staking.status === 'running');
-	const endedList = stakingList.filter(staking => staking.status === 'ended');
 
 	// dispatch
 	const dispatch = useDispatch();
@@ -57,7 +56,7 @@ export const StakingListScreen = () => {
 		) : filterStackingState === 'running' ? (
 			<StakingList stakes={[...runningList]} />
 		) : (
-			<StakingList stakes={[...runningList, ...upcomingList, ...endedList]} />
+			<StakingList stakes={[...stakingList, ...stakingList, ...stakingList, ...stakingList, ...stakingList]} />
 		);
 	};
 
@@ -66,17 +65,7 @@ export const StakingListScreen = () => {
 			<div className=" container desktop-staking-list-screen__header">
 				<div className="row">
 					<div className="col-12">
-						<h1
-							style={{
-								color: '#fff',
-								fontSize: '35px',
-								fontWeight: 500,
-								lineHeight: '41px',
-								marginBottom: '29px',
-							}}
-						>
-							Stake
-						</h1>
+						<h3 className="desktop-staking-list-screen__header__h3">Stake</h3>
 					</div>
 				</div>
 				<div className="d-flex flex-row justify-content-between">
