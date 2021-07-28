@@ -22,6 +22,23 @@ export const Header: React.FC = () => {
 		setActiveItemDrop('');
 	};
 
+	const classActiveItemDrop = (nameItem: string) =>
+		classNames('header__right-menu__dropdown__wrap__content__title d-flex align-items-center', {
+			'header__right-menu__dropdown__wrap__content__title--active': activeItemDrop === nameItem,
+		});
+
+	const classLinkActive = (nameActive: string) => {
+		return classNames('header__left-menu__dropdown__wrap', {
+			'header__left-menu__dropdown__wrap--active': activeNow === nameActive,
+		});
+	};
+
+	const classLinkActiveTitleDrop = (nameActive: string) => {
+		return classNames('header__right-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center', {
+			'header__right-menu__dropdown__wrap__dropbtn--active': activeNow === nameActive,
+		});
+	};
+
 	const renderWalletLink = () => {
 		const classItemTitle = classNames('header__right-menu__item__title', {
 			'header__right-menu__item__title--active': activeNow === 'Wallet',
@@ -39,19 +56,11 @@ export const Header: React.FC = () => {
 	};
 
 	const renderOrderTab = () => {
-		const classActiveLink = classNames('header__right-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center', {
-			'header__right-menu__dropdown__wrap__dropbtn--active': activeNow === 'orders',
-		});
-
-		const classActiveItemDrop = (nameItem: string) =>
-			classNames('header__right-menu__dropdown__wrap__content__title d-flex align-items-center', {
-				'header__right-menu__dropdown__wrap__content__title--active': activeItemDrop === nameItem,
-			});
 
 		return (
 			isLoggedIn && (
 				<div className="header__right-menu__dropdown__wrap">
-					<span className={classActiveLink}>
+					<span className={classLinkActiveTitleDrop('orders')}>
 						{translate('page.body.landing.header.orders')}
 						<div className="header__right-menu__dropdown__wrap__dropbtn__icon-drop-down"> </div>
 					</span>
@@ -109,11 +118,6 @@ export const Header: React.FC = () => {
 	};
 
 	const renderProfileLink = () => {
-		const classActiveItemDrop = (nameItem: string) =>
-			classNames('header__right-menu__dropdown__wrap__content__title d-flex align-items-center', {
-				'header__right-menu__dropdown__wrap__content__title--active': activeItemDrop === nameItem,
-			});
-
 		return (
 			isLoggedIn && (
 				<Link
@@ -133,15 +137,12 @@ export const Header: React.FC = () => {
 	};
 
 	const renderProfileTab = () => {
-		const classActiveLink = classNames('header__right-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center', {
-			'header__right-menu__dropdown__wrap__dropbtn--active': activeNow === 'account',
-		});
 
 		return (
 			isLoggedIn && (
 				<>
 					<div className="header__right-menu__dropdown__wrap">
-						<span className={classActiveLink}>
+						<span className={classLinkActiveTitleDrop('account')}>
 							{translate('page.body.landing.header.account')}
 							<div className="header__right-menu__dropdown__wrap__dropbtn__icon-drop-down"> </div>
 						</span>
@@ -188,23 +189,18 @@ export const Header: React.FC = () => {
 							<span>{translate('page.body.landing.header.button2')}</span>
 						</div>
 					</div>
-					<div className="header__right-menu__item flex-shrink-0 custom-poiter" onClick={e => {
+					<div
+						className="header__right-menu__item flex-shrink-0 custom-poiter"
+						onClick={e => {
 							redirectSingUp();
 							setStateActiveNow('register');
-						}}>
-						<span className={classLinkActiveRegister}>
-							{translate('page.body.landing.header.button3')}
-						</span>
+						}}
+					>
+						<span className={classLinkActiveRegister}>{translate('page.body.landing.header.button3')}</span>
 					</div>
 				</>
 			)
 		);
-	};
-
-	const classLinkActive = (nameActive: string) => {
-		return classNames('header__left-menu__dropdown__wrap', {
-			'header__left-menu__dropdown__wrap--active': activeNow === nameActive,
-		});
 	};
 
 	return (
@@ -238,19 +234,6 @@ export const Header: React.FC = () => {
 								</Link>
 							</div>
 						</div>
-						<div className="header__left-menu__dropdown flex-shrink-0  ">
-							<div
-								className={classLinkActive('trading-competition')}
-								onClick={() => setStateActiveNow('trading-competition')}
-							>
-								<Link
-									to="/trading-competition"
-									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
-								>
-									Competition
-								</Link>
-							</div>
-						</div>
 						<div className="header__left-menu__dropdown flex-shrink-0 d-none d-lg-block d-xl-block ">
 							<div className={classLinkActive('stake')} onClick={() => setStateActiveNow('stake')}>
 								<Link
@@ -262,16 +245,6 @@ export const Header: React.FC = () => {
 							</div>
 						</div>
 						<div className="header__left-menu__dropdown flex-shrink-0  ">
-							<div className={classLinkActive('airdrops')} onClick={() => setStateActiveNow('airdrops')}>
-								<Link
-									to="/airdrops"
-									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
-								>
-									Airdrop
-								</Link>
-							</div>
-						</div>
-						<div className="header__left-menu__dropdown flex-shrink-0  ">
 							<div className={classLinkActive('vote')} onClick={() => setStateActiveNow('vote')}>
 								<Link
 									to="/vote"
@@ -279,6 +252,43 @@ export const Header: React.FC = () => {
 								>
 									Vote Listing
 								</Link>
+							</div>
+						</div>
+
+						<div className="header__left-menu__dropdown flex-shrink-0  ">
+							<div className="header__left-menu__dropdown__wrap">
+								<span className={classLinkActiveTitleDrop('EarnCoinFree')}>
+									Earn Coin Free
+									<div className="header__left-menu__dropdown__wrap__dropbtn__icon-drop-down"> </div>
+								</span>
+								<div className="header__left-menu__dropdown__wrap__content">
+									<Link
+										to="/airdrops"
+										className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
+										onClick={() => {
+											setStateActiveNow('EarnCoinFree');
+											setActiveItemDrop('airdrops');
+										}}
+									>
+										<div className={classActiveItemDrop('airdrops')}>
+											<FaStar className="header__left-menu__dropdown__wrap__content__title__icon mr-2" />
+											Airdrop
+										</div>
+									</Link>
+									<Link
+										to="/trading-competition"
+										className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
+										onClick={() => {
+											setStateActiveNow('EarnCoinFree');
+											setActiveItemDrop('trading-competition');
+										}}
+									>
+										<div className={classActiveItemDrop('trading-competition')}>
+											<FaStar className="header__left-menu__dropdown__wrap__content__title__icon mr-2" />
+											Competition
+										</div>
+									</Link>
+								</div>
 							</div>
 						</div>
 					</div>
