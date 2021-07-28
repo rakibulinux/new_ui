@@ -56,7 +56,7 @@ export const StakingListScreen = () => {
 		) : filterStackingState === 'running' ? (
 			<StakingList stakes={[...runningList]} />
 		) : (
-			<StakingList stakes={[...stakingList, ...stakingList, ...stakingList, ...stakingList, ...stakingList]} />
+			<StakingList stakes={[...stakingList]} />
 		);
 	};
 
