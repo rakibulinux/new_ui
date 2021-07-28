@@ -9,7 +9,7 @@ interface StakingListProps {
 	stakes: Stake[];
 }
 
-const NUMBER_ITEM_DISPLAY = 6;
+const NUMBER_ITEM_DISPLAY = 12;
 
 export const StakingList: React.FC<StakingListProps> = (props: StakingListProps) => {
 	const { stakes } = props;
@@ -30,6 +30,7 @@ export const StakingList: React.FC<StakingListProps> = (props: StakingListProps)
 			{stakes.length > 0 ? (
 				<React.Fragment>
 					{stakes
+						.reverse()
 						.slice(paginationState * NUMBER_ITEM_DISPLAY, paginationState * NUMBER_ITEM_DISPLAY + NUMBER_ITEM_DISPLAY)
 						.map((stake: Stake) => (
 							<div className="col-lg-4 col-md-6 mb-5" key={stake.stake_id}>

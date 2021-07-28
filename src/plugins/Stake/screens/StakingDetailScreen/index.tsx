@@ -100,14 +100,14 @@ export const StakingDetailScreen = () => {
 	}, [user.uid, dispatch, stakingItemState.currency_id, stake_id]);
 
 	return (
-		<div className="desktop-staking-detail-screen">
+		<div className="desktop-staking-detail-screen mt-3">
 			<div className="container">
 				<div className="row">
 					<div className="col-12">
 						<h1>{stakingItemState.currency_id.toUpperCase()} Stake</h1>
 					</div>
 				</div>
-				<div className="row mt-5">
+				<div className="row mt-3">
 					<div className="col-12">
 						<StakingInfo
 							currency_id={stakingItemState.currency_id}

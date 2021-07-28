@@ -56,7 +56,6 @@ export const Header: React.FC = () => {
 	};
 
 	const renderOrderTab = () => {
-
 		return (
 			isLoggedIn && (
 				<div className="header__right-menu__dropdown__wrap">
@@ -137,7 +136,6 @@ export const Header: React.FC = () => {
 	};
 
 	const renderProfileTab = () => {
-
 		return (
 			isLoggedIn && (
 				<>
@@ -240,7 +238,7 @@ export const Header: React.FC = () => {
 									to="/stake"
 									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
 								>
-									Stake
+									Smart Stake
 								</Link>
 							</div>
 						</div>
@@ -254,7 +252,6 @@ export const Header: React.FC = () => {
 								</Link>
 							</div>
 						</div>
-
 						<div className="header__left-menu__dropdown flex-shrink-0  ">
 							<div className="header__left-menu__dropdown__wrap">
 								<span className={classLinkActiveTitleDrop('EarnCoinFree')}>
