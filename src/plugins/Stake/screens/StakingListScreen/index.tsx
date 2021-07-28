@@ -99,7 +99,10 @@ export const StakingListScreen = () => {
 				</div>
 			</div>
 
-			<div style={{ position: 'relative' }} className="row m-auto container desktop-staking-list-screen__body">
+			<div
+				style={{ position: 'relative', paddingRight: '0px', paddingLeft: '0px' }}
+				className="row m-auto container desktop-staking-list-screen__body"
+			>
 				{renderStakingList()}
 			</div>
 		</div>
