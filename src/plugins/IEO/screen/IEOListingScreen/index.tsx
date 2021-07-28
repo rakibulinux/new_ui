@@ -8,7 +8,8 @@ export type typeIEO = 'ended' | 'ongoing' | 'upcoming';
 export const IEOListingScreen = () => {
 	const [typeIEO, setTypeIEO] = React.useState<typeIEO>('ongoing');
 	const [searchInputState, setSearchInputState] = React.useState<string>('');
-
+	const [numberPageState, setNumberPageState] = React.useState<number>(0);
+	const PAGE_SIZE = 12;
 	const handleViewListIEO = (type: typeIEO) => {
 		setTypeIEO(type);
 		setSearchInputState('');
@@ -23,6 +24,56 @@ export const IEOListingScreen = () => {
 		dispatch(IEOListDataFetch());
 		// dispatchListIEO();
 	}, []);
+
+	const listRender = () => {
+		if (searchInputState.trim()) {
+			return listIEO.payload.filter(
+				item => item.currency_id.toLowerCase().includes(searchInputState.toLowerCase().trim()) && item.type === typeIEO,
+			);
+		} else
+			return listIEO.payload
+				.filter(item => item.type === typeIEO)
+				.slice(PAGE_SIZE * numberPageState, PAGE_SIZE * numberPageState + PAGE_SIZE);
+	};
+	const listIEOByType = () => {
+		return listIEO.payload.filter(item => item.type === typeIEO);
+	};
+
+	const renderPagination = () => {
+		if (searchInputState.trim()) {
+			return null;
+		}
+		const paginations: Array<JSX.Element> = [];
+		for (let i = numberPageState; i < numberPageState + 3 && i * PAGE_SIZE < listIEOByType().length; i++) {
+			paginations.push(
+				<Pagination.Item
+					id={`${numberPageState == i ? 'active' : 'non_active'}`}
+					onClick={() => {
+						setNumberPageState(i);
+					}}
+				>
+					{i + 1}
+				</Pagination.Item>,
+			);
+		}
+		return (
+			<Pagination className="d-flex justify-content-end" style={{ padding: '10px' }}>
+				<Pagination.Prev
+					disabled={numberPageState === 0}
+					onClick={() => {
+						setNumberPageState(numberPageState - 1);
+					}}
+				/>
+				{paginations}
+				<Pagination.Next
+					disabled={(numberPageState + 1) * PAGE_SIZE >= listIEOByType().length}
+					onClick={() => {
+						setNumberPageState(numberPageState + 1);
+					}}
+				/>
+			</Pagination>
+		);
+	};
 	return (
 		<div id="ieo-listing-screen">
 			<div className="container ieo-listing-screen__header" style={{ paddingLeft: '0px' }}>
@@ -89,24 +140,8 @@ export const IEOListingScreen = () => {
 					</div>
 				) : (
 					<React.Fragment>
-						<ListItemIEO
-							IEOList={[
-								...listIEO.payload.filter(
-									item =>
-										item.currency_id.toLowerCase().includes(searchInputState.toLowerCase().trim()) &&
-										item.type === typeIEO,
-								),
-							]}
-						/>
-						<Pagination className="d-flex justify-content-end" style={{ padding: '10px' }}>
-							<Pagination.Prev disabled />
-							<Pagination.Item>{1}</Pagination.Item>
-							{/* <Pagination.Item>{2}</Pagination.Item>
-							<Pagination.Item>{3}</Pagination.Item>
-							<Pagination.Ellipsis />
-							<Pagination.Item>{23}</Pagination.Item> */}
-							<Pagination.Next disabled />
-						</Pagination>
+						<ListItemIEO IEOList={listRender()} />
+						{renderPagination()}
 					</React.Fragment>
 				)}
 			</div>
