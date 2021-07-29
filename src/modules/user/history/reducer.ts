@@ -1,8 +1,10 @@
 import { defaultStorageLimit } from '../../../api';
 import { sliceArray } from '../../../helpers';
 import { getUnique } from '../../../helpers/getUnique';
-import { HistoryActions } from './actions';
+import { DepositHistoryActions, HistoryActions, WithdrawHistoryActions } from './actions';
 import {
+	DEPOSIT_HISTORY_DATA,
+	DEPOSIT_HISTORY_FETCH,
 	HISTORY_ALL_DATA,
 	HISTORY_ALL_FETCH,
 	HISTORY_DATA,
@@ -10,8 +12,10 @@ import {
 	HISTORY_FETCH,
 	HISTORY_PUSH_FINISH,
 	HISTORY_RESET,
+	WITHDRAW_HISTORY_DATA,
+	WITHDRAW_HISTORY_FETCH,
 } from './constants';
-import { WalletHistoryList } from './types';
+import { DepositHistoryState, WalletHistoryList, WithdrawHistoryState } from './types';
 
 export interface HistoryState {
 	list: WalletHistoryList;
@@ -61,6 +65,60 @@ export const historyReducer = (state = initialState, action: HistoryActions) => 
 
 			return { ...state, list: sliceArray(list, defaultStorageLimit()) };
 		}
+
+		default:
+			return state;
+	}
+};
+
+const initialWithdrawHistory: WithdrawHistoryState = {
+	payload: [],
+	loading: false,
+};
+
+export const withdrawHistoryReducer = (state = initialWithdrawHistory, action: WithdrawHistoryActions): WithdrawHistoryState => {
+	switch (action.type) {
+		case WITHDRAW_HISTORY_FETCH:
+			return {
+				...state,
+				loading: true,
+				error: undefined,
+			};
+		case WITHDRAW_HISTORY_DATA:
+			const { payload } = action.payload;
+
+			return {
+				...state,
+				payload: payload,
+				loading: false,
+				error: undefined,
+			};
+		default:
+			return state;
+	}
+};
+
+const initialDepositHistory: DepositHistoryState = {
+	payload: [],
+	loading: false,
+};
+export const depositHistoryReducer = (state = initialDepositHistory, action: DepositHistoryActions): DepositHistoryState => {
+	switch (action.type) {
+		case DEPOSIT_HISTORY_FETCH:
+			return {
+				...state,
+				loading: true,
+				error: undefined,
+			};
+		case DEPOSIT_HISTORY_DATA:
+			const { payload } = action.payload;
+
+			return {
+				...state,
+				payload: payload,
+				loading: false,
+				error: undefined,
+			};
 		default:
 			return state;
 	}
