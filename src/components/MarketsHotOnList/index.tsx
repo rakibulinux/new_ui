@@ -174,7 +174,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 							<div className="col-12 d-flex justify-content-start align-items-center">
 								<span style={{ marginLeft: '5px', fontSize: '1.4rem', color: marketChangeColor }}>{last}</span>
 								<p className="m-0 ml-3 text-white">
-									$ <ConvertUsd value={+last} symbol={baseCurrency} />
+									≈ $ <ConvertUsd value={+last} symbol={baseCurrency} />
 								</p>
 							</div>
 						</div>
