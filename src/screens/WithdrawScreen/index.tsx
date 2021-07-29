@@ -15,8 +15,8 @@ import {
 	walletsChildCurrenciesFetch,
 	allChildCurrenciesFetch,
 	marketsFetch,
-	fetchHistory,
 	beneficiariesFetch,
+	withdrawHistoryFetch,
 } from '../../modules';
 
 export const WithdrawScreen = () => {
@@ -41,10 +41,10 @@ export const WithdrawScreen = () => {
 	);
 	const dispatchcFetchAllChildCurrencies = React.useCallback(() => dispatch(allChildCurrenciesFetch()), [dispatch]);
 	const dispatchFetchMarkets = React.useCallback(() => dispatch(marketsFetch()), [dispatch]);
-	const dispatchFetchHistories = React.useCallback(
-		() => dispatch(fetchHistory({ currency: currency_id, type: 'withdraws', page: 0, limit: 6 })),
-		[dispatch, currency_id],
-	);
+	const dispatchFetchHistories = React.useCallback(() => dispatch(withdrawHistoryFetch({ currency: currency_id })), [
+		dispatch,
+		currency_id,
+	]);
 	const dispatchFetchBeneficiaries = React.useCallback(() => dispatch(beneficiariesFetch()), [dispatch]);
 
 	const history = useHistory();

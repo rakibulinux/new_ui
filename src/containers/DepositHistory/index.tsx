@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { ReactTable } from '../../components/ReactTable';
 import { getTabName, localeDate } from '../../helpers';
-import { selectChildCurrencies, selectCurrencies, selectHistory } from '../../modules';
+import { selectChildCurrencies, selectCurrencies, selectDepositHistory } from '../../modules';
 
 interface DepositHistoryProps {
 	currency_id: string;
@@ -15,7 +15,7 @@ export const DepositHistory: React.FC<DepositHistoryProps> = (props: DepositHist
 	const { currency_id } = props;
 
 	// selector
-	const list = useSelector(selectHistory);
+	const list = useSelector(selectDepositHistory);
 	const currencies = useSelector(selectCurrencies);
 	const childCurrencies = useSelector(selectChildCurrencies);
 	const childCurrenciesIds = childCurrencies.map(child => child.id);

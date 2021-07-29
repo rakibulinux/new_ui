@@ -52,7 +52,7 @@ import { beneficiariesReducer } from './user/beneficiaries';
 import { getGeetestCaptchaReducer } from './user/captcha';
 import { customizationUpdateReducer } from './user/customization';
 import { sendEmailVerificationReducer } from './user/emailVerification';
-import { historyReducer } from './user/history';
+import { depositHistoryReducer, historyReducer, withdrawHistoryReducer } from './user/history';
 import { addressesReducer, documentsReducer, identityReducer, labelReducer, phoneReducer } from './user/kyc';
 import { newHistoryReducer } from './user/newHistory';
 import { openOrdersReducer } from './user/openOrders';
@@ -138,6 +138,8 @@ export const userReducer = combineReducers({
 	identity: identityReducer,
 	phone: phoneReducer,
 	history: historyReducer,
+	withdrawHistory: withdrawHistoryReducer,
+	depositHistory: depositHistoryReducer,
 	newHistory: newHistoryReducer,
 	apiKeys: apiKeysReducer,
 	userActivity: userActivityReducer,

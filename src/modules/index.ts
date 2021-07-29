@@ -63,7 +63,7 @@ import { BeneficiariesState, rootBeneficiariesSaga } from './user/beneficiaries'
 import { GeetestCaptchaState, rootGeetestCaptchaSaga } from './user/captcha';
 import { CustomizationUpdateState, rootCustomizationUpdateSaga } from './user/customization';
 import { EmailVerificationState, rootEmailVerificationSaga } from './user/emailVerification';
-import { HistoryState, rootHistorySaga } from './user/history';
+import { DepositHistoryState, HistoryState, rootHistorySaga, WithdrawHistoryState } from './user/history';
 import { AddressesState, rootSendAddressesSaga } from './user/kyc/addresses';
 import { DocumentsState, rootSendDocumentsSaga } from './user/kyc/documents';
 import { IdentityState, rootSendIdentitySaga } from './user/kyc/identity';
@@ -185,6 +185,8 @@ export interface RootState {
 		customizationUpdate: CustomizationUpdateState;
 		sendEmailVerification: EmailVerificationState;
 		history: HistoryState;
+		withdrawHistory: WithdrawHistoryState;
+		depositHistory: DepositHistoryState;
 		documents: DocumentsState;
 		addresses: AddressesState;
 		identity: IdentityState;

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { ReactTable } from '../../components/ReactTable';
 import Tabs, { TabPane } from 'rc-tabs';
 import { getTabName, localeDate } from '../../helpers';
-import { selectHistory, selectCurrencies, selectChildCurrencies } from '../../modules';
+import { selectCurrencies, selectChildCurrencies, selectWithdrawHistory } from '../../modules';
 interface WithdrawHistoryProps {
 	currency_id: string;
 }
@@ -16,7 +16,7 @@ export const WithdrawHistory: React.FC<WithdrawHistoryProps> = (props: WithdrawH
 	const { currency_id } = props;
 
 	// selector
-	const list = useSelector(selectHistory);
+	const list = useSelector(selectWithdrawHistory);
 	const currencies = useSelector(selectCurrencies);
 	const childCurrencies = useSelector(selectChildCurrencies);
 	const childCurrenciesIds = childCurrencies.map(child => child.id);
