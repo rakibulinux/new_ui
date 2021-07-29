@@ -102,7 +102,6 @@ export const MarketsList = props => {
 					const marketChangeColor = +(market.change || 0) < 0 ? '#E01E5A' : '#2FB67E';
 					const marketName = market.name.split('/');
 					const svgClass = classNames(marketIdsLocalState.includes(market.id) ? 'active_id' : '');
-
 					return {
 						...market,
 						pair: (

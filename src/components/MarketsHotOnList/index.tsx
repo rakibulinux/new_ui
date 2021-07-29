@@ -20,7 +20,7 @@ const MarketChartItem = styled.div`
 	background-color: var(--tab-panel-background-color);
 	:hover {
 		cursor: pointer;
-		box-shadow: #7d82b8 0px 0px 10px 0px;
+		box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.2);
 	}
 `;
 
@@ -100,7 +100,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 	};
 	React.useEffect(() => {
 		if (marketNames) {
-			const from = Math.floor(Date.now() / 1000) - 60 * 1 * 60 * 1000;
+			const from = Math.floor(Date.now() / 1000) - 60 * 24 * 60 * 1000;
 			const to = Math.floor(Date.now() / 1000);
 			const drawMarketLines = async () => {
 				try {
@@ -157,7 +157,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 			const volume = Decimal.format(Number((marketTickers[market.id] || defaultTicker).volume), market.amount_precision);
 			const change = +last - +open;
 			const marketChangeColor = +(change || 0) < 0 ? 'var(--system-red)' : 'var(--system-green)';
-
+			console.log((+last))
 			return (
 				<MarketChartItem>
 					<div className="container" onClick={() => handleRedirectToTrading(market.id)}>
@@ -175,7 +175,7 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 							<div className="col-12 d-flex justify-content-start align-items-center">
 								<span style={{ marginLeft: '5px', fontSize: '1.4rem', color: marketChangeColor }}>{last}</span>
 								<p className="m-0 ml-3 text-white">
-									≈ $ <ConvertUsd value={+last} symbol={marketID[1]} />
+									$ <ConvertUsd value={+last} symbol={baseCurrency} />
 								</p>
 							</div>
 						</div>
@@ -211,8 +211,8 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 											isAnimationActive={false}
 											type="monotone"
 											dataKey="pv"
-											stroke="#fffbfc"
-											fill="#7a7ab0"
+											stroke="#FFF"
+											fill="rgba(122, 122, 176, 0.4)"
 										/>
 									</AreaChart>
 								</ResponsiveContainer>
