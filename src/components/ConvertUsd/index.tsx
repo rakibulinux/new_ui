@@ -10,9 +10,7 @@ interface ConvertUsdProps {
 }
 
 export const ConvertUsd: React.FC<ConvertUsdProps> = ({ value, symbol, precision, defaultValue }) => {
-	// console.log(value)
-	// console.log(symbol)
-	const price = useConvertToUSD(value, symbol, precision, defaultValue);
 
+	const price = useConvertToUSD(value, symbol, precision, defaultValue);
 	return <>{price}</>;
 };

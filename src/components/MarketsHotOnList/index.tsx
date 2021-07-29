@@ -157,7 +157,6 @@ export const MarketsHotOnlist: React.FC<any> = () => {
 			const volume = Decimal.format(Number((marketTickers[market.id] || defaultTicker).volume), market.amount_precision);
 			const change = +last - +open;
 			const marketChangeColor = +(change || 0) < 0 ? 'var(--system-red)' : 'var(--system-green)';
-			console.log((+last))
 			return (
 				<MarketChartItem>
 					<div className="container" onClick={() => handleRedirectToTrading(market.id)}>
