@@ -7,6 +7,6 @@ export const HISTORY_RESET = 'history/RESET';
 export const HISTORY_PUSH_EMIT = 'history/PUSH_EMIT';
 export const HISTORY_PUSH_FINISH = 'history/PUSH_FINISH';
 export const WITHDRAW_HISTORY_FETCH = 'withdrawHistory/FETCH';
-export const WITHDRAW_HISTORY_DATA = 'depositHistory/DATA';
+export const WITHDRAW_HISTORY_DATA = 'withdrawHistory/DATA';
 export const DEPOSIT_HISTORY_FETCH = 'depositHistory/FETCH';
 export const DEPOSIT_HISTORY_DATA = 'depositHistory/DATA';
