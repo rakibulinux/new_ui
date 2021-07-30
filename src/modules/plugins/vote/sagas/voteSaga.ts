@@ -8,6 +8,8 @@ import {
 	VoteDonateData,
 	voteDonateData,
 	voteDonateError,
+	VoteDonateFreeData,
+	voteDonateFreeData,
 	voteHistoryData,
 	VoteHistoryData,
 	voteHistoryError,
@@ -52,5 +54,14 @@ export function* voteDonateCreateSaga(actions: VoteDonateCreate) {
 	} catch (error) {
 		yield put(voteDonateError(error));
 		yield put(alertPush({ message: ['page.body.vote.msg.fail'], code: error.code, type: 'error' }));
+	}
+}
+
+export function* voteDonateFreeFetchSaga() {
+	try {
+		const data = yield call(API.get(createOptions(getCsrfToken())), `private/vote/get-free-vote`);
+		yield put(voteDonateFreeData(data as VoteDonateFreeData['payload']));
+	} catch (error) {
+		yield put(voteDonateError(error));
 	}
 }

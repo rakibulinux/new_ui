@@ -49,7 +49,7 @@ export const StakingInfo: React.FC<StakingInfoProps> = (props: StakingInfoProps)
 		const currentMarket: Market | undefined = markets.find(item => item.base_unit === id);
 		if (currentMarket) {
 			dispatch(setCurrentMarket(currentMarket));
-			history.push({ pathname: `/market/${currentMarket.id}` });
+			history.push({ pathname: `/trading/${currentMarket.id}` });
 		}
 	};
 

@@ -12,7 +12,7 @@ const ChangeForgottenPasswordMobileScreen: React.FC = () => {
 		<div>
 			<Modal
 				isOpen={true}
-				onClose={() => history.push('/market')}
+				onClose={() => history.push('/trading')}
 				title={intl.formatMessage({ id: 'page.header.signIn.resetPassword.title' })}
 			>
 				<ChangeForgottenPasswordScreen />

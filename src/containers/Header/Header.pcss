@@ -45,6 +45,12 @@
 					position: relative;
 					text-decoration: none;
 
+					&--active {
+						a {
+							color: rgb(47, 182, 126) !important;
+						}
+					}
+
 					&__dropbtn {
 						border: none;
 						color: white;
@@ -114,13 +120,17 @@
 						background-color: rgb(41, 45, 63);
 						box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 						display: none;
-						margin-top: 33px;
-						min-width: 280px;
+						left: 50% !important;
+						margin-top: 18px;
+						min-width: 150px;
 						position: absolute;
+						right: auto !important;
+						text-align: center !important;
+						transform: translate(-50%, 0) !important;
 						z-index: 100;
 
 						a {
-							color: white;
+							color: white !important;
 							display: block;
 							font-size: 16px;
 							padding: 20px 16px;
@@ -143,7 +153,7 @@
 					}
 
 					&:hover .header__left-menu__dropdown__wrap__dropbtn {
-						color: rgb(47, 182, 126) !important;
+						color: rgb(47, 182, 126);
 					}
 
 					&:hover .header__left-menu__dropdown__wrap__dropbtn__icon-drop-down {
@@ -186,6 +196,10 @@
 							z-index: 10;
 						}
 
+						&--active {
+							color: rgb(47, 182, 126) !important;
+						}
+
 						&__svg {
 							svg {
 								color: white !important;
@@ -212,6 +226,10 @@
 						&__title {
 							&__icon {
 								font-size: 20px;
+							}
+
+							&--active {
+								color: rgb(47, 182, 126);
 							}
 						}
 
@@ -296,6 +314,13 @@
 						}
 					}
 
+					&--active {
+						a,
+						span {
+							color: rgb(47, 182, 126);
+						}
+					}
+
 					font-size: 16px;
 					margin-right: 20px;
 
@@ -304,6 +329,10 @@
 						border-radius: 5px;
 						color: white;
 						padding: 6px 16px;
+
+						&--active {
+							background-color: rgb(27, 226, 143);
+						}
 
 						&:hover {
 							background-color: rgb(27, 226, 143);

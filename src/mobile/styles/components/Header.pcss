@@ -1,19 +1,24 @@
-.pg-mobile-header {
-	align-items: center;
-	background: var(--body-background-color);
-	display: flex;
-	flex-direction: row;
-	height: 48px;
-	justify-content: space-between;
-	padding: 10px 14px;
-	width: 100%;
+.pg-mobile-cpn-header {
+	background-color: #2e2f3e;
+	padding-bottom: 0.5em;
+
+	&__inner {
+		align-items: center;
+		background: var(--mobile-body-background-color);
+		display: flex;
+		flex-direction: row;
+		height: 3.75em;
+		justify-content: space-between;
+		padding: 0.625em 0.875em;
+		width: 100%;
+	}
 
 	&__logo {
 		align-items: center;
 		display: flex;
 		height: 100%;
 		justify-content: flex-start;
-		max-height: 22px;
+		max-height: 1.375em;
 		max-width: 40%;
 	}
 
@@ -22,7 +27,7 @@
 			align-items: center;
 			display: flex;
 			justify-content: flex-end;
-			max-height: 24px;
+			max-height: 1.5em;
 		}
 
 		&__log-in {
@@ -30,15 +35,15 @@
 
 			button {
 				align-items: center;
-				border-radius: 3px;
+				border-radius: var(--mobile-border-radius-small-size);
 				display: flex;
-				font-size: 14px;
-				height: 28px;
+				font-size: 0.875em;
+				height: 2em;
 				justify-content: center;
 				letter-spacing: 0.1px;
-				line-height: 22px;
-				min-width: 89px;
-				padding: 0 15px;
+				line-height: 1.57em;
+				min-width: 6.36em;
+				padding: 0 1.07em;
 			}
 
 			&:hover {

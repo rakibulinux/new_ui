@@ -6,11 +6,11 @@ import {
 	airdropsReducer,
 	ethFeesReducer,
 	eventsReducer,
+	IEOReducer,
 	infoReducer,
 	pluginsReducer,
 	publicReducer,
 	saleReducer,
-	IEOReducer,
 	tradingCompetitionsReducer,
 	userReducer,
 } from './app';
@@ -18,6 +18,13 @@ import { ETHFeeState, rootETHFeeSaga } from './eth-withdraw/fee';
 import { LunarsState, rootLunarSaga } from './events/lunar';
 import { AnnouncementState, rootAnnouncementSaga } from './info/announcement';
 import { EventsState, rootEventSaga } from './info/events';
+import { AirdropCoinClaimState, AirdropCoinState, rootAirdropCoinSaga } from './plugins/airdropCoin';
+import { BuyIEOLoadingState, rootBuyIEOSaga, TotalIEOBuyersState } from './plugins/ieo';
+import { IEOCautionState, rootIEOCautionSaga } from './plugins/ieo/caution';
+import { DetailIEOState, rootIEODetailSaga } from './plugins/ieo/detail';
+import { BuyersHistoryState, BuyHistoryListState, rootHistoryBuySaga } from './plugins/ieo/history';
+import { IEOItemState, rootIEOItemSaga } from './plugins/ieo/item';
+import { IEOListState, rootIEOListSaga } from './plugins/ieo/list';
 import {
 	CreateStakeState,
 	rootStakingSaga,
@@ -29,7 +36,6 @@ import {
 } from './plugins/staking';
 import { rootVoteSaga, VoteDonateState, VoteHistoryState, VoteListState } from './plugins/vote';
 import { AlertState, rootHandleAlertSaga } from './public/alert';
-import { rootIEODetailSaga } from './plugins/ieo/detail';
 import { BlocklistAccessState, rootBlocklistAccessSaga } from './public/blocklistAccess';
 import { ConfigsState, rootConfigsSaga } from './public/configs';
 import { CurrenciesState, rootCurrenciesSaga } from './public/currencies';
@@ -44,15 +50,11 @@ import { DepthIncrementState, DepthState, OrderBookState, rootOrderBookSaga } fr
 import { RangerState } from './public/ranger/reducer';
 import { RecentTradesState, rootRecentTradesSaga } from './public/recentTrades';
 import { BuyState, rootBuySaga, TotalBuyersState } from './sale/buy';
-import { BuyIEOLoadingState, rootBuyIEOSaga, TotalIEOBuyersState } from './plugins/ieo';
 import { PriceState, rootPriceSaga } from './sale/price';
-import { IEOItemState, rootIEOItemSaga } from './plugins/ieo/item';
-import { IEOListState, rootIEOListSaga } from './plugins/ieo/list';
-import { BuyersHistoryState, BuyHistoryListState, rootHistoryBuySaga } from './plugins/ieo/history';
 import { rootSaleItemSaga, SaleItemState } from './sale/sale-item';
 import { rootSaleListSaga, SaleListState } from './sale/sale-list';
-import { CompetitionItemState, rootcompetitionItemSaga } from './trading_competitions/competition_item';
 import { CompetionListState, rootCompetionsListSaga } from './trading_competitions/competitions';
+import { CompetitionItemState, rootcompetitionItemSaga } from './trading_competitions/competition_item';
 import { rootRankingsSaga, TradingRankingsState } from './trading_competitions/rankings';
 import { ApiKeysState } from './user/apiKeys';
 import { rootApiKeysSaga } from './user/apiKeys/sagas';
@@ -61,7 +63,7 @@ import { BeneficiariesState, rootBeneficiariesSaga } from './user/beneficiaries'
 import { GeetestCaptchaState, rootGeetestCaptchaSaga } from './user/captcha';
 import { CustomizationUpdateState, rootCustomizationUpdateSaga } from './user/customization';
 import { EmailVerificationState, rootEmailVerificationSaga } from './user/emailVerification';
-import { HistoryState, rootHistorySaga } from './user/history';
+import { DepositHistoryState, HistoryState, rootHistorySaga, WithdrawHistoryState } from './user/history';
 import { AddressesState, rootSendAddressesSaga } from './user/kyc/addresses';
 import { DocumentsState, rootSendDocumentsSaga } from './user/kyc/documents';
 import { IdentityState, rootSendIdentitySaga } from './user/kyc/identity';
@@ -76,8 +78,6 @@ import { ProfileState, rootProfileSaga } from './user/profile';
 import { rootUserActivitySaga, UserActivityState } from './user/userActivity';
 import { ChildCurrenciesState, rootWalletsSaga, WalletsState } from './user/wallets';
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
-import { DetailIEOState } from './plugins/ieo/detail';
-import { IEOCautionState, rootIEOCautionSaga } from './plugins/ieo/caution';
 
 export * from './airdrops/airdrop';
 export * from './airdrops/claim';
@@ -85,6 +85,8 @@ export * from './eth-withdraw/fee';
 export * from './events/lunar';
 export * from './info/announcement';
 export * from './info/events';
+export * from './plugins/airdropCoin';
+export * from './plugins/ieo';
 export * from './plugins/staking';
 export * from './plugins/vote';
 export * from './public/alert';
@@ -122,7 +124,6 @@ export * from './user/profile';
 export * from './user/userActivity';
 export * from './user/wallets';
 export * from './user/withdrawLimit';
-export * from './plugins/ieo';
 export interface RootState {
 	airdrops: {
 		airdrops: AirdropState;
@@ -184,6 +185,8 @@ export interface RootState {
 		customizationUpdate: CustomizationUpdateState;
 		sendEmailVerification: EmailVerificationState;
 		history: HistoryState;
+		withdrawHistory: WithdrawHistoryState;
+		depositHistory: DepositHistoryState;
 		documents: DocumentsState;
 		addresses: AddressesState;
 		identity: IdentityState;
@@ -215,6 +218,10 @@ export interface RootState {
 			list: VoteListState;
 			history: VoteHistoryState;
 			donate: VoteDonateState;
+		};
+		airdropCoin: {
+			list: AirdropCoinState;
+			claims: AirdropCoinClaimState;
 		};
 	};
 }
@@ -286,5 +293,6 @@ export function* rootSaga() {
 		call(rootStakingSaga),
 		call(rootAnnouncementSaga),
 		call(rootVoteSaga),
+		call(rootAirdropCoinSaga),
 	]);
 }

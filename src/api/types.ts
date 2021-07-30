@@ -8,6 +8,7 @@ export interface Config {
 		finexUrl: string;
 		ieoAPIUrl: string;
 		sunshineUrl: string;
+		airdropUrl: string;
 		stakeUrl: string;
 		walletUrl: string;
 	};

@@ -1,4 +1,4 @@
-.cr-deposit-crypto {
+.td-deposit-crypto {
 	background: transparent;
 	color: var(--table-text-color);
 	display: flex;
@@ -17,7 +17,7 @@
 		padding-top: calc(var(--gap) * 2);
 	}
 
-	.cr-deposit-info {
+	.td-deposit-info {
 		background-color: inherit;
 		font-size: calc(var(--gap) * 2.3);
 		line-height: 25px;
@@ -34,7 +34,7 @@
 		fieldset {
 			&:focus,
 			&:focus-within {
-				.cr-deposit-crypto__copyable-area {
+				.td-deposit-crypto__copyable-area {
 					border-color: var(--input-border-color-active);
 				}
 			}
@@ -71,7 +71,7 @@
 			}
 		}
 
-		.cr-copyable-text-field {
+		.td-copyable-text-field {
 			&__input {
 				background: inherit;
 
@@ -122,15 +122,15 @@
 }
 
 @media screen and (max-width: 768px) {
-	.cr-deposit-crypto {
+	.td-deposit-crypto {
 		padding: 0;
 
-		.cr-deposit-info {
+		.td-deposit-info {
 			text-align: center;
 			width: 100%;
 		}
 
-		.cr-deposit-crypto__copyable-area {
+		.td-deposit-crypto__copyable-area {
 			height: calc(var(--gap) * 5);
 
 			.input-group {

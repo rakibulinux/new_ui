@@ -23,6 +23,11 @@ export interface VoteFilter {
 	limit?: number;
 	keyword?: string;
 }
+
+export interface FreeVote {
+	total: number;
+	used: number;
+}
 export interface VoteListState extends CommonState {
 	info: {
 		data: VoteCoin[];
@@ -48,4 +53,5 @@ export interface VoteHistoryState extends CommonState {
 }
 export interface VoteDonateState extends CommonState {
 	data?: VoteHistory;
+	freeVote: FreeVote;
 }

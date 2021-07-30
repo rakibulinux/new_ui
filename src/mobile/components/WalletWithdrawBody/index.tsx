@@ -4,7 +4,8 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Blur } from '../../../components/Blur';
-import { ModalWithdrawConfirmation, ModalWithdrawSubmit, Withdraw } from '../../../containers';
+import { ModalWithdrawSubmit } from '../../containers';
+import { WithdrawComponent } from '../../containers';
 import { useBeneficiariesFetch, useCurrenciesFetch, useWalletsAddressFetch } from '../../../hooks';
 import { ethFeeFetch, selectETHFee } from '../../../modules';
 import { selectCurrencies } from '../../../modules/public/currencies';
@@ -16,6 +17,8 @@ import {
 	selectWithdrawSuccess,
 	walletsWithdrawCcyFetch,
 } from '../../../modules/user/wallets';
+import { ModalWithdrawConfirm } from '../ModalWithdrawConfirm';
+import { toLower, toNumber } from 'lodash';
 
 const defaultBeneficiary: Beneficiary = {
 	id: 0,
@@ -65,6 +68,7 @@ const WalletWithdrawBodyComponent = props => {
 		[intl],
 	);
 	const currencyItem = (currencies && currencies.find(item => item.id === currency)) || {
+		id: '',
 		withdraw_limit_24h: undefined,
 		min_withdraw_amount: undefined,
 		withdrawal_enabled: false,
@@ -112,14 +116,14 @@ const WalletWithdrawBodyComponent = props => {
 			return;
 		}
 
-		if (+fee === 0) {
+		if (toNumber(fee) === 0) {
 			if (!(feeCurrency && feeCurrency.fee)) {
-				message.error('Something wrong with ETH fee.');
+				message.error('Eth fee is unvailable now.');
 
 				return;
 			}
 			if (!(ethBallance && Number(ethBallance) >= Number(feeCurrency.fee))) {
-				message.error('ETH balance isn`\t enough to pay.');
+				message.error(`ETH balance isn't enough to pay.`);
 
 				return;
 			}
@@ -128,7 +132,7 @@ const WalletWithdrawBodyComponent = props => {
 			uid: user.uid,
 			fee: fee,
 			amount,
-			currency: currency.toLowerCase(),
+			currency: toLower(currency),
 			otp: otpCode,
 			beneficiary_id: String(beneficiary.id),
 		};
@@ -148,8 +152,8 @@ const WalletWithdrawBodyComponent = props => {
 
 	const minWithdrawAmount = currencyItem && currencyItem.min_withdraw_amount ? currencyItem.min_withdraw_amount : undefined;
 
-	const className = classnames('cr-mobile-wallet-withdraw-body', {
-		'cr-mobile-wallet-withdraw-body--disabled': currencyItem && !currencyItem.withdrawal_enabled,
+	const className = classnames('td-mobile-wallet-withdraw-body', {
+		'td-mobile-wallet-withdraw-body--disabled': currencyItem && !currencyItem.withdrawal_enabled,
 	});
 
 	const ethWallet = wallets.find(wallet => wallet.currency.toLowerCase() === 'eth');
@@ -164,40 +168,41 @@ const WalletWithdrawBodyComponent = props => {
 	const parentCurrency = currencies.find(cur => cur.id === parentCurrencyId) || { id: '', withdraw_limit_24h: undefined };
 	const limitWitdraw24h = parentCurrency ? parentCurrency.withdraw_limit_24h : undefined;
 
+	const parentWalletBalance = wallets.find(wallet => wallet.currency === props.parent_currency);
+
 	return (
 		<div className={className}>
-			{currencyItem && !currencyItem.withdrawal_enabled ? (
-				<Blur
-					className="pg-blur-withdraw"
-					text={intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })}
-				/>
-			) : (
-				<Withdraw
-					isMobileDevice
-					ethFee={feeCurrency ? feeCurrency.fee : undefined}
-					fee={fee}
-					ethBallance={ethBallance}
-					minWithdrawAmount={minWithdrawAmount}
-					type={type}
-					fixed={fixed}
-					currency={currency}
-					onClick={toggleConfirmModal}
-					withdrawAmountLabel={withdrawAmountLabel}
-					withdraw2faLabel={withdraw2faLabel}
-					withdrawFeeLabel={withdrawFeeLabel}
-					withdrawTotalLabel={withdrawTotalLabel}
-					withdrawDone={withdrawData.withdrawDone}
-					withdrawButtonLabel={withdrawButtonLabel}
-					twoFactorAuthRequired={isTwoFactorAuthRequired(user.level, user.otp)}
-					limitWitdraw24h={currencyItem.withdraw_limit_24h ? currencyItem.withdraw_limit_24h : limitWitdraw24h}
-					limitWitdraw24hLabel={parentCurrencyId ? parentCurrencyId.toUpperCase() : currencyItem.id.toUpperCase()}
-				/>
-			)}
-			<div className="cr-mobile-wallet-withdraw-body__submit">
+			<WithdrawComponent
+				isMobileDevice
+				ethFee={feeCurrency ? feeCurrency.fee : undefined}
+				fee={fee}
+				ethBallance={ethBallance}
+				minWithdrawAmount={minWithdrawAmount}
+				type={type}
+				fixed={fixed}
+				currency={currency}
+				onClick={toggleConfirmModal}
+				withdrawAmountLabel={withdrawAmountLabel}
+				withdraw2faLabel={withdraw2faLabel}
+				withdrawFeeLabel={withdrawFeeLabel}
+				withdrawTotalLabel={withdrawTotalLabel}
+				withdrawDone={withdrawData.withdrawDone}
+				withdrawButtonLabel={withdrawButtonLabel}
+				twoFactorAuthRequired={isTwoFactorAuthRequired(user.level, user.otp)}
+				limitWitdraw24h={currencyItem.withdraw_limit_24h ? currencyItem.withdraw_limit_24h : limitWitdraw24h}
+				limitWitdraw24hLabel={parentCurrencyId ? parentCurrencyId.toUpperCase() : currencyItem.id.toUpperCase()}
+				parentWalletBalance={parentWalletBalance?.balance}
+				parentCurrency={props.parent_currency}
+			/>
+			<div hidden={currencyItem.withdrawal_enabled} className="withdraw-disabled">
+				<Blur text={intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.disabled.message' })} />
+			</div>
+
+			<div className="td-mobile-wallet-withdraw-body__submit">
 				<ModalWithdrawSubmit isMobileDevice show={withdrawSubmitModal} currency={currency} onSubmit={toggleSubmitModal} />
 			</div>
-			<div className="cr-mobile-wallet-withdraw-body__confirmation">
-				<ModalWithdrawConfirmation
+			<div className="td-mobile-wallet-withdraw-body__confirmation">
+				<ModalWithdrawConfirm
 					ethBallance={ethBallance}
 					selectedWalletFee={selectedWalletFee}
 					ethFee={feeCurrency ? feeCurrency.fee : undefined}

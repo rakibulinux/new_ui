@@ -1,10 +1,12 @@
 import { Empty, Spin } from 'antd';
 import { NewPagination } from 'components';
-import { useVoteListFetch, useWalletsFetch } from 'hooks';
-import { selectVoteListInfo, selectVoteListLoading } from 'modules';
+import { useVoteDonateFreeFetch, useVoteListFetch, useWalletsFetch } from 'hooks';
+import get from 'lodash/get';
+import { selectVoteListInfo, selectVoteListLoading, selectWallets } from 'modules';
 import * as constants from 'plugins/constants/vote';
 import { ButtonVote, CountDownVote } from 'plugins/Vote/components';
 import * as React from 'react';
+import isEqual from 'react-fast-compare';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 // tslint:disable-next-line: no-empty-interface
@@ -17,10 +19,14 @@ const defaultPaginationState = {
 
 export const VoteNews: React.FC<VoteNewsProps> = ({}) => {
 	useWalletsFetch();
+	const freeVote = useVoteDonateFreeFetch();
 	const [pagination, setPagintion] = React.useState(defaultPaginationState);
 	const [keyword, setKeyword] = React.useState('');
 	const voteListInfo = useSelector(selectVoteListInfo);
 	const isVoteListLoading = useSelector(selectVoteListLoading);
+	const wallet = useSelector(selectWallets, isEqual).find(
+		walletParam => walletParam.currency === constants.VOTE_CURRENCIE.toLowerCase(),
+	);
 
 	useVoteListFetch({ ...pagination, keyword });
 
@@ -57,6 +63,8 @@ export const VoteNews: React.FC<VoteNewsProps> = ({}) => {
 	};
 
 	const dataTable = getBodyTableData();
+	const availableVote = wallet && wallet.balance ? Math.floor(+wallet.balance / constants.VOTE_RATE) : 0;
+	const availableFreeVote = freeVote.total ? Math.floor((freeVote.total - freeVote.used) / constants.VOTE_RATE) : 0;
 
 	return (
 		<div className="pg-vote__news">
@@ -79,7 +87,21 @@ export const VoteNews: React.FC<VoteNewsProps> = ({}) => {
 			<div className="pg-vote--border pg-vote__news__wrapper-table">
 				<div className="pg-vote__news__navbar">
 					<div className="d-flex justify-space-between">
-						<h2 className="pg-vote__news__navbar__title flex-fill">New Coins</h2>
+						<div className="d-flex flex-fill  mb-2">
+							<h4 className="pg-vote__news__navbar__title m-0">New Coins</h4>
+							<div className="d-flex flex-column justify-content-center ml-3">
+								<div>
+									<span>
+										Balance {constants.VOTE_CURRENCIE} : {+get(wallet, 'balance', 0)}
+									</span>{' '}
+									- <span>Available vote : {availableVote}</span>
+								</div>
+								<div>
+									<span>Free : {availableFreeVote}</span> -{' '}
+									<span>Total : {availableVote + availableFreeVote}</span>
+								</div>
+							</div>
+						</div>
 						<a href="https://www.cx.finance" target="_blank">
 							<button type="button" className="pg-vote__news--radius btn btn-success">
 								Create new

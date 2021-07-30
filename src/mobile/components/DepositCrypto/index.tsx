@@ -82,7 +82,7 @@ const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: Depos
 	} = props;
 	const size = dimensions || QR_SIZE;
 	const onCopy = !disabled ? handleOnCopy : undefined;
-	const className = classnames({ 'cr-copyable-text-field__disabled': data === '' });
+	const className = classnames({ 'td-copyable-text-field__disabled': data === '' });
 
 	const getContent = () => {
 		if (isAccountActivated) {
@@ -105,10 +105,10 @@ const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: Depos
 						) : null}
 					</div>
 					<div>
-						<form className={'cr-deposit-crypto__copyable'}>
-							<fieldset className={'cr-copyable-text-field'} onClick={onCopy}>
+						<form className={'td-deposit-crypto__copyable'}>
+							<fieldset className={'td-copyable-text-field'} onClick={onCopy}>
 								<CopyableTextField
-									className={'cr-deposit-crypto__copyable-area'}
+									className={'td-deposit-crypto__copyable-area'}
 									value={data ? data : error}
 									fieldId={data ? 'copy_deposit_1' : 'copy_deposit_2'}
 									copyButtonText={copyButtonText}
@@ -123,8 +123,8 @@ const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: Depos
 		}
 
 		return (
-			<div className="cr-deposit-crypto__create">
-				<div className="cr-deposit-crypto__create-btn">
+			<div className="td-deposit-crypto__create">
+				<div className="td-deposit-crypto__create-btn">
 					<Button block={true} type="button" onClick={handleGenerateAddress} size="lg" variant="primary">
 						{buttonLabel ? buttonLabel : 'Generate deposit address'}
 					</Button>
@@ -135,7 +135,7 @@ const DepositCrypto: React.FunctionComponent<DepositCryptoProps> = (props: Depos
 
 	return (
 		<div className={className}>
-			<div className={'cr-deposit-crypto'}>{getContent()}</div>
+			<div className={'td-deposit-crypto'}>{getContent()}</div>
 		</div>
 	);
 };

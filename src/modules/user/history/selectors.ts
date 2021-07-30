@@ -1,7 +1,9 @@
 import { RootState } from '../../index';
-import { WalletHistoryList } from './types';
+import { DepositHistoryState, WalletHistoryList, WithdrawHistoryState } from './types';
 
 export const selectHistory = (state: RootState): WalletHistoryList => state.user.history.list;
+export const selectWithdrawHistory = (state: RootState): WithdrawHistoryState['payload'] => state.user.withdrawHistory.payload;
+export const selectDepositHistory = (state: RootState): DepositHistoryState['payload'] => state.user.depositHistory.payload;
 
 export const selectCurrentPage = (state: RootState): number => state.user.history.page;
 

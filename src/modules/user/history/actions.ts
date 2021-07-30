@@ -1,4 +1,6 @@
 import {
+	DEPOSIT_HISTORY_DATA,
+	DEPOSIT_HISTORY_FETCH,
 	HISTORY_ALL_DATA,
 	HISTORY_ALL_FETCH,
 	HISTORY_DATA,
@@ -7,8 +9,10 @@ import {
 	HISTORY_PUSH_EMIT,
 	HISTORY_PUSH_FINISH,
 	HISTORY_RESET,
+	WITHDRAW_HISTORY_DATA,
+	WITHDRAW_HISTORY_FETCH,
 } from './constants';
-import { PrivateTradeEvent, WalletHistoryList } from './types';
+import { DepositHistoryState, PrivateTradeEvent, WalletHistoryList, WithdrawHistoryState } from './types';
 
 export interface HistoryFetchPayload {
 	currency?: string;
@@ -68,6 +72,30 @@ export interface HistoryPush {
 	payload: PrivateTradeEvent;
 }
 
+export interface WithdrawHistoryFetch {
+	type: typeof WITHDRAW_HISTORY_FETCH;
+	payload: {
+		currency: string;
+	};
+}
+
+export interface WithdrawHistoryData {
+	type: typeof WITHDRAW_HISTORY_DATA;
+	payload: WithdrawHistoryState;
+}
+
+export interface DepositHistoryFetch {
+	type: typeof DEPOSIT_HISTORY_FETCH;
+	payload: {
+		currency: string;
+	};
+}
+
+export interface DepositHistoryData {
+	type: typeof DEPOSIT_HISTORY_DATA;
+	payload: DepositHistoryState;
+}
+
 export type HistoryActions =
 	| HistoryFetch
 	| HistoryData
@@ -76,7 +104,14 @@ export type HistoryActions =
 	| HistoryPush
 	| HistoryAllFetch
 	| HistoryAllData
-	| HistoryPushFinish;
+	| HistoryPushFinish
+	| WithdrawHistoryFetch
+	| WithdrawHistoryData
+	| DepositHistoryFetch
+	| DepositHistoryData;
+
+export type WithdrawHistoryActions = WithdrawHistoryFetch | WithdrawHistoryData;
+export type DepositHistoryActions = DepositHistoryFetch | DepositHistoryData;
 
 export const fetchHistory = (payload: HistoryFetchPayload): HistoryFetch => ({
 	type: HISTORY_FETCH,
@@ -114,5 +149,25 @@ export const pushHistoryEmit = (payload: PrivateTradeEvent): HistoryPush => ({
 
 export const pushHistoryFinish = (payload: WalletHistoryList): HistoryPushFinish => ({
 	type: HISTORY_PUSH_FINISH,
+	payload,
+});
+
+export const withdrawHistoryFetch = (payload: { currency: string }): WithdrawHistoryFetch => ({
+	type: WITHDRAW_HISTORY_FETCH,
+	payload,
+});
+
+export const withdrawHistoryData = (payload: WithdrawHistoryData['payload']): WithdrawHistoryData => ({
+	type: WITHDRAW_HISTORY_DATA,
+	payload,
+});
+
+export const depositHistoryFetch = (payload: { currency: string }): DepositHistoryFetch => ({
+	type: DEPOSIT_HISTORY_FETCH,
+	payload,
+});
+
+export const depositHistoryData = (payload: DepositHistoryData['payload']): DepositHistoryData => ({
+	type: DEPOSIT_HISTORY_DATA,
 	payload,
 });
