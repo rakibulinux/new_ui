@@ -7,6 +7,7 @@ interface ListItemIEOProps {
 }
 export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 	const { IEOList } = props;
+
 	const EmptyComponent = () => {
 		return (
 			<div className="col-12">

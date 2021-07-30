@@ -26,9 +26,6 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 	const [progressState, setProgressState] = React.useState<number>(0);
 	const [totalState, setTotalState] = React.useState<number>(0);
 	const [remainsState, setRemainsState] = React.useState<number>(0);
-	React.useEffect(() => {
-		dispatchFetchCurrencies();
-	}, []);
 
 	React.useEffect(() => {
 		const newProgress = Math.round(NP.minus(100, Number(props.progress)) * 100) / 100;
@@ -90,8 +87,11 @@ export const IEOItemComponent: React.FC<IEOItemProps> = props => {
 		return <Countdown date={props.startDate} renderer={renderer} />;
 	};
 	const currencies = useSelector(selectCurrencies);
+	React.useEffect(() => {
+		dispatchFetchCurrencies();
+	}, []);
 	const getCryptoIcon = (currencyID: string): string => {
-		const currency = currencies.find((cur: any) => cur.id === currencyID);
+		const currency = currencies.find((cur: any) => cur.id === currencyID.toLowerCase());
 		try {
 			return require(`../../../../../node_modules/cryptocurrency-icons/128/color/${currencyID.toLowerCase()}.png`);
 		} catch (err) {
