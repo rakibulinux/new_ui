@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import { FaHistory, FaSignOutAlt, FaStar, FaUserCircle } from 'react-icons/fa';
+import { FaAward, FaGift, FaHistory, FaSignOutAlt, FaStar, FaUserCircle } from 'react-icons/fa';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -56,7 +56,6 @@ export const Header: React.FC = () => {
 	};
 
 	const renderOrderTab = () => {
-
 		return (
 			isLoggedIn && (
 				<div className="header__right-menu__dropdown__wrap">
@@ -137,7 +136,6 @@ export const Header: React.FC = () => {
 	};
 
 	const renderProfileTab = () => {
-
 		return (
 			isLoggedIn && (
 				<>
@@ -271,7 +269,7 @@ export const Header: React.FC = () => {
 										}}
 									>
 										<div className={classActiveItemDrop('airdrops')}>
-											<FaStar className="header__left-menu__dropdown__wrap__content__title__icon mr-2" />
+											<FaGift className="header__left-menu__dropdown__wrap__content__title__icon mr-2" />
 											Airdrop
 										</div>
 									</Link>
@@ -284,7 +282,7 @@ export const Header: React.FC = () => {
 										}}
 									>
 										<div className={classActiveItemDrop('trading-competition')}>
-											<FaStar className="header__left-menu__dropdown__wrap__content__title__icon mr-2" />
+											<FaAward className="header__left-menu__dropdown__wrap__content__title__icon mr-2" />
 											Competition
 										</div>
 									</Link>
