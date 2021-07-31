@@ -102,9 +102,9 @@ export const VoteNews: React.FC<VoteNewsProps> = ({}) => {
 								</div>
 							</div>
 						</div>
-						<a href="https://www.cx.finance" target="_blank">
+						<a href="https://forms.gle/2eH6ia3XSTyzn2TR6" target="_blank">
 							<button type="button" className="pg-vote__news--radius btn btn-success">
-								Create new
+								Submit Vote Coin
 							</button>
 						</a>
 					</div>

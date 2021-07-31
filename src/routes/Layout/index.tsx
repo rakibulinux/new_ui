@@ -364,7 +364,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							path="/profile"
 							component={ProfileMobileScreen}
 						/>
-						<Route exact={false} path="/trading/:market?" component={NewTradingScreenMobile} />
+						<Route exact={false} path="/market/:market?" component={NewTradingScreenMobile} />
 						<Route exact={true} path="/" component={HomePageScreenMobile} />
 						<Route exact={true} path="/markets" component={NewMarketsScreenMobile} />
 						<Route path="/ieo" exact component={IEOListMobileScreen} />
@@ -382,7 +382,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						<Route path="/airdrops" exact component={AirdropCoinListScreen} />
 						{/* new feature */}
 						<Route path="**">
-							<Redirect to="/trading/" />
+							<Redirect to="/market/" />
 						</Route>
 					</Switch>
 					{isLoggedIn && <WalletsFetch />}
