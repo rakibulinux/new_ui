@@ -4,7 +4,8 @@ import { ListItemIEO } from './../../containers';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIEOList, IEOListDataFetch } from './../../../../modules';
 import Pagination from 'react-bootstrap/Pagination';
-export type typeIEO = 'ended' | 'ongoing' | 'upcoming';
+
+export type typeIEO = 'all' | 'ended' | 'ongoing' | 'upcoming';
 export const IEOListingScreen = () => {
 	const [typeIEO, setTypeIEO] = React.useState<typeIEO>('ongoing');
 	const [searchInputState, setSearchInputState] = React.useState<string>('');
@@ -13,8 +14,10 @@ export const IEOListingScreen = () => {
 	const handleViewListIEO = (type: typeIEO) => {
 		setTypeIEO(type);
 		setSearchInputState('');
+		setNumberPageState(0);
 	};
 	const dispatch = useDispatch();
+	const renderActiveButtonAllClasses = classNames('upcoming', typeIEO === 'all' ? 'button--all' : '');
 	const renderActiveButtonUpcomingClasses = classNames('upcoming', typeIEO === 'upcoming' ? 'button--upcoming' : '');
 	const renderActiveButtonRunningClasses = classNames('running', typeIEO === 'ongoing' ? 'button--running' : '');
 	const renderActiveButtonEndedClasses = classNames('ended', typeIEO === 'ended' ? 'button--ended' : '');
@@ -22,21 +25,23 @@ export const IEOListingScreen = () => {
 
 	React.useEffect(() => {
 		dispatch(IEOListDataFetch());
-		// dispatchListIEO();
 	}, []);
 
 	const listRender = () => {
-		if (searchInputState.trim()) {
-			return listIEO.payload.filter(
-				item => item.currency_id.toLowerCase().includes(searchInputState.toLowerCase().trim()) && item.type === typeIEO,
-			);
+		if (typeIEO == 'all') {
+			return listIEO.payload
+				.filter(item => item.currency_id.toLowerCase().includes(searchInputState.toLowerCase().trim()))
+				.slice(PAGE_SIZE * numberPageState, PAGE_SIZE * numberPageState + PAGE_SIZE);
 		} else
 			return listIEO.payload
-				.filter(item => item.type === typeIEO)
+				.filter(
+					item =>
+						item.type === typeIEO && item.currency_id.toLowerCase().includes(searchInputState.toLowerCase().trim()),
+				)
 				.slice(PAGE_SIZE * numberPageState, PAGE_SIZE * numberPageState + PAGE_SIZE);
 	};
-	const listIEOByType = () => {
-		return listIEO.payload.filter(item => item.type === typeIEO);
+	const totalIEO = () => {
+		return typeIEO != 'all' ? listIEO.payload.filter(item => item.type === typeIEO).length : listIEO.payload.length;
 	};
 
 	const renderPagination = () => {
@@ -44,7 +49,7 @@ export const IEOListingScreen = () => {
 			return null;
 		}
 		const paginations: Array<JSX.Element> = [];
-		for (let i = numberPageState; i < numberPageState + 3 && i * PAGE_SIZE < listIEOByType().length; i++) {
+		for (let i = numberPageState; i < numberPageState + 3 && i * PAGE_SIZE < totalIEO(); i++) {
 			paginations.push(
 				<Pagination.Item
 					key={i}
@@ -67,7 +72,7 @@ export const IEOListingScreen = () => {
 				/>
 				{paginations}
 				<Pagination.Next
-					disabled={(numberPageState + 1) * PAGE_SIZE >= listIEOByType().length}
+					disabled={(numberPageState + 1) * PAGE_SIZE >= totalIEO()}
 					onClick={() => {
 						setNumberPageState(numberPageState + 1);
 					}}
@@ -102,11 +107,20 @@ export const IEOListingScreen = () => {
 					<div className="view-ioe-item-type">
 						<button
 							type="button"
+							className={renderActiveButtonAllClasses}
+							onClick={() => {
+								handleViewListIEO('all');
+							}}
+							style={{ borderRadius: ' 3px 0px 0px 3px' }}
+						>
+							All
+						</button>
+						<button
+							type="button"
 							className={renderActiveButtonUpcomingClasses}
 							onClick={() => {
 								handleViewListIEO('upcoming');
 							}}
-							style={{ borderRadius: ' 3px 0px 0px 3px' }}
 						>
 							Upcoming
 						</button>
