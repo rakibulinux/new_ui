@@ -4,6 +4,11 @@ export interface AirdropCoin {
 	airdrop_id: number;
 	airdrop_title: string;
 	airdrop_link: string;
+	active: 0 | 1;
+	max_claim: number;
+	total_claim: number;
+	started_at: string;
+	ended_at: string;
 	distribution_at: string;
 	created_at: string;
 	updated_at: string;
@@ -13,6 +18,7 @@ export interface AirdropCoinClaim {
 	airdrop_id: number;
 	msg_status?: number;
 	claim_doned: 0 | 1;
+	claim_failed: 0 | 1;
 	claim_ip?: string;
 	created_at: string;
 	msg_status_msg_claim?: { msg_note: string };
