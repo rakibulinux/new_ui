@@ -55,10 +55,12 @@ export const AirdropCoinListScreen: React.FC<AirdropCoinListScreenProps> = ({}) 
 		const claimSuccess = Boolean(get(claim, 'claim_doned')); //claim success
 		const claimFail = Boolean(get(claim, 'claim_failed')); //claim fail
 
-		let noteStr = '';
 		const baseMsg = 'Status : ';
+		let noteStr = `${baseMsg} Click 'Select Join' to join!`;
 		// tslint:disable-next-line: prefer-conditional-expression
-		if (expired) {
+		if (!userLoggedIn) {
+			noteStr = noteStr;
+		} else if (expired) {
 			noteStr = `${baseMsg} The airdrop has ended. Thank you for your participation!`;
 		} else if (!isDisableClaim) {
 			noteStr = `${baseMsg} Click 'Claim' to receive`;
