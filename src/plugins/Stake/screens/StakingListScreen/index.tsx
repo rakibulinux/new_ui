@@ -7,7 +7,7 @@ import { StakingList } from '../../containers';
 
 export const StakingListScreen = () => {
 	// state
-	const [filterStackingState, setFilterStackingState] = React.useState<'upcoming' | 'running' | 'all'>('all');
+	const [filterStackingState, setFilterStackingState] = React.useState<'upcoming' | 'running' | 'all' | 'ended'>('all');
 	const upcomingButtonClassName = classnames(
 		'desktop-staking-list-screen__header__buttons-btn',
 		filterStackingState === 'upcoming' ? 'desktop-staking-list-screen__header__buttons__upcoming' : '',
@@ -15,6 +15,10 @@ export const StakingListScreen = () => {
 	const runningButtonClassName = classnames(
 		'desktop-staking-list-screen__header__buttons-btn',
 		filterStackingState === 'running' ? 'desktop-staking-list-screen__header__buttons__running' : '',
+	);
+	const endedButtonClassName = classnames(
+		'desktop-staking-list-screen__header__buttons-btn',
+		filterStackingState === 'ended' ? 'desktop-staking-list-screen__header__buttons__ended' : '',
 	);
 	const allButtonClassName = classnames(
 		'desktop-staking-list-screen__header__buttons-btn',
@@ -26,6 +30,7 @@ export const StakingListScreen = () => {
 
 	const upcomingList = stakingList.filter(staking => staking.status === 'upcoming');
 	const runningList = stakingList.filter(staking => staking.status === 'running');
+	const endedList = stakingList.filter(staking => staking.status === 'ended');
 
 	// dispatch
 	const dispatch = useDispatch();
@@ -55,6 +60,8 @@ export const StakingListScreen = () => {
 			<StakingList stakes={[...upcomingList]} />
 		) : filterStackingState === 'running' ? (
 			<StakingList stakes={[...runningList]} />
+		) : filterStackingState === 'ended' ? (
+			<StakingList stakes={[...endedList]} />
 		) : (
 			<StakingList stakes={[...stakingList]} />
 		);
@@ -87,13 +94,16 @@ export const StakingListScreen = () => {
 					</div>
 					<div className="desktop-staking-list-screen__header__buttons">
 						<button onClick={() => setFilterStackingState('all')} className={allButtonClassName}>
-							All <span hidden={filterStackingState != 'all'}>({stakingList.length})</span>
+							All <span hidden={filterStackingState != 'all'}></span>
 						</button>
 						<button onClick={() => setFilterStackingState('upcoming')} className={upcomingButtonClassName}>
-							Upcoming <span hidden={filterStackingState != 'upcoming'}>({upcomingList.length})</span>
+							Upcoming <span hidden={filterStackingState != 'upcoming'}></span>
 						</button>
 						<button onClick={() => setFilterStackingState('running')} className={runningButtonClassName}>
-							Running <span hidden={filterStackingState != 'running'}>({runningList.length})</span>
+							Running <span hidden={filterStackingState != 'running'}></span>
+						</button>
+						<button onClick={() => setFilterStackingState('ended')} className={endedButtonClassName}>
+							Ended <span hidden={filterStackingState != 'ended'}></span>
 						</button>
 					</div>
 				</div>
