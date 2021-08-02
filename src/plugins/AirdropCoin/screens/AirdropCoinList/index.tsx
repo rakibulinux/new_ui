@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const rendererCountDown: CountdownRendererFn = ({ days, hours, minutes, seconds, completed }) => {
 	const format = (value: number) => (value.toString().length === 1 ? `0${value}` : value.toString());
 	const timeElm = (
-		<div>
+		<div className="pg-airdrop-list-coin--color-green">
 			Remaining : {format(days)}
 			Days {format(hours)}:{format(minutes)}:{format(seconds)}
 		</div>
@@ -58,10 +58,10 @@ export const AirdropCoinListScreen: React.FC<AirdropCoinListScreenProps> = ({}) 
 		const baseMsg = 'Status : ';
 		let noteStr = `${baseMsg} Click 'Select Join' to join!`;
 		// tslint:disable-next-line: prefer-conditional-expression
-		if (!userLoggedIn) {
-			noteStr = noteStr;
-		} else if (expired) {
+		if (expired) {
 			noteStr = `${baseMsg} The airdrop has ended. Thank you for your participation!`;
+		} else if (!userLoggedIn) {
+			noteStr = noteStr;
 		} else if (!isDisableClaim) {
 			noteStr = `${baseMsg} Click 'Claim' to receive`;
 		} else if (claimSuccess) {
@@ -85,7 +85,7 @@ export const AirdropCoinListScreen: React.FC<AirdropCoinListScreenProps> = ({}) 
 								date={Date.now() + (moment(item.ended_at).diff(moment(moment().utc())) || 1000)}
 								renderer={rendererCountDown}
 							/>
-							<div>
+							<div className="pg-airdrop-list-coin--color-green">
 								Total claim : {item.total_claim}/{item.max_claim}
 							</div>
 							<div>{noteStr}</div>
