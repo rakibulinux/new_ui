@@ -36,14 +36,11 @@ export const NewWalletDetail: FC = () => {
 	const [listMarket, setListMarket] = useState(markets);
 	useEffect(() => {
 		if (markets.length > 0) {
-			setListMarket(markets.filter(_market => hasTotalCurrency.includes(_market.quote_unit)));
+			setListMarket(markets.filter(_market => _market.base_unit.toLowerCase().includes(currency)));
 		}
 	}, [markets]);
 
 	const wallet = calcWalletsData(wallets, allChildCurrencies).find(_wallet => _wallet.currency === currency);
-	const hasTotalCurrency: string[] = calcWalletsData(wallets, allChildCurrencies)
-		.filter(_wallet => Number(_wallet.total) > 0)
-		.map(_wallet => _wallet.currency);
 
 	if (!wallet) {
 		history.goBack();
