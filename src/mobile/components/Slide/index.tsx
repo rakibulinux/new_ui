@@ -27,8 +27,8 @@ const SlideComponent: React.FC = () => {
 
 	if (!eventsData.length) {
 		return (
-			<div className="cr-mobile-slide">
-				<div className="cr-mobile-slide__placeholder">
+			<div className="td-mobile-slide">
+				<div className="td-mobile-slide__placeholder">
 					<div className="spinner-border" role="status">
 						<span className="sr-only">Loading...</span>
 					</div>
@@ -38,7 +38,7 @@ const SlideComponent: React.FC = () => {
 	}
 
 	return (
-		<div className="cr-mobile-slide">
+		<div className="td-mobile-slide">
 			<Slider {...settings}>{renderElms(eventsData)}</Slider>
 		</div>
 	);

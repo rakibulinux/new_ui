@@ -2375,6 +2375,13 @@
   dependencies:
     react-hot-loader "*"
 
+"@types/react-paginate@^7.1.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@types/react-paginate/-/react-paginate-7.1.0.tgz#e209fe9735f0a68633c82c419ba238133b3b31a1"
+  integrity sha512-P6yboMnZtML4KyglK2p7Wlg+sIkhNUneES+jjFqPeQkjuM93X5QjhdKIW2Ayc7csVvx1pdC9v5R+hQ9KjcYBEQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-redux@7.1.9":
   version "7.1.9"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-7.1.9.tgz#280c13565c9f13ceb727ec21e767abe0e9b4aec3"
@@ -5180,10 +5187,15 @@ date-fns@^1.27.2:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
 
-date-fns@^2.15.0, date-fns@^2.16.1:
+date-fns@^2.15.0:
   version "2.21.3"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.21.3.tgz#8f5f6889d7a96bbcc1f0ea50239b397a83357f9b"
   integrity sha512-HeYdzCaFflc1i4tGbj7JKMjM4cKGYoyxwcIIkHzNgCkX8xXDNJDZXgDDVchIWpN4eQc3lH37WarduXFZJOtxfw==
+
+date-fns@^2.22.1:
+  version "2.22.1"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.22.1.tgz#1e5af959831ebb1d82992bf67b765052d8f0efc4"
+  integrity sha512-yUFPQjrxEmIsMqlHhAhmxkuH769baF21Kk+nZwZGyrMoyLA+LugaQtC0+Tqf9CBUUULWwUJt6Q5ySI3LJDDCGg==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.9:
   version "2.6.9"
@@ -9166,7 +9178,7 @@ lodash.clonedeep@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
   integrity sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=
 
-lodash.debounce@^4.0.8:
+lodash.debounce@^4, lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
@@ -11272,13 +11284,13 @@ postcss-modules-values@^3.0.0:
     icss-utils "^4.0.0"
     postcss "^7.0.6"
 
-postcss-nested@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/postcss-nested/-/postcss-nested-3.0.0.tgz#cde40bd07a078565f3df72e2dc2665871c724852"
-  integrity sha512-1xxmLHSfubuUi6xZZ0zLsNoiKfk3BWQj6fkNMaBJC529wKKLcdeCxXt6KJmDLva+trNyQNwEaE/ZWMA7cve1fA==
+postcss-nested@4.2.3:
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/postcss-nested/-/postcss-nested-4.2.3.tgz#c6f255b0a720549776d220d00c4b70cd244136f6"
+  integrity sha512-rOv0W1HquRCamWy2kFl3QazJMMe1ku6rCFoAAH+9AcxdbpDeBr6k968MLWuLjvjMcGEip01ak09hKOEgpK9hvw==
   dependencies:
-    postcss "^6.0.14"
-    postcss-selector-parser "^3.1.1"
+    postcss "^7.0.32"
+    postcss-selector-parser "^6.0.2"
 
 postcss-nesting@^7.0.0:
   version "7.0.1"
@@ -11548,7 +11560,7 @@ postcss-selector-not@^4.0.0:
     balanced-match "^1.0.0"
     postcss "^7.0.2"
 
-postcss-selector-parser@^3.0.0, postcss-selector-parser@^3.1.1:
+postcss-selector-parser@^3.0.0:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/postcss-selector-parser/-/postcss-selector-parser-3.1.2.tgz#b310f5c4c0fdaf76f94902bbaa30db6aa84f5270"
   integrity sha512-h7fJ/5uWuRVyOtkO45pnt1Ih40CEleeyCHzipqAZO2e5H20g25Y48uYnFUiShvY4rZWNJ/Bib/KVPmanaCtOhA==
@@ -11633,7 +11645,7 @@ postcss@7.0.21:
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-postcss@^6.0.14, postcss@^6.0.7:
+postcss@^6.0.7:
   version "6.0.23"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.23.tgz#61c82cc328ac60e677645f979054eb98bc0e3324"
   integrity sha512-soOk1h6J3VMTZtVeVpv15/Hpdl2cBLX3CAw4TAbkpTJiNPk9YP/zWcD1ND+xEtvyuuvKzbxliTOIyvkSeSJ6ag==
@@ -12389,6 +12401,14 @@ react-countdown@^2.3.2:
   dependencies:
     prop-types "^15.7.2"
 
+react-debounce-input@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/react-debounce-input/-/react-debounce-input-3.2.3.tgz#9e8c69771a621c81e8fe36b45ade49a95059cd87"
+  integrity sha512-7Bfjm9sxrtgB+IsSrdXoo4CVqKg7CbWC68dNhr8q7ZmY6C0AqtR524//SenHQWT+eeSG9DmSLWNWCUFSyaaWSQ==
+  dependencies:
+    lodash.debounce "^4"
+    prop-types "^15.7.2"
+
 react-dev-utils@^10.2.1:
   version "10.2.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-10.2.1.tgz#f6de325ae25fa4d546d09df4bb1befdc6dd19c19"
@@ -12568,6 +12588,13 @@ react-overlays@^5.0.0:
     prop-types "^15.7.2"
     uncontrollable "^7.2.1"
     warning "^4.0.3"
+
+react-paginate@^7.1.3:
+  version "7.1.3"
+  resolved "https://registry.yarnpkg.com/react-paginate/-/react-paginate-7.1.3.tgz#51a2ccb13febc7f96d28405bdf6e029510227206"
+  integrity sha512-cHTXXE90Z3DlKSJiIQFzAcWoIFs9mq6r1/+rQF099NPvdJpbR8f6E/ES32tlUw4qe1R6qWLOrPZYhvAy4UgHLA==
+  dependencies:
+    prop-types "^15.6.1"
 
 react-perfect-scrollbar@^1.5.8:
   version "1.5.8"

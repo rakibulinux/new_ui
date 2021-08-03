@@ -1,6 +1,7 @@
 // tslint:disable-next-line
-import { put } from 'redux-saga/effects';
-import pluginAPI from '../../../../plugins/api';
+import { API, RequestOptions } from 'api';
+import { getCsrfToken } from 'helpers';
+import { call, put } from 'redux-saga/effects';
 import {
 	allChildCurrenciesData,
 	allChildCurrenciesError,
@@ -9,12 +10,19 @@ import {
 	walletsChildCurrenciesError,
 } from '../actions';
 
+const createOptions = (csrfToken?: string): RequestOptions => {
+	return { apiVersion: 'wallet', headers: { 'X-CSRF-Token': csrfToken } };
+};
+
 export function* childCurrenciesSaga(action: WalletsAddressFetch) {
 	try {
-		const child_currencies = yield pluginAPI.get(`wallet/child-currencies/fetch/parent-currency=${action.payload.currency}`);
+		const list = yield call(
+			API.get(createOptions(getCsrfToken())),
+			`/private/wallet/child/one?currency=${action.payload.currency}`,
+		);
 		yield put(
 			walletsChildCurrenciesData({
-				payload: child_currencies.data,
+				payload: list,
 				loading: false,
 			}),
 		);
@@ -25,10 +33,10 @@ export function* childCurrenciesSaga(action: WalletsAddressFetch) {
 
 export function* allChildCurrenciesSaga(action: WalletsAddressFetch) {
 	try {
-		const child_currencies = yield pluginAPI.get(`wallet/child-currencies/fetch/all`);
+		const list = yield call(API.get(createOptions(getCsrfToken())), `/private/wallet/child/all`);
 		yield put(
 			allChildCurrenciesData({
-				payload: child_currencies.data,
+				payload: list,
 				loading: false,
 			}),
 		);

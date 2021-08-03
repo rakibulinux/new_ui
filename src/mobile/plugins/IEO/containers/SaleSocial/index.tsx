@@ -23,13 +23,13 @@ export const SaleSocial: React.FC<SaleSocialProps> = (props: SaleSocialProps) =>
 		<React.Fragment>
 			<Row gutter={[32, 16]} className="link-wrapper-mobile">
 				<Col span={8} className="text-center">
-					<Button style={{ backgroundColor: '#3C4055', border: '#3C4055' }} block href={props.website} target="_blank">
+					<Button style={{ backgroundColor: '#1d3557', border: '#1d3557' }} block href={props.website} target="_blank">
 						Website
 					</Button>
 				</Col>
 				<Col span={8} className="text-center">
 					<Button
-						style={{ backgroundColor: '#3C4055', border: '#3C4055' }}
+						style={{ backgroundColor: '#1d3557', border: '#1d3557' }}
 						block
 						href={props.whitepaper}
 						target="_blank"
@@ -38,7 +38,7 @@ export const SaleSocial: React.FC<SaleSocialProps> = (props: SaleSocialProps) =>
 					</Button>
 				</Col>
 				<Col span={8} className="text-center">
-					<Button style={{ backgroundColor: '#3C4055', border: '#3C4055' }} block href={props.ico} target="_blank">
+					<Button style={{ backgroundColor: '#1d3557', border: '#1d3557' }} block href={props.ico} target="_blank">
 						ICO
 					</Button>
 				</Col>
@@ -48,7 +48,7 @@ export const SaleSocial: React.FC<SaleSocialProps> = (props: SaleSocialProps) =>
 				{props.twitter ? (
 					<div>
 						{' '}
-						<a href={props.twitter} target="_blank" rel="noopener noreferrer">
+						<a href={props.twitter} target="_blank">
 							<img src={TwitterIcon} alt="telegram" />
 						</a>{' '}
 					</div>
@@ -58,7 +58,7 @@ export const SaleSocial: React.FC<SaleSocialProps> = (props: SaleSocialProps) =>
 				{props.facebook ? (
 					<div>
 						{' '}
-						<a href={props.facebook} target="_blank" rel="noopener noreferrer">
+						<a href={props.facebook} target="_blank">
 							<img src={FacebookIcon} alt="telegram" />
 						</a>{' '}
 					</div>
@@ -68,7 +68,7 @@ export const SaleSocial: React.FC<SaleSocialProps> = (props: SaleSocialProps) =>
 				{props.instagram ? (
 					<div>
 						{' '}
-						<a href={props.instagram} target="_blank" rel="noopener noreferrer">
+						<a href={props.instagram} target="_blank">
 							<InstagramOutlined className="social-item-mobile" />
 						</a>{' '}
 					</div>
@@ -78,7 +78,7 @@ export const SaleSocial: React.FC<SaleSocialProps> = (props: SaleSocialProps) =>
 				{props.linkedin ? (
 					<div>
 						{' '}
-						<a href={props.linkedin} target="_blank" rel="noopener noreferrer">
+						<a href={props.linkedin} target="_blank">
 							<LinkedinOutlined className="social-item-mobile" />
 						</a>{' '}
 					</div>
@@ -88,7 +88,7 @@ export const SaleSocial: React.FC<SaleSocialProps> = (props: SaleSocialProps) =>
 				{props.telegram ? (
 					<div>
 						{' '}
-						<a href={props.telegram} target="_blank" rel="noopener noreferrer">
+						<a href={props.telegram} target="_blank">
 							<img src={TelegramIcon} alt="telegram" />
 						</a>{' '}
 					</div>

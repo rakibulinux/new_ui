@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Button } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
-import { CopyableTextField } from '../../../components';
+import { CopyableTextField } from '../CopyableTextField';
 import { copy } from '../../../helpers';
 import { WarningIcon } from '../../assets/images/WarningIcon';
-import { Modal } from '../../components/Modal';
+import { NewModal } from '../NewModal';
 
 export const CreatedApiKeyModalComponent = props => {
 	const [apiKey, setApiKey] = React.useState({ kid: '', secret: '' });
@@ -18,8 +17,8 @@ export const CreatedApiKeyModalComponent = props => {
 
 	const renderModalBody = () => {
 		return (
-			<div className="cr-mobile-modal__body">
-				<div className="cr-mobile-modal__body__fieldset">
+			<div className="td-mobile-modal__body">
+				<div className="td-mobile-modal__body__fieldset">
 					<fieldset onClick={() => copy('access-key-id')}>
 						<CopyableTextField
 							className="pg-copyable-text-field__input"
@@ -30,7 +29,7 @@ export const CreatedApiKeyModalComponent = props => {
 						/>
 					</fieldset>
 				</div>
-				<div className="cr-mobile-modal__body__fieldset">
+				<div className="td-mobile-modal__body__fieldset">
 					<fieldset onClick={() => copy('secret-key-id')}>
 						<CopyableTextField
 							className="pg-copyable-text-field__input"
@@ -41,11 +40,11 @@ export const CreatedApiKeyModalComponent = props => {
 						/>
 					</fieldset>
 				</div>
-				<div className="cr-mobile-modal__body__title">
+				<div className="td-mobile-modal__body__title">
 					<WarningIcon />
 					<span>{intl.formatMessage({ id: 'page.body.profile.apiKeys.modal.secret_key' })}</span>
 				</div>
-				<div className="cr-mobile-modal__body__note">
+				<div className="td-mobile-modal__body__note">
 					<p>
 						{intl.formatMessage({ id: 'page.body.profile.apiKeys.modal.secret_key_info' })}&nbsp;
 						{intl.formatMessage({ id: 'page.body.profile.apiKeys.modal.secret_key_store' })}
@@ -61,24 +60,24 @@ export const CreatedApiKeyModalComponent = props => {
 
 	const renderModalFooter = () => {
 		return (
-			<div className="cr-mobile-modal__footer">
-				<Button block={true} onClick={props.closeCreatedApiKeyModal} size="lg" variant="primary">
+			<div className="td-mobile-modal__footer">
+				<button className="w-100 green-btn" onClick={props.closeCreatedApiKeyModal}>
 					{intl.formatMessage({ id: 'page.mobile.createdApiKeyModal.confirm' })}
-				</Button>
+				</button>
 			</div>
 		);
 	};
 
 	return (
 		<div className="pg-mobile-created-api-key-modal">
-			<Modal
-				isOpen={props.showModal}
+			<NewModal
+				show={props.showModal}
 				onClose={props.closeCreatedApiKeyModal}
 				title={intl.formatMessage({ id: 'page.mobile.createdApiKeyModal.title' })}
 			>
 				{renderModalBody()}
 				{renderModalFooter()}
-			</Modal>
+			</NewModal>
 		</div>
 	);
 };

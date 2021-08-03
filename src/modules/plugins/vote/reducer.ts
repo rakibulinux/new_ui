@@ -5,6 +5,8 @@ import {
 	VOTE_DONATE_CREATE,
 	VOTE_DONATE_DATA,
 	VOTE_DONATE_ERROR,
+	VOTE_DONATE_FREE_DATA,
+	VOTE_DONATE_FREE_FETCH,
 	VOTE_HISTORY_DATA,
 	VOTE_HISTORY_ERROR,
 	VOTE_HISTORY_FETCH,
@@ -90,6 +92,10 @@ export const voteHistoryReducer = (state = initialVoteHistoryState, action: Vote
 
 const initialVoteDonateState: VoteDonateState = {
 	loading: false,
+	freeVote: {
+		total: 0,
+		used: 0,
+	},
 };
 
 export const voteDonateReducer = (state = initialVoteDonateState, action: VoteDonateActions): VoteDonateState =>
@@ -101,6 +107,11 @@ export const voteDonateReducer = (state = initialVoteDonateState, action: VoteDo
 			case VOTE_DONATE_DATA:
 				draft.data = action.payload.donate;
 				draft.loading = false;
+				break;
+			case VOTE_DONATE_FREE_FETCH:
+				break;
+			case VOTE_DONATE_FREE_DATA:
+				draft.freeVote = action.payload;
 				break;
 			case VOTE_DONATE_ERROR:
 				draft.loading = false;

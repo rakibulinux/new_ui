@@ -12,8 +12,8 @@ const MarketsTopComponent: React.FC = () => {
 	});
 
 	return (
-		<div className="cr-mobile-market-top">
-			<div className="cr-mobile-market-top__inner squares">
+		<div className="td-mobile-market-top">
+			<div className="td-mobile-market-top__inner squares">
 				<div className="horizontal-scroll squares">{renderElms}</div>
 			</div>
 		</div>

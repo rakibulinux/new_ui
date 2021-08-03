@@ -157,7 +157,8 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 						</p>
 						<p>
 							<span>2. Withdraw Limit: </span>
-							<span>{this.props.limitWitdraw24h + ' ' + this.props.limitWitdraw24hLabel}</span></p>
+							<span>{this.props.limitWitdraw24h + ' ' + this.props.limitWitdraw24hLabel}</span>
+						</p>
 						<p>
 							<span>
 								3. Please withdrawal to your personal wallet address directly. Remember not to withdrawal to ICO's
@@ -193,7 +194,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 		return (
 			<React.Fragment>
 				<span hidden={Number(fee) === 0}>
-					<Decimal fixed={fixed}>{fee.toString()}</Decimal>
+					<Decimal fixed={fixed}>{fee}</Decimal>
 					{' ' + currency.toUpperCase()}
 				</span>
 				<span hidden={Number(fee) !== 0}>
@@ -253,7 +254,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 				Modal.error({
 					centered: true,
 					icon: <FrownOutlined />,
-					title: 'Can\'t withdraw',
+					title: "Can't withdraw",
 					content: `You need to generate ETH Wallets Address before withdraw!`,
 				});
 
@@ -263,7 +264,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 				Modal.warning({
 					centered: true,
 					icon: <FrownOutlined />,
-					title: 'Can\'t withdraw',
+					title: "Can't withdraw",
 					content: `ETH Fee is unavailable now!`,
 				});
 
@@ -273,7 +274,7 @@ export class Withdraw extends React.Component<WithdrawProps, WithdrawState> {
 				Modal.warning({
 					centered: true,
 					icon: <FrownOutlined />,
-					title: 'Can\'t withdraw',
+					title: "Can't withdraw",
 					content: `You don't have enough ETH tokens to pay fee. Need more ${(
 						Number(ethFee) - Number(ethBallance)
 					).toFixed(5)} ETH Tokens`,

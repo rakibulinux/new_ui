@@ -103,8 +103,8 @@ class SidebarContainer extends React.Component<Props, State> {
 
 		const [name, url, img] = values;
 		const handleLinkChange = () => this.props.toggleSidebar(false);
-		const path = url.includes('/trading') && currentMarket ? `/trading/${currentMarket.id}` : url;
-		const isActive = (url === '/trading/' && address.includes('/trading')) || address === url;
+		const path = url.includes('/market') && currentMarket ? `/market/${currentMarket.id}` : url;
+		const isActive = (url === '/market/' && address.includes('/market')) || address === url;
 
 		const iconClassName = classnames('pg-sidebar-wrapper-nav-item-img', {
 			'pg-sidebar-wrapper-nav-item-img--active': isActive,

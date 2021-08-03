@@ -89,7 +89,7 @@ export const StakingDetailMobileScreen = () => {
 	}, [dispatch]);
 
 	React.useEffect(() => {
-		dispatch(stakeWalletFetch({ uid: user.uid, currency_id: stakingItemState.currency_id }));
+		dispatch(stakeWalletFetch({ uid: user.uid }));
 		dispatch(stakeHistoryFetch({ uid: user.uid, stake_id: stake_id }));
 		dispatch(unStakeHistoryFetch({ uid: user.uid, currency_id: stakingItemState.currency_id }));
 	}, [user.uid, dispatch, stakingItemState.currency_id, stake_id]);

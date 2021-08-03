@@ -8,7 +8,7 @@ import {
 	beneficiariesFetch,
 	currenciesFetch,
 	Currency,
-	fetchHistory,
+	depositHistoryFetch,
 	marketsFetch,
 	selectChildCurrencies,
 	selectCurrencies,
@@ -36,10 +36,10 @@ export const DepositScreen = () => {
 	);
 	const dispatchFetchAllChildCurrencies = React.useCallback(() => dispatch(allChildCurrenciesFetch()), [dispatch]);
 	const dispatchFetchMarkets = React.useCallback(() => dispatch(marketsFetch()), [dispatch]);
-	const dispatchFetchHistories = React.useCallback(
-		() => dispatch(fetchHistory({ currency: currency_id, type: 'deposits', page: 0, limit: 6 })),
-		[dispatch, currency_id],
-	);
+	const dispatchFetchHistories = React.useCallback(() => dispatch(depositHistoryFetch({ currency: currency_id })), [
+		dispatch,
+		currency_id,
+	]);
 	const dispatchFetchBeneficiaries = React.useCallback(() => dispatch(beneficiariesFetch()), [dispatch]);
 
 	const history = useHistory();

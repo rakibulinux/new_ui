@@ -5,137 +5,141 @@
 		background-size: cover;
 		height: 56vh;
 	}
+
 	.referral-rank {
 		padding: 50px 0;
 
 		.container {
-			width: 1040px;
 			max-width: 100%;
+			width: 1040px;
 
 			.referral-row {
 				display: flex;
 				justify-content: space-between;
 
 				&__box {
-
 					@media screen and (max-width: 1024px) {
 						margin-top: 12px;
 					}
-					
+
 					&__row {
+						background: #313445;
+						box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
 						display: flex;
 						justify-content: space-between;
 						padding: 15px;
-						box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.2);
-						background: #313445;
 
 						&__rank {
 							display: flex;
 							justify-content: center;
 
 							.top-rank {
+								align-items: start;
 								display: flex;
 								flex-direction: column;
-								align-items: start;
-								margin-top: 6px;
 								margin-left: 10px;
+								margin-top: 6px;
 
 								&__top {
-									padding: 4px 12px;
-									background: #2FB67E;
-									color: #FFF;
+									background: #2fb67e;
 									border-radius: 6px;
+									color: #fff;
+									padding: 4px 12px;
 								}
+
 								&__mail {
-									color: #FFF;
+									color: #fff;
 									font-size: 14px;
 								}
 							}
 						}
+
 						&__commission {
+							align-items: flex-end;
 							display: flex;
 							flex-direction: column;
 							justify-content: center;
-							align-items: flex-end;
 							margin-bottom: -8px;
 
 							&__title {
+								color: #fff;
 								font-size: 13px;
 								line-height: 19px;
-								color: #FFFFFF;
 								margin-bottom: 6px;
 							}
 
 							&__coin-name {
+								color: #2fb67e;
 								font-size: 14px;
 								line-height: 21px;
-								color: #2FB67E;
 							}
 						}
 					}
-
-					
 				}
 			}
 		}
 	}
+
 	.referral-loggedIn {
 		padding: 25px 0 125px 0;
 
 		.container {
-			width: 1040px;
 			max-width: 100%;
+			width: 1040px;
 
 			.referral-loggedIn-userLogIn {
 				background-position: center;
 				background-repeat: no-repeat;
 				background-size: cover;
 				height: 20vh;
+
 				/* background-color: #0000;
 				opacity: .5; */
 				position: relative;
 
-				&__wrapper{
+				&__wrapper {
 					position: absolute;
-					top: 30%;
 					right: 30%;
+					top: 30%;
 
 					&__desription {
+						color: #fff;
 						font-size: 14px;
 						line-height: 21px;
-						color: #FFFFFF;
 						margin-bottom: 20px;
 					}
+
 					&__login {
+						align-items: center;
 						display: flex;
 						justify-content: center;
-						align-items: center;
 
 						button {
-							text-transform: uppercase;
-							background-color: #2FB67E;
-							color: #FFF;
-							border-radius: 5px;
+							background-color: #2fb67e;
 							border: none;
+							border-radius: 5px;
+							color: #fff;
 							padding: 6px 20px;
+							text-transform: uppercase;
 						}
+
 						p {
+							color: #fff;
 							font-size: 13px;
 							line-height: 19px;
-							color: #FFFFFF;
-							margin-left: 10px;
 							margin-bottom: 0;
+							margin-left: 10px;
 							margin-top: 0;
 
 							span {
+								color: #00bbf9;
+								cursor: pointer;
 								font-size: 13px;
 								line-height: 19px;
-								color: #00bbf9;
 								margin-left: 10px;
-								cursor: pointer;
 
 								&:hover {
-									border-bottom: 1px solid #FFF;
+									border-bottom: 1px solid #fff;
 								}
 							}
 						}
@@ -144,28 +148,28 @@
 			}
 		}
 	}
+
 	.referral-detail {
 		background: #262938;
 		padding: 50px 0;
 
-		.container{
-			width: 1040px;
+		.container {
 			max-width: 100%;
+			width: 1040px;
 
 			h2 {
-				text-align: center;
 				margin-bottom: 50px;
-	
+				text-align: center;
 			}
+
 			.notice {
-				background: #0085FF;
+				background: #0085ff;
 				padding: 26px 60px;
 			}
 		}
-
-		
 	}
 }
+
 @media screen and (max-width: 1024px) {
 	#referral {
 		.referral-banner {
@@ -173,6 +177,7 @@
 		}
 	}
 }
+
 @media screen and (max-width: 768px) {
 	#referral {
 		.referral-banner {

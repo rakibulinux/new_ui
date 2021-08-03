@@ -1,73 +1,68 @@
-#stacking-item {
+.desktop-stacking-item {
 	background-color: #313445;
 	box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
-	min-height: 370px;
+	min-height: 420px;
 	position: relative;
 	width: 100%;
 
-	.staking-item-container {
+	&__container {
 		height: 100%;
 		left: 0;
 		position: absolute;
 		top: 0;
 		width: 100%;
 
-		.image {
+		&__image {
 			background-color: #434a57;
 			background-position: 50% 50%;
 			background-size: cover;
 			display: flex;
 			gap: normal;
-			height: 30%;
+			height: 35%;
 			width: 100%;
 
-			.logo-image {
+			&__logo-image {
 				align-items: center;
 				display: flex;
-				height: 50px;
+				height: 100px;
 				margin: auto;
 				width: 270px;
 
 				img {
 					margin: auto;
-					max-height: 100%;
+					max-height: 75%;
 					max-width: 100%;
 				}
 			}
 		}
 
-		.text {
-			background-color: #313445;
-			min-height: 30%;
+		&__text {
+			min-height: 20%;
 			padding: 1rem 1rem;
 
-			.title,
-			.reward-container {
-				padding: 0.5rem 0;
-			}
-
-			.title {
+			&__title {
 				color: #fff;
 				font-size: 20px;
 				font-weight: 700;
-				margin: 10px 0;
+				margin-left: 0.5rem;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;
 				width: 100%;
 			}
 
-			.reward-container {
-				.reward {
+			&__reward-container {
+				padding: 0.5rem 0;
+
+				&__reward {
 					flex: 0 0 33.333333%;
 					max-width: 33.333333%;
 					padding: 0 5px;
 
-					.reward-box {
+					&__box {
 						background-color: #434a57;
 						border-radius: 5px;
 						box-sizing: border-box;
-						margin-bottom: 1rem;
 						padding: 5px 0;
 						text-align: center;
 
@@ -81,32 +76,27 @@
 			}
 		}
 
-		.stake-item__time {
-			height: 10%;
-			margin-top: 5%;
-			padding: 1rem 1.5rem;
-		}
-
-		.stake-item__progress {
+		&__progress {
 			height: 5%;
-			margin-top: 5%;
-			padding: 1rem 1.5rem;
+			margin-top: 2%;
+			padding: 1rem 1.3rem;
 		}
 
-		.buttons {
+		&__buttons {
 			height: 15%;
-			margin-bottom: 0;
 			padding: 1rem 1rem;
 
-			.go-stack-btn {
+			&__go-stake {
 				background-color: #30b57e;
+				border: none;
 				border-radius: 5px;
 				color: #fff;
 				flex: 1 1 0%;
 				font-size: 13px;
 				line-height: 36px;
-				margin: 3px;
+				margin: 5px;
 				margin-bottom: 0;
+				outline: none;
 				padding: 0 5px;
 				text-align: center;
 				transition: background-color 0.2s;
@@ -118,7 +108,7 @@
 				}
 			}
 
-			.learn-more-btn {
+			&__learn-more {
 				background-color: #434a57;
 				border-radius: 5px;
 				color: #fff;
@@ -136,7 +126,7 @@
 		}
 	}
 
-	.stacking-item__disabled {
+	&__disabled {
 		align-items: center;
 		background-color: #313445c9;
 		color: rgb(255, 255, 255);
@@ -153,42 +143,52 @@
 		z-index: 997;
 	}
 
-	.stacking-item__label {
-		align-items: center;
-		border-radius: 0 0 0 5px;
-		color: #fff;
-		display: flex;
-		font-weight: 700;
-		height: 2rem;
-		justify-content: center;
+	&__label {
+		border-radius: 0 0 0 3px;
+		color: #ffff;
+		font-size: 14px;
+		line-height: 16px;
+		margin: 0;
+		padding: 7px 17px 7px 17px;
 		position: absolute;
 		right: 0;
 		text-align: center;
-		top: 0;
-		width: 7rem;
+		text-transform: uppercase;
+
+		&-upcoming {
+			background-color: #e06211;
+		}
+
+		&-running {
+			background-color: #2fb67e;
+		}
+
+		&-ended {
+			background-color: #bd3421;
+		}
 	}
 
-	.stacking-item__label-upcoming {
-		background-color: #e9c46a;
-	}
+	&__timer {
+		margin: 2rem 1rem;
 
-	.stacking-item__label-running {
-		background: #2fb67e;
-	}
-
-	.stacking-item__label-ended {
-		background: #e63946;
-	}
-
-	.timer {
-		align-items: center;
-		background: #434a57;
-		border-radius: 5px;
-		color: #fff;
-		display: flex;
-		height: 30px;
-		justify-content: center;
-		text-align: center;
-		width: 100%;
+		&__countdown {
+			&__item {
+				align-items: center;
+				background: rgba(255, 255, 255, 0.1);
+				border-radius: 3px;
+				color: #fff;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-flex: none;
+				flex: none;
+				-webkit-flex-direction: column;
+				flex-direction: column;
+				-webkit-flex-wrap: wrap;
+				flex-wrap: wrap;
+				font-size: 2em;
+				padding: 1rem;
+				width: 22.5%;
+			}
+		}
 	}
 }

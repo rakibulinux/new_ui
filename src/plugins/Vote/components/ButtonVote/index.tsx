@@ -1,4 +1,11 @@
-import { alertPush, selectUserInfo, selectUserLoggedIn, selectWallets, voteDonateCreate } from 'modules';
+import {
+	alertPush,
+	selectUserInfo,
+	selectUserLoggedIn,
+	selectVoteDonateFreeData,
+	selectWallets,
+	voteDonateCreate,
+} from 'modules';
 import * as constants from 'plugins/constants/vote';
 import * as React from 'react';
 import { Button, Form, FormControlProps, Overlay, Tooltip } from 'react-bootstrap';
@@ -20,6 +27,7 @@ export const ButtonVote: React.FC<ButtonVoteProps> = props => {
 	const dispatch = useDispatch();
 	const intl = useIntl();
 	const userLoggedIn = useSelector(selectUserLoggedIn, isEqual);
+	const freeVote = useSelector(selectVoteDonateFreeData, isEqual);
 	const wallet = useSelector(selectWallets, isEqual).find(
 		walletParam => walletParam.currency === constants.VOTE_CURRENCIE.toLowerCase(),
 	);
@@ -49,8 +57,9 @@ export const ButtonVote: React.FC<ButtonVoteProps> = props => {
 		if (amount) {
 			if (wallet) {
 				if (wallet.balance) {
-					if (amount * constants.VOTE_RATE > +wallet.balance) {
-						pushNotification(`Amount(${amount}) must be less than wallet balance(${wallet.balance})`);
+					const totalBalanceVote = Math.floor((+wallet.balance + freeVote.total - freeVote.used) / constants.VOTE_RATE);
+					if (amount > totalBalanceVote) {
+						pushNotification(`Amount(${amount}) must be less than number of votes available(${totalBalanceVote})`);
 					} else {
 						dispatch(
 							voteDonateCreate({

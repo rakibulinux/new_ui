@@ -189,10 +189,18 @@ export const en = {
 	'page.body.wallets.tabs.withdraw': 'Withdraw',
 	'page.body.wallets.tabs.withdraw.content.amount': 'Withdrawal Amount',
 	'page.body.wallets.tabs.withdraw.content.code2fa': '2FA code',
-	'page.body.wallets.tabs.withdraw.content.fee': 'Transaction Fee',
+	'page.body.wallets.tabs.withdraw.content.fee': 'Withdrawal Fee',
 	'page.body.wallets.tabs.withdraw.content.total': 'You will got',
 	'page.body.wallets.tabs.withdraw.content.button': 'WITHDRAW',
 	'page.body.wallets.tabs.withdraw.disabled.message': 'Withdraw was disabled by administration',
+
+	'page.body.wallets.tabs.withdraw.amount.larger': 'Amount should be larger',
+	'page.body.wallets.tabs.withdraw.2FA.missing': '2FA is missing',
+	'page.body.wallets.tabs.withdraw.beneficiary.pending': 'Beneficiary is pending',
+	'page.body.wallets.tabs.withdraw.beneficiary.incorrect': 'Beneficiary is incorrect',
+	'page.body.wallets.tabs.withdraw.limit24': 'Withdraw has been limited 24h',
+
+	'page.body.wallets.tabs.withdraw.waiting': `Please wait. Don't close this window`,
 
 	'page.body.wallets.tabs.withdraw.modal.confirmation': 'Confirmation',
 	'page.body.wallets.tabs.withdraw.modal.message1': 'You will receive ',
@@ -629,6 +637,9 @@ export const en = {
 	'page.body.500.maintenance': 'The platform is under maintenance',
 	'page.body.500.availableSoon': 'It will be available as soon as possible',
 
+	// waiting messages
+	'waiting.withdraw.action': 'Waiting. Withdrawal is processing ...',
+
 	// success messages
 	'success.addresses.accepted': 'Addresses upload was successful',
 	'success.documents.accepted': 'Documents upload was successful',
@@ -924,6 +935,10 @@ export const en = {
 		'1. If you have deposited, please pay attention to the text messages, site letters and emails we send to you.',
 	'page.body.plugins.wallet.deposit.info.notice2':
 		'2. Until 2 confirmations are made, an equivalent amount of your assets will be temporarily unavailable for withdrawals.',
+
+	'page.ieo.buy.history.success': 'updated buy history successfully',
+	'page.ieo.buy.success': 'Buy success',
+	'page.ieo.buy.error': 'Buy fail',
 
 	...nationalitiesNames,
 	...customTranslations,

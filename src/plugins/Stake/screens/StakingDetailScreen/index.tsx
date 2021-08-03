@@ -18,7 +18,6 @@ import {
 } from '../../../../modules';
 import { MyAssets, RegisterStake, StakeHistory, StakingInfo, UnStake, UnStakeHistory } from '../../containers';
 
-
 const initialStakingItem: Stake = {
 	stake_id: '',
 	currency_id: '',
@@ -95,20 +94,20 @@ export const StakingDetailScreen = () => {
 	}, [dispatch]);
 
 	React.useEffect(() => {
-		dispatch(stakeWalletFetch({ uid: user.uid, currency_id: stakingItemState.currency_id }));
+		dispatch(stakeWalletFetch({ uid: user.uid }));
 		dispatch(stakeHistoryFetch({ uid: user.uid, stake_id: stake_id }));
 		dispatch(unStakeHistoryFetch({ uid: user.uid, currency_id: stakingItemState.currency_id }));
 	}, [user.uid, dispatch, stakingItemState.currency_id, stake_id]);
 
 	return (
-		<div id="staking-detail-screen">
+		<div className="desktop-staking-detail-screen mt-3">
 			<div className="container">
 				<div className="row">
 					<div className="col-12">
 						<h1>{stakingItemState.currency_id.toUpperCase()} Stake</h1>
 					</div>
 				</div>
-				<div className="row mt-5">
+				<div className="row mt-3">
 					<div className="col-12">
 						<StakingInfo
 							currency_id={stakingItemState.currency_id}
@@ -140,7 +139,7 @@ export const StakingDetailScreen = () => {
 							</span>
 						</div>
 						<hr />
-						<ul className="staking-notes">
+						<ul className="desktop-staking-detail-screen__notes">
 							<li>{intl.formatMessage({ id: `stake.detail.info.stakingNotes1` })}</li>
 							<li>{intl.formatMessage({ id: `stake.detail.info.stakingNotes2` })}</li>
 							<li>{intl.formatMessage({ id: `stake.detail.info.stakingNotes3` })}</li>
@@ -150,7 +149,7 @@ export const StakingDetailScreen = () => {
 						<MyAssets currency_id={stakingItemState.currency_id} />
 					</div>
 					<div className="col-6">
-						<div className="react-tabs">
+						<div className="desktop-staking-detail-screen__react-tabs">
 							<Tabs defaultActiveKey="stake">
 								<TabPane tab="STAKE" key="stake">
 									<RegisterStake
@@ -186,7 +185,7 @@ export const StakingDetailScreen = () => {
 					</div>
 				</div>
 			</div>
-			<div className="detail__disabled" hidden={isLogin}>
+			<div className="desktop-staking-detail-screen-disabled" hidden={isLogin}>
 				<span>Please login before</span>
 			</div>
 		</div>

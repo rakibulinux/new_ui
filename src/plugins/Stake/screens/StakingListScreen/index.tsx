@@ -7,14 +7,23 @@ import { StakingList } from '../../containers';
 
 export const StakingListScreen = () => {
 	// state
-	const [filterStackingState, setFilterStackingState] = React.useState<'upcoming' | 'running' | 'ended' | 'all'>('all');
+	const [filterStackingState, setFilterStackingState] = React.useState<'upcoming' | 'running' | 'all' | 'ended'>('all');
 	const upcomingButtonClassName = classnames(
-		'stack-tab-btn',
-		filterStackingState === 'upcoming' ? 'stack-tab-btn__upcoming' : '',
+		'desktop-staking-list-screen__header__buttons-btn',
+		filterStackingState === 'upcoming' ? 'desktop-staking-list-screen__header__buttons__upcoming' : '',
 	);
-	const runningButtonClassName = classnames('stack-tab-btn', filterStackingState === 'running' ? 'stack-tab-btn__running' : '');
-	const allButtonClassName = classnames('stack-tab-btn', filterStackingState === 'all' ? 'stack-tab-btn__all' : '');
-	const endedButtonClassName = classnames('stack-tab-btn', filterStackingState === 'ended' ? 'stack-tab-btn__ended' : '');
+	const runningButtonClassName = classnames(
+		'desktop-staking-list-screen__header__buttons-btn',
+		filterStackingState === 'running' ? 'desktop-staking-list-screen__header__buttons__running' : '',
+	);
+	const endedButtonClassName = classnames(
+		'desktop-staking-list-screen__header__buttons-btn',
+		filterStackingState === 'ended' ? 'desktop-staking-list-screen__header__buttons__ended' : '',
+	);
+	const allButtonClassName = classnames(
+		'desktop-staking-list-screen__header__buttons-btn',
+		filterStackingState === 'all' ? 'desktop-staking-list-screen__header__buttons__all' : '',
+	);
 
 	// store
 	const stakingList = useSelector(selectStakingList);
@@ -33,44 +42,78 @@ export const StakingListScreen = () => {
 		dispatchFetchStakingList();
 	}, []);
 
+	const [searchState, setSearchState] = React.useState('');
+
+	React.useEffect(() => {
+		setFilterStackingState('all');
+	}, [searchState]);
+
 	const renderStakingList = () => {
+		if (searchState !== '') {
+			return (
+				<StakingList
+					stakes={[...stakingList].filter(stake => stake.currency_id.toLowerCase().includes(searchState.toLowerCase()))}
+				/>
+			);
+		}
 		return filterStackingState === 'upcoming' ? (
-			<StakingList staking_list={[...upcomingList]} />
+			<StakingList stakes={[...upcomingList]} />
 		) : filterStackingState === 'running' ? (
-			<StakingList staking_list={[...runningList]} />
+			<StakingList stakes={[...runningList]} />
 		) : filterStackingState === 'ended' ? (
-			<StakingList staking_list={[...endedList]} />
+			<StakingList stakes={[...endedList]} />
 		) : (
-			<StakingList staking_list={[...runningList, ...upcomingList, ...endedList]} />
+			<StakingList stakes={[...stakingList]} />
 		);
 	};
 
 	return (
-		<div id="staking-list-screen">
-			<div className="container">
+		<div className="desktop-staking-list-screen">
+			<div className=" container desktop-staking-list-screen__header">
 				<div className="row">
 					<div className="col-12">
-						<h1>Stake</h1>
+						<h3 className="desktop-staking-list-screen__header__h3">Stake</h3>
 					</div>
 				</div>
-				<div className="staking-buttons">
-					<button onClick={() => setFilterStackingState('all')} className={allButtonClassName}>
-						All
-					</button>
-					<button onClick={() => setFilterStackingState('upcoming')} className={upcomingButtonClassName}>
-						Upcoming
-					</button>
-					<button onClick={() => setFilterStackingState('running')} className={runningButtonClassName}>
-						Running
-					</button>
-					<button onClick={() => setFilterStackingState('ended')} className={endedButtonClassName}>
-						Ended
-					</button>
+				<div className="d-flex flex-row justify-content-between">
+					<div className="desktop-staking-list-screen__header__search">
+						<input
+							placeholder="Search currency"
+							type="text"
+							value={searchState}
+							onChange={e => setSearchState(e.target.value)}
+						/>
+						<div className="icon-search">
+							<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path
+									d="M12.5 11H11.71L11.43 10.73C12.41 9.59 13 8.11 13 6.5C13 2.91 10.09 0 6.5 0C2.91 0 0 2.91 0 6.5C0 10.09 2.91 13 6.5 13C8.11 13 9.59 12.41 10.73 11.43L11 11.71V12.5L16 17.49L17.49 16L12.5 11ZM6.5 11C4.01 11 2 8.99 2 6.5C2 4.01 4.01 2 6.5 2C8.99 2 11 4.01 11 6.5C11 8.99 8.99 11 6.5 11Z"
+									fill="#848E9C"
+								/>
+							</svg>
+						</div>
+					</div>
+					<div className="desktop-staking-list-screen__header__buttons">
+						<button onClick={() => setFilterStackingState('all')} className={allButtonClassName}>
+							All <span hidden={filterStackingState != 'all'}></span>
+						</button>
+						<button onClick={() => setFilterStackingState('upcoming')} className={upcomingButtonClassName}>
+							Upcoming <span hidden={filterStackingState != 'upcoming'}></span>
+						</button>
+						<button onClick={() => setFilterStackingState('running')} className={runningButtonClassName}>
+							Running <span hidden={filterStackingState != 'running'}></span>
+						</button>
+						<button onClick={() => setFilterStackingState('ended')} className={endedButtonClassName}>
+							Ended <span hidden={filterStackingState != 'ended'}></span>
+						</button>
+					</div>
 				</div>
+			</div>
 
-				<div style={{ position: 'relative' }} className="row mt-5">
-					{renderStakingList()}
-				</div>
+			<div
+				style={{ position: 'relative', paddingRight: '0px', paddingLeft: '0px' }}
+				className="row m-auto container desktop-staking-list-screen__body"
+			>
+				{renderStakingList()}
 			</div>
 		</div>
 	);

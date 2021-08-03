@@ -1,4 +1,5 @@
 export const en = {
+	'page.body.wallet.history.header': 'Wallet history',
 	/* Lunar-game */
 	'page.body.lunar.nav.back': 'Back',
 	'page.body.lunar.title': 'Draw lucky lots',

@@ -1,16 +1,17 @@
 /* stylelint-disable */
-.cr-mobile-subheader {
+.td-mobile-subheader {
 	align-items: center;
-	background: var(--body-background-color);
+	background: var(--mobile-body-background-color);
+	box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
 	display: flex;
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
 	flex-direction: row;
-	height: 48px;
+	height: 3.75em;
 	justify-content: space-between;
-	padding: 10px 14px;
+	padding: 0.625em 0.875em;
 	z-index: 100;
 
 	&__back,
@@ -25,13 +26,17 @@
 	&__back {
 		display: flex;
 		align-items: center;
+		height: 100%;
+
 		svg {
 			margin-right: 5px;
-			transform: rotate(90deg);
+			cursor: pointer;
 		}
 	}
 
 	&__title {
 		text-align: center;
+		font-size: 1.25em;
+		color: #2fb67e;
 	}
 }

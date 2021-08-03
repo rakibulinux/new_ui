@@ -64,3 +64,13 @@ export interface Deposit {
 
 export type WalletHistoryElement = Withdraw | Deposit | PrivateTrade;
 export type WalletHistoryList = WalletHistoryElement[];
+
+export interface WithdrawHistoryState extends CommonState {
+	payload: Withdraw[];
+	loading: boolean;
+}
+
+export interface DepositHistoryState extends CommonState {
+	payload: Deposit[];
+	loading: boolean;
+}

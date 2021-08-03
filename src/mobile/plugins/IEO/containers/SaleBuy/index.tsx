@@ -35,34 +35,28 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 	// dispatch Fetch Wallets Of User Action
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const dispatchWalletsFetch = React.useCallback(() => dispatch(walletsFetch()), [dispatch]);
-	const dispatchBuy = React.useCallback((buyInfo: Buy) => dispatch(buySaleItem(buyInfo)), [dispatch]);
-	const dispatchGetPrice = React.useCallback((priceConfig: any) => dispatch(getPrice(priceConfig)), [dispatch]);
-	const dispatchResetBuyResponse = React.useCallback(() => dispatch(resetBuyResponse()), [dispatch]);
-	const dispatchGetTotalBuyers = React.useCallback(
-		(ieoID: string) =>
-			dispatch(
-				getTotalBuyers({
-					ieo_id: ieoID,
-				}),
-			),
-		[dispatch],
-	);
-	const dispatchFetchSaleItemByID = React.useCallback(
-		(ieoID: string) =>
-			dispatch(
-				findSalebyId({
-					id: ieoID,
-				}),
-			),
-		[dispatch],
-	);
+	const dispatchWalletsFetch = () => dispatch(walletsFetch());
+	const dispatchBuy = (buyInfo: Buy) => dispatch(buySaleItem(buyInfo));
+	const dispatchGetPrice = (priceConfig: any) => dispatch(getPrice(priceConfig));
+	const dispatchResetBuyResponse = () => dispatch(resetBuyResponse());
+	const dispatchGetTotalBuyers = (ieoID: string) =>
+		dispatch(
+			getTotalBuyers({
+				ieo_id: ieoID,
+			}),
+		);
+	const dispatchFetchSaleItemByID = (ieoID: string) =>
+		dispatch(
+			findSalebyId({
+				id: ieoID,
+			}),
+		);
 
-	const dispatchcFetchCurrencies = React.useCallback(() => dispatch(currenciesFetch()), [dispatch]);
+	const dispatchcFetchCurrencies = () => dispatch(currenciesFetch());
 
 	React.useEffect(() => {
 		dispatchcFetchCurrencies();
-	}, [dispatchcFetchCurrencies]);
+	}, []);
 
 	const currencies = useSelector(selectCurrencies);
 	// filter Wallets that have currency in currency_available Of Sale Item
@@ -73,18 +67,15 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 
 	const defaultSelectedCurrency = props.sale.currency_available[0];
 	// get Balance By Currency_ID
-	const handleGetBalance = React.useCallback(
-		currency => {
-			const foundedWallet = filteredWallets.find(wallet => wallet.currency === currency);
+	const handleGetBalance = currency => {
+		const foundedWallet = filteredWallets.find(wallet => wallet.currency === currency);
 
-			if (foundedWallet) {
-				return Number(foundedWallet.balance);
-			}
+		if (foundedWallet) {
+			return Number(foundedWallet.balance);
+		}
 
-			return 0;
-		},
-		[filteredWallets],
-	);
+		return 0;
+	};
 
 	// state
 	const [quoteCurrencyState, setQuoteCurrencyState] = React.useState<string>(defaultSelectedCurrency);
@@ -95,21 +86,18 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 	const [quoteTotalState, setQuoteTotalState] = React.useState<number>(0);
 	const [isShowBuyConfirmModalState, setIsBuyConfirmModalVisibleState] = React.useState<boolean>(false);
 
-	const calculatePrice = React.useCallback(
-		(basePrice: number, quotePrice: number) => {
-			switch (quoteCurrencyState.toLowerCase()) {
-				case 'kobe':
-					return NP.divide(NP.divide(1, quotePrice), NP.divide(1, basePrice));
-				case 'esc':
-					return NP.divide(NP.divide(1, quotePrice), NP.divide(1, basePrice));
-				case 'swp':
-					return NP.divide(NP.divide(1, quotePrice), NP.divide(1, basePrice));
-				default:
-					return NP.divide(quotePrice, NP.divide(1, basePrice));
-			}
-		},
-		[quoteCurrencyState],
-	);
+	const calculatePrice = (basePrice: number, quotePrice: number) => {
+		switch (quoteCurrencyState.toLowerCase()) {
+			case 'kobe':
+				return NP.divide(NP.divide(1, quotePrice), NP.divide(1, basePrice));
+			case 'esc':
+				return NP.divide(NP.divide(1, quotePrice), NP.divide(1, basePrice));
+			case 'swp':
+				return NP.divide(NP.divide(1, quotePrice), NP.divide(1, basePrice));
+			default:
+				return NP.divide(quotePrice, NP.divide(1, basePrice));
+		}
+	};
 
 	// handle Select Currency
 	const handleSelectCurrency = event => {
@@ -122,29 +110,26 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 		}
 	};
 
-	const updateBonusState = React.useCallback(
-		(quantity: number) => {
-			const { bonus } = props.sale;
-			const arrayOfBonus = bonus;
-			const foundedBonus = arrayOfBonus.find(bonusParam => {
-				const bonusRange = String(Object.keys(bonusParam)).split('-');
-				const startPoint = Number(bonusRange[0]);
-				const endPoint = Number(bonusRange[1]);
-				if (quantity >= startPoint && quantity <= endPoint) {
-					return true;
-				}
-
-				return false;
-			});
-			if (foundedBonus) {
-				const bonusValue = Object.entries(foundedBonus)[0][1];
-				setBonusState(Number(bonusValue));
-			} else {
-				setBonusState(0);
+	const updateBonusState = (quantity: number) => {
+		const { bonus } = props.sale;
+		const arrayOfBonus = bonus;
+		const foundedBonus = arrayOfBonus.find(bonusParam => {
+			const bonusRange = String(Object.keys(bonusParam)).split('-');
+			const startPoint = Number(bonusRange[0]);
+			const endPoint = Number(bonusRange[1]);
+			if (quantity >= startPoint && quantity <= endPoint) {
+				return true;
 			}
-		},
-		[props.sale],
-	);
+
+			return false;
+		});
+		if (foundedBonus) {
+			const bonusValue = Object.entries(foundedBonus)[0][1];
+			setBonusState(Number(bonusValue));
+		} else {
+			setBonusState(0);
+		}
+	};
 	const handleQuantityInput = event => {
 		const quantity = event.target.value;
 		const { price } = props.sale;
@@ -170,29 +155,19 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 		}
 	};
 
-	React.useEffect(
-		() => {
-			dispatchWalletsFetch();
-			dispatchGetPrice({
-				fsym: 'USD',
-				tsyms: props.sale.currency_available,
-			});
-			updateBonusState(quantityInputState);
-			setQuoteBalanceState(handleGetBalance(props.sale.currency_available[0]));
-		},
-		[
-			// dispatchGetPrice,
-			// dispatchWalletsFetch,
-			// handleGetBalance,
-			// props.sale.currency_available,
-			// quantityInputState,
-			// updateBonusState,
-		],
-	);
+	React.useEffect(() => {
+		dispatchWalletsFetch();
+		dispatchGetPrice({
+			fsym: 'USD',
+			tsyms: props.sale.currency_available,
+		});
+		updateBonusState(quantityInputState);
+		setQuoteBalanceState(handleGetBalance(props.sale.currency_available[0]));
+	}, []);
 
 	React.useEffect(() => {
 		setQuoteBalanceState(handleGetBalance(quoteCurrencyState));
-	}, [filteredWallets.length, quoteCurrencyState, handleGetBalance]);
+	}, [filteredWallets.length]);
 
 	React.useEffect(() => {
 		if (priceSelector.payload && quoteCurrencyState && priceSelector.payload[quoteCurrencyState.toUpperCase()]) {
@@ -200,7 +175,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 			setPriceState(convertedPrice);
 			setQuoteTotalState(NP.strip(NP.times(quantityInputState, convertedPrice)));
 		}
-	}, [quoteCurrencyState, priceSelector.loading, calculatePrice, priceSelector.payload, props.sale.price, quantityInputState]);
+	}, [quoteCurrencyState, priceSelector.loading]);
 
 	const hiddenBuyConfirmModal = () => {
 		setIsBuyConfirmModalVisibleState(false);
@@ -210,45 +185,32 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 		setIsBuyConfirmModalVisibleState(true);
 	};
 
-	React.useEffect(
-		() => {
-			if (buyResponse.error) {
-				notification.error({
-					message: buyResponse.error.message,
+	React.useEffect(() => {
+		if (buyResponse.error) {
+			notification.error({
+				message: buyResponse.error.message,
+			});
+		}
+
+		if (buyResponse.payload) {
+			if (buyResponse.payload.success) {
+				notification.success({
+					message: `Buy ${currency_id.toUpperCase()} successfully`,
 				});
+				dispatchResetBuyResponse();
+				dispatchGetTotalBuyers(props.sale.id); // update Total Buyers in Sale Info
+				setTimeout(() => {
+					dispatchFetchSaleItemByID(props.sale.id);
+				}, 3000);
 			}
+		}
 
-			if (buyResponse.payload) {
-				if (buyResponse.payload.success) {
-					notification.success({
-						message: `Buy ${currency_id.toUpperCase()} successfully`,
-					});
-					dispatchResetBuyResponse();
-					dispatchGetTotalBuyers(props.sale.id); // update Total Buyers in Sale Info
-					setTimeout(() => {
-						dispatchFetchSaleItemByID(props.sale.id);
-					}, 3000);
-				}
-			}
-
-			if (buyResponse.loading) {
-				const hide = message.loading('Buying in progress..', 0);
-				// dismiss manually and asynchronously
-				setTimeout(hide, 2500);
-			}
-		},
-		[
-			// buyResponse.error,
-			// buyResponse.payload.success,
-			// buyResponse.loading,
-			// buyResponse.payload,
-			// currency_id,
-			// dispatchFetchSaleItemByID,
-			// dispatchGetTotalBuyers,
-			// dispatchResetBuyResponse,
-			// props.sale.id,
-		],
-	);
+		if (buyResponse.loading) {
+			const hide = message.loading('Buying in progress..', 0);
+			// dismiss manually and asynchronously
+			setTimeout(hide, 2500);
+		}
+	}, [buyResponse.error, buyResponse.payload.success, buyResponse.loading]);
 
 	const handleBuy = () => {
 		const uid = props.uid;
@@ -280,14 +242,7 @@ export const SaleBuy: React.FC<SaleBuyProps> = (props: SaleBuyProps) => {
 	};
 
 	const handleBuyDisabled = () => {
-		return (
-			quantityInputState <= 0 ||
-			quoteTotalState <= 0 ||
-			quoteBalanceState < quoteTotalState ||
-			quantityInputState < props.sale.min_buy ||
-			!priceState ||
-			priceState <= 0
-		);
+		return quoteBalanceState < quoteTotalState || quantityInputState < props.sale.min_buy || !priceState || priceState <= 0;
 	};
 
 	let buyButton;

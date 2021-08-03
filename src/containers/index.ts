@@ -47,3 +47,8 @@ export * from './NewMarKetList';
 export * from './NewTeamSection';
 export * from './ReferralContent';
 
+export * from './NewOrderBook';
+export * from './MarketTrading';
+export * from './NewOrder';
+export * from './TradingOrderHistory';
+export * from './TradingTradeHistory';

@@ -23,7 +23,7 @@ export const TradeList: React.FC<TradeListProps> = (props: TradeListProps) => {
 
 		if (currentMarket) {
 			dispatch(setCurrentMarket(currentMarket));
-			history.push(`/trading/${currentMarket.id}`);
+			history.push(`/market/${currentMarket.id}`);
 		}
 	};
 

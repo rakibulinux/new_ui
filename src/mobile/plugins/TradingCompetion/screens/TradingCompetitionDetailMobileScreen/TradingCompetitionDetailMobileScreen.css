@@ -26,7 +26,7 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	padding: 0.5rem 5rem;
-	border-radius: 3px;
+	border-radius: var(--mobile-border-radius-small-size);
 	line-height: 18px;
 	font-size: 14px;
 	font-weight: bold;

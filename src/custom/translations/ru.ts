@@ -2,6 +2,7 @@ import { LangType } from '../../translations';
 import { nationalitiesNames } from '../../translations/nationalities';
 
 export const ru: LangType = {
+	'page.body.wallet.history.header': 'Wallet history',
 	/**Vote */
 	'page.body.vote.msg.success': 'Vote success',
 	'page.body.vote.msg.fail': 'Vote fail',
@@ -236,6 +237,13 @@ export const ru: LangType = {
 	'page.body.wallets.tabs.withdraw.content.button': 'ВЫВЕСТИ',
 
 	'page.body.wallets.tabs.withdraw.disabled.message': 'Вывод средств был отключен администрацией',
+
+	'page.body.wallets.tabs.withdraw.amount.larger': 'Amount should be larger',
+	'page.body.wallets.tabs.withdraw.2FA.missing': '2FA is missing',
+	'page.body.wallets.tabs.withdraw.beneficiary.pending': 'Beneficiary is pending',
+	'page.body.wallets.tabs.withdraw.beneficiary.incorrect': 'Beneficiary is incorrect',
+	'page.body.wallets.tabs.withdraw.limit24': 'Withdraw has been limited 24h',
+	'page.body.wallets.tabs.withdraw.waiting': `Please wait. Don't close window ...`,
 
 	'page.body.wallets.tabs.withdraw.modal.confirmation': 'Подтверждение',
 	'page.body.wallets.tabs.withdraw.modal.message1': 'Вы получите ',
@@ -671,6 +679,9 @@ export const ru: LangType = {
 	'page.body.customization.themes.theme.purple.title': 'Purple',
 	'page.body.customization.themes.theme.green.title': 'Green',
 
+	// waiting messages
+	'waiting.withdraw.action': 'Waiting. Withdrawal is processing',
+
 	// success messages
 	'success.addresses.accepted': 'Ваш адрес успешно приняты',
 	'success.documents.accepted': 'Ваши документы успешно приняты',
@@ -968,6 +979,10 @@ export const ru: LangType = {
 		'1. If you have deposited, please pay attention to the text messages, site letters and emails we send to you.',
 	'page.body.plugins.wallet.deposit.info.notice2':
 		'2. Until 2 confirmations are made, an equivalent amount of your assets will be temporarily unavailable for withdrawals.',
+
+	'page.ieo.buy.history.success': 'updated buy history successfully',
+	'page.ieo.buy.success': 'Buy success',
+	'page.ieo.buy.error': 'Buy fail',
 
 	...nationalitiesNames,
 };

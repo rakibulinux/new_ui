@@ -2,10 +2,20 @@ import { combineReducers } from 'redux';
 import { airdropReducer } from './airdrops/airdrop';
 import { claimReducer } from './airdrops/claim';
 import { ethFeeReducer } from './eth-withdraw/fee';
-import { ethFeeWithdrawReducer } from './eth-withdraw/withdraw';
 import { lunarReducer } from './events/lunar';
 import { announcementReducer } from './info/announcement';
 import { eventReducer } from './info/events';
+import { airdropCoinClaimReducer, airdropCoinListReducer } from './plugins/airdropCoin';
+import {
+	BuyersHistoryReducer,
+	BuyHistoryReducer,
+	buyIEOReducer,
+	IEODetailReducer,
+	IEOItemReducer,
+	IEOListReducer,
+	totalIEOBuyersReducer,
+} from './plugins/ieo';
+import { IEOCautionReducer } from './plugins/ieo/caution';
 import {
 	createStakeReducer,
 	stakeHistoryReducer,
@@ -33,8 +43,8 @@ import { buyReducer, totalBuyersReducer } from './sale/buy';
 import { priceReducer } from './sale/price';
 import { saleItemReducer } from './sale/sale-item';
 import { saleListReducer } from './sale/sale-list';
-import { competitionItemReducer } from './trading_competitions/competition_item';
 import { competitionsListReducer } from './trading_competitions/competitions';
+import { competitionItemReducer } from './trading_competitions/competition_item';
 import { rankingsReducer } from './trading_competitions/rankings';
 import { apiKeysReducer } from './user/apiKeys';
 import { authReducer } from './user/auth';
@@ -42,7 +52,7 @@ import { beneficiariesReducer } from './user/beneficiaries';
 import { getGeetestCaptchaReducer } from './user/captcha';
 import { customizationUpdateReducer } from './user/customization';
 import { sendEmailVerificationReducer } from './user/emailVerification';
-import { historyReducer } from './user/history';
+import { depositHistoryReducer, historyReducer, withdrawHistoryReducer } from './user/history';
 import { addressesReducer, documentsReducer, identityReducer, labelReducer, phoneReducer } from './user/kyc';
 import { newHistoryReducer } from './user/newHistory';
 import { openOrdersReducer } from './user/openOrders';
@@ -53,7 +63,6 @@ import { profileReducer } from './user/profile';
 import { userActivityReducer } from './user/userActivity';
 import { allChildCurrenciesReducer, childCurrenciesReducer, walletsReducer } from './user/wallets';
 import { withdrawLimitReducer } from './user/withdrawLimit';
-
 export const eventsReducer = combineReducers({
 	lunar: lunarReducer,
 });
@@ -65,7 +74,6 @@ export const airdropsReducer = combineReducers({
 
 export const ethFeesReducer = combineReducers({
 	ethFee: ethFeeReducer,
-	withdraw: ethFeeWithdrawReducer,
 });
 
 export const saleReducer = combineReducers({
@@ -75,7 +83,16 @@ export const saleReducer = combineReducers({
 	price: priceReducer,
 	totalBuyers: totalBuyersReducer,
 });
-
+export const IEOReducer = combineReducers({
+	IEOItem: IEOItemReducer,
+	IEOList: IEOListReducer,
+	buyIEO: buyIEOReducer,
+	buyHistory: BuyHistoryReducer,
+	buyersHistory: BuyersHistoryReducer,
+	totalIEOBuyers: totalIEOBuyersReducer,
+	ieoDetail: IEODetailReducer,
+	ieoCaution: IEOCautionReducer,
+});
 export const tradingCompetitionsReducer = combineReducers({
 	competitions: competitionsListReducer,
 	competition_item: competitionItemReducer,
@@ -121,6 +138,8 @@ export const userReducer = combineReducers({
 	identity: identityReducer,
 	phone: phoneReducer,
 	history: historyReducer,
+	withdrawHistory: withdrawHistoryReducer,
+	depositHistory: depositHistoryReducer,
 	newHistory: newHistoryReducer,
 	apiKeys: apiKeysReducer,
 	userActivity: userActivityReducer,
@@ -137,6 +156,11 @@ const voteReducer = combineReducers({
 	donate: voteDonateReducer,
 });
 
+const airdropCoinReducer = combineReducers({
+	list: airdropCoinListReducer,
+	claims: airdropCoinClaimReducer,
+});
+
 export const pluginsReducer = combineReducers({
 	staking_list: stakingListReducer,
 	stake_wallet: stakeWalletReducer,
@@ -145,4 +169,5 @@ export const pluginsReducer = combineReducers({
 	unstake: unStakeReducer,
 	unstake_history: unStakeHistoryReducer,
 	vote: voteReducer,
+	airdropCoin: airdropCoinReducer,
 });

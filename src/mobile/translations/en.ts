@@ -44,8 +44,8 @@ export const en = {
 	'page.mobile.reset.header': 'Resend confirmation',
 	'page.mobile.signin.kyc.header': '2FA Verification',
 
-	'page.mobile.wallets.deposit.history': 'Deposit history',
-	'page.mobile.wallets.withdraw.history': 'Withdraw history',
+	'page.mobile.wallets.deposit.history': 'Deposit',
+	'page.mobile.wallets.withdraw.history': 'Withdraw',
 	'page.mobile.wallets.banner.total': 'Total',
 	'page.mobile.wallets.banner.available': 'Available',
 	'page.mobile.wallets.banner.lock': 'Locked',

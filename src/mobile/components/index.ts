@@ -1,6 +1,7 @@
 export * from './ChangePassword';
 export * from './CreatedApiKeyModal';
 export * from './CurrentMarketInfo';
+export * from './CustomInput';
 export * from './EstimatedValue';
 export * from './Footer';
 export * from './Header';
@@ -27,4 +28,16 @@ export * from './Directionals';
 export * from './Table';
 export * from './Pagination';
 export * from './ReferralContent';
-
+export * from './NewBottomNavbar';
+export * from './NewMarketsList';
+export * from './NewAllMarketList';
+export * from './Beneficiaries';
+export * from './SummaryField';
+export * from './Decimal';
+export * from './NewModal';
+export * from './NewCurrentMarketInfo';
+export * from './NewOpenOrders';
+export * from './NewOrders';
+export * from './NewCreateOrder';
+export * from './NewOrderBook';
+export * from './NewOrder';

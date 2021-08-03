@@ -3,6 +3,8 @@ import {
 	VOTE_DONATE_CREATE,
 	VOTE_DONATE_DATA,
 	VOTE_DONATE_ERROR,
+	VOTE_DONATE_FREE_DATA,
+	VOTE_DONATE_FREE_FETCH,
 	VOTE_HISTORY_DATA,
 	VOTE_HISTORY_ERROR,
 	VOTE_HISTORY_FETCH,
@@ -10,7 +12,7 @@ import {
 	VOTE_LIST_ERROR,
 	VOTE_LIST_FETCH,
 } from './constants';
-import { VoteCoin, VoteFilter, VoteHistory, VoteListState } from './types';
+import { FreeVote, VoteCoin, VoteFilter, VoteHistory, VoteListState } from './types';
 
 export interface VoteListFetch {
 	type: typeof VOTE_LIST_FETCH;
@@ -45,6 +47,14 @@ export interface VoteDonateData {
 	};
 }
 
+export interface VoteDonateFreeFetch {
+	type: typeof VOTE_DONATE_FREE_FETCH;
+}
+export interface VoteDonateFreeData {
+	type: typeof VOTE_DONATE_FREE_DATA;
+	payload: FreeVote;
+}
+
 export interface VoteDonateError {
 	type: typeof VOTE_DONATE_ERROR;
 	error: CommonError;
@@ -68,7 +78,7 @@ export interface VoteHistoryError {
 }
 
 export type VoteListActions = VoteListFetch | VoteListData | VoteDonateData | VoteListError;
-export type VoteDonateActions = VoteDonateCreate | VoteDonateData | VoteDonateError;
+export type VoteDonateActions = VoteDonateCreate | VoteDonateData | VoteDonateFreeFetch | VoteDonateFreeData | VoteDonateError;
 export type VoteHistoryActions = VoteHistoryFetch | VoteDonateData | VoteHistoryData | VoteHistoryError;
 
 export const voteListFetch = (payload: VoteListFetch['payload']): VoteListFetch => ({
@@ -88,6 +98,15 @@ export const voteDonateCreate = (payload: VoteDonateCreate['payload']): VoteDona
 
 export const voteDonateData = (payload: VoteDonateData['payload']): VoteDonateData => ({
 	type: VOTE_DONATE_DATA,
+	payload,
+});
+
+export const voteDonateFreeFetch = (): VoteDonateFreeFetch => ({
+	type: VOTE_DONATE_FREE_FETCH,
+});
+
+export const voteDonateFreeData = (payload: VoteDonateFreeData['payload']): VoteDonateFreeData => ({
+	type: VOTE_DONATE_FREE_DATA,
 	payload,
 });
 

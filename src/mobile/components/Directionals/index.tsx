@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 const DirectionalsComponent: React.FC = () => {
 	return (
-		<div className="cr-mobile-directional">
-			<div className="cr-mobile-directional__inner">
+		<div className="td-mobile-directional">
+			<div className="td-mobile-directional__inner">
 				<Link to="/wallets" className="dropdown-content-show">
 					<WalletOutlined style={{ color: 'wheat', fontSize: '20px' }} />
 					<span>Deposit</span>
@@ -16,7 +16,7 @@ const DirectionalsComponent: React.FC = () => {
 					<span>IEO</span>
 				</Link>
 
-				<Link to="/airdrop" className="dropdown-content-show">
+				<Link to="/airdrops" className="dropdown-content-show">
 					<GiftOutlined style={{ color: 'wheat', fontSize: '20px' }} />
 					<span>Airdrop</span>
 				</Link>
@@ -26,7 +26,7 @@ const DirectionalsComponent: React.FC = () => {
 					<span>Competition</span>
 				</Link>
 			</div>
-			<div className="cr-mobile-directional-banner">
+			<div className="td-mobile-directional-banner">
 				<a href="/ieo">
 					<img src="https://i.imgur.com/2yZzXcQ.jpg" alt="" />
 				</a>
