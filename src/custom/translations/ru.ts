@@ -984,5 +984,7 @@ export const ru: LangType = {
 	'page.ieo.buy.success': 'Buy success',
 	'page.ieo.buy.error': 'Buy fail',
 
+	'page.referral.link.copy.success': 'Successfully copied!',
+
 	...nationalitiesNames,
 };

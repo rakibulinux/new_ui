@@ -1,146 +1,127 @@
-#referral {
-	.referral-banner {
+.td-pg-referral {
+	&__banner {
 		background-position: center;
 		background-repeat: no-repeat;
 		background-size: cover;
 		height: 56vh;
 	}
 
-	.referral-rank {
+	&__rank {
 		padding: 50px 0;
 
-		.container {
-			max-width: 100%;
-			width: 1040px;
-
-			.referral-row {
+		&__box {
+			&__row {
+				background: #313445;
+				box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
 				display: flex;
 				justify-content: space-between;
+				padding: 15px;
 
-				&__box {
-					@media screen and (max-width: 1024px) {
-						margin-top: 12px;
-					}
+				&__rank {
+					display: flex;
+					justify-content: center;
 
-					&__row {
-						background: #313445;
-						box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+					.top-rank {
+						align-items: start;
 						display: flex;
-						justify-content: space-between;
-						padding: 15px;
+						flex-direction: column;
+						margin-left: 10px;
+						margin-top: 6px;
 
-						&__rank {
-							display: flex;
-							justify-content: center;
-
-							.top-rank {
-								align-items: start;
-								display: flex;
-								flex-direction: column;
-								margin-left: 10px;
-								margin-top: 6px;
-
-								&__top {
-									background: #2fb67e;
-									border-radius: 6px;
-									color: #fff;
-									padding: 4px 12px;
-								}
-
-								&__mail {
-									color: #fff;
-									font-size: 14px;
-								}
-							}
+						&__top {
+							background: #2fb67e;
+							border-radius: 6px;
+							color: #fff;
+							padding: 4px 12px;
 						}
 
-						&__commission {
-							align-items: flex-end;
-							display: flex;
-							flex-direction: column;
-							justify-content: center;
-							margin-bottom: -8px;
-
-							&__title {
-								color: #fff;
-								font-size: 13px;
-								line-height: 19px;
-								margin-bottom: 6px;
-							}
-
-							&__coin-name {
-								color: #2fb67e;
-								font-size: 14px;
-								line-height: 21px;
-							}
+						&__mail {
+							color: #fff;
+							font-size: 14px;
 						}
 					}
 				}
-			}
-		}
-	}
 
-	.referral-loggedIn {
-		padding: 25px 0 125px 0;
+				&__commission {
+					align-items: flex-end;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					margin-bottom: -8px;
 
-		.container {
-			max-width: 100%;
-			width: 1040px;
-
-			.referral-loggedIn-userLogIn {
-				background-position: center;
-				background-repeat: no-repeat;
-				background-size: cover;
-				height: 20vh;
-
-				/* background-color: #0000;
-				opacity: .5; */
-				position: relative;
-
-				&__wrapper {
-					position: absolute;
-					right: 30%;
-					top: 30%;
-
-					&__desription {
+					&__title {
 						color: #fff;
+						font-size: 13px;
+						line-height: 19px;
+						margin-bottom: 6px;
+					}
+
+					&__coin-name {
+						color: #2fb67e;
 						font-size: 14px;
 						line-height: 21px;
-						margin-bottom: 20px;
+					}
+				}
+			}
+		}
+	}
+
+	&__loggedIn {
+		padding: 25px 0 125px 0;
+
+		&__userLogIn {
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+			height: 20vh;
+
+			/* background-color: #0000;
+				opacity: .5; */
+			position: relative;
+
+			&__wrapper {
+				position: absolute;
+				right: 30%;
+				top: 30%;
+
+				&__desription {
+					color: #fff;
+					font-size: 14px;
+					line-height: 21px;
+					margin-bottom: 20px;
+				}
+
+				&__login {
+					align-items: center;
+					display: flex;
+					justify-content: center;
+
+					button {
+						background-color: #2fb67e;
+						border: none;
+						border-radius: 5px;
+						color: #fff;
+						padding: 6px 20px;
+						text-transform: uppercase;
 					}
 
-					&__login {
-						align-items: center;
-						display: flex;
-						justify-content: center;
+					p {
+						color: #fff;
+						font-size: 13px;
+						line-height: 19px;
+						margin-bottom: 0;
+						margin-left: 10px;
+						margin-top: 0;
 
-						button {
-							background-color: #2fb67e;
-							border: none;
-							border-radius: 5px;
-							color: #fff;
-							padding: 6px 20px;
-							text-transform: uppercase;
-						}
-
-						p {
-							color: #fff;
+						span {
+							color: #00bbf9;
+							cursor: pointer;
 							font-size: 13px;
 							line-height: 19px;
-							margin-bottom: 0;
 							margin-left: 10px;
-							margin-top: 0;
 
-							span {
-								color: #00bbf9;
-								cursor: pointer;
-								font-size: 13px;
-								line-height: 19px;
-								margin-left: 10px;
-
-								&:hover {
-									border-bottom: 1px solid #fff;
-								}
+							&:hover {
+								border-bottom: 1px solid #fff;
 							}
 						}
 					}
@@ -149,11 +130,11 @@
 		}
 	}
 
-	.referral-detail {
+	&__detail {
 		background: #262938;
 		padding: 50px 0;
 
-		.container {
+		&__container {
 			max-width: 100%;
 			width: 1040px;
 
@@ -162,7 +143,7 @@
 				text-align: center;
 			}
 
-			.notice {
+			&__notice {
 				background: #0085ff;
 				padding: 26px 60px;
 			}
