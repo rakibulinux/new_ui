@@ -1,9 +1,8 @@
 import { CommonState } from '../../../modules/types';
 
 export interface AirdropCoin {
-	airdrop_id: number;
+	airdrop_id: string;
 	airdrop_title: string;
-	airdrop_link: string;
 	active: 0 | 1;
 	max_claim: number;
 	total_claim: number;
@@ -12,13 +11,20 @@ export interface AirdropCoin {
 	distribution_at: string;
 	created_at: string;
 	updated_at: string;
+	bot?: {
+		airdrop_id: string;
+		config_bot?: {
+			tele_username_bot: string;
+			value_of_gift: string;
+			value_of_gift_ref: string;
+		};
+	};
 }
 
 export interface AirdropCoinClaim {
-	airdrop_id: number;
+	airdrop_id: string;
 	msg_status?: number;
-	claim_doned: 0 | 1;
-	claim_failed: 0 | 1;
+	claim_doned: null | 0 | 1;
 	claim_ip?: string;
 	created_at: string;
 	msg_status_msg_claim?: { msg_note: string };

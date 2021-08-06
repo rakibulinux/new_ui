@@ -58,7 +58,7 @@ export interface AirdropCoinClaimItemData {
 export interface AirdropCoinClaimItemActive {
 	type: typeof AIRDROP_COIN_CLAIM_ITEM_ACTIVE;
 	payload: {
-		airdropId: number;
+		airdropId: string;
 	};
 	cb: () => void;
 }
