@@ -43,7 +43,8 @@ export interface EstimatedCommisionState extends CommonState {
 }
 
 export interface CommisionInfo {
-	image: string;
+	dekstop_image: string;
+	mobile_image: string;
 }
 
 export interface CommisionInfoState extends CommonState {

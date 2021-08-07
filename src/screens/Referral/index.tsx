@@ -27,7 +27,6 @@ export const Referral: React.FC = () => {
 	const referralRanks = useSelector(selectReferalRanksList);
 	const commisionInfo = useSelector(selectCommisionInfo);
 	const commisionInfoLoading = useSelector(selectCommisionInfoLoading);
-	console.log(commisionInfoLoading);
 
 	// dispatch
 	const dispatch = useDispatch();
@@ -40,7 +39,7 @@ export const Referral: React.FC = () => {
 		return (
 			<React.Fragment>
 				<div className="td-pg-referral__banner">
-					<img className="img-fluid" src={commisionInfo.image} alt="banner" />
+					<img className="img-fluid" src={commisionInfo.dekstop_image} alt="banner" />
 					{commisionInfoLoading ? (
 						<div className="d-flex justify-content-center" hidden={commisionInfoLoading}>
 							<div className="spinner-border" role="status">

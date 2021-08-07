@@ -364,15 +364,16 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						<PrivateRoute
 							loading={userLoading}
 							isLogged={isLoggedIn}
-							path="/profile"
-							component={ProfileMobileScreen}
+							path="/profile/referral"
+							component={ReferralMobileScreen}
 						/>
 						<PrivateRoute
 							loading={userLoading}
 							isLogged={isLoggedIn}
-							path="/profile/referral"
-							component={ReferralMobileScreen}
+							path="/profile"
+							component={ProfileMobileScreen}
 						/>
+
 						<Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
 						<Route exact={false} path="/market/:market?" component={NewTradingScreenMobile} />
 						<Route exact={true} path="/" component={HomePageScreenMobile} />

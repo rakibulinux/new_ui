@@ -9,11 +9,12 @@ const createOptions = (csrfToken?: string): RequestOptions => {
 
 export function* getCommisionInfoSaga(actions: CommisionInfoFetch) {
 	try {
-		const { image } = yield call(API.get(createOptions()), `/public/referral/commision/info`);
+		const { dekstop_image, mobile_image } = yield call(API.get(createOptions()), `/public/referral/commision/info`);
 		yield put(
 			commisionInfoData({
 				payload: {
-					image: image,
+					dekstop_image: dekstop_image,
+					mobile_image: mobile_image,
 				},
 				loading: false,
 			}),
@@ -22,7 +23,8 @@ export function* getCommisionInfoSaga(actions: CommisionInfoFetch) {
 		yield put(
 			commisionInfoData({
 				payload: {
-					image: '',
+					dekstop_image: '',
+					mobile_image: '',
 				},
 				loading: false,
 			}),

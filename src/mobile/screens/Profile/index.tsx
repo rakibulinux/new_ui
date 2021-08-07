@@ -61,11 +61,11 @@ const ProfileMobileScreenComponent: React.FC = () => {
 	];
 
 	const referral = [
-        {
-            titleKey: 'page.mobile.profileLinks.main.referral',
-            route: '/profile/referral',
-		}
-    ];
+		{
+			titleKey: 'page.mobile.profileLinks.main.referral',
+			route: '/profile/referral',
+		},
+	];
 
 	const additionalLinks = [
 		{
@@ -85,13 +85,6 @@ const ProfileMobileScreenComponent: React.FC = () => {
 		},
 	];
 
-	// const renderReferral = () => {
-	// 	return (
-	// 		<div>
-	// 			<a href="/profile/referral">referral</a>
-	// 		</div>
-	// 	);
-	// }
 	return (
 		<div className="pg-mobile-profile-screen">
 			<UserInfo />

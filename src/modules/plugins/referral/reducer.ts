@@ -133,7 +133,8 @@ export const estimatedCommisionReducer = (
 
 const initialCommisionInfoState: CommisionInfoState = {
 	payload: {
-		image: '',
+		dekstop_image: '',
+		mobile_image: '',
 	},
 	loading: false,
 };
