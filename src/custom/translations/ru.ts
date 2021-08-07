@@ -6,6 +6,9 @@ export const ru: LangType = {
 	/**Vote */
 	'page.body.vote.msg.success': 'Vote success',
 	'page.body.vote.msg.fail': 'Vote fail',
+	/**Airdrop Coin */
+	'page.body.airdropCoin.claim.msg.success': 'Claim success',
+	'page.body.airdropCoin.claim.msg.fail': 'Claim fail',
 	/**OrderBook */
 	'page.body.trading.header.orderBook.header.title.price': 'цена',
 	'page.body.trading.header.orderBook.header.title.amount': 'количество',

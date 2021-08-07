@@ -37,4 +37,7 @@ export const en = {
 	/**Vote */
 	'page.body.vote.msg.success': 'Vote success',
 	'page.body.vote.msg.fail': 'Vote fail',
+	/**Airdrop Coin */
+	'page.body.airdropCoin.claim.msg.success': 'Claim success',
+	'page.body.airdropCoin.claim.msg.fail': 'Claim fail',
 };
