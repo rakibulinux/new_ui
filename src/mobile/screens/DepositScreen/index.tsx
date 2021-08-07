@@ -1,6 +1,6 @@
 import { Blur, DepositFiat, QRCode } from 'components';
 import { copy, formatCCYAddress, getTabName } from 'helpers';
-import { toUpper } from 'lodash';
+import toUpper from 'lodash/toUpper';
 import {
 	alertPush,
 	currenciesFetch,
