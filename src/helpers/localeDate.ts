@@ -1,11 +1,14 @@
 import * as moment from 'moment-timezone';
 import { getTimezone } from './timezone';
 
-export const localeDate = (date, format, timezone = getTimezone()) => {
-	const getFormat = type => {
+type IFormat = 'fullDate' | 'shortDate' | 'time' | 'date';
+
+export const localeDate = (date, format: IFormat, timezone = getTimezone()) => {
+	const getFormat = (type: IFormat) => {
 		return {
 			fullDate: 'DD-MM-YYYY HH:mm:ss',
 			shortDate: 'DD-MM-YYYY HH:mm',
+			date: 'DD-MM-YYYY',
 			time: 'HH:mm:ss',
 		}[type];
 	};

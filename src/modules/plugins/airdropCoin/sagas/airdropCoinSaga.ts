@@ -21,7 +21,6 @@ export function* airdropCoinFetchSaga() {
 		yield put(airdropCoinData(list as AirdropCoin[]));
 	} catch (error) {
 		yield put(airdropCoinError(error));
-		yield put(alertPush({ message: ['page.body.vote.msg.fail'], code: error.code, type: 'error' }));
 	}
 }
 
@@ -31,7 +30,6 @@ export function* airdropCoinClaimFetchSaga() {
 		yield put(airdropCoinClaimData(list as AirdropCoinClaim[]));
 	} catch (error) {
 		yield put(airdropCoinError(error));
-		yield put(alertPush({ message: ['page.body.vote.msg.fail'], code: error.code, type: 'error' }));
 	}
 }
 
@@ -43,10 +41,10 @@ export function* airdropCoinClaimItemActiveSaga(action: AirdropCoinClaimItemActi
 	try {
 		const item = yield call(API.get(createOptions(getCsrfToken())), `/private/claim/${airdropId}/active`);
 		yield put(airdropCoinClaimItemData(item as AirdropCoinClaim));
-		yield put(alertPush({ message: ['page.body.vote.msg.success'], type: 'success' }));
+		yield put(alertPush({ message: ['page.body.airdropCoin.claim.msg.success'], type: 'success' }));
 	} catch (error) {
 		yield put(airdropCoinError(error));
-		yield put(alertPush({ message: ['page.body.vote.msg.fail'], code: error.code, type: 'error' }));
+		yield put(alertPush({ message: ['page.body.airdropCoin.claim.msg.fail'], code: error.code, type: 'error' }));
 	}
 	cb();
 }
