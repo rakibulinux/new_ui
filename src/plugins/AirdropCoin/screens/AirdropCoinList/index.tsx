@@ -87,9 +87,6 @@ export const AirdropCoinListScreen: React.FC<AirdropCoinListScreenProps> = ({}) 
 		const nowTime = moment.utc();
 		const claim = claims.find(claimParam => claimParam.airdrop_id === item.airdrop_id);
 		const progressPercent = ((item.total_claim / item.max_claim) * 100).toFixed(2);
-		// tslint:disable-next-line: prefer-template
-		const giftValue = `${(get(item, 'bot.config_bot.value_of_gift', '0 CX') as string).split('CX')[0].trim()} CX`;
-		const giftValueRef = `${(get(item, 'bot.config_bot.value_of_gift_ref', '0 CX') as string).split('CX')[0].trim()} CX`;
 
 		const hasClaim = get(claim, 'claim_doned') === null; //is claim exist
 		const comming = moment.utc(item.started_at).isAfter(nowTime);
@@ -157,13 +154,13 @@ export const AirdropCoinListScreen: React.FC<AirdropCoinListScreenProps> = ({}) 
 						<div className="pg-airdrop-list-coin__list__item__ref">
 							<div className="pg-airdrop-list-coin__list__item__ref__title">Gift</div>
 							<div className="pg-airdrop-list-coin__list__item__ref__desc pg-airdrop-list-coin--color-red">
-								{giftValue}
+								{get(item, 'bot.config_bot.value_of_gift', '')}
 							</div>
 						</div>
 						<div className="pg-airdrop-list-coin__list__item__ref">
 							<div className="pg-airdrop-list-coin__list__item__ref__title">Gift Ref</div>
 							<div className="pg-airdrop-list-coin__list__item__ref__desc pg-airdrop-list-coin--color-red">
-								{giftValueRef}
+								{get(item, 'bot.config_bot.value_of_gift_ref', '')}
 							</div>
 						</div>
 					</div>
