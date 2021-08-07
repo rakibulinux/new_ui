@@ -1,19 +1,31 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { ReferralContent } from 'containers';
 import { selectUserLoggedIn } from 'modules';
+import { referralRanksFetch, selectReferalRanksList } from 'modules/plugins/referral';
+import ReactTooltip from 'react-tooltip';
+
+const Banner_Referral = require('./Assets/banner.svg');
+const RankNo1 = require('./Assets/top1.png');
+const RankNo2 = require('./Assets/top2.png');
+const RankNo3 = require('./Assets/top3.png');
+const LoginReferral = require('./Assets/LoginReferral.svg');
+const Stick = require('./Assets/stick.svg');
 
 export const Referral: React.FC = () => {
 	const history = useHistory();
-	const isLoggedIn = useSelector(selectUserLoggedIn);
-	console.log(isLoggedIn);
 
-	const Banner_Referral = require('./Assets/banner.svg');
-	const RankNo1 = require('./Assets/rank.No1.svg');
-	const LoginReferral = require('./Assets/LoginReferral.svg');
-	const Stick = require('./Assets/stick.svg');
+	// selectors
+	const isLoggedIn = useSelector(selectUserLoggedIn);
+	const referralRanks = useSelector(selectReferalRanksList);
+
+	// dispatch
+	const dispatch = useDispatch();
+	React.useEffect(() => {
+		dispatch(referralRanksFetch());
+	}, []);
 
 	const renderBannerReferral = () => {
 		return (
@@ -26,55 +38,69 @@ export const Referral: React.FC = () => {
 		);
 	};
 	const renderReferralRank = () => {
+		const rankBox = (rankIndex: number, email: string, commision: string) => {
+			let image;
+			switch (rankIndex) {
+				case 1:
+					image = RankNo1;
+					break;
+				case 2:
+					image = RankNo2;
+					break;
+				case 3:
+					image = RankNo3;
+					break;
+				default:
+					break;
+			}
+			return (
+				<div className="col-lg-4 col-md-12 td-pg-referral__rank__box mb-3">
+					<div className="td-pg-referral__rank__box__row">
+						<div className="col-2 pr-3">
+							<img src={image} alt={`no.${rankIndex}`} />
+						</div>
+						<div className="col-5">
+							<div>
+								<span className="text-white">{`NO.${rankIndex}`}</span>
+							</div>
+							<div className="mt-3">
+								<span data-tip={email} className="text-white td-pg-referral__rank__box__row__rank__mail">
+									{email}
+								</span>
+								<ReactTooltip />
+							</div>
+						</div>
+						<div className="col-5">
+							<div className="text-right">
+								<span className="text-white">Commission</span>
+							</div>
+							<div className="text-right mt-3">
+								<span className="text-white">{commision}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			);
+		};
 		return (
 			<div className="td-pg-referral__rank">
 				<div className="container">
 					<div className="row">
-						<div className="col-lg-4 col-md-6 td-pg-referral__rank__box ">
-							<div className="td-pg-referral__rank__box__row">
-								<div className="td-pg-referral__rank__box__row__rank">
-									<img src={RankNo1} alt="No.1" />
-									<div className="top-rank">
-										<span className="top-rank__top">NO.1</span>
-										<span className="top-rank__mail">abc@gmail.com</span>
-									</div>
-								</div>
-								<div className="td-pg-referral__rank__box__row__commission ml-4">
-									<span className="referral-row__box__row__commission__title">Commission</span>
-									<span className="referral-row__box__row__commission__coin-name">62.147 BTC</span>
-								</div>
-							</div>
-						</div>
-						<div className="col-lg-4 col-md-6 td-pg-referral__rank__box ">
-							<div className="td-pg-referral__rank__box__row">
-								<div className="td-pg-referral__rank__box__row__rank">
-									<img src={RankNo1} alt="No.1" />
-									<div className="top-rank">
-										<span className="top-rank__top">NO.1</span>
-										<span className="top-rank__mail">abc@gmail.com</span>
-									</div>
-								</div>
-								<div className="td-pg-referral__rank__box__row__commission ml-4">
-									<span className="referral-row__box__row__commission__title">Commission</span>
-									<span className="referral-row__box__row__commission__coin-name">62.147 BTC</span>
-								</div>
-							</div>
-						</div>
-						<div className="col-lg-4 col-md-6 td-pg-referral__rank__box ">
-							<div className="td-pg-referral__rank__box__row">
-								<div className="td-pg-referral__rank__box__row__rank">
-									<img src={RankNo1} alt="No.1" />
-									<div className="top-rank">
-										<span className="top-rank__top">NO.1</span>
-										<span className="top-rank__mail">abc@gmail.com</span>
-									</div>
-								</div>
-								<div className="td-pg-referral__rank__box__row__commission ml-4">
-									<span className="referral-row__box__row__commission__title">Commission</span>
-									<span className="referral-row__box__row__commission__coin-name">62.147 BTC</span>
-								</div>
-							</div>
-						</div>
+						{rankBox(
+							1,
+							referralRanks[0] ? referralRanks[0].email : '',
+							referralRanks[0] ? referralRanks[0].total : '',
+						)}
+						{rankBox(
+							2,
+							referralRanks[1] ? referralRanks[1].email : '',
+							referralRanks[1] ? referralRanks[1].total : '',
+						)}
+						{rankBox(
+							3,
+							referralRanks[2] ? referralRanks[2].email : '',
+							referralRanks[2] ? referralRanks[2].total : '',
+						)}
 					</div>
 				</div>
 			</div>

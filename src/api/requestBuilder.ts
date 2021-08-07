@@ -5,6 +5,7 @@ import {
 	authUrl,
 	finexUrl,
 	ieoAPIUrl,
+	referralUrl,
 	stakeUrl,
 	sunshineUrl,
 	tradeUrl,
@@ -20,7 +21,7 @@ export interface JsonBody {
 }
 
 export interface RequestOptions {
-	apiVersion: 'applogic' | 'peatio' | 'barong' | 'finex' | 'sunshine' | 'airdrop' | 'ieo' | 'stake' | 'wallet';
+	apiVersion: 'applogic' | 'peatio' | 'barong' | 'finex' | 'sunshine' | 'airdrop' | 'ieo' | 'stake' | 'wallet' | 'referral';
 	withHeaders?: boolean;
 	headers?: Object;
 }
@@ -49,6 +50,7 @@ const getAPI = () => ({
 	airdrop: airdropUrl(),
 	stake: stakeUrl(),
 	wallet: walletUrl(),
+	referral: referralUrl(),
 });
 
 const buildRequest = (request: Request, configData: RequestOptions) => {

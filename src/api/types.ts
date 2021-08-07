@@ -11,6 +11,7 @@ export interface Config {
 		airdropUrl: string;
 		stakeUrl: string;
 		walletUrl: string;
+		referralUrl: string;
 	};
 	minutesUntilAutoLogout?: string;
 	rangerReconnectPeriod?: string;

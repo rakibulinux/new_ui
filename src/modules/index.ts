@@ -25,6 +25,7 @@ import { DetailIEOState, rootIEODetailSaga } from './plugins/ieo/detail';
 import { BuyersHistoryState, BuyHistoryListState, rootHistoryBuySaga } from './plugins/ieo/history';
 import { IEOItemState, rootIEOItemSaga } from './plugins/ieo/item';
 import { IEOListState, rootIEOListSaga } from './plugins/ieo/list';
+import { CommisionHistoryState, FriendsListState, ReferralRankState, rootReferralSaga } from './plugins/referral';
 import {
 	CreateStakeState,
 	rootStakingSaga,
@@ -223,6 +224,11 @@ export interface RootState {
 			list: AirdropCoinState;
 			claims: AirdropCoinClaimState;
 		};
+		referral: {
+			friends: FriendsListState;
+			history: CommisionHistoryState;
+			ranks: ReferralRankState;
+		};
 	};
 }
 
@@ -294,5 +300,6 @@ export function* rootSaga() {
 		call(rootAnnouncementSaga),
 		call(rootVoteSaga),
 		call(rootAirdropCoinSaga),
+		call(rootReferralSaga),
 	]);
 }
