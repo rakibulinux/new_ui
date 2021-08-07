@@ -940,6 +940,8 @@ export const en = {
 	'page.ieo.buy.success': 'Buy success',
 	'page.ieo.buy.error': 'Buy fail',
 
+	'page.referral.link.copy.success': 'Successfully copied!',
+
 	...nationalitiesNames,
 	...customTranslations,
 };

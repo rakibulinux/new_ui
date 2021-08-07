@@ -47,7 +47,16 @@ export const NewAllMarketList: React.FC<SearchProp> = ({
 }) => {
 	const markets = useSelector(selectMarkets);
 	const tickers = useSelector(selectMarketTickers);
-	const DEFAULT_LIST_TAB = (!hideFavorite ? ['Favorite'] : []).concat(['ALL','USDT', 'BTC', 'ETH', 'BNB', 'BUSD', 'TUSD', 'USDC']);
+	const DEFAULT_LIST_TAB = (!hideFavorite ? ['Favorite'] : []).concat([
+		'ALL',
+		'USDT',
+		'BTC',
+		'ETH',
+		'BNB',
+		'BUSD',
+		'TUSD',
+		'USDC',
+	]);
 	const [listTab, setListTab] = useState(DEFAULT_LIST_TAB);
 	const [tab, setTab] = useState(DEFAULT_TAB);
 	const [listMarket, setListMarket] = useState(markets);

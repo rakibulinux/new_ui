@@ -40,6 +40,8 @@ import {
 	ProfileMobileScreen,
 	ProfileThemeMobileScreen,
 	ProfileVerificationMobileScreen,
+	TradingScreenMobile,
+	ReferralMobileScreen,
 	WithdrawMobileScreen,
 } from '../../mobile/screens';
 import {
@@ -89,6 +91,7 @@ import {
 	VerificationScreen,
 	WalletListScreen,
 	WithdrawScreen,
+	Referral,
 } from '../../screens';
 
 interface ReduxProps {
@@ -361,9 +364,17 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						<PrivateRoute
 							loading={userLoading}
 							isLogged={isLoggedIn}
+							path="/profile/referral"
+							component={ReferralMobileScreen}
+						/>
+						<PrivateRoute
+							loading={userLoading}
+							isLogged={isLoggedIn}
 							path="/profile"
 							component={ProfileMobileScreen}
 						/>
+
+						<Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
 						<Route exact={false} path="/market/:market?" component={NewTradingScreenMobile} />
 						<Route exact={true} path="/" component={HomePageScreenMobile} />
 						<Route exact={true} path="/markets" component={NewMarketsScreenMobile} />
@@ -429,6 +440,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route exact={false} path="/fee" component={AssetsFeeScreen} />
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />
+					<Route path="/referral" component={Referral} />
+
 					<PrivateRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}

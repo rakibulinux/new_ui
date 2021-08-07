@@ -25,3 +25,4 @@ export * from './NewHomePage';
 export * from './AnnouncementScreen';
 export * from './TradingScreen';
 export * from './AssetsFeeScreen';
+export * from './Referral';

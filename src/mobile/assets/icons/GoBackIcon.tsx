@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 
-export const GoBackIcon:FC<{
+export const GoBackIcon: FC<{
 	className?: string;
 	onClick?: () => void;
-}> = ({className, onClick}) => {
+}> = ({ className, onClick }) => {
 	return (
 		<svg
 			onClick={onClick}

@@ -20,6 +20,7 @@ const mockConfig: Config = {
 		airdropUrl: '/api/v2/airdrop',
 		stakeUrl: '/api/v2/stake',
 		walletUrl: '/api/v2/wallet',
+		referralUrl: '/api/v2/referral',
 	},
 	minutesUntilAutoLogout: '30',
 	rangerReconnectPeriod: '1',

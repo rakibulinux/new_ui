@@ -1,3 +1,9 @@
+import {
+	commsionHistoryReducer,
+	referralRanksReducer,
+	estimatedCommisionReducer,
+	commisionInfoReducer,
+} from './plugins/referral/reducer';
 import { combineReducers } from 'redux';
 import { airdropReducer } from './airdrops/airdrop';
 import { claimReducer } from './airdrops/claim';
@@ -16,6 +22,7 @@ import {
 	totalIEOBuyersReducer,
 } from './plugins/ieo';
 import { IEOCautionReducer } from './plugins/ieo/caution';
+import { friendsListReducer } from './plugins/referral';
 import {
 	createStakeReducer,
 	stakeHistoryReducer,
@@ -161,6 +168,14 @@ const airdropCoinReducer = combineReducers({
 	claims: airdropCoinClaimReducer,
 });
 
+const referralReducer = combineReducers({
+	friends: friendsListReducer,
+	history: commsionHistoryReducer,
+	ranks: referralRanksReducer,
+	estimatedCommision: estimatedCommisionReducer,
+	commisionInfo: commisionInfoReducer,
+});
+
 export const pluginsReducer = combineReducers({
 	staking_list: stakingListReducer,
 	stake_wallet: stakeWalletReducer,
@@ -170,4 +185,5 @@ export const pluginsReducer = combineReducers({
 	unstake_history: unStakeHistoryReducer,
 	vote: voteReducer,
 	airdropCoin: airdropCoinReducer,
+	referral: referralReducer,
 });
