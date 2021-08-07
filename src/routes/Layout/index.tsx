@@ -40,7 +40,6 @@ import {
 	ProfileMobileScreen,
 	ProfileThemeMobileScreen,
 	ProfileVerificationMobileScreen,
-	TradingScreenMobile,
 	ReferralMobileScreen,
 	WithdrawMobileScreen,
 } from '../../mobile/screens';
