@@ -255,7 +255,7 @@ export const AirdropCoinListScreen: React.FC<AirdropCoinListScreenProps> = ({}) 
 	return (
 		<div className="pg-airdrop-list-coin">
 			{renderHeader()}
-			<div className="row m-auto container pg-airdrop-list-coin__list">
+			<div className="container pg-airdrop-list-coin__list">
 				{airDropsElm.length ? (
 					airDropsElm
 				) : (
