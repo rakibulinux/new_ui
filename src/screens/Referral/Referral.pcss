@@ -1,9 +1,11 @@
 .td-pg-referral {
 	&__banner {
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: cover;
-		height: 56vh;
+		img {
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 100%;
+		}
 	}
 
 	&__rank {
@@ -26,12 +28,21 @@
 						color: #fff;
 						display: -webkit-box;
 						font-size: 14px;
-						-webkit-line-clamp: 2;
+						-webkit-line-clamp: 1;
+						overflow: hidden;
+					}
+
+					&__commision {
+						-webkit-box-orient: vertical;
+						color: #fff;
+						display: -webkit-box;
+						font-size: 14px;
+						-webkit-line-clamp: 1;
 						overflow: hidden;
 					}
 				}
 
-				&__commission {
+				&__commision {
 					align-items: flex-end;
 					display: flex;
 					flex-direction: column;
@@ -46,9 +57,12 @@
 					}
 
 					&__coin-name {
-						color: #2fb67e;
+						background-color: #2fb67e;
+						border-radius: 10px;
+						color: #fff;
 						font-size: 14px;
 						line-height: 21px;
+						padding: 0.3rem 0.7rem;
 					}
 				}
 			}
@@ -136,22 +150,6 @@
 				background: #0085ff;
 				padding: 26px 60px;
 			}
-		}
-	}
-}
-
-@media screen and (max-width: 1024px) {
-	#referral {
-		.referral-banner {
-			height: 40vh;
-		}
-	}
-}
-
-@media screen and (max-width: 768px) {
-	#referral {
-		.referral-banner {
-			height: 32vh;
 		}
 	}
 }

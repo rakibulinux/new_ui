@@ -8,3 +8,9 @@ export const selectCommisionHistoryLoading = (state: RootState) => state.plugins
 
 export const selectReferalRanksList = (state: RootState) => state.plugins.referral.ranks.payload;
 export const selectReferalRanksLoading = (state: RootState) => state.plugins.referral.ranks.loading;
+
+export const selectEstimatedCommision = (state: RootState) => state.plugins.referral.estimatedCommision.payload;
+export const selectEstimatedCommisionLoading = (state: RootState) => state.plugins.referral.estimatedCommision.loading;
+
+export const selectCommisionInfo = (state: RootState) => state.plugins.referral.commisionInfo.payload;
+export const selectCommisionInfoLoading = (state: RootState) => state.plugins.referral.commisionInfo.loading;

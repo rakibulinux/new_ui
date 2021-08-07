@@ -1,4 +1,9 @@
-import { commsionHistoryReducer, referralRanksReducer } from './plugins/referral/reducer';
+import {
+	commsionHistoryReducer,
+	referralRanksReducer,
+	estimatedCommisionReducer,
+	commisionInfoReducer,
+} from './plugins/referral/reducer';
 import { combineReducers } from 'redux';
 import { airdropReducer } from './airdrops/airdrop';
 import { claimReducer } from './airdrops/claim';
@@ -167,6 +172,8 @@ const referralReducer = combineReducers({
 	friends: friendsListReducer,
 	history: commsionHistoryReducer,
 	ranks: referralRanksReducer,
+	estimatedCommision: estimatedCommisionReducer,
+	commisionInfo: commisionInfoReducer,
 });
 
 export const pluginsReducer = combineReducers({

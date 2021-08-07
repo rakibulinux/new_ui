@@ -4,10 +4,15 @@ import { useHistory } from 'react-router-dom';
 
 import { ReferralContent } from 'containers';
 import { selectUserLoggedIn } from 'modules';
-import { referralRanksFetch, selectReferalRanksList } from 'modules/plugins/referral';
+import {
+	commisionInfoFetch,
+	referralRanksFetch,
+	selectCommisionInfo,
+	selectCommisionInfoLoading,
+	selectReferalRanksList,
+} from 'modules/plugins/referral';
 import ReactTooltip from 'react-tooltip';
 
-const Banner_Referral = require('./Assets/banner.svg');
 const RankNo1 = require('./Assets/top1.png');
 const RankNo2 = require('./Assets/top2.png');
 const RankNo3 = require('./Assets/top3.png');
@@ -20,21 +25,31 @@ export const Referral: React.FC = () => {
 	// selectors
 	const isLoggedIn = useSelector(selectUserLoggedIn);
 	const referralRanks = useSelector(selectReferalRanksList);
+	const commisionInfo = useSelector(selectCommisionInfo);
+	const commisionInfoLoading = useSelector(selectCommisionInfoLoading);
+	console.log(commisionInfoLoading);
 
 	// dispatch
 	const dispatch = useDispatch();
 	React.useEffect(() => {
 		dispatch(referralRanksFetch());
+		dispatch(commisionInfoFetch());
 	}, []);
 
 	const renderBannerReferral = () => {
 		return (
-			<div
-				className="td-pg-referral__banner"
-				style={{
-					backgroundImage: 'url(' + Banner_Referral + ')',
-				}}
-			></div>
+			<React.Fragment>
+				<div className="td-pg-referral__banner">
+					<img className="img-fluid" src={commisionInfo.image} alt="banner" />
+					{commisionInfoLoading ? (
+						<div className="d-flex justify-content-center" hidden={commisionInfoLoading}>
+							<div className="spinner-border" role="status">
+								<span className="sr-only">Loading...</span>
+							</div>
+						</div>
+					) : null}
+				</div>
+			</React.Fragment>
 		);
 	};
 	const renderReferralRank = () => {
@@ -61,13 +76,12 @@ export const Referral: React.FC = () => {
 						</div>
 						<div className="col-5">
 							<div>
-								<span className="text-white">{`NO.${rankIndex}`}</span>
+								<span className="text-white td-pg-referral__rank__box__row__commision__coin-name">{`NO.${rankIndex}`}</span>
 							</div>
 							<div className="mt-3">
 								<span data-tip={email} className="text-white td-pg-referral__rank__box__row__rank__mail">
 									{email}
 								</span>
-								<ReactTooltip />
 							</div>
 						</div>
 						<div className="col-5">
@@ -75,7 +89,9 @@ export const Referral: React.FC = () => {
 								<span className="text-white">Commission</span>
 							</div>
 							<div className="text-right mt-3">
-								<span className="text-white">{commision}</span>
+								<span data-tip={commision} className="text-white td-pg-referral__rank__box__row__rank__commision">
+									{commision}
+								</span>
 							</div>
 						</div>
 					</div>
@@ -149,7 +165,7 @@ export const Referral: React.FC = () => {
 			<div className="td-pg-referral__detail">
 				<div className="container">
 					<h2 className="text-white">Program Details</h2>
-					<div className="row">
+					<div className="row mt-5">
 						<div className="col-md-6 d-flex justify-content-start align-items-start">
 							<img src={Stick} alt="stick" />
 							<p className="mb-0 text-white mb-5 ml-4">Effective as of 2019/06/01 0:00 AM (UTC)</p>
@@ -190,17 +206,17 @@ export const Referral: React.FC = () => {
 							</p>
 						</div>
 					</div>
-					<div className="notice">
+					<div className="td-pg-referral__detail__container__notice">
 						<div className="row">
-							<div className="col-md-12 d-flex justify-content-start align-items-start">
+							<div className="col-1">
 								<img src={Stick} alt="stick" />
-								<p className="text-white ml-4">Important Notice:</p>
 							</div>
-							<div className="ml-5">
-								<span className="text-white">
+							<div className="col-11">
+								<p className="text-white">Important Notice:</p>
+								<p className="text-white">
 									CX reserves the right to change the terms of the referral program at any time due to changing
 									market conditions, risk of fraud, or any other factors we deem relevant.
-								</span>
+								</p>
 							</div>
 						</div>
 					</div>
@@ -214,6 +230,7 @@ export const Referral: React.FC = () => {
 			{renderReferralRank()}
 			{renderUserisLoggedIn()}
 			{renderProgramDetail()}
+			<ReactTooltip />
 		</div>
 	);
 };

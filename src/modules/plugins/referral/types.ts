@@ -32,3 +32,21 @@ export interface ReferralRankState extends CommonState {
 	payload: ReferralRank[];
 	loading: boolean;
 }
+
+export interface EstimatedCommision {
+	total: string;
+}
+
+export interface EstimatedCommisionState extends CommonState {
+	payload: EstimatedCommision;
+	loading: boolean;
+}
+
+export interface CommisionInfo {
+	image: string;
+}
+
+export interface CommisionInfoState extends CommonState {
+	payload: CommisionInfo;
+	loading: boolean;
+}

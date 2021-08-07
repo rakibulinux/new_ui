@@ -4,15 +4,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { alertPush, selectUserInfo } from '../../modules';
 
 import FB from './Assets/fb.svg';
-import TELE from './Assets/tg.svg';
-import TW from './Assets/tw.svg';
+import TELE from './Assets/telegram.svg';
+import TW from './Assets/twitter.svg';
 
 import { QRCode } from 'components';
 import {
 	commisionHistoryFetch,
+	estimatedCommisionFetch,
 	friendsListFetch,
 	selectCommisionHistories,
 	selectCommisionHistoryLoading,
+	selectEstimatedCommision,
 	selectFriendsList,
 	selectFriendsLoading,
 } from 'modules/plugins/referral';
@@ -22,13 +24,14 @@ import ReactTooltip from 'react-tooltip';
 
 const QR_SIZE = 120;
 const NUMBER_ITEM_DISPLAY = 5;
-const REFERRAL_LINK = (referralID: string) => `https://cx.finance?ref=${referralID}`;
 
 export const ReferralContent: React.FC = () => {
 	const dispatch = useDispatch();
 	const user = useSelector(selectUserInfo);
+	const estimatedCommision = useSelector(selectEstimatedCommision);
 	const [paginationFriendsState, setPaginationFriendsState] = React.useState(0);
 	const [paginationCommisionHistoryState, setPaginationCommisionHistoryState] = React.useState(0);
+	const referralLink = `${window.document.location.origin}/signup?refid=${user.uid}`;
 
 	const friends = useSelector(selectFriendsList);
 	const commisionHistories = useSelector(selectCommisionHistories);
@@ -44,6 +47,7 @@ export const ReferralContent: React.FC = () => {
 	React.useEffect(() => {
 		dispatch(friendsListFetch({ page: paginationFriendsState, limit: NUMBER_ITEM_DISPLAY }));
 		dispatch(commisionHistoryFetch({ page: paginationFriendsState, limit: NUMBER_ITEM_DISPLAY }));
+		dispatch(estimatedCommisionFetch());
 	}, []);
 
 	const renderReferralContent = () => {
@@ -53,8 +57,8 @@ export const ReferralContent: React.FC = () => {
 				<div className="td-referral-content__wrapper">
 					<div className="row">
 						<div className="col-md-8 d-flex justify-content-start">
-							<div className="referral-container-QRcode">
-								<QRCode dimensions={QR_SIZE} data={REFERRAL_LINK(referralID)} />
+							<div className="referral-container-QRcode d-flex justify-content-center align-items-center">
+								<QRCode dimensions={QR_SIZE} data={referralLink} />
 							</div>
 							<div className="referral-container-content ml-5">
 								<div
@@ -88,22 +92,23 @@ export const ReferralContent: React.FC = () => {
 										}}
 										type="text"
 										id="referral-link"
-										defaultValue={REFERRAL_LINK(referralID)}
+										defaultValue={referralLink}
 										readOnly={true}
 									></input>
-									<p
+									<button
 										className="ml-3 text-center"
 										style={{
 											backgroundColor: '#2FB67E',
 											borderRadius: '4px',
 											padding: '6px 16px',
 											color: '#FFF',
-											cursor: 'pointer',
 											marginBottom: '0',
+											outline: 'none',
+											border: 'none',
 										}}
 									>
 										Copy Link
-									</p>
+									</button>
 								</div>
 								<div
 									className="referral-container-content__share d-flex"
@@ -128,7 +133,9 @@ export const ReferralContent: React.FC = () => {
 							<div className="referral-container__Referral__Commission-value font-weight-bold">
 								Estimated Commission Value
 							</div>
-							<div className="referral-container__coin-name d-flex flex-row-reverse text-white">0.00000000 BTC</div>
+							<div className="referral-container__coin-name d-flex flex-row-reverse text-white">
+								{estimatedCommision ? estimatedCommision.total : ''}
+							</div>
 						</div>
 					</div>
 				</div>

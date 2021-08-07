@@ -1,31 +1,30 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 import { ReferralContent } from '../../components/ReferralContent';
 import { selectUserLoggedIn } from 'modules';
 
 export const ReferralMobileScreen: React.FC = () => {
-
 	const history = useHistory();
 	const isLoggedIn = useSelector(selectUserLoggedIn);
-	console.log(isLoggedIn)
 
-	const Banner_Referral = require('./Assets/banner.svg');
 	const RankNo1 = require('./Assets/rank.No1.svg');
 	const LoginReferral = require('./Assets/LoginReferral.svg');
 	const Stick = require('./Assets/stick.svg');
 
-
 	const renderBannerReferral = () => {
 		return (
-			<div className="mobile-referral-banner" style={{
-				backgroundImage: 'url(' + Banner_Referral + ')',
-			}}
-			>
-			</div>
-		)
-	}
+			<div
+				className="mobile-referral-banner"
+				style={
+					{
+						// backgroundImage: 'url(' + Banner_Referral + ')',
+					}
+				}
+			></div>
+		);
+	};
 	const renderReferralRank = () => {
 		return (
 			<div className="mobile-referral-rank">
@@ -79,21 +78,20 @@ export const ReferralMobileScreen: React.FC = () => {
 					</div>
 				</div>
 			</div>
-		)
-	}
+		);
+	};
 	const renderUserisLoggedIn = () => {
-
 		if (isLoggedIn) {
 			return <ReferralContent />;
-		}
-
-		else {
+		} else {
 			return (
 				<div className="mobile-referral-loggedIn">
 					<div className="container">
-						<div className="referral-loggedIn-userLogIn" style={{
-							backgroundImage: 'url(' + LoginReferral + ')',
-						}}
+						<div
+							className="referral-loggedIn-userLogIn"
+							style={{
+								backgroundImage: 'url(' + LoginReferral + ')',
+							}}
 						>
 							<div className="referral-loggedIn-userLogIn__wrapper">
 								<div className="referral-loggedIn-userLogIn__wrapper__desription">
@@ -101,22 +99,25 @@ export const ReferralMobileScreen: React.FC = () => {
 								</div>
 								<div className="referral-loggedIn-userLogIn__wrapper__login">
 									<button onClick={redirectToLogin}>Login</button>
-									<p> Not on CX yet?<span onClick={redirectToRegister}>Register</span></p>
+									<p>
+										{' '}
+										Not on CX yet?<span onClick={redirectToRegister}>Register</span>
+									</p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			)
+			);
 		}
-	}
+	};
 
 	const redirectToLogin = (): void | any => {
-		history.push("/login");
-	}
+		history.push('/login');
+	};
 	const redirectToRegister = (): void | any => {
-		history.push("/register");
-	}
+		history.push('/register');
+	};
 	const renderProgramDetail = () => {
 		return (
 			<div className="mobile-referral-detail">
@@ -129,24 +130,38 @@ export const ReferralMobileScreen: React.FC = () => {
 						</div>
 						<div className="col-md-6 d-flex justify-content-start align-items-start">
 							<img src={Stick} alt="stick" />
-							<p className="mb-0 text-white mb-5 ml-4">There is no limit to the number of friends you can refer, although we do reserve the right to adjust or change the referral program rules at any time.</p>
+							<p className="mb-0 text-white mb-5 ml-4">
+								There is no limit to the number of friends you can refer, although we do reserve the right to
+								adjust or change the referral program rules at any time.
+							</p>
 						</div>
 						<div className="col-md-6 d-flex justify-content-start align-items-start">
 							<img src={Stick} alt="stick" />
-							<p className="mb-0 text-white mb-5 ml-4">The commission you receive from the referral program will initially be set at a rate of 90%.</p>
+							<p className="mb-0 text-white mb-5 ml-4">
+								The commission you receive from the referral program will initially be set at a rate of 90%.
+							</p>
 						</div>
 
 						<div className="col-md-6 d-flex justify-content-start align-items-start">
 							<img src={Stick} alt="stick" />
-							<p className="mb-0 text-white mb-5 ml-4">Each referee must be signed up through your Referral Link, QR Code or Referral ID.</p>
+							<p className="mb-0 text-white mb-5 ml-4">
+								Each referee must be signed up through your Referral Link, QR Code or Referral ID.
+							</p>
 						</div>
 						<div className="col-md-6 d-flex justify-content-start align-items-start">
 							<img src={Stick} alt="stick" />
-							<p className="mb-0 text-white mb-5 ml-4">The fee commission will be sent instantly in real-time to your CX account as your referee completes each trade and will be paid to you in whatever token/cryptocurrency the original fee was paid in.</p>
+							<p className="mb-0 text-white mb-5 ml-4">
+								The fee commission will be sent instantly in real-time to your CX account as your referee
+								completes each trade and will be paid to you in whatever token/cryptocurrency the original fee was
+								paid in.
+							</p>
 						</div>
 						<div className="col-md-6 d-flex justify-content-start align-items-start">
 							<img src={Stick} alt="stick" />
-							<p className="mb-0 text-white mb-5 ml-4">CX will check for duplicate or fake accounts and will not pay out referral bonuses on these accounts. Duplicate or shared finances will result in disqualification.</p>
+							<p className="mb-0 text-white mb-5 ml-4">
+								CX will check for duplicate or fake accounts and will not pay out referral bonuses on these
+								accounts. Duplicate or shared finances will result in disqualification.
+							</p>
 						</div>
 					</div>
 					<div className="notice">
@@ -156,14 +171,17 @@ export const ReferralMobileScreen: React.FC = () => {
 								<p className="text-white ml-4">Important Notice:</p>
 							</div>
 							<div className="ml-5">
-								<span className="text-white">CX reserves the right to change the terms of the referral program at any time due to changing market conditions, risk of fraud, or any other factors we deem relevant.</span>
+								<span className="text-white">
+									CX reserves the right to change the terms of the referral program at any time due to changing
+									market conditions, risk of fraud, or any other factors we deem relevant.
+								</span>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		);
-	}
+	};
 	return (
 		<div id="mobile-referral">
 			{renderBannerReferral()}
@@ -172,4 +190,4 @@ export const ReferralMobileScreen: React.FC = () => {
 			{renderProgramDetail()}
 		</div>
 	);
-}
+};

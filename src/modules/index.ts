@@ -1,3 +1,4 @@
+import { CommisionInfoState, EstimatedCommisionState } from './plugins/referral/types';
 import { combineReducers } from 'redux';
 import { all, call } from 'redux-saga/effects';
 import { AirdropState, rootAirdropSaga } from './airdrops/airdrop';
@@ -228,6 +229,8 @@ export interface RootState {
 			friends: FriendsListState;
 			history: CommisionHistoryState;
 			ranks: ReferralRankState;
+			estimatedCommision: EstimatedCommisionState;
+			commisionInfo: CommisionInfoState;
 		};
 	};
 }
