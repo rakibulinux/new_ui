@@ -4,12 +4,18 @@ import { useIntl } from 'react-intl';
 import { CustomInput } from '../../../components/CustomInput';
 import { NewModal } from '../NewModal';
 
-export const TwoFactorModalComponent = props => {
+interface TwoFactorModalComponentProps {
+	handleToggle2FA: (code2FA: string, shouldFetch: boolean) => void;
+	showModal: boolean;
+	buttonLabel?: string;
+}
+
+export const TwoFactorModalComponent: React.FC<TwoFactorModalComponentProps> = props => {
 	const [code2FA, setCode2FA] = React.useState('');
 	const [code2FAFocus, setCode2FAFocus] = React.useState(false);
 	const intl = useIntl();
 
-	const handleToggle2FA = shouldFetch => {
+	const handleToggle2FA = (shouldFetch: boolean) => {
 		props.handleToggle2FA(code2FA, shouldFetch);
 		setCode2FA('');
 	};
@@ -49,8 +55,8 @@ export const TwoFactorModalComponent = props => {
 
 		return (
 			<div className="pg-exchange-modal-submit-footer mt-3">
-				<button className="w-100 green-btn" disabled={!isValid2FA} onClick={() => handleToggle2FA(true)}>
-					{intl.formatMessage({ id: 'page.mobile.twoFactorModal.send' })}
+				<button className="w-100 btn btn-success" disabled={!isValid2FA} onClick={() => handleToggle2FA(true)}>
+					{props.buttonLabel || intl.formatMessage({ id: 'page.mobile.twoFactorModal.send' })}
 				</button>
 			</div>
 		);

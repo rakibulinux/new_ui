@@ -1,11 +1,10 @@
 import { Button, Form, Input } from 'antd';
-import { TwoFactorAuth } from 'components';
 import { ERROR_EMPTY_PASSWORD, ERROR_INVALID_EMAIL, isEmail, setDocumentTitle } from 'helpers';
 import { GoBackIcon } from 'mobile/assets/icons';
+import { TwoFactorModal } from 'mobile/components';
 import {
 	selectSignInRequire2FA,
 	selectSignUpRequireVerification,
-	selectUserFetching,
 	selectUserLoggedIn,
 	signIn,
 	signInError,
@@ -24,7 +23,6 @@ export const NewSignInMobileScreen: FC = () => {
 
 	const isLoggedIn = useSelector(selectUserLoggedIn);
 	const requireEmailVerification = useSelector(selectSignUpRequireVerification);
-	const loading = useSelector(selectUserFetching);
 	const require2FA = useSelector(selectSignInRequire2FA);
 	const [email, setEmail] = useState<string>('');
 	const [emailError, setEmailError] = useState<string>('');
@@ -32,9 +30,6 @@ export const NewSignInMobileScreen: FC = () => {
 	const [password, setPassword] = useState<string>('');
 	const [passwordError, setPasswordError] = useState<string>('');
 	const setPasswordFocused = useState(false)[1];
-	const [otpCode, setOtpCode] = useState('');
-	const [error2fa, setError2fa] = useState('');
-	const [codeFocused, setCodeFocused] = useState(false);
 
 	React.useEffect(() => {
 		setDocumentTitle('Sign In');
@@ -55,61 +50,30 @@ export const NewSignInMobileScreen: FC = () => {
 	}, [requireEmailVerification]);
 
 	const onSubmit = (e: any) => {
-		const dataFormLogin = {
-			email,
-			password,
-		};
-		dispatch(signIn(dataFormLogin));
+		dispatch(
+			signIn({
+				email,
+				password,
+			}),
+		);
 	};
 
 	const canSubmit = (): boolean => {
 		return Boolean(email && password && isEmail(email));
 	};
 
-	const handle2FASignIn = () => {
-		if (!otpCode) {
-			setError2fa('Please enter 2fa code');
-		} else {
+	const handle2FASignIn = (code2Fa: string, shouldFetch: boolean) => {
+		if (shouldFetch) {
 			dispatch(
 				signIn({
 					email,
 					password,
-					otp_code: otpCode,
+					otp_code: code2Fa,
 				}),
 			);
+		} else {
+			dispatch(signInRequire2FA({ require2fa: false }));
 		}
-	};
-
-	const handleChangeOtpCode = (value: string) => {
-		setError2fa('');
-		setOtpCode(value);
-	};
-
-	const handle2faFocus = () => {
-		setCodeFocused(prev => !prev);
-	};
-
-	const handleClose = () => {
-		dispatch(signInRequire2FA({ require2fa: false }));
-	};
-
-	const render2FA = () => {
-		return (
-			<TwoFactorAuth
-				isLoading={loading}
-				onSubmit={handle2FASignIn}
-				title={intl.formatMessage({ id: 'page.password2fa' })}
-				label={intl.formatMessage({ id: 'page.body.wallets.tabs.withdraw.content.code2fa' })}
-				buttonLabel={intl.formatMessage({ id: 'page.header.signIn' })}
-				message={intl.formatMessage({ id: 'page.password2fa.message' })}
-				codeFocused={codeFocused}
-				otpCode={otpCode}
-				error={error2fa}
-				handleOtpCodeChange={handleChangeOtpCode}
-				handleChangeFocusField={handle2faFocus}
-				handleClose2fa={handleClose}
-			/>
-		);
 	};
 
 	const handleStatusPassword = (): '' | 'success' | 'error' => {
@@ -242,7 +206,14 @@ export const NewSignInMobileScreen: FC = () => {
 				<div className="td-mobile-screen-signin__header">
 					<GoBackIcon onClick={() => history.goBack()} />
 				</div>
-				<div className="td-mobile-screen-signin__body">{require2FA ? render2FA() : renderForm()}</div>
+				<div className="td-mobile-screen-signin__body">
+					<TwoFactorModal
+						showModal={Boolean(require2FA)}
+						buttonLabel={intl.formatMessage({ id: 'page.header.signIn' })}
+						handleToggle2FA={handle2FASignIn}
+					/>
+					{renderForm()}
+				</div>
 				<div className="td-mobile-screen-signin__footer">© 2020 - 2021 CiRCLEEX.com. All rights reserved</div>
 			</div>
 		</div>
