@@ -153,7 +153,7 @@ export const HomePageScreen = () => {
 				<div className="row">
 					<div className="col-12 text-center">
 						<Button style={{ color: '#3D8189ff', backgroundColor: '#2E4152ff', padding: '0.5rem 1rem' }}>
-							<Link to="/signup">Get Started</Link>
+							<Link to="/register">Get Started</Link>
 						</Button>
 					</div>
 				</div>

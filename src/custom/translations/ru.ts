@@ -49,6 +49,7 @@ export const ru: LangType = {
 	'page.header.navbar.history': 'История',
 
 	'page.header.navbar.profile': 'Профиль',
+	'page.header.navbar.referral': 'Направления',
 	'page.header.navbar.logout': 'Выйти',
 
 	'page.sidebar.group.text': 'Fee Group:',

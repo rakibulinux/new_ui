@@ -9,6 +9,7 @@ export const en = {
 	'page.header.navbar.history': 'History',
 
 	'page.header.navbar.profile': 'Profile',
+	'page.header.navbar.referral': 'Referral',
 	'page.header.navbar.logout': 'Logout',
 
 	'page.sidebar.group.text': 'Fee Group:',
