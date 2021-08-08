@@ -23,6 +23,7 @@ export const NewSignUpMobileScreen: FC = () => {
 	const [confirm, setConfirm] = useState<string | null>(null);
 	const [isCheckTerms, setIsCheckTerms] = useState<boolean>(false);
 	const [statusCapcha, setStatusCapcha] = useState<boolean>(false);
+	const [refID, setRefID] = useState<string | null>(null);
 	const [shouldGeetestReset, setShouldGeetestReset] = useState<boolean>(false);
 	const reCaptchaRef = React.createRef<ReCAPTCHA>();
 	const geetestCaptchaRef = React.createRef<ReCAPTCHA>();
@@ -36,6 +37,13 @@ export const NewSignUpMobileScreen: FC = () => {
 			setShouldGeetestReset(true);
 		}
 	}, [signUpError]);
+
+	const extractRefIDs = (url: string) => new URLSearchParams(url).get('refid');
+
+	useEffect(() => {
+		const refId = extractRefIDs(window.location.search);
+		setRefID(refId);
+	}, []);
 
 	const canSubmit = () => {
 		const checkCaptcha = () => {
@@ -61,14 +69,28 @@ export const NewSignUpMobileScreen: FC = () => {
 	};
 
 	const onSubmit = (value: any) => {
-		const dataSignUp = {
-			email: email || '',
-			password: pass || '',
-			data: JSON.stringify({
-				language: i18n,
-			}),
-		};
-		dispatch(signUp(dataSignUp));
+		if (refID) {
+			dispatch(
+				signUp({
+					email: email || '',
+					password: pass || '',
+					data: JSON.stringify({
+						language: i18n,
+					}),
+					refid: refID,
+				}),
+			);
+		} else {
+			dispatch(
+				signUp({
+					email: email || '',
+					password: pass || '',
+					data: JSON.stringify({
+						language: i18n,
+					}),
+				}),
+			);
+		}
 
 		if (reCaptchaRef.current) {
 			reCaptchaRef.current.reset();
@@ -162,6 +184,15 @@ export const NewSignUpMobileScreen: FC = () => {
 						value={confirm || ''}
 						placeholder="Confirm password"
 						onChange={e => setConfirm(e.target.value)}
+					/>
+				</Form.Item>
+
+				<Form.Item className="td-mobile-screen-signup__body__form__label" label="Referral Code: " name="referral_code">
+					<Input
+						className="td-mobile-screen-signup__body__form__label__input"
+						value={refID || ''}
+						placeholder={refID ? `Your referral code: ${refID}` : 'Enter referral code'}
+						onChange={e => setRefID(e.target.value)}
 					/>
 				</Form.Item>
 
