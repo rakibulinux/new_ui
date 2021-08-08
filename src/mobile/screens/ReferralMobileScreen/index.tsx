@@ -12,6 +12,7 @@ import {
 	selectReferalRanksList,
 } from 'modules/plugins/referral';
 import ReactTooltip from 'react-tooltip';
+import { useDocumentTitle } from 'hooks';
 
 const RankNo1 = require('./Assets/top1.png');
 const RankNo2 = require('./Assets/top2.png');
@@ -20,6 +21,7 @@ const LoginReferral = require('./Assets/LoginReferral.svg');
 const Stick = require('./Assets/stick.svg');
 
 export const ReferralMobileScreen: React.FC = () => {
+	useDocumentTitle('Referral');
 	const history = useHistory();
 
 	// selectors
@@ -160,7 +162,7 @@ export const ReferralMobileScreen: React.FC = () => {
 		history.push('/login');
 	};
 	const redirectToRegister = (): void | any => {
-		history.push('/register');
+		history.push('/signup');
 	};
 	const renderProgramDetail = () => {
 		return (

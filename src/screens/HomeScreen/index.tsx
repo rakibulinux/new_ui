@@ -70,7 +70,7 @@ export const HomeScreen: React.FC<any> = (props: any) => {
 													placeholder="Email Address/Mobile Number"
 												/>
 											</div>
-											<Link className="pc-otc-buy-btn" to="/signup">
+											<Link className="pc-otc-buy-btn" to="/register">
 												Register now
 											</Link>
 										</div>

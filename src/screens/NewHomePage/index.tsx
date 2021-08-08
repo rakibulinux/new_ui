@@ -32,7 +32,7 @@ export const NewHomePage: React.FC = () => {
 						<br />
 						For the community By the Community
 					</p>
-					<a href="/signup" className="cx-title_action">
+					<a href="/register" className="cx-title_action">
 						Get Started
 					</a>
 				</div>

@@ -31,7 +31,7 @@ export const ReferralContent: React.FC = () => {
 	const estimatedCommision = useSelector(selectEstimatedCommision);
 	const [paginationFriendsState, setPaginationFriendsState] = React.useState(0);
 	const [paginationCommisionHistoryState, setPaginationCommisionHistoryState] = React.useState(0);
-	const referralLink = `${window.document.location.origin}/signup?refid=${user.uid}`;
+	const referralLink = `${window.document.location.origin}/register?refid=${user.uid}`;
 
 	const friends = useSelector(selectFriendsList);
 	const commisionHistories = useSelector(selectCommisionHistories);
