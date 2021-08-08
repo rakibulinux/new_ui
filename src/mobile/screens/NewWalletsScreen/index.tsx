@@ -47,7 +47,7 @@ export const NewWalletsMobileScreen = () => {
 					<span className="td-mobile-wallets__list__item__top__number">{_w.total}</span>
 				</div>
 				<div className="td-mobile-wallets__list__item__bottom">
-					<span className="td-mobile-wallets__list__item__bottom__text">TetherUS</span>
+					<span className="td-mobile-wallets__list__item__bottom__text">{_w.name}</span>
 					<span className="td-mobile-wallets__list__item__bottom__number">
 						<ConvertUsd value={Number(_w.total)} symbol={_w.currency} precision={4} defaultValue="0.00" /> $
 					</span>
