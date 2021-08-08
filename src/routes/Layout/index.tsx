@@ -84,13 +84,13 @@ import {
 	OrdersTabScreen,
 	ProfileScreen,
 	ProfileTwoFactorAuthScreen,
+	Referral,
 	RegisterScreen,
 	RestrictedScreen,
 	TradingScreen,
 	VerificationScreen,
 	WalletListScreen,
 	WithdrawScreen,
-	Referral,
 } from '../../screens';
 
 interface ReduxProps {
@@ -373,7 +373,6 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 							component={ProfileMobileScreen}
 						/>
 
-						<Route exact={false} path="/trading/:market?" component={TradingScreenMobile} />
 						<Route exact={false} path="/market/:market?" component={NewTradingScreenMobile} />
 						<Route exact={true} path="/" component={HomePageScreenMobile} />
 						<Route exact={true} path="/markets" component={NewMarketsScreenMobile} />
