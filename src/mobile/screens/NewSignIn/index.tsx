@@ -1,30 +1,127 @@
 import { Button, Form, Input } from 'antd';
-import { isEmail } from 'helpers';
-import { useDocumentTitle } from 'hooks';
+import { ERROR_EMPTY_PASSWORD, ERROR_INVALID_EMAIL, isEmail, setDocumentTitle } from 'helpers';
 import { GoBackIcon } from 'mobile/assets/icons';
-import { signIn } from 'modules';
+import { TwoFactorModal } from 'mobile/components';
+import {
+	selectSignInRequire2FA,
+	selectSignUpRequireVerification,
+	selectUserLoggedIn,
+	signIn,
+	signInError,
+	signInRequire2FA,
+	signUpRequireVerification,
+} from 'modules';
 import React, { FC, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
 export const NewSignInMobileScreen: FC = () => {
-	useDocumentTitle('Sign In');
+	const intl = useIntl();
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	const [email, setEmail] = useState<string | null>(null);
-	const [pass, setPass] = useState<string | null>(null);
+	const isLoggedIn = useSelector(selectUserLoggedIn);
+	const requireEmailVerification = useSelector(selectSignUpRequireVerification);
+	const require2FA = useSelector(selectSignInRequire2FA);
+	const [email, setEmail] = useState<string>('');
+	const [emailError, setEmailError] = useState<string>('');
+	const setEmailFocused = useState(false)[1];
+	const [password, setPassword] = useState<string>('');
+	const [passwordError, setPasswordError] = useState<string>('');
+	const setPasswordFocused = useState(false)[1];
 
-	const onSubmit = (value: any) => {
-		const dataFormLogin = {
-			email: email || '',
-			password: pass || '',
-		};
-		dispatch(signIn(dataFormLogin));
+	React.useEffect(() => {
+		setDocumentTitle('Sign In');
+		dispatch(signInError({ code: 0, message: [''] }));
+		dispatch(signUpRequireVerification({ requireVerification: false }));
+	}, []);
+
+	React.useEffect(() => {
+		if (isLoggedIn) {
+			history.push('/wallets');
+		}
+	}, [isLoggedIn]);
+
+	React.useEffect(() => {
+		if (requireEmailVerification) {
+			history.push('/email-verification', { email });
+		}
+	}, [requireEmailVerification]);
+
+	const onSubmit = (e: any) => {
+		dispatch(
+			signIn({
+				email,
+				password,
+			}),
+		);
 	};
 
 	const canSubmit = (): boolean => {
-		return email !== null && pass !== null && pass !== '' && isEmail(email);
+		return Boolean(email && password && isEmail(email));
+	};
+
+	const handle2FASignIn = (code2Fa: string, shouldFetch: boolean) => {
+		if (shouldFetch) {
+			dispatch(
+				signIn({
+					email,
+					password,
+					otp_code: code2Fa,
+				}),
+			);
+		} else {
+			dispatch(signInRequire2FA({ require2fa: false }));
+		}
+	};
+
+	const handleStatusPassword = (): '' | 'success' | 'error' => {
+		if (password && !passwordError) {
+			return 'success';
+		} else if (passwordError) {
+			return 'error';
+		}
+
+		return '';
+	};
+
+	const handleChangePassword: React.ChangeEventHandler<HTMLInputElement> = e => {
+		setPassword(e.target.value);
+		!e.target.value ? setPasswordError(intl.formatMessage({ id: ERROR_EMPTY_PASSWORD })) : setPasswordError('');
+	};
+
+	const handlePasswordFocus = () => {
+		setPasswordFocused(prev => {
+			if (prev && !password) {
+				setPasswordError(intl.formatMessage({ id: ERROR_EMPTY_PASSWORD }));
+			}
+
+			return !prev;
+		});
+	};
+
+	const handleChangeEmail: React.ChangeEventHandler<HTMLInputElement> = e => {
+		setEmail(e.target.value);
+		!isEmail(e.target.value) ? setEmailError(intl.formatMessage({ id: ERROR_INVALID_EMAIL })) : setEmailError('');
+	};
+
+	const handleEmailFocus = () => {
+		setEmailFocused(prev => {
+			prev && !email && setEmailError(intl.formatMessage({ id: ERROR_INVALID_EMAIL }));
+
+			return !prev;
+		});
+	};
+
+	const handleStatusEmail = (): '' | 'success' | 'error' => {
+		if (email && !emailError) {
+			return 'success';
+		} else if (emailError) {
+			return 'error';
+		}
+
+		return '';
 	};
 
 	const renderForm = () => {
@@ -53,14 +150,16 @@ export const NewSignInMobileScreen: FC = () => {
 					label="Email"
 					name="email"
 					hasFeedback
-					help={email !== null && !isEmail(email) ? 'Email invalid!' : undefined}
-					validateStatus={email === null ? '' : isEmail(email) ? 'success' : 'error'}
+					help={emailError === '' ? undefined : emailError}
+					validateStatus={handleStatusEmail()}
 				>
 					<Input
 						className="td-mobile-screen-signin__body__form__label__input"
-						value={email || ''}
+						value={email}
 						placeholder="Enter your email"
-						onChange={e => setEmail(e.target.value)}
+						onChange={handleChangeEmail}
+						onClick={handleEmailFocus}
+						onBlur={handleEmailFocus}
 					/>
 				</Form.Item>
 
@@ -69,14 +168,16 @@ export const NewSignInMobileScreen: FC = () => {
 					label="Password"
 					name="password"
 					hasFeedback
-					help={pass === '' ? 'Please input something' : undefined}
-					validateStatus={pass === '' ? 'error' : ''}
+					help={passwordError === '' ? undefined : passwordError}
+					validateStatus={handleStatusPassword()}
 				>
 					<Input.Password
 						className="td-mobile-screen-signin__body__form__label__input"
-						value={pass || ''}
+						value={password}
 						placeholder="Enter your password"
-						onChange={e => setPass(e.target.value)}
+						onChange={handleChangePassword}
+						onClick={handlePasswordFocus}
+						onBlur={handlePasswordFocus}
 					/>
 				</Form.Item>
 
@@ -105,7 +206,14 @@ export const NewSignInMobileScreen: FC = () => {
 				<div className="td-mobile-screen-signin__header">
 					<GoBackIcon onClick={() => history.goBack()} />
 				</div>
-				<div className="td-mobile-screen-signin__body">{renderForm()}</div>
+				<div className="td-mobile-screen-signin__body">
+					<TwoFactorModal
+						showModal={Boolean(require2FA)}
+						buttonLabel={intl.formatMessage({ id: 'page.header.signIn' })}
+						handleToggle2FA={handle2FASignIn}
+					/>
+					{renderForm()}
+				</div>
 				<div className="td-mobile-screen-signin__footer">© 2020 - 2021 CiRCLEEX.com. All rights reserved</div>
 			</div>
 		</div>
