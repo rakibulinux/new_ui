@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import { FaAward, FaGift, FaHistory, FaSignOutAlt, FaStar, FaUserCircle } from 'react-icons/fa';
-import { AiOutlineGift } from 'react-icons/ai';
+import { FaAward, FaGift, FaHistory, FaSignOutAlt, FaStar, FaUserCircle, FaUserPlus } from 'react-icons/fa';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -167,7 +166,7 @@ export const Header: React.FC = () => {
 					}}
 				>
 					<div className={classActiveItemDrop('referral')}>
-						<AiOutlineGift className="header__right-menu__dropdown__wrap__content__title__icon mr-2" />
+						<FaUserPlus className="header__right-menu__dropdown__wrap__content__title__icon mr-2" />
 						<FormattedMessage id={'page.header.navbar.referral'} />
 					</div>
 				</Link>

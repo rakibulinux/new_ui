@@ -3,17 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { ReferralContent } from 'containers';
+import { useDocumentTitle } from 'hooks';
 import { selectUserLoggedIn } from 'modules';
 import {
-	commisionInfoFetch,
 	referralRanksFetch,
-	selectCommisionInfo,
-	selectCommisionInfoLoading,
 	selectReferalRanksList,
 } from 'modules/plugins/referral';
 import ReactTooltip from 'react-tooltip';
-import { useDocumentTitle } from 'hooks';
 
+const ReferralDesktopBanner = require('./Assets/referral-desktop-banner.png');
 const RankNo1 = require('./Assets/top1.png');
 const RankNo2 = require('./Assets/top2.png');
 const RankNo3 = require('./Assets/top3.png');
@@ -27,34 +25,24 @@ export const Referral: React.FC = () => {
 	// selectors
 	const isLoggedIn = useSelector(selectUserLoggedIn);
 	const referralRanks = useSelector(selectReferalRanksList);
-	const commisionInfo = useSelector(selectCommisionInfo);
-	const commisionInfoLoading = useSelector(selectCommisionInfoLoading);
 
 	// dispatch
 	const dispatch = useDispatch();
 	React.useEffect(() => {
 		dispatch(referralRanksFetch());
-		dispatch(commisionInfoFetch());
 	}, []);
 
 	const renderBannerReferral = () => {
 		return (
 			<React.Fragment>
 				<div className="td-pg-referral__banner">
-					<img className="img-fluid" src={commisionInfo.dekstop_image} alt="banner" />
-					{commisionInfoLoading ? (
-						<div className="d-flex justify-content-center" hidden={commisionInfoLoading}>
-							<div className="spinner-border" role="status">
-								<span className="sr-only">Loading...</span>
-							</div>
-						</div>
-					) : null}
+					<img className="img-fluid" src={ReferralDesktopBanner} alt="banner" />
 				</div>
 			</React.Fragment>
 		);
 	};
 	const renderReferralRank = () => {
-		const rankBox = (rankIndex: number, email: string, commision: string) => {
+		const rankBox = (rankIndex: number, email: string, commission: string) => {
 			let image;
 			switch (rankIndex) {
 				case 1:
@@ -69,6 +57,7 @@ export const Referral: React.FC = () => {
 				default:
 					break;
 			}
+
 			return (
 				<div className="col-lg-4 col-md-12 td-pg-referral__rank__box mb-3">
 					<div className="td-pg-referral__rank__box__row">
@@ -90,8 +79,8 @@ export const Referral: React.FC = () => {
 								<span className="text-white">Commission</span>
 							</div>
 							<div className="text-right mt-3">
-								<span data-tip={commision} className="text-white td-pg-referral__rank__box__row__rank__commision">
-									{commision}
+								<span data-tip={commission} className="text-white td-pg-referral__rank__box__row__rank__commision">
+									{commission}
 								</span>
 							</div>
 						</div>
@@ -99,6 +88,7 @@ export const Referral: React.FC = () => {
 				</div>
 			);
 		};
+
 		return (
 			<div className="td-pg-referral__rank">
 				<div className="container">
@@ -123,7 +113,7 @@ export const Referral: React.FC = () => {
 			</div>
 		);
 	};
-	const renderUserisLoggedIn = () => {
+	const renderUsersLoggedIn = () => {
 		if (isLoggedIn) {
 			return <ReferralContent />;
 		} else {
@@ -133,7 +123,7 @@ export const Referral: React.FC = () => {
 						<div
 							className="td-pg-referral__loggedIn__userLogIn"
 							style={{
-								backgroundImage: 'url(' + LoginReferral + ')',
+								backgroundImage: `url(${LoginReferral})`,
 							}}
 						>
 							<div className="referral-loggedIn-userLogIn__wrapper">
@@ -225,11 +215,12 @@ export const Referral: React.FC = () => {
 			</div>
 		);
 	};
+
 	return (
 		<div className="td-pg-referral">
 			{renderBannerReferral()}
 			{renderReferralRank()}
-			{renderUserisLoggedIn()}
+			{renderUsersLoggedIn()}
 			{renderProgramDetail()}
 			<ReactTooltip />
 		</div>
