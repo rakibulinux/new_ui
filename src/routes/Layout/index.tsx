@@ -13,7 +13,7 @@ import { AdminAnnouncement, AnnouncementEdit, WalletsFetch } from '../../contain
 import { MarketsList } from '../../containers/MarketsList';
 import { toggleColorTheme } from '../../helpers';
 import { IntlProps } from '../../index';
-import { StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
+import { AirdropCoinListMobileScreen, StakingDetailMobileScreen, StakingListMobileScreen } from '../../mobile/plugins';
 import { IEODetailMobileScreen, IEOListMobileScreen } from '../../mobile/plugins/IEO';
 import { TradingCompetionListMobileScreen, TradingCompetitionDetailMobileScreen } from '../../mobile/plugins/TradingCompetion';
 /* import { isMobile } from "react-device-detect"; */
@@ -388,7 +388,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						<Route path="/stake/detail/:stake_id" exact component={StakingDetailMobileScreen} />
 						<Route path="/vote" exact component={VoteScreen} />
 						{/* new feature */}
-						<Route path="/airdrops" exact component={AirdropCoinListScreen} />
+						<Route path="/airdrops" exact component={AirdropCoinListMobileScreen} />
 						{/* new feature */}
 						<Route path="**">
 							<Redirect to="/market/" />

@@ -67,6 +67,10 @@ export const AirdropCoinListScreen: React.FC<AirdropCoinListScreenProps> = ({}) 
 				break;
 		}
 
+		if (searchState) {
+			result = result.filter(airdrop => airdrop.airdrop_id.toLowerCase().includes(searchState.toLowerCase()));
+		}
+
 		return result;
 	};
 
@@ -99,7 +103,7 @@ export const AirdropCoinListScreen: React.FC<AirdropCoinListScreenProps> = ({}) 
 		const linkToBot = userNameBot ? `https://t.me/${userNameBot}` : undefined;
 
 		const baseMsg = 'Status : ';
-		let noteStr = `${baseMsg} Click 'Select Join' to join!`;
+		let noteStr = `${baseMsg} Click 'Join' to join!`;
 		// tslint:disable-next-line: prefer-conditional-expression
 		if (comming) {
 			noteStr = `${baseMsg} The airdrop hasn't started yet!`;
@@ -176,7 +180,7 @@ export const AirdropCoinListScreen: React.FC<AirdropCoinListScreenProps> = ({}) 
 							disabled={!userNameBot || ended || comming}
 							className="btn btn-lg btn-block  pg-airdrop-list-coin__list__item__button"
 						>
-							Select Join
+							Join
 						</button>
 					</a>
 					<button
