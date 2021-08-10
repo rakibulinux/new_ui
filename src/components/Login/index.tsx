@@ -139,7 +139,7 @@ const Login = React.memo((props: LogInProps) => {
 		<div className="pg-sign-in-screen__register">
 			<span>
 				{intl.formatMessage({ id: 'page.header.signIN.noAccountYet' })}
-				<span onClick={() => history.push('/register')} className="pg-sign-in-screen__register-button">
+				<span onClick={() => history.push('/signup')} className="pg-sign-in-screen__register-button">
 					{intl.formatMessage({ id: 'page.body.landing.header.button3' })}
 				</span>
 			</span>

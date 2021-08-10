@@ -179,7 +179,7 @@ export const Header: React.FC = () => {
 	};
 
 	const redirectSingUp = () => {
-		history.push('/register');
+		history.push('/signup');
 	};
 
 	const translate = (key: string) => intl.formatMessage({ id: key });

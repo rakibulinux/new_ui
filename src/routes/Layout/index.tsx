@@ -405,7 +405,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 				<Switch>
 					<Route exact={true} path="/magic-link" component={MagicLink} />
 					<PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/login" component={LogInScreen} />
-					<PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/register" component={RegisterScreen} />
+					<PublicRoute loading={userLoading} isLogged={isLoggedIn} path="/signup" component={RegisterScreen} />
 					<PublicRoute
 						loading={userLoading}
 						isLogged={isLoggedIn}
