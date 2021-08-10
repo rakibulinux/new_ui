@@ -250,7 +250,7 @@ class Landing extends React.Component<Props> {
 			);
 		} else {
 			return (
-				<Link to="/register" className="register-button">
+				<Link to="/signup" className="register-button">
 					Register Account
 				</Link>
 			);

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { copy } from '../../helpers';
 import { useDispatch, useSelector } from 'react-redux';
+import { copy } from '../../helpers';
 import { alertPush, selectUserInfo } from '../../modules';
 
 import FB from './Assets/fb.svg';
@@ -8,6 +8,7 @@ import TELE from './Assets/telegram.svg';
 import TW from './Assets/twitter.svg';
 
 import { QRCode } from 'components';
+import { format } from 'date-fns';
 import {
 	commisionHistoryFetch,
 	estimatedCommisionFetch,
@@ -18,7 +19,6 @@ import {
 	selectFriendsList,
 	selectFriendsLoading,
 } from 'modules/plugins/referral';
-import { format } from 'date-fns';
 import ReactPaginate from 'react-paginate';
 import ReactTooltip from 'react-tooltip';
 
@@ -28,16 +28,17 @@ const NUMBER_ITEM_DISPLAY = 5;
 export const ReferralContent: React.FC = () => {
 	const dispatch = useDispatch();
 	const user = useSelector(selectUserInfo);
-	const estimatedCommision = useSelector(selectEstimatedCommision);
+
+	const estimatedCommission = useSelector(selectEstimatedCommision);
 	const [paginationFriendsState, setPaginationFriendsState] = React.useState(0);
-	const [paginationCommisionHistoryState, setPaginationCommisionHistoryState] = React.useState(0);
-	const referralLink = `${window.document.location.origin}/register?refid=${user.uid}`;
+	const [paginationCommissionHistoryState, setPaginationCommissionHistoryState] = React.useState(0);
+	const referralLink = `${window.document.location.origin}/signup?refid=${user.uid}`;
 
 	const friends = useSelector(selectFriendsList);
-	const commisionHistories = useSelector(selectCommisionHistories);
+	const commissionHistories = useSelector(selectCommisionHistories);
 
 	const isFriendsFetchLoading = useSelector(selectFriendsLoading);
-	const isCommisionHistoryFetchLoading = useSelector(selectCommisionHistoryLoading);
+	const isCommissionHistoryFetchLoading = useSelector(selectCommisionHistoryLoading);
 
 	const handleCopyText = () => {
 		copy('referral-link');
@@ -51,81 +52,89 @@ export const ReferralContent: React.FC = () => {
 	}, []);
 
 	const renderReferralContent = () => {
-		const referralID = user.referal_uid || '';
 		return (
 			<div className="container">
 				<div className="td-referral-content__wrapper">
 					<div className="row">
-						<div className="col-md-8 d-flex justify-content-start">
-							<div className="referral-container-QRcode d-flex justify-content-center align-items-center">
+						<div className="col-8 d-flex flex-row align-items-center">
+							<div className="referral-container-QRcode">
 								<QRCode dimensions={QR_SIZE} data={referralLink} />
 							</div>
-							<div className="referral-container-content ml-5">
-								<div
-									className="referral-container-content__ID d-flex"
-									style={{
-										marginTop: '10px',
-									}}
-								>
-									<p className="font-weight-bold">My Referral ID:</p>
-									<p className="text-white" style={{ marginLeft: '20px' }}>
-										{referralID}
-									</p>
-								</div>
-								<div
-									className="referral-container-content__link d-flex align-items-center"
-									style={{
-										marginTop: '16px',
-									}}
-									onClick={handleCopyText}
-								>
-									<p className="font-weight-bold">Referral Link:</p>
-									<input
-										className="text-white"
-										style={{
-											marginLeft: '30px',
-											backgroundColor: '#2B2E3D',
-											borderRadius: '5px',
-											border: 'none',
-											padding: '6px',
-											outline: 'none',
-										}}
-										type="text"
-										id="referral-link"
-										defaultValue={referralLink}
-										readOnly={true}
-									></input>
-									<button
-										className="ml-3 text-center"
-										style={{
-											backgroundColor: '#2FB67E',
-											borderRadius: '4px',
-											padding: '6px 16px',
-											color: '#FFF',
-											marginBottom: '0',
-											outline: 'none',
-											border: 'none',
-										}}
-									>
-										Copy Link
-									</button>
-								</div>
-								<div
-									className="referral-container-content__share d-flex"
-									style={{
-										marginTop: '12px',
-									}}
-								>
-									<p className="font-weight-bold">Share:</p>
-									<div style={{ marginLeft: 66 }}>
-										<img src={FB} alt="facabook" />
-										<img src={TELE} alt="telefram" />
-										<img src={TW} alt="twitter" />
-									</div>
-								</div>
+							<div className={'referral-container-content w-100 ml-5'}>
+								<table className={'w-100'}>
+									<tr>
+										<td>
+											<p className="font-weight-bold">My Referral ID:</p>
+										</td>
+										<td>
+											<div className={'row'}>
+												<div className={'col-md-12'}>
+													<p className="text-white">{user.uid}</p>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr onClick={handleCopyText}>
+										<td>
+											<p className="font-weight-bold">Referral Link:</p>
+										</td>
+										<td>
+											<div className={'row w-100'}>
+												<div className={'col-md-12 col-xl-8 mb-3'}>
+													<input
+														className="text-white"
+														style={{
+															backgroundColor: '#2B2E3D',
+															borderRadius: '5px',
+															border: 'none',
+															padding: '6px',
+															outline: 'none',
+															width: '100%',
+														}}
+														type="text"
+														id="referral-link"
+														defaultValue={referralLink}
+														readOnly={true}
+													/>
+												</div>
+												<div className={'col-md-12 col-xl-4'}>
+													<button
+														className="text-center td-referral-content__copy-link"
+														style={{
+															backgroundColor: '#2FB67E',
+															borderRadius: '4px',
+															padding: '6px 16px',
+															color: '#FFF',
+															marginBottom: '0',
+															outline: 'none',
+															border: 'none',
+															width: '100%',
+														}}
+													>
+														Copy Link
+													</button>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<p className="font-weight-bold">Share:</p>
+										</td>
+										<td>
+											<div className={'row'}>
+												<div className={'col-12'}>
+													<img src={FB} alt="facebook" />
+													<img src={TELE} alt="telegram" />
+													<img src={TW} alt="twitter" />
+												</div>
+											</div>
+										</td>
+									</tr>
+								</table>
 							</div>
 						</div>
-						<div className="col-md-4 d-flex flex-column justify-content-around border-left border-dark">
+						<div className="col-4 d-flex flex-column justify-content-around border-left border-dark">
 							<div className="referral-container__friend d-flex justify-content-between border-bottom border-dark w-100">
 								<p className="font-weight-bold">Referral friends</p>
 								<p className="text-white">{friends[0]}</p>
@@ -134,7 +143,7 @@ export const ReferralContent: React.FC = () => {
 								Estimated Commission Value
 							</div>
 							<div className="referral-container__coin-name d-flex flex-row-reverse text-white">
-								{estimatedCommision ? estimatedCommision.total : ''}
+								{estimatedCommission ? estimatedCommission.total : ''}
 							</div>
 						</div>
 					</div>
@@ -148,10 +157,11 @@ export const ReferralContent: React.FC = () => {
 			dispatch(friendsListFetch({ page: selectedItem.selected, limit: NUMBER_ITEM_DISPLAY }));
 		};
 
-		const handleCommisionHistoryPageClick = (selectedItem: { selected: number }) => {
-			setPaginationCommisionHistoryState(selectedItem.selected);
+		const handleCommissionHistoryPageClick = (selectedItem: { selected: number }) => {
+			setPaginationCommissionHistoryState(selectedItem.selected);
 			dispatch(commisionHistoryFetch({ page: selectedItem.selected, limit: NUMBER_ITEM_DISPLAY }));
 		};
+
 		return (
 			<div>
 				<div className="td-referral-content__table">
@@ -208,12 +218,12 @@ export const ReferralContent: React.FC = () => {
 							<div className="col-md-8 td-referral-content__table__row__col-right">
 								<h4>Lastest Commission History</h4>
 								<div className="row mt-3">
-									<div className="col-md-3 text-left">Commision</div>
+									<div className="col-md-3 text-left">Commission</div>
 									<div className="col-md-5 text-left">Email</div>
 									<div className="col-md-4 text-right">Date</div>
 								</div>
 								<div
-									hidden={!isCommisionHistoryFetchLoading}
+									hidden={!isCommissionHistoryFetchLoading}
 									className="td-referral-content__table__row__col-left__loading"
 								>
 									<div className="d-flex justify-content-center">
@@ -223,7 +233,7 @@ export const ReferralContent: React.FC = () => {
 									</div>
 								</div>
 								<div className="row mt-3 td-referral-content__table__row__col-right__commision">
-									{commisionHistories[1].map((history, index) => (
+									{commissionHistories[1].map((history, index) => (
 										<React.Fragment key={index}>
 											<div className="col-md-3 text-left text-white">{history.total}</div>
 											<div className="col-md-5 text-left text-white td-referral-content__table__row__col-right__commision-email">
@@ -242,13 +252,13 @@ export const ReferralContent: React.FC = () => {
 										nextLabel={'>'}
 										breakLabel={'...'}
 										breakClassName={'break-me'}
-										pageCount={commisionHistories[0] / NUMBER_ITEM_DISPLAY}
+										pageCount={commissionHistories[0] / NUMBER_ITEM_DISPLAY}
 										marginPagesDisplayed={2}
 										pageRangeDisplayed={NUMBER_ITEM_DISPLAY}
-										onPageChange={handleCommisionHistoryPageClick}
+										onPageChange={handleCommissionHistoryPageClick}
 										containerClassName={'td-referral-content__table-pagination'}
 										activeClassName={'active'}
-										forcePage={paginationCommisionHistoryState}
+										forcePage={paginationCommissionHistoryState}
 									/>
 								</div>
 							</div>
@@ -258,6 +268,7 @@ export const ReferralContent: React.FC = () => {
 			</div>
 		);
 	};
+
 	return (
 		<div className="td-referral-content">
 			{renderReferralContent()}

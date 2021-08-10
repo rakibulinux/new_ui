@@ -5,10 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { ReferralContent } from 'containers';
 import { useDocumentTitle } from 'hooks';
 import { selectUserLoggedIn } from 'modules';
-import {
-	referralRanksFetch,
-	selectReferalRanksList,
-} from 'modules/plugins/referral';
+import { referralRanksFetch, selectReferalRanksList } from 'modules/plugins/referral';
 import ReactTooltip from 'react-tooltip';
 
 const ReferralDesktopBanner = require('./Assets/referral-desktop-banner.png');
@@ -79,7 +76,10 @@ export const Referral: React.FC = () => {
 								<span className="text-white">Commission</span>
 							</div>
 							<div className="text-right mt-3">
-								<span data-tip={commission} className="text-white td-pg-referral__rank__box__row__rank__commision">
+								<span
+									data-tip={commission}
+									className="text-white td-pg-referral__rank__box__row__rank__commision"
+								>
 									{commission}
 								</span>
 							</div>
@@ -149,7 +149,7 @@ export const Referral: React.FC = () => {
 		history.push('/login');
 	};
 	const redirectToRegister = (): void | any => {
-		history.push('/register');
+		history.push('/signup');
 	};
 	const renderProgramDetail = () => {
 		return (
