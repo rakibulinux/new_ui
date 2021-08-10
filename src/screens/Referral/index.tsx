@@ -159,7 +159,7 @@ export const Referral: React.FC = () => {
 					<div className="row mt-5">
 						<div className="col-md-6 d-flex justify-content-start align-items-start">
 							<img src={Stick} alt="stick" />
-							<p className="mb-0 text-white mb-5 ml-4">Effective as of 2019/06/01 0:00 AM (UTC)</p>
+							<p className="mb-0 text-white mb-5 ml-4">Effective as of 2021/08/11 0:00 AM (UTC)</p>
 						</div>
 						<div className="col-md-6 d-flex justify-content-start align-items-start">
 							<img src={Stick} alt="stick" />
