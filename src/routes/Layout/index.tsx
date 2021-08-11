@@ -80,7 +80,6 @@ import {
 	LogInScreen,
 	MagicLink,
 	MaintenanceScreen,
-	NewHomePage,
 	OrdersTabScreen,
 	ProfileScreen,
 	ProfileTwoFactorAuthScreen,
@@ -435,13 +434,11 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route path="/404" component={RestrictedScreen} />
 					<Route path="/500" component={MaintenanceScreen} />
 					<Route exact={false} path="/market/:market?" component={TradingScreen} />
-					<Route exact={true} path="/" component={NewHomePage} />
+					<Route exact={true} path="/" component={CXNewHomepage} />
 					<Route exact={false} path="/fee" component={AssetsFeeScreen} />
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />
 					<Route path="/referral" component={Referral} />
-					<Route path="/newhomepage" component={CXNewHomepage} />
-
 
 					<PrivateRoute
 						loading={userLoading}
