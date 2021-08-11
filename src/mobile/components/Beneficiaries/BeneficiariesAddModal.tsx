@@ -144,16 +144,19 @@ class BeneficiariesAddModalComponent extends React.Component<Props, State> {
 							** Please enter <strong>{String(this.props.blockchainType).toUpperCase()}</strong> address
 						</p>
 					) : null}
-					{this.renderEnterCoinAddressInput('coinAddress')}
-					{this.renderAddAddressModalBodyItem('coinBeneficiaryName')}
-					{this.renderAddAddressModalBodyItem('coinDescription', true)}
-					<button
-						disabled={isCoinButtonDisabled}
-						className="w-100 green-btn"
-						onClick={this.handleSubmitAddAddressCoinModal}
-					>
-						{this.translate('page.body.wallets.beneficiaries.addAddressModal.body.button')}
-					</button>
+					<div className="mt-3">{this.renderEnterCoinAddressInput('coinAddress')}</div>
+					<div className="mt-3">{this.renderAddAddressModalBodyItem('coinBeneficiaryName')}</div>
+					<div className="mt-3">{this.renderAddAddressModalBodyItem('coinDescription', true)}</div>
+
+					<div className="mt-3">
+						<button
+							disabled={isCoinButtonDisabled}
+							className="w-100 green-btn"
+							onClick={this.handleSubmitAddAddressCoinModal}
+						>
+							{this.translate('page.body.wallets.beneficiaries.addAddressModal.body.button')}
+						</button>
+					</div>
 				</div>
 				<div hidden={type === 'coin'}>
 					{this.renderAddAddressModalBodyItem('fiatName')}
