@@ -91,6 +91,7 @@ import {
 	VerificationScreen,
 	WalletListScreen,
 	WithdrawScreen,
+	CXNewHomepage,
 } from '../../screens';
 
 interface ReduxProps {
@@ -439,6 +440,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route exact path="/markets" component={MarketsList} />
 					<Route path="/announcement" exact component={AnnouncementScreen} />
 					<Route path="/referral" component={Referral} />
+					<Route path="/newhomepage" component={CXNewHomepage} />
+
 
 					<PrivateRoute
 						loading={userLoading}

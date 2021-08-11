@@ -125,6 +125,7 @@ export const ru: LangType = {
 	'page.body.marketsTable.header.high': '24  high',
 	'page.body.marketsTable.header.low': '24 low',
 	'page.body.marketsTable.header.volume': '24 Volume',
+	'page.body.marketsTable.header.trade': 'Trade',
 
 	/* Landing */
 	'page.body.landing.header.button1': 'profile',
