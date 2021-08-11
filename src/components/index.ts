@@ -59,3 +59,7 @@ export * from './ConvertUsd';
 export * from './ButtonFIAT';
 export * from './TableTrading';
 export * from './NewDropdown';
+export * from './NewHomeMarketTable';
+export * from './NewMarketSlick';
+
+

@@ -52,3 +52,5 @@ export * from './MarketTrading';
 export * from './NewOrder';
 export * from './TradingOrderHistory';
 export * from './TradingTradeHistory';
+export * from './HomepageMarket';
+
