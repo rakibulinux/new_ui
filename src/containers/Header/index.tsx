@@ -231,17 +231,6 @@ export const Header: React.FC = () => {
 								<img src={Logo} alt="" />
 							</Link>
 						</div>
-
-						<div className="header__left-menu__dropdown flex-shrink-0">
-							<div className={classLinkActive('newhomepage')} onClick={() => setStateActiveNow('newhomepage')}>
-								<Link
-									to="/newhomepage"
-									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
-								>
-									new homepage
-								</Link>
-							</div>
-						</div>
 						<div className="header__left-menu__dropdown flex-shrink-0">
 							<div className={classLinkActive('markets')} onClick={() => setStateActiveNow('markets')}>
 								<Link
