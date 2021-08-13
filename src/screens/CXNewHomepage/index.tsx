@@ -1,9 +1,11 @@
 import React from 'react'
-import {HomepageMarket} from '../../containers';
+import { HomepageMarket } from '../../containers';
 import { useHistory } from 'react-router-dom';
-import {NewMarketSlick} from '../../components';
+import { NewMarketSlick } from '../../components';
+import { eventFetch, selectEvents } from '../../modules';
+import { useDispatch, useSelector } from 'react-redux';
+import Slider from 'react-slick';
 
-import BannerCX from './Home/BUSA_CX.svg';
 import Feature1 from './Home/Feature1.svg';
 import Feature2 from './Home/Feature2.svg';
 import Feature3 from './Home/Feature3.svg';
@@ -18,10 +20,37 @@ import Cryp from './Home/Cryp.svg';
 export const CXNewHomepage = () => {
 
 	const history = useHistory();
+	const dispatch = useDispatch();
+
+	React.useEffect(() => {
+		dispatch(eventFetch());
+	}, []);
+
+	const events = useSelector(selectEvents);
+	const settingEvents = {
+		dots: false,
+		infinite: false,
+		speed: 500,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		autoplay: true,
+		autoplaySpeed: 3000,
+		pauseOnHover: true
+	};
 
 	const renderBanner = () => (
 		<div className="banner">
-			<img src={BannerCX} alt="BannerCX" />
+			<Slider {...settingEvents}>
+				{events.payload.map(event => {
+					return (
+						<div  className="slider-box">
+							<a href={event.ref_link} className="slider-box__link">
+								<img src={event.image_link} />
+							</a>
+						</div>
+					);
+				})}
+			</Slider>
 		</div>
 	)
 	const renderMarketSlick = () => (

@@ -29,7 +29,7 @@ const ChartWrap = styled.div`
 							width: 100%;
 							padding: 0;
 							height: 60px;
-							border-left: 1px solid rgb(66, 66, 66);
+							border-right: 1px solid rgb(66, 66, 66);
 						}
 					}
 				} 
