@@ -212,8 +212,8 @@ export const ru: LangType = {
 	'page.body.wallets.tabs.deposit.disabled.message': 'Депозит был отключен администрацией',
 	'page.body.wallets.tabs.deposit.ccy.message.confirmation':
 		'1. Coins will be deposited after {confirmations} network confirmations.',
-	'page.body.wallets.tabs.deposit.ccy.message.mindeposit': '2. Min Deposit: ',
-	'page.body.wallets.tabs.deposit.ccy.message.depositfee': '3. Deposit Fee: ',
+	'page.body.wallets.tabs.deposit.ccy.message.mindeposit': '2. Min Deposit: {min_deposit_amount} {currency}',
+	'page.body.wallets.tabs.deposit.ccy.message.depositfee': '3. Deposit Fee: {deposit_fee} {currency}',
 	'page.body.wallets.tabs.deposit.ccy.message.address': 'Пополнить кошелек',
 	'page.body.wallets.tabs.deposit.ccy.message.button': 'Копировать',
 	'page.body.wallets.tabs.deposit.ccy.message.success': 'Адрес скопирован',

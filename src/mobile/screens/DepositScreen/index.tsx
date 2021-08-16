@@ -1,5 +1,6 @@
 import { Blur, DepositFiat, QRCode } from 'components';
 import { copy, formatCCYAddress, getTabName } from 'helpers';
+import { toLower } from 'lodash';
 import toUpper from 'lodash/toUpper';
 import {
 	alertPush,
@@ -188,7 +189,11 @@ const DepositNotes = props => {
 	const intl = useIntl();
 	const { currency } = props;
 	const currencies = useSelector(selectCurrencies);
-	const { min_deposit_amount, deposit_fee } = currencies.find(cur => cur.id === currency) || { min_deposit_amount: null };
+
+	const { min_deposit_amount, deposit_fee } = currencies.find(cur => toLower(cur.id) === toLower(currency)) || {
+		min_deposit_amount: null,
+		deposit_fee: null,
+	};
 	return (
 		<div className="td-mobile-screen-deposit__notes">
 			<div className="td-mobile-screen-deposit__notes__body text-white">
@@ -198,13 +203,16 @@ const DepositNotes = props => {
 				<p>
 					{intl.formatMessage(
 						{ id: 'page.body.wallets.tabs.deposit.ccy.message.mindeposit' },
-						{ min_deposit_amount: min_deposit_amount ?? 'Unavailble', currency: toUpper(currency) },
+						{
+							min_deposit_amount: (100 * Number(min_deposit_amount)) / (100 - Number(deposit_fee)) ?? 'Unavailble',
+							currency: toUpper(currency),
+						},
 					)}
 				</p>
 				<p>
 					{intl.formatMessage(
 						{ id: 'page.body.wallets.tabs.deposit.ccy.message.depositfee' },
-						{ deposit_fee: deposit_fee ?? 'Unavailble', currency: toUpper(currency) },
+						{ deposit_fee: Number(deposit_fee) ?? 'Unavailble', currency: '%' },
 					)}
 				</p>
 				<p>

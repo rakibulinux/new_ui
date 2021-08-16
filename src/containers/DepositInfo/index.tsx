@@ -1,3 +1,4 @@
+import { toUpper } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -84,13 +85,19 @@ export const DepositInfo: React.FC<DepositInfoProps> = (props: DepositInfoProps)
 		{ confirmations: currency.min_confirmations },
 	);
 
-	const textMinDeposit = `${intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.mindeposit' })} ${
-		(100 * Number(currency.min_deposit_amount)) / (100 - Number(currency.deposit_fee))
-	} ${selectedCurrencyID.toUpperCase()}`;
+	const textMinDeposit = `${intl.formatMessage(
+		{ id: 'page.body.wallets.tabs.deposit.ccy.message.mindeposit' },
+		{
+			min_deposit_amount:
+				(100 * Number(currency.min_deposit_amount)) / (100 - Number(currency.deposit_fee)) ?? 'Unavailble',
+			currency: toUpper(currency_id),
+		},
+	)}`;
 
-	const textDepositFee = `${intl.formatMessage({ id: 'page.body.wallets.tabs.deposit.ccy.message.depositfee' })} ${Number(
-		currency.deposit_fee,
-	)} %`;
+	const textDepositFee = `${intl.formatMessage(
+		{ id: 'page.body.wallets.tabs.deposit.ccy.message.depositfee' },
+		{ deposit_fee: Number(currency.deposit_fee) ?? 'Unavailble', currency: '%' },
+	)}`;
 
 	const textNote = `Only Deposit ${selectedCurrencyID.toUpperCase()} to this wallet.`;
 
