@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIEOList, IEOListDataFetch } from './../../../../modules';
 import Pagination from 'react-bootstrap/Pagination';
 
-export type typeIEO = 'all' | 'ended' | 'ongoing' | 'upcoming';
+export type typeIEO = 'all' | 'ended' | 'running' | 'upcoming';
 export const IEOListingScreen = () => {
-	const [typeIEO, setTypeIEO] = React.useState<typeIEO>('ongoing');
+	const [typeIEO, setTypeIEO] = React.useState<typeIEO>('all');
 	const [searchInputState, setSearchInputState] = React.useState<string>('');
 	const [numberPageState, setNumberPageState] = React.useState<number>(0);
 	const PAGE_SIZE = 12;
@@ -19,7 +19,7 @@ export const IEOListingScreen = () => {
 	const dispatch = useDispatch();
 	const renderActiveButtonAllClasses = classNames('upcoming', typeIEO === 'all' ? 'button--all' : '');
 	const renderActiveButtonUpcomingClasses = classNames('upcoming', typeIEO === 'upcoming' ? 'button--upcoming' : '');
-	const renderActiveButtonRunningClasses = classNames('running', typeIEO === 'ongoing' ? 'button--running' : '');
+	const renderActiveButtonRunningClasses = classNames('running', typeIEO === 'running' ? 'button--running' : '');
 	const renderActiveButtonEndedClasses = classNames('ended', typeIEO === 'ended' ? 'button--ended' : '');
 	const listIEO = useSelector(selectIEOList);
 
@@ -128,10 +128,10 @@ export const IEOListingScreen = () => {
 							type="button"
 							className={renderActiveButtonRunningClasses}
 							onClick={() => {
-								handleViewListIEO('ongoing');
+								handleViewListIEO('running');
 							}}
 						>
-							Ongoing
+							Running
 						</button>
 						<button
 							type="button"
