@@ -1,32 +1,32 @@
 import { ChildCurrency, Wallet } from 'modules';
-import { preciseData } from './preciseNumber';
 
 export const calcWalletsData = (wallets: Wallet[], allChildCurrencies: ChildCurrency[], precision = 6) => {
-	const data: Wallet[] = [];
+	return wallets
+		.filter(wallet => !allChildCurrencies.map(cur => cur.id).includes(wallet.currency))
+		.map(wallet => {
+			const childCurrencies = allChildCurrencies
+				.filter(childCurrency => childCurrency.parent_id === wallet.currency)
+				.map(childCurrency => childCurrency.id);
 
-	const currencyDict = [];
-	for (const wallet of wallets) {
-		currencyDict[wallet.currency] = wallet;
-	}
+			const totalChildBalances = wallets
+				.filter(wal => childCurrencies.includes(wal.currency))
+				.map(child => Number(child.balance))
+				.reduce((x, y) => x + y, 0);
 
-	for (const wallet of wallets) {
-		let totalBalance = Number(wallet.balance) || 0;
-		let totalLocked = Number(wallet.locked) || 0;
+			const totalChildLocked = wallets
+				.filter(wal => childCurrencies.includes(wal.currency))
+				.map(child => Number(child.locked))
+				.reduce((x, y) => x + y, 0);
 
-		for (const childCurrency of allChildCurrencies) {
-			if (wallet.currency === childCurrency.parent_id) {
-				totalBalance += Number(currencyDict[childCurrency.id]?.balance) || 0;
-				totalLocked += Number(currencyDict[childCurrency.id]?.locked) || 0;
-			}
-		}
-
-		data.push({
-			...wallet,
-			total: preciseData(Number(totalBalance + totalLocked), precision).toString(),
-			balance: preciseData(Number(totalBalance), precision).toString(),
-			locked: preciseData(Number(totalLocked), precision).toString(),
+			return {
+				...wallet,
+				total: Number(wallet.balance) + Number(wallet.locked) + totalChildBalances + totalChildLocked || 0,
+				balance: Number(wallet.balance) + totalChildBalances || 0,
+				locked: Number(wallet.locked) + totalChildLocked,
+			};
+		})
+		.sort((prevWallet, nextWallet) => {
+			//sort desc
+			return nextWallet.total - prevWallet.total;
 		});
-	}
-
-	return data;
 };
