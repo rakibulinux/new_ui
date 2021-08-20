@@ -14,12 +14,14 @@ import {
 	apiKeysFetch,
 	ApiKeyUpdateFetch,
 	apiKeyUpdateFetch,
+	selectUserInfo,
 } from 'modules';
 import { selectApiKeys, selectApiKeysModal } from 'modules/user/apiKeys/selectors';
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 
 // tslint:disable-next-line: no-empty-interface
 interface ProfileApiKeysProps {}
@@ -27,10 +29,12 @@ interface ProfileApiKeysProps {}
 export const ProfileApiKeys: React.FC<ProfileApiKeysProps> = () => {
 	const intl = useIntl();
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const [otpCode, setOtpCode] = React.useState('');
 	const [codeFocused, setCodeFocused] = React.useState(false);
 	const apiKeys = useSelector(selectApiKeys);
+	const user = useSelector(selectUserInfo);
 	const modal = useSelector(selectApiKeysModal);
 
 	React.useEffect(() => {
@@ -286,8 +290,12 @@ export const ProfileApiKeys: React.FC<ProfileApiKeysProps> = () => {
 	};
 
 	const handleCreateKeyClick = () => {
-		const payload: ApiKeys2FAModal['payload'] = { active: true, action: 'createKey' };
-		dispatch(apiKeys2FAModal(payload));
+		if (user.otp) {
+			const payload: ApiKeys2FAModal['payload'] = { active: true, action: 'createKey' };
+			dispatch(apiKeys2FAModal(payload));
+		} else {
+			history.push('/security/2fa', { enable2fa: !user.otp });
+		}
 	};
 
 	return (
