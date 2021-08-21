@@ -1,1 +1,1 @@
-export * from './IEOItemComponent';
+export * from './CompetitionItem';

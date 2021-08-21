@@ -1,18 +1,18 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import { ListItemIEO } from '../../containers';
+import { ListCompetition } from '../../containers';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIEOList, IEOListDataFetch } from '../../../../modules';
+import { selectCompetitionList, fetchListCompetition } from '../../../../modules';
 import Pagination from 'react-bootstrap/Pagination';
 
-export type typeCompetition = 'all' | 'ended' | 'ongoing' | 'upcoming';
+export type statusCompetition = 'all' | 'ended' | 'ongoing' | 'upcoming';
 export const CompetitionListingScreen = () => {
-	const [statusCompetition, setTypeIEO] = React.useState<typeCompetition>('ongoing');
+	const [statusCompetition, setStatusCompetition] = React.useState<statusCompetition>('ongoing');
 	const [searchInputState, setSearchInputState] = React.useState<string>('');
 	const [numberPageState, setNumberPageState] = React.useState<number>(0);
 	const PAGE_SIZE = 12;
-	const handleViewListingCompetition = (type: typeCompetition) => {
-		setTypeIEO(type);
+	const handleViewListingCompetition = (status: statusCompetition) => {
+		setStatusCompetition(status);
 		setSearchInputState('');
 		setNumberPageState(0);
 	};
@@ -21,30 +21,30 @@ export const CompetitionListingScreen = () => {
 	const renderActiveButtonUpcomingClasses = classNames('upcoming', statusCompetition === 'upcoming' ? 'button--upcoming' : '');
 	const renderActiveButtonRunningClasses = classNames('running', statusCompetition === 'ongoing' ? 'button--running' : '');
 	const renderActiveButtonEndedClasses = classNames('ended', statusCompetition === 'ended' ? 'button--ended' : '');
-	const listIEO = useSelector(selectIEOList);
+	const competitions = useSelector(selectCompetitionList);
 
 	React.useEffect(() => {
-		dispatch(IEOListDataFetch());
+		dispatch(fetchListCompetition());
 	}, []);
 
 	const listRender = () => {
 		if (statusCompetition == 'all') {
-			return listIEO.payload
+			return competitions.payload
 				.filter(item => item.currency_id.toLowerCase().includes(searchInputState.toLowerCase().trim()))
 				.slice(PAGE_SIZE * numberPageState, PAGE_SIZE * numberPageState + PAGE_SIZE);
 		} else
-			return listIEO.payload
+			return competitions.payload
 				.filter(
 					item =>
-						item.type === statusCompetition &&
+						item.status === statusCompetition &&
 						item.currency_id.toLowerCase().includes(searchInputState.toLowerCase().trim()),
 				)
 				.slice(PAGE_SIZE * numberPageState, PAGE_SIZE * numberPageState + PAGE_SIZE);
 	};
 	const totalIEO = () => {
 		return statusCompetition != 'all'
-			? listIEO.payload.filter(item => item.type === statusCompetition).length
-			: listIEO.payload.length;
+			? competitions.payload.filter(item => item.status === statusCompetition).length
+			: competitions.payload.length;
 	};
 
 	const renderPagination = () => {
@@ -86,7 +86,7 @@ export const CompetitionListingScreen = () => {
 	return (
 		<div id="competition-listing-screen">
 			<div className="container competition-listing-screen__header" style={{ paddingLeft: '0px' }}>
-				<h3 className="col-12">IEO</h3>
+				<h3 className="col-12">CircleEx Competitions</h3>
 				<div className="competition-listing-function flex-wrap col-12" style={{ paddingRight: '0px' }}>
 					<div className="input-list-function-search" style={{ width: '20rem', height: '45px' }}>
 						<input
@@ -150,7 +150,7 @@ export const CompetitionListingScreen = () => {
 				</div>
 			</div>
 			<div className="container" style={{ borderRadius: '10px', boxShadow: ' 0 4px 8px -2px rgb(0 0 0 / 15%)' }}>
-				{listIEO.loading ? (
+				{competitions.loading ? (
 					<div className="loading">
 						<div className="spinner-border text-primary" role="status">
 							<span className="sr-only">Loading...</span>
@@ -158,7 +158,7 @@ export const CompetitionListingScreen = () => {
 					</div>
 				) : (
 					<React.Fragment>
-						<ListItemIEO IEOList={listRender()} />
+						<ListCompetition CompetitionList={listRender()} />
 						{renderPagination()}
 					</React.Fragment>
 				)}

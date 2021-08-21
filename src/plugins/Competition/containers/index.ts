@@ -1,1 +1,1 @@
-export * from './ListItemIEO';
+export * from './ListCompetition';

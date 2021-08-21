@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { IEOItemComponent } from './../../components';
-import { IEOItem } from './../../../../modules';
+import { CompetitionItem } from '../../components';
+import { NewCompetitionState } from '../../../../modules';
 
-interface ListItemIEOProps {
-	IEOList: Array<IEOItem>;
+interface ListCompetitionProps {
+	CompetitionList: Array<NewCompetitionState>;
 }
-export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
-	const { IEOList } = props;
+export const ListCompetition: React.FC<ListCompetitionProps> = props => {
+	const { CompetitionList } = props;
 
 	const EmptyComponent = () => {
 		return (
@@ -26,24 +26,21 @@ export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 	};
 	return (
 		<div id="ioe-listing-screen-ieos" className="row mt-5">
-			{!IEOList.length
+			{!CompetitionList.length
 				? EmptyComponent()
-				: IEOList.map((item, index) => {
+				: CompetitionList.map((item, index) => {
 						return (
 							<div key={index} className="col-md-6 col-xl-4 mb-5">
-								<IEOItemComponent
+								<CompetitionItem
 									type={item.type}
-									currencyId={item.currency_id}
-									startDate={item.start_date}
-									endDate={item.end_date}
-									currencyAvailable={item.currency_available}
-									description={item.description}
-									bonus={item.bonus}
-									remains={Number(item.remains)}
-									total={Number(item.total_ieo)}
+									currency_id={item.currency_id}
+									start_date={item.start_date}
+									end_date={item.end_date}
 									id={item.id}
 									key={index}
-									progress={item.progress}
+									market_ids={item.market_ids}
+									status={item.status}
+									total_prize={item.total_prize}
 								/>
 							</div>
 						);

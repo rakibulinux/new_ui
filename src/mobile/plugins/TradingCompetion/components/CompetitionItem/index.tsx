@@ -67,7 +67,7 @@ export const CompetitionItem: React.FC<CompetitionItemProps> = (props: Competiti
 				<div className="col-12 d-flex flex-column justify-content-center align-items-center">
 					<img style={{ width: '60px', height: '60px', textAlign: 'center' }} src={GiftBoxImage} alt="gift-box" />
 					<br />
-					<h4>{total_prize.toUpperCase()}</h4>
+					<h4>{total_prize.toUpperCase() || ''}</h4>
 					<h5>Best prize</h5>
 				</div>
 			</div>
