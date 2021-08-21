@@ -15,6 +15,7 @@ export const defaultConfig: Config = {
 		stakeUrl: '',
 		walletUrl: '',
 		referralUrl: '',
+		competitionUrl: '',
 	},
 	minutesUntilAutoLogout: '30',
 	rangerReconnectPeriod: '1',
@@ -48,6 +49,7 @@ declare global {
 window.env = window.env || defaultConfig;
 Cryptobase.config = { ...window.env };
 //hot custome env
+Cryptobase.config.api.competitionUrl = Cryptobase.config.api.competitionUrl || '/api/v2/competition';
 Cryptobase.config.api.airdropUrl = Cryptobase.config.api.airdropUrl || '/api/v2/airdrop';
 Cryptobase.config.api.sunshineUrl = Cryptobase.config.api.sunshineUrl || '/api/v2/sunshine';
 Cryptobase.config.api.stakeUrl = Cryptobase.config.api.stakeUrl || '/api/v2/stake';
@@ -57,6 +59,7 @@ Cryptobase.config.api.referralUrl = Cryptobase.config.api.referralUrl || '/api/v
 //end custome env
 Cryptobase.config.storage = Cryptobase.config.storage || {};
 
+export const competitionUrl = () => Cryptobase.config.api.competitionUrl;
 export const tradeUrl = () => Cryptobase.config.api.tradeUrl;
 export const authUrl = () => Cryptobase.config.api.authUrl;
 export const applogicUrl = () => Cryptobase.config.api.applogicUrl;

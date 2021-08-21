@@ -12,6 +12,7 @@ export interface Config {
 		stakeUrl: string;
 		walletUrl: string;
 		referralUrl: string;
+		competitionUrl: string;
 	};
 	minutesUntilAutoLogout?: string;
 	rangerReconnectPeriod?: string;
