@@ -85,6 +85,7 @@ export const AssetsFeeScreen = () => {
 			withdraw_limit_24h: null,
 			withdrawal_enabled: null,
 			deposit_enabled: null,
+			deposit_fee: null,
 		};
 		return {
 			...child,
@@ -94,11 +95,13 @@ export const AssetsFeeScreen = () => {
 			withdraw_fee: currency.withdraw_fee,
 			withdrawal_enabled: currency.withdrawal_enabled,
 			deposit_enabled: currency.deposit_enabled,
+			deposit_fee: currency.deposit_fee,
 		};
 	});
+
 	const listAllChildCurrencyID = childCurrencies.map(currency => currency.id.toLowerCase());
 
-	const millifyAmountString = (amount: string | null) => {
+	const millifyAmountString = (amount: string | null | number) => {
 		if (Number(amount) >= 1000000) {
 			return millify(Number(amount), {
 				precision: 2,
@@ -149,11 +152,13 @@ export const AssetsFeeScreen = () => {
 			);
 			const childBlockchainKeys = childs.map(child => child.blockchain_key);
 			const childMinDeposits = childs.map(child => child.min_deposit_amount);
+			const childMinDepositsFee = childs.map(child => child.deposit_fee);
 			const childMinWithdraw = childs.map(child => child.min_withdraw_amount);
 			const childWithdrawFee = childs.map(child => child.withdraw_fee);
 
 			const blockchainKeys = [currency.blockchain_key, ...childBlockchainKeys];
 			const minDeposits = [currency.min_deposit_amount, ...childMinDeposits];
+			const depositFees = [currency.deposit_fee, ...childMinDepositsFee];
 			const minWithdraws = [currency.min_withdraw_amount, ...childMinWithdraw];
 			const withdrawFees = [currency.withdraw_fee, ...childWithdrawFee];
 
@@ -169,9 +174,11 @@ export const AssetsFeeScreen = () => {
 				),
 				min_deposit_amount: (
 					<div>
-						{minDeposits.map(amount => (
+						{minDeposits.map((amount, index) => (
 							<div className="d-flex flex-row justify-content-between">
-								{Number(amount) === 0 ? 'unlimited' : millifyAmountString(amount)}
+								{Number(amount) === 0
+									? 'unlimited'
+									: millifyAmountString((100 * Number(amount)) / (100 - Number(depositFees[index])))}
 								<span className="text-secondary">{currency.id.toUpperCase()}</span>
 							</div>
 						))}
