@@ -1,5 +1,5 @@
 import { AirdropCoinListScreen } from 'plugins/AirdropCoin';
-import { CompetitionListingScreen } from 'plugins/Competition/screen';
+import { CompetitionListingScreen, CompetitionRankingScreen } from 'plugins/Competition/screen';
 import { VoteScreen } from 'plugins/Vote';
 import * as React from 'react';
 import { Button, Spinner } from 'react-bootstrap';
@@ -506,7 +506,7 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 					<Route path="/ieo/detail/:ieoID" exact component={IEODetailScreen} />
 					<Route path="/vote" exact component={VoteScreen} />
 					<Route path="/trading-competition" exact component={CompetitionListingScreen} />
-					{/* <Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} /> */}
+					<Route path="/trading-competition/:competition_id" exact component={CompetitionRankingScreen} />
 					<Route path="/stake" exact component={StakingListScreen} />
 					<Route path="/stake/detail/:stake_id" exact component={StakingDetailScreen} />
 					<Route path="**">

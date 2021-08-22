@@ -5,7 +5,7 @@ import { ListCompetitionState } from './types';
 
 export const initialCompetitionList: ListCompetitionState = {
 	payload: [],
-	loading: false,
+	loading: true,
 };
 
 export const CompetitionListReducer = (state = initialCompetitionList, action: CompetitionListAction) => {

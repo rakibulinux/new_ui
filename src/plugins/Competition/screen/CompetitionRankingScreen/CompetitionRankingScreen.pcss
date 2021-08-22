@@ -1,0 +1,81 @@
+#competition-ranking-screen {
+	margin-bottom: 1rem;
+	margin-top: 1rem;
+	padding-bottom: 42px;
+	.competition-ranking-detail {
+		background: #313445;
+		border-radius: 3px;
+		padding-bottom: 58px;
+		&__title {
+			padding-top: 58px;
+			h4 {
+				font-size: 36px;
+				font-weight: bold;
+				color: #f07f29;
+				line-height: 30px;
+			}
+		}
+		&__description {
+			width: 60%;
+			p {
+				font-size: 18px;
+				line-height: 30px;
+			}
+		}
+		&__info {
+			padding: 0px 50px;
+			position: relative;
+			&__update {
+				text-align: left;
+				line-height: 20px;
+				&__title {
+					font-size: 18px;
+					color: #848e9c;
+				}
+				&__value {
+					color: #fff;
+					font-size: 20px;
+				}
+			}
+
+			&__selection {
+				margin: auto;
+				border: 1px solid #848e9c;
+				box-sizing: border-box;
+				border-radius: 4px;
+				width: 80%;
+				height: 46px;
+				font-size: 18px;
+				outline: none;
+				cursor: pointer;
+				background-color: inherit;
+				option {
+					background-color: #313445;
+					outline: none;
+					cursor: pointer;
+
+					&:hover,
+					&:focus {
+						background-color: green !important;
+					}
+				}
+			}
+
+			&__forward {
+				margin-top: 25px;
+				color: #fff;
+				width: 145px;
+				outline: none;
+				border: none;
+				background: #2fb67e;
+				border: 0.5px solid #848e9c;
+				box-sizing: border-box;
+				border-radius: 3px;
+				height: 38px;
+
+				&:hover {
+				}
+			}
+		}
+	}
+}

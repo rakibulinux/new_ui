@@ -3,18 +3,19 @@ import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { currenciesFetch, NewCompetitionState, selectCurrencies } from '../../../../modules';
 import Countdown from 'react-countdown';
-
+import classNames from 'classnames';
 // import NP from 'number-precision';
 // import millify from 'millify';
 export const CompetitionItem: React.FC<NewCompetitionState> = props => {
 	const dispatch = useDispatch();
 	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
 	const history = useHistory();
-	console.log(props);
-
+	const competitionTypeClassName = classNames(
+		`${props.type === 'trade' ? 'competition-type--trade' : 'competition-type--stake'}`,
+	);
 	const status = (color: string, type: string) => {
 		return (
-			<div className="ieo-item-coin-time" style={{ backgroundColor: `${color}` }}>
+			<div className="competition-item-coin-time" style={{ backgroundColor: `${color}` }}>
 				<p style={{ textTransform: 'uppercase', fontSize: '14px', lineHeight: '16px', margin: 0 }}>{type}</p>
 			</div>
 		);
@@ -81,17 +82,18 @@ export const CompetitionItem: React.FC<NewCompetitionState> = props => {
 	};
 	return (
 		<div
-			id="ieo-item"
+			id="competition-item"
 			onClick={() => {
 				const location = {
-					pathname: `/ieo/detail/${props.id}`,
+					pathname: `/trading-competition/${props.id}`,
 				};
 				history.push(location);
 			}}
 		>
-			<div className="ioe-item-header">
+			<div className="competition-item-header">
 				{renderStatus(props.status)}
-				<div className="ieo-item-coin-img">
+				<div className={`competition-item-type ${competitionTypeClassName}`}>{`${props.type}`}</div>
+				<div className="competition-item-coin-img">
 					<img
 						src={getCryptoIcon(props.currency_id.toUpperCase())}
 						alt={`${props.currency_id}-icon`}
@@ -100,24 +102,25 @@ export const CompetitionItem: React.FC<NewCompetitionState> = props => {
 				</div>
 			</div>
 
-			<div className="ieo-item-content">
-				<h3>{props.total_prize}</h3>
+			<div className="competition-item-content">
+				<h3>Best Price</h3>
+				<h3>{props.total_prize?.toUpperCase()}</h3>
 				{rendererCountDown(props.status)}
-				<div className="ieo-item-currencies d-flex flex-row flex-wrap">
+				<div className="competition-item-currencies d-flex flex-row flex-wrap">
 					{props.market_ids
-						.replace(/\//g, '')
 						.split(',')
+						.filter(item => item.trim() !== '')
 						.map((currency, index) => (
-							<div key={index} className="ieo-item-currency">
+							<div key={index} className="competition-item-currency">
 								<p>{currency}</p>
 							</div>
 						))}
 				</div>
 			</div>
 
-			<div className="ioe-item-footer">
-				<button className="ioe-item-footer-status col-6">{`Start`}</button>
-				<p className="ioe-item-footer-bonus col-6">{`Learn More`}</p>
+			<div className="competition-item-footer">
+				<button className="competition-item-footer-status col-6">{`Start`}</button>
+				<p className="competition-item-footer-bonus col-6">{`Learn More`}</p>
 			</div>
 		</div>
 	);

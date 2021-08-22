@@ -1,26 +1,43 @@
-#ieo-item {
+#competition-item {
 	background: #313445;
 	border-radius: 5px;
 	box-shadow: 0 70px 100px rgba(0, 0, 0, 0.08);
 	cursor: pointer;
-	height: 418px;
+	height: 385px;
 	position: relative;
 
-	.ioe-item-header {
+	.competition-item-header {
 		background: rgba(171, 200, 188, 0.15);
 		height: 27.75%;
 		position: relative;
 
-		.ieo-item-coin-time {
-			border-radius: 0 0 0 3px;
+		.competition-item-coin-time {
+			border-radius: 0 0 0 5px;
 			color: #ffff;
 			padding: 7px 17px 7px 17px;
 			position: absolute;
 			right: 0;
 			text-align: center;
 		}
-
-		.ieo-item-coin-img {
+		.competition-item-type {
+			border-radius: 5px 0px;
+			color: #ffff;
+			padding: 7px 17px 7px 17px;
+			text-transform: uppercase;
+			font-size: 14px;
+			line-height: 16px;
+			margin: 0px;
+			position: absolute;
+			left: 0;
+			text-align: center;
+		}
+		.competition-type--stake {
+			background: rgba(132, 142, 156, 0.35);
+		}
+		.competition-type--trade {
+			background: #dc3545;
+		}
+		.competition-item-coin-img {
 			display: flex;
 			height: 100%;
 			justify-content: center;
@@ -32,13 +49,13 @@
 			}
 		}
 
-		.ieo-item-coin-remains {
+		.competition-item-coin-remains {
 			bottom: 2rem;
 			position: absolute;
 		}
 	}
 
-	.ieo-item-content {
+	.competition-item-content {
 		position: relative;
 		text-align: left;
 		width: 100%;
@@ -48,30 +65,34 @@
 			font-size: 20px;
 			font-weight: 500;
 			line-height: 23px;
-			margin: 30px 22px 20px;
+			margin: 10px 22px 20px;
 		}
 
-		.ieo-item-currencies {
+		.competition-item-currencies {
 			display: flex;
 			justify-content: center;
 			text-align: center;
 
-			.ieo-item-currency {
+			.competition-item-currency {
 				border: 1px solid #848e9c;
 				border-radius: 2px;
 				box-sizing: border-box;
 				color: #ffff;
 				margin: 10px;
 				margin-left: 0.2rem;
+				height: 24px;
 				margin-right: 0.2rem;
 				margin-top: 10px;
-				width: 65px;
+				width: 70px;
 				text-transform: uppercase;
+				p {
+					margin-top: 2px;
+				}
 			}
 		}
 	}
 
-	.ioe-item-footer {
+	.competition-item-footer {
 		bottom: 1rem;
 		display: flex;
 		justify-content: center;
@@ -80,7 +101,7 @@
 		padding: 0px 5%;
 		margin: auto;
 
-		.ioe-item-footer-status {
+		.competition-item-footer-status {
 			background-color: #30b57e;
 			border: none;
 			border-radius: 5px;
@@ -105,7 +126,7 @@
 			margin: 0 10px 0 10px;
 		}
 
-		.ioe-item-footer-bonus {
+		.competition-item-footer-bonus {
 			background: #444a56;
 			border: 1px solid #848e9c;
 			border-radius: 4px;
