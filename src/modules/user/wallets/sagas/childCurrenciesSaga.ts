@@ -18,7 +18,7 @@ export function* childCurrenciesSaga(action: WalletsAddressFetch) {
 	try {
 		const list = yield call(
 			API.get(createOptions(getCsrfToken())),
-			`/private/wallet/child/one?currency=${action.payload.currency}`,
+			`/public/wallet/child/one?currency=${action.payload.currency}`,
 		);
 		yield put(
 			walletsChildCurrenciesData({
@@ -33,7 +33,7 @@ export function* childCurrenciesSaga(action: WalletsAddressFetch) {
 
 export function* allChildCurrenciesSaga(action: WalletsAddressFetch) {
 	try {
-		const list = yield call(API.get(createOptions(getCsrfToken())), `/private/wallet/child/all`);
+		const list = yield call(API.get(createOptions(getCsrfToken())), `/public/wallet/child/all`);
 		yield put(
 			allChildCurrenciesData({
 				payload: list,
