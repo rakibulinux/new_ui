@@ -1,3 +1,5 @@
+import { errorCompetitionItem } from './../actions';
+import { dataCompetitionItem } from './../actions';
 import { FetchCompetitionItem } from '../actions';
 import { put, call } from 'redux-saga/effects';
 import { API, RequestOptions } from 'api';
@@ -8,10 +10,10 @@ const createOptions = (csrfToken?: string): RequestOptions => {
 
 export function* competitionItemSaga(action: FetchCompetitionItem) {
 	try {
-		const {};
-		const competitionList = yield call(API.get(createOptions(getCsrfToken())), '/public/competition/:');
-		yield put(listCompetitionData(competitionList));
+		const { id } = action;
+		const competition = yield call(API.get(createOptions(getCsrfToken())), `/public/competition/detail/${id}`);
+		yield put(dataCompetitionItem(competition, false));
 	} catch (error) {
-		yield put(listCompetitionError(error));
+		yield put(errorCompetitionItem(error));
 	}
 }

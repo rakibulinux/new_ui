@@ -1,10 +1,7 @@
 import { COMPETITION_ITEM_DATA, COMPETITION_ITEM_ERROR, COMPETITION_ITEM_FETCH } from './constants';
-import { NewCompetitionState } from './types';
-import { CompetitionItemActions } from './';
-const initialCompetitionItemState: {
-	payload: NewCompetitionState;
-	loading: boolean;
-} = {
+import { NewCompetition, NewCompetitionState } from './types';
+import { ItemCompetitionActions } from './';
+const initialCompetitionItemState: NewCompetitionState = {
 	payload: {
 		id: 0,
 		status: 'ended',
@@ -21,7 +18,7 @@ const initialCompetitionItemState: {
 	loading: true,
 };
 
-export const CompetitionItemReducer = (state = initialCompetitionItemState, action: CompetitionItemActions) => {
+export const CompetitionItemReducer = (state = initialCompetitionItemState, action: ItemCompetitionActions) => {
 	switch (action.type) {
 		case COMPETITION_ITEM_FETCH:
 			return {
@@ -30,7 +27,8 @@ export const CompetitionItemReducer = (state = initialCompetitionItemState, acti
 				error: undefined,
 			};
 		case COMPETITION_ITEM_DATA:
-			const data = action.payload as NewCompetitionState;
+			const data = action.payload as NewCompetition;
+
 			return {
 				...state,
 				payload: data,

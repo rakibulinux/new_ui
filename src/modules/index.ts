@@ -1,4 +1,10 @@
-import { ListCompetitionState } from './plugins/competition/';
+import {
+	CompetitionVolumeState,
+	ListCompetitionState,
+	NewCompetitionState,
+	rootCompetitionItemSaga,
+	rootCompetitionVolumeSaga,
+} from './plugins/competition/';
 import { CommisionInfoState, EstimatedCommisionState } from './plugins/referral/types';
 import { combineReducers } from 'redux';
 import { all, call } from 'redux-saga/effects';
@@ -154,6 +160,8 @@ export interface RootState {
 	};
 	competitions: {
 		competitionList: ListCompetitionState;
+		competitionItem: NewCompetitionState;
+		competitionVolume: CompetitionVolumeState;
 	};
 	trading_competitions: {
 		competitions: CompetionListState;
@@ -305,6 +313,8 @@ export function* rootSaga() {
 		call(rootPriceSaga),
 		call(rootCompetionsListSaga),
 		call(rootcompetitionItemSaga),
+		call(rootCompetitionVolumeSaga),
+		call(rootCompetitionItemSaga),
 		call(rootRankingsSaga),
 		call(rootEventSaga),
 		call(rootLunarSaga),

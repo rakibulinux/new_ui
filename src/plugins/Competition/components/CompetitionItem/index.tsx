@@ -1,12 +1,12 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
-import { currenciesFetch, NewCompetitionState, selectCurrencies } from '../../../../modules';
+import { currenciesFetch, NewCompetition, selectCurrencies } from '../../../../modules';
 import Countdown from 'react-countdown';
 import classNames from 'classnames';
 // import NP from 'number-precision';
 // import millify from 'millify';
-export const CompetitionItem: React.FC<NewCompetitionState> = props => {
+export const CompetitionItem: React.FC<NewCompetition> = props => {
 	const dispatch = useDispatch();
 	const dispatchFetchCurrencies = () => dispatch(currenciesFetch());
 	const history = useHistory();

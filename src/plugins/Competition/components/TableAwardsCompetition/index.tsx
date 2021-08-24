@@ -1,6 +1,13 @@
 import React from 'react';
 
-export const TableAwards = () => {
+interface TableAwardProps{
+	awards :Array<{
+		rank:number;
+		award:string;
+	}>
+}
+export const TableAwards = (props:TableAwardProps) => {
+	const {awards} = props;
 	return (
 		<div id="table-award-competition">
 			<table className="table table-dark">
@@ -11,46 +18,13 @@ export const TableAwards = () => {
 					</tr>
 				</thead>
 				<tbody>
-					<tr className="text-center">
-						<th scope="row">1</th>
-						<td>Mark</td>
+					{awards.map((item)=><React.Fragment key={item.rank}>
+						<tr className="text-center">
+						<td scope="row">{item.rank}</td>
+						<td>{item.award}</td>
 					</tr>
-					<tr className="text-center">
-						<th scope="row">2</th>
-						<td>Jacob</td>
-					</tr>
-					<tr className="text-center">
-						<th scope="row">3</th>
-						<td>Larry</td>
-					</tr>
-					<tr className="text-center">
-						<th scope="row">3</th>
-						<td>Larry</td>
-					</tr>
-					<tr className="text-center">
-						<th scope="row">3</th>
-						<td>Larry</td>
-					</tr>
-					<tr className="text-center">
-						<th scope="row">3</th>
-						<td>Larry</td>
-					</tr>
-					<tr className="text-center">
-						<th scope="row">3</th>
-						<td>Larry</td>
-					</tr>
-					<tr className="text-center">
-						<th scope="row">3</th>
-						<td>Larry</td>
-					</tr>
-					<tr className="text-center">
-						<th scope="row">3</th>
-						<td>Larry</td>
-					</tr>
-					<tr className="text-center">
-						<th scope="row">3</th>
-						<td>Larry</td>
-					</tr>
+					</React.Fragment>)}
+					
 				</tbody>
 			</table>
 		</div>

@@ -1,7 +1,7 @@
 import { CommonState } from 'modules/types';
-import { NewCompetitionState } from '../item/types';
+import { NewCompetition } from '../item/types';
 
 export interface ListCompetitionState extends CommonState {
-	payload: NewCompetitionState[];
+	payload: NewCompetition[];
 	loading: boolean;
 }

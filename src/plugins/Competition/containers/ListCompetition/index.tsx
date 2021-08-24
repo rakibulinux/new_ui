@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { CompetitionItem } from '../../components';
-import { NewCompetitionState } from '../../../../modules';
+import { NewCompetition } from '../../../../modules';
 
 interface ListCompetitionProps {
-	CompetitionList: Array<NewCompetitionState>;
+	CompetitionList: Array<NewCompetition>;
 }
 export const ListCompetition: React.FC<ListCompetitionProps> = props => {
 	const { CompetitionList } = props;
@@ -41,6 +41,7 @@ export const ListCompetition: React.FC<ListCompetitionProps> = props => {
 									market_ids={item.market_ids}
 									status={item.status}
 									total_prize={item.total_prize}
+									next_update={item.next_update}
 								/>
 							</div>
 						);

@@ -1,2 +1,2 @@
 export * from './CompetitionListingScreen';
-export * from './CompetitionRankingScreen';
+export * from './CompetitionDetailScreen';
