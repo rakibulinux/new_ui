@@ -8,24 +8,28 @@ interface ListItemIEOProps {
 export const ListItemIEO: React.FC<ListItemIEOProps> = props => {
 	const { IEOList } = props;
 
-	return IEOList.map((item, index) => {
-		return (
-			<div key={index} className="col-md-6 col-xl-4 mb-5">
-				<IEOItemComponent
-					type={item.type}
-					currencyId={item.currency_id}
-					startDate={item.start_date}
-					endDate={item.end_date}
-					currencyAvailable={item.currency_available}
-					description={item.description}
-					bonus={item.bonus}
-					remains={Number(item.remains)}
-					total={Number(item.total_ieo)}
-					id={item.id}
-					key={index}
-					progress={item.progress}
-				/>
-			</div>
-		);
-	});
+	return (
+		<React.Fragment>
+			{IEOList.map((item, index) => {
+				return (
+					<div key={index} className="col-md-6 col-xl-4 mb-5">
+						<IEOItemComponent
+							type={item.type}
+							currencyId={item.currency_id}
+							startDate={item.start_date}
+							endDate={item.end_date}
+							currencyAvailable={item.currency_available}
+							description={item.description}
+							bonus={item.bonus}
+							remains={Number(item.remains)}
+							total={Number(item.total_ieo)}
+							id={item.id}
+							key={index}
+							progress={item.progress}
+						/>
+					</div>
+				);
+			})}
+		</React.Fragment>
+	);
 };
