@@ -1,74 +1,96 @@
-import classnames from 'classnames';
 import { useCurrenciesFetch } from 'hooks';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectStakingList, stakingListFetch } from '../../../../../modules';
+import { selectStakingList, selectStakingListLoading, stakingListFetch } from 'modules';
 import { StakingList } from '../../containers';
+import { WrapperTabPage } from 'mobile/components';
+import { LoadingSpinner } from 'mobile/plugins';
 
+const PAGE_SIZE = 4;
 export const StakingListMobileScreen = () => {
 	// state
-	const [filterStackingState, setFilterStackingState] = React.useState<'upcoming' | 'running' | 'ended' | 'all'>('all');
-	const upcomingButtonClassName = classnames(
-		'stack-tab-btn',
-		filterStackingState === 'upcoming' ? 'stack-tab-btn__upcoming' : '',
-	);
-	const runningButtonClassName = classnames('stack-tab-btn', filterStackingState === 'running' ? 'stack-tab-btn__running' : '');
-	const allButtonClassName = classnames('stack-tab-btn', filterStackingState === 'all' ? 'stack-tab-btn__all' : '');
-	const endedButtonClassName = classnames('stack-tab-btn', filterStackingState === 'ended' ? 'stack-tab-btn__ended' : '');
-
-	// store
-	const stakingList = useSelector(selectStakingList);
-	const upcomingList = stakingList.filter(staking => staking.status === 'upcoming');
-	const runningList = stakingList.filter(staking => staking.status === 'running');
-	const endedList = stakingList.filter(staking => staking.status === 'ended');
-
+	const [filterStackingState, setFilterStackingState] = React.useState<'upcoming' | 'running' | 'all'>('all');
+	const [pageIndex, setPageIndex] = React.useState(1);
+	const [searchState, setSearchState] = React.useState('');
 	// dispatch
 	const dispatch = useDispatch();
-	const dispatchFetchStakingList = React.useCallback(() => dispatch(stakingListFetch()), [dispatch]);
+	const dispatchFetchStakingList = () => dispatch(stakingListFetch());
+
 	useCurrenciesFetch();
 
 	React.useEffect(() => {
+		setPageIndex(1);
+	}, [filterStackingState]);
+
+	React.useEffect(() => {
 		dispatchFetchStakingList();
-	}, [dispatchFetchStakingList]);
-	const renderStakingList = () => {
-		return filterStackingState === 'upcoming' ? (
-			<StakingList staking_list={[...upcomingList]} />
-		) : filterStackingState === 'running' ? (
-			<StakingList staking_list={[...runningList]} />
-		) : filterStackingState === 'ended' ? (
-			<StakingList staking_list={[...endedList]} />
-		) : (
-			<StakingList staking_list={[...runningList, ...upcomingList, ...endedList]} />
-		);
+	}, []);
+
+	React.useEffect(() => {
+		filterStackingState !== 'all' && setFilterStackingState('all');
+	}, [searchState]);
+
+	// store
+	const stakingList = useSelector(selectStakingList);
+	const isLoadingStakingList = useSelector(selectStakingListLoading);
+
+	const filterList = (() => {
+		let result = stakingList;
+		switch (filterStackingState) {
+			case 'running':
+				result = stakingList.filter(staking => staking.status === 'running');
+				break;
+			case 'upcoming':
+				result = stakingList.filter(staking => staking.status === 'upcoming');
+				break;
+			default:
+				result = stakingList;
+				break;
+		}
+
+		if (searchState) {
+			result = result.filter(stake => stake.currency_id.toLowerCase().includes(searchState.toLowerCase()));
+		}
+
+		return result;
+	})();
+
+	const paginationFilter = () => {
+		let result = filterList;
+		const startSlice = (pageIndex - 1) * PAGE_SIZE;
+		const endSlice = startSlice + PAGE_SIZE;
+		result = result.slice(startSlice, endSlice);
+
+		return result;
 	};
 
 	return (
 		<div id="staking-list-mobile-screen">
-			<div className="container">
-				<div className="row">
-					<div className="col-12">
-						<h4>Stake</h4>
-					</div>
-				</div>
-				<div className="staking-buttons">
-					<button onClick={() => setFilterStackingState('all')} className={allButtonClassName}>
-						All
-					</button>
-					<button onClick={() => setFilterStackingState('upcoming')} className={upcomingButtonClassName}>
-						Upcoming
-					</button>
-					<button onClick={() => setFilterStackingState('running')} className={runningButtonClassName}>
-						Running
-					</button>
-					<button onClick={() => setFilterStackingState('ended')} className={endedButtonClassName}>
-						Ended
-					</button>
-				</div>
-
-				<div style={{ position: 'relative' }} className="row mt-5">
-					{renderStakingList()}
-				</div>
-			</div>
+			<WrapperTabPage
+				title={'Stake'}
+				filterState={filterStackingState}
+				setFilterState={setFilterStackingState}
+				searchState={searchState}
+				setSearchState={setSearchState}
+				totalItem={filterList.length}
+				pageIndex={pageIndex}
+				pageSize={PAGE_SIZE}
+				onPageChange={pageIndexParam => {
+					setPageIndex(pageIndexParam);
+				}}
+			>
+				{filterList.length || isLoadingStakingList ? (
+					isLoadingStakingList ? (
+						<div hidden={!isLoadingStakingList} style={{ marginTop: '200px' }}>
+							<LoadingSpinner loading={isLoadingStakingList} />
+						</div>
+					) : (
+						<div className="row">
+							<StakingList staking_list={paginationFilter()} />
+						</div>
+					)
+				) : undefined}
+			</WrapperTabPage>
 		</div>
 	);
 };

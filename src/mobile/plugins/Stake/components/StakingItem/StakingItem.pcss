@@ -1,10 +1,17 @@
 #stacking-item {
 	background-color: var(--mobile-body-background-color);
+	border-radius: 5px;
 	box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
 	font-size: 12px;
 	min-height: 370px;
+	overflow: hidden;
 	position: relative;
 	width: 100%;
+
+	button {
+		border: none;
+		outline: none;
+	}
 
 	.staking-item-container {
 		height: 100%;
@@ -99,15 +106,20 @@
 		.buttons {
 			height: 15%;
 			margin-bottom: 0;
-			padding: 1rem 1rem;
+			padding-bottom: 1rem;
+			padding-left: 1rem;
+			padding-right: 1rem;
 
 			.go-stack-btn {
+				align-items: center;
 				background-color: #30b57e;
 				border-radius: 5px;
 				color: #fff;
+				display: flex;
 				flex: 1 1 0%;
 				font-size: 13px;
-				line-height: 36px;
+				height: 100%;
+				justify-content: center;
 				margin: 3px;
 				margin-bottom: 0;
 				padding: 0 5px;
@@ -122,12 +134,15 @@
 			}
 
 			.learn-more-btn {
+				align-items: center;
 				background-color: #434a57;
 				border-radius: 5px;
 				color: #fff;
+				display: flex;
 				flex: 1 1 0%;
 				font-size: 13px;
-				line-height: 36px;
+				height: 100%;
+				justify-content: center;
 				margin: 3px;
 				margin-bottom: 0;
 				padding: 0 5px;
@@ -158,7 +173,7 @@
 
 	.stacking-item__label {
 		align-items: center;
-		border-radius: 0 0 0 5px;
+		border-radius: 0 5px 0 5px;
 		color: #fff;
 		display: flex;
 		font-size: 12px;
