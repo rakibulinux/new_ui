@@ -1,13 +1,11 @@
+import { CompetitionAward } from 'modules';
 import React from 'react';
 
-interface TableAwardProps{
-	awards :Array<{
-		rank:number;
-		award:string;
-	}>
+interface TableAwardProps {
+	awards: Array<CompetitionAward>;
 }
-export const TableAwards = (props:TableAwardProps) => {
-	const {awards} = props;
+export const TableAwards = (props: TableAwardProps) => {
+	const { awards } = props;
 	return (
 		<div id="table-award-competition">
 			<table className="table table-dark">
@@ -18,13 +16,14 @@ export const TableAwards = (props:TableAwardProps) => {
 					</tr>
 				</thead>
 				<tbody>
-					{awards.map((item)=><React.Fragment key={item.rank}>
-						<tr className="text-center">
-						<td scope="row">{item.rank}</td>
-						<td>{item.award}</td>
-					</tr>
-					</React.Fragment>)}
-					
+					{awards.map(item => (
+						<React.Fragment key={item.rank}>
+							<tr className="text-center">
+								<td scope="row">{item.rank}</td>
+								<td>{item.prize}</td>
+							</tr>
+						</React.Fragment>
+					))}
 				</tbody>
 			</table>
 		</div>

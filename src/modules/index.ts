@@ -1,7 +1,10 @@
 import {
+	CompetitionAwardState,
 	CompetitionVolumeState,
 	ListCompetitionState,
 	NewCompetitionState,
+	RankingCompetitionState,
+	rootCompetitionAwardSaga,
 	rootCompetitionItemSaga,
 	rootCompetitionVolumeSaga,
 } from './plugins/competition/';
@@ -89,6 +92,7 @@ import { rootUserActivitySaga, UserActivityState } from './user/userActivity';
 import { ChildCurrenciesState, rootWalletsSaga, WalletsState } from './user/wallets';
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
 import { rootCompetitionListSaga } from './plugins/competition/list/saga';
+import { rootCompetitionRankingSaga } from './plugins/competition/ranking/sagas';
 
 export * from './airdrops/airdrop';
 export * from './airdrops/claim';
@@ -162,6 +166,8 @@ export interface RootState {
 		competitionList: ListCompetitionState;
 		competitionItem: NewCompetitionState;
 		competitionVolume: CompetitionVolumeState;
+		competitionRanking: RankingCompetitionState;
+		competitionAward: CompetitionAwardState;
 	};
 	trading_competitions: {
 		competitions: CompetionListState;
@@ -315,6 +321,8 @@ export function* rootSaga() {
 		call(rootcompetitionItemSaga),
 		call(rootCompetitionVolumeSaga),
 		call(rootCompetitionItemSaga),
+		call(rootCompetitionRankingSaga),
+		call(rootCompetitionAwardSaga),
 		call(rootRankingsSaga),
 		call(rootEventSaga),
 		call(rootLunarSaga),

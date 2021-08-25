@@ -107,14 +107,20 @@ export const CompetitionItem: React.FC<NewCompetition> = props => {
 				<h3>{props.total_prize?.toUpperCase()}</h3>
 				{rendererCountDown(props.status)}
 				<div className="competition-item-currencies d-flex flex-row flex-wrap">
-					{props.market_ids
-						.split(',')
-						.filter(item => item.trim() !== '')
-						.map((currency, index) => (
-							<div key={index} className="competition-item-currency">
-								<p>{currency}</p>
-							</div>
-						))}
+					{props.type === 'trade' ? (
+						props.market_ids
+							.split(',')
+							.filter(item => item.trim() !== '')
+							.map((currency, index) => (
+								<div key={index} className="competition-item-currency">
+									<p>{currency}</p>
+								</div>
+							))
+					) : (
+						<div className="competition-item-currency">
+							<p>{props.currency_id}</p>
+						</div>
+					)}
 				</div>
 			</div>
 

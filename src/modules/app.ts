@@ -70,7 +70,13 @@ import { profileReducer } from './user/profile';
 import { userActivityReducer } from './user/userActivity';
 import { allChildCurrenciesReducer, childCurrenciesReducer, walletsReducer } from './user/wallets';
 import { withdrawLimitReducer } from './user/withdrawLimit';
-import { CompetitionListReducer, CompetitionItemReducer, CompetitionVolumeReducer } from './plugins/competition';
+import {
+	CompetitionListReducer,
+	CompetitionItemReducer,
+	CompetitionVolumeReducer,
+	rankingCompetitionReducer,
+	competitionAwardReducer,
+} from './plugins/competition';
 export const eventsReducer = combineReducers({
 	lunar: lunarReducer,
 });
@@ -106,6 +112,8 @@ export const competitionReducer = combineReducers({
 	competitionList: CompetitionListReducer,
 	competitionItem: CompetitionItemReducer,
 	competitionVolume: CompetitionVolumeReducer,
+	competitionRanking: rankingCompetitionReducer,
+	competitionAward: competitionAwardReducer,
 });
 export const tradingCompetitionsReducer = combineReducers({
 	competitions: competitionsListReducer,
