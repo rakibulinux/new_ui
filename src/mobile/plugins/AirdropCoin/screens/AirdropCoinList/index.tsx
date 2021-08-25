@@ -2,6 +2,7 @@ import message from 'antd/lib/message';
 import { localeDate } from 'helpers';
 import { useAirdropCoinClaimFetch, useAirdropCoinFetch } from 'hooks';
 import get from 'lodash/get';
+import { WrapperTabPage } from 'mobile/components';
 import { airdropCoinClaimItemActive, selectUserLoggedIn } from 'modules';
 import moment from 'moment';
 import * as React from 'react';
@@ -28,6 +29,7 @@ const rendererCountDown: CountdownRendererFn = ({ days, hours, minutes, seconds,
 // tslint:disable-next-line: no-empty-interface
 interface AirdropCoinListScreenProps {}
 
+const PAGE_SIZE = 6;
 export const AirdropCoinListMobileScreen: React.FC<AirdropCoinListScreenProps> = ({}) => {
 	// const intl = useIntl();
 	const history = useHistory();
@@ -36,6 +38,51 @@ export const AirdropCoinListMobileScreen: React.FC<AirdropCoinListScreenProps> =
 	const claims = useAirdropCoinClaimFetch();
 
 	const userLoggedIn = useSelector(selectUserLoggedIn);
+
+	const [filterAirdropCoinState, setFilterAirdropCoinState] = React.useState<'upcoming' | 'running' | 'all'>('all');
+	const [searchState, setSearchState] = React.useState('');
+	const [pageIndex, setPageIndex] = React.useState(1);
+
+	React.useEffect(() => {
+		filterAirdropCoinState !== 'all' && setFilterAirdropCoinState('all');
+	}, [searchState]);
+
+	React.useEffect(() => {
+		setPageIndex(1);
+	}, [filterAirdropCoinState]);
+
+	const filterList = (() => {
+		let result = airdrops;
+		const nowTime = moment.utc();
+		switch (filterAirdropCoinState) {
+			case 'running':
+				result = airdrops.filter(
+					airdrop => moment.utc(airdrop.started_at).isBefore(nowTime) && moment.utc(airdrop.ended_at).isAfter(nowTime),
+				);
+				break;
+			case 'upcoming':
+				result = airdrops.filter(airdrop => moment.utc(airdrop.started_at).isAfter(nowTime));
+				break;
+			default:
+				result = airdrops;
+				break;
+		}
+
+		if (searchState) {
+			result = result.filter(airdrop => airdrop.airdrop_id.toLowerCase().includes(searchState.toLowerCase()));
+		}
+
+		return result;
+	})();
+
+	const paginationFilter = () => {
+		let result = filterList;
+		const startSlice = (pageIndex - 1) * PAGE_SIZE;
+		const endSlice = startSlice + PAGE_SIZE;
+		result = result.slice(startSlice, endSlice);
+
+		return result;
+	};
 
 	const handleClaim = (airdropId: string) => {
 		if (userLoggedIn) {
@@ -50,7 +97,7 @@ export const AirdropCoinListMobileScreen: React.FC<AirdropCoinListScreenProps> =
 		}
 	};
 
-	const airDropsElm = airdrops.map((item, i) => {
+	const airDropsElm = paginationFilter().map((item, i) => {
 		const nowTime = moment.utc();
 		const claim = claims.find(claimParam => claimParam.airdrop_id === item.airdrop_id);
 		const progressPercent = ((item.total_claim / item.max_claim) * 100).toFixed(2);
@@ -158,38 +205,23 @@ export const AirdropCoinListMobileScreen: React.FC<AirdropCoinListScreenProps> =
 		);
 	});
 
-	const renderHeader = () => {
-		return (
-			<div className="container td-mobile-screen-airdrop-list-coin__header">
-				<div className="row">
-					<div className="col-12">
-						<h3 className="td-mobile-screen-airdrop-list-coin__header__h3">Airdrops</h3>
-					</div>
-				</div>
-			</div>
-		);
-	};
-
 	return (
 		<div className="td-mobile-screen-airdrop-list-coin">
-			{renderHeader()}
-			<div className="container td-mobile-screen-airdrop-list-coin__list">
-				{airDropsElm.length ? (
-					airDropsElm
-				) : (
-					<div style={{ marginTop: ' 50px', width: '100vw' }}>
-						<div className="w-100 text-center">
-							<img
-								src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
-								alt="no-data"
-							/>
-						</div>
-						<div className="w-100 text-center mt-2">
-							<h5>No Data</h5>
-						</div>
-					</div>
-				)}
-			</div>
+			<WrapperTabPage
+				title={'Airdrops'}
+				filterState={filterAirdropCoinState}
+				setFilterState={setFilterAirdropCoinState}
+				searchState={searchState}
+				setSearchState={setSearchState}
+				totalItem={filterList.length}
+				pageIndex={pageIndex}
+				pageSize={PAGE_SIZE}
+				onPageChange={pageIndexParam => {
+					setPageIndex(pageIndexParam);
+				}}
+			>
+				{airDropsElm.length ? airDropsElm : undefined}
+			</WrapperTabPage>
 		</div>
 	);
 };
