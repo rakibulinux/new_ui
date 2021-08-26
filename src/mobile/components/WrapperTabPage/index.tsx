@@ -112,7 +112,7 @@ export const WrapperTabPage: React.FC<WrapperTabPageProps> = props => {
 				style={{ position: 'relative', paddingRight: '0px', paddingLeft: '0px' }}
 				className="m-auto container td-mobile-cpn-wrapper-tab-page__body"
 			>
-				<div style={{ paddingLeft: '1em', paddingRight: '1em' }}>
+				<div>
 					{props.children ? (
 						<React.Fragment>
 							{props.children}

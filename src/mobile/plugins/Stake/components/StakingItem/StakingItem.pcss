@@ -1,12 +1,16 @@
 #stacking-item {
 	background-color: var(--mobile-body-background-color);
 	border-radius: 5px;
-	box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 70px 100px rgba(0, 0, 0, 0.08);
 	font-size: 12px;
 	min-height: 370px;
 	overflow: hidden;
 	position: relative;
 	width: 100%;
+
+	&:not(:last-child) {
+		margin-bottom: 2em;
+	}
 
 	button {
 		border: none;

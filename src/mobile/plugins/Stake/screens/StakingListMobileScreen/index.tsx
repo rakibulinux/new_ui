@@ -85,9 +85,7 @@ export const StakingListMobileScreen = () => {
 							<LoadingSpinner loading={isLoadingStakingList} />
 						</div>
 					) : (
-						<div className="row">
-							<StakingList staking_list={paginationFilter()} />
-						</div>
+						<StakingList staking_list={paginationFilter()} />
 					)
 				) : undefined}
 			</WrapperTabPage>
