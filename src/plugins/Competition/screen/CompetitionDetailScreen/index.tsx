@@ -1,9 +1,8 @@
 import { toNumber } from 'lodash';
 import { fetchCompetitionItem, fetchCompetitionVolume, selectVolumeCompetition } from 'modules';
-import { selectItemCompetition } from 'modules/plugins/competition/item/selectors';
-import { CompetitionInfo } from 'plugins/Competition/containers';
-import { CompetitionAward } from 'plugins/Competition/containers/CompetitionAward';
-import { RankingCompetition } from 'plugins/Competition/containers/RankingCompetition';
+import { selectItemCompetition } from 'modules/plugins/competition';
+import { CompetitionInfo, RankingCompetition, CompetitionAward } from 'plugins/Competition/containers';
+
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -24,7 +23,7 @@ export const CompetitionDetailScreen = () => {
 		}
 	}, [competition.loading]);
 	return (
-		<div id="competition-ranking-screen" className="container">
+		<div id="competition-detail-screen" className="container-fluid">
 			<CompetitionInfo
 				loading={competition.loading || userVolume.loading}
 				currency_id={currency_id}
