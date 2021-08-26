@@ -11,7 +11,7 @@ export const StakingList: React.FC<StakingListProps> = (props: StakingListProps)
 
 	return (
 		<React.Fragment>
-			{stakes.reverse().map((stake: Stake) => (
+			{stakes.map((stake: Stake) => (
 				<div className="col-lg-4 col-md-6 mb-5" key={stake.stake_id}>
 					<StakingItem
 						key={stake.stake_id}

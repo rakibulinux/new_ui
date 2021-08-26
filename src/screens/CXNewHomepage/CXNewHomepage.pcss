@@ -4,8 +4,8 @@
 	padding: 0;
 
 	.market {
-		padding: 50px 0;
 		background: rgb(38, 40, 58);
+		padding: 50px 0;
 
 		.container {
 			max-width: 1240px;
@@ -16,16 +16,16 @@
 				justify-content: center;
 
 				button {
-					padding: 10px 70px;
 					background: rgba(47, 182, 126, 0.5);
 					border: 1px solid #2fb67e;
-					box-sizing: border-box;
 					border-radius: 5px;
-					font-weight: 500;
+					box-sizing: border-box;
+					color: #fff;
 					font-size: 16px;
+					font-weight: 500;
 					line-height: 24px;
+					padding: 10px 70px;
 					text-align: center;
-					color: #ffffff;
 
 					&:hover {
 						background: #52b788;
@@ -37,30 +37,33 @@
 
 	.banner {
 		background: rgb(30, 35, 52);
+
 		.slick-list {
 			.slick-track {
 				.slick-slide {
+					height: 100%;
+					max-height: 600px;
 					padding: 0;
 					width: auto;
-					max-height: 600px;
-					height: 100%;
 
 					div {
-						width: 100%;
 						height: 100%;
+						width: 100%;
+
 						.slider-box {
-							width: 100%;
 							height: 100%;
+							width: 100%;
 
 							&__link {
-								width: 100%;
 								height: 100%;
+								width: 100%;
+
 								img {
-									width: 100%;
-									max-height: 450px;
 									background-position: center;
 									background-repeat: no-repeat;
 									background-size: cover;
+									max-height: 450px;
+									width: 100%;
 								}
 							}
 						}
@@ -71,56 +74,58 @@
 	}
 
 	.feature {
-		padding: 90px 0;
 		background: rgb(30, 35, 52);
+		padding: 90px 0;
 
 		.container {
 			max-width: 1240px;
 			width: 100%;
 
 			.feature-row {
+				align-items: center;
 				display: flex;
 				flex-direction: row;
 				justify-content: center;
-				align-items: center;
 
 				@media screen and (max-width: 992px) {
+					align-items: flex-start;
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
-					align-items: flex-start;
 				}
 
 				&__col {
 					@media screen and (max-width: 992px) {
+						align-items: flex-start;
 						display: flex;
 						flex-direction: row;
 						justify-content: center;
-						align-items: flex-start;
 						width: 100%;
 					}
 
 					.feature-box {
-						display: flex;
 						align-items: center;
+						display: flex;
+
 						@media screen and (max-width: 992px) {
 							width: 50%;
 						}
 
 						&__icon {
-							padding: 16px;
 							background: rgb(54, 59, 75);
 							border-radius: 20px;
 							margin-right: 20px;
+							padding: 16px;
 						}
-						&__title {
-							font-weight: 500;
-							font-size: 16px;
-							line-height: 24px;
 
-							color: #ffffff;
+						&__title {
+							color: #fff;
+							font-size: 16px;
+							font-weight: 500;
+							line-height: 24px;
 						}
 					}
+
 					.feature-box__top {
 						padding-bottom: 50px;
 					}
@@ -140,39 +145,44 @@
 			div {
 				.trading-content {
 					@media screen and (max-width: 1200px) {
-						text-align: center;
 						padding: 0 20px 50px 20px;
+						text-align: center;
 					}
+
 					.trading-title {
-						font-weight: 600;
+						color: #fff;
 						font-size: 35px;
+						font-weight: 600;
 						line-height: 52px;
-						color: #ffffff;
 						padding-top: 4rem;
 					}
+
 					.trading-description {
+						color: rgb(196, 196, 196);
 						font-size: 20px;
 						line-height: 30px;
-						color: rgb(196, 196, 196);
 						padding-top: 1rem;
 					}
+
 					.trading-direction {
 						display: inline-flex;
 						padding-top: 3rem;
 
 						&__app-store {
-							padding: 10px 24px;
 							border: 2px solid white;
 							border-radius: 10px;
 							margin-right: 10px;
-						}
-						&__GG-play {
 							padding: 10px 24px;
+						}
+
+						&__GG-play {
 							border: 1px solid white;
 							border-radius: 10px;
+							padding: 10px 24px;
 						}
 					}
 				}
+
 				.trading-cryp {
 					@media screen and (max-width: 1200px) {
 						text-align: center;

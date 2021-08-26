@@ -31,10 +31,6 @@ export const WrapperTabPage: React.FC<WrapperTabPageProps> = props => {
 		onPageChange,
 	} = props;
 
-	React.useEffect(() => {
-		setFilterState('all');
-	}, [searchState]);
-
 	const renderHeader = () => {
 		const upcomingButtonClassName = classnames(
 			'td-cpn-wrapper-tab-page__header__buttons-btn',

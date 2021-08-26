@@ -22,3 +22,4 @@ export * from './NewOrders';
 export * from './NewCreateOrder';
 export * from './NewOrderBook';
 export * from './NewOrder';
+export * from './WrapperTabPage';
