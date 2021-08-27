@@ -93,7 +93,7 @@ export const CompetitionItem: React.FC<NewCompetition> = props => {
 			<div className="competition-item-header">
 				{renderStatus(props.status)}
 				<div className={`competition-item-type ${competitionTypeClassName}`}>{`${props.type}`}</div>
-				<div className="competition-item-coin-img">
+				<div className="h-100 d-flex justify-content-center align-items-center">
 					<img
 						src={getCryptoIcon(props.currency_id.toUpperCase())}
 						alt={`${props.currency_id}-icon`}
