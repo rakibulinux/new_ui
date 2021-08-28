@@ -133,7 +133,18 @@ export const CompetitionInfo = (props: CompetitionInfoProps) => {
 			</div>
 		</div>
 	);
-
+	const buttonForwardClassName = classNames(
+		`${
+			status !== 'ongoing'
+				? 'competition-ranking-detail__info__button--disable'
+				: 'competition-ranking-detail__info__button--active'
+		} `,
+	);
+	const buttonUpcomingClassName = classNames(`competition-ranking-detail__info__button--upcoming`);
+	const buttonEndedClassName = classNames(`competition-ranking-detail__info__button--ended`);
+	const buttonStatusClassName = classNames(
+		`${status == 'ended' ? buttonEndedClassName : status === 'upcoming' ? buttonUpcomingClassName : ''}`,
+	);
 	const loadingDetailsClassNames = classNames('align-item-center', 'competition-background-loading');
 	return (
 		<div
@@ -194,10 +205,12 @@ export const CompetitionInfo = (props: CompetitionInfoProps) => {
 
 						<div className="d-flex justify-content-center">
 							<button
-								className="competition-ranking-detail__info__button competition-ranking-detail__info__button--disable"
+								className={`competition-ranking-detail__info__button ${buttonForwardClassName} ${buttonStatusClassName}`}
 								onClick={handleLetJoin}
 								disabled={status !== 'ongoing'}
-							>{`Let's ${uppercaseCharacterFirst(type)}`}</button>
+							>{`${
+								status !== 'ongoing' ? `${status.toUpperCase()}` : `Let's ${uppercaseCharacterFirst(type)}`
+							}`}</button>
 						</div>
 					</div>
 				</div>

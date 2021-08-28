@@ -84,15 +84,22 @@
 			margin-top: 25px;
 			outline: none;
 			width: 145px;
+			cursor: pointer;
 
-			&:hover {
+			/* &:hover {
 				transform: scale(1.2, 1);
-			}
+			} */
 		}
 
-		&__button--disabled {
-			background-color: #343a40;
-			cursor: not-allowed;
+		&__button--disable {
+			background-color: #313f60 !important;
+			cursor: not-allowed !important;
+		}
+		&__button--upcoming {
+			background-color: rgb(224, 98, 17) !important;
+		}
+		&__button--ended {
+			background-color: rgb(189, 52, 33) !important;
 		}
 	}
 }
