@@ -2,20 +2,17 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { ListCompetition } from '../../containers';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompetitionList, fetchListCompetition, NewCompetition } from '../../../../modules';
-import Pagination from 'react-bootstrap/Pagination';
+import { selectCompetitionList, fetchListCompetition } from '../../../../modules';
 
 export type statusCompetition = 'all' | 'ended' | 'ongoing' | 'upcoming';
 export type typeCompetition = 'stake' | 'trade';
 export const CompetitionListingScreen = () => {
 	const [statusCompetition, setStatusCompetition] = React.useState<statusCompetition>('all');
 	const [searchInputState, setSearchInputState] = React.useState<string>('');
-	const [numberPageState, setNumberPageState] = React.useState<number>(0);
-	const PAGE_SIZE = 12;
+	// const PAGE_SIZE = 12;
 	const handleViewListingCompetition = (status: statusCompetition) => {
 		setStatusCompetition(status);
 		setSearchInputState('');
-		setNumberPageState(0);
 	};
 	const dispatch = useDispatch();
 	const renderActiveButtonAllClasses = classNames('upcoming', statusCompetition === 'all' ? 'button--all' : '');
@@ -26,61 +23,14 @@ export const CompetitionListingScreen = () => {
 	React.useEffect(() => {
 		dispatch(fetchListCompetition());
 	}, []);
-
-	const listRender = () => {
-		const checked = (item: NewCompetition) =>
-			item.currency_id.toLowerCase().includes(searchInputState.toLowerCase().trim()) ||
-			item.market_ids.toLocaleLowerCase().includes(searchInputState.toLowerCase().trim());
-		if (statusCompetition == 'all') {
-			return competitions.payload
-				.filter(checked)
-				.slice(PAGE_SIZE * numberPageState, PAGE_SIZE * numberPageState + PAGE_SIZE);
-		} else
-			return competitions.payload
-				.filter(item => item.status === statusCompetition && checked(item))
-				.slice(PAGE_SIZE * numberPageState, PAGE_SIZE * numberPageState + PAGE_SIZE);
-	};
-	const totalCompetition = () => {
-		return statusCompetition != 'all'
-			? competitions.payload.filter(item => item.status === statusCompetition).length
-			: competitions.payload.length;
-	};
-
-	const renderPagination = () => {
-		if (searchInputState.trim()) {
-			return null;
+	const getListingRender = () => {
+		const checkSearch = item =>
+			item.type.includes(searchInputState.trim()) || item.currency_id.includes(searchInputState.trim());
+		if (statusCompetition === 'all') {
+			return competitions.payload.filter(checkSearch);
+		} else {
+			return competitions.payload.filter(item => item.status === statusCompetition && checkSearch(item));
 		}
-		const paginations: Array<JSX.Element> = [];
-		for (let i = numberPageState; i < numberPageState + 3 && i * PAGE_SIZE < totalCompetition(); i++) {
-			paginations.push(
-				<Pagination.Item
-					key={i}
-					id={`${numberPageState == i ? 'active' : 'non_active'}`}
-					onClick={() => {
-						setNumberPageState(i);
-					}}
-				>
-					{i + 1}
-				</Pagination.Item>,
-			);
-		}
-		return (
-			<Pagination className="d-flex justify-content-end" style={{ padding: '10px' }}>
-				<Pagination.Prev
-					disabled={numberPageState === 0}
-					onClick={() => {
-						setNumberPageState(numberPageState - 1);
-					}}
-				/>
-				{paginations}
-				<Pagination.Next
-					disabled={(numberPageState + 1) * PAGE_SIZE >= totalCompetition()}
-					onClick={() => {
-						setNumberPageState(numberPageState + 1);
-					}}
-				/>
-			</Pagination>
-		);
 	};
 	return (
 		<div id="competition-listing-screen" className="container-fluid">
@@ -156,10 +106,7 @@ export const CompetitionListingScreen = () => {
 						</div>
 					</div>
 				) : (
-					<React.Fragment>
-						<ListCompetition CompetitionList={listRender()} />
-						{renderPagination()}
-					</React.Fragment>
+					<ListCompetition CompetitionList={getListingRender()} />
 				)}
 			</div>
 		</div>

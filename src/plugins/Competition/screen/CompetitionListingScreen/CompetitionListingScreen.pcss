@@ -104,22 +104,23 @@
 			margin: auto;
 		}
 	}
-
-	.pagination {
-		.page-item {
-			.page-link {
-				background-color: #272b3c;
-				border: none;
-				color: #848e9c;
-				font-size: 14px;
-				line-height: 16px;
-				margin: 3px;
-			}
-
-			#active {
-				background: rgba(132, 142, 156, 0.35) !important;
+	.competition-listing-screen__pagination {
+		.pagination {
+			li {
+				width: 30px;
+				height: 30px;
 				border-radius: 4px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 				color: #ffff;
+				font-size: 14px;
+			}
+			.disabled {
+				cursor: not-allowed;
+			}
+			.active {
+				background: rgba(132, 142, 156, 0.35);
 			}
 		}
 	}
