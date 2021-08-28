@@ -1,5 +1,6 @@
 import { CompetitionAward } from 'modules';
 import React from 'react';
+import { EmptyData } from '..';
 
 interface TableAwardProps {
 	awards: Array<CompetitionAward>;
@@ -26,6 +27,7 @@ export const TableAwards = (props: TableAwardProps) => {
 					))}
 				</tbody>
 			</table>
+			{awards.length > 0 ? null : <EmptyData />}
 		</div>
 	);
 };

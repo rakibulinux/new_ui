@@ -13,7 +13,6 @@ export function* competitionRankingSaga(action: FetchRankingCompetition) {
 			API.get(createOptions(getCsrfToken())),
 			`/public/competition/ranking/type=${typeCompetition}&&competition_id=${competition_id}`,
 		);
-		console.log(rankingCompetition);
 		yield put(getDataRankingCompetition(rankingCompetition, false));
 	} catch (error) {
 		yield put(catchErrorRankingCompetition(error));

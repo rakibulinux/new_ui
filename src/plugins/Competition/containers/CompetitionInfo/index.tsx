@@ -4,8 +4,9 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import { LoadingCompetition } from 'plugins/Competition/components';
 import classNames from 'classnames';
-import moment from 'moment';
+// import moment from 'moment';
 import Select from 'react-select';
+import moment from 'moment';
 
 interface CompetitionInfoProps {
 	currency_id: string;
@@ -25,11 +26,7 @@ export const CompetitionInfo = (props: CompetitionInfoProps) => {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	};
 	const [selectedState, setSelectedState] = React.useState(uppercaseCharacterFirst(type));
-	const [infoTimeState, setInfoTimeState] = React.useState({
-		start_date: new Date().toDateString(),
-		next_update: new Date().toDateString(),
-		end_date: new Date().toDateString(),
-	});
+
 	const SelectStyles = {
 		option: (provided, state) => ({
 			...provided,
@@ -65,20 +62,10 @@ export const CompetitionInfo = (props: CompetitionInfoProps) => {
 			color: '#fff',
 		}),
 	};
-	React.useEffect(() => {
-		if (start_date && end_date && next_update) {
-			setInfoTimeState({
-				start_date: start_date,
-				end_date: end_date,
-				next_update: next_update,
-			});
-			setSelectedState(type);
-		}
-	}, [start_date, end_date, type, next_update, loading]);
-	console.log('run competition info', next_update);
+
 	const history = useHistory();
 	const handleLetJoin = () => {
-		if (!selectedState) {
+		if (selectedState == uppercaseCharacterFirst(type)) {
 			return;
 		}
 		if (type === 'stake') {
@@ -87,9 +74,9 @@ export const CompetitionInfo = (props: CompetitionInfoProps) => {
 			};
 			history.push(location);
 		} else {
-			const market = selectedState.replace('/', '');
+			const marketID = selectedState.replace('/', '').toLowerCase();
 			const location = {
-				pathname: `/marker/${market}`,
+				pathname: `/market/${marketID}`,
 			};
 			history.push(location);
 		}
@@ -98,8 +85,15 @@ export const CompetitionInfo = (props: CompetitionInfoProps) => {
 	const handleChangeSelect = (selected: { value: string }) => {
 		setSelectedState(selected.value);
 	};
+
+	const getSafeDate = (date: string) => {
+		if (date.trim() === '') {
+			return new Date();
+		}
+		return moment(date).toDate();
+	};
 	const renderer = ({ days, hours, minutes, seconds, completed }) => {
-		console.log(seconds);
+		// console.log(seconds);
 		if (completed) {
 			// render a completed state
 			return <p className="time">00 : 00</p>;
@@ -165,17 +159,13 @@ export const CompetitionInfo = (props: CompetitionInfoProps) => {
 				<div className="col-md-8 col-lg-6 row">
 					<div className="col-md-6">
 						{renderInfoItem(`Your ${uppercaseCharacterFirst(type)} volume`, <p>{volume.toFixed(4)}</p>)}
-						{renderInfoItem(
-							'Next Update',
-							<Countdown renderer={renderer} date={new Date(infoTimeState.next_update)} />,
-						)}
+						{loading
+							? renderInfoItem('Next Update', <p>00 : 00</p>)
+							: renderInfoItem('Next Update', <Countdown date={getSafeDate(next_update)} renderer={renderer} />)}
 					</div>
 					<div className="col-md-6">
-						{renderInfoItem(
-							'Start Time',
-							<p>{format(moment(infoTimeState.start_date).toDate(), 'yyyy-MM-dd hh:mm')}</p>,
-						)}
-						{renderInfoItem('End Time', <p>{format(moment(infoTimeState.end_date).toDate(), 'yyyy-MM-dd hh:mm')}</p>)}
+						{renderInfoItem('Start Time', <p>{format(getSafeDate(start_date), 'yyyy-MM-dd hh:mm')}</p>)}
+						{renderInfoItem('End Time', <p>{format(getSafeDate(end_date), 'yyyy-MM-dd hh:mm')}</p>)}
 					</div>
 				</div>
 				<div className="col-md-4 col-lg-6 position-relative">

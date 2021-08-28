@@ -1,5 +1,5 @@
 import { fetchRankingCompetition, selectRankingCompetition } from 'modules';
-import { LoadingCompetition } from 'plugins/Competition/components';
+import { EmptyData, LoadingCompetition } from 'plugins/Competition/components';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cup from './assets/cup.png';
@@ -13,7 +13,7 @@ interface RankingCompetitionProps {
 	limit_display: number;
 }
 export const RankingCompetition: React.FC<RankingCompetitionProps> = props => {
-	const { competition_id, type, limit_display } = props;
+	const { competition_id, type } = props;
 
 	const dispatch = useDispatch();
 	const ranking = useSelector(selectRankingCompetition);
@@ -83,7 +83,7 @@ export const RankingCompetition: React.FC<RankingCompetitionProps> = props => {
 						</svg>
 					</div>
 					<div className="ranking-competition__listing__title__limit">
-						{`Top ${!limit_display ? ranking.payload.length : limit_display} Rankings`}
+						{`Top ${!ranking.payload.length ? '' : ranking.payload.length} Rankings`}
 					</div>
 				</div>
 				<div className="ranking-competition__listing__content">
@@ -107,6 +107,7 @@ export const RankingCompetition: React.FC<RankingCompetitionProps> = props => {
 							))}
 						</tbody>
 					</table>
+					{ranking.payload.length > 0 ? null : <EmptyData />}
 				</div>
 			</div>
 		</div>

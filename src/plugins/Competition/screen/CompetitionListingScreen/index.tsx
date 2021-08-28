@@ -6,6 +6,7 @@ import { selectCompetitionList, fetchListCompetition, NewCompetition } from '../
 import Pagination from 'react-bootstrap/Pagination';
 
 export type statusCompetition = 'all' | 'ended' | 'ongoing' | 'upcoming';
+export type typeCompetition = 'stake' | 'trade';
 export const CompetitionListingScreen = () => {
 	const [statusCompetition, setStatusCompetition] = React.useState<statusCompetition>('all');
 	const [searchInputState, setSearchInputState] = React.useState<string>('');
@@ -22,7 +23,6 @@ export const CompetitionListingScreen = () => {
 	const renderActiveButtonRunningClasses = classNames('running', statusCompetition === 'ongoing' ? 'button--running' : '');
 	const renderActiveButtonEndedClasses = classNames('ended', statusCompetition === 'ended' ? 'button--ended' : '');
 	const competitions = useSelector(selectCompetitionList);
-
 	React.useEffect(() => {
 		dispatch(fetchListCompetition());
 	}, []);
