@@ -26,7 +26,9 @@ export const CompetitionInfo = (props: CompetitionInfoProps) => {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	};
 	const [selectedState, setSelectedState] = React.useState(uppercaseCharacterFirst(type));
-
+	React.useEffect(() => {
+		setSelectedState(uppercaseCharacterFirst(type));
+	}, [type]);
 	const SelectStyles = {
 		option: (provided, state) => ({
 			...provided,
