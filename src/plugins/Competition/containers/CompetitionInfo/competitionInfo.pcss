@@ -1,39 +1,46 @@
 .competition-ranking-detail {
 	background: #313445;
 	border-radius: 3px;
-	padding-top: 58px;
 	padding-bottom: 58px;
+	padding-top: 58px;
 	position: relative;
 
 	&__loading {
 		left: 48%;
 		position: absolute;
 	}
+
 	&__title {
 		h4 {
+			color: #f07f29;
 			font-size: 36px;
 			font-weight: bold;
-			color: #f07f29;
 			line-height: 30px;
 		}
 	}
+
 	&__description {
 		width: 60%;
+
 		p {
 			font-size: 18px;
 			line-height: 30px;
 		}
 	}
+
 	&__info {
-		padding: 0px 5%;
+		padding: 0 5%;
 		position: relative;
+
 		&__update {
-			text-align: left;
 			line-height: 20px;
+			text-align: left;
+
 			&__title {
-				font-size: 18px;
 				color: #848e9c;
+				font-size: 18px;
 			}
+
 			&__value {
 				color: #fff;
 				font-size: 20px;
@@ -41,22 +48,23 @@
 		}
 
 		&__selection {
-			margin: auto;
+			background-color: inherit;
 			border: 1px solid #848e9c;
-			box-sizing: border-box;
 			border-radius: 4px;
+			box-sizing: border-box;
+			cursor: pointer;
+			font-size: 18px;
+			height: 46px;
+			margin: auto;
+			outline: none;
 			padding-left: 5%;
 			width: 80%;
-			height: 46px;
-			font-size: 18px;
-			outline: none;
-			cursor: pointer;
-			background-color: inherit;
+
 			option {
 				background-color: var(--main-background-color);
-				outline: none;
 				border: none;
 				cursor: pointer;
+				outline: none;
 
 				&:hover,
 				&:focus {
@@ -66,21 +74,22 @@
 		}
 
 		&__button {
-			margin-top: 25px;
-			color: #fff;
-			width: 145px;
-			outline: none;
-			border: none;
 			background: #2fb67e;
+			border: none;
 			border: 0.5px solid #848e9c;
-			box-sizing: border-box;
 			border-radius: 3px;
+			box-sizing: border-box;
+			color: #fff;
 			height: 38px;
+			margin-top: 25px;
+			outline: none;
+			width: 145px;
 
 			&:hover {
 				transform: scale(1.2, 1);
 			}
 		}
+
 		&__button--disabled {
 			background-color: #343a40;
 			cursor: not-allowed;
