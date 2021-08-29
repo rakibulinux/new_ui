@@ -64,7 +64,7 @@ const CountDownVoteCpn: React.FC<CountDownVoteProps> = ({}) => {
 					renderer={rendererCountDown}
 				/>
 			</div>
-			{infoRound && infoRound.coin_id && (
+			{infoRound && infoRound.infoCoin && infoRound.infoCoin.id && (
 				<div className="pg-vote--border pg-vote__cpn__countdown__last-win text-center">
 					Last WIN :{' '}
 					<span className="pg-vote__cpn__countdown__last-win__winner text-success">
