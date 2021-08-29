@@ -22,9 +22,7 @@ export const CompetitionAward = (props: { competition_id: number }) => {
 	];
 	const [prizesState, setPrizesState] = React.useState(templateRanking);
 	React.useEffect(() => {
-		setTimeout(() => {
-			dispatch(fetchCompetitionAward(competition_id));
-		}, 1000);
+		dispatch(fetchCompetitionAward(competition_id));
 	}, []);
 	React.useEffect(() => {
 		if (!awards.loading) setPrizesState(awards.payload);
