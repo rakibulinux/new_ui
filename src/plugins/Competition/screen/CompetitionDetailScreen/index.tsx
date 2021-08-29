@@ -21,7 +21,7 @@ export const CompetitionDetailScreen = () => {
 		if (!competition.loading) {
 			dispatch(fetchCompetitionVolume(type, toNumber(competition_id)));
 		}
-	}, [competition.loading]);
+	}, [dispatch, competition.loading]);
 	return (
 		<div id="competition-detail-screen" className="container-fluid">
 			<CompetitionInfo
@@ -36,7 +36,12 @@ export const CompetitionDetailScreen = () => {
 				status={status}
 			/>
 			<CompetitionAward competition_id={Number(competition_id)} />
-			<RankingCompetition limit_display={toNumber(limit_display)} type={type} competition_id={toNumber(competition_id)} />
+			<RankingCompetition
+				loading={competition.loading}
+				limit_display={toNumber(limit_display)}
+				type={type}
+				competition_id={toNumber(competition_id)}
+			/>
 		</div>
 	);
 };
