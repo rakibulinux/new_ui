@@ -21,15 +21,15 @@ export const getTabName = (blockchainKey: string) => {
 			blockchain_key: 'bsc-testnet',
 		},
 		{
-			name: 'ERC20',
+			name: 'ETH',
 			blockchain_key: 'eth-main',
 		},
 		{
-			name: 'TRON20',
+			name: 'TRON',
 			blockchain_key: 'trx-main',
 		},
 		{
-			name: 'BEP20',
+			name: 'BSC',
 			blockchain_key: 'bsc-main',
 		},
 	];
