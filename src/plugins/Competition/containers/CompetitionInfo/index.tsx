@@ -18,10 +18,22 @@ interface CompetitionInfoProps {
 	next_update: string;
 	loading: boolean;
 	status: 'ongoing' | 'ended' | 'upcoming';
+	dispatchFetchCompetition: () => void;
 }
 
 export const CompetitionInfo = (props: CompetitionInfoProps) => {
-	const { currency_id, start_date, end_date, type, markets, volume, next_update, loading, status } = props;
+	const {
+		dispatchFetchCompetition,
+		currency_id,
+		start_date,
+		end_date,
+		type,
+		markets,
+		volume,
+		next_update,
+		loading,
+		status,
+	} = props;
 	const uppercaseCharacterFirst = (str: string) => {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	};
@@ -97,6 +109,10 @@ export const CompetitionInfo = (props: CompetitionInfoProps) => {
 	};
 	const renderer = ({ days, hours, minutes, seconds, completed }) => {
 		// console.log(seconds);
+
+		if (completed && status == 'ongoing') {
+			dispatchFetchCompetition();
+		}
 		if (completed) {
 			// render a completed state
 			return <p className="time">00 : 00</p>;

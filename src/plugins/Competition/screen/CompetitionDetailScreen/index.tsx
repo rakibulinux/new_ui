@@ -17,6 +17,7 @@ export const CompetitionDetailScreen = () => {
 	React.useEffect(() => {
 		dispatch(fetchCompetitionItem(toNumber(competition_id)));
 	}, []);
+	const dispatchFetchCompetition = () => dispatch(fetchCompetitionItem(toNumber(competition_id)));
 	React.useEffect(() => {
 		if (!competition.loading) {
 			dispatch(fetchCompetitionVolume(toNumber(competition_id)));
@@ -34,6 +35,7 @@ export const CompetitionDetailScreen = () => {
 				volume={Number(userVolume.payload.volume)}
 				next_update={next_update}
 				status={status}
+				dispatchFetchCompetition={dispatchFetchCompetition}
 			/>
 			<CompetitionAward competition_id={Number(competition_id)} />
 			<RankingCompetition
