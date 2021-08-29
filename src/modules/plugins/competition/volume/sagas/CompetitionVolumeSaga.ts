@@ -8,11 +8,8 @@ const createOptions = (csrfToken?: string): RequestOptions => {
 
 export function* competitionVolumeSaga(action: FetchCompetitionVolume) {
 	try {
-		const { id, typeCompetition } = action;
-		const volume = yield call(
-			API.get(createOptions(getCsrfToken())),
-			`/private/competition/volume/type=${typeCompetition}&&competition_id=${id}`,
-		);
+		const { id } = action;
+		const volume = yield call(API.get(createOptions(getCsrfToken())), `/private/competition/volume/competition_id=${id}`);
 		yield put(getDataCompetitionVolume(volume, false));
 	} catch (error) {
 		yield put(catchErrorCompetitionVolume(error));

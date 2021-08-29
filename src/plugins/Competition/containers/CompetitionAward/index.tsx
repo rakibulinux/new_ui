@@ -31,7 +31,7 @@ export const CompetitionAward = (props: { competition_id: number }) => {
 		const listTable: JSX.Element[] = [];
 		for (let i = 0; i < prizesState.length / 10; i++) {
 			listTable.push(
-				<div className="col-md-6 col-sm-12">
+				<div className="col-md-6 col-sm-12" key={i}>
 					<TableAwards awards={prizesState.slice(i * 10, (i + 1) * 10)} />
 				</div>,
 			);

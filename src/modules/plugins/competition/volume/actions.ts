@@ -4,7 +4,6 @@ import { CompetitionVolume } from './types';
 
 export interface FetchCompetitionVolume {
 	type: typeof COMPETITION_VOLUME_FETCH;
-	typeCompetition: 'stake' | 'trade';
 	id: number;
 }
 
@@ -21,12 +20,8 @@ export interface CatchErrorCompetitionVolume {
 
 export type CompetitionVolumeActions = FetchCompetitionVolume | GetDataCompetitionVolume | CatchErrorCompetitionVolume;
 
-export const fetchCompetitionVolume = (
-	typeCompetition: FetchCompetitionVolume['typeCompetition'],
-	id: FetchCompetitionVolume['id'],
-): FetchCompetitionVolume => ({
+export const fetchCompetitionVolume = (id: FetchCompetitionVolume['id']): FetchCompetitionVolume => ({
 	type: COMPETITION_VOLUME_FETCH,
-	typeCompetition,
 	id,
 });
 

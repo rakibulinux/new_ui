@@ -17,7 +17,6 @@ export const ListCompetition: React.FC<ListCompetitionProps> = props => {
 	React.useEffect(() => {
 		setPaginationState(0);
 	}, [CompetitionList]);
-	React.useEffect(() => {}, []);
 
 	const EmptyComponent = () => {
 		return (

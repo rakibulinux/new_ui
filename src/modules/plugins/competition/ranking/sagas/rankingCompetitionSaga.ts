@@ -8,10 +8,10 @@ const createOptions = (csrfToken?: string): RequestOptions => {
 
 export function* competitionRankingSaga(action: FetchRankingCompetition) {
 	try {
-		const { competition_id, typeCompetition } = action;
+		const { competition_id } = action;
 		const rankingCompetition = yield call(
 			API.get(createOptions(getCsrfToken())),
-			`/public/competition/ranking/type=${typeCompetition}&&competition_id=${competition_id}`,
+			`/public/competition/ranking/competition_id=${competition_id}`,
 		);
 		yield put(getDataRankingCompetition(rankingCompetition, false));
 	} catch (error) {

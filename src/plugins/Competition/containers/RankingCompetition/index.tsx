@@ -9,17 +9,16 @@ import top3 from './assets/top3.png';
 import classNames from 'classnames';
 interface RankingCompetitionProps {
 	competition_id: number;
-	type: 'trade' | 'stake';
 	limit_display: number;
 	loading: boolean;
 }
 export const RankingCompetition: React.FC<RankingCompetitionProps> = props => {
-	const { competition_id, type, loading } = props;
+	const { competition_id, loading } = props;
 	const dispatch = useDispatch();
 	const ranking = useSelector(selectRankingCompetition);
 	React.useEffect(() => {
-		if (!loading) dispatch(fetchRankingCompetition(type, competition_id));
-	}, [type]);
+		if (!loading) dispatch(fetchRankingCompetition(competition_id));
+	}, [loading]);
 
 	const renderSerialRank = (rank: number) => {
 		switch (rank) {

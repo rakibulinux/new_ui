@@ -25,6 +25,8 @@ export const CompetitionInfo = (props: CompetitionInfoProps) => {
 	const uppercaseCharacterFirst = (str: string) => {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	};
+	const history = useHistory();
+
 	const [selectedState, setSelectedState] = React.useState(uppercaseCharacterFirst(type));
 	React.useEffect(() => {
 		setSelectedState(uppercaseCharacterFirst(type));
@@ -65,7 +67,6 @@ export const CompetitionInfo = (props: CompetitionInfoProps) => {
 		}),
 	};
 
-	const history = useHistory();
 	const handleLetJoin = () => {
 		if (selectedState == uppercaseCharacterFirst(type)) {
 			return;
@@ -114,10 +115,10 @@ export const CompetitionInfo = (props: CompetitionInfoProps) => {
 
 	const getOptionSelect = () => {
 		const options = type === 'trade' ? markets.map(item => item.toUpperCase()) : [currency_id.toUpperCase()];
-		const convert = (currency: string) => {
+		const convert = (currency: string, index: number) => {
 			const newCurrency = {
 				value: currency,
-				label: <span>{currency.toUpperCase()}</span>,
+				label: <span key={index}>{currency.toUpperCase()}</span>,
 			};
 			return newCurrency;
 		};
@@ -126,10 +127,10 @@ export const CompetitionInfo = (props: CompetitionInfoProps) => {
 	const renderInfoItem = (key: string, value: JSX.Element) => (
 		<div className="competition-ranking-detail__info__update">
 			<div className="competition-ranking-detail__info__update__title">
-				<p>{key}</p>
+				<p className="competition-ranking-detail__info__update__title--key">{key}</p>
 			</div>
 			<div className="competition-ranking-detail__info__update__value">
-				<p>{value}</p>
+				<div>{value}</div>
 			</div>
 		</div>
 	);

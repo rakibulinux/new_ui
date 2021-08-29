@@ -19,7 +19,7 @@ export const CompetitionDetailScreen = () => {
 	}, []);
 	React.useEffect(() => {
 		if (!competition.loading) {
-			dispatch(fetchCompetitionVolume(type, toNumber(competition_id)));
+			dispatch(fetchCompetitionVolume(toNumber(competition_id)));
 		}
 	}, [competition.loading]);
 	return (
@@ -39,7 +39,6 @@ export const CompetitionDetailScreen = () => {
 			<RankingCompetition
 				loading={competition.loading}
 				limit_display={toNumber(limit_display)}
-				type={type}
 				competition_id={toNumber(competition_id)}
 			/>
 		</div>
