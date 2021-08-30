@@ -1,10 +1,7 @@
 import { CommisionInfoState, EstimatedCommisionState } from './plugins/referral/types';
 import { combineReducers } from 'redux';
 import { all, call } from 'redux-saga/effects';
-import { AirdropState, rootAirdropSaga } from './airdrops/airdrop';
-import { ClaimState, rootClaimSaga } from './airdrops/claim';
 import {
-	airdropsReducer,
 	ethFeesReducer,
 	eventsReducer,
 	IEOReducer,
@@ -81,8 +78,6 @@ import { rootUserActivitySaga, UserActivityState } from './user/userActivity';
 import { ChildCurrenciesState, rootWalletsSaga, WalletsState } from './user/wallets';
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
 
-export * from './airdrops/airdrop';
-export * from './airdrops/claim';
 export * from './eth-withdraw/fee';
 export * from './events/lunar';
 export * from './info/announcement';
@@ -127,10 +122,6 @@ export * from './user/userActivity';
 export * from './user/wallets';
 export * from './user/withdrawLimit';
 export interface RootState {
-	airdrops: {
-		airdrops: AirdropState;
-		claims: ClaimState;
-	};
 	IEO: {
 		IEOItem: IEOItemState;
 		IEOList: IEOListState;
@@ -238,7 +229,6 @@ export interface RootState {
 export const rootReducer = combineReducers({
 	public: publicReducer,
 	user: userReducer,
-	airdrops: airdropsReducer,
 	ethFee: ethFeesReducer,
 	sale: saleReducer,
 	IEO: IEOReducer,
@@ -281,8 +271,6 @@ export function* rootSaga() {
 		call(rootUserActivitySaga),
 		call(rootWalletsSaga),
 		call(rootWithdrawLimitSaga),
-		call(rootAirdropSaga),
-		call(rootClaimSaga),
 		call(rootETHFeeSaga),
 		call(rootSaleListSaga),
 		call(rootSaleItemSaga),

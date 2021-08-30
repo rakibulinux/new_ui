@@ -63,11 +63,9 @@ import {
 	walletsReset,
 } from '../../modules';
 import { CustomizationDataInterface, customizationFetch, selectCustomizationData } from '../../modules/public/customization';
-import { AirdropDetail, AirdropList } from '../../plugins/Airdrop';
 import { IEODetailScreen } from '../../plugins/IEO/screen/IEODetailScreen';
 import { IEOListingScreen } from '../../plugins/IEO/screen/IEOListingScreen';
 import { StakingDetailScreen, StakingListScreen } from '../../plugins/Stake';
-import { TradingCompetionListScreen, TradingCompetitionDetailScreen } from '../../plugins/TradingCompetion';
 import {
 	AnnouncementScreen,
 	AssetsFeeScreen,
@@ -490,23 +488,10 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/security/2fa"
 						component={ProfileTwoFactorAuthScreen}
 					/>
-					{/* new feature */}
 					<Route path="/airdrops" exact component={AirdropCoinListScreen} />
-					{/* new feature */}
-					{/* old feature */}
-					<Route path="/airdrop" exact component={AirdropList} />
-					<PrivateRoute
-						loading={userLoading}
-						isLogged={isLoggedIn}
-						path="/airdrop/detail/:airdropID"
-						component={AirdropDetail}
-					/>
-					{/* old feature */}
 					<Route path="/ieo" exact component={IEOListingScreen} />
 					<Route path="/ieo/detail/:ieoID" exact component={IEODetailScreen} />
 					<Route path="/vote" exact component={VoteScreen} />
-					<Route path="/trading-competition" exact component={TradingCompetionListScreen} />
-					<Route path="/trading-competition/:competition_id" exact component={TradingCompetitionDetailScreen} />
 					<Route path="/stake" exact component={StakingListScreen} />
 					<Route path="/stake/detail/:stake_id" exact component={StakingDetailScreen} />
 					<Route path="**">

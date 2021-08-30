@@ -5,8 +5,6 @@ import {
 	commisionInfoReducer,
 } from './plugins/referral/reducer';
 import { combineReducers } from 'redux';
-import { airdropReducer } from './airdrops/airdrop';
-import { claimReducer } from './airdrops/claim';
 import { ethFeeReducer } from './eth-withdraw/fee';
 import { lunarReducer } from './events/lunar';
 import { announcementReducer } from './info/announcement';
@@ -48,8 +46,6 @@ import { rangerReducer } from './public/ranger/reducer';
 import { recentTradesReducer } from './public/recentTrades';
 import { buyReducer, totalBuyersReducer } from './sale/buy';
 import { priceReducer } from './sale/price';
-import { saleItemReducer } from './sale/sale-item';
-import { saleListReducer } from './sale/sale-list';
 import { competitionsListReducer } from './trading_competitions/competitions';
 import { competitionItemReducer } from './trading_competitions/competition_item';
 import { rankingsReducer } from './trading_competitions/rankings';
@@ -70,13 +66,9 @@ import { profileReducer } from './user/profile';
 import { userActivityReducer } from './user/userActivity';
 import { allChildCurrenciesReducer, childCurrenciesReducer, walletsReducer } from './user/wallets';
 import { withdrawLimitReducer } from './user/withdrawLimit';
+import { saleListReducer, saleItemReducer } from 'modules';
 export const eventsReducer = combineReducers({
 	lunar: lunarReducer,
-});
-
-export const airdropsReducer = combineReducers({
-	airdrops: airdropReducer,
-	claims: claimReducer,
 });
 
 export const ethFeesReducer = combineReducers({
