@@ -16,13 +16,10 @@ export const CompetitionDetailScreen = () => {
 
 	React.useEffect(() => {
 		dispatch(fetchCompetitionItem(toNumber(competition_id)));
+		dispatch(fetchCompetitionVolume(toNumber(competition_id)));
 	}, []);
 	const dispatchFetchCompetition = () => dispatch(fetchCompetitionItem(toNumber(competition_id)));
-	React.useEffect(() => {
-		if (!competition.loading) {
-			dispatch(fetchCompetitionVolume(toNumber(competition_id)));
-		}
-	}, [competition.loading]);
+
 	return (
 		<div id="competition-detail-screen" className="container-fluid">
 			<CompetitionInfo

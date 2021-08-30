@@ -17,13 +17,13 @@ interface CompetitionInfoProps {
 	volume: number;
 	next_update: string;
 	loading: boolean;
-	status: 'ongoing' | 'ended' | 'upcoming';
+	status: 'ended' | 'ongoing' | 'upcoming';
 	dispatchFetchCompetition: () => void;
 }
 
 export const CompetitionInfo = (props: CompetitionInfoProps) => {
 	const {
-		dispatchFetchCompetition,
+		// dispatchFetchCompetition,
 		currency_id,
 		start_date,
 		end_date,
@@ -110,8 +110,9 @@ export const CompetitionInfo = (props: CompetitionInfoProps) => {
 	const renderer = ({ days, hours, minutes, seconds, completed }) => {
 		// console.log(seconds);
 
-		if (completed && status == 'ongoing') {
-			dispatchFetchCompetition();
+		if (completed && status === 'ongoing') {
+			// dispatchFetchCompetition();
+			console.log('run it');
 		}
 		if (completed) {
 			// render a completed state

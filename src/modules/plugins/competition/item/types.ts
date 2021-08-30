@@ -1,6 +1,6 @@
 export interface NewCompetition {
 	id: number;
-	status: 'ongoing' | 'ended' | 'upcoming';
+	status: 'ended' | 'ongoing' | 'upcoming';
 	currency_id: string;
 	type: 'trade' | 'stake';
 	currency_image?: string;
