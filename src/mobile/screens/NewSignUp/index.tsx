@@ -187,7 +187,7 @@ export const NewSignUpMobileScreen: FC = () => {
 					/>
 				</Form.Item>
 
-				<Form.Item className="td-mobile-screen-signup__body__form__label" label="Referral Code: " name="referral_code">
+				<Form.Item className="td-mobile-screen-signup__body__form__label" label="Referral Code: (Optional)" name="referral_code">
 					<Input
 						className="td-mobile-screen-signup__body__form__label__input"
 						value={refID || ''}
