@@ -112,7 +112,6 @@ export const CompetitionInfo = (props: CompetitionInfoProps) => {
 
 		if (completed && status === 'ongoing') {
 			// dispatchFetchCompetition();
-			console.log('run it');
 		}
 		if (completed) {
 			// render a completed state

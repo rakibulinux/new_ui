@@ -7,6 +7,7 @@ import top1 from './assets/top1.png';
 import top2 from './assets/top2.png';
 import top3 from './assets/top3.png';
 import classNames from 'classnames';
+import { upperCase } from 'lodash';
 interface RankingCompetitionProps {
 	competition_id: number;
 	limit_display: number;
@@ -101,7 +102,7 @@ export const RankingCompetition: React.FC<RankingCompetitionProps> = props => {
 									<td>{renderSerialRank(item.rank)}</td>
 									<td>{item.uid}</td>
 									<td>{item.volume}</td>
-									<td>{item.award}</td>
+									<td>{upperCase(item.award)}</td>
 								</tr>
 							))}
 						</tbody>

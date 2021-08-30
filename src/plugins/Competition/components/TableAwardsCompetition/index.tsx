@@ -1,3 +1,4 @@
+import { upperCase } from 'lodash';
 import { CompetitionAward } from 'modules';
 import React from 'react';
 import { EmptyData } from '..';
@@ -21,7 +22,7 @@ export const TableAwards = (props: TableAwardProps) => {
 						<React.Fragment key={item.rank}>
 							<tr className="text-center">
 								<td scope="row">{item.rank}</td>
-								<td>{item.prize}</td>
+								<td>{upperCase(item.prize)}</td>
 							</tr>
 						</React.Fragment>
 					))}

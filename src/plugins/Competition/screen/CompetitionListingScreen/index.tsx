@@ -33,10 +33,10 @@ export const CompetitionListingScreen = () => {
 		}
 	};
 	return (
-		<div id="competition-listing-screen" className="container-fluid">
-			<div className="competition-listing-screen__header" style={{ paddingLeft: '0px' }}>
+		<div id="competition-listing-screen" className="container">
+			<div className="competition-listing-screen__header row" style={{ paddingLeft: '0px' }}>
 				<h3 className="col-12">Competitions</h3>
-				<div className="competition-listing-function flex-wrap col-12" style={{ paddingRight: '0px' }}>
+				<div className="competition-listing-function flex-wrap col-12">
 					<div className="input-list-function-search" style={{ width: '20rem', height: '45px' }}>
 						<input
 							name="function-search"
