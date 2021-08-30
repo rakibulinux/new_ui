@@ -30,8 +30,6 @@ export * from './Pagination';
 export * from './PasswordStrengthMeter';
 export * from './PasswordStrengthTip';
 export * from './PercentageButton';
-export * from './SignIn';
-export * from './SignUp';
 export * from './Login';
 export * from './Register';
 export * from './FormInput';
