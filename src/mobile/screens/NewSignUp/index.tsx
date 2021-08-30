@@ -4,7 +4,7 @@ import { useDocumentTitle } from 'hooks';
 import { GoBackIcon } from 'mobile/assets/icons';
 import { selectConfigs, selectCurrentLanguage, signUp } from 'modules';
 import React, { FC, useEffect, useState } from 'react';
-import { ReCAPTCHA } from 'react-google-recaptcha';
+import ReCAPTCHA, { ReCAPTCHAProps } from 'react-google-recaptcha';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { GeetestCaptcha } from './../../../containers/GeetestCaptcha/index';
@@ -101,7 +101,7 @@ export const NewSignUpMobileScreen: FC = () => {
 		setStatusCapcha(false);
 	};
 
-	const handleReCaptchaSuccess = (value: string) => {
+	const handleReCaptchaSuccess: ReCAPTCHAProps['onChange'] = () => {
 		setStatusCapcha(true);
 	};
 
@@ -112,11 +112,17 @@ export const NewSignUpMobileScreen: FC = () => {
 	const RenderRecapcha = () => {
 		switch (configs.captcha_type) {
 			case 'recaptcha':
-				return (
-					<div className="td-mobile-screen-signup__body__form__recaptcha">
-						<ReCAPTCHA ref={reCaptchaRef} sitekey={configs.captcha_id} onChange={handleReCaptchaSuccess} />
-					</div>
-				);
+				if (configs.captcha_id) {
+					return (
+						<ReCAPTCHA
+							theme="dark"
+							ref={reCaptchaRef}
+							sitekey={String(configs.captcha_id)}
+							onChange={handleReCaptchaSuccess}
+						/>
+					);
+				}
+				return null;
 			case 'geetest':
 				return (
 					<GeetestCaptcha
@@ -187,7 +193,11 @@ export const NewSignUpMobileScreen: FC = () => {
 					/>
 				</Form.Item>
 
-				<Form.Item className="td-mobile-screen-signup__body__form__label" label="Referral Code: (Optional)" name="referral_code">
+				<Form.Item
+					className="td-mobile-screen-signup__body__form__label"
+					label="Referral Code: (Optional)"
+					name="referral_code"
+				>
 					<Input
 						className="td-mobile-screen-signup__body__form__label__input"
 						value={refID || ''}
@@ -206,7 +216,9 @@ export const NewSignUpMobileScreen: FC = () => {
 					</Checkbox>
 				</Form.Item>
 
-				<RenderRecapcha />
+				<div className="td-mobile-screen-signup__body__form__recaptcha">
+					<RenderRecapcha />
+				</div>
 
 				<Form.Item className="td-mobile-screen-signup__body__form__submit">
 					<Button
