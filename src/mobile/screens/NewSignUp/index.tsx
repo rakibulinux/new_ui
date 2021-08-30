@@ -4,19 +4,21 @@ import { useDocumentTitle } from 'hooks';
 import { GoBackIcon } from 'mobile/assets/icons';
 import { selectConfigs, selectCurrentLanguage, signUp } from 'modules';
 import React, { FC, useEffect, useState } from 'react';
+import isEqual from 'react-fast-compare';
 import ReCAPTCHA, { ReCAPTCHAProps } from 'react-google-recaptcha';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { GeetestCaptcha } from './../../../containers/GeetestCaptcha/index';
-import { selectSignUpError } from './../../../modules/user/auth/selectors';
+import { selectSignUpError, selectSignUpRequireVerification } from './../../../modules/user/auth/selectors';
 
-export const NewSignUpMobileScreen: FC = () => {
+const NewSignUpMobileComponent: FC = () => {
 	useDocumentTitle('Sign Up');
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const i18n = useSelector(selectCurrentLanguage);
-	const configs = useSelector(selectConfigs);
-	const signUpError = useSelector(selectSignUpError);
+	const i18n = useSelector(selectCurrentLanguage, isEqual);
+	const configs = useSelector(selectConfigs, isEqual);
+	const signUpError = useSelector(selectSignUpError, isEqual);
+	const requireVerification = useSelector(selectSignUpRequireVerification, isEqual);
 
 	const [email, setEmail] = useState<string | null>(null);
 	const [pass, setPass] = useState<string | null>(null);
@@ -29,14 +31,22 @@ export const NewSignUpMobileScreen: FC = () => {
 	const geetestCaptchaRef = React.createRef<ReCAPTCHA>();
 
 	useEffect(() => {
-		if (reCaptchaRef.current) {
-			reCaptchaRef.current.reset();
-		}
+		if (signUpError) {
+			if (reCaptchaRef.current) {
+				reCaptchaRef.current.reset();
+			}
 
-		if (geetestCaptchaRef.current) {
-			setShouldGeetestReset(true);
+			if (geetestCaptchaRef.current) {
+				setShouldGeetestReset(true);
+			}
 		}
 	}, [signUpError]);
+
+	React.useEffect(() => {
+		if (requireVerification) {
+			history.push('/email-verification', { email: email });
+		}
+	}, [requireVerification]);
 
 	const extractRefIDs = (url: string) => new URLSearchParams(url).get('refid');
 
@@ -251,3 +261,5 @@ export const NewSignUpMobileScreen: FC = () => {
 		</div>
 	);
 };
+
+export const NewSignUpMobileScreen = React.memo(NewSignUpMobileComponent, isEqual);
