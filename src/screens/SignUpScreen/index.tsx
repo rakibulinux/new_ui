@@ -2,7 +2,7 @@ import cx from 'classnames';
 import { History } from 'history';
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
-import ReCAPTCHA from 'react-google-recaptcha';
+import ReCAPTCHA, { ReCAPTCHAProps } from 'react-google-recaptcha';
 import { injectIntl } from 'react-intl';
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -232,11 +232,18 @@ class SignUp extends React.Component<Props> {
 
 		switch (configs.captcha_type) {
 			case 'recaptcha':
-				return (
-					<div className="cr-sign-up-form__recaptcha">
-						<ReCAPTCHA ref={this.reCaptchaRef} sitekey={configs.captcha_id} onChange={this.handleReCaptchaSuccess} />
-					</div>
-				);
+				if (configs.captcha_id) {
+					return (
+						<div className="cr-sign-up-form__recaptcha">
+							<ReCAPTCHA
+								ref={this.reCaptchaRef}
+								sitekey={configs.captcha_id}
+								onChange={this.handleReCaptchaSuccess}
+							/>
+						</div>
+					);
+				}
+				return null;
 			case 'geetest':
 				return (
 					<GeetestCaptcha
@@ -362,10 +369,10 @@ class SignUp extends React.Component<Props> {
 		this.props.history.push('/signin');
 	};
 
-	private handleReCaptchaSuccess = (value: string) => {
+	private handleReCaptchaSuccess: ReCAPTCHAProps['onChange'] = value => {
 		this.setState({
 			reCaptchaSuccess: true,
-			captcha_response: value,
+			captcha_response: value || '',
 		});
 	};
 

@@ -9,7 +9,8 @@ import React, { useState } from 'react';
 import { DebounceInput } from 'react-debounce-input';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { selectAllChildCurrencies, selectWallets, Wallet } from '../../../modules';
+import { selectAllChildCurrencies, selectWallets } from '../../../modules';
+import { Decimal } from '../../components';
 
 export const NewWalletsMobileScreen = () => {
 	useDocumentTitle('Wallets');
@@ -29,6 +30,7 @@ export const NewWalletsMobileScreen = () => {
 		if (!currency.includes(searchString.toLowerCase().trim())) {
 			return false;
 		}
+
 		if (hideSmallBalance && Number(total) <= 0) {
 			return false;
 		}
@@ -36,15 +38,17 @@ export const NewWalletsMobileScreen = () => {
 		return !allChildCurrencyName.includes(currency);
 	});
 
-	const renderWalletList = (walletsParam: Wallet[]) => {
-		return walletsParam.map(_w => (
+	const renderWalletList = () => {
+		return data.map(_w => (
 			<Link to={`/wallets/${_w.currency}/detail`} className="td-mobile-wallets__list__item" key={_w.currency}>
 				<div className="td-mobile-wallets__list__item__top">
 					<div className="td-mobile-wallets__list__item__top__icon">
 						<img src={_w.iconUrl} alt={_w.name} />
 					</div>
 					<span className="td-mobile-wallets__list__item__top__text">{_w.currency.toUpperCase()}</span>
-					<span className="td-mobile-wallets__list__item__top__number">{_w.total}</span>
+					<span className="td-mobile-wallets__list__item__top__number">
+						<Decimal fixed={_w.fixed}>{_w.total > 0 ? _w.total : 0}</Decimal>
+					</span>
 				</div>
 				<div className="td-mobile-wallets__list__item__bottom">
 					<span className="td-mobile-wallets__list__item__bottom__text">{_w.name}</span>
@@ -94,7 +98,7 @@ export const NewWalletsMobileScreen = () => {
 					</label>
 				</div>
 			</div>
-			<div className="td-mobile-wallets__list">{data.length === 0 ? <Empty /> : renderWalletList(data)}</div>
+			<div className="td-mobile-wallets__list">{data.length === 0 ? <Empty /> : renderWalletList()}</div>
 		</div>
 	);
 };

@@ -1,5 +1,5 @@
 import message from 'antd/lib/message';
-import classnames from 'classnames';
+import { WrapperTabPage } from 'components';
 import { localeDate } from 'helpers';
 import { useAirdropCoinClaimFetch, useAirdropCoinFetch } from 'hooks';
 import get from 'lodash/get';
@@ -29,6 +29,8 @@ const rendererCountDown: CountdownRendererFn = ({ days, hours, minutes, seconds,
 // tslint:disable-next-line: no-empty-interface
 interface AirdropCoinListScreenProps {}
 
+const PAGE_SIZE = 6;
+
 export const AirdropCoinListScreen: React.FC<AirdropCoinListScreenProps> = ({}) => {
 	// const intl = useIntl();
 	const history = useHistory();
@@ -42,12 +44,17 @@ export const AirdropCoinListScreen: React.FC<AirdropCoinListScreenProps> = ({}) 
 		'running',
 	);
 	const [searchState, setSearchState] = React.useState('');
+	const [pageIndex, setPageIndex] = React.useState(1);
+
+	React.useEffect(() => {
+		setPageIndex(1);
+	}, [filterAirdropCoinState]);
 
 	React.useEffect(() => {
 		filterAirdropCoinState !== 'all' && setFilterAirdropCoinState('all');
 	}, [searchState]);
 
-	const filterList = () => {
+	const filterList = (() => {
 		let result = airdrops;
 		const nowTime = moment.utc();
 		switch (filterAirdropCoinState) {
@@ -72,6 +79,15 @@ export const AirdropCoinListScreen: React.FC<AirdropCoinListScreenProps> = ({}) 
 		}
 
 		return result;
+	})();
+
+	const paginationFilter = () => {
+		let result = filterList;
+		const startSlice = (pageIndex - 1) * PAGE_SIZE;
+		const endSlice = startSlice + PAGE_SIZE;
+		result = result.slice(startSlice, endSlice);
+
+		return result;
 	};
 
 	const handleClaim = (airdropId: string) => {
@@ -87,7 +103,7 @@ export const AirdropCoinListScreen: React.FC<AirdropCoinListScreenProps> = ({}) 
 		}
 	};
 
-	const airDropsElm = filterList().map((item, i) => {
+	const airDropsElm = paginationFilter().map((item, i) => {
 		const nowTime = moment.utc();
 		const claim = claims.find(claimParam => claimParam.airdrop_id === item.airdrop_id);
 		const progressPercent = ((item.total_claim / item.max_claim) * 100).toFixed(2);
@@ -195,87 +211,23 @@ export const AirdropCoinListScreen: React.FC<AirdropCoinListScreenProps> = ({}) 
 		);
 	});
 
-	const renderHeader = () => {
-		const upcomingButtonClassName = classnames(
-			'pg-airdrop-list-coin__header__buttons-btn',
-			filterAirdropCoinState === 'upcoming' ? 'pg-airdrop-list-coin__header__buttons__upcoming' : '',
-		);
-		const runningButtonClassName = classnames(
-			'pg-airdrop-list-coin__header__buttons-btn',
-			filterAirdropCoinState === 'running' ? 'pg-airdrop-list-coin__header__buttons__running' : '',
-		);
-		const endedButtonClassName = classnames(
-			'pg-airdrop-list-coin__header__buttons-btn',
-			filterAirdropCoinState === 'ended' ? 'pg-airdrop-list-coin__header__buttons__ended' : '',
-		);
-		const allButtonClassName = classnames(
-			'pg-airdrop-list-coin__header__buttons-btn',
-			filterAirdropCoinState === 'all' ? 'pg-airdrop-list-coin__header__buttons__all' : '',
-		);
-
-		return (
-			<div className="container pg-airdrop-list-coin__header">
-				<div className="row">
-					<div className="col-12">
-						<h3 className="pg-airdrop-list-coin__header__h3">Airdrops</h3>
-					</div>
-				</div>
-				<div className="d-flex flex-row justify-content-between">
-					<div className="pg-airdrop-list-coin__header__search">
-						<input
-							placeholder="Search currency"
-							type="text"
-							value={searchState}
-							onChange={e => setSearchState(e.target.value)}
-						/>
-						<div className="icon-search">
-							<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<path
-									d="M12.5 11H11.71L11.43 10.73C12.41 9.59 13 8.11 13 6.5C13 2.91 10.09 0 6.5 0C2.91 0 0 2.91 0 6.5C0 10.09 2.91 13 6.5 13C8.11 13 9.59 12.41 10.73 11.43L11 11.71V12.5L16 17.49L17.49 16L12.5 11ZM6.5 11C4.01 11 2 8.99 2 6.5C2 4.01 4.01 2 6.5 2C8.99 2 11 4.01 11 6.5C11 8.99 8.99 11 6.5 11Z"
-									fill="#848E9C"
-								/>
-							</svg>
-						</div>
-					</div>
-					<div className="pg-airdrop-list-coin__header__buttons">
-						<button onClick={() => setFilterAirdropCoinState('all')} className={allButtonClassName}>
-							All <span hidden={filterAirdropCoinState !== 'all'}></span>
-						</button>
-						<button onClick={() => setFilterAirdropCoinState('upcoming')} className={upcomingButtonClassName}>
-							Upcoming <span hidden={filterAirdropCoinState !== 'upcoming'}></span>
-						</button>
-						<button onClick={() => setFilterAirdropCoinState('running')} className={runningButtonClassName}>
-							Running <span hidden={filterAirdropCoinState !== 'running'}></span>
-						</button>
-						<button onClick={() => setFilterAirdropCoinState('ended')} className={endedButtonClassName}>
-							Ended <span hidden={filterAirdropCoinState !== 'ended'}></span>
-						</button>
-					</div>
-				</div>
-			</div>
-		);
-	};
-
 	return (
 		<div className="pg-airdrop-list-coin">
-			{renderHeader()}
-			<div className="container pg-airdrop-list-coin__list">
-				{airDropsElm.length ? (
-					airDropsElm
-				) : (
-					<div style={{ marginTop: ' 50px', width: '100vw' }}>
-						<div className="w-100 text-center">
-							<img
-								src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
-								alt="no-data"
-							/>
-						</div>
-						<div className="w-100 text-center mt-2">
-							<h5>No Data</h5>
-						</div>
-					</div>
-				)}
-			</div>
+			<WrapperTabPage
+				title={'Airdrops'}
+				filterState={filterAirdropCoinState}
+				setFilterState={setFilterAirdropCoinState}
+				searchState={searchState}
+				setSearchState={setSearchState}
+				totalItem={filterList.length}
+				pageIndex={pageIndex}
+				pageSize={PAGE_SIZE}
+				onPageChange={pageIndexParam => {
+					setPageIndex(pageIndexParam);
+				}}
+			>
+				{airDropsElm.length ? airDropsElm : undefined}
+			</WrapperTabPage>
 		</div>
 	);
 };

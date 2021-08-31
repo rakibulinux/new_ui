@@ -1,37 +1,17 @@
-import classnames from 'classnames';
+import { WrapperTabPage } from 'components';
 import { useCurrenciesFetch } from 'hooks';
+import { selectStakingList, selectStakingListLoading, stakingListFetch } from 'modules';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectStakingList, stakingListFetch } from '../../../../modules';
+import { LoadingSpinner } from '../../components';
 import { StakingList } from '../../containers';
 
+const PAGE_SIZE = 12;
 export const StakingListScreen = () => {
 	// state
 	const [filterStackingState, setFilterStackingState] = React.useState<'upcoming' | 'running' | 'all' | 'ended'>('all');
-	const upcomingButtonClassName = classnames(
-		'desktop-staking-list-screen__header__buttons-btn',
-		filterStackingState === 'upcoming' ? 'desktop-staking-list-screen__header__buttons__upcoming' : '',
-	);
-	const runningButtonClassName = classnames(
-		'desktop-staking-list-screen__header__buttons-btn',
-		filterStackingState === 'running' ? 'desktop-staking-list-screen__header__buttons__running' : '',
-	);
-	const endedButtonClassName = classnames(
-		'desktop-staking-list-screen__header__buttons-btn',
-		filterStackingState === 'ended' ? 'desktop-staking-list-screen__header__buttons__ended' : '',
-	);
-	const allButtonClassName = classnames(
-		'desktop-staking-list-screen__header__buttons-btn',
-		filterStackingState === 'all' ? 'desktop-staking-list-screen__header__buttons__all' : '',
-	);
-
-	// store
-	const stakingList = useSelector(selectStakingList);
-
-	const upcomingList = stakingList.filter(staking => staking.status === 'upcoming');
-	const runningList = stakingList.filter(staking => staking.status === 'running');
-	const endedList = stakingList.filter(staking => staking.status === 'ended');
-
+	const [pageIndex, setPageIndex] = React.useState(1);
+	const [searchState, setSearchState] = React.useState('');
 	// dispatch
 	const dispatch = useDispatch();
 	const dispatchFetchStakingList = () => dispatch(stakingListFetch());
@@ -39,82 +19,81 @@ export const StakingListScreen = () => {
 	useCurrenciesFetch();
 
 	React.useEffect(() => {
+		setPageIndex(1);
+	}, [filterStackingState]);
+
+	React.useEffect(() => {
 		dispatchFetchStakingList();
 	}, []);
 
-	const [searchState, setSearchState] = React.useState('');
-
 	React.useEffect(() => {
-		setFilterStackingState('all');
+		filterStackingState !== 'all' && setFilterStackingState('all');
 	}, [searchState]);
 
-	const renderStakingList = () => {
-		if (searchState !== '') {
-			return (
-				<StakingList
-					stakes={[...stakingList].filter(stake => stake.currency_id.toLowerCase().includes(searchState.toLowerCase()))}
-				/>
-			);
+	// store
+	const stakingList = useSelector(selectStakingList);
+	const isLoadingStakingList = useSelector(selectStakingListLoading);
+
+	const filterList = (() => {
+		let result = stakingList;
+		switch (filterStackingState) {
+			case 'ended':
+				result = stakingList.filter(staking => staking.status === 'ended');
+				break;
+			case 'running':
+				result = stakingList.filter(staking => staking.status === 'running');
+				break;
+			case 'upcoming':
+				result = stakingList.filter(staking => staking.status === 'upcoming');
+				break;
+			default:
+				result = stakingList;
+				break;
 		}
-		return filterStackingState === 'upcoming' ? (
-			<StakingList stakes={[...upcomingList]} />
-		) : filterStackingState === 'running' ? (
-			<StakingList stakes={[...runningList]} />
-		) : filterStackingState === 'ended' ? (
-			<StakingList stakes={[...endedList]} />
-		) : (
-			<StakingList stakes={[...stakingList]} />
-		);
+
+		if (searchState) {
+			result = result.filter(stake => stake.currency_id.toLowerCase().includes(searchState.toLowerCase()));
+		}
+
+		return result;
+	})();
+
+	const paginationFilter = () => {
+		let result = filterList;
+		const startSlice = (pageIndex - 1) * PAGE_SIZE;
+		const endSlice = startSlice + PAGE_SIZE;
+		result = result.slice(startSlice, endSlice);
+
+		return result;
 	};
 
 	return (
 		<div className="desktop-staking-list-screen">
-			<div className=" container desktop-staking-list-screen__header">
-				<div className="row">
-					<div className="col-12">
-						<h3 className="desktop-staking-list-screen__header__h3">Stake</h3>
-					</div>
-				</div>
-				<div className="d-flex flex-row justify-content-between">
-					<div className="desktop-staking-list-screen__header__search">
-						<input
-							placeholder="Search currency"
-							type="text"
-							value={searchState}
-							onChange={e => setSearchState(e.target.value)}
-						/>
-						<div className="icon-search">
-							<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<path
-									d="M12.5 11H11.71L11.43 10.73C12.41 9.59 13 8.11 13 6.5C13 2.91 10.09 0 6.5 0C2.91 0 0 2.91 0 6.5C0 10.09 2.91 13 6.5 13C8.11 13 9.59 12.41 10.73 11.43L11 11.71V12.5L16 17.49L17.49 16L12.5 11ZM6.5 11C4.01 11 2 8.99 2 6.5C2 4.01 4.01 2 6.5 2C8.99 2 11 4.01 11 6.5C11 8.99 8.99 11 6.5 11Z"
-									fill="#848E9C"
-								/>
-							</svg>
-						</div>
-					</div>
-					<div className="desktop-staking-list-screen__header__buttons">
-						<button onClick={() => setFilterStackingState('all')} className={allButtonClassName}>
-							All <span hidden={filterStackingState != 'all'}></span>
-						</button>
-						<button onClick={() => setFilterStackingState('upcoming')} className={upcomingButtonClassName}>
-							Upcoming <span hidden={filterStackingState != 'upcoming'}></span>
-						</button>
-						<button onClick={() => setFilterStackingState('running')} className={runningButtonClassName}>
-							Running <span hidden={filterStackingState != 'running'}></span>
-						</button>
-						<button onClick={() => setFilterStackingState('ended')} className={endedButtonClassName}>
-							Ended <span hidden={filterStackingState != 'ended'}></span>
-						</button>
-					</div>
-				</div>
-			</div>
-
-			<div
-				style={{ position: 'relative', paddingRight: '0px', paddingLeft: '0px' }}
-				className="row m-auto container desktop-staking-list-screen__body"
+			<WrapperTabPage
+				title={'Stake'}
+				filterState={filterStackingState}
+				setFilterState={setFilterStackingState}
+				searchState={searchState}
+				setSearchState={setSearchState}
+				totalItem={filterList.length}
+				pageIndex={pageIndex}
+				pageSize={PAGE_SIZE}
+				onPageChange={pageIndexParam => {
+					setPageIndex(pageIndexParam);
+				}}
 			>
-				{renderStakingList()}
-			</div>
+				{filterList.length || isLoadingStakingList ? (
+					isLoadingStakingList ? (
+						<div hidden={!isLoadingStakingList} style={{ marginTop: '200px' }}>
+							<LoadingSpinner loading={isLoadingStakingList} />
+						</div>
+					) : (
+						<div className="row">
+							<StakingList stakes={paginationFilter()} />
+						</div>
+					)
+				) : undefined}
+			</WrapperTabPage>
 		</div>
 	);
 };

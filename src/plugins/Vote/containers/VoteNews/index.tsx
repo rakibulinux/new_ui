@@ -2,12 +2,19 @@ import { Empty, Spin } from 'antd';
 import { NewPagination } from 'components';
 import { useVoteDonateFreeFetch, useVoteListFetch, useWalletsFetch } from 'hooks';
 import get from 'lodash/get';
-import { selectVoteListInfo, selectVoteListLoading, selectWallets } from 'modules';
+import {
+	selectUserLoggedIn,
+	selectVoteListInfo,
+	selectVoteListLoading,
+	selectWallets,
+	walletsAddressFetch,
+	walletsFetch,
+} from 'modules';
 import * as constants from 'plugins/constants/vote';
 import { ButtonVote, CountDownVote } from 'plugins/Vote/components';
 import * as React from 'react';
 import isEqual from 'react-fast-compare';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 // tslint:disable-next-line: no-empty-interface
 interface VoteNewsProps {}
@@ -18,17 +25,25 @@ const defaultPaginationState = {
 };
 
 export const VoteNews: React.FC<VoteNewsProps> = ({}) => {
-	useWalletsFetch();
 	const freeVote = useVoteDonateFreeFetch();
 	const [pagination, setPagintion] = React.useState(defaultPaginationState);
 	const [keyword, setKeyword] = React.useState('');
 	const voteListInfo = useSelector(selectVoteListInfo);
 	const isVoteListLoading = useSelector(selectVoteListLoading);
-	const wallet = useSelector(selectWallets, isEqual).find(
-		walletParam => walletParam.currency === constants.VOTE_CURRENCIE.toLowerCase(),
-	);
+	const userLoggedIn = useSelector(selectUserLoggedIn);
+	const wallets = useSelector(selectWallets, isEqual);
+	const wallet = wallets.find(walletParam => walletParam.currency === constants.VOTE_CURRENCIE.toLowerCase());
 
+	const dispatch = useDispatch();
+	useWalletsFetch();
 	useVoteListFetch({ ...pagination, keyword });
+
+	React.useEffect(() => {
+		if (userLoggedIn && (!wallet || (wallet && !wallet.address && wallets.length && wallet.type !== 'fiat'))) {
+			dispatch(walletsAddressFetch({ currency: constants.VOTE_CURRENCIE.toLowerCase() }));
+			dispatch(walletsFetch());
+		}
+	}, [wallet, userLoggedIn]);
 
 	React.useEffect(() => {
 		setPagintion(prev => ({ ...prev, pageIndex: defaultPaginationState.pageIndex }));
