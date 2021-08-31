@@ -21,11 +21,16 @@ export interface CommisionHistoryState extends CommonState {
 	payload: [number, CommisionHistory[]];
 	loading: boolean;
 }
-
+enum RankType {
+	Friend = 'friend',
+	Commision = 'commision',
+}
 export interface ReferralRank {
 	rank: number;
-	email: string;
+	uid: string;
 	total: string;
+	type: RankType;
+	top: number;
 }
 
 export interface ReferralRankState extends CommonState {
