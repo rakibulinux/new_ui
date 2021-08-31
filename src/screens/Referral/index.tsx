@@ -7,7 +7,10 @@ import { useDocumentTitle } from 'hooks';
 import { selectUserLoggedIn } from 'modules';
 import { referralRanksFetch, selectReferalRanksList } from 'modules/plugins/referral';
 import ReactTooltip from 'react-tooltip';
-
+enum RankType {
+	Friend = 'friend',
+	Commision = 'commision',
+}
 const ReferralDesktopBanner = require('./Assets/referral-desktop-banner.png');
 const RankNo1 = require('./Assets/top1.png');
 const RankNo2 = require('./Assets/top2.png');
@@ -39,7 +42,7 @@ export const Referral: React.FC = () => {
 		);
 	};
 	const renderReferralRank = () => {
-		const rankBox = (rankIndex: number, email: string, commission: string) => {
+		const rankBox = (rankIndex: number, uid: string = '', commission: string = '', type = RankType.Friend) => {
 			let image;
 			switch (rankIndex) {
 				case 1:
@@ -66,14 +69,14 @@ export const Referral: React.FC = () => {
 								<span className="text-white td-pg-referral__rank__box__row__commision__coin-name">{`NO.${rankIndex}`}</span>
 							</div>
 							<div className="mt-3">
-								<span data-tip={email} className="text-white td-pg-referral__rank__box__row__rank__mail">
-									{email}
+								<span data-tip={uid} className="text-white td-pg-referral__rank__box__row__rank__mail">
+									{uid}
 								</span>
 							</div>
 						</div>
 						<div className="col-5">
 							<div className="text-right">
-								<span className="text-white">Commission</span>
+								<span className="text-white">{type === RankType.Friend ? 'Friends' : 'Commision'}</span>
 							</div>
 							<div className="text-right mt-3">
 								<span
@@ -93,21 +96,15 @@ export const Referral: React.FC = () => {
 			<div className="td-pg-referral__rank">
 				<div className="container">
 					<div className="row">
-						{rankBox(
-							1,
-							referralRanks[0] ? referralRanks[0].email : '',
-							referralRanks[0] ? referralRanks[0].total : '',
-						)}
-						{rankBox(
-							2,
-							referralRanks[1] ? referralRanks[1].email : '',
-							referralRanks[1] ? referralRanks[1].total : '',
-						)}
-						{rankBox(
-							3,
-							referralRanks[2] ? referralRanks[2].email : '',
-							referralRanks[2] ? referralRanks[2].total : '',
-						)}
+						{referralRanks[0]
+							? rankBox(1, referralRanks[0].uid, referralRanks[0].total, referralRanks[0].type)
+							: rankBox(1)}
+						{referralRanks[1]
+							? rankBox(2, referralRanks[1].uid, referralRanks[1].total, referralRanks[1].type)
+							: rankBox(2)}
+						{referralRanks[2]
+							? rankBox(3, referralRanks[2].uid, referralRanks[2].total, referralRanks[2].type)
+							: rankBox(3)}
 					</div>
 				</div>
 			</div>
