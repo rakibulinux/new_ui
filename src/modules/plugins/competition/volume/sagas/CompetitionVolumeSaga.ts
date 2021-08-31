@@ -8,7 +8,7 @@ const createOptions = (csrfToken?: string): RequestOptions => {
 
 export function* competitionVolumeSaga(action: FetchCompetitionVolume) {
 	try {
-		const { id } = action;
+		const { competition_id: id } = action.payload;
 		const volume = yield call(API.get(createOptions(getCsrfToken())), `/private/competition/volume/competition_id=${id}`);
 		yield put(getDataCompetitionVolume(volume, false));
 	} catch (error) {

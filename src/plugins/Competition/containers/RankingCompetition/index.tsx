@@ -18,7 +18,7 @@ export const RankingCompetition: React.FC<RankingCompetitionProps> = props => {
 	const dispatch = useDispatch();
 	const ranking = useSelector(selectRankingCompetition);
 	React.useEffect(() => {
-		if (!loading) dispatch(fetchRankingCompetition(competition_id));
+		if (!loading) dispatch(fetchRankingCompetition({ competition_id: competition_id }));
 	}, [loading]);
 
 	const renderSerialRank = (rank: number) => {

@@ -1,5 +1,5 @@
 import { COMPETITION_ITEM_DATA, COMPETITION_ITEM_ERROR, COMPETITION_ITEM_FETCH } from './constants';
-import { NewCompetition, NewCompetitionState } from './types';
+import { NewCompetitionState } from './types';
 import { ItemCompetitionActions } from './';
 const initialCompetitionItemState: NewCompetitionState = {
 	payload: {
@@ -27,8 +27,7 @@ export const CompetitionItemReducer = (state = initialCompetitionItemState, acti
 				error: undefined,
 			};
 		case COMPETITION_ITEM_DATA:
-			const data = action.payload as NewCompetition;
-
+			const data = action.payload;
 			return {
 				...state,
 				payload: data,

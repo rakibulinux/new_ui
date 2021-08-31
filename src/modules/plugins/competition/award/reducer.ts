@@ -1,7 +1,6 @@
 import { CompetitionAwardState } from '.';
-import { CompetitionAwardActions as CompetitionAwardActions } from './actions';
+import { CompetitionAwardActions } from './actions';
 import { COMPETITION_AWARDS_DATA, COMPETITION_AWARDS_ERROR, COMPETITION_AWARDS_FETCH } from './constants';
-import { CompetitionAward } from './types';
 
 const initialCompetitionAwardState: CompetitionAwardState = {
 	payload: [],
@@ -17,7 +16,7 @@ export const competitionAwardReducer = (state = initialCompetitionAwardState, ac
 				error: undefined,
 			};
 		case COMPETITION_AWARDS_DATA:
-			const data = action.payload as CompetitionAward[];
+			const data = action.payload;
 			return {
 				...state,
 				payload: data,

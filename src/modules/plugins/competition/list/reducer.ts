@@ -17,7 +17,7 @@ export const CompetitionListReducer = (state = initialCompetitionList, action: C
 				error: undefined,
 			};
 		case COMPETITION_LIST_DATA:
-			const data = action.payload as ListCompetitionState;
+			const data = action.payload;
 			return {
 				...state,
 				payload: data,

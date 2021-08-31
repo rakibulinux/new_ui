@@ -4,7 +4,9 @@ import { COMPETITION_RANKING_FETCH, COMPETITION_RANKING_DATA, COMPETITION_RANKIN
 
 export interface FetchRankingCompetition {
 	type: typeof COMPETITION_RANKING_FETCH;
-	competition_id: number;
+	payload: {
+		competition_id: number;
+	};
 }
 
 export interface GetDataRankingCompetition {
@@ -20,9 +22,9 @@ export interface CatchErrorRankingCompetition {
 
 export type RankingCompetitionActions = FetchRankingCompetition | GetDataRankingCompetition | CatchErrorRankingCompetition;
 
-export const fetchRankingCompetition = (competition_id: FetchRankingCompetition['competition_id']): FetchRankingCompetition => ({
+export const fetchRankingCompetition = (payload: FetchRankingCompetition['payload']): FetchRankingCompetition => ({
 	type: COMPETITION_RANKING_FETCH,
-	competition_id,
+	payload,
 });
 export const getDataRankingCompetition = (
 	payload: GetDataRankingCompetition['payload'],

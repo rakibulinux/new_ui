@@ -4,7 +4,9 @@ import { CompetitionAward } from './types';
 
 export interface FetchCompetitionAward {
 	type: typeof COMPETITION_AWARDS_FETCH;
-	competition_id: number;
+	payload: {
+		competition_id: number;
+	};
 }
 
 export interface GetDataCompetitionAward {
@@ -20,9 +22,9 @@ export interface CatchErrorCompetitionAward {
 
 export type CompetitionAwardActions = FetchCompetitionAward | GetDataCompetitionAward | CatchErrorCompetitionAward;
 
-export const fetchCompetitionAward = (competition_id: FetchCompetitionAward['competition_id']): FetchCompetitionAward => ({
+export const fetchCompetitionAward = (payload: FetchCompetitionAward['payload']): FetchCompetitionAward => ({
 	type: COMPETITION_AWARDS_FETCH,
-	competition_id,
+	payload,
 });
 
 export const getDataCompetitionAward = (

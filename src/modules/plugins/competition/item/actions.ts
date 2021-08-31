@@ -3,7 +3,9 @@ import { COMPETITION_ITEM_DATA, COMPETITION_ITEM_ERROR, COMPETITION_ITEM_FETCH }
 import { CommonError } from 'modules/types';
 export interface FetchCompetitionItem {
 	type: typeof COMPETITION_ITEM_FETCH;
-	id: number;
+	payload: {
+		competition_id: number;
+	};
 }
 
 export interface DataCompetitionItem {
@@ -19,9 +21,9 @@ export interface ErrorCompetitionItem {
 
 export type ItemCompetitionActions = FetchCompetitionItem | DataCompetitionItem | ErrorCompetitionItem;
 
-export const fetchCompetitionItem = (id: FetchCompetitionItem['id']) => ({
+export const fetchCompetitionItem = (payload: FetchCompetitionItem['payload']) => ({
 	type: COMPETITION_ITEM_FETCH,
-	id,
+	payload,
 });
 
 export const dataCompetitionItem = (

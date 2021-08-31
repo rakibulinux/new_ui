@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { currenciesFetch, NewCompetition, selectCurrencies } from '../../../../modules';
 import Countdown from 'react-countdown';
 import classNames from 'classnames';
-import { lowerCase, upperCase } from 'lodash';
+import { toLower, toUpper } from 'lodash';
 // import NP from 'number-precision';
 // import millify from 'millify';
 export const CompetitionItem: React.FC<NewCompetition> = props => {
@@ -71,7 +71,7 @@ export const CompetitionItem: React.FC<NewCompetition> = props => {
 		dispatchFetchCurrencies();
 	}, []);
 	const getCryptoIcon = (currencyID: string): string => {
-		const currency = currencies.find((cur: any) => cur.id === lowerCase(currencyID));
+		const currency = currencies.find((cur: any) => cur.id === toLower(currencyID));
 		try {
 			return require(`../../../../../node_modules/cryptocurrency-icons/128/color/${currencyID.toLowerCase()}.png`);
 		} catch (err) {
@@ -96,7 +96,7 @@ export const CompetitionItem: React.FC<NewCompetition> = props => {
 				<div className={`competition-item-type ${competitionTypeClassName}`}>{`${props.type}`}</div>
 				<div className="h-100 d-flex justify-content-center align-items-center">
 					<img
-						src={getCryptoIcon(upperCase(props.currency_id))}
+						src={getCryptoIcon(toUpper(props.currency_id))}
 						alt={`${props.currency_id}-icon`}
 						style={{ width: '57.87px', height: '57.87px' }}
 					/>
@@ -105,7 +105,7 @@ export const CompetitionItem: React.FC<NewCompetition> = props => {
 
 			<div className="competition-item-content">
 				<h3>Best Price</h3>
-				<h3>{upperCase(props.total_prize)}</h3>
+				<h3>{toUpper(props.total_prize)}</h3>
 				{rendererCountDown(props.status)}
 				<div className="competition-item-currencies d-flex flex-row flex-wrap">
 					<div className="competition-item-currency">

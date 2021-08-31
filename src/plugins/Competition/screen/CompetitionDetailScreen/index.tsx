@@ -15,10 +15,23 @@ export const CompetitionDetailScreen = () => {
 	const { currency_id, start_date, end_date, type, market_ids, next_update, limit_display, status } = competition.payload;
 
 	React.useEffect(() => {
-		dispatch(fetchCompetitionItem(toNumber(competition_id)));
-		dispatch(fetchCompetitionVolume(toNumber(competition_id)));
+		dispatch(
+			fetchCompetitionItem({
+				competition_id: toNumber(competition_id),
+			}),
+		);
+		dispatch(
+			fetchCompetitionVolume({
+				competition_id: toNumber(competition_id),
+			}),
+		);
 	}, []);
-	const dispatchFetchCompetition = () => dispatch(fetchCompetitionItem(toNumber(competition_id)));
+	const dispatchFetchCompetition = () =>
+		dispatch(
+			fetchCompetitionItem({
+				competition_id: toNumber(competition_id),
+			}),
+		);
 
 	return (
 		<div id="competition-detail-screen" className="container-fluid">
