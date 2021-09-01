@@ -5,7 +5,18 @@ export * from './types';
 export * from './config';
 
 export interface RequestOptions {
-	apiVersion: 'applogic' | 'peatio' | 'barong' | 'finex' | 'airdrop' | 'sunshine' | 'ieo' | 'stake' | 'wallet' | 'referral';
+	apiVersion:
+		| 'applogic'
+		| 'peatio'
+		| 'barong'
+		| 'finex'
+		| 'airdrop'
+		| 'sunshine'
+		| 'ieo'
+		| 'stake'
+		| 'wallet'
+		| 'referral'
+		| 'competition';
 	withHeaders?: boolean;
 	headers?: Object;
 }

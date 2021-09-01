@@ -11,6 +11,7 @@ import {
 	tradeUrl,
 	walletUrl,
 	withCredentials,
+	competitionUrl,
 } from './config';
 
 export type HTTPMethod = 'get' | 'post' | 'delete' | 'put' | 'patch';
@@ -21,7 +22,18 @@ export interface JsonBody {
 }
 
 export interface RequestOptions {
-	apiVersion: 'applogic' | 'peatio' | 'barong' | 'finex' | 'sunshine' | 'airdrop' | 'ieo' | 'stake' | 'wallet' | 'referral';
+	apiVersion:
+		| 'applogic'
+		| 'peatio'
+		| 'barong'
+		| 'finex'
+		| 'sunshine'
+		| 'airdrop'
+		| 'ieo'
+		| 'stake'
+		| 'wallet'
+		| 'referral'
+		| 'competition';
 	withHeaders?: boolean;
 	headers?: Object;
 }
@@ -51,6 +63,7 @@ const getAPI = () => ({
 	stake: stakeUrl(),
 	wallet: walletUrl(),
 	referral: referralUrl(),
+	competition: competitionUrl(),
 });
 
 const buildRequest = (request: Request, configData: RequestOptions) => {

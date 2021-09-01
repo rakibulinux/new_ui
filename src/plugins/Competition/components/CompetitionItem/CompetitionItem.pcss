@@ -1,0 +1,165 @@
+#competition-item {
+	background: #313445;
+	border-radius: 5px;
+	box-shadow: 0 70px 100px rgba(0, 0, 0, 0.08);
+	cursor: pointer;
+	height: 385px;
+	position: relative;
+
+	.competition-item-header {
+		background: rgba(171, 200, 188, 0.15);
+		height: 27.75%;
+		position: relative;
+
+		.competition-item-coin-time {
+			border-radius: 0 0 0 5px;
+			color: #ffff;
+			padding: 7px 17px 7px 17px;
+			position: absolute;
+			right: 0;
+			text-align: center;
+		}
+
+		.competition-item-type {
+			border-radius: 5px 0;
+			color: #ffff;
+			font-size: 14px;
+			left: 0;
+			line-height: 16px;
+			margin: 0;
+			padding: 7px 17px 7px 17px;
+			position: absolute;
+			text-align: center;
+			text-transform: uppercase;
+		}
+
+		.competition-type--stake {
+			background: rgba(132, 142, 156, 0.35);
+		}
+
+		.competition-type--trade {
+			background: #d89614;
+		}
+
+		.competition-item-coin-remains {
+			bottom: 2rem;
+			position: absolute;
+		}
+	}
+
+	.competition-item-content {
+		position: relative;
+		text-align: left;
+		width: 100%;
+
+		h3 {
+			color: #fff;
+			font-size: 20px;
+			font-weight: 500;
+			line-height: 23px;
+			margin: 10px 22px 20px;
+		}
+
+		.competition-item-currencies {
+			display: flex;
+			justify-content: center;
+			text-align: center;
+
+			.competition-item-currency {
+				background-color: #434a57;
+				border: 1px solid #848e9c;
+				border-radius: 2px;
+				box-sizing: border-box;
+				color: #ffff;
+				height: 24px;
+				margin: 10px;
+				margin-left: 0.4rem;
+				margin-right: 0.4rem;
+				margin-top: 10px;
+				text-transform: uppercase;
+				width: 85px;
+
+				p {
+					margin-top: 2px;
+				}
+			}
+		}
+	}
+
+	.competition-item-footer {
+		bottom: 1rem;
+		display: flex;
+		justify-content: center;
+		margin: auto;
+		padding: 0 5%;
+		position: absolute;
+		width: 100%;
+
+		.competition-item-footer-status {
+			background-color: #30b57e;
+			border: none;
+			border-radius: 5px;
+			color: #fff;
+			-webkit-flex: 1 1 0%;
+			flex: 1 1;
+			font-size: 16px;
+			font-weight: 500;
+			line-height: 21px;
+			margin: 5px;
+			margin-bottom: 0;
+			outline: none;
+			padding: 8px;
+			text-align: center;
+			transition: background-color 0.2s;
+			white-space: nowrap;
+			will-change: background-color;
+		}
+
+		span {
+			color: #c4c4c4;
+			margin: 0 10px 0 10px;
+		}
+
+		.competition-item-footer-bonus {
+			background: #444a56;
+			border: 1px solid #848e9c;
+			border-radius: 4px;
+			box-sizing: border-box;
+			color: #fff;
+			font-size: 16px;
+			font-style: normal;
+			font-weight: 500;
+			line-height: 21px;
+			margin: 0;
+			margin: 5px;
+			margin-bottom: 0;
+			padding: 7px;
+			text-align: center;
+		}
+	}
+
+	#countdown-renderer {
+		margin: auto;
+		width: 91.5%;
+
+		.time {
+			flex: 0 0 25%;
+			font-size: 20px;
+			max-width: 25%;
+			padding: 0 5px;
+
+			p {
+				background-color: #434a57;
+				border-radius: 3px;
+				box-sizing: border-box;
+				color: #fff;
+				font-size: 14px;
+				height: 56px;
+				line-height: 20px;
+				margin-bottom: 1rem;
+				padding: 5px 0;
+				text-align: center;
+			}
+		}
+	}
+}

@@ -5,7 +5,7 @@ import { CompetitionItemState } from './types';
 
 export const initialCompetitionItem: CompetitionItemState = {
 	payload: {
-		id: -1,
+		id: 0,
 		currency_id: '',
 		currency_image: '',
 		total_prize: '',
@@ -14,7 +14,7 @@ export const initialCompetitionItem: CompetitionItemState = {
 		start_date: '',
 		end_date: '',
 	},
-	loading: false,
+	loading: true,
 };
 
 export const competitionItemReducer = (state = initialCompetitionItem, action: CompetitionItemActions): CompetitionItemState => {
@@ -27,7 +27,6 @@ export const competitionItemReducer = (state = initialCompetitionItem, action: C
 			};
 		case COMPETITION_ITEM_DATA:
 			const { payload } = action.payload;
-
 			return {
 				...state,
 				payload: payload,
