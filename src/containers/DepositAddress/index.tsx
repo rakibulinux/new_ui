@@ -147,7 +147,7 @@ export const DepositAddress: React.FC<DepositAddressProps> = (props: DepositAddr
 					<div className="row">
 						<div className="col-12 d-flex justify-content-between">
 							<h4>Deposit Network</h4>
-							<span>Average arrival time：1 minutes</span>
+							<span>Average arrival time：5-10 minutes</span>
 						</div>
 					</div>
 					<div className="row">
