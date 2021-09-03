@@ -17,8 +17,8 @@ export const initialDetailIEO: DetailIEOState = {
 		whitepaper: '',
 		twitter: '',
 		telegram: '',
-		image: '',
 		hardcap: '',
+		bottom_banner: '',
 	},
 	loading: false,
 };

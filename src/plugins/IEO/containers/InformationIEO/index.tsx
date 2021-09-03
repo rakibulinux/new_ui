@@ -1,5 +1,4 @@
 import * as React from 'react';
-import imgDetail from './assets/imgDetail.png';
 import { selectIEODetail, fetchIEODetail } from '../../../../modules';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
@@ -33,6 +32,7 @@ export const InformationIEO = () => {
 		tech,
 		twitter,
 		telegram,
+		bottom_banner,
 	} = ieoDetail.payload || {
 		name: '',
 		date: '',
@@ -46,6 +46,7 @@ export const InformationIEO = () => {
 		whitepaper: '',
 		tech: '',
 		twitter: '',
+		bottom_banner: '',
 	};
 	const information = {
 		name: name,
@@ -81,9 +82,9 @@ export const InformationIEO = () => {
 		}
 
 		return (
-			<>
+			<React.Fragment>
 				<p>{information[key]}</p>
-			</>
+			</React.Fragment>
 		);
 	};
 
@@ -120,7 +121,7 @@ export const InformationIEO = () => {
 				{ieoDetail.loading ? loadingSpinner() : showInformationComponent()}
 			</div>
 			<div className="information-ieo-image col-11 d-flex justify-content-center" style={{ padding: '0px' }}>
-				<img src={imgDetail} alt="img-description"></img>
+				<img src={bottom_banner} alt="banner-description"></img>
 			</div>
 		</div>
 	);

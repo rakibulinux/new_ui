@@ -14,8 +14,8 @@ export interface DetailIEO {
 	whitepaper: string;
 	twitter: string;
 	telegram: string;
-	image: string;
 	hardcap: string;
+	bottom_banner: string;
 }
 
 export interface DetailIEOState extends CommonState {

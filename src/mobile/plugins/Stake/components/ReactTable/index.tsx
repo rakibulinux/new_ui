@@ -4,13 +4,13 @@ import { usePagination, useTable } from 'react-table';
 import { LoadingSpinner } from '../LoadingSpinner';
 import EmptySVG from './empty.svg';
 
-interface ReacTableProps {
+interface ReactTableProps {
 	columns: any;
 	data: any;
 	loading: boolean;
 }
 
-export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
+export const ReactTable: React.FC<ReactTableProps> = (props: ReactTableProps) => {
 	const { columns, data, loading } = props;
 	const {
 		getTableProps,
@@ -37,6 +37,19 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 		usePagination,
 	);
 
+	const renderEmptyTable = () => {
+		// loading == false and length = 0
+		if (![...page].length && !loading) {
+			return (
+				<div className="text-center empty">
+					<img className="text-center" width="100px" src={EmptySVG} alt="empty" />
+					<br />
+					<div>No Data</div>
+				</div>
+			);
+		}
+		return null;
+	};
 	// render the UI for your table
 	return (
 		<div id="react-table-mobile">
@@ -57,13 +70,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 					<div style={{ width: '100%', height: '100px' }}>
 						<LoadingSpinner loading={loading} />
 					</div>
-				) : [...page].length === 0 ? (
-					<div className="text-center empty">
-						<img className="text-center" width="100px" src={EmptySVG} alt="empty" />
-						<br />
-						<p>No Data</p>
-					</div>
-				) : (
+				) : [...page].length === 0 ? null : (
 					<tbody {...getTableBodyProps()}>
 						{page.map(row => {
 							prepareRow(row);
@@ -79,6 +86,7 @@ export const ReactTable: React.FC<ReacTableProps> = (props: ReacTableProps) => {
 					</tbody>
 				)}
 			</table>
+			{renderEmptyTable()}
 			<div className="pagination">
 				<div className="pagination-button-box">
 					<button
