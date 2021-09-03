@@ -16,7 +16,8 @@ export interface RequestOptions {
 		| 'stake'
 		| 'wallet'
 		| 'referral'
-		| 'competition';
+		| 'competition'
+		| 'holder';
 	withHeaders?: boolean;
 	headers?: Object;
 }

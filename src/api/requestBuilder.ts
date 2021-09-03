@@ -12,6 +12,7 @@ import {
 	walletUrl,
 	withCredentials,
 	competitionUrl,
+	holderUrl,
 } from './config';
 
 export type HTTPMethod = 'get' | 'post' | 'delete' | 'put' | 'patch';
@@ -33,7 +34,8 @@ export interface RequestOptions {
 		| 'stake'
 		| 'wallet'
 		| 'referral'
-		| 'competition';
+		| 'competition'
+		| 'holder';
 	withHeaders?: boolean;
 	headers?: Object;
 }
@@ -64,6 +66,7 @@ const getAPI = () => ({
 	wallet: walletUrl(),
 	referral: referralUrl(),
 	competition: competitionUrl(),
+	holder: holderUrl(),
 });
 
 const buildRequest = (request: Request, configData: RequestOptions) => {

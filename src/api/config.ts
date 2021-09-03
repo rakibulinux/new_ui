@@ -16,6 +16,7 @@ export const defaultConfig: Config = {
 		walletUrl: '',
 		referralUrl: '',
 		competitionUrl: '',
+		holderUrl: '',
 	},
 	minutesUntilAutoLogout: '30',
 	rangerReconnectPeriod: '1',
@@ -56,6 +57,7 @@ Cryptobase.config.api.stakeUrl = Cryptobase.config.api.stakeUrl || '/api/v2/stak
 Cryptobase.config.api.ieoAPIUrl = Cryptobase.config.api.ieoAPIUrl || '/api/v2/ieo';
 Cryptobase.config.api.walletUrl = Cryptobase.config.api.walletUrl || '/api/v2/wallet';
 Cryptobase.config.api.referralUrl = Cryptobase.config.api.referralUrl || '/api/v2/referral';
+Cryptobase.config.api.holderUrl = Cryptobase.config.api.holderUrl || '/api/v2/holder';
 //end custome env
 Cryptobase.config.storage = Cryptobase.config.storage || {};
 
@@ -69,6 +71,7 @@ export const ieoAPIUrl = () => Cryptobase.config.api.ieoAPIUrl;
 export const stakeUrl = () => Cryptobase.config.api.stakeUrl;
 export const walletUrl = () => Cryptobase.config.api.walletUrl;
 export const referralUrl = () => Cryptobase.config.api.referralUrl;
+export const holderUrl = () => Cryptobase.config.api.holderUrl;
 export const rangerUrl = () => Cryptobase.config.api.rangerUrl;
 export const arkeUrl = () => Cryptobase.config.api.arkeUrl || tradeUrl();
 export const finexUrl = () => Cryptobase.config.api.finexUrl || tradeUrl();
