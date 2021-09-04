@@ -77,7 +77,7 @@ import {
 	rankingCompetitionReducer,
 	competitionAwardReducer,
 } from './plugins/competition';
-import { holderListReducer } from './plugins/holder';
+import { holderInfoReducer, holderListReducer } from './plugins/holder';
 export const eventsReducer = combineReducers({
 	lunar: lunarReducer,
 });
@@ -194,6 +194,7 @@ const referralReducer = combineReducers({
 
 const holderReducer = combineReducers({
 	list: holderListReducer,
+	info: holderInfoReducer,
 });
 
 export const pluginsReducer = combineReducers({

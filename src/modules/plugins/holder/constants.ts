@@ -1,3 +1,4 @@
-export const HOLDER_FETCH = 'competition/VOLUME_FETCH';
-export const HOLDER_DATA = 'competition/VOLUME_DATA';
-export const HOLDER_ERROR = 'competition/VOLUME_ERROR';
+export const HOLDER_FETCH = 'holder/FETCH';
+export const HOLDER_DATA = 'holder/DATA';
+export const HOLDER_INFO_GET = 'holder/INFO_GET';
+export const HOLDER_INFO_DATA = 'holder/INFO_DATA';

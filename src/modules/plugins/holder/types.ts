@@ -4,6 +4,16 @@ export interface Holder {
 }
 
 export interface HolderListState {
-	payload: Holder[];
+	payload: [number, Holder[]];
+	loading: boolean;
+}
+
+export interface Holder {
+	uid: string;
+	amount: number;
+}
+
+export interface HolderInfoState {
+	payload: Holder | null;
 	loading: boolean;
 }

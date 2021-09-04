@@ -1,26 +1,24 @@
 import { put, call } from 'redux-saga/effects';
 import { API, RequestOptions } from 'api';
 import { getCsrfToken } from 'helpers';
-import { FetchHolderList, holderListData } from '../actions';
+import { GetHolderInfo, holderInfoData } from '../actions';
 
 const createOptions = (csrfToken?: string): RequestOptions => {
 	return { apiVersion: 'holder', headers: { 'X-CSRF-Token': csrfToken } };
 };
-
-export function* getHolderListSaga(action: FetchHolderList) {
+export function* getHolderInfoSaga(action: GetHolderInfo) {
 	try {
-		const { page, limit } = action.payload;
-		const list = yield call(API.get(createOptions(getCsrfToken())), `/public/holder/list?limit=${limit}&page=${page}`);
+		const holder = yield call(API.get(createOptions(getCsrfToken())), `/private/holder/get`);
 		yield put(
-			holderListData({
-				payload: list,
+			holderInfoData({
+				payload: holder,
 				loading: false,
 			}),
 		);
 	} catch (error) {
 		yield put(
-			holderListData({
-				payload: [0, []],
+			holderInfoData({
+				payload: null,
 				loading: false,
 			}),
 		);
