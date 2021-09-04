@@ -22,6 +22,7 @@ const mockConfig: Config = {
 		walletUrl: '/api/v2/wallet',
 		referralUrl: '/api/v2/referral',
 		competitionUrl: '/api/v2/competition',
+		holderUrl: '/api/v2/holder',
 	},
 	minutesUntilAutoLogout: '30',
 	rangerReconnectPeriod: '1',

@@ -1,0 +1,148 @@
+.desktop-holder-starting-screen {
+	color: #fff;
+	font-size: 1.3rem;
+	padding-bottom: 1rem;
+
+	&__header {
+		background-color: #313445;
+		border-radius: 10px;
+		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+		margin-top: 42px;
+		padding-bottom: 1rem;
+		padding-left: 15px;
+		padding-top: 2rem;
+
+		&__total-profit {
+			&__title {
+				text-align: center;
+			}
+
+			&__subtitle {
+				color: #fff;
+				font-size: 35px;
+				font-weight: 500;
+				line-height: 41px;
+				margin-bottom: 1rem;
+				text-align: center;
+			}
+		}
+
+		&__total-holder {
+			&__title {
+				text-align: center;
+			}
+
+			&__subtitle {
+				color: #fff;
+				font-size: 35px;
+				font-weight: 500;
+				line-height: 41px;
+				margin-bottom: 1rem;
+				text-align: center;
+			}
+		}
+	}
+
+	&__info {
+		align-items: center;
+		background-color: #313445;
+		border-radius: 10px;
+		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+		display: flex;
+		justify-content: space-between;
+		padding: 1rem 2rem;
+
+		h2 {
+			font-size: 1.3rem;
+			margin-bottom: 0;
+		}
+	}
+
+	&__table {
+		margin-top: 1rem;
+		position: relative;
+		width: 100%;
+
+		thead th,
+		tbody td {
+			padding-left: 1.8rem;
+			padding-right: 1.8rem;
+
+			&:last-child {
+				text-align: right;
+			}
+		}
+
+		thead {
+			background: var(--main-background-color);
+			color: #fff;
+			font-size: 1.17rem;
+
+			tr {
+				th {
+					background-color: #848e9c;
+					font-weight: 400;
+					padding-bottom: 0.7rem;
+					padding-top: 0.7rem;
+
+					:last-child {
+						border-bottom-right-radius: 10px;
+						border-top-right-radius: 10px;
+					}
+				}
+			}
+		}
+
+		tbody {
+			background: #313445;
+
+			tr {
+				td {
+					padding-bottom: 0.7rem;
+					padding-top: 0.7rem;
+
+					button {
+						align-items: center;
+						border-color: #999;
+						color: white;
+						display: flex;
+						justify-content: center;
+
+						span {
+							background-color: white;
+							border-radius: 10px;
+							color: black;
+							padding: 0 0.7rem;
+						}
+					}
+				}
+
+				&:last-child {
+					td {
+						padding-bottom: 1.4rem;
+					}
+				}
+			}
+		}
+
+		&__empty {
+			background-color: #313445;
+			display: grid;
+			height: 200px;
+			padding: 50px 0;
+			place-items: center;
+			width: 100%;
+		}
+
+		&__loading {
+			background-color: #313445c9;
+			display: grid;
+			height: calc(100% - 3.1rem);
+			left: 0;
+			place-items: center;
+			position: absolute;
+			top: 3.1rem;
+			width: 100%;
+		}
+	}
+}

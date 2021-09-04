@@ -13,6 +13,7 @@ export interface Config {
 		walletUrl: string;
 		referralUrl: string;
 		competitionUrl: string;
+		holderUrl: string;
 	};
 	minutesUntilAutoLogout?: string;
 	rangerReconnectPeriod?: string;

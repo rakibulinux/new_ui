@@ -1,5 +1,6 @@
 import { AirdropCoinListScreen } from 'plugins/AirdropCoin';
 import { CompetitionListingScreen, CompetitionDetailScreen } from 'plugins/Competition/screen';
+import { HolderStartingScreen } from 'plugins/Holder';
 import { VoteScreen } from 'plugins/Vote';
 import * as React from 'react';
 import { Button, Spinner } from 'react-bootstrap';
@@ -490,6 +491,8 @@ class LayoutComponent extends React.Component<LayoutProps, LayoutState> {
 						path="/security/2fa"
 						component={ProfileTwoFactorAuthScreen}
 					/>
+					<Route path="/holder/starting" exact component={HolderStartingScreen} />
+
 					{/* new feature */}
 					<Route path="/airdrops" exact component={AirdropCoinListScreen} />
 					{/* new feature */}

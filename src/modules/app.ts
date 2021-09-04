@@ -77,6 +77,7 @@ import {
 	rankingCompetitionReducer,
 	competitionAwardReducer,
 } from './plugins/competition';
+import { holderInfoReducer, holderListReducer } from './plugins/holder';
 export const eventsReducer = combineReducers({
 	lunar: lunarReducer,
 });
@@ -191,6 +192,11 @@ const referralReducer = combineReducers({
 	commisionInfo: commisionInfoReducer,
 });
 
+const holderReducer = combineReducers({
+	list: holderListReducer,
+	info: holderInfoReducer,
+});
+
 export const pluginsReducer = combineReducers({
 	staking_list: stakingListReducer,
 	stake_wallet: stakeWalletReducer,
@@ -201,4 +207,5 @@ export const pluginsReducer = combineReducers({
 	vote: voteReducer,
 	airdropCoin: airdropCoinReducer,
 	referral: referralReducer,
+	holder: holderReducer,
 });
