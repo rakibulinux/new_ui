@@ -1,3 +1,4 @@
+import { HolderListState } from '.';
 import { HOLDER_DATA, HOLDER_FETCH } from './constants';
 import { Holder } from './types';
 
@@ -7,7 +8,7 @@ export interface FetchHolderList {
 
 export interface HolderListData {
 	type: typeof HOLDER_DATA;
-	payload: Holder[];
+	payload: HolderListState;
 }
 
 export type CompetitionVolumeActions = FetchHolderList | HolderListData;

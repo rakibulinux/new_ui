@@ -93,7 +93,7 @@ import { ChildCurrenciesState, rootWalletsSaga, WalletsState } from './user/wall
 import { rootWithdrawLimitSaga, WithdrawLimitState } from './user/withdrawLimit';
 import { rootCompetitionListSaga } from './plugins/competition/list/saga';
 import { rootCompetitionRankingSaga } from './plugins/competition/ranking/sagas';
-import { HolderListState } from './plugins/holder';
+import { HolderListState, rootHolderSaga } from './plugins/holder';
 
 export * from './airdrops/airdrop';
 export * from './airdrops/claim';
@@ -335,5 +335,6 @@ export function* rootSaga() {
 		call(rootVoteSaga),
 		call(rootAirdropCoinSaga),
 		call(rootReferralSaga),
+		call(rootHolderSaga),
 	]);
 }

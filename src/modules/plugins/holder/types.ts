@@ -1,6 +1,6 @@
 export interface Holder {
-	volume: number;
-	rank: number;
+	uid: string;
+	amount: number;
 }
 
 export interface HolderListState {

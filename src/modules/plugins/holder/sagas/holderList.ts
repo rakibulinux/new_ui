@@ -10,8 +10,18 @@ const createOptions = (csrfToken?: string): RequestOptions => {
 export function* getHolderListSaga(action: FetchHolderList) {
 	try {
 		const list = yield call(API.get(createOptions(getCsrfToken())), `/private/holder/list`);
-		yield put(holderListData(list));
+		yield put(
+			holderListData({
+				payload: list,
+				loading: false,
+			}),
+		);
 	} catch (error) {
-		yield put(holderListData([]));
+		yield put(
+			holderListData({
+				payload: [],
+				loading: false,
+			}),
+		);
 	}
 }

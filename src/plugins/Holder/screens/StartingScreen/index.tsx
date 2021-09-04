@@ -34,25 +34,34 @@ export const HolderStartingScreen = () => {
 					</div>
 				</div>
 			</div>
-			<div className="row desktop-holder-starting-screen__table">
+			<div className="row">
 				<div className="col-12">
-					<table>
+					<table className="desktop-holder-starting-screen__table">
 						<thead>
 							<tr>
 								<th>STT</th>
 								<th>UID</th>
 								<th>Amount</th>
-								<th>Reward</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1</td>
-								<td>1</td>
-								<td>1</td>
-								<td>1</td>
-							</tr>
+							{holderList.map((holder, i) => (
+								<tr>
+									<td>{i + 1}</td>
+									<td>{holder.uid}</td>
+									<td>{holder.amount}</td>
+								</tr>
+							))}
 						</tbody>
+						{isLoadingHolderList ? (
+							<div className="desktop-holder-starting-screen__table__loading">
+								<div className=" text-center">
+									<div className="spinner-border" role="status">
+										<span className="sr-only">Loading...</span>
+									</div>
+								</div>
+							</div>
+						) : null}
 					</table>
 				</div>
 			</div>
