@@ -1,0 +1,264 @@
+.td-pg-profile {
+	color: #fff;
+	font-size: 12px;
+
+	&--color--second {
+		color: #848e9c;
+	}
+
+	&--bg {
+		background: rgb(49, 52, 69);
+		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+	}
+
+	&--bg--second {
+		background: rgb(49, 52, 69);
+		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+	}
+
+	&--radius {
+		border-radius: 10px;
+	}
+
+	.container-fluid {
+		padding: 0 30px;
+	}
+
+	&__quick {
+		&__inner {
+			padding-bottom: 24px;
+			padding-top: 24px;
+		}
+
+		&__info--top {
+			font-size: 14px;
+		}
+
+		&__logo {
+			margin-right: 17px;
+			min-height: 30px;
+			position: relative;
+
+			&__name {
+				color: #313445;
+				font-size: 20px;
+				left: 50%;
+				position: absolute;
+				text-transform: uppercase;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 1;
+			}
+		}
+	}
+
+	&__content {
+		display: grid;
+		grid-gap: 26px;
+		grid-template-columns: 27.5fr 27.5fr 45fr;
+		grid-template-rows: repeat(8, calc(720px / 8));
+		margin-bottom: 40px;
+
+		&__item {
+			display: flex;
+			flex-direction: column;
+			grid-row: 1/5;
+			padding: 17px 30px 27px 27px;
+
+			&:is(&--no-content) {
+				padding-bottom: 17px;
+				text-decoration: none;
+
+				.td-pg-profile__content__item__header {
+					border: none;
+					flex: 1;
+					height: unset;
+				}
+			}
+
+			&:is(&--no-content):hover,
+			&__header--link:hover {
+				text-decoration: none;
+
+				.td-pg-profile__content__item__header__to-page {
+					path {
+						fill: #fff;
+					}
+				}
+			}
+
+			&__content {
+				flex: 1;
+				position: relative;
+			}
+
+			&__header--link {
+				text-decoration: none;
+			}
+
+			&__header {
+				align-items: center;
+				display: flex;
+				justify-content: space-between;
+
+				&__title,
+				&__desc {
+					align-items: center;
+					display: flex;
+				}
+
+				&__title {
+					color: #fff;
+					font-size: 16px;
+					font-weight: 600;
+					height: 100%;
+				}
+
+				&__desc {
+					color: #848e9c;
+					flex: 1;
+					font-size: 14px;
+					height: 100%;
+					padding-left: 25px;
+					padding-right: 25px;
+				}
+
+				&__to-page {
+					svg:hover path {
+						fill: #fff;
+					}
+				}
+			}
+
+			.td-tabs {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+
+				&-content-holder {
+					position: relative;
+				}
+			}
+
+			.td-tabs-nav,
+			&__header {
+				border-bottom: solid 1px #848e9c;
+				height: 52px;
+			}
+
+			.td-tabs-nav {
+				border-bottom: solid 1px #848e9c;
+				height: 52px;
+
+				.td-tabs-tab {
+					color: #848e9c;
+					font-size: 14px;
+
+					&:not(:last-child) {
+						margin-right: 20px;
+					}
+				}
+
+				.td-tabs-tab-active {
+					border-bottom: solid 2px #2fb67e;
+					color: unset;
+					font-weight: 600;
+				}
+			}
+		}
+	}
+
+	&__inner {
+		bottom: 0;
+		left: 0;
+		overflow-y: scroll;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+
+	&__security {
+		grid-row: 1/4;
+	}
+
+	&__announcement {
+		grid-row: 1/4;
+
+		&__item {
+			flex: 1;
+			padding: 20px 0;
+
+			&:not(:last-child) {
+				border-bottom: solid 1px #848e9c;
+			}
+
+			&__title {
+				padding-right: 20%;
+
+				a {
+					-webkit-box-orient: vertical;
+					color: #848e9c;
+					display: block;
+					display: -webkit-box;
+					font-size: 16px;
+					height: 45px;
+					-webkit-line-clamp: 2;
+					overflow: hidden;
+					text-decoration: none;
+					text-overflow: ellipsis;
+
+					&:hover {
+						color: #2fb67e;
+					}
+				}
+			}
+
+			&__date {
+				align-items: flex-end;
+				display: flex;
+				flex: none;
+			}
+		}
+	}
+
+	&__task-center {
+		grid-column: 2/4;
+		grid-row: 4/5;
+	}
+
+	&__list-api-key {
+		grid-column: 1/4;
+		grid-row: 5/9;
+	}
+
+	&__close {
+		bottom: 0;
+		color: rgb(147, 149, 158);
+		cursor: pointer;
+		font-size: 25px;
+		font-weight: 700;
+		line-height: 24px;
+		position: absolute;
+		right: 0;
+		text-shadow: 0 1px 0 rgb(147, 149, 158);
+		top: 0;
+
+		&:hover {
+			color: var(--primary-text-color);
+			text-shadow: 0 1px 0 var(--primary-text-color);
+		}
+	}
+
+	&__action-delete {
+		cursor: pointer;
+		display: block;
+		font-size: 14px;
+		font-weight: 600;
+		height: 100%;
+		width: 100%;
+
+		&:hover {
+			color: #fff;
+		}
+	}
+}

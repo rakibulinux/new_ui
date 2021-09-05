@@ -1,0 +1,146 @@
+.td-mobile-cpn-current-market-info {
+	&__drawer {
+		.ant-drawer-body {
+			background: var(--mobile-body-background-color);
+			padding: 0;
+		}
+
+		&__header {
+			margin: var(--mobile-main-margin-size);
+		}
+
+		.td-mobile-cpn-all-market__body {
+			box-shadow: none;
+			padding: 0;
+		}
+	}
+
+	&__header {
+		background: var(--mobile-body-background-color);
+		border-radius: 3px 3px 0 0;
+		box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+		font-size: 0.875em;
+		line-height: 1.715em;
+		padding: 0.6em 0.5em;
+
+		img {
+			cursor: pointer;
+			margin: 0;
+		}
+
+		&__name {
+			color: #fff;
+		}
+
+		&__percent {
+			font-size: 0.714em;
+
+			&--positive {
+				color: var(--header-positive-text-color);
+			}
+
+			&--negative {
+				color: var(--header-negative-text-color);
+			}
+		}
+
+		&__option {
+			position: relative;
+
+			.list-group {
+				bottom: 100;
+				display: none;
+				position: absolute;
+				right: 0;
+				width: max-content;
+				z-index: 1;
+
+				&-item {
+					align-items: center;
+					background-color: var(--main-background-color);
+					color: #fff;
+					display: flex;
+					padding: 0.2em 0.4em;
+
+					svg {
+						margin-right: 0.5em;
+					}
+
+					&:hover {
+						background-color: #000;
+					}
+				}
+			}
+		}
+	}
+
+	&__content {
+		.pg-trading-chart {
+			background: var(--mobile-body-background-color);
+			border-radius: 0 0 3px 3px;
+			box-shadow: 0 4px 8px -2px rgb(0 0 0 / 15%);
+			height: 430px;
+			padding: 0.4em 8px 0.875em;
+		}
+	}
+
+	&__history {
+		background: var(--mobile-body-background-color);
+		border-radius: var(--mobile-border-radius-small-size);
+		box-shadow: 0 4px 8px -2px rgb(0 0 0 / 15%);
+		padding: 0.4em 8px 0.875em;
+
+		.td-tabs {
+			&-ink-bar {
+				background-color: #2fb67e;
+				bottom: 0;
+				box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+				height: 2px;
+				left: unset;
+			}
+
+			&-nav {
+				align-items: center;
+				border-bottom: 1px solid #848e9c;
+				box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+
+				&-list {
+					.td-tabs-tab {
+						margin: 0 !important;
+
+						.td-tabs-tab-btn {
+							color: #848e9c;
+							font-size: 0.875em;
+							padding: 0.7em 1em !important;
+						}
+					}
+
+					.td-tabs-tab-active {
+						.td-tabs-tab-btn {
+							color: #fff;
+							font-weight: 400;
+						}
+					}
+				}
+			}
+		}
+
+		.td-mobile-cpn-order-book {
+			margin-bottom: 0.8em;
+			margin-top: 0.4em;
+		}
+
+		div.td-markets-history-list-container {
+			font-size: 0.75em;
+			height: 400px;
+			padding: 0;
+			position: relative;
+
+			.td-table__body {
+				tr td span {
+					height: 100%;
+				}
+			}
+		}
+	}
+}

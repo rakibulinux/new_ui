@@ -1,0 +1,130 @@
+.td-mobile-wallet-detail {
+	padding: var(--mobile-main-padding-lr-size);
+
+	a,
+	a:hover,
+	a:focus,
+	a:active {
+		text-decoration: none;
+	}
+
+	&__header {
+		align-items: center;
+		background-color: var(--mobile-body-background-color);
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+		display: grid;
+		grid-template-columns: 1fr 2fr 1fr;
+		height: 3.75em;
+		left: 0;
+		padding: 1em;
+		position: fixed;
+		top: 0;
+		width: 100%;
+		z-index: 9999;
+
+		&__goback {
+			cursor: pointer;
+		}
+
+		&__title {
+			color: #2fb67e;
+			font-size: 1.25em;
+			font-weight: 500;
+			margin: 0;
+			text-align: center;
+		}
+
+		&__history {
+			align-items: center;
+			display: flex;
+			font-size: 0.75em;
+			justify-content: flex-end;
+			text-align: right;
+
+			&,
+			&:hover,
+			&:focus,
+			&:active {
+				color: #848e9c;
+			}
+
+			svg {
+				margin-left: 0.5em;
+			}
+		}
+	}
+
+	&__panel {
+		background-color: var(--mobile-body-background-color);
+		border-radius: 5px;
+		box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+		margin-top: 0.375em;
+		padding: 1.25em 0.5em;
+
+		&__title {
+			border-bottom: 1px solid #848e9c;
+			font-size: 1em;
+			font-weight: 500;
+			margin-bottom: 1.375em;
+			padding-bottom: 0.9em;
+			text-align: center;
+		}
+
+		&__row {
+			display: flex;
+			font-size: 0.875em;
+			font-weight: 500;
+			justify-content: space-between;
+			margin-top: 0.625em;
+
+			&__number {
+				color: #fff;
+				text-align: right;
+
+				&__estimate {
+					color: #848e9c;
+				}
+			}
+		}
+
+		&__buttons {
+			display: flex;
+			gap: 1em;
+			justify-content: center;
+			padding: 1.625em 0;
+
+			&__btn {
+				border: 0.5px solid #fff;
+				border-radius: var(--mobile-border-radius-small-size);
+				box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+				color: #fff;
+				font-size: 0.875em;
+				padding: 0.5em 1.25em;
+				text-align: center;
+				width: 8em;
+
+				&:hover {
+					color: #fff;
+				}
+
+				&--green {
+					background: #2fb67e;
+					border-color: #2fb67e;
+				}
+			}
+		}
+	}
+
+	&__market {
+		background-color: var(--mobile-body-background-color);
+		border-radius: 5px;
+		box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+		margin-top: 0.875em;
+		padding: 1.25em 0.5em;
+
+		&__title {
+			color: #fff;
+			margin-bottom: 0.5em;
+		}
+	}
+}

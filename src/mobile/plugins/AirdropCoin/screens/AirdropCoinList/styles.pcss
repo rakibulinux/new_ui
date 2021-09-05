@@ -1,0 +1,180 @@
+.td-mobile-screen-airdrop-list-coin {
+	color: #fff;
+	font-size: 1.35em;
+	min-height: 80vh;
+	padding-bottom: 4vw;
+
+	&--color-green {
+		color: rgb(47, 182, 126);
+	}
+
+	&--color-red {
+		color: #bd3421;
+	}
+
+	&__list {
+		border-radius: 10px;
+		box-shadow: rgb(0 0 0 / 15%) 0 4px 8px -2px;
+		display: grid;
+		grid-auto-rows: auto;
+		padding-bottom: 1rem;
+		padding-top: 1rem;
+
+		&__empty {
+			margin: 15vh auto;
+		}
+
+		&__item {
+			border-bottom: 1px solid #848e9c;
+			box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.15);
+			display: grid;
+			grid-auto-columns: 1fr;
+			grid-gap: 1.5em;
+			padding: 2em 0;
+
+			&__left,
+			&__right,
+			&__mid {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+			}
+
+			&__mid {
+				gap: 1em;
+
+				&__bottom,
+				&__top {
+					flex: 1;
+				}
+
+				&__bottom {
+					display: flex;
+					gap: 1em;
+
+					& > div {
+						flex: 1;
+					}
+				}
+			}
+
+			&__right {
+				display: flex;
+				flex-direction: column;
+				gap: 1em;
+			}
+
+			&__total {
+				position: relative;
+
+				&__claim {
+					height: 1.2em;
+					line-height: 1.2em;
+					position: relative;
+
+					.progress {
+						background-color: rgba(132, 142, 156, 0.35);
+						height: 100%;
+					}
+
+					&__value {
+						bottom: 0;
+						font-size: 0.75em;
+						left: 0;
+						position: absolute;
+						right: 0;
+						text-align: center;
+						top: 0;
+					}
+				}
+			}
+
+			&__total,
+			&__ref {
+				text-align: center;
+
+				&__title {
+					font-size: 0.7em;
+					margin-bottom: 0.3em;
+				}
+			}
+
+			&__ref {
+				&__desc {
+					font-size: 0.75em;
+				}
+			}
+
+			&__tooltip--btn {
+				font-size: 12px;
+			}
+
+			&__title {
+				-webkit-box-orient: vertical;
+				color: #fff;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			&__desc {
+				color: #e74c3c;
+				font-size: 0.8em;
+			}
+
+			&__link {
+				box-sizing: border-box;
+				display: block;
+				text-decoration: none !important;
+
+				&,
+				&:link,
+				&:active {
+					color: #fff;
+				}
+
+				&:hover {
+					color: #fff !important;
+				}
+			}
+
+			&__link &__button {
+				background: none;
+				color: inherit;
+
+				&:not(:disabled):hover {
+					color: rgb(47, 182, 126);
+					text-decoration: none;
+				}
+			}
+
+			&__button {
+				border: 1px solid #848e9c;
+				border-radius: 3px;
+				box-shadow: none;
+				color: inherit;
+				font-size: 1em;
+				outline: none;
+				padding: 0.4vw 4vw;
+				width: 100%;
+
+				&:disabled {
+					cursor: not-allowed;
+				}
+			}
+		}
+	}
+
+	@media (max-width: 768px) {
+		font-size: 0.66em;
+
+		&__list {
+			&__item {
+				&__tooltip--btn {
+					font-size: 9px;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,52 @@
+.pg-holder__cpn__countdown {
+	&__last-win {
+		&__winner {
+			font-weight: 600;
+		}
+	}
+
+	&__last-win,
+	&__count {
+		background: #313445;
+		flex: 1;
+		font-size: 1.5em;
+		padding: 0.9em 1.8em;
+	}
+
+	&__done,
+	&__time-remaining {
+		color: #ffffff9d;
+	}
+
+	&__time-remaining {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.7em;
+		justify-content: center;
+
+		> span {
+			align-items: center;
+			background: rgba(255, 255, 255, 0.1);
+			border-radius: 3px;
+			display: -webkit-box;
+			display: -webkit-flex;
+			display: -ms-flexbox;
+			display: flex;
+			flex: none;
+			flex-direction: column;
+			flex-wrap: wrap;
+			font-size: 2em;
+			height: 100px;
+			justify-content: center;
+			line-height: 42px;
+			width: 80px;
+
+			> i {
+				font-size: 14px;
+				font-style: normal;
+				line-height: 20px;
+				margin-top: 5px;
+			}
+		}
+	}
+}

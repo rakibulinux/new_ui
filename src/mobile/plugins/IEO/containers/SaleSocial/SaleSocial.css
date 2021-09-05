@@ -1,0 +1,28 @@
+.link-wrapper-mobile {
+	padding: 1rem 0;
+}
+
+.sale-social-mobile__link {
+	color: #fff;
+	background-color: #1c3049;
+	width: 5rem;
+	transition: all 0.3s;
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+.social-item-mobiles div {
+	display: inline-block;
+}
+
+.social-item-mobiles div:not(:first-child) {
+	margin-left: 1rem;
+}
+
+.social-item-mobile {
+	background-color: #1b3959;
+	color: #fff;
+	font-weight: bold;
+	font-size: 1rem;
+	padding: 1rem;
+}

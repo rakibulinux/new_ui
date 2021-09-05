@@ -1,0 +1,45 @@
+.pg-vote__cpn__button-vote {
+	&__overlay-input {
+		height: 30px;
+
+		input {
+			border: none;
+			border-bottom-left-radius: 3px;
+			border-bottom-right-radius: 0;
+			border-top-left-radius: 3px;
+			border-top-right-radius: 0;
+			outline: none;
+		}
+
+		&__accept,
+		&__close {
+			border: none;
+			border-radius: none;
+			outline: none;
+			width: 30px;
+		}
+
+		&__accept {
+			background-color: #5fb85c;
+
+			&:hover {
+				background-color: green;
+			}
+
+			&:disabled {
+				background-color: #5fb85c;
+				opacity: 0.5;
+			}
+		}
+
+		&__close {
+			background-color: #d9534f;
+			border-bottom-right-radius: 3px;
+			border-top-right-radius: 3px;
+
+			&:hover {
+				background-color: red;
+			}
+		}
+	}
+}
