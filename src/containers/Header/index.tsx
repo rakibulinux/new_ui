@@ -272,6 +272,16 @@ export const Header: React.FC = () => {
 							</div>
 						</div>
 						<div className="header__left-menu__dropdown flex-shrink-0  ">
+							<div className={classLinkActive('holder')} onClick={() => setStateActiveNow('holder')}>
+								<Link
+									to="/holder/starting"
+									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
+								>
+									CX Holder
+								</Link>
+							</div>
+						</div>
+						<div className="header__left-menu__dropdown flex-shrink-0  ">
 							<div className="header__left-menu__dropdown__wrap">
 								<span className={classLinkActiveTitleDrop('EarnCoinFree')}>
 									Earn Coin Free
@@ -307,16 +317,7 @@ export const Header: React.FC = () => {
 								</div>
 							</div>
 						</div>
-						<div className="header__left-menu__dropdown flex-shrink-0  ">
-							<div className={classLinkActive('holder')} onClick={() => setStateActiveNow('holder')}>
-								<Link
-									to="/holder/starting"
-									className="header__left-menu__dropdown__wrap__dropbtn d-flex flex-row align-items-center"
-								>
-									Sharing Holder
-								</Link>
-							</div>
-						</div>
+						
 					</div>
 
 					<div className="header__right-menu d-flex align-items-center flex-row">
